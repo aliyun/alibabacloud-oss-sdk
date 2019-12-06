@@ -18,6 +18,23 @@ English | [简体中文](README-CN.md)
 </dependency>
 ```
 
+## Demo
+```java
+    Config config = new Config();
+    // your accessKeyId
+    config.accessKeyId = "";
+    // your accessKeySecret
+    config.accessKeySecret = "";
+    // signature version 
+    config.signatureVersion = "v2";
+    Client client = new Client(config);
+    GetBucketInfoRequest request = new GetBucketInfoRequest();
+    request.bucketName = "sdk-script";
+    RuntimeObject runtimeObject = new RuntimeObject();
+    GetBucketInfoResponse response = client.GetBucketInfo(request, runtimeObject);
+    
+```
+
 ## Issues
 [Opening an Issue](https://github.com/aliyun/alibabacloud-oss-sdk/issues/new), Issues not conforming to the guidelines may be closed immediately.
 
