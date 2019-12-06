@@ -8,7 +8,7 @@
     <packaging>jar</packaging>
 
     <name>oss-client</name>
-    <description>Aliyun CCP SDK for Java
+    <description>Aliyun OSS SDK for Java
 
     Copyright (C) Alibaba Cloud Computing
     All rights reserved.
@@ -46,9 +46,9 @@
     </distributionManagement>
 
     <scm>
-        <connection>scm:git:git://github.com/aliyun/aliyun-ccp.git</connection>
-        <developerConnection>scm:git:git@github.com:aliyun/aliyun-ccp.git</developerConnection>
-        <url>https://github.com/aliyun/aliyun-ccp</url>
+        <connection>scm:git:git://github.com/aliyun/alibabacloud-oss-sdk.git</connection>
+        <developerConnection>scm:git:git@github.com:aliyun/alibabacloud-oss-sdk.git</developerConnection>
+        <url>https://github.com/aliyun/alibabacloud-oss-sdk</url>
     </scm>
 
     <dependencies>

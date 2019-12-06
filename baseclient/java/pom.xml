@@ -46,9 +46,9 @@
     </distributionManagement>
 
     <scm>
-        <connection></connection>
-        <developerConnection></developerConnection>
-        <url></url>
+        <connection>scm:git:git://github.com/aliyun/alibabacloud-oss-sdk.git</connection>
+        <developerConnection>scm:git:git@github.com:aliyun/alibabacloud-oss-sdk.git</developerConnection>
+        <url>https://github.com/aliyun/alibabacloud-oss-sdk</url>
     </scm>
 
     <dependencies>

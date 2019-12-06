@@ -546,7 +546,7 @@ public class BaseClient {
             e.printStackTrace();
         }
         _defaultUserAgent = String.format("AlibabaCloud (%s; %s) Java/%s %s/%s", sysProps.getProperty("os.name"), sysProps
-                .getProperty("os.arch"), sysProps.getProperty("java.runtime.version"), "ccp-baseClient", coreVersion);
+                .getProperty("os.arch"), sysProps.getProperty("java.runtime.version"), "oss-baseClient", coreVersion);
     }
 
     public BaseClient(Map<String, Object> config) throws ParseException, IOException, CredentialException {
