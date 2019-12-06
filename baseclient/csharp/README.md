@@ -1,28 +1,26 @@
 English | [简体中文](README-CN.md)
-
 ![](https://aliyunsdk-pages.alicdn.com/icons/AlibabaCloud.svg)
 
-## Alibaba Cloud OSS SDK
-
+## Alibaba Cloud OSS BaseClient for .Net
 
 ## Installation
-### Java
-- [baseclient](./baseclient/java/README.md)
-- [oss-sdk](./langs/java/README.md)
 
-### Go
+Use .Net CLI ( Recommand )
 
-### .Net
-- [baseclient](./baseclient/csharp/README.md)
-- [oss-sdk](./langs/csharp/README.md)
+    dotnet add package AlibabaCloud.SDK.OSS.BaseClient
 
-### TypeScript/Node.js
+Use Package Manager
+
+    Install-Package AlibabaCloud.SDK.OSS.BaseClient
 
 ## Issues
 [Opening an Issue](https://github.com/aliyun/alibabacloud-oss-sdk/issues/new), Issues not conforming to the guidelines may be closed immediately.
 
+## Changelog
+Detailed changes for each release are documented in the [release notes](./ChangeLog.md).
+
 ## References
-* [Latest Release](https://github.com/aliyun/alibabacloud-oss-sdk)
+* [Latest Release](https://github.com/aliyun/alibabacloud-oss-sdk/tree/master/baseclient/csharp)
 
 ## License
 [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0)
