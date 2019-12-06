@@ -1,0 +1,3241 @@
+module Client {
+
+  type @getDate = (): string
+  type @getAuth = ($Request, string): string
+  type @parseXml = async ($Response, class): object
+  type @getHost = (string): string
+  type @default = (string, string): string
+  type @defaultNumber = (number, number): number
+  type @toBody = (any): string
+  type @isFail = ($Response): boolean
+  type @getErrMessage = async ($Response): object
+  type @toQuery = (object): map[string]string
+  type @toMeta = (object, string): map[string]string
+  type @parseMeta = (object, string): map[string]string
+  type @getContentMD5 = ($Request, string, int64): string
+  type @getContentLength = ($Request, string): string
+  type @endpoint = string
+  type @autoretry = boolean
+  type @protocol = string
+  type @getSpecialValue = (any, string): string
+  type @getContentType = (string): string
+  type @isNotCrcMatched = (string, string): boolean
+  type @isNotMD5Matched = (string, string): boolean
+  type @encode = (string, string): string
+  type @base64Decode = (string): string
+  type @urlDecode = (string): string
+  type @parseUint = (string, boolean): number
+  type @getRespCrc = ($Response, boolean, any, any): uint64
+  type @readAsStream = ($Response): readable
+  type @toHeader = (object): map[string]string
+  type @getRefer = (readable): map[string]string
+  type @readTimeout = number
+  type @connectTimeout = number
+  type @localAddr = string
+  type @httpProxy = string
+  type @httpsProxy = string
+  type @noProxy = string
+  type @socks5Proxy = string
+  type @socks5NetWork = string
+  type @maxIdleConns = number
+  type @getUserAgent = (): string
+  type @isUploadSpeedLimit = (any, number): readable
+  type @ifRange = (any): boolean
+  type @logger = any
+  type @getTracker = (): any
+
+  prop version = '2019-05-17';
+
+  model RuntimeObject {
+    autoretry?: boolean(description='autoretry', name='autoretry'),
+    ignoreSSL?: boolean(description='ignoreSSL', name='ignoreSSL'),
+    maxAttempts?: number(description='max attempts', name='maxAttempts'),
+    backoffPolicy?: string(description='backoff policy', name='backoffPolicy'),
+    backoffPeriod?: number(description='backoff period', name='backoffPeriod'),
+    readTimeout?: number(description='read timeout', name='readTimeout'),
+    connectTimeout?: number(description='connect timeout', name='connectTimeout'),
+    localAddr?: string(description='local addr', name='localAddr'),
+    httpProxy?: string(description='http proxy', name='httpProxy'),
+    httpsProxy?: string(description='https proxy', name='httpsProxy'),
+    noProxy?: string(description='no proxy', name='noProxy'),
+    maxIdleConns?: number(description='max idle conns', name='maxIdleConns'),
+    socks5Proxy?: string(description='socks5 proxy', name='socks5Proxy'),
+    socks5NetWork?: string(description='socks5 NetWork', name='socks5NetWork'),
+    md5Threshold?: int64(description='MD5Threshold', name='MD5Threshold'),
+    uploadLimitSpeed?: number(description='upload limit speed', name='uploadLimitSpeed'),
+    listener?: any(description='listener', name='listener'),
+  }
+
+  model Config {
+    accessKeyId?: string,
+    accessKeySecret?: string,
+    type: string,
+    securityToken: string,
+    endpoint: string,
+    protocol: string,
+    regionId: string,
+    userAgent: string,
+    hostModel: string,
+    signatureVersion: string,
+    isEnableMD5: boolean,
+    isEnableCrc: boolean,
+    readTimeout: number,
+    connectTimeout: number,
+    localAddr: string,
+    httpProxy: string,
+    httpsProxy: string,
+    noProxy: string,
+    socks5Proxy: string,
+    socks5NetWork: string,
+    maxIdleConns: number,
+    addtionalHeaders: [ string ],
+  }
+
+  init(config: Config);
+
+  model DeleteLiveChannelRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+    channelName: string(description='ChannelName', name='ChannelName'),
+  }
+
+  model DeleteLiveChannelResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+  }
+
+  api DeleteLiveChannel(request: DeleteLiveChannelRequest, runtime: RuntimeObject): DeleteLiveChannelResponse {
+    protocol = @protocol;
+    method = 'DELETE';
+    pathname = `/${request.channelName}?live`;
+    headers = {
+      host = @getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    headers.authorization = @getAuth(__request, request.bucketName);
+  } returns {
+    var respMap : object = null;
+    if (@isFail(__response)) {
+      respMap = @getErrMessage(__response);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    return {
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+
+  model GetBucketLocationRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+  }
+
+  model GetBucketLocationResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+    locationConstraint: string(description='LocationConstraint', name='LocationConstraint'),
+  }
+
+  api GetBucketLocation(request: GetBucketLocationRequest, runtime: RuntimeObject): GetBucketLocationResponse {
+    protocol = @protocol;
+    method = 'GET';
+    pathname = `/?location`;
+    headers = {
+      host = @getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    headers.authorization = @getAuth(__request, request.bucketName);
+  } returns {
+    var respMap : object = null;
+    if (@isFail(__response)) {
+      respMap = @getErrMessage(__response);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    respMap = @parseXml(__response, GetBucketLocationResponse);
+    return {
+      LocationConstraint = respMap.LocationConstraint,
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+
+  model ListLiveChannelRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+    filter?: {
+      marker?: string(description='marker', name='marker'),
+      maxKeys?: string(description='max-keys', name='max-keys'),
+      prefix?: string(description='prefix', name='prefix'),
+    }(description='Filter', name='Filter'),
+  }
+
+  model ListLiveChannelResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+    listLiveChannelResult: {
+      prefix: string(description='Prefix', name='Prefix'),
+      marker: string(description='Marker', name='Marker'),
+      maxKeys: string(description='MaxKeys', name='MaxKeys'),
+      isTruncated: string(description='IsTruncated', name='IsTruncated'),
+      nextMarker: string(description='NextMarker', name='NextMarker'),
+      liveChannel: {
+        name: string(description='Name', name='Name'),
+        description: string(description='Description', name='Description'),
+        status: string(description='Status', name='Status'),
+        lastModified: string(description='LastModified', name='LastModified'),
+        publishUrls: {
+          url: string(description='Url', name='Url'),
+        }(description='PublishUrls', name='PublishUrls'),
+        playUrls: {
+          url: string(description='Url', name='Url'),
+        }(description='PlayUrls', name='PlayUrls'),
+      }(description='LiveChannel', name='LiveChannel'),
+    }(description='ListLiveChannelResult', name='ListLiveChannelResult'),
+  }
+
+  api ListLiveChannel(request: ListLiveChannelRequest, runtime: RuntimeObject): ListLiveChannelResponse {
+    protocol = @protocol;
+    method = 'GET';
+    pathname = `/?live`;
+    headers = {
+      host = @getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    query = @toQuery(request.filter);
+    headers.authorization = @getAuth(__request, request.bucketName);
+  } returns {
+    var respMap : object = null;
+    if (@isFail(__response)) {
+      respMap = @getErrMessage(__response);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    respMap = @parseXml(__response, ListLiveChannelResponse);
+    return {
+      ListLiveChannelResult = respMap.ListLiveChannelResult,
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+
+  model GetObjectMetaRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+    objectName: string(description='ObjectName', name='ObjectName'),
+  }
+
+  model GetObjectMetaResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+    eTag: string(description='ETag', name='etag'),
+    contentLength: string(description='Content-Length', name='content-length'),
+    lastModified: string(description='Last-Modified', name='last-modified'),
+  }
+
+  api GetObjectMeta(request: GetObjectMetaRequest, runtime: RuntimeObject): GetObjectMetaResponse {
+    protocol = @protocol;
+    method = 'HEAD';
+    pathname = `/${request.objectName}?objectMeta`;
+    headers = {
+      host = @getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    headers.authorization = @getAuth(__request, request.bucketName);
+  } returns {
+    var respMap : object = null;
+    if (@isFail(__response)) {
+      respMap = @getErrMessage(__response);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    return {
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+
+  model GetBucketAclRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+  }
+
+  model GetBucketAclResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+    accessControlPolicy: {
+      owner: {
+        iD: string(description='ID', name='ID'),
+        displayName: string(description='DisplayName', name='DisplayName'),
+      }(description='Owner', name='Owner'),
+      accessControlList: {
+        grant: string(description='Grant', name='Grant'),
+      }(description='AccessControlList', name='AccessControlList'),
+    }(description='AccessControlPolicy', name='AccessControlPolicy'),
+  }
+
+  api GetBucketAcl(request: GetBucketAclRequest, runtime: RuntimeObject): GetBucketAclResponse {
+    protocol = @protocol;
+    method = 'GET';
+    pathname = `/?acl`;
+    headers = {
+      host = @getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    headers.authorization = @getAuth(__request, request.bucketName);
+  } returns {
+    var respMap : object = null;
+    if (@isFail(__response)) {
+      respMap = @getErrMessage(__response);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    respMap = @parseXml(__response, GetBucketAclResponse);
+    return {
+      AccessControlPolicy = respMap.AccessControlPolicy,
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+
+  model ListPartsRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+    objectName: string(description='ObjectName', name='ObjectName'),
+    filter: {
+      uploadId: string(description='uploadId', name='uploadId', signed='true'),
+      maxParts?: integer(description='max-parts', name='max-parts'),
+      partNumberMarker?: integer(description='part-number-marker', name='part-number-marker'),
+      encodingType?: string(description='Encoding-type', name='Encoding-type'),
+    }(description='Filter', name='Filter'),
+  }
+
+  model ListPartsResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+    listPartsResult: {
+      bucket: string(description='Bucket', name='Bucket'),
+      encodingType: string(description='EncodingType', name='EncodingType'),
+      key: string(description='Key', name='Key'),
+      uploadId: string(description='UploadId', name='UploadId'),
+      partNumberMarker: string(description='PartNumberMarker', name='PartNumberMarker'),
+      nextPartNumberMarker: string(description='NextPartNumberMarker', name='NextPartNumberMarker'),
+      maxParts: string(description='MaxParts', name='MaxParts'),
+      isTruncated: string(description='IsTruncated', name='IsTruncated'),
+      part: [
+        {
+          partNumber: string(description='PartNumber', name='PartNumber'),
+          lastModified: string(description='LastModified', name='LastModified'),
+          eTag: string(description='ETag', name='ETag'),
+          size: string(description='Size', name='Size'),
+        }
+      ](description='Part', name='Part'),
+    }(description='ListPartsResult', name='ListPartsResult'),
+  }
+
+  api ListParts(request: ListPartsRequest, runtime: RuntimeObject): ListPartsResponse {
+    protocol = @protocol;
+    method = 'GET';
+    pathname = `/${request.objectName}`;
+    headers = {
+      host = @getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    query = @toQuery(request.filter);
+    headers.authorization = @getAuth(__request, request.bucketName);
+  } returns {
+    var respMap : object = null;
+    if (@isFail(__response)) {
+      respMap = @getErrMessage(__response);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    respMap = @parseXml(__response, ListPartsResponse);
+    return {
+      ListPartsResult = respMap.ListPartsResult,
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+
+  model GetLiveChannelHistoryRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+    channelName: string(description='ChannelName', name='ChannelName'),
+    filter?: {
+      comp?: string(description='comp', name='comp', signed='true'),
+    }(description='Filter', name='Filter'),
+  }
+
+  model GetLiveChannelHistoryResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+    liveChannelHistory: {
+      liveRecord: [
+        {
+          startTime: string(description='StartTime', name='StartTime'),
+          endTime: string(description='EndTime', name='EndTime'),
+          remoteAddr: string(description='RemoteAddr', name='RemoteAddr'),
+        }
+      ](description='LiveRecord', name='LiveRecord'),
+    }(description='LiveChannelHistory', name='LiveChannelHistory'),
+  }
+
+  api GetLiveChannelHistory(request: GetLiveChannelHistoryRequest, runtime: RuntimeObject): GetLiveChannelHistoryResponse {
+    protocol = @protocol;
+    method = 'GET';
+    pathname = `/${request.channelName}?live`;
+    headers = {
+      host = @getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    query = @toQuery(request.filter);
+    headers.authorization = @getAuth(__request, request.bucketName);
+  } returns {
+    var respMap : object = null;
+    if (@isFail(__response)) {
+      respMap = @getErrMessage(__response);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    respMap = @parseXml(__response, GetLiveChannelHistoryResponse);
+    return {
+      LiveChannelHistory = respMap.LiveChannelHistory,
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+
+  model GetBucketRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+    filter?: {
+      delimiter?: string(description='delimiter', name='delimiter'),
+      marker?: string(description='marker', name='marker'),
+      maxKeys?: string(description='max-keys', name='max-keys'),
+      prefix?: string(description='prefix', name='prefix'),
+      encodingType?: string(description='encoding-type', name='encoding-type'),
+    }(description='Filter', name='Filter'),
+  }
+
+  model GetBucketResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+    listBucketResult: {
+      name: string(description='Name', name='Name'),
+      prefix: string(description='Prefix', name='Prefix'),
+      marker: string(description='Marker', name='Marker'),
+      maxKeys: string(description='MaxKeys', name='MaxKeys'),
+      delimiter: string(description='Delimiter', name='Delimiter'),
+      isTruncated: string(description='IsTruncated', name='IsTruncated'),
+      encodingType: string(description='EncodingType', name='EncodingType'),
+      commonPrefixes: string(description='CommonPrefixes', name='CommonPrefixes'),
+      contents: [
+        {
+          key: string(description='Key', name='Key'),
+          eTag: string(description='ETag', name='ETag'),
+          lastModified: string(description='LastModified', name='LastModified'),
+          size: string(description='Size', name='Size'),
+          storageClass: string(description='StorageClass', name='StorageClass'),
+          owner: {
+            iD: string(description='ID', name='ID'),
+            displayName: string(description='DisplayName', name='DisplayName'),
+          }(description='Owner', name='Owner'),
+        }
+      ](description='Contents', name='Contents'),
+    }(description='ListBucketResult', name='ListBucketResult'),
+  }
+
+  api GetBucket(request: GetBucketRequest, runtime: RuntimeObject): GetBucketResponse {
+    protocol = @protocol;
+    method = 'GET';
+    pathname = `/`;
+    headers = {
+      host = @getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    query = @toQuery(request.filter);
+    headers.authorization = @getAuth(__request, request.bucketName);
+  } returns {
+    var respMap : object = null;
+    if (@isFail(__response)) {
+      respMap = @getErrMessage(__response);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    respMap = @parseXml(__response, GetBucketResponse);
+    return {
+      ListBucketResult = respMap.ListBucketResult,
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+
+  model GetLiveChannelInfoRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+    channelName: string(description='ChannelName', name='ChannelName'),
+  }
+
+  model GetLiveChannelInfoResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+    liveChannelConfiguration: {
+      description: string(description='Description', name='Description'),
+      status: string(description='Status', name='Status'),
+      target: {
+        type: string(description='Type', name='Type'),
+        fragDuration: string(description='FragDuration', name='FragDuration'),
+        fragCount: string(description='FragCount', name='FragCount'),
+        playlistName: string(description='PlaylistName', name='PlaylistName'),
+      }(description='Target', name='Target'),
+    }(description='LiveChannelConfiguration', name='LiveChannelConfiguration'),
+  }
+
+  api GetLiveChannelInfo(request: GetLiveChannelInfoRequest, runtime: RuntimeObject): GetLiveChannelInfoResponse {
+    protocol = @protocol;
+    method = 'GET';
+    pathname = `/${request.channelName}?live`;
+    headers = {
+      host = @getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    headers.authorization = @getAuth(__request, request.bucketName);
+  } returns {
+    var respMap : object = null;
+    if (@isFail(__response)) {
+      respMap = @getErrMessage(__response);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    respMap = @parseXml(__response, GetLiveChannelInfoResponse);
+    return {
+      LiveChannelConfiguration = respMap.LiveChannelConfiguration,
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+
+  model GetLiveChannelStatRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+    channelName: string(description='ChannelName', name='ChannelName'),
+    filter?: {
+      comp?: string(description='comp', name='comp', signed='true'),
+    }(description='Filter', name='Filter'),
+  }
+
+  model GetLiveChannelStatResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+    liveChannelStat: {
+      status: string(description='Status', name='Status'),
+      connectedTime: string(description='ConnectedTime', name='ConnectedTime'),
+      remoteAddr: string(description='RemoteAddr', name='RemoteAddr'),
+      video: {
+        width: string(description='Width', name='Width'),
+        height: string(description='Height', name='Height'),
+        frameRate: string(description='FrameRate', name='FrameRate'),
+        bandwidth: string(description='Bandwidth', name='Bandwidth'),
+        codec: string(description='Codec', name='Codec'),
+      }(description='Video', name='Video'),
+      audio: {
+        bandwidth: string(description='Bandwidth', name='Bandwidth'),
+        sampleRate: string(description='SampleRate', name='SampleRate'),
+        codec: string(description='Codec', name='Codec'),
+      }(description='Audio', name='Audio'),
+    }(description='LiveChannelStat', name='LiveChannelStat'),
+  }
+
+  api GetLiveChannelStat(request: GetLiveChannelStatRequest, runtime: RuntimeObject): GetLiveChannelStatResponse {
+    protocol = @protocol;
+    method = 'GET';
+    pathname = `/${request.channelName}?live`;
+    headers = {
+      host = @getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    query = @toQuery(request.filter);
+    headers.authorization = @getAuth(__request, request.bucketName);
+  } returns {
+    var respMap : object = null;
+    if (@isFail(__response)) {
+      respMap = @getErrMessage(__response);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    respMap = @parseXml(__response, GetLiveChannelStatResponse);
+    return {
+      LiveChannelStat = respMap.LiveChannelStat,
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+
+  model DeleteObjectRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+    objectName: string(description='ObjectName', name='ObjectName'),
+  }
+
+  model DeleteObjectResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+  }
+
+  api DeleteObject(request: DeleteObjectRequest, runtime: RuntimeObject): DeleteObjectResponse {
+    protocol = @protocol;
+    method = 'DELETE';
+    pathname = `/${request.objectName}`;
+    headers = {
+      host = @getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    headers.authorization = @getAuth(__request, request.bucketName);
+  } returns {
+    var respMap : object = null;
+    if (@isFail(__response)) {
+      respMap = @getErrMessage(__response);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    return {
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+
+  model AbortMultipartUploadRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+    objectName: string(description='ObjectName', name='ObjectName'),
+    filter: {
+      uploadId: string(description='uploadId', name='uploadId', signed='true'),
+    }(description='Filter', name='Filter'),
+  }
+
+  model AbortMultipartUploadResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+  }
+
+  api AbortMultipartUpload(request: AbortMultipartUploadRequest, runtime: RuntimeObject): AbortMultipartUploadResponse {
+    protocol = @protocol;
+    method = 'DELETE';
+    pathname = `/${request.objectName}`;
+    headers = {
+      host = @getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    query = @toQuery(request.filter);
+    headers.authorization = @getAuth(__request, request.bucketName);
+  } returns {
+    var respMap : object = null;
+    if (@isFail(__response)) {
+      respMap = @getErrMessage(__response);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    return {
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+
+  model AppendObjectRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+    objectName: string(description='ObjectName', name='ObjectName'),
+    userMeta?: map[string]string(description='UserMeta', name='UserMeta'),
+    body?: readable(description='body', name='body'),
+    filter: {
+      position: string(description='position', name='position', signed='true'),
+    }(description='Filter', name='Filter'),
+    header?: {
+      cacheControl?: string(description='Cache-Control', name='Cache-Control'),
+      contentDisposition?: string(description='Content-Disposition', name='Content-Disposition'),
+      contentEncoding?: string(description='Content-Encoding', name='Content-Encoding'),
+      contentMD5?: string(description='Content-MD5', name='Content-MD5'),
+      expires?: string(description='Expires', name='Expires'),
+      serverSideEncryption?: string(description='x-oss-server-side-encryption', name='x-oss-server-side-encryption'),
+      objectAcl?: string(description='x-oss-object-acl', name='x-oss-object-acl'),
+      storageClass?: string(description='x-oss-storage-class', name='x-oss-storage-class'),
+      contentType?: string(description='content-type', name='content-type'),
+    }(description='Header', name='Header'),
+  }
+
+  model AppendObjectResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+    nextAppendPosition: string(description='x-oss-next-append-position', name='x-oss-next-append-position'),
+    hashCrc64ecma: string(description='x-oss-hash-crc64ecma', name='x-oss-hash-crc64ecma'),
+  }
+
+  api AppendObject(request: AppendObjectRequest, runtime: RuntimeObject): AppendObjectResponse {
+    var ref = @getRefer(request.body);
+    protocol = @protocol;
+    method = 'POST';
+    pathname = `/${request.objectName}?append`;
+    headers = {
+      host = @getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+      ...@toHeader(request.header),
+      ...@parseMeta(request.userMeta, 'x-oss-meta-'),
+    };
+    query = @toQuery(request.filter);
+    body = request.body;
+    headers.content-type = @default(@getSpecialValue(request.header, 'content-type'), @getContentType(request.objectName));
+    headers.authorization = @getAuth(__request, request.bucketName);
+  } returns {
+    var respMap : object = null;
+    if (@isFail(__response)) {
+      respMap = @getErrMessage(__response);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    if (@isNotCrcMatched(ref.crc, __response.headers.x-oss-hash-crc64ecma)) {
+      throw {
+        code = 'CrcNotMatched',
+        data = {
+          calCrc = ref.crc,
+          serverCrc = __response.headers.x-oss-hash-crc64ecma,
+        },
+      };
+    }
+    if (@isNotMD5Matched(ref.md5, __response.headers.content-md5)) {
+      throw {
+        code = 'MD5NotMatched',
+        data = {
+          calMD5 = ref.md5,
+          serverMD5 = __response.headers.content-md5,
+        },
+      };
+    }
+    return {
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+
+  model UploadPartCopyRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+    objectName: string(description='ObjectName', name='ObjectName'),
+    filter: {
+      partNumber: string(description='partNumber', name='partNumber', signed='true'),
+      uploadId: string(description='uploadId', name='uploadId', signed='true'),
+    }(description='Filter', name='Filter'),
+    header: {
+      copySource: string(description='x-oss-copy-source', name='x-oss-copy-source'),
+      copySourceRange: string(description='x-oss-copy-source-range', name='x-oss-copy-source-range'),
+      copySourceIfMatch?: string(description='x-oss-copy-source-if-match', name='x-oss-copy-source-if-match'),
+      copySourceIfNoneMatch?: string(description='x-oss-copy-source-if-none-match', name='x-oss-copy-source-if-none-match'),
+      copySourceIfUnmodifiedSince?: string(description='x-oss-copy-source-if-unmodified-since', name='x-oss-copy-source-if-unmodified-since'),
+      copySourceIfModifiedSince?: string(description='x-oss-copy-source-if-modified-since', name='x-oss-copy-source-if-modified-since'),
+    }(description='Header', name='Header'),
+  }
+
+  model UploadPartCopyResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+    copyPartResult: {
+      lastModified: string(description='LastModified', name='LastModified'),
+      eTag: string(description='ETag', name='ETag'),
+    }(description='CopyPartResult', name='CopyPartResult'),
+  }
+
+  api UploadPartCopy(request: UploadPartCopyRequest, runtime: RuntimeObject): UploadPartCopyResponse {
+    protocol = @protocol;
+    method = 'PUT';
+    pathname = `/${request.objectName}`;
+    headers = {
+      host = @getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+      ...@toHeader(request.header),
+    };
+    query = @toQuery(request.filter);
+    headers.authorization = @getAuth(__request, request.bucketName);
+  } returns {
+    var respMap : object = null;
+    if (@isFail(__response)) {
+      respMap = @getErrMessage(__response);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    respMap = @parseXml(__response, UploadPartCopyResponse);
+    return {
+      CopyPartResult = respMap.CopyPartResult,
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+
+  model GetVodPlaylistRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+    channelName: string(description='ChannelName', name='ChannelName'),
+    filter: {
+      endTime: string(description='endTime', name='endTime', signed='true'),
+      startTime: string(description='startTime', name='startTime', signed='true'),
+    }(description='Filter', name='Filter'),
+  }
+
+  model GetVodPlaylistResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+  }
+
+  api GetVodPlaylist(request: GetVodPlaylistRequest, runtime: RuntimeObject): GetVodPlaylistResponse {
+    protocol = @protocol;
+    method = 'GET';
+    pathname = `/${request.channelName}?vod`;
+    headers = {
+      host = @getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    query = @toQuery(request.filter);
+    headers.authorization = @getAuth(__request, request.bucketName);
+  } returns {
+    var respMap : object = null;
+    if (@isFail(__response)) {
+      respMap = @getErrMessage(__response);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    return {
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+
+  model DeleteBucketCORSRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+  }
+
+  model DeleteBucketCORSResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+  }
+
+  api DeleteBucketCORS(request: DeleteBucketCORSRequest, runtime: RuntimeObject): DeleteBucketCORSResponse {
+    protocol = @protocol;
+    method = 'DELETE';
+    pathname = `/?cors`;
+    headers = {
+      host = @getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    headers.authorization = @getAuth(__request, request.bucketName);
+  } returns {
+    var respMap : object = null;
+    if (@isFail(__response)) {
+      respMap = @getErrMessage(__response);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    return {
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+
+  model GetObjectRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+    objectName: string(description='ObjectName', name='ObjectName'),
+    header?: {
+      responseContentType?: string(description='response-content-type', name='response-content-type'),
+      responseContentLanguage?: string(description='response-content-language', name='response-content-language'),
+      responseExpires?: string(description='response-expires', name='response-expires'),
+      responseCacheControl?: string(description='response-cache-control', name='response-cache-control'),
+      responseContentDisposition?: string(description='response-content-disposition', name='response-content-disposition'),
+      responseContentEncoding?: string(description='response-content-encoding', name='response-content-encoding'),
+      range?: string(description='Range', name='Range'),
+      ifModifiedSince?: string(description='If-Modified-Since', name='If-Modified-Since'),
+      ifUnmodifiedSince?: string(description='If-Unmodified-Since', name='If-Unmodified-Since'),
+      ifMatch?: string(description='If-Match', name='If-Match'),
+      ifNoneMatch?: string(description='If-None-Match', name='If-None-Match'),
+      acceptEncoding?: string(description='Accept-Encoding', name='Accept-Encoding'),
+    }(description='Header', name='Header'),
+  }
+
+  model GetObjectResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+    objectType: string(description='x-oss-object-type', name='x-oss-object-type'),
+    serverSideEncryption: string(description='x-oss-server-side-encryption', name='x-oss-server-side-encryption'),
+    taggingCount: string(description='x-oss-tagging-count', name='x-oss-tagging-count'),
+    restore: string(description='x-oss-restore', name='x-oss-restore'),
+    body: readable(description='body', name='body'),
+  }
+
+  api GetObject(request: GetObjectRequest, runtime: RuntimeObject): GetObjectResponse {
+    protocol = @protocol;
+    method = 'GET';
+    pathname = `/${request.objectName}`;
+    headers = {
+      host = @getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+      ...@toHeader(request.header),
+    };
+    headers.authorization = @getAuth(__request, request.bucketName);
+  } returns {
+    var respMap : object = null;
+    if (@isFail(__response)) {
+      respMap = @getErrMessage(__response);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    return {
+      body = @readAsStream(__response),
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+
+  model UploadPartRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+    objectName: string(description='ObjectName', name='ObjectName'),
+    body?: readable(description='body', name='body'),
+    filter: {
+      partNumber: string(description='partNumber', name='partNumber', signed='true'),
+      uploadId: string(description='uploadId', name='uploadId', signed='true'),
+    }(description='Filter', name='Filter'),
+  }
+
+  model UploadPartResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+  }
+
+  api UploadPart(request: UploadPartRequest, runtime: RuntimeObject): UploadPartResponse {
+    var ref = @getRefer(request.body);
+    protocol = @protocol;
+    method = 'PUT';
+    pathname = `/${request.objectName}`;
+    headers = {
+      host = @getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    query = @toQuery(request.filter);
+    body = request.body;
+    headers.authorization = @getAuth(__request, request.bucketName);
+  } returns {
+    var respMap : object = null;
+    if (@isFail(__response)) {
+      respMap = @getErrMessage(__response);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    if (@isNotCrcMatched(ref.crc, __response.headers.x-oss-hash-crc64ecma)) {
+      throw {
+        code = 'CrcNotMatched',
+        data = {
+          calCrc = ref.crc,
+          serverCrc = __response.headers.x-oss-hash-crc64ecma,
+        },
+      };
+    }
+    if (@isNotMD5Matched(ref.md5, __response.headers.content-md5)) {
+      throw {
+        code = 'MD5NotMatched',
+        data = {
+          calMD5 = ref.md5,
+          serverMD5 = __response.headers.content-md5,
+        },
+      };
+    }
+    return {
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+
+  model GetBucketCORSRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+  }
+
+  model GetBucketCORSResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+    cORSConfiguration: {
+      cORSRule: [
+        {
+          maxAgeSeconds: string(description='MaxAgeSeconds', name='MaxAgeSeconds'),
+        }
+      ](description='CORSRule', name='CORSRule'),
+    }(description='CORSConfiguration', name='CORSConfiguration'),
+  }
+
+  api GetBucketCORS(request: GetBucketCORSRequest, runtime: RuntimeObject): GetBucketCORSResponse {
+    protocol = @protocol;
+    method = 'GET';
+    pathname = `/?cors`;
+    headers = {
+      host = @getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    headers.authorization = @getAuth(__request, request.bucketName);
+  } returns {
+    var respMap : object = null;
+    if (@isFail(__response)) {
+      respMap = @getErrMessage(__response);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    respMap = @parseXml(__response, GetBucketCORSResponse);
+    return {
+      CORSConfiguration = respMap.CORSConfiguration,
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+
+  model CopyObjectRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+    destObjectName: string(description='DestObjectName', name='DestObjectName'),
+    header: {
+      copySource: string(description='x-oss-copy-source', name='x-oss-copy-source'),
+      copySourceIfMatch?: string(description='x-oss-copy-source-if-match', name='x-oss-copy-source-if-match'),
+      copySourceIfNoneMatch?: string(description='x-oss-copy-source-if-none-match', name='x-oss-copy-source-if-none-match'),
+      copySourceIfUnmodifiedSince?: string(description='x-oss-copy-source-if-unmodified-since', name='x-oss-copy-source-if-unmodified-since'),
+      copySourceIfModifiedSince?: string(description='x-oss-copy-source-if-modified-since', name='x-oss-copy-source-if-modified-since'),
+      metadataDirective?: string(description='x-oss-metadata-directive', name='x-oss-metadata-directive'),
+      serverSideEncryption?: string(description='x-oss-server-side-encryption', name='x-oss-server-side-encryption'),
+      serverSideEncryptionKeyId?: string(description='x-oss-server-side-encryption-key-id', name='x-oss-server-side-encryption-key-id'),
+      objectAcl?: string(description='x-oss-object-acl', name='x-oss-object-acl'),
+      storageClass?: string(description='x-oss-storage-class', name='x-oss-storage-class'),
+      tagging?: string(description='x-oss-tagging', name='x-oss-tagging'),
+      taggingDirective?: string(description='x-oss-tagging-directive', name='x-oss-tagging-directive'),
+    }(description='Header', name='Header'),
+  }
+
+  model CopyObjectResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+    copyObjectResult: {
+      lastModified: string(description='LastModified', name='LastModified'),
+      eTag: string(description='ETag', name='ETag'),
+    }(description='CopyObjectResult', name='CopyObjectResult'),
+  }
+
+  api CopyObject(request: CopyObjectRequest, runtime: RuntimeObject): CopyObjectResponse {
+    protocol = @protocol;
+    method = 'PUT';
+    pathname = `/${request.destObjectName}`;
+    headers = {
+      host = @getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+      ...@toHeader(request.header),
+    };
+    
+      headers.x-oss-copy-source = @encode(__request.headers.x-oss-copy-source, 'UrlEncode');
+    headers.authorization = @getAuth(__request, request.bucketName);
+  } returns {
+    var respMap : object = null;
+    if (@isFail(__response)) {
+      respMap = @getErrMessage(__response);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    respMap = @parseXml(__response, CopyObjectResponse);
+    return {
+      CopyObjectResult = respMap.CopyObjectResult,
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+
+  model GetObjectTaggingRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+    objectName: string(description='ObjectName', name='ObjectName'),
+  }
+
+  model GetObjectTaggingResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+    tagging: {
+      tagSet: {
+        tag: [
+          {
+            key: string(description='Key', name='Key'),
+            value: string(description='Value', name='Value'),
+          }
+        ](description='Tag', name='Tag'),
+      }(description='TagSet', name='TagSet'),
+    }(description='Tagging', name='Tagging'),
+  }
+
+  api GetObjectTagging(request: GetObjectTaggingRequest, runtime: RuntimeObject): GetObjectTaggingResponse {
+    protocol = @protocol;
+    method = 'GET';
+    pathname = `/${request.objectName}?tagging`;
+    headers = {
+      host = @getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    headers.authorization = @getAuth(__request, request.bucketName);
+  } returns {
+    var respMap : object = null;
+    if (@isFail(__response)) {
+      respMap = @getErrMessage(__response);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    respMap = @parseXml(__response, GetObjectTaggingResponse);
+    return {
+      Tagging = respMap.Tagging,
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+
+  model DeleteBucketLifecycleRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+  }
+
+  model DeleteBucketLifecycleResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+  }
+
+  api DeleteBucketLifecycle(request: DeleteBucketLifecycleRequest, runtime: RuntimeObject): DeleteBucketLifecycleResponse {
+    protocol = @protocol;
+    method = 'DELETE';
+    pathname = `/?lifecycle`;
+    headers = {
+      host = @getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    headers.authorization = @getAuth(__request, request.bucketName);
+  } returns {
+    var respMap : object = null;
+    if (@isFail(__response)) {
+      respMap = @getErrMessage(__response);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    return {
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+
+  model DeleteBucketLoggingRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+  }
+
+  model DeleteBucketLoggingResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+  }
+
+  api DeleteBucketLogging(request: DeleteBucketLoggingRequest, runtime: RuntimeObject): DeleteBucketLoggingResponse {
+    protocol = @protocol;
+    method = 'DELETE';
+    pathname = `/?logging`;
+    headers = {
+      host = @getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    headers.authorization = @getAuth(__request, request.bucketName);
+  } returns {
+    var respMap : object = null;
+    if (@isFail(__response)) {
+      respMap = @getErrMessage(__response);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    return {
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+
+  model DeleteBucketWebsiteRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+  }
+
+  model DeleteBucketWebsiteResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+  }
+
+  api DeleteBucketWebsite(request: DeleteBucketWebsiteRequest, runtime: RuntimeObject): DeleteBucketWebsiteResponse {
+    protocol = @protocol;
+    method = 'DELETE';
+    pathname = `/?website`;
+    headers = {
+      host = @getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    headers.authorization = @getAuth(__request, request.bucketName);
+  } returns {
+    var respMap : object = null;
+    if (@isFail(__response)) {
+      respMap = @getErrMessage(__response);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    return {
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+
+  model GetSymlinkRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+    objectName: string(description='ObjectName', name='ObjectName'),
+  }
+
+  model GetSymlinkResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+    symlinkTarget: string(description='x-oss-symlink-target', name='x-oss-symlink-target'),
+  }
+
+  api GetSymlink(request: GetSymlinkRequest, runtime: RuntimeObject): GetSymlinkResponse {
+    protocol = @protocol;
+    method = 'GET';
+    pathname = `/${request.objectName}?symlink`;
+    headers = {
+      host = @getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    headers.authorization = @getAuth(__request, request.bucketName);
+  } returns {
+    var respMap : object = null;
+    if (@isFail(__response)) {
+      respMap = @getErrMessage(__response);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    return {
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+
+  model GetBucketLifecycleRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+  }
+
+  model GetBucketLifecycleResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+    lifecycleConfiguration: {
+      rule: [
+        {
+          iD: string(description='ID', name='ID'),
+          prefix: string(description='Prefix', name='Prefix'),
+          status: string(description='Status', name='Status'),
+          expiration: {
+            days: integer(description='Days', name='Days'),
+            createdBeforeDate: string(description='CreatedBeforeDate', name='CreatedBeforeDate'),
+          }(description='Expiration', name='Expiration'),
+          transition: {
+            days: integer(description='Days', name='Days'),
+            storageClass: string(description='StorageClass', name='StorageClass'),
+          }(description='Transition', name='Transition'),
+          abortMultipartUpload: {
+            days: integer(description='Days', name='Days'),
+            createdBeforeDate: string(description='CreatedBeforeDate', name='CreatedBeforeDate'),
+          }(description='AbortMultipartUpload', name='AbortMultipartUpload'),
+          tag: {
+            key: string(description='Key', name='Key'),
+            value: string(description='Value', name='Value'),
+          }(description='Tag', name='Tag'),
+        }
+      ](description='Rule', name='Rule'),
+    }(description='LifecycleConfiguration', name='LifecycleConfiguration'),
+  }
+
+  api GetBucketLifecycle(request: GetBucketLifecycleRequest, runtime: RuntimeObject): GetBucketLifecycleResponse {
+    protocol = @protocol;
+    method = 'GET';
+    pathname = `/?lifecycle`;
+    headers = {
+      host = @getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    headers.authorization = @getAuth(__request, request.bucketName);
+  } returns {
+    var respMap : object = null;
+    if (@isFail(__response)) {
+      respMap = @getErrMessage(__response);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    respMap = @parseXml(__response, GetBucketLifecycleResponse);
+    return {
+      LifecycleConfiguration = respMap.LifecycleConfiguration,
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+
+  model PutSymlinkRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+    objectName: string(description='ObjectName', name='ObjectName'),
+    header: {
+      symlinkTarget: string(description='x-oss-symlink-target', name='x-oss-symlink-target'),
+      storageClass?: string(description='x-oss-storage-class', name='x-oss-storage-class'),
+    }(description='Header', name='Header'),
+  }
+
+  model PutSymlinkResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+  }
+
+  api PutSymlink(request: PutSymlinkRequest, runtime: RuntimeObject): PutSymlinkResponse {
+    protocol = @protocol;
+    method = 'PUT';
+    pathname = `/${request.objectName}?symlink`;
+    headers = {
+      host = @getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+      ...@toHeader(request.header),
+    };
+    headers.authorization = @getAuth(__request, request.bucketName);
+  } returns {
+    var respMap : object = null;
+    if (@isFail(__response)) {
+      respMap = @getErrMessage(__response);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    return {
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+
+  model GetBucketRefererRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+  }
+
+  model GetBucketRefererResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+    refererConfiguration: {
+      allowEmptyReferer: boolean(description='AllowEmptyReferer', name='AllowEmptyReferer'),
+      refererList: {
+        referer: [ string ](description='Referer', name='Referer'),
+      }(description='RefererList', name='RefererList'),
+    }(description='RefererConfiguration', name='RefererConfiguration'),
+  }
+
+  api GetBucketReferer(request: GetBucketRefererRequest, runtime: RuntimeObject): GetBucketRefererResponse {
+    protocol = @protocol;
+    method = 'GET';
+    pathname = `/?referer`;
+    headers = {
+      host = @getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    headers.authorization = @getAuth(__request, request.bucketName);
+  } returns {
+    var respMap : object = null;
+    if (@isFail(__response)) {
+      respMap = @getErrMessage(__response);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    respMap = @parseXml(__response, GetBucketRefererResponse);
+    return {
+      RefererConfiguration = respMap.RefererConfiguration,
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+
+  model CallbackRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+  }
+
+  model CallbackResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+  }
+
+  api Callback(request: CallbackRequest, runtime: RuntimeObject): CallbackResponse {
+    protocol = @protocol;
+    method = 'GET';
+    pathname = `/`;
+    headers = {
+      host = @getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    headers.authorization = @getAuth(__request, request.bucketName);
+  } returns {
+    var respMap : object = null;
+    if (@isFail(__response)) {
+      respMap = @getErrMessage(__response);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    return {
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+
+  model GetBucketLoggingRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+  }
+
+  model GetBucketLoggingResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+    bucketLoggingStatus: {
+      loggingEnabled: {
+        targetBucket: string(description='TargetBucket', name='TargetBucket'),
+        targetPrefix: string(description='TargetPrefix', name='TargetPrefix'),
+      }(description='LoggingEnabled', name='LoggingEnabled'),
+    }(description='BucketLoggingStatus', name='BucketLoggingStatus'),
+  }
+
+  api GetBucketLogging(request: GetBucketLoggingRequest, runtime: RuntimeObject): GetBucketLoggingResponse {
+    protocol = @protocol;
+    method = 'GET';
+    pathname = `/?logging`;
+    headers = {
+      host = @getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    headers.authorization = @getAuth(__request, request.bucketName);
+  } returns {
+    var respMap : object = null;
+    if (@isFail(__response)) {
+      respMap = @getErrMessage(__response);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    respMap = @parseXml(__response, GetBucketLoggingResponse);
+    return {
+      BucketLoggingStatus = respMap.BucketLoggingStatus,
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+
+  model PutObjectAclRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+    objectName: string(description='ObjectName', name='ObjectName'),
+    header: {
+      objectAcl: string(description='x-oss-object-acl', name='x-oss-object-acl'),
+    }(description='Header', name='Header'),
+  }
+
+  model PutObjectAclResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+  }
+
+  api PutObjectAcl(request: PutObjectAclRequest, runtime: RuntimeObject): PutObjectAclResponse {
+    protocol = @protocol;
+    method = 'PUT';
+    pathname = `/${request.objectName}?acl`;
+    headers = {
+      host = @getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+      ...@toHeader(request.header),
+    };
+    headers.authorization = @getAuth(__request, request.bucketName);
+  } returns {
+    var respMap : object = null;
+    if (@isFail(__response)) {
+      respMap = @getErrMessage(__response);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    return {
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+
+  model GetBucketInfoRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+  }
+
+  model GetBucketInfoResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+    bucketInfo: {
+      bucket: {
+        creationDate: string(description='CreationDate', name='CreationDate'),
+        extranetEndpoint: string(description='ExtranetEndpoint', name='ExtranetEndpoint'),
+        intranetEndpoint: string(description='IntranetEndpoint', name='IntranetEndpoint'),
+        location: string(description='Location', name='Location'),
+        name: string(description='Name', name='Name'),
+        dataRedundancyType: string(description='DataRedundancyType', name='DataRedundancyType'),
+        storageClass: string(description='StorageClass', name='StorageClass'),
+        comment: string(description='Comment', name='Comment'),
+        owner: {
+          iD: string(description='ID', name='ID'),
+          displayName: string(description='DisplayName', name='DisplayName'),
+        }(description='Owner', name='Owner'),
+        accessControlList: {
+          grant: string(description='Grant', name='Grant'),
+        }(description='AccessControlList', name='AccessControlList'),
+      }(description='Bucket', name='Bucket'),
+    }(description='BucketInfo', name='BucketInfo'),
+  }
+
+  api GetBucketInfo(request: GetBucketInfoRequest, runtime: RuntimeObject): GetBucketInfoResponse {
+    protocol = @protocol;
+    method = 'GET';
+    pathname = `/?bucketInfo`;
+    headers = {
+      host = @getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    headers.authorization = @getAuth(__request, request.bucketName);
+  } returns {
+    var respMap : object = null;
+    if (@isFail(__response)) {
+      respMap = @getErrMessage(__response);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    respMap = @parseXml(__response, GetBucketInfoResponse);
+    return {
+      BucketInfo = respMap.BucketInfo,
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+
+  model PutLiveChannelStatusRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+    channelName: string(description='ChannelName', name='ChannelName'),
+    filter: {
+      status: string(description='status', name='status', signed='true'),
+    }(description='Filter', name='Filter'),
+  }
+
+  model PutLiveChannelStatusResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+  }
+
+  api PutLiveChannelStatus(request: PutLiveChannelStatusRequest, runtime: RuntimeObject): PutLiveChannelStatusResponse {
+    protocol = @protocol;
+    method = 'PUT';
+    pathname = `/${request.channelName}?live`;
+    headers = {
+      host = @getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    query = @toQuery(request.filter);
+    headers.authorization = @getAuth(__request, request.bucketName);
+  } returns {
+    var respMap : object = null;
+    if (@isFail(__response)) {
+      respMap = @getErrMessage(__response);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    return {
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+
+  model InitiateMultipartUploadRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+    objectName: string(description='ObjectName', name='ObjectName'),
+    filter?: {
+      encodingType?: string(description='encoding-type', name='encoding-type'),
+    }(description='Filter', name='Filter'),
+    header?: {
+      cacheControl?: string(description='Cache-Control', name='Cache-Control'),
+      contentDisposition?: string(description='Content-Disposition', name='Content-Disposition'),
+      contentEncoding?: string(description='Content-Encoding', name='Content-Encoding'),
+      expires?: string(description='Expires', name='Expires'),
+      serverSideEncryption?: string(description='x-oss-server-side-encryption', name='x-oss-server-side-encryption'),
+      serverSideEncryptionKeyId?: string(description='x-oss-server-side-encryption-key-id', name='x-oss-server-side-encryption-key-id'),
+      storageClass?: string(description='x-oss-storage-class', name='x-oss-storage-class'),
+      tagging?: string(description='x-oss-tagging', name='x-oss-tagging'),
+      contentType?: string(description='content-type', name='content-type'),
+    }(description='Header', name='Header'),
+  }
+
+  model InitiateMultipartUploadResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+    initiateMultipartUploadResult: {
+      bucket: string(description='Bucket', name='Bucket'),
+      key: string(description='Key', name='Key'),
+      uploadId: string(description='UploadId', name='UploadId'),
+    }(description='InitiateMultipartUploadResult', name='InitiateMultipartUploadResult'),
+  }
+
+  api InitiateMultipartUpload(request: InitiateMultipartUploadRequest, runtime: RuntimeObject): InitiateMultipartUploadResponse {
+    protocol = @protocol;
+    method = 'POST';
+    pathname = `/${request.objectName}?uploads`;
+    headers = {
+      host = @getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+      ...@toHeader(request.header),
+    };
+    query = @toQuery(request.filter);
+    headers.content-type = @default(@getSpecialValue(request.header, 'content-type'), @getContentType(request.objectName));
+    headers.authorization = @getAuth(__request, request.bucketName);
+  } returns {
+    var respMap : object = null;
+    if (@isFail(__response)) {
+      respMap = @getErrMessage(__response);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    respMap = @parseXml(__response, InitiateMultipartUploadResponse);
+    return {
+      InitiateMultipartUploadResult = respMap.InitiateMultipartUploadResult,
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+
+  model OptionObjectRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+    objectName: string(description='ObjectName', name='ObjectName'),
+    header: {
+      origin: string(description='Origin', name='Origin'),
+      accessControlRequestMethod: string(description='Access-Control-Request-Method', name='Access-Control-Request-Method'),
+      accessControlRequestHeaders: string(description='Access-Control-Request-Headers', name='Access-Control-Request-Headers'),
+    }(description='Header', name='Header'),
+  }
+
+  model OptionObjectResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+    accessControlAllowOrigin: string(description='Access-Control-Allow-Origin', name='access-control-allow-origin'),
+    accessControlAllowMethods: string(description='Access-Control-Allow-Methods', name='access-control-allow-methods'),
+    accessControlAllowHeaders: string(description='Access-Control-Allow-Headers', name='access-control-allow-headers'),
+    accessControlExposeHeaders: string(description='Access-Control-Expose-Headers', name='access-control-expose-headers'),
+    accessControlMaxAge: string(description='Access-Control-Max-Age', name='access-control-max-age'),
+  }
+
+  api OptionObject(request: OptionObjectRequest, runtime: RuntimeObject): OptionObjectResponse {
+    protocol = @protocol;
+    method = 'OPTIONS';
+    pathname = `/${request.objectName}`;
+    headers = {
+      host = @getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+      ...@toHeader(request.header),
+    };
+    headers.authorization = @getAuth(__request, request.bucketName);
+  } returns {
+    var respMap : object = null;
+    if (@isFail(__response)) {
+      respMap = @getErrMessage(__response);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    return {
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+
+  model PostVodPlaylistRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+    channelName: string(description='ChannelName', name='ChannelName'),
+    playlistName: string(description='PlaylistName', name='PlaylistName'),
+    filter: {
+      endTime: string(description='endTime', name='endTime', signed='true'),
+      startTime: string(description='startTime', name='startTime', signed='true'),
+    }(description='Filter', name='Filter'),
+  }
+
+  model PostVodPlaylistResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+  }
+
+  api PostVodPlaylist(request: PostVodPlaylistRequest, runtime: RuntimeObject): PostVodPlaylistResponse {
+    protocol = @protocol;
+    method = 'POST';
+    pathname = `/${request.channelName}/${request.playlistName}?vod`;
+    headers = {
+      host = @getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    query = @toQuery(request.filter);
+    headers.authorization = @getAuth(__request, request.bucketName);
+  } returns {
+    var respMap : object = null;
+    if (@isFail(__response)) {
+      respMap = @getErrMessage(__response);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    return {
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+
+  model PostObjectRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+  }
+
+  model PostObjectResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+    serverSideEncryption: string(description='x-oss-server-side-encryption', name='x-oss-server-side-encryption'),
+  }
+
+  api PostObject(request: PostObjectRequest, runtime: RuntimeObject): PostObjectResponse {
+    protocol = @protocol;
+    method = 'POST';
+    pathname = `/`;
+    headers = {
+      host = @getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    headers.authorization = @getAuth(__request, request.bucketName);
+  } returns {
+    var respMap : object = null;
+    if (@isFail(__response)) {
+      respMap = @getErrMessage(__response);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    return {
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+
+  model HeadObjectRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+    objectName: string(description='ObjectName', name='ObjectName'),
+    header?: {
+      ifModifiedSince?: string(description='If-Modified-Since', name='If-Modified-Since'),
+      ifUnmodifiedSince?: string(description='If-Unmodified-Since', name='If-Unmodified-Since'),
+      ifMatch?: string(description='If-Match', name='If-Match'),
+      ifNoneMatch?: string(description='If-None-Match', name='If-None-Match'),
+    }(description='Header', name='Header'),
+  }
+
+  model HeadObjectResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+    userMeta: map[string]string(description='usermeta', name='usermeta'),
+    serverSideEncryption: string(description='x-oss-server-side-encryption', name='x-oss-server-side-encryption'),
+    serverSideEncryptionKeyId: string(description='x-oss-server-side-encryption-key-id', name='x-oss-server-side-encryption-key-id'),
+    storageClass: string(description='x-oss-storage-class', name='x-oss-storage-class'),
+    objectType: string(description='x-oss-object-type', name='x-oss-object-type'),
+    nextAppendPosition: string(description='x-oss-next-append-position', name='x-oss-next-append-position'),
+    hashCrc64ecma: string(description='x-oss-hash-crc64ecma', name='x-oss-hash-crc64ecma'),
+    expiration: string(description='x-oss-expiration', name='x-oss-expiration'),
+    restore: string(description='x-oss-restore', name='x-oss-restore'),
+    processStatus: string(description='x-oss-process-status', name='x-oss-process-status'),
+    requestCharged: string(description='x-oss-request-charged', name='x-oss-request-charged'),
+    contentMd5: string(description='Content-Md5', name='content-md5'),
+    lastModified: string(description='Last-Modified', name='last-modified'),
+    accessControlAllowOrigin: string(description='Access-Control-Allow-Origin', name='access-control-allow-origin'),
+    accessControlAllowMethods: string(description='Access-Control-Allow-Methods', name='access-control-allow-methods'),
+    accessControlMaxAge: string(description='Access-Control-Max-Age', name='access-control-max-age'),
+    accessControlAllowHeaders: string(description='Access-Control-Allow-Headers', name='access-control-allow-headers'),
+    accessControlExposeHeaders: string(description='Access-Control-Expose-Headers', name='access-control-expose-headers'),
+    taggingCount: string(description='x-oss-tagging-count', name='x-oss-tagging-count'),
+  }
+
+  api HeadObject(request: HeadObjectRequest, runtime: RuntimeObject): HeadObjectResponse {
+    protocol = @protocol;
+    method = 'HEAD';
+    pathname = `/${request.objectName}`;
+    headers = {
+      host = @getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+      ...@toHeader(request.header),
+    };
+    headers.authorization = @getAuth(__request, request.bucketName);
+  } returns {
+    var respMap : object = null;
+    if (@isFail(__response)) {
+      respMap = @getErrMessage(__response);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    return {
+      usermeta = @toMeta(__response.headers, 'x-oss-meta-'),
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+
+  model DeleteObjectTaggingRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+    objectName: string(description='ObjectName', name='ObjectName'),
+  }
+
+  model DeleteObjectTaggingResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+  }
+
+  api DeleteObjectTagging(request: DeleteObjectTaggingRequest, runtime: RuntimeObject): DeleteObjectTaggingResponse {
+    protocol = @protocol;
+    method = 'DELETE';
+    pathname = `/${request.objectName}?tagging`;
+    headers = {
+      host = @getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    headers.authorization = @getAuth(__request, request.bucketName);
+  } returns {
+    var respMap : object = null;
+    if (@isFail(__response)) {
+      respMap = @getErrMessage(__response);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    return {
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+
+  model RestoreObjectRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+    objectName: string(description='ObjectName', name='ObjectName'),
+  }
+
+  model RestoreObjectResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+  }
+
+  api RestoreObject(request: RestoreObjectRequest, runtime: RuntimeObject): RestoreObjectResponse {
+    protocol = @protocol;
+    method = 'POST';
+    pathname = `/${request.objectName}?restore`;
+    headers = {
+      host = @getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    headers.authorization = @getAuth(__request, request.bucketName);
+  } returns {
+    var respMap : object = null;
+    if (@isFail(__response)) {
+      respMap = @getErrMessage(__response);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    return {
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+
+  model GetObjectAclRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+    objectName: string(description='ObjectName', name='ObjectName'),
+  }
+
+  model GetObjectAclResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+    accessControlPolicy: {
+      owner: {
+        iD: string(description='ID', name='ID'),
+        displayName: string(description='DisplayName', name='DisplayName'),
+      }(description='Owner', name='Owner'),
+      accessControlList: {
+        grant: string(description='Grant', name='Grant'),
+      }(description='AccessControlList', name='AccessControlList'),
+    }(description='AccessControlPolicy', name='AccessControlPolicy'),
+  }
+
+  api GetObjectAcl(request: GetObjectAclRequest, runtime: RuntimeObject): GetObjectAclResponse {
+    protocol = @protocol;
+    method = 'GET';
+    pathname = `/${request.objectName}?acl`;
+    headers = {
+      host = @getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    headers.authorization = @getAuth(__request, request.bucketName);
+  } returns {
+    var respMap : object = null;
+    if (@isFail(__response)) {
+      respMap = @getErrMessage(__response);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    respMap = @parseXml(__response, GetObjectAclResponse);
+    return {
+      AccessControlPolicy = respMap.AccessControlPolicy,
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+
+  model PutBucketAclRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+    header: {
+      acl: string(description='x-oss-acl', name='x-oss-acl'),
+    }(description='Header', name='Header'),
+  }
+
+  model PutBucketAclResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+  }
+
+  api PutBucketAcl(request: PutBucketAclRequest, runtime: RuntimeObject): PutBucketAclResponse {
+    protocol = @protocol;
+    method = 'PUT';
+    pathname = `/?acl`;
+    headers = {
+      host = @getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+      ...@toHeader(request.header),
+    };
+    headers.authorization = @getAuth(__request, request.bucketName);
+  } returns {
+    var respMap : object = null;
+    if (@isFail(__response)) {
+      respMap = @getErrMessage(__response);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    return {
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+
+  model DeleteBucketRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+  }
+
+  model DeleteBucketResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+  }
+
+  api DeleteBucket(request: DeleteBucketRequest, runtime: RuntimeObject): DeleteBucketResponse {
+    protocol = @protocol;
+    method = 'DELETE';
+    pathname = `/`;
+    headers = {
+      host = @getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    headers.authorization = @getAuth(__request, request.bucketName);
+  } returns {
+    var respMap : object = null;
+    if (@isFail(__response)) {
+      respMap = @getErrMessage(__response);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    return {
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+
+  model PutObjectRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+    objectName: string(description='ObjectName', name='ObjectName'),
+    userMeta?: map[string]string(description='UserMeta', name='UserMeta'),
+    body?: readable(description='body', name='body'),
+    header?: {
+      authorization?: string(description='Authorization', name='Authorization'),
+      cacheControl?: string(description='Cache-Control', name='Cache-Control'),
+      contentDisposition?: string(description='Content-Disposition', name='Content-Disposition'),
+      contentEncoding?: string(description='Content-Encoding', name='Content-Encoding'),
+      contentMD5?: string(description='Content-MD5', name='Content-MD5'),
+      contentLength?: string(description='Content-Length', name='Content-Length'),
+      eTag?: string(description='CETag', name='CETag'),
+      expires?: string(description='Expires', name='Expires'),
+      serverSideEncryption?: string(description='x-oss-server-side-encryption', name='x-oss-server-side-encryption'),
+      serverSideEncryptionKeyId?: string(description='x-oss-server-side-encryption-key-id', name='x-oss-server-side-encryption-key-id'),
+      objectAcl?: string(description='x-oss-object-acl', name='x-oss-object-acl'),
+      storageClass?: string(description='x-oss-storage-class', name='x-oss-storage-class'),
+      tagging?: string(description='x-oss-tagging', name='x-oss-tagging'),
+      contentType?: string(description='content-type', name='content-type'),
+    }(description='Header', name='Header'),
+  }
+
+  model PutObjectResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+    hashCrc64ecma: string(description='x-oss-hash-crc64ecma', name='x-oss-hash-crc64ecma'),
+    serverTime: string(description='x-oss-server-time', name='x-oss-server-time'),
+    bucketVersion: string(description='x-oss-bucket-version', name='x-oss-bucket-version'),
+  }
+
+  api PutObject(request: PutObjectRequest, runtime: RuntimeObject): PutObjectResponse {
+    var ref = @getRefer(request.body);
+    protocol = @protocol;
+    method = 'PUT';
+    pathname = `/${request.objectName}`;
+    headers = {
+      host = @getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+      ...@toHeader(request.header),
+      ...@parseMeta(request.userMeta, 'x-oss-meta-'),
+    };
+    body = request.body;
+    headers.content-type = @default(@getSpecialValue(request.header, 'content-type'), @getContentType(request.objectName));
+    headers.authorization = @getAuth(__request, request.bucketName);
+  } returns {
+    var respMap : object = null;
+    if (@isFail(__response)) {
+      respMap = @getErrMessage(__response);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    if (@isNotCrcMatched(ref.crc, __response.headers.x-oss-hash-crc64ecma)) {
+      throw {
+        code = 'CrcNotMatched',
+        data = {
+          calCrc = ref.crc,
+          serverCrc = __response.headers.x-oss-hash-crc64ecma,
+        },
+      };
+    }
+    if (@isNotMD5Matched(ref.md5, __response.headers.content-md5)) {
+      throw {
+        code = 'MD5NotMatched',
+        data = {
+          calMD5 = ref.md5,
+          serverMD5 = __response.headers.content-md5,
+        },
+      };
+    }
+    return {
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+
+}
