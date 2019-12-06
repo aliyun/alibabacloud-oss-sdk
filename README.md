@@ -6,21 +6,11 @@ English | [简体中文](README-CN.md)
 
 
 ## Installation
-### Java
-- [baseclient](./baseclient/java/README.md)
-- [oss-sdk](./langs/java/README.md)
 
-### Go
-- [baseclient](./baseclient/go/README.md)
-- [oss-sdk](./langs/golang/README.md)
-
-### .Net
-- [baseclient](./baseclient/csharp/README.md)
-- [oss-sdk](./langs/csharp/README.md)
-
-### TypeScript/Node.js
-- [baseclient](./baseclient/ts/README.md)
-- [oss-sdk](./langs/ts/README.md)
+- [OSS SDK for Java](./java/README.md)
+- [OSS SDK for Go](./golang/README.md)
+- [OSS SDK for .Net](./csharp/README.md)
+- [OSS SDK for TypeScript/Node.js](./ts/README.md)
 
 ## Issues
 [Opening an Issue](https://github.com/aliyun/alibabacloud-oss-sdk/issues/new), Issues not conforming to the guidelines may be closed immediately.
