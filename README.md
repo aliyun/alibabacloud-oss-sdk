@@ -11,6 +11,8 @@ English | [简体中文](README-CN.md)
 - [oss-sdk](./langs/java/README.md)
 
 ### Go
+- [baseclient](./baseclient/go/README.md)
+- [oss-sdk](./langs/golang/README.md)
 
 ### .Net
 - [baseclient](./baseclient/csharp/README.md)

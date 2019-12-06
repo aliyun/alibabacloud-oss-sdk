@@ -8,9 +8,9 @@
 - [baseclient](./baseclient/java/README-CN.md)
 - [oss-sdk](./langs/java/README-CN.md)
 
-
 ### Go
-
+- [baseclient](./baseclient/go/README-CN.md)
+- [oss-sdk](./langs/golang/README-CN.md)
 
 ### .Net
 
