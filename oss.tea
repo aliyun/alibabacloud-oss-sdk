@@ -102,7 +102,7 @@ module Client {
     requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
   }
 
-  api DeleteLiveChannel(request: DeleteLiveChannelRequest, runtime: RuntimeObject): DeleteLiveChannelResponse {
+  api deleteLiveChannel(request: DeleteLiveChannelRequest, runtime: RuntimeObject): DeleteLiveChannelResponse {
     protocol = @protocol;
     method = 'DELETE';
     pathname = `/${request.channelName}?live`;
@@ -162,7 +162,7 @@ module Client {
     locationConstraint: string(description='LocationConstraint', name='LocationConstraint'),
   }
 
-  api GetBucketLocation(request: GetBucketLocationRequest, runtime: RuntimeObject): GetBucketLocationResponse {
+  api getBucketLocation(request: GetBucketLocationRequest, runtime: RuntimeObject): GetBucketLocationResponse {
     protocol = @protocol;
     method = 'GET';
     pathname = `/?location`;
@@ -247,7 +247,7 @@ module Client {
     }(description='ListLiveChannelResult', name='ListLiveChannelResult'),
   }
 
-  api ListLiveChannel(request: ListLiveChannelRequest, runtime: RuntimeObject): ListLiveChannelResponse {
+  api listLiveChannel(request: ListLiveChannelRequest, runtime: RuntimeObject): ListLiveChannelResponse {
     protocol = @protocol;
     method = 'GET';
     pathname = `/?live`;
@@ -313,7 +313,7 @@ module Client {
     lastModified: string(description='Last-Modified', name='last-modified'),
   }
 
-  api GetObjectMeta(request: GetObjectMetaRequest, runtime: RuntimeObject): GetObjectMetaResponse {
+  api getObjectMeta(request: GetObjectMetaRequest, runtime: RuntimeObject): GetObjectMetaResponse {
     protocol = @protocol;
     method = 'HEAD';
     pathname = `/${request.objectName}?objectMeta`;
@@ -381,7 +381,7 @@ module Client {
     }(description='AccessControlPolicy', name='AccessControlPolicy'),
   }
 
-  api GetBucketAcl(request: GetBucketAclRequest, runtime: RuntimeObject): GetBucketAclResponse {
+  api getBucketAcl(request: GetBucketAclRequest, runtime: RuntimeObject): GetBucketAclResponse {
     protocol = @protocol;
     method = 'GET';
     pathname = `/?acl`;
@@ -467,7 +467,7 @@ module Client {
     }(description='ListPartsResult', name='ListPartsResult'),
   }
 
-  api ListParts(request: ListPartsRequest, runtime: RuntimeObject): ListPartsResponse {
+  api listParts(request: ListPartsRequest, runtime: RuntimeObject): ListPartsResponse {
     protocol = @protocol;
     method = 'GET';
     pathname = `/${request.objectName}`;
@@ -542,7 +542,7 @@ module Client {
     }(description='LiveChannelHistory', name='LiveChannelHistory'),
   }
 
-  api GetLiveChannelHistory(request: GetLiveChannelHistoryRequest, runtime: RuntimeObject): GetLiveChannelHistoryResponse {
+  api getLiveChannelHistory(request: GetLiveChannelHistoryRequest, runtime: RuntimeObject): GetLiveChannelHistoryResponse {
     protocol = @protocol;
     method = 'GET';
     pathname = `/${request.channelName}?live`;
@@ -634,7 +634,7 @@ module Client {
     }(description='ListBucketResult', name='ListBucketResult'),
   }
 
-  api GetBucket(request: GetBucketRequest, runtime: RuntimeObject): GetBucketResponse {
+  api getBucket(request: GetBucketRequest, runtime: RuntimeObject): GetBucketResponse {
     protocol = @protocol;
     method = 'GET';
     pathname = `/`;
@@ -707,7 +707,7 @@ module Client {
     }(description='LiveChannelConfiguration', name='LiveChannelConfiguration'),
   }
 
-  api GetLiveChannelInfo(request: GetLiveChannelInfoRequest, runtime: RuntimeObject): GetLiveChannelInfoResponse {
+  api getLiveChannelInfo(request: GetLiveChannelInfoRequest, runtime: RuntimeObject): GetLiveChannelInfoResponse {
     protocol = @protocol;
     method = 'GET';
     pathname = `/${request.channelName}?live`;
@@ -789,7 +789,7 @@ module Client {
     }(description='LiveChannelStat', name='LiveChannelStat'),
   }
 
-  api GetLiveChannelStat(request: GetLiveChannelStatRequest, runtime: RuntimeObject): GetLiveChannelStatResponse {
+  api getLiveChannelStat(request: GetLiveChannelStatRequest, runtime: RuntimeObject): GetLiveChannelStatResponse {
     protocol = @protocol;
     method = 'GET';
     pathname = `/${request.channelName}?live`;
@@ -852,7 +852,7 @@ module Client {
     requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
   }
 
-  api DeleteObject(request: DeleteObjectRequest, runtime: RuntimeObject): DeleteObjectResponse {
+  api deleteObject(request: DeleteObjectRequest, runtime: RuntimeObject): DeleteObjectResponse {
     protocol = @protocol;
     method = 'DELETE';
     pathname = `/${request.objectName}`;
@@ -915,7 +915,7 @@ module Client {
     requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
   }
 
-  api AbortMultipartUpload(request: AbortMultipartUploadRequest, runtime: RuntimeObject): AbortMultipartUploadResponse {
+  api abortMultipartUpload(request: AbortMultipartUploadRequest, runtime: RuntimeObject): AbortMultipartUploadResponse {
     protocol = @protocol;
     method = 'DELETE';
     pathname = `/${request.objectName}`;
@@ -994,7 +994,7 @@ module Client {
     hashCrc64ecma: string(description='x-oss-hash-crc64ecma', name='x-oss-hash-crc64ecma'),
   }
 
-  api AppendObject(request: AppendObjectRequest, runtime: RuntimeObject): AppendObjectResponse {
+  api appendObject(request: AppendObjectRequest, runtime: RuntimeObject): AppendObjectResponse {
     var ref = @getRefer(request.body);
     protocol = @protocol;
     method = 'POST';
@@ -1028,7 +1028,7 @@ module Client {
       throw {
         code = 'CrcNotMatched',
         data = {
-          calCrc = ref.crc,
+          clientCrc = ref.crc,
           serverCrc = __response.headers.x-oss-hash-crc64ecma,
         },
       };
@@ -1037,7 +1037,7 @@ module Client {
       throw {
         code = 'MD5NotMatched',
         data = {
-          calMD5 = ref.md5,
+          clientMD5 = ref.md5,
           serverMD5 = __response.headers.content-md5,
         },
       };
@@ -1094,7 +1094,7 @@ module Client {
     }(description='CopyPartResult', name='CopyPartResult'),
   }
 
-  api UploadPartCopy(request: UploadPartCopyRequest, runtime: RuntimeObject): UploadPartCopyResponse {
+  api uploadPartCopy(request: UploadPartCopyRequest, runtime: RuntimeObject): UploadPartCopyResponse {
     protocol = @protocol;
     method = 'PUT';
     pathname = `/${request.objectName}`;
@@ -1162,7 +1162,7 @@ module Client {
     requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
   }
 
-  api GetVodPlaylist(request: GetVodPlaylistRequest, runtime: RuntimeObject): GetVodPlaylistResponse {
+  api getVodPlaylist(request: GetVodPlaylistRequest, runtime: RuntimeObject): GetVodPlaylistResponse {
     protocol = @protocol;
     method = 'GET';
     pathname = `/${request.channelName}?vod`;
@@ -1222,7 +1222,7 @@ module Client {
     requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
   }
 
-  api DeleteBucketCORS(request: DeleteBucketCORSRequest, runtime: RuntimeObject): DeleteBucketCORSResponse {
+  api deleteBucketCORS(request: DeleteBucketCORSRequest, runtime: RuntimeObject): DeleteBucketCORSResponse {
     protocol = @protocol;
     method = 'DELETE';
     pathname = `/?cors`;
@@ -1301,7 +1301,7 @@ module Client {
     body: readable(description='body', name='body'),
   }
 
-  api GetObject(request: GetObjectRequest, runtime: RuntimeObject): GetObjectResponse {
+  api getObject(request: GetObjectRequest, runtime: RuntimeObject): GetObjectResponse {
     protocol = @protocol;
     method = 'GET';
     pathname = `/${request.objectName}`;
@@ -1368,7 +1368,7 @@ module Client {
     requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
   }
 
-  api UploadPart(request: UploadPartRequest, runtime: RuntimeObject): UploadPartResponse {
+  api uploadPart(request: UploadPartRequest, runtime: RuntimeObject): UploadPartResponse {
     var ref = @getRefer(request.body);
     protocol = @protocol;
     method = 'PUT';
@@ -1399,7 +1399,7 @@ module Client {
       throw {
         code = 'CrcNotMatched',
         data = {
-          calCrc = ref.crc,
+          clientCrc = ref.crc,
           serverCrc = __response.headers.x-oss-hash-crc64ecma,
         },
       };
@@ -1408,7 +1408,7 @@ module Client {
       throw {
         code = 'MD5NotMatched',
         data = {
-          calMD5 = ref.md5,
+          clientMD5 = ref.md5,
           serverMD5 = __response.headers.content-md5,
         },
       };
@@ -1455,7 +1455,7 @@ module Client {
     }(description='CORSConfiguration', name='CORSConfiguration'),
   }
 
-  api GetBucketCORS(request: GetBucketCORSRequest, runtime: RuntimeObject): GetBucketCORSResponse {
+  api getBucketCORS(request: GetBucketCORSRequest, runtime: RuntimeObject): GetBucketCORSResponse {
     protocol = @protocol;
     method = 'GET';
     pathname = `/?cors`;
@@ -1535,7 +1535,7 @@ module Client {
     }(description='CopyObjectResult', name='CopyObjectResult'),
   }
 
-  api CopyObject(request: CopyObjectRequest, runtime: RuntimeObject): CopyObjectResponse {
+  api copyObject(request: CopyObjectRequest, runtime: RuntimeObject): CopyObjectResponse {
     protocol = @protocol;
     method = 'PUT';
     pathname = `/${request.destObjectName}`;
@@ -1610,7 +1610,7 @@ module Client {
     }(description='Tagging', name='Tagging'),
   }
 
-  api GetObjectTagging(request: GetObjectTaggingRequest, runtime: RuntimeObject): GetObjectTaggingResponse {
+  api getObjectTagging(request: GetObjectTaggingRequest, runtime: RuntimeObject): GetObjectTaggingResponse {
     protocol = @protocol;
     method = 'GET';
     pathname = `/${request.objectName}?tagging`;
@@ -1671,7 +1671,7 @@ module Client {
     requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
   }
 
-  api DeleteBucketLifecycle(request: DeleteBucketLifecycleRequest, runtime: RuntimeObject): DeleteBucketLifecycleResponse {
+  api deleteBucketLifecycle(request: DeleteBucketLifecycleRequest, runtime: RuntimeObject): DeleteBucketLifecycleResponse {
     protocol = @protocol;
     method = 'DELETE';
     pathname = `/?lifecycle`;
@@ -1730,7 +1730,7 @@ module Client {
     requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
   }
 
-  api DeleteBucketLogging(request: DeleteBucketLoggingRequest, runtime: RuntimeObject): DeleteBucketLoggingResponse {
+  api deleteBucketLogging(request: DeleteBucketLoggingRequest, runtime: RuntimeObject): DeleteBucketLoggingResponse {
     protocol = @protocol;
     method = 'DELETE';
     pathname = `/?logging`;
@@ -1789,7 +1789,7 @@ module Client {
     requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
   }
 
-  api DeleteBucketWebsite(request: DeleteBucketWebsiteRequest, runtime: RuntimeObject): DeleteBucketWebsiteResponse {
+  api deleteBucketWebsite(request: DeleteBucketWebsiteRequest, runtime: RuntimeObject): DeleteBucketWebsiteResponse {
     protocol = @protocol;
     method = 'DELETE';
     pathname = `/?website`;
@@ -1850,7 +1850,7 @@ module Client {
     symlinkTarget: string(description='x-oss-symlink-target', name='x-oss-symlink-target'),
   }
 
-  api GetSymlink(request: GetSymlinkRequest, runtime: RuntimeObject): GetSymlinkResponse {
+  api getSymlink(request: GetSymlinkRequest, runtime: RuntimeObject): GetSymlinkResponse {
     protocol = @protocol;
     method = 'GET';
     pathname = `/${request.objectName}?symlink`;
@@ -1934,7 +1934,7 @@ module Client {
     }(description='LifecycleConfiguration', name='LifecycleConfiguration'),
   }
 
-  api GetBucketLifecycle(request: GetBucketLifecycleRequest, runtime: RuntimeObject): GetBucketLifecycleResponse {
+  api getBucketLifecycle(request: GetBucketLifecycleRequest, runtime: RuntimeObject): GetBucketLifecycleResponse {
     protocol = @protocol;
     method = 'GET';
     pathname = `/?lifecycle`;
@@ -2000,7 +2000,7 @@ module Client {
     requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
   }
 
-  api PutSymlink(request: PutSymlinkRequest, runtime: RuntimeObject): PutSymlinkResponse {
+  api putSymlink(request: PutSymlinkRequest, runtime: RuntimeObject): PutSymlinkResponse {
     protocol = @protocol;
     method = 'PUT';
     pathname = `/${request.objectName}?symlink`;
@@ -2066,7 +2066,7 @@ module Client {
     }(description='RefererConfiguration', name='RefererConfiguration'),
   }
 
-  api GetBucketReferer(request: GetBucketRefererRequest, runtime: RuntimeObject): GetBucketRefererResponse {
+  api getBucketReferer(request: GetBucketRefererRequest, runtime: RuntimeObject): GetBucketRefererResponse {
     protocol = @protocol;
     method = 'GET';
     pathname = `/?referer`;
@@ -2127,7 +2127,7 @@ module Client {
     requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
   }
 
-  api Callback(request: CallbackRequest, runtime: RuntimeObject): CallbackResponse {
+  api callback(request: CallbackRequest, runtime: RuntimeObject): CallbackResponse {
     protocol = @protocol;
     method = 'GET';
     pathname = `/`;
@@ -2192,7 +2192,7 @@ module Client {
     }(description='BucketLoggingStatus', name='BucketLoggingStatus'),
   }
 
-  api GetBucketLogging(request: GetBucketLoggingRequest, runtime: RuntimeObject): GetBucketLoggingResponse {
+  api getBucketLogging(request: GetBucketLoggingRequest, runtime: RuntimeObject): GetBucketLoggingResponse {
     protocol = @protocol;
     method = 'GET';
     pathname = `/?logging`;
@@ -2257,7 +2257,7 @@ module Client {
     requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
   }
 
-  api PutObjectAcl(request: PutObjectAclRequest, runtime: RuntimeObject): PutObjectAclResponse {
+  api putObjectAcl(request: PutObjectAclRequest, runtime: RuntimeObject): PutObjectAclResponse {
     protocol = @protocol;
     method = 'PUT';
     pathname = `/${request.objectName}?acl`;
@@ -2336,7 +2336,7 @@ module Client {
     }(description='BucketInfo', name='BucketInfo'),
   }
 
-  api GetBucketInfo(request: GetBucketInfoRequest, runtime: RuntimeObject): GetBucketInfoResponse {
+  api getBucketInfo(request: GetBucketInfoRequest, runtime: RuntimeObject): GetBucketInfoResponse {
     protocol = @protocol;
     method = 'GET';
     pathname = `/?bucketInfo`;
@@ -2401,7 +2401,7 @@ module Client {
     requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
   }
 
-  api PutLiveChannelStatus(request: PutLiveChannelStatusRequest, runtime: RuntimeObject): PutLiveChannelStatusResponse {
+  api putLiveChannelStatus(request: PutLiveChannelStatusRequest, runtime: RuntimeObject): PutLiveChannelStatusResponse {
     protocol = @protocol;
     method = 'PUT';
     pathname = `/${request.channelName}?live`;
@@ -2481,7 +2481,7 @@ module Client {
     }(description='InitiateMultipartUploadResult', name='InitiateMultipartUploadResult'),
   }
 
-  api InitiateMultipartUpload(request: InitiateMultipartUploadRequest, runtime: RuntimeObject): InitiateMultipartUploadResponse {
+  api initiateMultipartUpload(request: InitiateMultipartUploadRequest, runtime: RuntimeObject): InitiateMultipartUploadResponse {
     protocol = @protocol;
     method = 'POST';
     pathname = `/${request.objectName}?uploads`;
@@ -2556,7 +2556,7 @@ module Client {
     accessControlMaxAge: string(description='Access-Control-Max-Age', name='access-control-max-age'),
   }
 
-  api OptionObject(request: OptionObjectRequest, runtime: RuntimeObject): OptionObjectResponse {
+  api optionObject(request: OptionObjectRequest, runtime: RuntimeObject): OptionObjectResponse {
     protocol = @protocol;
     method = 'OPTIONS';
     pathname = `/${request.objectName}`;
@@ -2622,7 +2622,7 @@ module Client {
     requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
   }
 
-  api PostVodPlaylist(request: PostVodPlaylistRequest, runtime: RuntimeObject): PostVodPlaylistResponse {
+  api postVodPlaylist(request: PostVodPlaylistRequest, runtime: RuntimeObject): PostVodPlaylistResponse {
     protocol = @protocol;
     method = 'POST';
     pathname = `/${request.channelName}/${request.playlistName}?vod`;
@@ -2683,7 +2683,7 @@ module Client {
     serverSideEncryption: string(description='x-oss-server-side-encryption', name='x-oss-server-side-encryption'),
   }
 
-  api PostObject(request: PostObjectRequest, runtime: RuntimeObject): PostObjectResponse {
+  api postObject(request: PostObjectRequest, runtime: RuntimeObject): PostObjectResponse {
     protocol = @protocol;
     method = 'POST';
     pathname = `/`;
@@ -2768,7 +2768,7 @@ module Client {
     taggingCount: string(description='x-oss-tagging-count', name='x-oss-tagging-count'),
   }
 
-  api HeadObject(request: HeadObjectRequest, runtime: RuntimeObject): HeadObjectResponse {
+  api headObject(request: HeadObjectRequest, runtime: RuntimeObject): HeadObjectResponse {
     protocol = @protocol;
     method = 'HEAD';
     pathname = `/${request.objectName}`;
@@ -2830,7 +2830,7 @@ module Client {
     requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
   }
 
-  api DeleteObjectTagging(request: DeleteObjectTaggingRequest, runtime: RuntimeObject): DeleteObjectTaggingResponse {
+  api deleteObjectTagging(request: DeleteObjectTaggingRequest, runtime: RuntimeObject): DeleteObjectTaggingResponse {
     protocol = @protocol;
     method = 'DELETE';
     pathname = `/${request.objectName}?tagging`;
@@ -2890,7 +2890,7 @@ module Client {
     requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
   }
 
-  api RestoreObject(request: RestoreObjectRequest, runtime: RuntimeObject): RestoreObjectResponse {
+  api restoreObject(request: RestoreObjectRequest, runtime: RuntimeObject): RestoreObjectResponse {
     protocol = @protocol;
     method = 'POST';
     pathname = `/${request.objectName}?restore`;
@@ -2959,7 +2959,7 @@ module Client {
     }(description='AccessControlPolicy', name='AccessControlPolicy'),
   }
 
-  api GetObjectAcl(request: GetObjectAclRequest, runtime: RuntimeObject): GetObjectAclResponse {
+  api getObjectAcl(request: GetObjectAclRequest, runtime: RuntimeObject): GetObjectAclResponse {
     protocol = @protocol;
     method = 'GET';
     pathname = `/${request.objectName}?acl`;
@@ -3023,7 +3023,7 @@ module Client {
     requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
   }
 
-  api PutBucketAcl(request: PutBucketAclRequest, runtime: RuntimeObject): PutBucketAclResponse {
+  api putBucketAcl(request: PutBucketAclRequest, runtime: RuntimeObject): PutBucketAclResponse {
     protocol = @protocol;
     method = 'PUT';
     pathname = `/?acl`;
@@ -3083,7 +3083,7 @@ module Client {
     requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
   }
 
-  api DeleteBucket(request: DeleteBucketRequest, runtime: RuntimeObject): DeleteBucketResponse {
+  api deleteBucket(request: DeleteBucketRequest, runtime: RuntimeObject): DeleteBucketResponse {
     protocol = @protocol;
     method = 'DELETE';
     pathname = `/`;
@@ -3164,7 +3164,7 @@ module Client {
     bucketVersion: string(description='x-oss-bucket-version', name='x-oss-bucket-version'),
   }
 
-  api PutObject(request: PutObjectRequest, runtime: RuntimeObject): PutObjectResponse {
+  api putObject(request: PutObjectRequest, runtime: RuntimeObject): PutObjectResponse {
     var ref = @getRefer(request.body);
     protocol = @protocol;
     method = 'PUT';
@@ -3197,7 +3197,7 @@ module Client {
       throw {
         code = 'CrcNotMatched',
         data = {
-          calCrc = ref.crc,
+          clientCrc = ref.crc,
           serverCrc = __response.headers.x-oss-hash-crc64ecma,
         },
       };
@@ -3206,7 +3206,7 @@ module Client {
       throw {
         code = 'MD5NotMatched',
         data = {
-          calMD5 = ref.md5,
+          clientMD5 = ref.md5,
           serverMD5 = __response.headers.content-md5,
         },
       };
