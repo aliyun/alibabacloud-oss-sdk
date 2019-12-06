@@ -19,6 +19,8 @@ English | [简体中文](README-CN.md)
 - [oss-sdk](./langs/csharp/README.md)
 
 ### TypeScript/Node.js
+- [baseclient](./baseclient/ts/README.md)
+- [oss-sdk](./langs/ts/README.md)
 
 ## Issues
 [Opening an Issue](https://github.com/aliyun/alibabacloud-oss-sdk/issues/new), Issues not conforming to the guidelines may be closed immediately.
