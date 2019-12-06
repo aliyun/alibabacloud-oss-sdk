@@ -551,17 +551,21 @@ public class BaseClient {
 
     public BaseClient(Map<String, Object> config) throws ParseException, IOException, CredentialException {
         Configuration configuration = new Configuration();
-        configuration.setAccessKeyId(String.valueOf(config.get("accessKeyId")));
-        configuration.setAccessKeySecret(String.valueOf(config.get("accessKeySecret")));
+        configuration.setAccessKeyId((String) config.get("accessKeyId"));
+        configuration.setAccessKeySecret((String) config.get("accessKeySecret"));
         if (StringUtils.isEmpty(config.get("securityToken"))) {
             configuration.setType(AuthConstant.ACCESS_KEY);
             credential = new Credential(configuration);
         } else {
             configuration.setType(AuthConstant.STS);
-            configuration.setAccessKeySecret(String.valueOf(config.get("securityToken")));
+            configuration.setAccessKeySecret((String) config.get("securityToken"));
             credential = new Credential(configuration);
         }
-        this._signatureVersion = String.valueOf(config.get("signatureVersion"));
+        this._signatureVersion = (String) config.get("signatureVersion");
+        this._regionId = (String) config.get("regionId");
+        this._userAgent = (String) config.get("userAgent");
+        this._hostModel = (String) config.get("hostModel");
+        this._signatureVersion = (String) config.get("signatureVersion");
     }
 
     protected String _getDate() {
@@ -777,7 +781,7 @@ public class BaseClient {
     }
 
     protected String _getHost(String bucketName) {
-        String host = "";
+        String host;
         if (StringUtils.isEmpty(this._regionId)) {
             this._regionId = "cn-hangzhou";
         }
@@ -799,8 +803,8 @@ public class BaseClient {
     }
 
     protected String _default(String maxAttempts, String defaultStr) {
-        if (null != maxAttempts) {
-            return String.valueOf(maxAttempts);
+        if (!StringUtils.isEmpty(maxAttempts)) {
+            return maxAttempts;
         }
         return defaultStr;
     }
@@ -810,79 +814,6 @@ public class BaseClient {
             return maxAttempts;
         }
         return defaultNumber;
-    }
-
-    protected String _toBody(Object object) throws Exception {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document document = builder.newDocument();
-        document.setXmlStandalone(true);
-        Class clazz = object.getClass();
-        Field[] fields = clazz.getFields();
-        if (fields.length > 0) {
-            Field field = fields[0];
-            field.setAccessible(true);
-            NameInMap attribute = field.getAnnotation(NameInMap.class);
-            String realName = attribute.value();
-            if (realName == null) {
-                realName = field.getName();
-            }
-            Object rootObj = field.get(object);
-            document.appendChild(getXml(rootObj, realName, document));
-            TransformerFactory tff = TransformerFactory.newInstance();
-            Transformer tf = tff.newTransformer();
-            tf.setOutputProperty(OutputKeys.INDENT, "yes");
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            DOMSource domSource = new DOMSource(document);
-            tf.transform(domSource, new StreamResult(bos));
-            return bos.toString();
-        }
-        return null;
-    }
-
-    protected Element getXml(Object obj, String nodeName, Document document) throws IllegalAccessException {
-        Element itemInfo = document.createElement(nodeName);
-        if (obj == null) {
-            return itemInfo;
-        }
-        Class clazz = obj.getClass();
-        Field[] fields = clazz.getFields();
-        for (int i = 0; i < fields.length; i++) {
-            Field field = fields[i];
-            field.setAccessible(true);
-            Class property = field.get(obj).getClass();
-            NameInMap attribute = field.getAnnotation(NameInMap.class);
-            String realName = attribute == null ? field.getName() : attribute.value();
-            if (List.class.isAssignableFrom(property)) {
-                List list = (List) field.get(obj);
-                if (list != null && list.size() > 0) {
-                    if (TeaModel.class.isAssignableFrom(list.get(0).getClass())) {
-                        for (int j = 0; j < list.size(); j++) {
-                            itemInfo.appendChild(getXml(list.get(j), realName, document));
-                        }
-                    } else {
-                        for (int j = 0; j < list.size(); j++) {
-                            Element nodeElement = document.createElement(realName);
-                            Object nodeObj = list.get(j);
-                            nodeElement.setNodeValue(String.valueOf(nodeObj));
-                            itemInfo.appendChild(nodeElement);
-                        }
-                    }
-                } else {
-                    Element nullElement = document.createElement(realName);
-                    itemInfo.appendChild(nullElement);
-                }
-            } else if (TeaModel.class.isAssignableFrom(property)) {
-                Object nodeObj = field.get(obj);
-                itemInfo.appendChild(getXml(nodeObj, realName, document));
-            } else {
-                Element nodeElement = document.createElement(realName);
-                Object nodeObj = field.get(obj);
-                nodeElement.setTextContent(String.valueOf(nodeObj));
-                itemInfo.appendChild(nodeElement);
-            }
-        }
-        return itemInfo;
     }
 
     protected Boolean _isFail(TeaResponse teaResponse) {
@@ -914,7 +845,7 @@ public class BaseClient {
     }
 
     protected Map<String, String> _toMeta(Map<String, String> header, String prefix) {
-        Map<String, String> result = new HashMap<String, String>();
+        Map<String, String> result = new HashMap<>();
         for (Map.Entry<String, String> entry : header.entrySet()) {
             if (entry.getKey().contains(prefix)) {
                 result.put(entry.getKey(), entry.getValue());
@@ -926,7 +857,7 @@ public class BaseClient {
     }
 
     protected Map<String, String> _parseMeta(Map<String, String> userMeta, String prefix) {
-        Map<String, String> result = new HashMap<String, String>();
+        Map<String, String> result = new HashMap<>();
         if (null == userMeta) {
             return result;
         }
@@ -948,7 +879,7 @@ public class BaseClient {
             return md5;
         }
         InputStream body = request.body;
-        if (body == null && body.available() <= 0) {
+        if (body == null || body.available() <= 0) {
             return "";
         }
         byte[] bytes = new byte[4096];
