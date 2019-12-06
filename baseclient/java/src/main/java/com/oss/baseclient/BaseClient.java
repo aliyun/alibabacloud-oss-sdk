@@ -957,6 +957,7 @@ public class BaseClient {
         while ((len = body.read(bytes)) != -1) {
             md.update(bytes, 0, len);
         }
+        request.body.reset();
         byte[] messageDigest = md.digest();
         return Base64.getEncoder().encodeToString(messageDigest);
     }
@@ -1053,6 +1054,7 @@ public class BaseClient {
             while ((index = inputStream.read(bytes)) != -1) {
                 crc64.update(bytes, index);
             }
+            request.body.reset();
             ByteBuffer buffer = ByteBuffer.allocate(8);
             buffer.putLong(crc64.getValue());
             return buffer.array();
