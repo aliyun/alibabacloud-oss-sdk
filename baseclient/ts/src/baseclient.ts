@@ -39,13 +39,14 @@ export default class BaseClient {
     this._signatureVersion = 'v1';
     this._isEnableMD5 = config['isEnableMD5'] || false;
     this._isEnableCrc = config['isEnableCrc'] || false;
-    this._userAgent = `AlibabaCloud (${platform()}; ${arch()}) Node.js/${process.version} Core/0.01`
+    this._userAgent = `AlibabaCloud (${platform()}; ${arch()}) Node.js/${process.version} Core/1.0.1`
     this._hostModel = 'domain';
 
     this._addtionalHeaders = [];
-    if (config['type'] === '') {
+    if (!config['type']) {
       config['type'] = 'access_key'
     }
+    
     this._creadentials = new Creadential({
       accessKeyId: config['accessKeyId'],
       accessKeySecret: config['accessKeySecret'],
@@ -65,7 +66,7 @@ export default class BaseClient {
     this._addtionalHeaders = headers;
   }
 
-  _getAddtionalHeaders(header: string): string[] {
+  _getAddtionalHeaders(): string[] {
     return this._addtionalHeaders;
   }
   _setSignatureVersion(version: string): void {
@@ -138,7 +139,7 @@ export default class BaseClient {
           ret[originName] = value === 'false' ? false : true;
           return;
         case 'number':
-          if (!value) {
+          if (value != 0 && !value) {
             ret[originName] = NaN;
             return;
           }
@@ -260,11 +261,14 @@ export default class BaseClient {
       return ret;
     }
     Object.keys(meta).forEach((key) => {
+      if (typeof meta[key] === 'undefined' || meta[key] == null){
+        meta[key] = '';
+      }
       if (!key.startsWith(prefix)) {
-        ret[prefix + key] = meta[key];
+        ret[prefix + key] = meta[key].toString();
         return;
       }
-      ret[key] = meta[key];
+      ret[key] = meta[key].toString();
     });
     return ret;
   }
@@ -290,9 +294,6 @@ export default class BaseClient {
     }
     if (md5Value) {
       return md5Value;
-    }
-    if (this._contentMd5) {
-      return this._contentMd5;
     }
   }
 
@@ -410,6 +411,7 @@ export default class BaseClient {
       let targetName = names[key];
       let value = obj[key];
       if (typeof value === 'undefined' || value == null) {
+        ret[targetName] = '';
         return;
       }
       ret[targetName] = value.toString();
@@ -422,7 +424,7 @@ export default class BaseClient {
     if (!header) {
       return ret;
     }
-    if (header.constructor) {
+    if (header.constructor && typeof header.constructor.names == 'function') {
       return this._headerCast(header, header.constructor);
     }
     for (let [key, value] of Object.entries(header)) {
