@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 using Tea;
 
@@ -20,9 +18,29 @@ namespace unitTest.Models
         [NameInMap("Owners")]
         public List<Owner> owners { get; set; }
 
+        public long? TestLong { get; set; }
+
+        public short? TestShort { get; set; }
+
+        public uint? TestUInt { get; set; }
+
+        public ushort? TestUShort { get; set; }
+
+        public ulong? TestULong { get; set; }
+
+        public float? TestFloat { get; set; }
+
+        public double? TestDouble { get; set; }
+
+        public string TestNull { get; set; }
+
+        public bool? TestBool { get; set; }
+
+        public List<string> TestListNull { get; set; }
+
         public class Owner : TeaModel
         {
-            public int ID { get; set; }
+            public int? ID { get; set; }
 
             public string DisplayName { get; set; }
         }

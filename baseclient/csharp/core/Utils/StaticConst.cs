@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-[assembly : InternalsVisibleTo("UnitTests")]
-
 namespace AlibabaCloud.OSS.Utils
 {
     internal class StaticConst
