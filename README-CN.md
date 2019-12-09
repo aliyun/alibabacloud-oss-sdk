@@ -4,19 +4,11 @@
 ## Alibaba Cloud OSS SDK
 
 ## 安装
-### Java
-- [baseclient](./baseclient/java/README-CN.md)
-- [oss-sdk](./langs/java/README-CN.md)
 
-### Go
-- [baseclient](./baseclient/go/README-CN.md)
-- [oss-sdk](./langs/golang/README-CN.md)
-
-### .Net
-
-
-### TypeScript/Node.js
-
+- [OSS SDK for Java](./java/README.md)
+- [OSS SDK for Go](./golang/README.md)
+- [OSS SDK for .Net](./csharp/README.md)
+- [OSS SDK for TypeScript/Node.js](./ts/README.md)
 
 ## 问题
 [Opening an Issue](https://github.com/aliyun/alibabacloud-oss-sdk/issues/new)，不符合指南的问题可能会立即关闭。

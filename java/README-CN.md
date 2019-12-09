@@ -20,6 +20,23 @@
 </dependency>
 ```
 
+## 代码案例
+```java
+    Config config = new Config();
+    // 你的ak
+    config.accessKeyId = "";
+    // 你的sk
+    config.accessKeySecret = "";
+    // 签名版本
+    config.signatureVersion = "v2";
+    Client client = new Client(config);
+    GetBucketInfoRequest request = new GetBucketInfoRequest();
+    request.bucketName = "sdk-script";
+    RuntimeObject runtimeObject = new RuntimeObject();
+    GetBucketInfoResponse response = client.GetBucketInfo(request, runtimeObject);
+    
+```
+
 ## 问题
 [提交 Issue](https://github.com/aliyun/alibabacloud-oss-sdk/issues/new)，不符合指南的问题可能会立即关闭。
 
