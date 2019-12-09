@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-using Tea;
+﻿using Tea;
 
 namespace unitTest.Models
 {

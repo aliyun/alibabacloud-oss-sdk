@@ -8,8 +8,6 @@ using System.Xml.Linq;
 
 using Tea;
 
-[assembly : InternalsVisibleTo("UnitTests")]
-
 namespace AlibabaCloud.OSS.Utils
 {
     internal class XmlUtil
@@ -59,7 +57,7 @@ namespace AlibabaCloud.OSS.Utils
                 string realName = attribute == null ? p.Name : attribute.Name;
                 XmlNodeList node = element.SelectNodes(realName);
 
-                if (node != null && node.Count > 0)
+                if (node != null && node.Count > 0 && StringUtils.SubStringCount(node[0].OuterXml, realName) > 1)
                 {
                     if (typeof(IList).IsAssignableFrom(propertyType))
                     {
@@ -108,10 +106,6 @@ namespace AlibabaCloud.OSS.Utils
             {
                 return null;
             }
-            else if (propertyType == typeof(string))
-            {
-                return value;
-            }
             else if (propertyType == typeof(int?))
             {
                 return Convert.ToInt32(value);
@@ -122,7 +116,7 @@ namespace AlibabaCloud.OSS.Utils
             }
             else if (propertyType == typeof(float?))
             {
-                return Convert.ToDouble(value);
+                return Convert.ToSingle(value);
             }
             else if (propertyType == typeof(double?))
             {
@@ -156,9 +150,11 @@ namespace AlibabaCloud.OSS.Utils
 
         internal static string SerializeXml(object obj)
         {
+            string xmlStr = string.Empty;
             XElement xRoot;
             Type type = obj.GetType();
             PropertyInfo[] properties = type.GetProperties();
+
             if (properties.Length > 0)
             {
                 PropertyInfo propertyInfo = properties[0];
