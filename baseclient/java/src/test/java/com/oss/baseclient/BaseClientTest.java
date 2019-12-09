@@ -17,6 +17,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.SimpleTimeZone;
 
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.when;
+
 public class BaseClientTest {
     private BaseClient client;
 
@@ -158,6 +161,93 @@ public class BaseClientTest {
         is = new ByteArrayInputStream("test".getBytes("UTF-8"));
         request.body = is;
         Assert.assertEquals("CY9rzUYh03PK3k6DJie09g==", client._getContentMD5(request, null, 0L));
+    }
 
+    @Test
+    public void _getContentLengthTest() throws Exception{
+        Assert.assertEquals("test", client._getContentLength(null, "test"));
+
+        TeaRequest request = new TeaRequest();
+        Assert.assertEquals("", client._getContentLength(request, ""));
+
+        InputStream is = new ByteArrayInputStream("test".getBytes(TeaRequest.URL_ENCODING));
+        request.body = is;
+        Assert.assertEquals("4", client._getContentLength(request, ""));
+    }
+
+    @Test
+    public void _getSpecialValueTest() throws Exception{
+        Map<String, Object> map = new HashMap<>();
+        map.put("key", "value");
+        Assert.assertEquals("value", client._getSpecialValue(map, "key"));
+    }
+
+    @Test
+    public void _getContentTypeTest() {
+        Assert.assertEquals("image/webp", client._getContentType("test.webp"));
+        Assert.assertEquals("audio/mpeg", client._getContentType("test.mp3"));
+    }
+
+    @Test
+    public void _isNotCrcMatchedTest() {
+        Assert.assertTrue(client._isNotCrcMatched(6L, null));
+        Assert.assertTrue(client._isNotCrcMatched(6L, "8"));
+        Assert.assertFalse(client._isNotCrcMatched(6L, "6"));
+    }
+
+    @Test
+    public void _encodeTest() throws Exception{
+        String value = "test/encode/h%f";
+        Assert.assertEquals(value, client._encode(value, null));
+        Assert.assertEquals("test/encode/aCVm", client._encode(value, "Base64"));
+        Assert.assertEquals("test/encode/h%25f", client._encode(value, "UrlEncode"));
+        Assert.assertEquals(value, client._encode(value, ""));
+    }
+
+    @Test
+    public void _toHeaderTest() {
+        Map<String, Object> header =  null;
+        Map<String, String> result = client._toHeader(header);
+        Assert.assertEquals(0, result.size());
+
+        header = new HashMap<>();
+        header.put("null", null);
+        header.put("test", "test");
+        result = client._toHeader(header);
+        Assert.assertEquals("test", result.get("test"));
+        Assert.assertFalse(result.containsKey("null"));
+    }
+
+    @Test
+    public void getSignedStrV1Test() throws Exception{
+        TeaRequest request = new TeaRequest();
+        request.headers.put("test", null);
+        request.headers.put("x-oss-test", "test");
+        request.headers.put("x-oss-null", null);
+        String result = client.getSignedStrV1(request, "test", "ak", "sk");
+        Assert.assertEquals("OSS ak:ygNFWQ2CLv9m2ueZfb81BHEAF3E=", result);
+
+        request.headers.put("content-type", "type");
+        request.headers.put("content-md5", "md5");
+        result = client.getSignedStrV1(request, "test", "ak", "sk");
+        Assert.assertEquals("OSS ak:f/dRV49wgDZaP2TVcnsxrhZwudA=", result);
+    }
+
+    @Test
+    public void getSignatureV1Test() throws Exception{
+        client = spy(client);
+        TeaRequest request = new TeaRequest();
+        when(client.getSignedStrV1(request, "", "ak", "sk")).thenReturn("test");
+        request.query = null;
+        request.pathname = "";
+        Assert.assertEquals("test", client.getSignatureV1(request, "", "ak", "sk"));
+
+        request.query = new HashMap<>();
+        request.query.put("location", "");
+        request.query.put("style", "test");
+        request.query.put("style123", "test");
+        request.pathname = "/pathname";
+        when(client.getSignedStrV1(request, "/bucket/pathname&style=test", "ak", "sk")).thenReturn("test");
+        Assert.assertEquals("test", client.getSignatureV1(request, "bucket", "ak", "sk"));
     }
 }
