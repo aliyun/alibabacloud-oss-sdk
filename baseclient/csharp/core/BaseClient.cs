@@ -5,14 +5,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 
-using AlibabaCloud.OSS.Attributes;
 using AlibabaCloud.OSS.Models;
 using AlibabaCloud.OSS.Utils;
 
@@ -22,8 +20,6 @@ using Aliyun.Credentials.Utils;
 using Newtonsoft.Json;
 
 using Tea;
-
-[assembly : InternalsVisibleTo("UnitTests")]
 
 namespace AlibabaCloud.OSS
 {
@@ -127,10 +123,6 @@ namespace AlibabaCloud.OSS
                 string securityToken = credential.SecurityToken;
                 if (!string.IsNullOrWhiteSpace(securityToken))
                 {
-                    if (teaRequest.Headers == null)
-                    {
-                        teaRequest.Headers = new Dictionary<string, string>();
-                    }
                     teaRequest.Headers.Add("X-Oss-Security-Token", securityToken);
                 }
 
@@ -314,16 +306,11 @@ namespace AlibabaCloud.OSS
         protected string _getSpecialValue(object obj, string key)
         {
             Dictionary<string, string> ditc;
-            try
-            {
-                string jsonStr = JsonConvert.SerializeObject(obj);
-                ditc = JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonStr);
-                return DictUtils.GetDicValue(ditc, key);
-            }
-            catch
-            {
-                return string.Empty;
-            }
+
+            string jsonStr = JsonConvert.SerializeObject(obj);
+            ditc = JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonStr);
+            return DictUtils.GetDicValue(ditc, key);
+
         }
 
         protected string _getContentType(string filePath)
