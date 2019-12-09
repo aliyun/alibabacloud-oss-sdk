@@ -2,7 +2,7 @@
 ![](https://aliyunsdk-pages.alicdn.com/icons/AlibabaCloud.svg)
 
 ## Alibaba Cloud OSS SDK
-
+[![Travis Build Status](https://travis-ci.org/aliyun/alibabacloud-oss-sdk.svg?branch=master)](https://travis-ci.org/aliyun/alibabacloud-oss-sdk)
 ## 安装
 
 - [OSS SDK for Java](./java/README.md)
