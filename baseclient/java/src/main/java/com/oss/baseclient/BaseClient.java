@@ -320,15 +320,9 @@ public class BaseClient {
         contentType.put(".xlam", "application/vnd.ms-excel.addin.macroEnabled.12");
         contentType.put(".xlsb", "application/vnd.ms-excel.sheet.binary.macroEnabled.12");
         contentType.put(".apk", "application/vnd.android.package-archive");
-        contentType.put(".hqx", "application/mac-binhex40");
         contentType.put(".cpt", "application/mac-compactpro");
-        contentType.put(".doc", "application/msword");
         contentType.put(".ogg", "application/ogg");
-        contentType.put(".pdf", "application/pdf");
-        contentType.put(".rtf", "text/rtf");
         contentType.put(".mif", "application/vnd.mif");
-        contentType.put(".xls", "application/vnd.ms-excel");
-        contentType.put(".ppt", "application/vnd.ms-powerpoint");
         contentType.put(".odc", "application/vnd.oasis.opendocument.chart");
         contentType.put(".odb", "application/vnd.oasis.opendocument.database");
         contentType.put(".odf", "application/vnd.oasis.opendocument.formula");
@@ -337,7 +331,6 @@ public class BaseClient {
         contentType.put(".odi", "application/vnd.oasis.opendocument.image");
         contentType.put(".odp", "application/vnd.oasis.opendocument.presentation");
         contentType.put(".otp", "application/vnd.oasis.opendocument.presentation-template");
-        contentType.put(".ods", "application/vnd.oasis.opendocument.spreadsheet");
         contentType.put(".ots", "application/vnd.oasis.opendocument.spreadsheet-template");
         contentType.put(".odt", "application/vnd.oasis.opendocument.text");
         contentType.put(".odm", "application/vnd.oasis.opendocument.text-master");
@@ -357,51 +350,22 @@ public class BaseClient {
         contentType.put(".wbxml", "application/vnd.wap.wbxml");
         contentType.put(".wmlc", "application/vnd.wap.wmlc");
         contentType.put(".wmlsc", "application/vnd.wap.wmlscriptc");
-        contentType.put(".bcpio", "application/x-bcpio");
         contentType.put(".torrent", "application/x-bittorrent");
         contentType.put(".bz2", "application/x-bzip2");
         contentType.put(".vcd", "application/x-cdlink");
         contentType.put(".pgn", "application/x-chess-pgn");
-        contentType.put(".cpio", "application/x-cpio");
-        contentType.put(".csh", "application/x-csh");
-        contentType.put(".dvi", "application/x-dvi");
-        contentType.put(".spl", "application/x-futuresplash");
-        contentType.put(".gtar", "application/x-gtar");
-        contentType.put(".hdf", "application/x-hdf");
         contentType.put(".jar", "application/x-java-archive");
         contentType.put(".jnlp", "application/x-java-jnlp-file");
-        contentType.put(".js", "application/x-javascript");
         contentType.put(".ksp", "application/x-kspread");
         contentType.put(".chrt", "application/x-kchart");
         contentType.put(".kil", "application/x-killustrator");
-        contentType.put(".latex", "application/x-latex");
         contentType.put(".rpm", "application/x-rpm");
-        contentType.put(".sh", "application/x-sh");
-        contentType.put(".shar", "application/x-shar");
         contentType.put(".swf", "application/x-shockwave-flash");
-        contentType.put(".sit", "application/x-stuffit");
-        contentType.put(".sv4cpio", "application/x-sv4cpio");
-        contentType.put(".sv4crc", "application/x-sv4crc");
-        contentType.put(".tar", "application/x-tar");
-        contentType.put(".tcl", "application/x-tcl");
-        contentType.put(".tex", "application/x-tex");
-        contentType.put(".man", "application/x-troff-man");
-        contentType.put(".me", "application/x-troff-me");
         contentType.put(".ms", "application/x-troff-ms");
-        contentType.put(".ustar", "application/x-ustar");
-        contentType.put(".src", "application/x-wais-source");
-        contentType.put(".zip", "application/zip");
-        contentType.put(".m3u", "audio/x-mpegurl");
-        contentType.put(".ra", "audio/x-pn-realaudio");
-        contentType.put(".wav", "audio/x-wav");
         contentType.put(".wma", "audio/x-ms-wma");
         contentType.put(".wax", "audio/x-ms-wax");
         contentType.put(".pdb", "chemical/x-pdb");
         contentType.put(".xyz", "chemical/x-xyz");
-        contentType.put(".bmp", "image/bmp");
-        contentType.put(".gif", "image/gif");
-        contentType.put(".ief", "image/ief");
-        contentType.put(".png", "image/png");
         contentType.put(".wbmp", "image/vnd.wap.wbmp");
         contentType.put(".ras", "image/x-cmu-raster");
         contentType.put(".pnm", "image/x-portable-anymap");
@@ -480,11 +444,7 @@ public class BaseClient {
         contentType.put(".mesh", "model/mesh");
         contentType.put(".mid", "audio/midi");
         contentType.put(".midi", "audio/midi");
-        contentType.put(".mov", "video/quicktime");
-        contentType.put(".mp2", "audio/mpeg");
-        contentType.put(".mp3", "audio/mpeg");
         contentType.put(".mp4", "video/mp4");
-        contentType.put(".mpe", "video/mpeg");
         contentType.put(".mpeg", "video/mpeg");
         contentType.put(".mpg", "video/mpeg");
         contentType.put(".mpga", "audio/mpeg");
@@ -617,19 +577,16 @@ public class BaseClient {
                     resource = resource + "&" + entry.getKey() + "=" + entry.getValue();
                 }
             }
-
         }
         return getSignedStrV1(teaRequest, resource, accessKeyId, accessKeySecret);
     }
 
     protected String getSignedStrV1(TeaRequest teaRequest, String canonicalizedResource, String accessKeyId, String accessKeySecret) throws NoSuchAlgorithmException, UnsupportedEncodingException, InvalidKeyException {
         Map<String, String> temp = new HashMap<>();
-        if (teaRequest.headers != null) {
-            for (Map.Entry<String, String> entry : teaRequest.headers.entrySet()) {
-                if (entry.getKey().toLowerCase().startsWith("x-oss-")) {
-                    if (null != entry.getValue()) {
-                        temp.put(entry.getKey().toLowerCase(), entry.getValue());
-                    }
+        for (Map.Entry<String, String> entry : teaRequest.headers.entrySet()) {
+            if (entry.getKey().toLowerCase().startsWith("x-oss-")) {
+                if (null != entry.getValue()) {
+                    temp.put(entry.getKey().toLowerCase(), entry.getValue());
                 }
             }
         }
@@ -660,8 +617,8 @@ public class BaseClient {
     }
 
     protected String getSignatureV2(TeaRequest teaRequest, String bucketName, String accessKeyId, String accessKeySecret,
-                                    List<String> additionalHeaders) throws NoSuchAlgorithmException, InvalidKeySpecException,
-            UnsupportedEncodingException, InvalidKeyException, SignatureException {
+                                    List<String> additionalHeaders) throws NoSuchAlgorithmException,
+            UnsupportedEncodingException, InvalidKeyException {
         String resource = "";
         String pathName = teaRequest.pathname;
         if (!StringUtils.isEmpty(bucketName)) {
@@ -702,17 +659,15 @@ public class BaseClient {
     }
 
     protected String getSignedStrV2(TeaRequest teaRequest, String canonicalizedResource, String accessKeyId,
-                                    String accessKeySecret, List<String> additionalHeaders) throws InvalidKeySpecException,
-            SignatureException, NoSuchAlgorithmException, InvalidKeyException, UnsupportedEncodingException {
+                                    String accessKeySecret, List<String> additionalHeaders) throws NoSuchAlgorithmException,
+            InvalidKeyException, UnsupportedEncodingException {
         Map<String, String> temp = new HashMap<>();
-        if (teaRequest.headers != null) {
-            for (Map.Entry<String, String> keypair : teaRequest.headers.entrySet()) {
-                if (keypair.getValue() != null) {
-                    if (additionalHeaders.contains(keypair.getKey())) {
-                        temp.put(keypair.getKey().toLowerCase(), keypair.getValue());
-                    } else if (keypair.getKey().toLowerCase().startsWith("x-oss-")) {
-                        temp.put(keypair.getKey().toLowerCase(), keypair.getValue());
-                    }
+        for (Map.Entry<String, String> keypair : teaRequest.headers.entrySet()) {
+            if (keypair.getValue() != null) {
+                if (additionalHeaders.contains(keypair.getKey())) {
+                    temp.put(keypair.getKey().toLowerCase(), keypair.getValue());
+                } else if (keypair.getKey().toLowerCase().startsWith("x-oss-")) {
+                    temp.put(keypair.getKey().toLowerCase(), keypair.getValue());
                 }
             }
         }
@@ -913,13 +868,15 @@ public class BaseClient {
 
     protected Boolean _isNotCrcMatched(long reqCrc, String respCrc) {
         if (null != respCrc) {
-            return reqCrc == Long.parseLong(respCrc);
+            return reqCrc != Long.parseLong(respCrc);
         }
         return true;
     }
 
     protected String _encode(String value, String encodeType) throws IllegalAccessException, UnsupportedEncodingException {
-
+        if (null == encodeType){
+            return value;
+        }
         String[] strs = value.split("/");
         switch (encodeType) {
             case "Base64":
@@ -955,19 +912,6 @@ public class BaseClient {
         return teaResponse.getResponse();
     }
 
-
-    protected String _base64Decode(String url) throws UnsupportedEncodingException {
-        String[] strs = url.split("/");
-        strs[strs.length - 1] = new String(Base64.getDecoder().decode(
-                strs[strs.length - 1].getBytes("UTF-8")), "UTF-8");
-        return String.join("/", strs);
-    }
-
-    protected String _urlDecode(String url) throws UnsupportedEncodingException {
-        String[] strs = url.split("/");
-        strs[strs.length - 1] = URLDecoder.decode(strs[strs.length - 1], "UTF-8");
-        return String.join("/", strs);
-    }
 
     protected long _parseUint(String serverCRC, Boolean hasRange) {
         if (hasRange || StringUtils.isEmpty(serverCRC)) {
