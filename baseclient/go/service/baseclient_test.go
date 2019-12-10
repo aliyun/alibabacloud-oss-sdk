@@ -127,11 +127,11 @@ func Test_GetHost(t *testing.T) {
 
 func Test_GetUserAgent(t *testing.T) {
 	ua := client.GetUserAgent()
-	utils.AssertEqual(t, "AlibabaCloud (darwin; amd64) Golang/1.11.4 Core/0.01", ua)
+	utils.AssertContains(t, ua, "Core/0.01")
 
 	client.UserAgent = "ua"
 	ua = client.GetUserAgent()
-	utils.AssertEqual(t, "AlibabaCloud (darwin; amd64) Golang/1.11.4 Core/0.01 ua", ua)
+	utils.AssertContains(t, ua, "Core/0.01 ua")
 }
 
 func Test_ParseUint(t *testing.T) {
