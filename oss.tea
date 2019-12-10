@@ -2,19 +2,20 @@ module Client {
 
   type @getDate = (): string
   type @getAuth = ($Request, string): string
-  type @parseXml = async ($Response, class): object
-  type @getHost = (string): string
+  type @readAsString = async ($Response): string
+  type @parseXml = (string, class): object
   type @default = (string, string): string
   type @defaultNumber = (number, number): number
   type @toBody = (any): string
   type @isFail = ($Response): boolean
-  type @getErrMessage = async ($Response): object
   type @toQuery = (object): map[string]string
   type @toMeta = (object, string): map[string]string
   type @parseMeta = (object, string): map[string]string
   type @getContentMD5 = ($Request, string, int64): string
   type @getContentLength = ($Request, string): string
   type @endpoint = string
+  type @regionId = string
+  type @hostModel = string
   type @autoretry = boolean
   type @protocol = string
   type @getSpecialValue = (any, string): string
@@ -29,6 +30,10 @@ module Client {
   type @readAsStream = ($Response): readable
   type @toHeader = (object): map[string]string
   type @getRefer = (readable): map[string]string
+  type @equal = (string, string): boolean
+  type @empty = (string): boolean
+  type @getSecurityToken = (): string
+  type @notEmpty = (string): boolean
   type @readTimeout = number
   type @connectTimeout = number
   type @localAddr = string
@@ -91,7 +96,32 @@ module Client {
     addtionalHeaders: [ string ],
   }
 
+  model ServerError {
+    code?: string(name='Code'),
+    message?: string(name='Message'),
+    requestId?: string(name='RequestId'),
+    hostId?: string(name='HostId'),
+  }
+
   init(config: Config);
+
+  function getHost(bucketName: string): string {
+    if (@empty(@endpoint)) {
+      @endpoint = `oss-${@regionId}.aliyuncs.com`;
+    }
+    if (@empty(bucketName)) {
+      return @endpoint;
+    }
+    var host : string = null;
+    if (@equal(@hostModel, 'ip')) {
+      host = `${@endpoint}/${bucketName}`;
+    } else if (@equal(@hostModel, 'cname')) {
+      host = @endpoint;
+    } else {
+      host = `${bucketName}.${@endpoint}`;
+    }
+    return host;
+  }
 
   model DeleteLiveChannelRequest = {
     bucketName: string(description='BucketName', name='BucketName'),
@@ -103,19 +133,24 @@ module Client {
   }
 
   api deleteLiveChannel(request: DeleteLiveChannelRequest, runtime: RuntimeObject): DeleteLiveChannelResponse {
+    var token = @getSecurityToken();
     protocol = @protocol;
     method = 'DELETE';
     pathname = `/${request.channelName}?live`;
     headers = {
-      host = @getHost(request.bucketName),
+      host = getHost(request.bucketName),
       date = @getDate(),
       user-agent = @getUserAgent(),
     };
+    if (@notEmpty(token)) {
+      headers.x-oss-security-token = token;
+    }
     headers.authorization = @getAuth(__request, request.bucketName);
   } returns {
     var respMap : object = null;
+    var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @getErrMessage(__response);
+      respMap = @parseXml(bodyStr, ServerError);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -152,7 +187,6 @@ module Client {
     logger = @logger,
     listener = runtime.listener,
   }
-
   model GetBucketLocationRequest = {
     bucketName: string(description='BucketName', name='BucketName'),
   }
@@ -163,19 +197,24 @@ module Client {
   }
 
   api getBucketLocation(request: GetBucketLocationRequest, runtime: RuntimeObject): GetBucketLocationResponse {
+    var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
     pathname = `/?location`;
     headers = {
-      host = @getHost(request.bucketName),
+      host = getHost(request.bucketName),
       date = @getDate(),
       user-agent = @getUserAgent(),
     };
+    if (@notEmpty(token)) {
+      headers.x-oss-security-token = token;
+    }
     headers.authorization = @getAuth(__request, request.bucketName);
   } returns {
     var respMap : object = null;
+    var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @getErrMessage(__response);
+      respMap = @parseXml(bodyStr, ServerError);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -186,7 +225,7 @@ module Client {
         }
       };
     }
-    respMap = @parseXml(__response, GetBucketLocationResponse);
+    respMap = @parseXml(bodyStr, GetBucketLocationResponse);
     return {
       LocationConstraint = respMap.LocationConstraint,
       ...__response.headers,
@@ -214,7 +253,6 @@ module Client {
     logger = @logger,
     listener = runtime.listener,
   }
-
   model ListLiveChannelRequest = {
     bucketName: string(description='BucketName', name='BucketName'),
     filter?: {
@@ -248,20 +286,25 @@ module Client {
   }
 
   api listLiveChannel(request: ListLiveChannelRequest, runtime: RuntimeObject): ListLiveChannelResponse {
+    var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
     pathname = `/?live`;
     headers = {
-      host = @getHost(request.bucketName),
+      host = getHost(request.bucketName),
       date = @getDate(),
       user-agent = @getUserAgent(),
     };
+    if (@notEmpty(token)) {
+      headers.x-oss-security-token = token;
+    }
     query = @toQuery(request.filter);
     headers.authorization = @getAuth(__request, request.bucketName);
   } returns {
     var respMap : object = null;
+    var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @getErrMessage(__response);
+      respMap = @parseXml(bodyStr, ServerError);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -272,7 +315,7 @@ module Client {
         }
       };
     }
-    respMap = @parseXml(__response, ListLiveChannelResponse);
+    respMap = @parseXml(bodyStr, ListLiveChannelResponse);
     return {
       ListLiveChannelResult = respMap.ListLiveChannelResult,
       ...__response.headers,
@@ -300,7 +343,6 @@ module Client {
     logger = @logger,
     listener = runtime.listener,
   }
-
   model GetObjectMetaRequest = {
     bucketName: string(description='BucketName', name='BucketName'),
     objectName: string(description='ObjectName', name='ObjectName'),
@@ -314,19 +356,24 @@ module Client {
   }
 
   api getObjectMeta(request: GetObjectMetaRequest, runtime: RuntimeObject): GetObjectMetaResponse {
+    var token = @getSecurityToken();
     protocol = @protocol;
     method = 'HEAD';
     pathname = `/${request.objectName}?objectMeta`;
     headers = {
-      host = @getHost(request.bucketName),
+      host = getHost(request.bucketName),
       date = @getDate(),
       user-agent = @getUserAgent(),
     };
+    if (@notEmpty(token)) {
+      headers.x-oss-security-token = token;
+    }
     headers.authorization = @getAuth(__request, request.bucketName);
   } returns {
     var respMap : object = null;
+    var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @getErrMessage(__response);
+      respMap = @parseXml(bodyStr, ServerError);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -363,7 +410,6 @@ module Client {
     logger = @logger,
     listener = runtime.listener,
   }
-
   model GetBucketAclRequest = {
     bucketName: string(description='BucketName', name='BucketName'),
   }
@@ -382,19 +428,24 @@ module Client {
   }
 
   api getBucketAcl(request: GetBucketAclRequest, runtime: RuntimeObject): GetBucketAclResponse {
+    var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
     pathname = `/?acl`;
     headers = {
-      host = @getHost(request.bucketName),
+      host = getHost(request.bucketName),
       date = @getDate(),
       user-agent = @getUserAgent(),
     };
+    if (@notEmpty(token)) {
+      headers.x-oss-security-token = token;
+    }
     headers.authorization = @getAuth(__request, request.bucketName);
   } returns {
     var respMap : object = null;
+    var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @getErrMessage(__response);
+      respMap = @parseXml(bodyStr, ServerError);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -405,7 +456,7 @@ module Client {
         }
       };
     }
-    respMap = @parseXml(__response, GetBucketAclResponse);
+    respMap = @parseXml(bodyStr, GetBucketAclResponse);
     return {
       AccessControlPolicy = respMap.AccessControlPolicy,
       ...__response.headers,
@@ -433,7 +484,6 @@ module Client {
     logger = @logger,
     listener = runtime.listener,
   }
-
   model ListPartsRequest = {
     bucketName: string(description='BucketName', name='BucketName'),
     objectName: string(description='ObjectName', name='ObjectName'),
@@ -468,20 +518,25 @@ module Client {
   }
 
   api listParts(request: ListPartsRequest, runtime: RuntimeObject): ListPartsResponse {
+    var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
     pathname = `/${request.objectName}`;
     headers = {
-      host = @getHost(request.bucketName),
+      host = getHost(request.bucketName),
       date = @getDate(),
       user-agent = @getUserAgent(),
     };
+    if (@notEmpty(token)) {
+      headers.x-oss-security-token = token;
+    }
     query = @toQuery(request.filter);
     headers.authorization = @getAuth(__request, request.bucketName);
   } returns {
     var respMap : object = null;
+    var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @getErrMessage(__response);
+      respMap = @parseXml(bodyStr, ServerError);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -492,7 +547,7 @@ module Client {
         }
       };
     }
-    respMap = @parseXml(__response, ListPartsResponse);
+    respMap = @parseXml(bodyStr, ListPartsResponse);
     return {
       ListPartsResult = respMap.ListPartsResult,
       ...__response.headers,
@@ -520,7 +575,6 @@ module Client {
     logger = @logger,
     listener = runtime.listener,
   }
-
   model GetLiveChannelHistoryRequest = {
     bucketName: string(description='BucketName', name='BucketName'),
     channelName: string(description='ChannelName', name='ChannelName'),
@@ -543,20 +597,25 @@ module Client {
   }
 
   api getLiveChannelHistory(request: GetLiveChannelHistoryRequest, runtime: RuntimeObject): GetLiveChannelHistoryResponse {
+    var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
     pathname = `/${request.channelName}?live`;
     headers = {
-      host = @getHost(request.bucketName),
+      host = getHost(request.bucketName),
       date = @getDate(),
       user-agent = @getUserAgent(),
     };
+    if (@notEmpty(token)) {
+      headers.x-oss-security-token = token;
+    }
     query = @toQuery(request.filter);
     headers.authorization = @getAuth(__request, request.bucketName);
   } returns {
     var respMap : object = null;
+    var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @getErrMessage(__response);
+      respMap = @parseXml(bodyStr, ServerError);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -567,7 +626,7 @@ module Client {
         }
       };
     }
-    respMap = @parseXml(__response, GetLiveChannelHistoryResponse);
+    respMap = @parseXml(bodyStr, GetLiveChannelHistoryResponse);
     return {
       LiveChannelHistory = respMap.LiveChannelHistory,
       ...__response.headers,
@@ -595,7 +654,6 @@ module Client {
     logger = @logger,
     listener = runtime.listener,
   }
-
   model GetBucketRequest = {
     bucketName: string(description='BucketName', name='BucketName'),
     filter?: {
@@ -635,20 +693,25 @@ module Client {
   }
 
   api getBucket(request: GetBucketRequest, runtime: RuntimeObject): GetBucketResponse {
+    var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
     pathname = `/`;
     headers = {
-      host = @getHost(request.bucketName),
+      host = getHost(request.bucketName),
       date = @getDate(),
       user-agent = @getUserAgent(),
     };
+    if (@notEmpty(token)) {
+      headers.x-oss-security-token = token;
+    }
     query = @toQuery(request.filter);
     headers.authorization = @getAuth(__request, request.bucketName);
   } returns {
     var respMap : object = null;
+    var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @getErrMessage(__response);
+      respMap = @parseXml(bodyStr, ServerError);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -659,7 +722,7 @@ module Client {
         }
       };
     }
-    respMap = @parseXml(__response, GetBucketResponse);
+    respMap = @parseXml(bodyStr, GetBucketResponse);
     return {
       ListBucketResult = respMap.ListBucketResult,
       ...__response.headers,
@@ -687,7 +750,6 @@ module Client {
     logger = @logger,
     listener = runtime.listener,
   }
-
   model GetLiveChannelInfoRequest = {
     bucketName: string(description='BucketName', name='BucketName'),
     channelName: string(description='ChannelName', name='ChannelName'),
@@ -708,19 +770,24 @@ module Client {
   }
 
   api getLiveChannelInfo(request: GetLiveChannelInfoRequest, runtime: RuntimeObject): GetLiveChannelInfoResponse {
+    var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
     pathname = `/${request.channelName}?live`;
     headers = {
-      host = @getHost(request.bucketName),
+      host = getHost(request.bucketName),
       date = @getDate(),
       user-agent = @getUserAgent(),
     };
+    if (@notEmpty(token)) {
+      headers.x-oss-security-token = token;
+    }
     headers.authorization = @getAuth(__request, request.bucketName);
   } returns {
     var respMap : object = null;
+    var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @getErrMessage(__response);
+      respMap = @parseXml(bodyStr, ServerError);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -731,7 +798,7 @@ module Client {
         }
       };
     }
-    respMap = @parseXml(__response, GetLiveChannelInfoResponse);
+    respMap = @parseXml(bodyStr, GetLiveChannelInfoResponse);
     return {
       LiveChannelConfiguration = respMap.LiveChannelConfiguration,
       ...__response.headers,
@@ -759,7 +826,6 @@ module Client {
     logger = @logger,
     listener = runtime.listener,
   }
-
   model GetLiveChannelStatRequest = {
     bucketName: string(description='BucketName', name='BucketName'),
     channelName: string(description='ChannelName', name='ChannelName'),
@@ -790,20 +856,25 @@ module Client {
   }
 
   api getLiveChannelStat(request: GetLiveChannelStatRequest, runtime: RuntimeObject): GetLiveChannelStatResponse {
+    var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
     pathname = `/${request.channelName}?live`;
     headers = {
-      host = @getHost(request.bucketName),
+      host = getHost(request.bucketName),
       date = @getDate(),
       user-agent = @getUserAgent(),
     };
+    if (@notEmpty(token)) {
+      headers.x-oss-security-token = token;
+    }
     query = @toQuery(request.filter);
     headers.authorization = @getAuth(__request, request.bucketName);
   } returns {
     var respMap : object = null;
+    var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @getErrMessage(__response);
+      respMap = @parseXml(bodyStr, ServerError);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -814,7 +885,7 @@ module Client {
         }
       };
     }
-    respMap = @parseXml(__response, GetLiveChannelStatResponse);
+    respMap = @parseXml(bodyStr, GetLiveChannelStatResponse);
     return {
       LiveChannelStat = respMap.LiveChannelStat,
       ...__response.headers,
@@ -842,7 +913,6 @@ module Client {
     logger = @logger,
     listener = runtime.listener,
   }
-
   model DeleteObjectRequest = {
     bucketName: string(description='BucketName', name='BucketName'),
     objectName: string(description='ObjectName', name='ObjectName'),
@@ -853,19 +923,24 @@ module Client {
   }
 
   api deleteObject(request: DeleteObjectRequest, runtime: RuntimeObject): DeleteObjectResponse {
+    var token = @getSecurityToken();
     protocol = @protocol;
     method = 'DELETE';
     pathname = `/${request.objectName}`;
     headers = {
-      host = @getHost(request.bucketName),
+      host = getHost(request.bucketName),
       date = @getDate(),
       user-agent = @getUserAgent(),
     };
+    if (@notEmpty(token)) {
+      headers.x-oss-security-token = token;
+    }
     headers.authorization = @getAuth(__request, request.bucketName);
   } returns {
     var respMap : object = null;
+    var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @getErrMessage(__response);
+      respMap = @parseXml(bodyStr, ServerError);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -902,7 +977,6 @@ module Client {
     logger = @logger,
     listener = runtime.listener,
   }
-
   model AbortMultipartUploadRequest = {
     bucketName: string(description='BucketName', name='BucketName'),
     objectName: string(description='ObjectName', name='ObjectName'),
@@ -916,20 +990,25 @@ module Client {
   }
 
   api abortMultipartUpload(request: AbortMultipartUploadRequest, runtime: RuntimeObject): AbortMultipartUploadResponse {
+    var token = @getSecurityToken();
     protocol = @protocol;
     method = 'DELETE';
     pathname = `/${request.objectName}`;
     headers = {
-      host = @getHost(request.bucketName),
+      host = getHost(request.bucketName),
       date = @getDate(),
       user-agent = @getUserAgent(),
     };
+    if (@notEmpty(token)) {
+      headers.x-oss-security-token = token;
+    }
     query = @toQuery(request.filter);
     headers.authorization = @getAuth(__request, request.bucketName);
   } returns {
     var respMap : object = null;
+    var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @getErrMessage(__response);
+      respMap = @parseXml(bodyStr, ServerError);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -966,7 +1045,6 @@ module Client {
     logger = @logger,
     listener = runtime.listener,
   }
-
   model AppendObjectRequest = {
     bucketName: string(description='BucketName', name='BucketName'),
     objectName: string(description='ObjectName', name='ObjectName'),
@@ -995,25 +1073,29 @@ module Client {
   }
 
   api appendObject(request: AppendObjectRequest, runtime: RuntimeObject): AppendObjectResponse {
-    var ref = @getRefer(request.body);
+    var token = @getSecurityToken();
     protocol = @protocol;
     method = 'POST';
     pathname = `/${request.objectName}?append`;
     headers = {
-      host = @getHost(request.bucketName),
+      host = getHost(request.bucketName),
       date = @getDate(),
       user-agent = @getUserAgent(),
       ...@toHeader(request.header),
       ...@parseMeta(request.userMeta, 'x-oss-meta-'),
     };
+    if (@notEmpty(token)) {
+      headers.x-oss-security-token = token;
+    }
     query = @toQuery(request.filter);
     body = request.body;
     headers.content-type = @default(@getSpecialValue(request.header, 'content-type'), @getContentType(request.objectName));
     headers.authorization = @getAuth(__request, request.bucketName);
   } returns {
     var respMap : object = null;
+    var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @getErrMessage(__response);
+      respMap = @parseXml(bodyStr, ServerError);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -1022,24 +1104,6 @@ module Client {
           requestId = respMap.RequestId,
           hostId = respMap.HostId,
         }
-      };
-    }
-    if (@isNotCrcMatched(ref.crc, __response.headers.x-oss-hash-crc64ecma)) {
-      throw {
-        code = 'CrcNotMatched',
-        data = {
-          clientCrc = ref.crc,
-          serverCrc = __response.headers.x-oss-hash-crc64ecma,
-        },
-      };
-    }
-    if (@isNotMD5Matched(ref.md5, __response.headers.content-md5)) {
-      throw {
-        code = 'MD5NotMatched',
-        data = {
-          clientMD5 = ref.md5,
-          serverMD5 = __response.headers.content-md5,
-        },
       };
     }
     return {
@@ -1068,7 +1132,6 @@ module Client {
     logger = @logger,
     listener = runtime.listener,
   }
-
   model UploadPartCopyRequest = {
     bucketName: string(description='BucketName', name='BucketName'),
     objectName: string(description='ObjectName', name='ObjectName'),
@@ -1095,21 +1158,26 @@ module Client {
   }
 
   api uploadPartCopy(request: UploadPartCopyRequest, runtime: RuntimeObject): UploadPartCopyResponse {
+    var token = @getSecurityToken();
     protocol = @protocol;
     method = 'PUT';
     pathname = `/${request.objectName}`;
     headers = {
-      host = @getHost(request.bucketName),
+      host = getHost(request.bucketName),
       date = @getDate(),
       user-agent = @getUserAgent(),
       ...@toHeader(request.header),
     };
+    if (@notEmpty(token)) {
+      headers.x-oss-security-token = token;
+    }
     query = @toQuery(request.filter);
     headers.authorization = @getAuth(__request, request.bucketName);
   } returns {
     var respMap : object = null;
+    var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @getErrMessage(__response);
+      respMap = @parseXml(bodyStr, ServerError);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -1120,7 +1188,7 @@ module Client {
         }
       };
     }
-    respMap = @parseXml(__response, UploadPartCopyResponse);
+    respMap = @parseXml(bodyStr, UploadPartCopyResponse);
     return {
       CopyPartResult = respMap.CopyPartResult,
       ...__response.headers,
@@ -1148,7 +1216,6 @@ module Client {
     logger = @logger,
     listener = runtime.listener,
   }
-
   model GetVodPlaylistRequest = {
     bucketName: string(description='BucketName', name='BucketName'),
     channelName: string(description='ChannelName', name='ChannelName'),
@@ -1163,20 +1230,25 @@ module Client {
   }
 
   api getVodPlaylist(request: GetVodPlaylistRequest, runtime: RuntimeObject): GetVodPlaylistResponse {
+    var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
     pathname = `/${request.channelName}?vod`;
     headers = {
-      host = @getHost(request.bucketName),
+      host = getHost(request.bucketName),
       date = @getDate(),
       user-agent = @getUserAgent(),
     };
+    if (@notEmpty(token)) {
+      headers.x-oss-security-token = token;
+    }
     query = @toQuery(request.filter);
     headers.authorization = @getAuth(__request, request.bucketName);
   } returns {
     var respMap : object = null;
+    var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @getErrMessage(__response);
+      respMap = @parseXml(bodyStr, ServerError);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -1213,7 +1285,6 @@ module Client {
     logger = @logger,
     listener = runtime.listener,
   }
-
   model DeleteBucketCORSRequest = {
     bucketName: string(description='BucketName', name='BucketName'),
   }
@@ -1223,19 +1294,24 @@ module Client {
   }
 
   api deleteBucketCORS(request: DeleteBucketCORSRequest, runtime: RuntimeObject): DeleteBucketCORSResponse {
+    var token = @getSecurityToken();
     protocol = @protocol;
     method = 'DELETE';
     pathname = `/?cors`;
     headers = {
-      host = @getHost(request.bucketName),
+      host = getHost(request.bucketName),
       date = @getDate(),
       user-agent = @getUserAgent(),
     };
+    if (@notEmpty(token)) {
+      headers.x-oss-security-token = token;
+    }
     headers.authorization = @getAuth(__request, request.bucketName);
   } returns {
     var respMap : object = null;
+    var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @getErrMessage(__response);
+      respMap = @parseXml(bodyStr, ServerError);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -1272,7 +1348,6 @@ module Client {
     logger = @logger,
     listener = runtime.listener,
   }
-
   model GetObjectRequest = {
     bucketName: string(description='BucketName', name='BucketName'),
     objectName: string(description='ObjectName', name='ObjectName'),
@@ -1302,20 +1377,25 @@ module Client {
   }
 
   api getObject(request: GetObjectRequest, runtime: RuntimeObject): GetObjectResponse {
+    var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
     pathname = `/${request.objectName}`;
     headers = {
-      host = @getHost(request.bucketName),
+      host = getHost(request.bucketName),
       date = @getDate(),
       user-agent = @getUserAgent(),
       ...@toHeader(request.header),
     };
+    if (@notEmpty(token)) {
+      headers.x-oss-security-token = token;
+    }
     headers.authorization = @getAuth(__request, request.bucketName);
   } returns {
     var respMap : object = null;
+    var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @getErrMessage(__response);
+      respMap = @parseXml(bodyStr, ServerError);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -1353,7 +1433,6 @@ module Client {
     logger = @logger,
     listener = runtime.listener,
   }
-
   model UploadPartRequest = {
     bucketName: string(description='BucketName', name='BucketName'),
     objectName: string(description='ObjectName', name='ObjectName'),
@@ -1369,22 +1448,26 @@ module Client {
   }
 
   api uploadPart(request: UploadPartRequest, runtime: RuntimeObject): UploadPartResponse {
-    var ref = @getRefer(request.body);
+    var token = @getSecurityToken();
     protocol = @protocol;
     method = 'PUT';
     pathname = `/${request.objectName}`;
     headers = {
-      host = @getHost(request.bucketName),
+      host = getHost(request.bucketName),
       date = @getDate(),
       user-agent = @getUserAgent(),
     };
+    if (@notEmpty(token)) {
+      headers.x-oss-security-token = token;
+    }
     query = @toQuery(request.filter);
     body = request.body;
     headers.authorization = @getAuth(__request, request.bucketName);
   } returns {
     var respMap : object = null;
+    var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @getErrMessage(__response);
+      respMap = @parseXml(bodyStr, ServerError);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -1393,24 +1476,6 @@ module Client {
           requestId = respMap.RequestId,
           hostId = respMap.HostId,
         }
-      };
-    }
-    if (@isNotCrcMatched(ref.crc, __response.headers.x-oss-hash-crc64ecma)) {
-      throw {
-        code = 'CrcNotMatched',
-        data = {
-          clientCrc = ref.crc,
-          serverCrc = __response.headers.x-oss-hash-crc64ecma,
-        },
-      };
-    }
-    if (@isNotMD5Matched(ref.md5, __response.headers.content-md5)) {
-      throw {
-        code = 'MD5NotMatched',
-        data = {
-          clientMD5 = ref.md5,
-          serverMD5 = __response.headers.content-md5,
-        },
       };
     }
     return {
@@ -1439,7 +1504,6 @@ module Client {
     logger = @logger,
     listener = runtime.listener,
   }
-
   model GetBucketCORSRequest = {
     bucketName: string(description='BucketName', name='BucketName'),
   }
@@ -1456,19 +1520,24 @@ module Client {
   }
 
   api getBucketCORS(request: GetBucketCORSRequest, runtime: RuntimeObject): GetBucketCORSResponse {
+    var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
     pathname = `/?cors`;
     headers = {
-      host = @getHost(request.bucketName),
+      host = getHost(request.bucketName),
       date = @getDate(),
       user-agent = @getUserAgent(),
     };
+    if (@notEmpty(token)) {
+      headers.x-oss-security-token = token;
+    }
     headers.authorization = @getAuth(__request, request.bucketName);
   } returns {
     var respMap : object = null;
+    var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @getErrMessage(__response);
+      respMap = @parseXml(bodyStr, ServerError);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -1479,7 +1548,7 @@ module Client {
         }
       };
     }
-    respMap = @parseXml(__response, GetBucketCORSResponse);
+    respMap = @parseXml(bodyStr, GetBucketCORSResponse);
     return {
       CORSConfiguration = respMap.CORSConfiguration,
       ...__response.headers,
@@ -1507,7 +1576,6 @@ module Client {
     logger = @logger,
     listener = runtime.listener,
   }
-
   model CopyObjectRequest = {
     bucketName: string(description='BucketName', name='BucketName'),
     destObjectName: string(description='DestObjectName', name='DestObjectName'),
@@ -1536,22 +1604,27 @@ module Client {
   }
 
   api copyObject(request: CopyObjectRequest, runtime: RuntimeObject): CopyObjectResponse {
+    var token = @getSecurityToken();
     protocol = @protocol;
     method = 'PUT';
     pathname = `/${request.destObjectName}`;
     headers = {
-      host = @getHost(request.bucketName),
+      host = getHost(request.bucketName),
       date = @getDate(),
       user-agent = @getUserAgent(),
       ...@toHeader(request.header),
     };
+    if (@notEmpty(token)) {
+      headers.x-oss-security-token = token;
+    }
     
       headers.x-oss-copy-source = @encode(__request.headers.x-oss-copy-source, 'UrlEncode');
     headers.authorization = @getAuth(__request, request.bucketName);
   } returns {
     var respMap : object = null;
+    var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @getErrMessage(__response);
+      respMap = @parseXml(bodyStr, ServerError);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -1562,7 +1635,7 @@ module Client {
         }
       };
     }
-    respMap = @parseXml(__response, CopyObjectResponse);
+    respMap = @parseXml(bodyStr, CopyObjectResponse);
     return {
       CopyObjectResult = respMap.CopyObjectResult,
       ...__response.headers,
@@ -1590,7 +1663,6 @@ module Client {
     logger = @logger,
     listener = runtime.listener,
   }
-
   model GetObjectTaggingRequest = {
     bucketName: string(description='BucketName', name='BucketName'),
     objectName: string(description='ObjectName', name='ObjectName'),
@@ -1611,19 +1683,24 @@ module Client {
   }
 
   api getObjectTagging(request: GetObjectTaggingRequest, runtime: RuntimeObject): GetObjectTaggingResponse {
+    var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
     pathname = `/${request.objectName}?tagging`;
     headers = {
-      host = @getHost(request.bucketName),
+      host = getHost(request.bucketName),
       date = @getDate(),
       user-agent = @getUserAgent(),
     };
+    if (@notEmpty(token)) {
+      headers.x-oss-security-token = token;
+    }
     headers.authorization = @getAuth(__request, request.bucketName);
   } returns {
     var respMap : object = null;
+    var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @getErrMessage(__response);
+      respMap = @parseXml(bodyStr, ServerError);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -1634,7 +1711,7 @@ module Client {
         }
       };
     }
-    respMap = @parseXml(__response, GetObjectTaggingResponse);
+    respMap = @parseXml(bodyStr, GetObjectTaggingResponse);
     return {
       Tagging = respMap.Tagging,
       ...__response.headers,
@@ -1662,7 +1739,6 @@ module Client {
     logger = @logger,
     listener = runtime.listener,
   }
-
   model DeleteBucketLifecycleRequest = {
     bucketName: string(description='BucketName', name='BucketName'),
   }
@@ -1672,19 +1748,24 @@ module Client {
   }
 
   api deleteBucketLifecycle(request: DeleteBucketLifecycleRequest, runtime: RuntimeObject): DeleteBucketLifecycleResponse {
+    var token = @getSecurityToken();
     protocol = @protocol;
     method = 'DELETE';
     pathname = `/?lifecycle`;
     headers = {
-      host = @getHost(request.bucketName),
+      host = getHost(request.bucketName),
       date = @getDate(),
       user-agent = @getUserAgent(),
     };
+    if (@notEmpty(token)) {
+      headers.x-oss-security-token = token;
+    }
     headers.authorization = @getAuth(__request, request.bucketName);
   } returns {
     var respMap : object = null;
+    var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @getErrMessage(__response);
+      respMap = @parseXml(bodyStr, ServerError);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -1721,7 +1802,6 @@ module Client {
     logger = @logger,
     listener = runtime.listener,
   }
-
   model DeleteBucketLoggingRequest = {
     bucketName: string(description='BucketName', name='BucketName'),
   }
@@ -1731,19 +1811,24 @@ module Client {
   }
 
   api deleteBucketLogging(request: DeleteBucketLoggingRequest, runtime: RuntimeObject): DeleteBucketLoggingResponse {
+    var token = @getSecurityToken();
     protocol = @protocol;
     method = 'DELETE';
     pathname = `/?logging`;
     headers = {
-      host = @getHost(request.bucketName),
+      host = getHost(request.bucketName),
       date = @getDate(),
       user-agent = @getUserAgent(),
     };
+    if (@notEmpty(token)) {
+      headers.x-oss-security-token = token;
+    }
     headers.authorization = @getAuth(__request, request.bucketName);
   } returns {
     var respMap : object = null;
+    var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @getErrMessage(__response);
+      respMap = @parseXml(bodyStr, ServerError);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -1780,7 +1865,6 @@ module Client {
     logger = @logger,
     listener = runtime.listener,
   }
-
   model DeleteBucketWebsiteRequest = {
     bucketName: string(description='BucketName', name='BucketName'),
   }
@@ -1790,19 +1874,24 @@ module Client {
   }
 
   api deleteBucketWebsite(request: DeleteBucketWebsiteRequest, runtime: RuntimeObject): DeleteBucketWebsiteResponse {
+    var token = @getSecurityToken();
     protocol = @protocol;
     method = 'DELETE';
     pathname = `/?website`;
     headers = {
-      host = @getHost(request.bucketName),
+      host = getHost(request.bucketName),
       date = @getDate(),
       user-agent = @getUserAgent(),
     };
+    if (@notEmpty(token)) {
+      headers.x-oss-security-token = token;
+    }
     headers.authorization = @getAuth(__request, request.bucketName);
   } returns {
     var respMap : object = null;
+    var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @getErrMessage(__response);
+      respMap = @parseXml(bodyStr, ServerError);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -1839,7 +1928,6 @@ module Client {
     logger = @logger,
     listener = runtime.listener,
   }
-
   model GetSymlinkRequest = {
     bucketName: string(description='BucketName', name='BucketName'),
     objectName: string(description='ObjectName', name='ObjectName'),
@@ -1851,19 +1939,24 @@ module Client {
   }
 
   api getSymlink(request: GetSymlinkRequest, runtime: RuntimeObject): GetSymlinkResponse {
+    var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
     pathname = `/${request.objectName}?symlink`;
     headers = {
-      host = @getHost(request.bucketName),
+      host = getHost(request.bucketName),
       date = @getDate(),
       user-agent = @getUserAgent(),
     };
+    if (@notEmpty(token)) {
+      headers.x-oss-security-token = token;
+    }
     headers.authorization = @getAuth(__request, request.bucketName);
   } returns {
     var respMap : object = null;
+    var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @getErrMessage(__response);
+      respMap = @parseXml(bodyStr, ServerError);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -1900,7 +1993,6 @@ module Client {
     logger = @logger,
     listener = runtime.listener,
   }
-
   model GetBucketLifecycleRequest = {
     bucketName: string(description='BucketName', name='BucketName'),
   }
@@ -1935,19 +2027,24 @@ module Client {
   }
 
   api getBucketLifecycle(request: GetBucketLifecycleRequest, runtime: RuntimeObject): GetBucketLifecycleResponse {
+    var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
     pathname = `/?lifecycle`;
     headers = {
-      host = @getHost(request.bucketName),
+      host = getHost(request.bucketName),
       date = @getDate(),
       user-agent = @getUserAgent(),
     };
+    if (@notEmpty(token)) {
+      headers.x-oss-security-token = token;
+    }
     headers.authorization = @getAuth(__request, request.bucketName);
   } returns {
     var respMap : object = null;
+    var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @getErrMessage(__response);
+      respMap = @parseXml(bodyStr, ServerError);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -1958,7 +2055,7 @@ module Client {
         }
       };
     }
-    respMap = @parseXml(__response, GetBucketLifecycleResponse);
+    respMap = @parseXml(bodyStr, GetBucketLifecycleResponse);
     return {
       LifecycleConfiguration = respMap.LifecycleConfiguration,
       ...__response.headers,
@@ -1986,7 +2083,6 @@ module Client {
     logger = @logger,
     listener = runtime.listener,
   }
-
   model PutSymlinkRequest = {
     bucketName: string(description='BucketName', name='BucketName'),
     objectName: string(description='ObjectName', name='ObjectName'),
@@ -2001,20 +2097,25 @@ module Client {
   }
 
   api putSymlink(request: PutSymlinkRequest, runtime: RuntimeObject): PutSymlinkResponse {
+    var token = @getSecurityToken();
     protocol = @protocol;
     method = 'PUT';
     pathname = `/${request.objectName}?symlink`;
     headers = {
-      host = @getHost(request.bucketName),
+      host = getHost(request.bucketName),
       date = @getDate(),
       user-agent = @getUserAgent(),
       ...@toHeader(request.header),
     };
+    if (@notEmpty(token)) {
+      headers.x-oss-security-token = token;
+    }
     headers.authorization = @getAuth(__request, request.bucketName);
   } returns {
     var respMap : object = null;
+    var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @getErrMessage(__response);
+      respMap = @parseXml(bodyStr, ServerError);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -2051,7 +2152,6 @@ module Client {
     logger = @logger,
     listener = runtime.listener,
   }
-
   model GetBucketRefererRequest = {
     bucketName: string(description='BucketName', name='BucketName'),
   }
@@ -2067,19 +2167,24 @@ module Client {
   }
 
   api getBucketReferer(request: GetBucketRefererRequest, runtime: RuntimeObject): GetBucketRefererResponse {
+    var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
     pathname = `/?referer`;
     headers = {
-      host = @getHost(request.bucketName),
+      host = getHost(request.bucketName),
       date = @getDate(),
       user-agent = @getUserAgent(),
     };
+    if (@notEmpty(token)) {
+      headers.x-oss-security-token = token;
+    }
     headers.authorization = @getAuth(__request, request.bucketName);
   } returns {
     var respMap : object = null;
+    var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @getErrMessage(__response);
+      respMap = @parseXml(bodyStr, ServerError);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -2090,7 +2195,7 @@ module Client {
         }
       };
     }
-    respMap = @parseXml(__response, GetBucketRefererResponse);
+    respMap = @parseXml(bodyStr, GetBucketRefererResponse);
     return {
       RefererConfiguration = respMap.RefererConfiguration,
       ...__response.headers,
@@ -2118,7 +2223,6 @@ module Client {
     logger = @logger,
     listener = runtime.listener,
   }
-
   model CallbackRequest = {
     bucketName: string(description='BucketName', name='BucketName'),
   }
@@ -2128,19 +2232,24 @@ module Client {
   }
 
   api callback(request: CallbackRequest, runtime: RuntimeObject): CallbackResponse {
+    var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
     pathname = `/`;
     headers = {
-      host = @getHost(request.bucketName),
+      host = getHost(request.bucketName),
       date = @getDate(),
       user-agent = @getUserAgent(),
     };
+    if (@notEmpty(token)) {
+      headers.x-oss-security-token = token;
+    }
     headers.authorization = @getAuth(__request, request.bucketName);
   } returns {
     var respMap : object = null;
+    var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @getErrMessage(__response);
+      respMap = @parseXml(bodyStr, ServerError);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -2177,7 +2286,6 @@ module Client {
     logger = @logger,
     listener = runtime.listener,
   }
-
   model GetBucketLoggingRequest = {
     bucketName: string(description='BucketName', name='BucketName'),
   }
@@ -2193,19 +2301,24 @@ module Client {
   }
 
   api getBucketLogging(request: GetBucketLoggingRequest, runtime: RuntimeObject): GetBucketLoggingResponse {
+    var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
     pathname = `/?logging`;
     headers = {
-      host = @getHost(request.bucketName),
+      host = getHost(request.bucketName),
       date = @getDate(),
       user-agent = @getUserAgent(),
     };
+    if (@notEmpty(token)) {
+      headers.x-oss-security-token = token;
+    }
     headers.authorization = @getAuth(__request, request.bucketName);
   } returns {
     var respMap : object = null;
+    var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @getErrMessage(__response);
+      respMap = @parseXml(bodyStr, ServerError);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -2216,7 +2329,7 @@ module Client {
         }
       };
     }
-    respMap = @parseXml(__response, GetBucketLoggingResponse);
+    respMap = @parseXml(bodyStr, GetBucketLoggingResponse);
     return {
       BucketLoggingStatus = respMap.BucketLoggingStatus,
       ...__response.headers,
@@ -2244,7 +2357,6 @@ module Client {
     logger = @logger,
     listener = runtime.listener,
   }
-
   model PutObjectAclRequest = {
     bucketName: string(description='BucketName', name='BucketName'),
     objectName: string(description='ObjectName', name='ObjectName'),
@@ -2258,20 +2370,25 @@ module Client {
   }
 
   api putObjectAcl(request: PutObjectAclRequest, runtime: RuntimeObject): PutObjectAclResponse {
+    var token = @getSecurityToken();
     protocol = @protocol;
     method = 'PUT';
     pathname = `/${request.objectName}?acl`;
     headers = {
-      host = @getHost(request.bucketName),
+      host = getHost(request.bucketName),
       date = @getDate(),
       user-agent = @getUserAgent(),
       ...@toHeader(request.header),
     };
+    if (@notEmpty(token)) {
+      headers.x-oss-security-token = token;
+    }
     headers.authorization = @getAuth(__request, request.bucketName);
   } returns {
     var respMap : object = null;
+    var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @getErrMessage(__response);
+      respMap = @parseXml(bodyStr, ServerError);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -2308,7 +2425,6 @@ module Client {
     logger = @logger,
     listener = runtime.listener,
   }
-
   model GetBucketInfoRequest = {
     bucketName: string(description='BucketName', name='BucketName'),
   }
@@ -2337,19 +2453,24 @@ module Client {
   }
 
   api getBucketInfo(request: GetBucketInfoRequest, runtime: RuntimeObject): GetBucketInfoResponse {
+    var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
     pathname = `/?bucketInfo`;
     headers = {
-      host = @getHost(request.bucketName),
+      host = getHost(request.bucketName),
       date = @getDate(),
       user-agent = @getUserAgent(),
     };
+    if (@notEmpty(token)) {
+      headers.x-oss-security-token = token;
+    }
     headers.authorization = @getAuth(__request, request.bucketName);
   } returns {
     var respMap : object = null;
+    var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @getErrMessage(__response);
+      respMap = @parseXml(bodyStr, ServerError);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -2360,7 +2481,7 @@ module Client {
         }
       };
     }
-    respMap = @parseXml(__response, GetBucketInfoResponse);
+    respMap = @parseXml(bodyStr, GetBucketInfoResponse);
     return {
       BucketInfo = respMap.BucketInfo,
       ...__response.headers,
@@ -2388,7 +2509,6 @@ module Client {
     logger = @logger,
     listener = runtime.listener,
   }
-
   model PutLiveChannelStatusRequest = {
     bucketName: string(description='BucketName', name='BucketName'),
     channelName: string(description='ChannelName', name='ChannelName'),
@@ -2402,20 +2522,25 @@ module Client {
   }
 
   api putLiveChannelStatus(request: PutLiveChannelStatusRequest, runtime: RuntimeObject): PutLiveChannelStatusResponse {
+    var token = @getSecurityToken();
     protocol = @protocol;
     method = 'PUT';
     pathname = `/${request.channelName}?live`;
     headers = {
-      host = @getHost(request.bucketName),
+      host = getHost(request.bucketName),
       date = @getDate(),
       user-agent = @getUserAgent(),
     };
+    if (@notEmpty(token)) {
+      headers.x-oss-security-token = token;
+    }
     query = @toQuery(request.filter);
     headers.authorization = @getAuth(__request, request.bucketName);
   } returns {
     var respMap : object = null;
+    var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @getErrMessage(__response);
+      respMap = @parseXml(bodyStr, ServerError);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -2452,7 +2577,6 @@ module Client {
     logger = @logger,
     listener = runtime.listener,
   }
-
   model InitiateMultipartUploadRequest = {
     bucketName: string(description='BucketName', name='BucketName'),
     objectName: string(description='ObjectName', name='ObjectName'),
@@ -2482,22 +2606,27 @@ module Client {
   }
 
   api initiateMultipartUpload(request: InitiateMultipartUploadRequest, runtime: RuntimeObject): InitiateMultipartUploadResponse {
+    var token = @getSecurityToken();
     protocol = @protocol;
     method = 'POST';
     pathname = `/${request.objectName}?uploads`;
     headers = {
-      host = @getHost(request.bucketName),
+      host = getHost(request.bucketName),
       date = @getDate(),
       user-agent = @getUserAgent(),
       ...@toHeader(request.header),
     };
+    if (@notEmpty(token)) {
+      headers.x-oss-security-token = token;
+    }
     query = @toQuery(request.filter);
     headers.content-type = @default(@getSpecialValue(request.header, 'content-type'), @getContentType(request.objectName));
     headers.authorization = @getAuth(__request, request.bucketName);
   } returns {
     var respMap : object = null;
+    var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @getErrMessage(__response);
+      respMap = @parseXml(bodyStr, ServerError);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -2508,7 +2637,7 @@ module Client {
         }
       };
     }
-    respMap = @parseXml(__response, InitiateMultipartUploadResponse);
+    respMap = @parseXml(bodyStr, InitiateMultipartUploadResponse);
     return {
       InitiateMultipartUploadResult = respMap.InitiateMultipartUploadResult,
       ...__response.headers,
@@ -2536,7 +2665,6 @@ module Client {
     logger = @logger,
     listener = runtime.listener,
   }
-
   model OptionObjectRequest = {
     bucketName: string(description='BucketName', name='BucketName'),
     objectName: string(description='ObjectName', name='ObjectName'),
@@ -2557,20 +2685,25 @@ module Client {
   }
 
   api optionObject(request: OptionObjectRequest, runtime: RuntimeObject): OptionObjectResponse {
+    var token = @getSecurityToken();
     protocol = @protocol;
     method = 'OPTIONS';
     pathname = `/${request.objectName}`;
     headers = {
-      host = @getHost(request.bucketName),
+      host = getHost(request.bucketName),
       date = @getDate(),
       user-agent = @getUserAgent(),
       ...@toHeader(request.header),
     };
+    if (@notEmpty(token)) {
+      headers.x-oss-security-token = token;
+    }
     headers.authorization = @getAuth(__request, request.bucketName);
   } returns {
     var respMap : object = null;
+    var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @getErrMessage(__response);
+      respMap = @parseXml(bodyStr, ServerError);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -2607,7 +2740,6 @@ module Client {
     logger = @logger,
     listener = runtime.listener,
   }
-
   model PostVodPlaylistRequest = {
     bucketName: string(description='BucketName', name='BucketName'),
     channelName: string(description='ChannelName', name='ChannelName'),
@@ -2623,20 +2755,25 @@ module Client {
   }
 
   api postVodPlaylist(request: PostVodPlaylistRequest, runtime: RuntimeObject): PostVodPlaylistResponse {
+    var token = @getSecurityToken();
     protocol = @protocol;
     method = 'POST';
     pathname = `/${request.channelName}/${request.playlistName}?vod`;
     headers = {
-      host = @getHost(request.bucketName),
+      host = getHost(request.bucketName),
       date = @getDate(),
       user-agent = @getUserAgent(),
     };
+    if (@notEmpty(token)) {
+      headers.x-oss-security-token = token;
+    }
     query = @toQuery(request.filter);
     headers.authorization = @getAuth(__request, request.bucketName);
   } returns {
     var respMap : object = null;
+    var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @getErrMessage(__response);
+      respMap = @parseXml(bodyStr, ServerError);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -2673,7 +2810,6 @@ module Client {
     logger = @logger,
     listener = runtime.listener,
   }
-
   model PostObjectRequest = {
     bucketName: string(description='BucketName', name='BucketName'),
   }
@@ -2684,19 +2820,24 @@ module Client {
   }
 
   api postObject(request: PostObjectRequest, runtime: RuntimeObject): PostObjectResponse {
+    var token = @getSecurityToken();
     protocol = @protocol;
     method = 'POST';
     pathname = `/`;
     headers = {
-      host = @getHost(request.bucketName),
+      host = getHost(request.bucketName),
       date = @getDate(),
       user-agent = @getUserAgent(),
     };
+    if (@notEmpty(token)) {
+      headers.x-oss-security-token = token;
+    }
     headers.authorization = @getAuth(__request, request.bucketName);
   } returns {
     var respMap : object = null;
+    var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @getErrMessage(__response);
+      respMap = @parseXml(bodyStr, ServerError);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -2733,7 +2874,6 @@ module Client {
     logger = @logger,
     listener = runtime.listener,
   }
-
   model HeadObjectRequest = {
     bucketName: string(description='BucketName', name='BucketName'),
     objectName: string(description='ObjectName', name='ObjectName'),
@@ -2769,20 +2909,25 @@ module Client {
   }
 
   api headObject(request: HeadObjectRequest, runtime: RuntimeObject): HeadObjectResponse {
+    var token = @getSecurityToken();
     protocol = @protocol;
     method = 'HEAD';
     pathname = `/${request.objectName}`;
     headers = {
-      host = @getHost(request.bucketName),
+      host = getHost(request.bucketName),
       date = @getDate(),
       user-agent = @getUserAgent(),
       ...@toHeader(request.header),
     };
+    if (@notEmpty(token)) {
+      headers.x-oss-security-token = token;
+    }
     headers.authorization = @getAuth(__request, request.bucketName);
   } returns {
     var respMap : object = null;
+    var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @getErrMessage(__response);
+      respMap = @parseXml(bodyStr, ServerError);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -2820,7 +2965,6 @@ module Client {
     logger = @logger,
     listener = runtime.listener,
   }
-
   model DeleteObjectTaggingRequest = {
     bucketName: string(description='BucketName', name='BucketName'),
     objectName: string(description='ObjectName', name='ObjectName'),
@@ -2831,19 +2975,24 @@ module Client {
   }
 
   api deleteObjectTagging(request: DeleteObjectTaggingRequest, runtime: RuntimeObject): DeleteObjectTaggingResponse {
+    var token = @getSecurityToken();
     protocol = @protocol;
     method = 'DELETE';
     pathname = `/${request.objectName}?tagging`;
     headers = {
-      host = @getHost(request.bucketName),
+      host = getHost(request.bucketName),
       date = @getDate(),
       user-agent = @getUserAgent(),
     };
+    if (@notEmpty(token)) {
+      headers.x-oss-security-token = token;
+    }
     headers.authorization = @getAuth(__request, request.bucketName);
   } returns {
     var respMap : object = null;
+    var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @getErrMessage(__response);
+      respMap = @parseXml(bodyStr, ServerError);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -2880,7 +3029,6 @@ module Client {
     logger = @logger,
     listener = runtime.listener,
   }
-
   model RestoreObjectRequest = {
     bucketName: string(description='BucketName', name='BucketName'),
     objectName: string(description='ObjectName', name='ObjectName'),
@@ -2891,19 +3039,24 @@ module Client {
   }
 
   api restoreObject(request: RestoreObjectRequest, runtime: RuntimeObject): RestoreObjectResponse {
+    var token = @getSecurityToken();
     protocol = @protocol;
     method = 'POST';
     pathname = `/${request.objectName}?restore`;
     headers = {
-      host = @getHost(request.bucketName),
+      host = getHost(request.bucketName),
       date = @getDate(),
       user-agent = @getUserAgent(),
     };
+    if (@notEmpty(token)) {
+      headers.x-oss-security-token = token;
+    }
     headers.authorization = @getAuth(__request, request.bucketName);
   } returns {
     var respMap : object = null;
+    var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @getErrMessage(__response);
+      respMap = @parseXml(bodyStr, ServerError);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -2940,7 +3093,6 @@ module Client {
     logger = @logger,
     listener = runtime.listener,
   }
-
   model GetObjectAclRequest = {
     bucketName: string(description='BucketName', name='BucketName'),
     objectName: string(description='ObjectName', name='ObjectName'),
@@ -2960,19 +3112,24 @@ module Client {
   }
 
   api getObjectAcl(request: GetObjectAclRequest, runtime: RuntimeObject): GetObjectAclResponse {
+    var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
     pathname = `/${request.objectName}?acl`;
     headers = {
-      host = @getHost(request.bucketName),
+      host = getHost(request.bucketName),
       date = @getDate(),
       user-agent = @getUserAgent(),
     };
+    if (@notEmpty(token)) {
+      headers.x-oss-security-token = token;
+    }
     headers.authorization = @getAuth(__request, request.bucketName);
   } returns {
     var respMap : object = null;
+    var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @getErrMessage(__response);
+      respMap = @parseXml(bodyStr, ServerError);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -2983,7 +3140,7 @@ module Client {
         }
       };
     }
-    respMap = @parseXml(__response, GetObjectAclResponse);
+    respMap = @parseXml(bodyStr, GetObjectAclResponse);
     return {
       AccessControlPolicy = respMap.AccessControlPolicy,
       ...__response.headers,
@@ -3011,7 +3168,6 @@ module Client {
     logger = @logger,
     listener = runtime.listener,
   }
-
   model PutBucketAclRequest = {
     bucketName: string(description='BucketName', name='BucketName'),
     header: {
@@ -3024,20 +3180,25 @@ module Client {
   }
 
   api putBucketAcl(request: PutBucketAclRequest, runtime: RuntimeObject): PutBucketAclResponse {
+    var token = @getSecurityToken();
     protocol = @protocol;
     method = 'PUT';
     pathname = `/?acl`;
     headers = {
-      host = @getHost(request.bucketName),
+      host = getHost(request.bucketName),
       date = @getDate(),
       user-agent = @getUserAgent(),
       ...@toHeader(request.header),
     };
+    if (@notEmpty(token)) {
+      headers.x-oss-security-token = token;
+    }
     headers.authorization = @getAuth(__request, request.bucketName);
   } returns {
     var respMap : object = null;
+    var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @getErrMessage(__response);
+      respMap = @parseXml(bodyStr, ServerError);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -3074,7 +3235,6 @@ module Client {
     logger = @logger,
     listener = runtime.listener,
   }
-
   model DeleteBucketRequest = {
     bucketName: string(description='BucketName', name='BucketName'),
   }
@@ -3084,19 +3244,24 @@ module Client {
   }
 
   api deleteBucket(request: DeleteBucketRequest, runtime: RuntimeObject): DeleteBucketResponse {
+    var token = @getSecurityToken();
     protocol = @protocol;
     method = 'DELETE';
     pathname = `/`;
     headers = {
-      host = @getHost(request.bucketName),
+      host = getHost(request.bucketName),
       date = @getDate(),
       user-agent = @getUserAgent(),
     };
+    if (@notEmpty(token)) {
+      headers.x-oss-security-token = token;
+    }
     headers.authorization = @getAuth(__request, request.bucketName);
   } returns {
     var respMap : object = null;
+    var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @getErrMessage(__response);
+      respMap = @parseXml(bodyStr, ServerError);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -3133,7 +3298,6 @@ module Client {
     logger = @logger,
     listener = runtime.listener,
   }
-
   model PutObjectRequest = {
     bucketName: string(description='BucketName', name='BucketName'),
     objectName: string(description='ObjectName', name='ObjectName'),
@@ -3165,24 +3329,28 @@ module Client {
   }
 
   api putObject(request: PutObjectRequest, runtime: RuntimeObject): PutObjectResponse {
-    var ref = @getRefer(request.body);
+    var token = @getSecurityToken();
     protocol = @protocol;
     method = 'PUT';
     pathname = `/${request.objectName}`;
     headers = {
-      host = @getHost(request.bucketName),
+      host = getHost(request.bucketName),
       date = @getDate(),
       user-agent = @getUserAgent(),
       ...@toHeader(request.header),
       ...@parseMeta(request.userMeta, 'x-oss-meta-'),
     };
+    if (@notEmpty(token)) {
+      headers.x-oss-security-token = token;
+    }
     body = request.body;
     headers.content-type = @default(@getSpecialValue(request.header, 'content-type'), @getContentType(request.objectName));
     headers.authorization = @getAuth(__request, request.bucketName);
   } returns {
     var respMap : object = null;
+    var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @getErrMessage(__response);
+      respMap = @parseXml(bodyStr, ServerError);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -3191,24 +3359,6 @@ module Client {
           requestId = respMap.RequestId,
           hostId = respMap.HostId,
         }
-      };
-    }
-    if (@isNotCrcMatched(ref.crc, __response.headers.x-oss-hash-crc64ecma)) {
-      throw {
-        code = 'CrcNotMatched',
-        data = {
-          clientCrc = ref.crc,
-          serverCrc = __response.headers.x-oss-hash-crc64ecma,
-        },
-      };
-    }
-    if (@isNotMD5Matched(ref.md5, __response.headers.content-md5)) {
-      throw {
-        code = 'MD5NotMatched',
-        data = {
-          clientMD5 = ref.md5,
-          serverMD5 = __response.headers.content-md5,
-        },
       };
     }
     return {
@@ -3237,5 +3387,4 @@ module Client {
     logger = @logger,
     listener = runtime.listener,
   }
-
 }
