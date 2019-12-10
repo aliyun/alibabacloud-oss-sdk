@@ -26,9 +26,8 @@ public class BaseClientTest {
     @Before
     public void createBaseclient() throws Exception {
         Map<String, Object> config = new HashMap<>();
-        config.put("accessKeyId", System.getenv("sdk_testAK"));
-        config.put("accessKeySecret", System.getenv("sdk_testSk"));
-        config.put("accessKeySecret", System.getenv("sdk_testSk"));
+        config.put("accessKeyId","sdk_testAK");
+        config.put("accessKeySecret", "sdk_testSk");
         client = new BaseClient(config);
     }
 
