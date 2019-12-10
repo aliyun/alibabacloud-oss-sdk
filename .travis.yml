@@ -8,3 +8,10 @@ jobs:
         - npm run ci
       after_success:
         - bash <(curl -s https://codecov.io/bash)
+    - language: go
+      go: 1.12.x
+      script:
+        - cd baseclient/go
+        - export GO111MODULE=on
+        - go mod tidy
+        - go test -race -coverprofile=coverage.txt -covermode=atomic ./service/... ./utils...       

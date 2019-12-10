@@ -78,6 +78,7 @@ func Test_getSignatureV1(t *testing.T) {
 	request.Query = map[string]string{
 		"oss":      "ok",
 		"location": "oss",
+		"endTime": "now",
 	}
 	request.Headers = map[string]string{
 		"x-oss-meta": "user",

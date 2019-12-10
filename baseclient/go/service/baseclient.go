@@ -9,7 +9,6 @@ import (
 	"io"
 	"net/http"
 	"net/url"
-	"os"
 	"reflect"
 	"runtime"
 	"strconv"
@@ -18,8 +17,8 @@ import (
 
 	"github.com/alibabacloud-go/tea/tea"
 	teautil "github.com/alibabacloud-go/tea/utils"
-	"github.com/aliyun/credentials-go/credentials"
 	"github.com/aliyun/alibabacloud-oss-sdk/baseclient/go/utils"
+	"github.com/aliyun/credentials-go/credentials"
 )
 
 var crcTable = func() *crc64.Table {
@@ -234,12 +233,9 @@ func (client *BaseClient) DefaultNumber(num int, defaultNum int) int {
 }
 
 func (client *BaseClient) ToHeader(raw map[string]interface{}) map[string]string {
-	byt, err := json.Marshal(raw)
-	if err != nil {
-		return nil
-	}
+	byt, _ := json.Marshal(raw)
 	header := make(map[string]string)
-	err = json.Unmarshal(byt, &header)
+	err := json.Unmarshal(byt, &header)
 	if err != nil {
 		return nil
 	}
@@ -299,10 +295,8 @@ func (client *BaseClient) ToBody(body interface{}) io.Reader {
 func (client *BaseClient) GetSpecialValue(obj map[string]interface{}, key string) string {
 	tmp := make(map[string]string)
 	byt, _ := json.Marshal(obj)
-	err := json.Unmarshal(byt, &tmp)
-	if err != nil {
-		return ""
-	}
+	json.Unmarshal(byt, &tmp)
+
 	return tmp[key]
 }
 
@@ -415,10 +409,10 @@ func (client *BaseClient) Default(realStr string, defaultStr string) string {
 // 	return strconv.FormatInt(contentlength, 10)
 // }
 
-func tryGetFileSize(f *os.File) int64 {
-	fInfo, _ := f.Stat()
-	return fInfo.Size()
-}
+// func tryGetFileSize(f *os.File) int64 {
+// 	fInfo, _ := f.Stat()
+// 	return fInfo.Size()
+// }
 
 // Return md5 according to body
 // func (client *BaseClient) GetContentMD5(request *tea.Request, md5Value string, md5Threshold int64) string {
