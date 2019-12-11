@@ -9,11 +9,12 @@ import { getSignatureV2, getSignatureV1 } from './signature';
 function parseXML(body: string): any {
   let parser = new Parser({ explicitArray: false });
   let result: {[key: string]: any} = {};
+  // parseString 实际上是一个同步方法
   parser.parseString(body, function (err: any, output: any) {
     result.err = err;
     result.output = output;
   });
-  
+
   if (result.err) {
     throw result.err;
   }
@@ -224,12 +225,6 @@ export default class BaseClient {
       return defaultNum;
     }
     return number;
-  }
-
-  _toBody(body: any): string {
-    const builder = new Builder();
-    const xml = builder.buildObject(body);
-    return xml;
   }
 
   _isFail(response: { [key: string]: any }): boolean {
@@ -457,4 +452,8 @@ export default class BaseClient {
     return await this._creadentials.getSecurityToken();
   }
 
+  _getErrMessage(xml: string): { [key: string]: any } {
+    let body: { [key: string]: any } = parseXML(xml);
+    return body.Error || {};
+  }
 }

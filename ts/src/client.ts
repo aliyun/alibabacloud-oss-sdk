@@ -152,34 +152,6 @@ export class Config extends $tea.Model {
   }
 }
 
-export class ServerError extends $tea.Model {
-  code?: string;
-  message?: string;
-  requestId?: string;
-  hostId?: string;
-  static names(): { [key: string]: string } {
-    return {
-      code: 'Code',
-      message: 'Message',
-      requestId: 'RequestId',
-      hostId: 'HostId',
-    };
-  }
-
-  static types(): { [key: string]: any } {
-    return {
-      code: 'string',
-      message: 'string',
-      requestId: 'string',
-      hostId: 'string',
-    };
-  }
-
-  constructor(map: { [key: string]: any }) {
-    super(map);
-  }
-}
-
 export class DeleteLiveChannelRequest extends $tea.Model {
   bucketName: string;
   channelName: string;
@@ -4073,7 +4045,9 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = this._getSecurityToken();
+        let accessKeyId = await this._getAccessKeyID();
+        let accessKeySecret = await this._getAccessKeySecret();
+        let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "DELETE";
         request_.pathname = `/${request.channelName}?live`;
@@ -4082,17 +4056,26 @@ export default class Client extends BaseClient {
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
-        if (this._notEmpty(token)) {
+        if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
+        if (this._equal(this._signatureVersion, "V2")) {
+          if (this._ifListEmpty(this._addtionalHeaders)) {
+            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          } else {
+              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          }
+        } else {
+            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
+        }
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
-        let bodyStr = await this._readAsString(response_);
+        let bodyStr = null;
         if (this._isFail(response_)) {
-          respMap = this._parseXml(bodyStr, ServerError);
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -4157,7 +4140,9 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = this._getSecurityToken();
+        let accessKeyId = await this._getAccessKeyID();
+        let accessKeySecret = await this._getAccessKeySecret();
+        let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/?location`;
@@ -4166,17 +4151,26 @@ export default class Client extends BaseClient {
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
-        if (this._notEmpty(token)) {
+        if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
+        if (this._equal(this._signatureVersion, "V2")) {
+          if (this._ifListEmpty(this._addtionalHeaders)) {
+            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          } else {
+              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          }
+        } else {
+            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
+        }
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
-        let bodyStr = await this._readAsString(response_);
+        let bodyStr = null;
         if (this._isFail(response_)) {
-          respMap = this._parseXml(bodyStr, ServerError);
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -4188,6 +4182,7 @@ export default class Client extends BaseClient {
           });
         }
 
+        bodyStr = await this._readAsString(response_);
         respMap = this._parseXml(bodyStr, GetBucketLocationResponse);
         return $tea.cast<GetBucketLocationResponse>({
           LocationConstraint: respMap["LocationConstraint"],
@@ -4243,7 +4238,9 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = this._getSecurityToken();
+        let accessKeyId = await this._getAccessKeyID();
+        let accessKeySecret = await this._getAccessKeySecret();
+        let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/?live`;
@@ -4252,18 +4249,27 @@ export default class Client extends BaseClient {
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
-        if (this._notEmpty(token)) {
+        if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
         request_.query = this._toQuery(request.filter);
-        request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
+        if (this._equal(this._signatureVersion, "V2")) {
+          if (this._ifListEmpty(this._addtionalHeaders)) {
+            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          } else {
+              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          }
+        } else {
+            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
+        }
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
-        let bodyStr = await this._readAsString(response_);
+        let bodyStr = null;
         if (this._isFail(response_)) {
-          respMap = this._parseXml(bodyStr, ServerError);
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -4275,6 +4281,7 @@ export default class Client extends BaseClient {
           });
         }
 
+        bodyStr = await this._readAsString(response_);
         respMap = this._parseXml(bodyStr, ListLiveChannelResponse);
         return $tea.cast<ListLiveChannelResponse>({
           ListLiveChannelResult: respMap["ListLiveChannelResult"],
@@ -4330,7 +4337,9 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = this._getSecurityToken();
+        let accessKeyId = await this._getAccessKeyID();
+        let accessKeySecret = await this._getAccessKeySecret();
+        let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "HEAD";
         request_.pathname = `/${request.objectName}?objectMeta`;
@@ -4339,17 +4348,26 @@ export default class Client extends BaseClient {
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
-        if (this._notEmpty(token)) {
+        if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
+        if (this._equal(this._signatureVersion, "V2")) {
+          if (this._ifListEmpty(this._addtionalHeaders)) {
+            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          } else {
+              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          }
+        } else {
+            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
+        }
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
-        let bodyStr = await this._readAsString(response_);
+        let bodyStr = null;
         if (this._isFail(response_)) {
-          respMap = this._parseXml(bodyStr, ServerError);
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -4414,7 +4432,9 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = this._getSecurityToken();
+        let accessKeyId = await this._getAccessKeyID();
+        let accessKeySecret = await this._getAccessKeySecret();
+        let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/?acl`;
@@ -4423,17 +4443,26 @@ export default class Client extends BaseClient {
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
-        if (this._notEmpty(token)) {
+        if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
+        if (this._equal(this._signatureVersion, "V2")) {
+          if (this._ifListEmpty(this._addtionalHeaders)) {
+            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          } else {
+              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          }
+        } else {
+            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
+        }
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
-        let bodyStr = await this._readAsString(response_);
+        let bodyStr = null;
         if (this._isFail(response_)) {
-          respMap = this._parseXml(bodyStr, ServerError);
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -4445,6 +4474,7 @@ export default class Client extends BaseClient {
           });
         }
 
+        bodyStr = await this._readAsString(response_);
         respMap = this._parseXml(bodyStr, GetBucketAclResponse);
         return $tea.cast<GetBucketAclResponse>({
           AccessControlPolicy: respMap["AccessControlPolicy"],
@@ -4500,7 +4530,9 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = this._getSecurityToken();
+        let accessKeyId = await this._getAccessKeyID();
+        let accessKeySecret = await this._getAccessKeySecret();
+        let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/${request.objectName}`;
@@ -4509,18 +4541,27 @@ export default class Client extends BaseClient {
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
-        if (this._notEmpty(token)) {
+        if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
         request_.query = this._toQuery(request.filter);
-        request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
+        if (this._equal(this._signatureVersion, "V2")) {
+          if (this._ifListEmpty(this._addtionalHeaders)) {
+            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          } else {
+              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          }
+        } else {
+            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
+        }
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
-        let bodyStr = await this._readAsString(response_);
+        let bodyStr = null;
         if (this._isFail(response_)) {
-          respMap = this._parseXml(bodyStr, ServerError);
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -4532,6 +4573,7 @@ export default class Client extends BaseClient {
           });
         }
 
+        bodyStr = await this._readAsString(response_);
         respMap = this._parseXml(bodyStr, ListPartsResponse);
         return $tea.cast<ListPartsResponse>({
           ListPartsResult: respMap["ListPartsResult"],
@@ -4587,7 +4629,9 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = this._getSecurityToken();
+        let accessKeyId = await this._getAccessKeyID();
+        let accessKeySecret = await this._getAccessKeySecret();
+        let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/${request.channelName}?live`;
@@ -4596,18 +4640,27 @@ export default class Client extends BaseClient {
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
-        if (this._notEmpty(token)) {
+        if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
         request_.query = this._toQuery(request.filter);
-        request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
+        if (this._equal(this._signatureVersion, "V2")) {
+          if (this._ifListEmpty(this._addtionalHeaders)) {
+            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          } else {
+              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          }
+        } else {
+            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
+        }
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
-        let bodyStr = await this._readAsString(response_);
+        let bodyStr = null;
         if (this._isFail(response_)) {
-          respMap = this._parseXml(bodyStr, ServerError);
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -4619,6 +4672,7 @@ export default class Client extends BaseClient {
           });
         }
 
+        bodyStr = await this._readAsString(response_);
         respMap = this._parseXml(bodyStr, GetLiveChannelHistoryResponse);
         return $tea.cast<GetLiveChannelHistoryResponse>({
           LiveChannelHistory: respMap["LiveChannelHistory"],
@@ -4674,7 +4728,9 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = this._getSecurityToken();
+        let accessKeyId = await this._getAccessKeyID();
+        let accessKeySecret = await this._getAccessKeySecret();
+        let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/`;
@@ -4683,18 +4739,27 @@ export default class Client extends BaseClient {
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
-        if (this._notEmpty(token)) {
+        if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
         request_.query = this._toQuery(request.filter);
-        request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
+        if (this._equal(this._signatureVersion, "V2")) {
+          if (this._ifListEmpty(this._addtionalHeaders)) {
+            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          } else {
+              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          }
+        } else {
+            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
+        }
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
-        let bodyStr = await this._readAsString(response_);
+        let bodyStr = null;
         if (this._isFail(response_)) {
-          respMap = this._parseXml(bodyStr, ServerError);
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -4706,6 +4771,7 @@ export default class Client extends BaseClient {
           });
         }
 
+        bodyStr = await this._readAsString(response_);
         respMap = this._parseXml(bodyStr, GetBucketResponse);
         return $tea.cast<GetBucketResponse>({
           ListBucketResult: respMap["ListBucketResult"],
@@ -4761,7 +4827,9 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = this._getSecurityToken();
+        let accessKeyId = await this._getAccessKeyID();
+        let accessKeySecret = await this._getAccessKeySecret();
+        let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/${request.channelName}?live`;
@@ -4770,17 +4838,26 @@ export default class Client extends BaseClient {
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
-        if (this._notEmpty(token)) {
+        if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
+        if (this._equal(this._signatureVersion, "V2")) {
+          if (this._ifListEmpty(this._addtionalHeaders)) {
+            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          } else {
+              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          }
+        } else {
+            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
+        }
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
-        let bodyStr = await this._readAsString(response_);
+        let bodyStr = null;
         if (this._isFail(response_)) {
-          respMap = this._parseXml(bodyStr, ServerError);
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -4792,6 +4869,7 @@ export default class Client extends BaseClient {
           });
         }
 
+        bodyStr = await this._readAsString(response_);
         respMap = this._parseXml(bodyStr, GetLiveChannelInfoResponse);
         return $tea.cast<GetLiveChannelInfoResponse>({
           LiveChannelConfiguration: respMap["LiveChannelConfiguration"],
@@ -4847,7 +4925,9 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = this._getSecurityToken();
+        let accessKeyId = await this._getAccessKeyID();
+        let accessKeySecret = await this._getAccessKeySecret();
+        let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/${request.channelName}?live`;
@@ -4856,18 +4936,27 @@ export default class Client extends BaseClient {
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
-        if (this._notEmpty(token)) {
+        if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
         request_.query = this._toQuery(request.filter);
-        request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
+        if (this._equal(this._signatureVersion, "V2")) {
+          if (this._ifListEmpty(this._addtionalHeaders)) {
+            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          } else {
+              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          }
+        } else {
+            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
+        }
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
-        let bodyStr = await this._readAsString(response_);
+        let bodyStr = null;
         if (this._isFail(response_)) {
-          respMap = this._parseXml(bodyStr, ServerError);
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -4879,6 +4968,7 @@ export default class Client extends BaseClient {
           });
         }
 
+        bodyStr = await this._readAsString(response_);
         respMap = this._parseXml(bodyStr, GetLiveChannelStatResponse);
         return $tea.cast<GetLiveChannelStatResponse>({
           LiveChannelStat: respMap["LiveChannelStat"],
@@ -4934,7 +5024,9 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = this._getSecurityToken();
+        let accessKeyId = await this._getAccessKeyID();
+        let accessKeySecret = await this._getAccessKeySecret();
+        let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "DELETE";
         request_.pathname = `/${request.objectName}`;
@@ -4943,17 +5035,26 @@ export default class Client extends BaseClient {
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
-        if (this._notEmpty(token)) {
+        if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
+        if (this._equal(this._signatureVersion, "V2")) {
+          if (this._ifListEmpty(this._addtionalHeaders)) {
+            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          } else {
+              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          }
+        } else {
+            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
+        }
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
-        let bodyStr = await this._readAsString(response_);
+        let bodyStr = null;
         if (this._isFail(response_)) {
-          respMap = this._parseXml(bodyStr, ServerError);
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -5018,7 +5119,9 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = this._getSecurityToken();
+        let accessKeyId = await this._getAccessKeyID();
+        let accessKeySecret = await this._getAccessKeySecret();
+        let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "DELETE";
         request_.pathname = `/${request.objectName}`;
@@ -5027,18 +5130,27 @@ export default class Client extends BaseClient {
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
-        if (this._notEmpty(token)) {
+        if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
         request_.query = this._toQuery(request.filter);
-        request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
+        if (this._equal(this._signatureVersion, "V2")) {
+          if (this._ifListEmpty(this._addtionalHeaders)) {
+            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          } else {
+              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          }
+        } else {
+            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
+        }
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
-        let bodyStr = await this._readAsString(response_);
+        let bodyStr = null;
         if (this._isFail(response_)) {
-          respMap = this._parseXml(bodyStr, ServerError);
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -5103,7 +5215,9 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = this._getSecurityToken();
+        let accessKeyId = await this._getAccessKeyID();
+        let accessKeySecret = await this._getAccessKeySecret();
+        let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "POST";
         request_.pathname = `/${request.objectName}?append`;
@@ -5114,20 +5228,29 @@ export default class Client extends BaseClient {
           ...this._toHeader(request.header),
           ...this._parseMeta(request.userMeta, "x-oss-meta-"),
         };
-        if (this._notEmpty(token)) {
+        if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
         request_.query = this._toQuery(request.filter);
         request_.body = request.body;
         request_.headers["content-type"] = this._default(this._getSpecialValue(request.header, "content-type"), this._getContentType(request.objectName));
-        request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
+        if (this._equal(this._signatureVersion, "V2")) {
+          if (this._ifListEmpty(this._addtionalHeaders)) {
+            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          } else {
+              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          }
+        } else {
+            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
+        }
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
-        let bodyStr = await this._readAsString(response_);
+        let bodyStr = null;
         if (this._isFail(response_)) {
-          respMap = this._parseXml(bodyStr, ServerError);
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -5192,7 +5315,9 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = this._getSecurityToken();
+        let accessKeyId = await this._getAccessKeyID();
+        let accessKeySecret = await this._getAccessKeySecret();
+        let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "PUT";
         request_.pathname = `/${request.objectName}`;
@@ -5202,18 +5327,27 @@ export default class Client extends BaseClient {
           'user-agent': this._getUserAgent(),
           ...this._toHeader(request.header),
         };
-        if (this._notEmpty(token)) {
+        if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
         request_.query = this._toQuery(request.filter);
-        request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
+        if (this._equal(this._signatureVersion, "V2")) {
+          if (this._ifListEmpty(this._addtionalHeaders)) {
+            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          } else {
+              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          }
+        } else {
+            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
+        }
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
-        let bodyStr = await this._readAsString(response_);
+        let bodyStr = null;
         if (this._isFail(response_)) {
-          respMap = this._parseXml(bodyStr, ServerError);
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -5225,6 +5359,7 @@ export default class Client extends BaseClient {
           });
         }
 
+        bodyStr = await this._readAsString(response_);
         respMap = this._parseXml(bodyStr, UploadPartCopyResponse);
         return $tea.cast<UploadPartCopyResponse>({
           CopyPartResult: respMap["CopyPartResult"],
@@ -5280,7 +5415,9 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = this._getSecurityToken();
+        let accessKeyId = await this._getAccessKeyID();
+        let accessKeySecret = await this._getAccessKeySecret();
+        let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/${request.channelName}?vod`;
@@ -5289,18 +5426,27 @@ export default class Client extends BaseClient {
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
-        if (this._notEmpty(token)) {
+        if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
         request_.query = this._toQuery(request.filter);
-        request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
+        if (this._equal(this._signatureVersion, "V2")) {
+          if (this._ifListEmpty(this._addtionalHeaders)) {
+            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          } else {
+              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          }
+        } else {
+            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
+        }
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
-        let bodyStr = await this._readAsString(response_);
+        let bodyStr = null;
         if (this._isFail(response_)) {
-          respMap = this._parseXml(bodyStr, ServerError);
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -5365,7 +5511,9 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = this._getSecurityToken();
+        let accessKeyId = await this._getAccessKeyID();
+        let accessKeySecret = await this._getAccessKeySecret();
+        let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "DELETE";
         request_.pathname = `/?cors`;
@@ -5374,17 +5522,26 @@ export default class Client extends BaseClient {
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
-        if (this._notEmpty(token)) {
+        if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
+        if (this._equal(this._signatureVersion, "V2")) {
+          if (this._ifListEmpty(this._addtionalHeaders)) {
+            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          } else {
+              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          }
+        } else {
+            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
+        }
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
-        let bodyStr = await this._readAsString(response_);
+        let bodyStr = null;
         if (this._isFail(response_)) {
-          respMap = this._parseXml(bodyStr, ServerError);
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -5449,7 +5606,9 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = this._getSecurityToken();
+        let accessKeyId = await this._getAccessKeyID();
+        let accessKeySecret = await this._getAccessKeySecret();
+        let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/${request.objectName}`;
@@ -5459,17 +5618,26 @@ export default class Client extends BaseClient {
           'user-agent': this._getUserAgent(),
           ...this._toHeader(request.header),
         };
-        if (this._notEmpty(token)) {
+        if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
+        if (this._equal(this._signatureVersion, "V2")) {
+          if (this._ifListEmpty(this._addtionalHeaders)) {
+            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          } else {
+              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          }
+        } else {
+            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
+        }
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
-        let bodyStr = await this._readAsString(response_);
+        let bodyStr = null;
         if (this._isFail(response_)) {
-          respMap = this._parseXml(bodyStr, ServerError);
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -5535,7 +5703,9 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = this._getSecurityToken();
+        let accessKeyId = await this._getAccessKeyID();
+        let accessKeySecret = await this._getAccessKeySecret();
+        let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "PUT";
         request_.pathname = `/${request.objectName}`;
@@ -5544,19 +5714,28 @@ export default class Client extends BaseClient {
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
-        if (this._notEmpty(token)) {
+        if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
         request_.query = this._toQuery(request.filter);
         request_.body = request.body;
-        request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
+        if (this._equal(this._signatureVersion, "V2")) {
+          if (this._ifListEmpty(this._addtionalHeaders)) {
+            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          } else {
+              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          }
+        } else {
+            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
+        }
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
-        let bodyStr = await this._readAsString(response_);
+        let bodyStr = null;
         if (this._isFail(response_)) {
-          respMap = this._parseXml(bodyStr, ServerError);
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -5621,7 +5800,9 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = this._getSecurityToken();
+        let accessKeyId = await this._getAccessKeyID();
+        let accessKeySecret = await this._getAccessKeySecret();
+        let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/?cors`;
@@ -5630,17 +5811,26 @@ export default class Client extends BaseClient {
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
-        if (this._notEmpty(token)) {
+        if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
+        if (this._equal(this._signatureVersion, "V2")) {
+          if (this._ifListEmpty(this._addtionalHeaders)) {
+            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          } else {
+              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          }
+        } else {
+            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
+        }
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
-        let bodyStr = await this._readAsString(response_);
+        let bodyStr = null;
         if (this._isFail(response_)) {
-          respMap = this._parseXml(bodyStr, ServerError);
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -5652,6 +5842,7 @@ export default class Client extends BaseClient {
           });
         }
 
+        bodyStr = await this._readAsString(response_);
         respMap = this._parseXml(bodyStr, GetBucketCORSResponse);
         return $tea.cast<GetBucketCORSResponse>({
           CORSConfiguration: respMap["CORSConfiguration"],
@@ -5707,7 +5898,9 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = this._getSecurityToken();
+        let accessKeyId = await this._getAccessKeyID();
+        let accessKeySecret = await this._getAccessKeySecret();
+        let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "PUT";
         request_.pathname = `/${request.destObjectName}`;
@@ -5717,18 +5910,27 @@ export default class Client extends BaseClient {
           'user-agent': this._getUserAgent(),
           ...this._toHeader(request.header),
         };
-        if (this._notEmpty(token)) {
+        if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
         request_.headers["x-oss-copy-source"] = this._encode(request_.headers["x-oss-copy-source"], "UrlEncode");
-        request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
+        if (this._equal(this._signatureVersion, "V2")) {
+          if (this._ifListEmpty(this._addtionalHeaders)) {
+            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          } else {
+              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          }
+        } else {
+            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
+        }
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
-        let bodyStr = await this._readAsString(response_);
+        let bodyStr = null;
         if (this._isFail(response_)) {
-          respMap = this._parseXml(bodyStr, ServerError);
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -5740,6 +5942,7 @@ export default class Client extends BaseClient {
           });
         }
 
+        bodyStr = await this._readAsString(response_);
         respMap = this._parseXml(bodyStr, CopyObjectResponse);
         return $tea.cast<CopyObjectResponse>({
           CopyObjectResult: respMap["CopyObjectResult"],
@@ -5795,7 +5998,9 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = this._getSecurityToken();
+        let accessKeyId = await this._getAccessKeyID();
+        let accessKeySecret = await this._getAccessKeySecret();
+        let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/${request.objectName}?tagging`;
@@ -5804,17 +6009,26 @@ export default class Client extends BaseClient {
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
-        if (this._notEmpty(token)) {
+        if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
+        if (this._equal(this._signatureVersion, "V2")) {
+          if (this._ifListEmpty(this._addtionalHeaders)) {
+            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          } else {
+              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          }
+        } else {
+            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
+        }
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
-        let bodyStr = await this._readAsString(response_);
+        let bodyStr = null;
         if (this._isFail(response_)) {
-          respMap = this._parseXml(bodyStr, ServerError);
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -5826,6 +6040,7 @@ export default class Client extends BaseClient {
           });
         }
 
+        bodyStr = await this._readAsString(response_);
         respMap = this._parseXml(bodyStr, GetObjectTaggingResponse);
         return $tea.cast<GetObjectTaggingResponse>({
           Tagging: respMap["Tagging"],
@@ -5881,7 +6096,9 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = this._getSecurityToken();
+        let accessKeyId = await this._getAccessKeyID();
+        let accessKeySecret = await this._getAccessKeySecret();
+        let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "DELETE";
         request_.pathname = `/?lifecycle`;
@@ -5890,17 +6107,26 @@ export default class Client extends BaseClient {
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
-        if (this._notEmpty(token)) {
+        if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
+        if (this._equal(this._signatureVersion, "V2")) {
+          if (this._ifListEmpty(this._addtionalHeaders)) {
+            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          } else {
+              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          }
+        } else {
+            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
+        }
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
-        let bodyStr = await this._readAsString(response_);
+        let bodyStr = null;
         if (this._isFail(response_)) {
-          respMap = this._parseXml(bodyStr, ServerError);
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -5965,7 +6191,9 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = this._getSecurityToken();
+        let accessKeyId = await this._getAccessKeyID();
+        let accessKeySecret = await this._getAccessKeySecret();
+        let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "DELETE";
         request_.pathname = `/?logging`;
@@ -5974,17 +6202,26 @@ export default class Client extends BaseClient {
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
-        if (this._notEmpty(token)) {
+        if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
+        if (this._equal(this._signatureVersion, "V2")) {
+          if (this._ifListEmpty(this._addtionalHeaders)) {
+            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          } else {
+              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          }
+        } else {
+            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
+        }
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
-        let bodyStr = await this._readAsString(response_);
+        let bodyStr = null;
         if (this._isFail(response_)) {
-          respMap = this._parseXml(bodyStr, ServerError);
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -6049,7 +6286,9 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = this._getSecurityToken();
+        let accessKeyId = await this._getAccessKeyID();
+        let accessKeySecret = await this._getAccessKeySecret();
+        let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "DELETE";
         request_.pathname = `/?website`;
@@ -6058,17 +6297,26 @@ export default class Client extends BaseClient {
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
-        if (this._notEmpty(token)) {
+        if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
+        if (this._equal(this._signatureVersion, "V2")) {
+          if (this._ifListEmpty(this._addtionalHeaders)) {
+            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          } else {
+              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          }
+        } else {
+            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
+        }
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
-        let bodyStr = await this._readAsString(response_);
+        let bodyStr = null;
         if (this._isFail(response_)) {
-          respMap = this._parseXml(bodyStr, ServerError);
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -6133,7 +6381,9 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = this._getSecurityToken();
+        let accessKeyId = await this._getAccessKeyID();
+        let accessKeySecret = await this._getAccessKeySecret();
+        let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/${request.objectName}?symlink`;
@@ -6142,17 +6392,26 @@ export default class Client extends BaseClient {
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
-        if (this._notEmpty(token)) {
+        if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
+        if (this._equal(this._signatureVersion, "V2")) {
+          if (this._ifListEmpty(this._addtionalHeaders)) {
+            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          } else {
+              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          }
+        } else {
+            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
+        }
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
-        let bodyStr = await this._readAsString(response_);
+        let bodyStr = null;
         if (this._isFail(response_)) {
-          respMap = this._parseXml(bodyStr, ServerError);
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -6217,7 +6476,9 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = this._getSecurityToken();
+        let accessKeyId = await this._getAccessKeyID();
+        let accessKeySecret = await this._getAccessKeySecret();
+        let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/?lifecycle`;
@@ -6226,17 +6487,26 @@ export default class Client extends BaseClient {
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
-        if (this._notEmpty(token)) {
+        if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
+        if (this._equal(this._signatureVersion, "V2")) {
+          if (this._ifListEmpty(this._addtionalHeaders)) {
+            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          } else {
+              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          }
+        } else {
+            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
+        }
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
-        let bodyStr = await this._readAsString(response_);
+        let bodyStr = null;
         if (this._isFail(response_)) {
-          respMap = this._parseXml(bodyStr, ServerError);
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -6248,6 +6518,7 @@ export default class Client extends BaseClient {
           });
         }
 
+        bodyStr = await this._readAsString(response_);
         respMap = this._parseXml(bodyStr, GetBucketLifecycleResponse);
         return $tea.cast<GetBucketLifecycleResponse>({
           LifecycleConfiguration: respMap["LifecycleConfiguration"],
@@ -6303,7 +6574,9 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = this._getSecurityToken();
+        let accessKeyId = await this._getAccessKeyID();
+        let accessKeySecret = await this._getAccessKeySecret();
+        let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "PUT";
         request_.pathname = `/${request.objectName}?symlink`;
@@ -6313,17 +6586,26 @@ export default class Client extends BaseClient {
           'user-agent': this._getUserAgent(),
           ...this._toHeader(request.header),
         };
-        if (this._notEmpty(token)) {
+        if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
+        if (this._equal(this._signatureVersion, "V2")) {
+          if (this._ifListEmpty(this._addtionalHeaders)) {
+            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          } else {
+              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          }
+        } else {
+            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
+        }
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
-        let bodyStr = await this._readAsString(response_);
+        let bodyStr = null;
         if (this._isFail(response_)) {
-          respMap = this._parseXml(bodyStr, ServerError);
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -6388,7 +6670,9 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = this._getSecurityToken();
+        let accessKeyId = await this._getAccessKeyID();
+        let accessKeySecret = await this._getAccessKeySecret();
+        let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/?referer`;
@@ -6397,17 +6681,26 @@ export default class Client extends BaseClient {
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
-        if (this._notEmpty(token)) {
+        if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
+        if (this._equal(this._signatureVersion, "V2")) {
+          if (this._ifListEmpty(this._addtionalHeaders)) {
+            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          } else {
+              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          }
+        } else {
+            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
+        }
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
-        let bodyStr = await this._readAsString(response_);
+        let bodyStr = null;
         if (this._isFail(response_)) {
-          respMap = this._parseXml(bodyStr, ServerError);
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -6419,6 +6712,7 @@ export default class Client extends BaseClient {
           });
         }
 
+        bodyStr = await this._readAsString(response_);
         respMap = this._parseXml(bodyStr, GetBucketRefererResponse);
         return $tea.cast<GetBucketRefererResponse>({
           RefererConfiguration: respMap["RefererConfiguration"],
@@ -6474,7 +6768,9 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = this._getSecurityToken();
+        let accessKeyId = await this._getAccessKeyID();
+        let accessKeySecret = await this._getAccessKeySecret();
+        let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/`;
@@ -6483,17 +6779,26 @@ export default class Client extends BaseClient {
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
-        if (this._notEmpty(token)) {
+        if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
+        if (this._equal(this._signatureVersion, "V2")) {
+          if (this._ifListEmpty(this._addtionalHeaders)) {
+            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          } else {
+              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          }
+        } else {
+            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
+        }
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
-        let bodyStr = await this._readAsString(response_);
+        let bodyStr = null;
         if (this._isFail(response_)) {
-          respMap = this._parseXml(bodyStr, ServerError);
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -6558,7 +6863,9 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = this._getSecurityToken();
+        let accessKeyId = await this._getAccessKeyID();
+        let accessKeySecret = await this._getAccessKeySecret();
+        let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/?logging`;
@@ -6567,17 +6874,26 @@ export default class Client extends BaseClient {
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
-        if (this._notEmpty(token)) {
+        if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
+        if (this._equal(this._signatureVersion, "V2")) {
+          if (this._ifListEmpty(this._addtionalHeaders)) {
+            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          } else {
+              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          }
+        } else {
+            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
+        }
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
-        let bodyStr = await this._readAsString(response_);
+        let bodyStr = null;
         if (this._isFail(response_)) {
-          respMap = this._parseXml(bodyStr, ServerError);
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -6589,6 +6905,7 @@ export default class Client extends BaseClient {
           });
         }
 
+        bodyStr = await this._readAsString(response_);
         respMap = this._parseXml(bodyStr, GetBucketLoggingResponse);
         return $tea.cast<GetBucketLoggingResponse>({
           BucketLoggingStatus: respMap["BucketLoggingStatus"],
@@ -6644,7 +6961,9 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = this._getSecurityToken();
+        let accessKeyId = await this._getAccessKeyID();
+        let accessKeySecret = await this._getAccessKeySecret();
+        let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "PUT";
         request_.pathname = `/${request.objectName}?acl`;
@@ -6654,17 +6973,26 @@ export default class Client extends BaseClient {
           'user-agent': this._getUserAgent(),
           ...this._toHeader(request.header),
         };
-        if (this._notEmpty(token)) {
+        if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
+        if (this._equal(this._signatureVersion, "V2")) {
+          if (this._ifListEmpty(this._addtionalHeaders)) {
+            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          } else {
+              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          }
+        } else {
+            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
+        }
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
-        let bodyStr = await this._readAsString(response_);
+        let bodyStr = null;
         if (this._isFail(response_)) {
-          respMap = this._parseXml(bodyStr, ServerError);
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -6729,7 +7057,9 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = this._getSecurityToken();
+        let accessKeyId = await this._getAccessKeyID();
+        let accessKeySecret = await this._getAccessKeySecret();
+        let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/?bucketInfo`;
@@ -6738,17 +7068,26 @@ export default class Client extends BaseClient {
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
-        if (this._notEmpty(token)) {
+        if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
+        if (this._equal(this._signatureVersion, "V2")) {
+          if (this._ifListEmpty(this._addtionalHeaders)) {
+            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          } else {
+              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          }
+        } else {
+            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
+        }
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
-        let bodyStr = await this._readAsString(response_);
+        let bodyStr = null;
         if (this._isFail(response_)) {
-          respMap = this._parseXml(bodyStr, ServerError);
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -6760,6 +7099,7 @@ export default class Client extends BaseClient {
           });
         }
 
+        bodyStr = await this._readAsString(response_);
         respMap = this._parseXml(bodyStr, GetBucketInfoResponse);
         return $tea.cast<GetBucketInfoResponse>({
           BucketInfo: respMap["BucketInfo"],
@@ -6815,7 +7155,9 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = this._getSecurityToken();
+        let accessKeyId = await this._getAccessKeyID();
+        let accessKeySecret = await this._getAccessKeySecret();
+        let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "PUT";
         request_.pathname = `/${request.channelName}?live`;
@@ -6824,18 +7166,27 @@ export default class Client extends BaseClient {
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
-        if (this._notEmpty(token)) {
+        if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
         request_.query = this._toQuery(request.filter);
-        request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
+        if (this._equal(this._signatureVersion, "V2")) {
+          if (this._ifListEmpty(this._addtionalHeaders)) {
+            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          } else {
+              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          }
+        } else {
+            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
+        }
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
-        let bodyStr = await this._readAsString(response_);
+        let bodyStr = null;
         if (this._isFail(response_)) {
-          respMap = this._parseXml(bodyStr, ServerError);
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -6900,7 +7251,9 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = this._getSecurityToken();
+        let accessKeyId = await this._getAccessKeyID();
+        let accessKeySecret = await this._getAccessKeySecret();
+        let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "POST";
         request_.pathname = `/${request.objectName}?uploads`;
@@ -6910,19 +7263,28 @@ export default class Client extends BaseClient {
           'user-agent': this._getUserAgent(),
           ...this._toHeader(request.header),
         };
-        if (this._notEmpty(token)) {
+        if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
         request_.query = this._toQuery(request.filter);
         request_.headers["content-type"] = this._default(this._getSpecialValue(request.header, "content-type"), this._getContentType(request.objectName));
-        request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
+        if (this._equal(this._signatureVersion, "V2")) {
+          if (this._ifListEmpty(this._addtionalHeaders)) {
+            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          } else {
+              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          }
+        } else {
+            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
+        }
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
-        let bodyStr = await this._readAsString(response_);
+        let bodyStr = null;
         if (this._isFail(response_)) {
-          respMap = this._parseXml(bodyStr, ServerError);
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -6934,6 +7296,7 @@ export default class Client extends BaseClient {
           });
         }
 
+        bodyStr = await this._readAsString(response_);
         respMap = this._parseXml(bodyStr, InitiateMultipartUploadResponse);
         return $tea.cast<InitiateMultipartUploadResponse>({
           InitiateMultipartUploadResult: respMap["InitiateMultipartUploadResult"],
@@ -6989,7 +7352,9 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = this._getSecurityToken();
+        let accessKeyId = await this._getAccessKeyID();
+        let accessKeySecret = await this._getAccessKeySecret();
+        let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "OPTIONS";
         request_.pathname = `/${request.objectName}`;
@@ -6999,17 +7364,26 @@ export default class Client extends BaseClient {
           'user-agent': this._getUserAgent(),
           ...this._toHeader(request.header),
         };
-        if (this._notEmpty(token)) {
+        if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
+        if (this._equal(this._signatureVersion, "V2")) {
+          if (this._ifListEmpty(this._addtionalHeaders)) {
+            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          } else {
+              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          }
+        } else {
+            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
+        }
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
-        let bodyStr = await this._readAsString(response_);
+        let bodyStr = null;
         if (this._isFail(response_)) {
-          respMap = this._parseXml(bodyStr, ServerError);
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -7074,7 +7448,9 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = this._getSecurityToken();
+        let accessKeyId = await this._getAccessKeyID();
+        let accessKeySecret = await this._getAccessKeySecret();
+        let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "POST";
         request_.pathname = `/${request.channelName}/${request.playlistName}?vod`;
@@ -7083,18 +7459,27 @@ export default class Client extends BaseClient {
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
-        if (this._notEmpty(token)) {
+        if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
         request_.query = this._toQuery(request.filter);
-        request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
+        if (this._equal(this._signatureVersion, "V2")) {
+          if (this._ifListEmpty(this._addtionalHeaders)) {
+            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          } else {
+              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          }
+        } else {
+            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
+        }
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
-        let bodyStr = await this._readAsString(response_);
+        let bodyStr = null;
         if (this._isFail(response_)) {
-          respMap = this._parseXml(bodyStr, ServerError);
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -7159,7 +7544,9 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = this._getSecurityToken();
+        let accessKeyId = await this._getAccessKeyID();
+        let accessKeySecret = await this._getAccessKeySecret();
+        let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "POST";
         request_.pathname = `/`;
@@ -7168,17 +7555,26 @@ export default class Client extends BaseClient {
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
-        if (this._notEmpty(token)) {
+        if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
+        if (this._equal(this._signatureVersion, "V2")) {
+          if (this._ifListEmpty(this._addtionalHeaders)) {
+            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          } else {
+              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          }
+        } else {
+            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
+        }
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
-        let bodyStr = await this._readAsString(response_);
+        let bodyStr = null;
         if (this._isFail(response_)) {
-          respMap = this._parseXml(bodyStr, ServerError);
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -7243,7 +7639,9 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = this._getSecurityToken();
+        let accessKeyId = await this._getAccessKeyID();
+        let accessKeySecret = await this._getAccessKeySecret();
+        let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "HEAD";
         request_.pathname = `/${request.objectName}`;
@@ -7253,17 +7651,26 @@ export default class Client extends BaseClient {
           'user-agent': this._getUserAgent(),
           ...this._toHeader(request.header),
         };
-        if (this._notEmpty(token)) {
+        if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
+        if (this._equal(this._signatureVersion, "V2")) {
+          if (this._ifListEmpty(this._addtionalHeaders)) {
+            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          } else {
+              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          }
+        } else {
+            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
+        }
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
-        let bodyStr = await this._readAsString(response_);
+        let bodyStr = null;
         if (this._isFail(response_)) {
-          respMap = this._parseXml(bodyStr, ServerError);
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -7329,7 +7736,9 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = this._getSecurityToken();
+        let accessKeyId = await this._getAccessKeyID();
+        let accessKeySecret = await this._getAccessKeySecret();
+        let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "DELETE";
         request_.pathname = `/${request.objectName}?tagging`;
@@ -7338,17 +7747,26 @@ export default class Client extends BaseClient {
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
-        if (this._notEmpty(token)) {
+        if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
+        if (this._equal(this._signatureVersion, "V2")) {
+          if (this._ifListEmpty(this._addtionalHeaders)) {
+            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          } else {
+              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          }
+        } else {
+            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
+        }
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
-        let bodyStr = await this._readAsString(response_);
+        let bodyStr = null;
         if (this._isFail(response_)) {
-          respMap = this._parseXml(bodyStr, ServerError);
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -7413,7 +7831,9 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = this._getSecurityToken();
+        let accessKeyId = await this._getAccessKeyID();
+        let accessKeySecret = await this._getAccessKeySecret();
+        let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "POST";
         request_.pathname = `/${request.objectName}?restore`;
@@ -7422,17 +7842,26 @@ export default class Client extends BaseClient {
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
-        if (this._notEmpty(token)) {
+        if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
+        if (this._equal(this._signatureVersion, "V2")) {
+          if (this._ifListEmpty(this._addtionalHeaders)) {
+            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          } else {
+              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          }
+        } else {
+            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
+        }
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
-        let bodyStr = await this._readAsString(response_);
+        let bodyStr = null;
         if (this._isFail(response_)) {
-          respMap = this._parseXml(bodyStr, ServerError);
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -7497,7 +7926,9 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = this._getSecurityToken();
+        let accessKeyId = await this._getAccessKeyID();
+        let accessKeySecret = await this._getAccessKeySecret();
+        let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/${request.objectName}?acl`;
@@ -7506,17 +7937,26 @@ export default class Client extends BaseClient {
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
-        if (this._notEmpty(token)) {
+        if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
+        if (this._equal(this._signatureVersion, "V2")) {
+          if (this._ifListEmpty(this._addtionalHeaders)) {
+            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          } else {
+              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          }
+        } else {
+            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
+        }
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
-        let bodyStr = await this._readAsString(response_);
+        let bodyStr = null;
         if (this._isFail(response_)) {
-          respMap = this._parseXml(bodyStr, ServerError);
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -7528,6 +7968,7 @@ export default class Client extends BaseClient {
           });
         }
 
+        bodyStr = await this._readAsString(response_);
         respMap = this._parseXml(bodyStr, GetObjectAclResponse);
         return $tea.cast<GetObjectAclResponse>({
           AccessControlPolicy: respMap["AccessControlPolicy"],
@@ -7583,7 +8024,9 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = this._getSecurityToken();
+        let accessKeyId = await this._getAccessKeyID();
+        let accessKeySecret = await this._getAccessKeySecret();
+        let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "PUT";
         request_.pathname = `/?acl`;
@@ -7593,17 +8036,26 @@ export default class Client extends BaseClient {
           'user-agent': this._getUserAgent(),
           ...this._toHeader(request.header),
         };
-        if (this._notEmpty(token)) {
+        if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
+        if (this._equal(this._signatureVersion, "V2")) {
+          if (this._ifListEmpty(this._addtionalHeaders)) {
+            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          } else {
+              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          }
+        } else {
+            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
+        }
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
-        let bodyStr = await this._readAsString(response_);
+        let bodyStr = null;
         if (this._isFail(response_)) {
-          respMap = this._parseXml(bodyStr, ServerError);
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -7668,7 +8120,9 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = this._getSecurityToken();
+        let accessKeyId = await this._getAccessKeyID();
+        let accessKeySecret = await this._getAccessKeySecret();
+        let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "DELETE";
         request_.pathname = `/`;
@@ -7677,17 +8131,26 @@ export default class Client extends BaseClient {
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
-        if (this._notEmpty(token)) {
+        if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
+        if (this._equal(this._signatureVersion, "V2")) {
+          if (this._ifListEmpty(this._addtionalHeaders)) {
+            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          } else {
+              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          }
+        } else {
+            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
+        }
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
-        let bodyStr = await this._readAsString(response_);
+        let bodyStr = null;
         if (this._isFail(response_)) {
-          respMap = this._parseXml(bodyStr, ServerError);
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -7752,7 +8215,9 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = this._getSecurityToken();
+        let accessKeyId = await this._getAccessKeyID();
+        let accessKeySecret = await this._getAccessKeySecret();
+        let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "PUT";
         request_.pathname = `/${request.objectName}`;
@@ -7763,19 +8228,28 @@ export default class Client extends BaseClient {
           ...this._toHeader(request.header),
           ...this._parseMeta(request.userMeta, "x-oss-meta-"),
         };
-        if (this._notEmpty(token)) {
+        if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
         request_.body = request.body;
         request_.headers["content-type"] = this._default(this._getSpecialValue(request.header, "content-type"), this._getContentType(request.objectName));
-        request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
+        if (this._equal(this._signatureVersion, "V2")) {
+          if (this._ifListEmpty(this._addtionalHeaders)) {
+            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          } else {
+              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
+          }
+        } else {
+            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
+        }
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
-        let bodyStr = await this._readAsString(response_);
+        let bodyStr = null;
         if (this._isFail(response_)) {
-          respMap = this._parseXml(bodyStr, ServerError);
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
