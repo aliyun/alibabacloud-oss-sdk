@@ -1,7 +1,8 @@
 module Client {
 
   type @getDate = (): string
-  type @getAuth = ($Request, string): string
+  type @getSignatureV1 = ($Request, string, string): string
+  type @getSignatureV2 = ($Request, string, string, [ string ]): string  
   type @readAsString = async ($Response): string
   type @parseXml = (string, class): object
   type @default = (string, string): string
@@ -32,10 +33,16 @@ module Client {
   type @getRefer = (readable): map[string]string
   type @equal = (string, string): boolean
   type @empty = (string): boolean
-  type @getSecurityToken = (): string
+  type @getSecurityToken = async (): string
   type @notEmpty = (string): boolean
+  type @getAccessKeyID = async (): string
+  type @getAccessKeySecret = async (): string
+  type @listToString = ([ string ], string): string
+  type @ifListEmpty = ([ string ]): boolean
   type @readTimeout = number
   type @connectTimeout = number
+  type @signatureVersion = string
+  type @addtionalHeaders = [ string ]
   type @localAddr = string
   type @httpProxy = string
   type @httpsProxy = string
@@ -133,6 +140,8 @@ module Client {
   }
 
   api deleteLiveChannel(request: DeleteLiveChannelRequest, runtime: RuntimeObject): DeleteLiveChannelResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'DELETE';
@@ -145,7 +154,15 @@ module Client {
     if (@notEmpty(token)) {
       headers.x-oss-security-token = token;
     }
-    headers.authorization = @getAuth(__request, request.bucketName);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
   } returns {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
@@ -197,6 +214,8 @@ module Client {
   }
 
   api getBucketLocation(request: GetBucketLocationRequest, runtime: RuntimeObject): GetBucketLocationResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
@@ -209,7 +228,15 @@ module Client {
     if (@notEmpty(token)) {
       headers.x-oss-security-token = token;
     }
-    headers.authorization = @getAuth(__request, request.bucketName);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
   } returns {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
@@ -286,6 +313,8 @@ module Client {
   }
 
   api listLiveChannel(request: ListLiveChannelRequest, runtime: RuntimeObject): ListLiveChannelResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
@@ -299,7 +328,15 @@ module Client {
       headers.x-oss-security-token = token;
     }
     query = @toQuery(request.filter);
-    headers.authorization = @getAuth(__request, request.bucketName);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
   } returns {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
@@ -356,6 +393,8 @@ module Client {
   }
 
   api getObjectMeta(request: GetObjectMetaRequest, runtime: RuntimeObject): GetObjectMetaResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'HEAD';
@@ -368,7 +407,15 @@ module Client {
     if (@notEmpty(token)) {
       headers.x-oss-security-token = token;
     }
-    headers.authorization = @getAuth(__request, request.bucketName);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
   } returns {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
@@ -428,6 +475,8 @@ module Client {
   }
 
   api getBucketAcl(request: GetBucketAclRequest, runtime: RuntimeObject): GetBucketAclResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
@@ -440,7 +489,15 @@ module Client {
     if (@notEmpty(token)) {
       headers.x-oss-security-token = token;
     }
-    headers.authorization = @getAuth(__request, request.bucketName);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
   } returns {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
@@ -518,6 +575,8 @@ module Client {
   }
 
   api listParts(request: ListPartsRequest, runtime: RuntimeObject): ListPartsResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
@@ -531,7 +590,15 @@ module Client {
       headers.x-oss-security-token = token;
     }
     query = @toQuery(request.filter);
-    headers.authorization = @getAuth(__request, request.bucketName);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
   } returns {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
@@ -597,6 +664,8 @@ module Client {
   }
 
   api getLiveChannelHistory(request: GetLiveChannelHistoryRequest, runtime: RuntimeObject): GetLiveChannelHistoryResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
@@ -610,7 +679,15 @@ module Client {
       headers.x-oss-security-token = token;
     }
     query = @toQuery(request.filter);
-    headers.authorization = @getAuth(__request, request.bucketName);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
   } returns {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
@@ -693,6 +770,8 @@ module Client {
   }
 
   api getBucket(request: GetBucketRequest, runtime: RuntimeObject): GetBucketResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
@@ -706,7 +785,15 @@ module Client {
       headers.x-oss-security-token = token;
     }
     query = @toQuery(request.filter);
-    headers.authorization = @getAuth(__request, request.bucketName);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
   } returns {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
@@ -770,6 +857,8 @@ module Client {
   }
 
   api getLiveChannelInfo(request: GetLiveChannelInfoRequest, runtime: RuntimeObject): GetLiveChannelInfoResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
@@ -782,7 +871,15 @@ module Client {
     if (@notEmpty(token)) {
       headers.x-oss-security-token = token;
     }
-    headers.authorization = @getAuth(__request, request.bucketName);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
   } returns {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
@@ -856,6 +953,8 @@ module Client {
   }
 
   api getLiveChannelStat(request: GetLiveChannelStatRequest, runtime: RuntimeObject): GetLiveChannelStatResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
@@ -869,7 +968,15 @@ module Client {
       headers.x-oss-security-token = token;
     }
     query = @toQuery(request.filter);
-    headers.authorization = @getAuth(__request, request.bucketName);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
   } returns {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
@@ -923,6 +1030,8 @@ module Client {
   }
 
   api deleteObject(request: DeleteObjectRequest, runtime: RuntimeObject): DeleteObjectResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'DELETE';
@@ -935,7 +1044,15 @@ module Client {
     if (@notEmpty(token)) {
       headers.x-oss-security-token = token;
     }
-    headers.authorization = @getAuth(__request, request.bucketName);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
   } returns {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
@@ -990,6 +1107,8 @@ module Client {
   }
 
   api abortMultipartUpload(request: AbortMultipartUploadRequest, runtime: RuntimeObject): AbortMultipartUploadResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'DELETE';
@@ -1003,7 +1122,15 @@ module Client {
       headers.x-oss-security-token = token;
     }
     query = @toQuery(request.filter);
-    headers.authorization = @getAuth(__request, request.bucketName);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
   } returns {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
@@ -1073,6 +1200,8 @@ module Client {
   }
 
   api appendObject(request: AppendObjectRequest, runtime: RuntimeObject): AppendObjectResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'POST';
@@ -1090,7 +1219,15 @@ module Client {
     query = @toQuery(request.filter);
     body = request.body;
     headers.content-type = @default(@getSpecialValue(request.header, 'content-type'), @getContentType(request.objectName));
-    headers.authorization = @getAuth(__request, request.bucketName);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
   } returns {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
@@ -1158,6 +1295,8 @@ module Client {
   }
 
   api uploadPartCopy(request: UploadPartCopyRequest, runtime: RuntimeObject): UploadPartCopyResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'PUT';
@@ -1172,7 +1311,15 @@ module Client {
       headers.x-oss-security-token = token;
     }
     query = @toQuery(request.filter);
-    headers.authorization = @getAuth(__request, request.bucketName);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
   } returns {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
@@ -1230,6 +1377,8 @@ module Client {
   }
 
   api getVodPlaylist(request: GetVodPlaylistRequest, runtime: RuntimeObject): GetVodPlaylistResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
@@ -1243,7 +1392,15 @@ module Client {
       headers.x-oss-security-token = token;
     }
     query = @toQuery(request.filter);
-    headers.authorization = @getAuth(__request, request.bucketName);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
   } returns {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
@@ -1294,6 +1451,8 @@ module Client {
   }
 
   api deleteBucketCORS(request: DeleteBucketCORSRequest, runtime: RuntimeObject): DeleteBucketCORSResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'DELETE';
@@ -1306,7 +1465,15 @@ module Client {
     if (@notEmpty(token)) {
       headers.x-oss-security-token = token;
     }
-    headers.authorization = @getAuth(__request, request.bucketName);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
   } returns {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
@@ -1377,6 +1544,8 @@ module Client {
   }
 
   api getObject(request: GetObjectRequest, runtime: RuntimeObject): GetObjectResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
@@ -1390,7 +1559,15 @@ module Client {
     if (@notEmpty(token)) {
       headers.x-oss-security-token = token;
     }
-    headers.authorization = @getAuth(__request, request.bucketName);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
   } returns {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
@@ -1448,6 +1625,8 @@ module Client {
   }
 
   api uploadPart(request: UploadPartRequest, runtime: RuntimeObject): UploadPartResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'PUT';
@@ -1462,7 +1641,15 @@ module Client {
     }
     query = @toQuery(request.filter);
     body = request.body;
-    headers.authorization = @getAuth(__request, request.bucketName);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
   } returns {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
@@ -1520,6 +1707,8 @@ module Client {
   }
 
   api getBucketCORS(request: GetBucketCORSRequest, runtime: RuntimeObject): GetBucketCORSResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
@@ -1532,7 +1721,15 @@ module Client {
     if (@notEmpty(token)) {
       headers.x-oss-security-token = token;
     }
-    headers.authorization = @getAuth(__request, request.bucketName);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
   } returns {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
@@ -1604,6 +1801,8 @@ module Client {
   }
 
   api copyObject(request: CopyObjectRequest, runtime: RuntimeObject): CopyObjectResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'PUT';
@@ -1619,7 +1818,15 @@ module Client {
     }
     
       headers.x-oss-copy-source = @encode(__request.headers.x-oss-copy-source, 'UrlEncode');
-    headers.authorization = @getAuth(__request, request.bucketName);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
   } returns {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
@@ -1683,6 +1890,8 @@ module Client {
   }
 
   api getObjectTagging(request: GetObjectTaggingRequest, runtime: RuntimeObject): GetObjectTaggingResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
@@ -1695,7 +1904,15 @@ module Client {
     if (@notEmpty(token)) {
       headers.x-oss-security-token = token;
     }
-    headers.authorization = @getAuth(__request, request.bucketName);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
   } returns {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
@@ -1748,6 +1965,8 @@ module Client {
   }
 
   api deleteBucketLifecycle(request: DeleteBucketLifecycleRequest, runtime: RuntimeObject): DeleteBucketLifecycleResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'DELETE';
@@ -1760,7 +1979,15 @@ module Client {
     if (@notEmpty(token)) {
       headers.x-oss-security-token = token;
     }
-    headers.authorization = @getAuth(__request, request.bucketName);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
   } returns {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
@@ -1811,6 +2038,8 @@ module Client {
   }
 
   api deleteBucketLogging(request: DeleteBucketLoggingRequest, runtime: RuntimeObject): DeleteBucketLoggingResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'DELETE';
@@ -1823,7 +2052,15 @@ module Client {
     if (@notEmpty(token)) {
       headers.x-oss-security-token = token;
     }
-    headers.authorization = @getAuth(__request, request.bucketName);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
   } returns {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
@@ -1874,6 +2111,8 @@ module Client {
   }
 
   api deleteBucketWebsite(request: DeleteBucketWebsiteRequest, runtime: RuntimeObject): DeleteBucketWebsiteResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'DELETE';
@@ -1886,7 +2125,15 @@ module Client {
     if (@notEmpty(token)) {
       headers.x-oss-security-token = token;
     }
-    headers.authorization = @getAuth(__request, request.bucketName);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
   } returns {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
@@ -1939,6 +2186,8 @@ module Client {
   }
 
   api getSymlink(request: GetSymlinkRequest, runtime: RuntimeObject): GetSymlinkResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
@@ -1951,7 +2200,15 @@ module Client {
     if (@notEmpty(token)) {
       headers.x-oss-security-token = token;
     }
-    headers.authorization = @getAuth(__request, request.bucketName);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
   } returns {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
@@ -2027,6 +2284,8 @@ module Client {
   }
 
   api getBucketLifecycle(request: GetBucketLifecycleRequest, runtime: RuntimeObject): GetBucketLifecycleResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
@@ -2039,7 +2298,15 @@ module Client {
     if (@notEmpty(token)) {
       headers.x-oss-security-token = token;
     }
-    headers.authorization = @getAuth(__request, request.bucketName);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
   } returns {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
@@ -2097,6 +2364,8 @@ module Client {
   }
 
   api putSymlink(request: PutSymlinkRequest, runtime: RuntimeObject): PutSymlinkResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'PUT';
@@ -2110,7 +2379,15 @@ module Client {
     if (@notEmpty(token)) {
       headers.x-oss-security-token = token;
     }
-    headers.authorization = @getAuth(__request, request.bucketName);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
   } returns {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
@@ -2167,6 +2444,8 @@ module Client {
   }
 
   api getBucketReferer(request: GetBucketRefererRequest, runtime: RuntimeObject): GetBucketRefererResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
@@ -2179,7 +2458,15 @@ module Client {
     if (@notEmpty(token)) {
       headers.x-oss-security-token = token;
     }
-    headers.authorization = @getAuth(__request, request.bucketName);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
   } returns {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
@@ -2232,6 +2519,8 @@ module Client {
   }
 
   api callback(request: CallbackRequest, runtime: RuntimeObject): CallbackResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
@@ -2244,7 +2533,15 @@ module Client {
     if (@notEmpty(token)) {
       headers.x-oss-security-token = token;
     }
-    headers.authorization = @getAuth(__request, request.bucketName);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
   } returns {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
@@ -2301,6 +2598,8 @@ module Client {
   }
 
   api getBucketLogging(request: GetBucketLoggingRequest, runtime: RuntimeObject): GetBucketLoggingResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
@@ -2313,7 +2612,15 @@ module Client {
     if (@notEmpty(token)) {
       headers.x-oss-security-token = token;
     }
-    headers.authorization = @getAuth(__request, request.bucketName);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
   } returns {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
@@ -2370,6 +2677,8 @@ module Client {
   }
 
   api putObjectAcl(request: PutObjectAclRequest, runtime: RuntimeObject): PutObjectAclResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'PUT';
@@ -2383,7 +2692,15 @@ module Client {
     if (@notEmpty(token)) {
       headers.x-oss-security-token = token;
     }
-    headers.authorization = @getAuth(__request, request.bucketName);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
   } returns {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
@@ -2453,6 +2770,8 @@ module Client {
   }
 
   api getBucketInfo(request: GetBucketInfoRequest, runtime: RuntimeObject): GetBucketInfoResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
@@ -2465,7 +2784,15 @@ module Client {
     if (@notEmpty(token)) {
       headers.x-oss-security-token = token;
     }
-    headers.authorization = @getAuth(__request, request.bucketName);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
   } returns {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
@@ -2522,6 +2849,8 @@ module Client {
   }
 
   api putLiveChannelStatus(request: PutLiveChannelStatusRequest, runtime: RuntimeObject): PutLiveChannelStatusResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'PUT';
@@ -2535,7 +2864,15 @@ module Client {
       headers.x-oss-security-token = token;
     }
     query = @toQuery(request.filter);
-    headers.authorization = @getAuth(__request, request.bucketName);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
   } returns {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
@@ -2606,6 +2943,8 @@ module Client {
   }
 
   api initiateMultipartUpload(request: InitiateMultipartUploadRequest, runtime: RuntimeObject): InitiateMultipartUploadResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'POST';
@@ -2621,7 +2960,15 @@ module Client {
     }
     query = @toQuery(request.filter);
     headers.content-type = @default(@getSpecialValue(request.header, 'content-type'), @getContentType(request.objectName));
-    headers.authorization = @getAuth(__request, request.bucketName);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
   } returns {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
@@ -2685,6 +3032,8 @@ module Client {
   }
 
   api optionObject(request: OptionObjectRequest, runtime: RuntimeObject): OptionObjectResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'OPTIONS';
@@ -2698,7 +3047,15 @@ module Client {
     if (@notEmpty(token)) {
       headers.x-oss-security-token = token;
     }
-    headers.authorization = @getAuth(__request, request.bucketName);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
   } returns {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
@@ -2755,6 +3112,8 @@ module Client {
   }
 
   api postVodPlaylist(request: PostVodPlaylistRequest, runtime: RuntimeObject): PostVodPlaylistResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'POST';
@@ -2768,7 +3127,15 @@ module Client {
       headers.x-oss-security-token = token;
     }
     query = @toQuery(request.filter);
-    headers.authorization = @getAuth(__request, request.bucketName);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
   } returns {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
@@ -2820,6 +3187,8 @@ module Client {
   }
 
   api postObject(request: PostObjectRequest, runtime: RuntimeObject): PostObjectResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'POST';
@@ -2832,7 +3201,15 @@ module Client {
     if (@notEmpty(token)) {
       headers.x-oss-security-token = token;
     }
-    headers.authorization = @getAuth(__request, request.bucketName);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
   } returns {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
@@ -2909,6 +3286,8 @@ module Client {
   }
 
   api headObject(request: HeadObjectRequest, runtime: RuntimeObject): HeadObjectResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'HEAD';
@@ -2922,7 +3301,15 @@ module Client {
     if (@notEmpty(token)) {
       headers.x-oss-security-token = token;
     }
-    headers.authorization = @getAuth(__request, request.bucketName);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
   } returns {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
@@ -2975,6 +3362,8 @@ module Client {
   }
 
   api deleteObjectTagging(request: DeleteObjectTaggingRequest, runtime: RuntimeObject): DeleteObjectTaggingResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'DELETE';
@@ -2987,7 +3376,15 @@ module Client {
     if (@notEmpty(token)) {
       headers.x-oss-security-token = token;
     }
-    headers.authorization = @getAuth(__request, request.bucketName);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
   } returns {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
@@ -3039,6 +3436,8 @@ module Client {
   }
 
   api restoreObject(request: RestoreObjectRequest, runtime: RuntimeObject): RestoreObjectResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'POST';
@@ -3051,7 +3450,15 @@ module Client {
     if (@notEmpty(token)) {
       headers.x-oss-security-token = token;
     }
-    headers.authorization = @getAuth(__request, request.bucketName);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
   } returns {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
@@ -3112,6 +3519,8 @@ module Client {
   }
 
   api getObjectAcl(request: GetObjectAclRequest, runtime: RuntimeObject): GetObjectAclResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
@@ -3124,7 +3533,15 @@ module Client {
     if (@notEmpty(token)) {
       headers.x-oss-security-token = token;
     }
-    headers.authorization = @getAuth(__request, request.bucketName);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
   } returns {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
@@ -3180,6 +3597,8 @@ module Client {
   }
 
   api putBucketAcl(request: PutBucketAclRequest, runtime: RuntimeObject): PutBucketAclResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'PUT';
@@ -3193,7 +3612,15 @@ module Client {
     if (@notEmpty(token)) {
       headers.x-oss-security-token = token;
     }
-    headers.authorization = @getAuth(__request, request.bucketName);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
   } returns {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
@@ -3244,6 +3671,8 @@ module Client {
   }
 
   api deleteBucket(request: DeleteBucketRequest, runtime: RuntimeObject): DeleteBucketResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'DELETE';
@@ -3256,7 +3685,15 @@ module Client {
     if (@notEmpty(token)) {
       headers.x-oss-security-token = token;
     }
-    headers.authorization = @getAuth(__request, request.bucketName);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
   } returns {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
@@ -3329,6 +3766,8 @@ module Client {
   }
 
   api putObject(request: PutObjectRequest, runtime: RuntimeObject): PutObjectResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'PUT';
@@ -3345,7 +3784,15 @@ module Client {
     }
     body = request.body;
     headers.content-type = @default(@getSpecialValue(request.header, 'content-type'), @getContentType(request.objectName));
-    headers.authorization = @getAuth(__request, request.bucketName);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
   } returns {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
