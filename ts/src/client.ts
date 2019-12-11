@@ -152,6 +152,34 @@ export class Config extends $tea.Model {
   }
 }
 
+export class ServerError extends $tea.Model {
+  code?: string;
+  message?: string;
+  requestId?: string;
+  hostId?: string;
+  static names(): { [key: string]: string } {
+    return {
+      code: 'Code',
+      message: 'Message',
+      requestId: 'RequestId',
+      hostId: 'HostId',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      code: 'string',
+      message: 'string',
+      requestId: 'string',
+      hostId: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+}
+
 export class DeleteLiveChannelRequest extends $tea.Model {
   bucketName: string;
   channelName: string;
@@ -4006,7 +4034,7 @@ export default class Client extends BaseClient {
     super($tea.toMap(config));
   }
 
-  async DeleteLiveChannel(request: DeleteLiveChannelRequest, runtime: RuntimeObject): Promise<DeleteLiveChannelResponse> {
+  async deleteLiveChannel(request: DeleteLiveChannelRequest, runtime: RuntimeObject): Promise<DeleteLiveChannelResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
       readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
@@ -4045,21 +4073,26 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
+        let token = this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "DELETE";
         request_.pathname = `/${request.channelName}?live`;
         request_.headers = {
-          host: this._getHost(request.bucketName),
+          host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
+        if (this._notEmpty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
         request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
+        let bodyStr = await this._readAsString(response_);
         if (this._isFail(response_)) {
-          respMap = await this._getErrMessage(response_);
+          respMap = this._parseXml(bodyStr, ServerError);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -4085,7 +4118,7 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async GetBucketLocation(request: GetBucketLocationRequest, runtime: RuntimeObject): Promise<GetBucketLocationResponse> {
+  async getBucketLocation(request: GetBucketLocationRequest, runtime: RuntimeObject): Promise<GetBucketLocationResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
       readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
@@ -4124,21 +4157,26 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
+        let token = this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/?location`;
         request_.headers = {
-          host: this._getHost(request.bucketName),
+          host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
+        if (this._notEmpty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
         request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
+        let bodyStr = await this._readAsString(response_);
         if (this._isFail(response_)) {
-          respMap = await this._getErrMessage(response_);
+          respMap = this._parseXml(bodyStr, ServerError);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -4150,7 +4188,7 @@ export default class Client extends BaseClient {
           });
         }
 
-        respMap = await this._parseXml(response_, GetBucketLocationResponse);
+        respMap = this._parseXml(bodyStr, GetBucketLocationResponse);
         return $tea.cast<GetBucketLocationResponse>({
           LocationConstraint: respMap["LocationConstraint"],
           ...response_.headers,
@@ -4166,7 +4204,7 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async ListLiveChannel(request: ListLiveChannelRequest, runtime: RuntimeObject): Promise<ListLiveChannelResponse> {
+  async listLiveChannel(request: ListLiveChannelRequest, runtime: RuntimeObject): Promise<ListLiveChannelResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
       readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
@@ -4205,22 +4243,27 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
+        let token = this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/?live`;
         request_.headers = {
-          host: this._getHost(request.bucketName),
+          host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
+        if (this._notEmpty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
         request_.query = this._toQuery(request.filter);
         request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
+        let bodyStr = await this._readAsString(response_);
         if (this._isFail(response_)) {
-          respMap = await this._getErrMessage(response_);
+          respMap = this._parseXml(bodyStr, ServerError);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -4232,7 +4275,7 @@ export default class Client extends BaseClient {
           });
         }
 
-        respMap = await this._parseXml(response_, ListLiveChannelResponse);
+        respMap = this._parseXml(bodyStr, ListLiveChannelResponse);
         return $tea.cast<ListLiveChannelResponse>({
           ListLiveChannelResult: respMap["ListLiveChannelResult"],
           ...response_.headers,
@@ -4248,7 +4291,7 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async GetObjectMeta(request: GetObjectMetaRequest, runtime: RuntimeObject): Promise<GetObjectMetaResponse> {
+  async getObjectMeta(request: GetObjectMetaRequest, runtime: RuntimeObject): Promise<GetObjectMetaResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
       readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
@@ -4287,21 +4330,26 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
+        let token = this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "HEAD";
         request_.pathname = `/${request.objectName}?objectMeta`;
         request_.headers = {
-          host: this._getHost(request.bucketName),
+          host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
+        if (this._notEmpty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
         request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
+        let bodyStr = await this._readAsString(response_);
         if (this._isFail(response_)) {
-          respMap = await this._getErrMessage(response_);
+          respMap = this._parseXml(bodyStr, ServerError);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -4327,7 +4375,7 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async GetBucketAcl(request: GetBucketAclRequest, runtime: RuntimeObject): Promise<GetBucketAclResponse> {
+  async getBucketAcl(request: GetBucketAclRequest, runtime: RuntimeObject): Promise<GetBucketAclResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
       readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
@@ -4366,21 +4414,26 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
+        let token = this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/?acl`;
         request_.headers = {
-          host: this._getHost(request.bucketName),
+          host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
+        if (this._notEmpty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
         request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
+        let bodyStr = await this._readAsString(response_);
         if (this._isFail(response_)) {
-          respMap = await this._getErrMessage(response_);
+          respMap = this._parseXml(bodyStr, ServerError);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -4392,7 +4445,7 @@ export default class Client extends BaseClient {
           });
         }
 
-        respMap = await this._parseXml(response_, GetBucketAclResponse);
+        respMap = this._parseXml(bodyStr, GetBucketAclResponse);
         return $tea.cast<GetBucketAclResponse>({
           AccessControlPolicy: respMap["AccessControlPolicy"],
           ...response_.headers,
@@ -4408,7 +4461,7 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async ListParts(request: ListPartsRequest, runtime: RuntimeObject): Promise<ListPartsResponse> {
+  async listParts(request: ListPartsRequest, runtime: RuntimeObject): Promise<ListPartsResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
       readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
@@ -4447,22 +4500,27 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
+        let token = this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/${request.objectName}`;
         request_.headers = {
-          host: this._getHost(request.bucketName),
+          host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
+        if (this._notEmpty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
         request_.query = this._toQuery(request.filter);
         request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
+        let bodyStr = await this._readAsString(response_);
         if (this._isFail(response_)) {
-          respMap = await this._getErrMessage(response_);
+          respMap = this._parseXml(bodyStr, ServerError);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -4474,7 +4532,7 @@ export default class Client extends BaseClient {
           });
         }
 
-        respMap = await this._parseXml(response_, ListPartsResponse);
+        respMap = this._parseXml(bodyStr, ListPartsResponse);
         return $tea.cast<ListPartsResponse>({
           ListPartsResult: respMap["ListPartsResult"],
           ...response_.headers,
@@ -4490,7 +4548,7 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async GetLiveChannelHistory(request: GetLiveChannelHistoryRequest, runtime: RuntimeObject): Promise<GetLiveChannelHistoryResponse> {
+  async getLiveChannelHistory(request: GetLiveChannelHistoryRequest, runtime: RuntimeObject): Promise<GetLiveChannelHistoryResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
       readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
@@ -4529,22 +4587,27 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
+        let token = this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/${request.channelName}?live`;
         request_.headers = {
-          host: this._getHost(request.bucketName),
+          host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
+        if (this._notEmpty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
         request_.query = this._toQuery(request.filter);
         request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
+        let bodyStr = await this._readAsString(response_);
         if (this._isFail(response_)) {
-          respMap = await this._getErrMessage(response_);
+          respMap = this._parseXml(bodyStr, ServerError);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -4556,7 +4619,7 @@ export default class Client extends BaseClient {
           });
         }
 
-        respMap = await this._parseXml(response_, GetLiveChannelHistoryResponse);
+        respMap = this._parseXml(bodyStr, GetLiveChannelHistoryResponse);
         return $tea.cast<GetLiveChannelHistoryResponse>({
           LiveChannelHistory: respMap["LiveChannelHistory"],
           ...response_.headers,
@@ -4572,7 +4635,7 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async GetBucket(request: GetBucketRequest, runtime: RuntimeObject): Promise<GetBucketResponse> {
+  async getBucket(request: GetBucketRequest, runtime: RuntimeObject): Promise<GetBucketResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
       readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
@@ -4611,22 +4674,27 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
+        let token = this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/`;
         request_.headers = {
-          host: this._getHost(request.bucketName),
+          host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
+        if (this._notEmpty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
         request_.query = this._toQuery(request.filter);
         request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
+        let bodyStr = await this._readAsString(response_);
         if (this._isFail(response_)) {
-          respMap = await this._getErrMessage(response_);
+          respMap = this._parseXml(bodyStr, ServerError);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -4638,7 +4706,7 @@ export default class Client extends BaseClient {
           });
         }
 
-        respMap = await this._parseXml(response_, GetBucketResponse);
+        respMap = this._parseXml(bodyStr, GetBucketResponse);
         return $tea.cast<GetBucketResponse>({
           ListBucketResult: respMap["ListBucketResult"],
           ...response_.headers,
@@ -4654,7 +4722,7 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async GetLiveChannelInfo(request: GetLiveChannelInfoRequest, runtime: RuntimeObject): Promise<GetLiveChannelInfoResponse> {
+  async getLiveChannelInfo(request: GetLiveChannelInfoRequest, runtime: RuntimeObject): Promise<GetLiveChannelInfoResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
       readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
@@ -4693,21 +4761,26 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
+        let token = this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/${request.channelName}?live`;
         request_.headers = {
-          host: this._getHost(request.bucketName),
+          host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
+        if (this._notEmpty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
         request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
+        let bodyStr = await this._readAsString(response_);
         if (this._isFail(response_)) {
-          respMap = await this._getErrMessage(response_);
+          respMap = this._parseXml(bodyStr, ServerError);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -4719,7 +4792,7 @@ export default class Client extends BaseClient {
           });
         }
 
-        respMap = await this._parseXml(response_, GetLiveChannelInfoResponse);
+        respMap = this._parseXml(bodyStr, GetLiveChannelInfoResponse);
         return $tea.cast<GetLiveChannelInfoResponse>({
           LiveChannelConfiguration: respMap["LiveChannelConfiguration"],
           ...response_.headers,
@@ -4735,7 +4808,7 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async GetLiveChannelStat(request: GetLiveChannelStatRequest, runtime: RuntimeObject): Promise<GetLiveChannelStatResponse> {
+  async getLiveChannelStat(request: GetLiveChannelStatRequest, runtime: RuntimeObject): Promise<GetLiveChannelStatResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
       readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
@@ -4774,22 +4847,27 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
+        let token = this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/${request.channelName}?live`;
         request_.headers = {
-          host: this._getHost(request.bucketName),
+          host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
+        if (this._notEmpty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
         request_.query = this._toQuery(request.filter);
         request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
+        let bodyStr = await this._readAsString(response_);
         if (this._isFail(response_)) {
-          respMap = await this._getErrMessage(response_);
+          respMap = this._parseXml(bodyStr, ServerError);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -4801,7 +4879,7 @@ export default class Client extends BaseClient {
           });
         }
 
-        respMap = await this._parseXml(response_, GetLiveChannelStatResponse);
+        respMap = this._parseXml(bodyStr, GetLiveChannelStatResponse);
         return $tea.cast<GetLiveChannelStatResponse>({
           LiveChannelStat: respMap["LiveChannelStat"],
           ...response_.headers,
@@ -4817,7 +4895,7 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async DeleteObject(request: DeleteObjectRequest, runtime: RuntimeObject): Promise<DeleteObjectResponse> {
+  async deleteObject(request: DeleteObjectRequest, runtime: RuntimeObject): Promise<DeleteObjectResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
       readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
@@ -4856,21 +4934,26 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
+        let token = this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "DELETE";
         request_.pathname = `/${request.objectName}`;
         request_.headers = {
-          host: this._getHost(request.bucketName),
+          host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
+        if (this._notEmpty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
         request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
+        let bodyStr = await this._readAsString(response_);
         if (this._isFail(response_)) {
-          respMap = await this._getErrMessage(response_);
+          respMap = this._parseXml(bodyStr, ServerError);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -4896,7 +4979,7 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async AbortMultipartUpload(request: AbortMultipartUploadRequest, runtime: RuntimeObject): Promise<AbortMultipartUploadResponse> {
+  async abortMultipartUpload(request: AbortMultipartUploadRequest, runtime: RuntimeObject): Promise<AbortMultipartUploadResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
       readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
@@ -4935,22 +5018,27 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
+        let token = this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "DELETE";
         request_.pathname = `/${request.objectName}`;
         request_.headers = {
-          host: this._getHost(request.bucketName),
+          host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
+        if (this._notEmpty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
         request_.query = this._toQuery(request.filter);
         request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
+        let bodyStr = await this._readAsString(response_);
         if (this._isFail(response_)) {
-          respMap = await this._getErrMessage(response_);
+          respMap = this._parseXml(bodyStr, ServerError);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -4976,7 +5064,7 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async AppendObject(request: AppendObjectRequest, runtime: RuntimeObject): Promise<AppendObjectResponse> {
+  async appendObject(request: AppendObjectRequest, runtime: RuntimeObject): Promise<AppendObjectResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
       readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
@@ -5015,16 +5103,20 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
+        let token = this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "POST";
         request_.pathname = `/${request.objectName}?append`;
         request_.headers = {
-          host: this._getHost(request.bucketName),
+          host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
           ...this._toHeader(request.header),
           ...this._parseMeta(request.userMeta, "x-oss-meta-"),
         };
+        if (this._notEmpty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
         request_.query = this._toQuery(request.filter);
         request_.body = request.body;
         request_.headers["content-type"] = this._default(this._getSpecialValue(request.header, "content-type"), this._getContentType(request.objectName));
@@ -5033,8 +5125,9 @@ export default class Client extends BaseClient {
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
+        let bodyStr = await this._readAsString(response_);
         if (this._isFail(response_)) {
-          respMap = await this._getErrMessage(response_);
+          respMap = this._parseXml(bodyStr, ServerError);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -5060,7 +5153,7 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async UploadPartCopy(request: UploadPartCopyRequest, runtime: RuntimeObject): Promise<UploadPartCopyResponse> {
+  async uploadPartCopy(request: UploadPartCopyRequest, runtime: RuntimeObject): Promise<UploadPartCopyResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
       readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
@@ -5099,23 +5192,28 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
+        let token = this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "PUT";
         request_.pathname = `/${request.objectName}`;
         request_.headers = {
-          host: this._getHost(request.bucketName),
+          host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
           ...this._toHeader(request.header),
         };
+        if (this._notEmpty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
         request_.query = this._toQuery(request.filter);
         request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
+        let bodyStr = await this._readAsString(response_);
         if (this._isFail(response_)) {
-          respMap = await this._getErrMessage(response_);
+          respMap = this._parseXml(bodyStr, ServerError);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -5127,7 +5225,7 @@ export default class Client extends BaseClient {
           });
         }
 
-        respMap = await this._parseXml(response_, UploadPartCopyResponse);
+        respMap = this._parseXml(bodyStr, UploadPartCopyResponse);
         return $tea.cast<UploadPartCopyResponse>({
           CopyPartResult: respMap["CopyPartResult"],
           ...response_.headers,
@@ -5143,7 +5241,7 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async GetVodPlaylist(request: GetVodPlaylistRequest, runtime: RuntimeObject): Promise<GetVodPlaylistResponse> {
+  async getVodPlaylist(request: GetVodPlaylistRequest, runtime: RuntimeObject): Promise<GetVodPlaylistResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
       readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
@@ -5182,22 +5280,27 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
+        let token = this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/${request.channelName}?vod`;
         request_.headers = {
-          host: this._getHost(request.bucketName),
+          host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
+        if (this._notEmpty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
         request_.query = this._toQuery(request.filter);
         request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
+        let bodyStr = await this._readAsString(response_);
         if (this._isFail(response_)) {
-          respMap = await this._getErrMessage(response_);
+          respMap = this._parseXml(bodyStr, ServerError);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -5223,7 +5326,7 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async DeleteBucketCORS(request: DeleteBucketCORSRequest, runtime: RuntimeObject): Promise<DeleteBucketCORSResponse> {
+  async deleteBucketCORS(request: DeleteBucketCORSRequest, runtime: RuntimeObject): Promise<DeleteBucketCORSResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
       readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
@@ -5262,21 +5365,26 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
+        let token = this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "DELETE";
         request_.pathname = `/?cors`;
         request_.headers = {
-          host: this._getHost(request.bucketName),
+          host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
+        if (this._notEmpty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
         request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
+        let bodyStr = await this._readAsString(response_);
         if (this._isFail(response_)) {
-          respMap = await this._getErrMessage(response_);
+          respMap = this._parseXml(bodyStr, ServerError);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -5302,7 +5410,7 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async GetObject(request: GetObjectRequest, runtime: RuntimeObject): Promise<GetObjectResponse> {
+  async getObject(request: GetObjectRequest, runtime: RuntimeObject): Promise<GetObjectResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
       readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
@@ -5341,22 +5449,27 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
+        let token = this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/${request.objectName}`;
         request_.headers = {
-          host: this._getHost(request.bucketName),
+          host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
           ...this._toHeader(request.header),
         };
+        if (this._notEmpty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
         request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
+        let bodyStr = await this._readAsString(response_);
         if (this._isFail(response_)) {
-          respMap = await this._getErrMessage(response_);
+          respMap = this._parseXml(bodyStr, ServerError);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -5383,7 +5496,7 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async UploadPart(request: UploadPartRequest, runtime: RuntimeObject): Promise<UploadPartResponse> {
+  async uploadPart(request: UploadPartRequest, runtime: RuntimeObject): Promise<UploadPartResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
       readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
@@ -5422,14 +5535,18 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
+        let token = this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "PUT";
         request_.pathname = `/${request.objectName}`;
         request_.headers = {
-          host: this._getHost(request.bucketName),
+          host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
+        if (this._notEmpty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
         request_.query = this._toQuery(request.filter);
         request_.body = request.body;
         request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
@@ -5437,8 +5554,9 @@ export default class Client extends BaseClient {
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
+        let bodyStr = await this._readAsString(response_);
         if (this._isFail(response_)) {
-          respMap = await this._getErrMessage(response_);
+          respMap = this._parseXml(bodyStr, ServerError);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -5464,7 +5582,7 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async GetBucketCORS(request: GetBucketCORSRequest, runtime: RuntimeObject): Promise<GetBucketCORSResponse> {
+  async getBucketCORS(request: GetBucketCORSRequest, runtime: RuntimeObject): Promise<GetBucketCORSResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
       readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
@@ -5503,21 +5621,26 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
+        let token = this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/?cors`;
         request_.headers = {
-          host: this._getHost(request.bucketName),
+          host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
+        if (this._notEmpty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
         request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
+        let bodyStr = await this._readAsString(response_);
         if (this._isFail(response_)) {
-          respMap = await this._getErrMessage(response_);
+          respMap = this._parseXml(bodyStr, ServerError);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -5529,7 +5652,7 @@ export default class Client extends BaseClient {
           });
         }
 
-        respMap = await this._parseXml(response_, GetBucketCORSResponse);
+        respMap = this._parseXml(bodyStr, GetBucketCORSResponse);
         return $tea.cast<GetBucketCORSResponse>({
           CORSConfiguration: respMap["CORSConfiguration"],
           ...response_.headers,
@@ -5545,7 +5668,7 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async CopyObject(request: CopyObjectRequest, runtime: RuntimeObject): Promise<CopyObjectResponse> {
+  async copyObject(request: CopyObjectRequest, runtime: RuntimeObject): Promise<CopyObjectResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
       readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
@@ -5584,23 +5707,28 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
+        let token = this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "PUT";
         request_.pathname = `/${request.destObjectName}`;
         request_.headers = {
-          host: this._getHost(request.bucketName),
+          host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
           ...this._toHeader(request.header),
         };
+        if (this._notEmpty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
         request_.headers["x-oss-copy-source"] = this._encode(request_.headers["x-oss-copy-source"], "UrlEncode");
         request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
+        let bodyStr = await this._readAsString(response_);
         if (this._isFail(response_)) {
-          respMap = await this._getErrMessage(response_);
+          respMap = this._parseXml(bodyStr, ServerError);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -5612,7 +5740,7 @@ export default class Client extends BaseClient {
           });
         }
 
-        respMap = await this._parseXml(response_, CopyObjectResponse);
+        respMap = this._parseXml(bodyStr, CopyObjectResponse);
         return $tea.cast<CopyObjectResponse>({
           CopyObjectResult: respMap["CopyObjectResult"],
           ...response_.headers,
@@ -5628,7 +5756,7 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async GetObjectTagging(request: GetObjectTaggingRequest, runtime: RuntimeObject): Promise<GetObjectTaggingResponse> {
+  async getObjectTagging(request: GetObjectTaggingRequest, runtime: RuntimeObject): Promise<GetObjectTaggingResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
       readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
@@ -5667,21 +5795,26 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
+        let token = this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/${request.objectName}?tagging`;
         request_.headers = {
-          host: this._getHost(request.bucketName),
+          host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
+        if (this._notEmpty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
         request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
+        let bodyStr = await this._readAsString(response_);
         if (this._isFail(response_)) {
-          respMap = await this._getErrMessage(response_);
+          respMap = this._parseXml(bodyStr, ServerError);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -5693,7 +5826,7 @@ export default class Client extends BaseClient {
           });
         }
 
-        respMap = await this._parseXml(response_, GetObjectTaggingResponse);
+        respMap = this._parseXml(bodyStr, GetObjectTaggingResponse);
         return $tea.cast<GetObjectTaggingResponse>({
           Tagging: respMap["Tagging"],
           ...response_.headers,
@@ -5709,7 +5842,7 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async DeleteBucketLifecycle(request: DeleteBucketLifecycleRequest, runtime: RuntimeObject): Promise<DeleteBucketLifecycleResponse> {
+  async deleteBucketLifecycle(request: DeleteBucketLifecycleRequest, runtime: RuntimeObject): Promise<DeleteBucketLifecycleResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
       readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
@@ -5748,21 +5881,26 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
+        let token = this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "DELETE";
         request_.pathname = `/?lifecycle`;
         request_.headers = {
-          host: this._getHost(request.bucketName),
+          host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
+        if (this._notEmpty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
         request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
+        let bodyStr = await this._readAsString(response_);
         if (this._isFail(response_)) {
-          respMap = await this._getErrMessage(response_);
+          respMap = this._parseXml(bodyStr, ServerError);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -5788,7 +5926,7 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async DeleteBucketLogging(request: DeleteBucketLoggingRequest, runtime: RuntimeObject): Promise<DeleteBucketLoggingResponse> {
+  async deleteBucketLogging(request: DeleteBucketLoggingRequest, runtime: RuntimeObject): Promise<DeleteBucketLoggingResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
       readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
@@ -5827,21 +5965,26 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
+        let token = this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "DELETE";
         request_.pathname = `/?logging`;
         request_.headers = {
-          host: this._getHost(request.bucketName),
+          host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
+        if (this._notEmpty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
         request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
+        let bodyStr = await this._readAsString(response_);
         if (this._isFail(response_)) {
-          respMap = await this._getErrMessage(response_);
+          respMap = this._parseXml(bodyStr, ServerError);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -5867,7 +6010,7 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async DeleteBucketWebsite(request: DeleteBucketWebsiteRequest, runtime: RuntimeObject): Promise<DeleteBucketWebsiteResponse> {
+  async deleteBucketWebsite(request: DeleteBucketWebsiteRequest, runtime: RuntimeObject): Promise<DeleteBucketWebsiteResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
       readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
@@ -5906,21 +6049,26 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
+        let token = this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "DELETE";
         request_.pathname = `/?website`;
         request_.headers = {
-          host: this._getHost(request.bucketName),
+          host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
+        if (this._notEmpty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
         request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
+        let bodyStr = await this._readAsString(response_);
         if (this._isFail(response_)) {
-          respMap = await this._getErrMessage(response_);
+          respMap = this._parseXml(bodyStr, ServerError);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -5946,7 +6094,7 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async GetSymlink(request: GetSymlinkRequest, runtime: RuntimeObject): Promise<GetSymlinkResponse> {
+  async getSymlink(request: GetSymlinkRequest, runtime: RuntimeObject): Promise<GetSymlinkResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
       readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
@@ -5985,21 +6133,26 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
+        let token = this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/${request.objectName}?symlink`;
         request_.headers = {
-          host: this._getHost(request.bucketName),
+          host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
+        if (this._notEmpty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
         request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
+        let bodyStr = await this._readAsString(response_);
         if (this._isFail(response_)) {
-          respMap = await this._getErrMessage(response_);
+          respMap = this._parseXml(bodyStr, ServerError);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -6025,7 +6178,7 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async GetBucketLifecycle(request: GetBucketLifecycleRequest, runtime: RuntimeObject): Promise<GetBucketLifecycleResponse> {
+  async getBucketLifecycle(request: GetBucketLifecycleRequest, runtime: RuntimeObject): Promise<GetBucketLifecycleResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
       readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
@@ -6064,21 +6217,26 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
+        let token = this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/?lifecycle`;
         request_.headers = {
-          host: this._getHost(request.bucketName),
+          host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
+        if (this._notEmpty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
         request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
+        let bodyStr = await this._readAsString(response_);
         if (this._isFail(response_)) {
-          respMap = await this._getErrMessage(response_);
+          respMap = this._parseXml(bodyStr, ServerError);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -6090,7 +6248,7 @@ export default class Client extends BaseClient {
           });
         }
 
-        respMap = await this._parseXml(response_, GetBucketLifecycleResponse);
+        respMap = this._parseXml(bodyStr, GetBucketLifecycleResponse);
         return $tea.cast<GetBucketLifecycleResponse>({
           LifecycleConfiguration: respMap["LifecycleConfiguration"],
           ...response_.headers,
@@ -6106,7 +6264,7 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async PutSymlink(request: PutSymlinkRequest, runtime: RuntimeObject): Promise<PutSymlinkResponse> {
+  async putSymlink(request: PutSymlinkRequest, runtime: RuntimeObject): Promise<PutSymlinkResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
       readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
@@ -6145,22 +6303,27 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
+        let token = this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "PUT";
         request_.pathname = `/${request.objectName}?symlink`;
         request_.headers = {
-          host: this._getHost(request.bucketName),
+          host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
           ...this._toHeader(request.header),
         };
+        if (this._notEmpty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
         request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
+        let bodyStr = await this._readAsString(response_);
         if (this._isFail(response_)) {
-          respMap = await this._getErrMessage(response_);
+          respMap = this._parseXml(bodyStr, ServerError);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -6186,7 +6349,7 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async GetBucketReferer(request: GetBucketRefererRequest, runtime: RuntimeObject): Promise<GetBucketRefererResponse> {
+  async getBucketReferer(request: GetBucketRefererRequest, runtime: RuntimeObject): Promise<GetBucketRefererResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
       readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
@@ -6225,21 +6388,26 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
+        let token = this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/?referer`;
         request_.headers = {
-          host: this._getHost(request.bucketName),
+          host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
+        if (this._notEmpty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
         request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
+        let bodyStr = await this._readAsString(response_);
         if (this._isFail(response_)) {
-          respMap = await this._getErrMessage(response_);
+          respMap = this._parseXml(bodyStr, ServerError);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -6251,7 +6419,7 @@ export default class Client extends BaseClient {
           });
         }
 
-        respMap = await this._parseXml(response_, GetBucketRefererResponse);
+        respMap = this._parseXml(bodyStr, GetBucketRefererResponse);
         return $tea.cast<GetBucketRefererResponse>({
           RefererConfiguration: respMap["RefererConfiguration"],
           ...response_.headers,
@@ -6267,7 +6435,7 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async Callback(request: CallbackRequest, runtime: RuntimeObject): Promise<CallbackResponse> {
+  async callback(request: CallbackRequest, runtime: RuntimeObject): Promise<CallbackResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
       readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
@@ -6306,21 +6474,26 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
+        let token = this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/`;
         request_.headers = {
-          host: this._getHost(request.bucketName),
+          host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
+        if (this._notEmpty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
         request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
+        let bodyStr = await this._readAsString(response_);
         if (this._isFail(response_)) {
-          respMap = await this._getErrMessage(response_);
+          respMap = this._parseXml(bodyStr, ServerError);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -6346,7 +6519,7 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async GetBucketLogging(request: GetBucketLoggingRequest, runtime: RuntimeObject): Promise<GetBucketLoggingResponse> {
+  async getBucketLogging(request: GetBucketLoggingRequest, runtime: RuntimeObject): Promise<GetBucketLoggingResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
       readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
@@ -6385,21 +6558,26 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
+        let token = this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/?logging`;
         request_.headers = {
-          host: this._getHost(request.bucketName),
+          host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
+        if (this._notEmpty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
         request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
+        let bodyStr = await this._readAsString(response_);
         if (this._isFail(response_)) {
-          respMap = await this._getErrMessage(response_);
+          respMap = this._parseXml(bodyStr, ServerError);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -6411,7 +6589,7 @@ export default class Client extends BaseClient {
           });
         }
 
-        respMap = await this._parseXml(response_, GetBucketLoggingResponse);
+        respMap = this._parseXml(bodyStr, GetBucketLoggingResponse);
         return $tea.cast<GetBucketLoggingResponse>({
           BucketLoggingStatus: respMap["BucketLoggingStatus"],
           ...response_.headers,
@@ -6427,7 +6605,7 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async PutObjectAcl(request: PutObjectAclRequest, runtime: RuntimeObject): Promise<PutObjectAclResponse> {
+  async putObjectAcl(request: PutObjectAclRequest, runtime: RuntimeObject): Promise<PutObjectAclResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
       readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
@@ -6466,22 +6644,27 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
+        let token = this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "PUT";
         request_.pathname = `/${request.objectName}?acl`;
         request_.headers = {
-          host: this._getHost(request.bucketName),
+          host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
           ...this._toHeader(request.header),
         };
+        if (this._notEmpty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
         request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
+        let bodyStr = await this._readAsString(response_);
         if (this._isFail(response_)) {
-          respMap = await this._getErrMessage(response_);
+          respMap = this._parseXml(bodyStr, ServerError);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -6507,7 +6690,7 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async GetBucketInfo(request: GetBucketInfoRequest, runtime: RuntimeObject): Promise<GetBucketInfoResponse> {
+  async getBucketInfo(request: GetBucketInfoRequest, runtime: RuntimeObject): Promise<GetBucketInfoResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
       readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
@@ -6546,21 +6729,26 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
+        let token = this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/?bucketInfo`;
         request_.headers = {
-          host: this._getHost(request.bucketName),
+          host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
+        if (this._notEmpty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
         request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
+        let bodyStr = await this._readAsString(response_);
         if (this._isFail(response_)) {
-          respMap = await this._getErrMessage(response_);
+          respMap = this._parseXml(bodyStr, ServerError);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -6572,7 +6760,7 @@ export default class Client extends BaseClient {
           });
         }
 
-        respMap = await this._parseXml(response_, GetBucketInfoResponse);
+        respMap = this._parseXml(bodyStr, GetBucketInfoResponse);
         return $tea.cast<GetBucketInfoResponse>({
           BucketInfo: respMap["BucketInfo"],
           ...response_.headers,
@@ -6588,7 +6776,7 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async PutLiveChannelStatus(request: PutLiveChannelStatusRequest, runtime: RuntimeObject): Promise<PutLiveChannelStatusResponse> {
+  async putLiveChannelStatus(request: PutLiveChannelStatusRequest, runtime: RuntimeObject): Promise<PutLiveChannelStatusResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
       readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
@@ -6627,22 +6815,27 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
+        let token = this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "PUT";
         request_.pathname = `/${request.channelName}?live`;
         request_.headers = {
-          host: this._getHost(request.bucketName),
+          host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
+        if (this._notEmpty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
         request_.query = this._toQuery(request.filter);
         request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
+        let bodyStr = await this._readAsString(response_);
         if (this._isFail(response_)) {
-          respMap = await this._getErrMessage(response_);
+          respMap = this._parseXml(bodyStr, ServerError);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -6668,7 +6861,7 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async InitiateMultipartUpload(request: InitiateMultipartUploadRequest, runtime: RuntimeObject): Promise<InitiateMultipartUploadResponse> {
+  async initiateMultipartUpload(request: InitiateMultipartUploadRequest, runtime: RuntimeObject): Promise<InitiateMultipartUploadResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
       readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
@@ -6707,15 +6900,19 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
+        let token = this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "POST";
         request_.pathname = `/${request.objectName}?uploads`;
         request_.headers = {
-          host: this._getHost(request.bucketName),
+          host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
           ...this._toHeader(request.header),
         };
+        if (this._notEmpty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
         request_.query = this._toQuery(request.filter);
         request_.headers["content-type"] = this._default(this._getSpecialValue(request.header, "content-type"), this._getContentType(request.objectName));
         request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
@@ -6723,8 +6920,9 @@ export default class Client extends BaseClient {
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
+        let bodyStr = await this._readAsString(response_);
         if (this._isFail(response_)) {
-          respMap = await this._getErrMessage(response_);
+          respMap = this._parseXml(bodyStr, ServerError);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -6736,7 +6934,7 @@ export default class Client extends BaseClient {
           });
         }
 
-        respMap = await this._parseXml(response_, InitiateMultipartUploadResponse);
+        respMap = this._parseXml(bodyStr, InitiateMultipartUploadResponse);
         return $tea.cast<InitiateMultipartUploadResponse>({
           InitiateMultipartUploadResult: respMap["InitiateMultipartUploadResult"],
           ...response_.headers,
@@ -6752,7 +6950,7 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async OptionObject(request: OptionObjectRequest, runtime: RuntimeObject): Promise<OptionObjectResponse> {
+  async optionObject(request: OptionObjectRequest, runtime: RuntimeObject): Promise<OptionObjectResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
       readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
@@ -6791,22 +6989,27 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
+        let token = this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "OPTIONS";
         request_.pathname = `/${request.objectName}`;
         request_.headers = {
-          host: this._getHost(request.bucketName),
+          host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
           ...this._toHeader(request.header),
         };
+        if (this._notEmpty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
         request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
+        let bodyStr = await this._readAsString(response_);
         if (this._isFail(response_)) {
-          respMap = await this._getErrMessage(response_);
+          respMap = this._parseXml(bodyStr, ServerError);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -6832,7 +7035,7 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async PostVodPlaylist(request: PostVodPlaylistRequest, runtime: RuntimeObject): Promise<PostVodPlaylistResponse> {
+  async postVodPlaylist(request: PostVodPlaylistRequest, runtime: RuntimeObject): Promise<PostVodPlaylistResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
       readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
@@ -6871,22 +7074,27 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
+        let token = this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "POST";
         request_.pathname = `/${request.channelName}/${request.playlistName}?vod`;
         request_.headers = {
-          host: this._getHost(request.bucketName),
+          host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
+        if (this._notEmpty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
         request_.query = this._toQuery(request.filter);
         request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
+        let bodyStr = await this._readAsString(response_);
         if (this._isFail(response_)) {
-          respMap = await this._getErrMessage(response_);
+          respMap = this._parseXml(bodyStr, ServerError);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -6912,7 +7120,7 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async PostObject(request: PostObjectRequest, runtime: RuntimeObject): Promise<PostObjectResponse> {
+  async postObject(request: PostObjectRequest, runtime: RuntimeObject): Promise<PostObjectResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
       readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
@@ -6951,21 +7159,26 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
+        let token = this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "POST";
         request_.pathname = `/`;
         request_.headers = {
-          host: this._getHost(request.bucketName),
+          host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
+        if (this._notEmpty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
         request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
+        let bodyStr = await this._readAsString(response_);
         if (this._isFail(response_)) {
-          respMap = await this._getErrMessage(response_);
+          respMap = this._parseXml(bodyStr, ServerError);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -6991,7 +7204,7 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async HeadObject(request: HeadObjectRequest, runtime: RuntimeObject): Promise<HeadObjectResponse> {
+  async headObject(request: HeadObjectRequest, runtime: RuntimeObject): Promise<HeadObjectResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
       readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
@@ -7030,22 +7243,27 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
+        let token = this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "HEAD";
         request_.pathname = `/${request.objectName}`;
         request_.headers = {
-          host: this._getHost(request.bucketName),
+          host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
           ...this._toHeader(request.header),
         };
+        if (this._notEmpty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
         request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
+        let bodyStr = await this._readAsString(response_);
         if (this._isFail(response_)) {
-          respMap = await this._getErrMessage(response_);
+          respMap = this._parseXml(bodyStr, ServerError);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -7072,7 +7290,7 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async DeleteObjectTagging(request: DeleteObjectTaggingRequest, runtime: RuntimeObject): Promise<DeleteObjectTaggingResponse> {
+  async deleteObjectTagging(request: DeleteObjectTaggingRequest, runtime: RuntimeObject): Promise<DeleteObjectTaggingResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
       readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
@@ -7111,21 +7329,26 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
+        let token = this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "DELETE";
         request_.pathname = `/${request.objectName}?tagging`;
         request_.headers = {
-          host: this._getHost(request.bucketName),
+          host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
+        if (this._notEmpty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
         request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
+        let bodyStr = await this._readAsString(response_);
         if (this._isFail(response_)) {
-          respMap = await this._getErrMessage(response_);
+          respMap = this._parseXml(bodyStr, ServerError);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -7151,7 +7374,7 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async RestoreObject(request: RestoreObjectRequest, runtime: RuntimeObject): Promise<RestoreObjectResponse> {
+  async restoreObject(request: RestoreObjectRequest, runtime: RuntimeObject): Promise<RestoreObjectResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
       readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
@@ -7190,21 +7413,26 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
+        let token = this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "POST";
         request_.pathname = `/${request.objectName}?restore`;
         request_.headers = {
-          host: this._getHost(request.bucketName),
+          host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
+        if (this._notEmpty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
         request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
+        let bodyStr = await this._readAsString(response_);
         if (this._isFail(response_)) {
-          respMap = await this._getErrMessage(response_);
+          respMap = this._parseXml(bodyStr, ServerError);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -7230,7 +7458,7 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async GetObjectAcl(request: GetObjectAclRequest, runtime: RuntimeObject): Promise<GetObjectAclResponse> {
+  async getObjectAcl(request: GetObjectAclRequest, runtime: RuntimeObject): Promise<GetObjectAclResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
       readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
@@ -7269,21 +7497,26 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
+        let token = this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/${request.objectName}?acl`;
         request_.headers = {
-          host: this._getHost(request.bucketName),
+          host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
+        if (this._notEmpty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
         request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
+        let bodyStr = await this._readAsString(response_);
         if (this._isFail(response_)) {
-          respMap = await this._getErrMessage(response_);
+          respMap = this._parseXml(bodyStr, ServerError);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -7295,7 +7528,7 @@ export default class Client extends BaseClient {
           });
         }
 
-        respMap = await this._parseXml(response_, GetObjectAclResponse);
+        respMap = this._parseXml(bodyStr, GetObjectAclResponse);
         return $tea.cast<GetObjectAclResponse>({
           AccessControlPolicy: respMap["AccessControlPolicy"],
           ...response_.headers,
@@ -7311,7 +7544,7 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async PutBucketAcl(request: PutBucketAclRequest, runtime: RuntimeObject): Promise<PutBucketAclResponse> {
+  async putBucketAcl(request: PutBucketAclRequest, runtime: RuntimeObject): Promise<PutBucketAclResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
       readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
@@ -7350,22 +7583,27 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
+        let token = this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "PUT";
         request_.pathname = `/?acl`;
         request_.headers = {
-          host: this._getHost(request.bucketName),
+          host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
           ...this._toHeader(request.header),
         };
+        if (this._notEmpty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
         request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
+        let bodyStr = await this._readAsString(response_);
         if (this._isFail(response_)) {
-          respMap = await this._getErrMessage(response_);
+          respMap = this._parseXml(bodyStr, ServerError);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -7391,7 +7629,7 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async DeleteBucket(request: DeleteBucketRequest, runtime: RuntimeObject): Promise<DeleteBucketResponse> {
+  async deleteBucket(request: DeleteBucketRequest, runtime: RuntimeObject): Promise<DeleteBucketResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
       readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
@@ -7430,21 +7668,26 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
+        let token = this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "DELETE";
         request_.pathname = `/`;
         request_.headers = {
-          host: this._getHost(request.bucketName),
+          host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
         };
+        if (this._notEmpty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
         request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
+        let bodyStr = await this._readAsString(response_);
         if (this._isFail(response_)) {
-          respMap = await this._getErrMessage(response_);
+          respMap = this._parseXml(bodyStr, ServerError);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -7470,7 +7713,7 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async PutObject(request: PutObjectRequest, runtime: RuntimeObject): Promise<PutObjectResponse> {
+  async putObject(request: PutObjectRequest, runtime: RuntimeObject): Promise<PutObjectResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
       readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
@@ -7509,16 +7752,20 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
+        let token = this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "PUT";
         request_.pathname = `/${request.objectName}`;
         request_.headers = {
-          host: this._getHost(request.bucketName),
+          host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
           ...this._toHeader(request.header),
           ...this._parseMeta(request.userMeta, "x-oss-meta-"),
         };
+        if (this._notEmpty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
         request_.body = request.body;
         request_.headers["content-type"] = this._default(this._getSpecialValue(request.header, "content-type"), this._getContentType(request.objectName));
         request_.headers["authorization"] = this._getAuth(request_, request.bucketName);
@@ -7526,8 +7773,9 @@ export default class Client extends BaseClient {
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap = null;
+        let bodyStr = await this._readAsString(response_);
         if (this._isFail(response_)) {
-          respMap = await this._getErrMessage(response_);
+          respMap = this._parseXml(bodyStr, ServerError);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -7553,5 +7801,25 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
+  getHost(bucketName: string): string {
+    if (this._empty(this._endpoint)) {
+      this._endpoint = `oss-${this._regionId}.aliyuncs.com`;
+    }
+
+    if (this._empty(bucketName)) {
+      return this._endpoint;
+    }
+
+    let host = null;
+    if (this._equal(this._hostModel, "ip")) {
+      host = `${this._endpoint}/${bucketName}`;
+    } else if (this._equal(this._hostModel, "cname")) {
+      host = this._endpoint;
+    } else {
+      host = `${bucketName}.${this._endpoint}`;
+    }
+
+    return host;
+  }
 
 }

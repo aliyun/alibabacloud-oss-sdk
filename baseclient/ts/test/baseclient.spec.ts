@@ -26,18 +26,19 @@ describe('base client', function () {
     <RequestId>5DECB1F6F3150D373335D8D2</RequestId>\
     <HostId>sdk-oss-test.oss-cn-hangzhou.aliyuncs.com</HostId>\
   </Error>';
-  before(() => {
+  before((done) => {
     server = createServer((req, res) => {
       res.writeHead(200, { 'Content-Type': 'application/xml' });
       if(req.method == 'POST'){
         res.end(errorXml);
-      }else{
+      } else {
         res.end(testXml);
       }
     }).listen(8848, () => {
-      //
+      done();
     });
-  })
+  });
+
   let req = new $tea.Request();
 
   class TestHeader extends $tea.Model {
@@ -95,9 +96,10 @@ describe('base client', function () {
     assert.strictEqual(client._regionId, config.regionId);
     assert.strictEqual(client._isEnableMD5, config.isEnableMD5);
     assert.strictEqual(client._isEnableCrc, config.isEnableCrc);
-    assert.strictEqual(client._creadentials.accessKeyId, config.accessKeyId);
-    assert.strictEqual(client._creadentials.accessKeySecret, config.accessKeySecret);
-    assert.strictEqual(client._creadentials.type, 'access_key');
+    let accessKeyId = await client._getAccessKeyID();
+    let accessKeySecret = await client._getAccessKeySecret();
+    assert.strictEqual(accessKeyId, config.accessKeyId);
+    assert.strictEqual(accessKeySecret, config.accessKeySecret);
   });
 
   it('_addAddtionalHeaders  and _getAddtionalHeaders  should ok', async function () {
@@ -164,23 +166,32 @@ describe('base client', function () {
     assert.strictEqual(client._getDate(), (new Date()).toUTCString());
   });
 
-  it('_getAuth should ok', async function () {
+  it('_getSignatureV1 should ok', async function () {
     const client = new BaseClient({
       accessKeySecret: 'accessKeySecret',
       accessKeyId: 'accessKeyId',
       securityToken: 'securityToken',
     });
-    client._setSignatureVersion('V2');
-    req.query = {
-      path: undefined,
-      key: 'key',
-      policy: 'policy',
-    }
-    client._addAddtionalHeaders('test');
-    client._addAddtionalHeaders('host');
-    assert.ok(client._getAuth(req, 'sdk-oss-test').startsWith('OSS2 AccessKeyId:'));
-    client._setSignatureVersion('V1');
-    assert.ok(client._getAuth(req, 'sdk-oss-test').startsWith('OSS'));
+    let req = new $tea.Request();
+    req.method = 'GET';
+    req.headers['date'] = 'Wed, 11 Dec 2019 10:33:08 GMT';
+    req.pathname = '/';
+    let sign = client._getSignatureV1(req, 'sdk-oss-test', 'accessKeySecret');
+    assert.strictEqual(sign, 'mV+u447Mic+oEl2vSNaqRt4OctQZPVITIaPxF9+KstI=');
+  });
+
+  it('_getSignatureV2 should ok', async function () {
+    const client = new BaseClient({
+      accessKeySecret: 'accessKeySecret',
+      accessKeyId: 'accessKeyId',
+      securityToken: 'securityToken',
+    });
+    let req = new $tea.Request();
+    req.method = 'GET';
+    req.headers['date'] = 'Wed, 11 Dec 2019 10:33:08 GMT';
+    req.pathname = '/';
+    let sign = client._getSignatureV2(req, 'sdk-oss-test', 'accessKeySecret', []);
+    assert.strictEqual(sign, '+3zZ5X8TzrIbttsnkE3YhEwtKNETaK69VZzIgvZyTdo=');
   });
 
   it('_xmlCast should ok', async function () {
@@ -735,6 +746,16 @@ describe('base client', function () {
     assert.deepStrictEqual(client._empty(undefined), true);
   });
 
+  it('_notEmpty should ok', async function () {
+    const client = new BaseClient({
+      accessKeySecret:'accessKeySecret',
+      accessKeyId: 'accessKeyId',
+    });
+    assert.deepStrictEqual(client._notEmpty(''), false);
+    assert.deepStrictEqual(client._notEmpty('hehe'), true);
+    assert.deepStrictEqual(client._notEmpty(undefined), false);
+  });
+
   it('_equal should ok', async function () {
     const client = new BaseClient({
       accessKeySecret:'accessKeySecret',
@@ -750,9 +771,9 @@ describe('base client', function () {
       accessKeySecret:'accessKeySecret',
       accessKeyId: 'accessKeyId',
     });
-    try{
+    try {
       client._getTracker();
-    }catch(err){
+    } catch(err) {
       assert.ok(err);
     }
   });

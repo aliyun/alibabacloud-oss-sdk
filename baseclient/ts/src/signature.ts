@@ -16,7 +16,10 @@ const signKeyList = ['location', 'cors', 'objectMeta',
   'policy', 'encryption', 'versions', 'versioning', 'versionId'];
 
 
-export function getSignatureV1(request: $tea.Request, bucketName: string, accessKeySecret: string) {
+export function getSignatureV1(request: $tea.Request, bucketName: string, accessKeySecret: string): {
+  string2sign: string,
+  signature: string
+} {
   let resource = '/';
   if (bucketName) {
     resource += bucketName;
@@ -38,19 +41,28 @@ export function getSignatureV1(request: $tea.Request, bucketName: string, access
   headerKeys = headerKeys.sort();
   headerKeys.forEach(key => {
     headers += key.toLocaleLowerCase() + ':' + request.headers[key] + '\n';
-  })
+  });
+
+  let string2sign = request.method + '\n'
+    + (request.headers['content-md5'] || '') + '\n'
+    + (request.headers['content-type'] || '') + '\n'
+    + request.headers['date'] + '\n'
+    + headers
+    + resource;
+
   const hmac = createHmac('sha256', accessKeySecret);
-  hmac.update(request.method + '\n');
-  hmac.update((request.headers['content-md5'] || '') + '\n');
-  hmac.update((request.headers['content-type'] || '') + '\n');
-  hmac.update(request.headers['date'] + '\n');
-  hmac.update(headers);
-  hmac.update(resource);
+  hmac.update(string2sign);
   const signature = hmac.digest('base64');
-  return signature;
+  return {
+    string2sign,
+    signature
+  }
 };
 
-export function getSignatureV2(request: $tea.Request, bucketName: string, accessKeySecret: string, addtionalHeaders: string[]) {
+export function getSignatureV2(request: $tea.Request, bucketName: string, accessKeySecret: string, addtionalHeaders: string[]): {
+  string2sign: string,
+  signature: string
+} {
   let resource = '';
   let pathname = '';
   if (bucketName) {
@@ -95,13 +107,18 @@ export function getSignatureV2(request: $tea.Request, bucketName: string, access
   headerKeys.forEach(key => {
     headers += key.toLocaleLowerCase() + ':' + request.headers[key] + '\n';
   })
+  let string2sign = request.method + '\n'
+    + (request.headers['content-md5'] || '') + '\n'
+    + (request.headers['content-type'] || '') + '\n'
+    + request.headers['date'] + '\n'
+    + headers
+    + addtionalHeaders.join(';') + '\n'
+    + resource;
   const hmac = createHmac('sha256', accessKeySecret);
-  hmac.update(request.method + '\n');
-  hmac.update((request.headers['content-md5'] || '') + '\n');
-  hmac.update((request.headers['content-type'] || '') + '\n');
-  hmac.update(request.headers['date'] + '\n');
-  hmac.update(headers);
-  hmac.update(addtionalHeaders.join(';') + '\n');
-  hmac.update(resource);
-  return hmac.digest('base64');
+  hmac.update(string2sign);
+  let signature = hmac.digest('base64');
+  return {
+    string2sign,
+    signature
+  };
 }

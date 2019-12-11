@@ -43,7 +43,7 @@ export default class BaseClient {
   _addtionalHeaders: string[]
   _maxIdleConns: number
   _logger: any
-  _creadentials: any
+  _creadentials: Creadential
   _contentMd5: string
   _contentLength: number
 
@@ -59,7 +59,7 @@ export default class BaseClient {
 
     this._addtionalHeaders = [];
     if (!config['type']) {
-      config['type'] = 'access_key'
+      config['type'] = 'access_key';
     }
 
     this._creadentials = new Creadential({
@@ -105,33 +105,6 @@ export default class BaseClient {
   _getDate(): string {
     let now = new Date();
     return now.toUTCString();
-  }
-
-  _getAuth(request: $tea.Request, bucketName: string): string {
-    let auth = '';
-    if (!this._creadentials) {
-      return '';
-    }
-    const accessKeyId = this._creadentials.accessKeyId;
-
-    const accessKeySecret = this._creadentials.accessKeySecret;
-    const securityToken = this._creadentials.securityToken;
-
-    if (!!securityToken) {
-      request.headers['X-Oss-Security-Token'] = securityToken;
-    }
-    if (this._signatureVersion === 'v1') {
-      const sign = getSignatureV1(request, bucketName, accessKeySecret);
-      auth = `OSS ${accessKeyId}:${sign}`;
-    } else {
-      const sign = getSignatureV2(request, bucketName, accessKeySecret, this._addtionalHeaders);
-      let addtinalHeaders = '';
-      if (this._addtionalHeaders.length) {
-        addtinalHeaders = `,AdditionalHeaders:${this._addtionalHeaders.join(';')}`
-      }
-      auth = `OSS2 AccessKeyId: ${accessKeyId}${addtinalHeaders},Signature:${sign}`;
-    }
-    return auth
   }
 
   _xmlCast<T>(obj: any, clazz: T): { [key: string]: any } {
@@ -215,6 +188,28 @@ export default class BaseClient {
 
   _empty(input: string): boolean {
     return !input;
+  }
+
+  _notEmpty(input: string): boolean {
+    return !!input;
+  }
+
+  _ifListEmpty(list: string[]): boolean {
+    return !list || list.length === 0
+  }
+
+  _listToString(list: string[], separator: string) : string {
+    return list.join(separator);
+  }
+
+  _getSignatureV1(request: $tea.Request, bucketName: string, accessKeySecret: string): string {
+    let result = getSignatureV1(request, bucketName, accessKeySecret);
+    return result.signature;
+  }
+
+  _getSignatureV2(request: $tea.Request, bucketName: string, accessKeySecret: string, addtionalHeaders: string[]): string {
+    let result = getSignatureV2(request, bucketName, accessKeySecret, addtionalHeaders);
+    return result.signature;
   }
 
   _default(value: string, defaultVal: string): string {
@@ -333,8 +328,6 @@ export default class BaseClient {
     return false;
   }
 
-
-
   _encode(value: string, type: string): string {
     if (!value) {
       return '';
@@ -451,4 +444,17 @@ export default class BaseClient {
   _getTracker(): any {
     throw new Error('the method is un-implemented!');
   }
+
+  async _getAccessKeyID(): Promise<string> {
+    return await this._creadentials.getAccessKeyId();
+  }
+
+  async _getAccessKeySecret(): Promise<string> {
+    return await this._creadentials.getAccessKeySecret();
+  }
+
+  async _getSecurityToken(): Promise<string> {
+    return await this._creadentials.getSecurityToken();
+  }
+
 }

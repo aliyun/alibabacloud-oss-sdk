@@ -4,15 +4,14 @@
   "description": "",
   "main": "dist/client.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha -r ts-node/register -r source-map-support/register test/**/*.spec.ts",
+    "test-cov": "nyc -e .ts -r=html -r=text -r=lcov npm run test",
+    "ci": "npm run test-cov && codecov",
     "build": "tsc",
     "prepublishOnly": "tsc"
   },
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "typescript": "^3.7.2"
-  },
   "dependencies": {
     "@alicloud/oss-baseclient": "^1.0.0",
     "@alicloud/tea-typescript": "^1.2.0"
@@ -20,8 +19,9 @@
   "devDependencies": {
     "@types/mocha": "^5.2.7",
     "mocha": "^6.2.0",
+    "nyc": "^14.1.1",
+    "source-map-support": "^0.5.16",
     "ts-node": "^8.4.1",
-    "typescript": "^3.6.3",
-    "nyc": "^14.1.1"
+    "typescript": "^3.7.2"
   }
 }
