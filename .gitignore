@@ -14,7 +14,11 @@ obj/
 csharp/bin/Debug/
 ts/dist/*
 ts/*.js
+ts/.nyc_output/
+ts/coverage/
 baseclient/java/target/*
 baseclient/java/*.iml
 baseclient/ts/dist/
+baseclient/ts/coverage/
+baseclient/ts/.nyc_output/
 java/*.iml

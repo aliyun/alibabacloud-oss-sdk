@@ -1,10 +1,25 @@
 import * as $tea from '@alicloud/tea-typescript';
 import Creadential from '@alicloud/credentials';
-import { parseStringPromise, Builder } from 'xml2js';
+import { Parser, Builder } from 'xml2js';
 import { platform, arch } from 'os';
 import { getType } from 'mime';
 import { Readable } from 'stream';
 import { getSignatureV2, getSignatureV1 } from './signature';
+
+function parseXML(body: string): any {
+  let parser = new Parser({ explicitArray: false });
+  let result: {[key: string]: any} = {};
+  parser.parseString(body, function (err: any, output: any) {
+    result.err = err;
+    result.output = output;
+  });
+  
+  if (result.err) {
+    throw result.err;
+  }
+
+  return result.output;
+}
 
 export default class BaseClient {
 
@@ -28,7 +43,7 @@ export default class BaseClient {
   _addtionalHeaders: string[]
   _maxIdleConns: number
   _logger: any
-  _creadentials: any
+  _creadentials: Creadential
   _contentMd5: string
   _contentLength: number
 
@@ -40,13 +55,13 @@ export default class BaseClient {
     this._isEnableMD5 = config['isEnableMD5'] || false;
     this._isEnableCrc = config['isEnableCrc'] || false;
     this._userAgent = `AlibabaCloud (${platform()}; ${arch()}) Node.js/${process.version} Core/1.0.1`
-    this._hostModel = 'domain';
+    this._hostModel = config['hostModel'] || 'domain';
 
     this._addtionalHeaders = [];
     if (!config['type']) {
-      config['type'] = 'access_key'
+      config['type'] = 'access_key';
     }
-    
+
     this._creadentials = new Creadential({
       accessKeyId: config['accessKeyId'],
       accessKeySecret: config['accessKeySecret'],
@@ -90,33 +105,6 @@ export default class BaseClient {
   _getDate(): string {
     let now = new Date();
     return now.toUTCString();
-  }
-
-  _getAuth(request: $tea.Request, bucketName: string): string {
-    let auth = '';
-    if (!this._creadentials) {
-      return '';
-    }
-    const accessKeyId = this._creadentials.accessKeyId;
-
-    const accessKeySecret = this._creadentials.accessKeySecret;
-    const securityToken = this._creadentials.securityToken;
-
-    if (!!securityToken) {
-      request.headers['X-Oss-Security-Token'] = securityToken;
-    }
-    if (this._signatureVersion === 'v1') {
-      const sign = getSignatureV1(request, bucketName, accessKeySecret);
-      auth = `OSS ${accessKeyId}:${sign}`;
-    } else {
-      const sign = getSignatureV2(request, bucketName, accessKeySecret, this._addtionalHeaders);
-      let addtinalHeaders = '';
-      if (this._addtionalHeaders.length) {
-        addtinalHeaders = `,AdditionalHeaders:${this._addtionalHeaders.join(';')}`
-      }
-      auth = `OSS2 AccessKeyId: ${accessKeyId}${addtinalHeaders},Signature:${sign}`;
-    }
-    return auth
   }
 
   _xmlCast<T>(obj: any, clazz: T): { [key: string]: any } {
@@ -181,33 +169,47 @@ export default class BaseClient {
     return ret;
   }
 
-  async _parseXml<T>(response: $tea.Response, clazz: T): Promise<{ [key: string]: any }> {
-    let ret: { [key: string]: any } = {};
-    let body = await response.readBytes();
-    ret = await parseStringPromise(body, { explicitArray: false });
+  async _readAsString(response: $tea.Response): Promise<string> {
+    let bytes = await response.readBytes();
+    return bytes.toString();
+  }
+
+  _parseXml<T>(body: string, clazz: T): { [key: string]: any } {
+    let ret: { [key: string]: any } = parseXML(body);
     if (typeof clazz !== 'undefined') {
       ret = this._xmlCast(ret, clazz);
     }
     return ret;
   }
 
-  _getHost(bucketName: string): string {
-    let host = '';
-    if (!this._endpoint) {
-      this._endpoint = "oss-" + this._regionId + ".aliyuncs.com"
-    }
-    if (!bucketName) {
-      return this._endpoint;
-    } else {
-      if (this._hostModel === 'ip') {
-        host = this._endpoint + '/' + bucketName;
-      } else if (this._hostModel === 'cname') {
-        host = this._endpoint;
-      } else {
-        host = bucketName + '.' + this._endpoint;
-      }
-    }
-    return host
+  _equal(a: string, b: string): boolean {
+    return a === b;
+  }
+
+  _empty(input: string): boolean {
+    return !input;
+  }
+
+  _notEmpty(input: string): boolean {
+    return !!input;
+  }
+
+  _ifListEmpty(list: string[]): boolean {
+    return !list || list.length === 0
+  }
+
+  _listToString(list: string[], separator: string) : string {
+    return list.join(separator);
+  }
+
+  _getSignatureV1(request: $tea.Request, bucketName: string, accessKeySecret: string): string {
+    let result = getSignatureV1(request, bucketName, accessKeySecret);
+    return result.signature;
+  }
+
+  _getSignatureV2(request: $tea.Request, bucketName: string, accessKeySecret: string, addtionalHeaders: string[]): string {
+    let result = getSignatureV2(request, bucketName, accessKeySecret, addtionalHeaders);
+    return result.signature;
   }
 
   _default(value: string, defaultVal: string): string {
@@ -326,8 +328,6 @@ export default class BaseClient {
     return false;
   }
 
-
-
   _encode(value: string, type: string): string {
     if (!value) {
       return '';
@@ -445,14 +445,16 @@ export default class BaseClient {
     throw new Error('the method is un-implemented!');
   }
 
-  async _getErrMessage(response: $tea.Response): Promise<{ [key: string]: any }> {
-    let body = await this._parseXml(response, undefined);
-    let erorr = body.Error || {};
-    return {
-      Code: erorr['Code'],
-      Message: erorr['Message'],
-      RequestId: erorr['RequestId'],
-      HostId: erorr['HostId']
-    };
+  async _getAccessKeyID(): Promise<string> {
+    return await this._creadentials.getAccessKeyId();
   }
+
+  async _getAccessKeySecret(): Promise<string> {
+    return await this._creadentials.getAccessKeySecret();
+  }
+
+  async _getSecurityToken(): Promise<string> {
+    return await this._creadentials.getSecurityToken();
+  }
+
 }
