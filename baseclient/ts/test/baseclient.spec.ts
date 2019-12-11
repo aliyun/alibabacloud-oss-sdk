@@ -169,22 +169,20 @@ describe('base client', function () {
   it('_getSignatureV1 should ok', async function () {
     const client = new BaseClient({
       accessKeySecret: 'accessKeySecret',
-      accessKeyId: 'accessKeyId',
-      securityToken: 'securityToken',
+      accessKeyId: 'accessKeyId'
     });
     let req = new $tea.Request();
     req.method = 'GET';
     req.headers['date'] = 'Wed, 11 Dec 2019 10:33:08 GMT';
     req.pathname = '/';
     let sign = client._getSignatureV1(req, 'sdk-oss-test', 'accessKeySecret');
-    assert.strictEqual(sign, 'mV+u447Mic+oEl2vSNaqRt4OctQZPVITIaPxF9+KstI=');
+    assert.strictEqual(sign, 'vLE8QOVCxn1H7/+/ob/zdnuGAAI=');
   });
 
   it('_getSignatureV2 should ok', async function () {
     const client = new BaseClient({
       accessKeySecret: 'accessKeySecret',
-      accessKeyId: 'accessKeyId',
-      securityToken: 'securityToken',
+      accessKeyId: 'accessKeyId'
     });
     let req = new $tea.Request();
     req.method = 'GET';

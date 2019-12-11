@@ -50,7 +50,7 @@ export function getSignatureV1(request: $tea.Request, bucketName: string, access
     + headers
     + resource;
 
-  const hmac = createHmac('sha256', accessKeySecret);
+  const hmac = createHmac('sha1', accessKeySecret);
   hmac.update(string2sign);
   const signature = hmac.digest('base64');
   return {
