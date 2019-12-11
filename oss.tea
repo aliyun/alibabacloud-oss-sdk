@@ -104,10 +104,12 @@ module Client {
   }
 
   model ServerError {
-    code?: string(name='Code'),
-    message?: string(name='Message'),
-    requestId?: string(name='RequestId'),
-    hostId?: string(name='HostId'),
+    error: {
+      code?: string(name='Code'),
+      message?: string(name='Message'),
+      requestId?: string(name='RequestId'),
+      hostId?: string(name='HostId'),
+    }(name='Error'),
   }
 
   init(config: Config);
