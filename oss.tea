@@ -5,6 +5,7 @@ module Client {
   type @getSignatureV2 = ($Request, string, string, [ string ]): string  
   type @readAsString = async ($Response): string
   type @parseXml = (string, class): object
+  type @getErrMessage = (string): object
   type @default = (string, string): string
   type @defaultNumber = (number, number): number
   type @toBody = (any): string
@@ -103,13 +104,6 @@ module Client {
     addtionalHeaders: [ string ],
   }
 
-  model ServerError {
-    code?: string(name='Code'),
-    message?: string(name='Message'),
-    requestId?: string(name='RequestId'),
-    hostId?: string(name='HostId'),
-  }
-
   init(config: Config);
 
   function getHost(bucketName: string): string {
@@ -167,7 +161,7 @@ module Client {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @parseXml(bodyStr, ServerError);
+      respMap = @getErrMessage(bodyStr);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -241,7 +235,7 @@ module Client {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @parseXml(bodyStr, ServerError);
+      respMap = @getErrMessage(bodyStr);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -341,7 +335,7 @@ module Client {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @parseXml(bodyStr, ServerError);
+      respMap = @getErrMessage(bodyStr);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -420,7 +414,7 @@ module Client {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @parseXml(bodyStr, ServerError);
+      respMap = @getErrMessage(bodyStr);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -502,7 +496,7 @@ module Client {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @parseXml(bodyStr, ServerError);
+      respMap = @getErrMessage(bodyStr);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -603,7 +597,7 @@ module Client {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @parseXml(bodyStr, ServerError);
+      respMap = @getErrMessage(bodyStr);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -692,7 +686,7 @@ module Client {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @parseXml(bodyStr, ServerError);
+      respMap = @getErrMessage(bodyStr);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -798,7 +792,7 @@ module Client {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @parseXml(bodyStr, ServerError);
+      respMap = @getErrMessage(bodyStr);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -884,7 +878,7 @@ module Client {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @parseXml(bodyStr, ServerError);
+      respMap = @getErrMessage(bodyStr);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -981,7 +975,7 @@ module Client {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @parseXml(bodyStr, ServerError);
+      respMap = @getErrMessage(bodyStr);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -1057,7 +1051,7 @@ module Client {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @parseXml(bodyStr, ServerError);
+      respMap = @getErrMessage(bodyStr);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -1135,7 +1129,7 @@ module Client {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @parseXml(bodyStr, ServerError);
+      respMap = @getErrMessage(bodyStr);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -1232,7 +1226,7 @@ module Client {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @parseXml(bodyStr, ServerError);
+      respMap = @getErrMessage(bodyStr);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -1324,7 +1318,7 @@ module Client {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @parseXml(bodyStr, ServerError);
+      respMap = @getErrMessage(bodyStr);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -1405,7 +1399,7 @@ module Client {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @parseXml(bodyStr, ServerError);
+      respMap = @getErrMessage(bodyStr);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -1478,7 +1472,7 @@ module Client {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @parseXml(bodyStr, ServerError);
+      respMap = @getErrMessage(bodyStr);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -1572,7 +1566,7 @@ module Client {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @parseXml(bodyStr, ServerError);
+      respMap = @getErrMessage(bodyStr);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -1654,7 +1648,7 @@ module Client {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @parseXml(bodyStr, ServerError);
+      respMap = @getErrMessage(bodyStr);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -1734,7 +1728,7 @@ module Client {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @parseXml(bodyStr, ServerError);
+      respMap = @getErrMessage(bodyStr);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -1831,7 +1825,7 @@ module Client {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @parseXml(bodyStr, ServerError);
+      respMap = @getErrMessage(bodyStr);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -1917,7 +1911,7 @@ module Client {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @parseXml(bodyStr, ServerError);
+      respMap = @getErrMessage(bodyStr);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -1992,7 +1986,7 @@ module Client {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @parseXml(bodyStr, ServerError);
+      respMap = @getErrMessage(bodyStr);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -2065,7 +2059,7 @@ module Client {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @parseXml(bodyStr, ServerError);
+      respMap = @getErrMessage(bodyStr);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -2138,7 +2132,7 @@ module Client {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @parseXml(bodyStr, ServerError);
+      respMap = @getErrMessage(bodyStr);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -2213,7 +2207,7 @@ module Client {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @parseXml(bodyStr, ServerError);
+      respMap = @getErrMessage(bodyStr);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -2311,7 +2305,7 @@ module Client {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @parseXml(bodyStr, ServerError);
+      respMap = @getErrMessage(bodyStr);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -2392,7 +2386,7 @@ module Client {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @parseXml(bodyStr, ServerError);
+      respMap = @getErrMessage(bodyStr);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -2471,7 +2465,7 @@ module Client {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @parseXml(bodyStr, ServerError);
+      respMap = @getErrMessage(bodyStr);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -2546,7 +2540,7 @@ module Client {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @parseXml(bodyStr, ServerError);
+      respMap = @getErrMessage(bodyStr);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -2625,7 +2619,7 @@ module Client {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @parseXml(bodyStr, ServerError);
+      respMap = @getErrMessage(bodyStr);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -2705,7 +2699,7 @@ module Client {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @parseXml(bodyStr, ServerError);
+      respMap = @getErrMessage(bodyStr);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -2797,7 +2791,7 @@ module Client {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @parseXml(bodyStr, ServerError);
+      respMap = @getErrMessage(bodyStr);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -2877,7 +2871,7 @@ module Client {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @parseXml(bodyStr, ServerError);
+      respMap = @getErrMessage(bodyStr);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -2973,7 +2967,7 @@ module Client {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @parseXml(bodyStr, ServerError);
+      respMap = @getErrMessage(bodyStr);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -3060,7 +3054,7 @@ module Client {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @parseXml(bodyStr, ServerError);
+      respMap = @getErrMessage(bodyStr);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -3140,7 +3134,7 @@ module Client {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @parseXml(bodyStr, ServerError);
+      respMap = @getErrMessage(bodyStr);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -3214,7 +3208,7 @@ module Client {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @parseXml(bodyStr, ServerError);
+      respMap = @getErrMessage(bodyStr);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -3314,7 +3308,7 @@ module Client {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @parseXml(bodyStr, ServerError);
+      respMap = @getErrMessage(bodyStr);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -3389,7 +3383,7 @@ module Client {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @parseXml(bodyStr, ServerError);
+      respMap = @getErrMessage(bodyStr);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -3463,7 +3457,7 @@ module Client {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @parseXml(bodyStr, ServerError);
+      respMap = @getErrMessage(bodyStr);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -3546,7 +3540,7 @@ module Client {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @parseXml(bodyStr, ServerError);
+      respMap = @getErrMessage(bodyStr);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -3625,7 +3619,7 @@ module Client {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @parseXml(bodyStr, ServerError);
+      respMap = @getErrMessage(bodyStr);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -3698,7 +3692,7 @@ module Client {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @parseXml(bodyStr, ServerError);
+      respMap = @getErrMessage(bodyStr);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -3797,7 +3791,7 @@ module Client {
     var respMap : object = null;
     var bodyStr = @readAsString(__response);
     if (@isFail(__response)) {
-      respMap = @parseXml(bodyStr, ServerError);
+      respMap = @getErrMessage(bodyStr);
       throw {
         code = respMap.Code,
         message = respMap.Message,
