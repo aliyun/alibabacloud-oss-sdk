@@ -1,10 +1,25 @@
 import * as $tea from '@alicloud/tea-typescript';
 import Creadential from '@alicloud/credentials';
-import { parseStringPromise, Builder } from 'xml2js';
+import { Parser, Builder } from 'xml2js';
 import { platform, arch } from 'os';
 import { getType } from 'mime';
 import { Readable } from 'stream';
 import { getSignatureV2, getSignatureV1 } from './signature';
+
+function parseXML(body: string): any {
+  let parser = new Parser({ explicitArray: false });
+  let result: {[key: string]: any} = {};
+  parser.parseString(body, function (err: any, output: any) {
+    result.err = err;
+    result.output = output;
+  });
+  
+  if (result.err) {
+    throw result.err;
+  }
+
+  return result.output;
+}
 
 export default class BaseClient {
 
@@ -40,13 +55,13 @@ export default class BaseClient {
     this._isEnableMD5 = config['isEnableMD5'] || false;
     this._isEnableCrc = config['isEnableCrc'] || false;
     this._userAgent = `AlibabaCloud (${platform()}; ${arch()}) Node.js/${process.version} Core/1.0.1`
-    this._hostModel = 'domain';
+    this._hostModel = config['hostModel'] || 'domain';
 
     this._addtionalHeaders = [];
     if (!config['type']) {
       config['type'] = 'access_key'
     }
-    
+
     this._creadentials = new Creadential({
       accessKeyId: config['accessKeyId'],
       accessKeySecret: config['accessKeySecret'],
@@ -181,33 +196,25 @@ export default class BaseClient {
     return ret;
   }
 
-  async _parseXml<T>(response: $tea.Response, clazz: T): Promise<{ [key: string]: any }> {
-    let ret: { [key: string]: any } = {};
-    let body = await response.readBytes();
-    ret = await parseStringPromise(body, { explicitArray: false });
+  async _readAsString(response: $tea.Response): Promise<string> {
+    let bytes = await response.readBytes();
+    return bytes.toString();
+  }
+
+  _parseXml<T>(body: string, clazz: T): { [key: string]: any } {
+    let ret: { [key: string]: any } = parseXML(body);
     if (typeof clazz !== 'undefined') {
       ret = this._xmlCast(ret, clazz);
     }
     return ret;
   }
 
-  _getHost(bucketName: string): string {
-    let host = '';
-    if (!this._endpoint) {
-      this._endpoint = "oss-" + this._regionId + ".aliyuncs.com"
-    }
-    if (!bucketName) {
-      return this._endpoint;
-    } else {
-      if (this._hostModel === 'ip') {
-        host = this._endpoint + '/' + bucketName;
-      } else if (this._hostModel === 'cname') {
-        host = this._endpoint;
-      } else {
-        host = bucketName + '.' + this._endpoint;
-      }
-    }
-    return host
+  _equal(a: string, b: string): boolean {
+    return a === b;
+  }
+
+  _empty(input: string): boolean {
+    return !input;
   }
 
   _default(value: string, defaultVal: string): string {
@@ -443,16 +450,5 @@ export default class BaseClient {
 
   _getTracker(): any {
     throw new Error('the method is un-implemented!');
-  }
-
-  async _getErrMessage(response: $tea.Response): Promise<{ [key: string]: any }> {
-    let body = await this._parseXml(response, undefined);
-    let erorr = body.Error || {};
-    return {
-      Code: erorr['Code'],
-      Message: erorr['Message'],
-      RequestId: erorr['RequestId'],
-      HostId: erorr['HostId']
-    };
   }
 }

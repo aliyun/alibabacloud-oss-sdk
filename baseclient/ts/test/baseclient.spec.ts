@@ -39,7 +39,6 @@ describe('base client', function () {
     });
   })
   let req = new $tea.Request();
-  
 
   class TestHeader extends $tea.Model {
     authorization?: string;
@@ -99,16 +98,6 @@ describe('base client', function () {
     assert.strictEqual(client._creadentials.accessKeyId, config.accessKeyId);
     assert.strictEqual(client._creadentials.accessKeySecret, config.accessKeySecret);
     assert.strictEqual(client._creadentials.type, 'access_key');
-    req.protocol = "http";
-    req.method = "PUT";
-    req.pathname = '/sdk-oss-test?object';
-    req.headers = {
-      host: client._getHost('sdk-oss-test'),
-      date: client._getDate(),
-      'content-type': 'text/plain',
-      'user-agent': client._getUserAgent(),
-      'x-oss-storage-class': 'Standard',
-    };
   });
 
   it('_addAddtionalHeaders  and _getAddtionalHeaders  should ok', async function () {
@@ -396,28 +385,13 @@ describe('base client', function () {
       accessKeySecret:'accessKeySecret',
       accessKeyId: 'accessKeyId',
     });
-    const res = await request('http://127.0.0.1:8848', { method: 'GET' });
-    const teaRes = new $tea.Response(res);
     const data = {
       root: {
         Owner: { ID: '1325847523475998', DisplayName: '1325847523475998' },
         AccessControlList: { Grant: 'public-read' },
       },
     };
-    assert.deepStrictEqual(await client._parseXml(teaRes, GetBucketAclResponse), data);
-  });
-
-  it('_getHost should ok', async function () {
-    const client = new BaseClient({
-      accessKeySecret:'accessKeySecret',
-      accessKeyId: 'accessKeyId',
-    });
-    assert.strictEqual(client._getHost('sdk-oss-test'), 'sdk-oss-test.oss-cn-hangzhou.aliyuncs.com');
-    assert.strictEqual(client._getHost(undefined), 'oss-cn-hangzhou.aliyuncs.com');
-    client._setHostModel('ip');
-    assert.strictEqual(client._getHost('sdk-oss-test'), 'oss-cn-hangzhou.aliyuncs.com/sdk-oss-test');
-    client._setHostModel('cname');
-    assert.strictEqual(client._getHost('sdk-oss-test'), 'oss-cn-hangzhou.aliyuncs.com');
+    assert.deepStrictEqual(await client._parseXml(testXml, GetBucketAclResponse), data);
   });
 
   it('_default should ok', async function () {
@@ -751,6 +725,26 @@ describe('base client', function () {
     assert.strictEqual(client._readAsStream(teaRes), res);
   });
 
+  it('_empty should ok', async function () {
+    const client = new BaseClient({
+      accessKeySecret:'accessKeySecret',
+      accessKeyId: 'accessKeyId',
+    });
+    assert.deepStrictEqual(client._empty(''), true);
+    assert.deepStrictEqual(client._empty('hehe'), false);
+    assert.deepStrictEqual(client._empty(undefined), true);
+  });
+
+  it('_equal should ok', async function () {
+    const client = new BaseClient({
+      accessKeySecret:'accessKeySecret',
+      accessKeyId: 'accessKeyId',
+    });
+    assert.deepStrictEqual(client._equal('', ''), true);
+    assert.deepStrictEqual(client._equal('hehe', 'ip'), false);
+    assert.deepStrictEqual(client._equal('hehe', 'hehe'), true);
+  });
+
   it('_getTracker should ok', async function () {
     const client = new BaseClient({
       accessKeySecret:'accessKeySecret',
@@ -763,19 +757,14 @@ describe('base client', function () {
     }
   });
 
-  it('_getErrMessage should ok', async function () {
+  it('_readAsString should ok', async function () {
     const client = new BaseClient({
       accessKeySecret:'accessKeySecret',
       accessKeyId: 'accessKeyId',
     });
     const res = await request('http://127.0.0.1:8848', { method: 'POST' });
     const teaRes = new $tea.Response(res);
-    assert.deepStrictEqual(await client._getErrMessage(teaRes), {
-      Code: 'AccessForbidden',
-      Message: 'CORSResponse: CORS is not enabled for this bucket.',
-      RequestId: '5DECB1F6F3150D373335D8D2',
-      HostId: 'sdk-oss-test.oss-cn-hangzhou.aliyuncs.com',
-    });
+    assert.deepStrictEqual(await client._readAsString(teaRes), errorXml);
   });
 
   after(() => {
