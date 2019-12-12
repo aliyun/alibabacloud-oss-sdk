@@ -4,6 +4,7 @@ English | [简体中文](README-CN.md)
 
 ## Alibaba Cloud OSS SDK
 [![Travis Build Status](https://travis-ci.org/aliyun/alibabacloud-oss-sdk.svg?branch=master)](https://travis-ci.org/aliyun/alibabacloud-oss-sdk)
+[![codecov](https://codecov.io/gh/aliyun/alibabacloud-oss-sdk/branch/master/graph/badge.svg)](https://codecov.io/gh/aliyun/alibabacloud-oss-sdk)
 ## Installation
 
 - [OSS SDK for Java](./java/README.md)

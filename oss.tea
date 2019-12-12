@@ -13,7 +13,8 @@ module Client {
   type @toQuery = (object): map[string]string
   type @toMeta = (object, string): map[string]string
   type @parseMeta = (object, string): map[string]string
-  type @getContentMD5 = ($Request, string): string
+  type @getContentMD5 = (string, string): string
+  type @toString = (any): string
   type @endpoint = string
   type @regionId = string
   type @hostModel = string
@@ -150,6 +151,7 @@ module Client {
     var accessKeyId = @getAccessKeyID();
     var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
+    var reqBody = @toString(request.body);
     protocol = @protocol;
     method = 'PUT';
     pathname = `/?lifecycle`;
@@ -161,7 +163,7 @@ module Client {
     if (!@empty(token)) {
       headers.x-oss-security-token = token;
     }
-    body = @toBody(request.body);
+    body = reqBody;
     if (@equal(@signatureVersion, 'V2')) {
       if (@ifListEmpty(@addtionalHeaders)) {
         headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
@@ -249,6 +251,7 @@ module Client {
     var accessKeyId = @getAccessKeyID();
     var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
+    var reqBody = @toString(request.body);
     protocol = @protocol;
     method = 'POST';
     pathname = `/?delete`;
@@ -261,8 +264,8 @@ module Client {
     if (!@empty(token)) {
       headers.x-oss-security-token = token;
     }
-    body = @toBody(request.body);
-    headers.content-md5 = @getContentMD5(__request,  @getSpecialValue(request.header, 'Content-MD5'));
+    body = reqBody;
+    headers.content-md5 = @getContentMD5(reqBody,  @getSpecialValue(request.header, 'Content-MD5'));
     if (@equal(@signatureVersion, 'V2')) {
       if (@ifListEmpty(@addtionalHeaders)) {
         headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
@@ -337,6 +340,7 @@ module Client {
     var accessKeyId = @getAccessKeyID();
     var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
+    var reqBody = @toString(request.body);
     protocol = @protocol;
     method = 'PUT';
     pathname = `/?referer`;
@@ -348,7 +352,7 @@ module Client {
     if (!@empty(token)) {
       headers.x-oss-security-token = token;
     }
-    body = @toBody(request.body);
+    body = reqBody;
     if (@equal(@signatureVersion, 'V2')) {
       if (@ifListEmpty(@addtionalHeaders)) {
         headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
@@ -459,6 +463,7 @@ module Client {
     var accessKeyId = @getAccessKeyID();
     var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
+    var reqBody = @toString(request.body);
     protocol = @protocol;
     method = 'PUT';
     pathname = `/?website`;
@@ -470,7 +475,7 @@ module Client {
     if (!@empty(token)) {
       headers.x-oss-security-token = token;
     }
-    body = @toBody(request.body);
+    body = reqBody;
     if (@equal(@signatureVersion, 'V2')) {
       if (@ifListEmpty(@addtionalHeaders)) {
         headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
@@ -556,6 +561,7 @@ module Client {
     var accessKeyId = @getAccessKeyID();
     var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
+    var reqBody = @toString(request.body);
     protocol = @protocol;
     method = 'POST';
     pathname = `/${request.objectName}`;
@@ -568,7 +574,7 @@ module Client {
       headers.x-oss-security-token = token;
     }
     query = @toQuery(request.filter);
-    body = @toBody(request.body);
+    body = reqBody;
     if (@equal(@signatureVersion, 'V2')) {
       if (@ifListEmpty(@addtionalHeaders)) {
         headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
@@ -643,6 +649,7 @@ module Client {
     var accessKeyId = @getAccessKeyID();
     var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
+    var reqBody = @toString(request.body);
     protocol = @protocol;
     method = 'PUT';
     pathname = `/?logging`;
@@ -654,7 +661,7 @@ module Client {
     if (!@empty(token)) {
       headers.x-oss-security-token = token;
     }
-    body = @toBody(request.body);
+    body = reqBody;
     if (@equal(@signatureVersion, 'V2')) {
       if (@ifListEmpty(@addtionalHeaders)) {
         headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
@@ -723,6 +730,7 @@ module Client {
     var accessKeyId = @getAccessKeyID();
     var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
+    var reqBody = @toString(request.body);
     protocol = @protocol;
     method = 'PUT';
     pathname = `/?requestPayment`;
@@ -734,7 +742,7 @@ module Client {
     if (!@empty(token)) {
       headers.x-oss-security-token = token;
     }
-    body = @toBody(request.body);
+    body = reqBody;
     if (@equal(@signatureVersion, 'V2')) {
       if (@ifListEmpty(@addtionalHeaders)) {
         headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
@@ -806,6 +814,7 @@ module Client {
     var accessKeyId = @getAccessKeyID();
     var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
+    var reqBody = @toString(request.body);
     protocol = @protocol;
     method = 'PUT';
     pathname = `/?encryption`;
@@ -817,7 +826,7 @@ module Client {
     if (!@empty(token)) {
       headers.x-oss-security-token = token;
     }
-    body = @toBody(request.body);
+    body = reqBody;
     if (@equal(@signatureVersion, 'V2')) {
       if (@ifListEmpty(@addtionalHeaders)) {
         headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
@@ -908,6 +917,7 @@ module Client {
     var accessKeyId = @getAccessKeyID();
     var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
+    var reqBody = @toString(request.body);
     protocol = @protocol;
     method = 'PUT';
     pathname = `/${request.channelName}?live`;
@@ -919,7 +929,7 @@ module Client {
     if (!@empty(token)) {
       headers.x-oss-security-token = token;
     }
-    body = @toBody(request.body);
+    body = reqBody;
     if (@equal(@signatureVersion, 'V2')) {
       if (@ifListEmpty(@addtionalHeaders)) {
         headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
@@ -998,6 +1008,7 @@ module Client {
     var accessKeyId = @getAccessKeyID();
     var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
+    var reqBody = @toString(request.body);
     protocol = @protocol;
     method = 'PUT';
     pathname = `/?tagging`;
@@ -1009,7 +1020,7 @@ module Client {
     if (!@empty(token)) {
       headers.x-oss-security-token = token;
     }
-    body = @toBody(request.body);
+    body = reqBody;
     if (@equal(@signatureVersion, 'V2')) {
       if (@ifListEmpty(@addtionalHeaders)) {
         headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
@@ -1086,6 +1097,7 @@ module Client {
     var accessKeyId = @getAccessKeyID();
     var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
+    var reqBody = @toString(request.body);
     protocol = @protocol;
     method = 'PUT';
     pathname = `/${request.objectName}?tagging`;
@@ -1097,7 +1109,7 @@ module Client {
     if (!@empty(token)) {
       headers.x-oss-security-token = token;
     }
-    body = @toBody(request.body);
+    body = reqBody;
     if (@equal(@signatureVersion, 'V2')) {
       if (@ifListEmpty(@addtionalHeaders)) {
         headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
@@ -1195,6 +1207,7 @@ module Client {
     var accessKeyId = @getAccessKeyID();
     var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
+    var reqBody = @toString(request.body);
     protocol = @protocol;
     method = 'POST';
     pathname = `/${request.objectName}`;
@@ -1207,7 +1220,7 @@ module Client {
       headers.x-oss-security-token = token;
     }
     query = @toQuery(request.filter);
-    body = @toBody(request.body);
+    body = reqBody;
     if (@equal(@signatureVersion, 'V2')) {
       if (@ifListEmpty(@addtionalHeaders)) {
         headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
@@ -1284,6 +1297,7 @@ module Client {
     var accessKeyId = @getAccessKeyID();
     var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
+    var reqBody = @toString(request.body);
     protocol = @protocol;
     method = 'PUT';
     pathname = `/?cors`;
@@ -1295,7 +1309,7 @@ module Client {
     if (!@empty(token)) {
       headers.x-oss-security-token = token;
     }
-    body = @toBody(request.body);
+    body = reqBody;
     if (@equal(@signatureVersion, 'V2')) {
       if (@ifListEmpty(@addtionalHeaders)) {
         headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
@@ -1368,6 +1382,7 @@ module Client {
     var accessKeyId = @getAccessKeyID();
     var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
+    var reqBody = @toString(request.body);
     protocol = @protocol;
     method = 'PUT';
     pathname = `/`;
@@ -1380,7 +1395,7 @@ module Client {
     if (!@empty(token)) {
       headers.x-oss-security-token = token;
     }
-    body = @toBody(request.body);
+    body = reqBody;
     if (@equal(@signatureVersion, 'V2')) {
       if (@ifListEmpty(@addtionalHeaders)) {
         headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
