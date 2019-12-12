@@ -8,7 +8,7 @@ jobs:
         - npm install
         - npm run test-cov
       after_success:
-        - bash <(curl -s https://codecov.io/bash)
+        - bash <(curl -s https://codecov.io/bash) -cF node_js
     - language: go
       go: 1.12.x
       if: branch = master
@@ -16,13 +16,17 @@ jobs:
         - cd baseclient/go
         - export GO111MODULE=on
         - go mod tidy
-        - go test -race -coverprofile=coverage.txt -covermode=atomic ./service/... ./utils...       
+        - go test -race -coverprofile=coverage.txt -covermode=atomic ./service/... ./utils...
+      after_success:
+        - bash <(curl -s https://codecov.io/bash) -cF go
     - language: java
       jdk: openjdk8
       if: branch = master
       script:
         - cd baseclient/java
         - mvn test -B
+      after_success:
+        - bash <(curl -s https://codecov.io/bash) -cF java
     - language: csharp
       mono: none
       dotnet: 2.2
@@ -37,4 +41,4 @@ jobs:
       script:
         - dotnet test unitTest/ /p:AltCover=true
       after_success:
-        - bash <(curl -s https://codecov.io/bash)
+        - bash <(curl -s https://codecov.io/bash) -cF csharp
