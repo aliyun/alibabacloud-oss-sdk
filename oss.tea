@@ -14,7 +14,7 @@ module Client {
   type @toMeta = (object, string): map[string]string
   type @parseMeta = (object, string): map[string]string
   type @getContentMD5 = (string, string): string
-  type @toString = (any): string
+  type @toXML = (any): string
   type @endpoint = string
   type @regionId = string
   type @hostModel = string
@@ -162,10 +162,8 @@ module Client {
   }
 
   api putBucketLifecycle(request: PutBucketLifecycleRequest, runtime: RuntimeObject): PutBucketLifecycleResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
-    var reqBody = @toString(request.body);
+    var reqBody = @toXML(request.body);
     protocol = @protocol;
     method = 'PUT';
     pathname = `/?lifecycle`;
@@ -254,10 +252,8 @@ module Client {
   }
 
   api deleteMultipleObjects(request: DeleteMultipleObjectsRequest, runtime: RuntimeObject): DeleteMultipleObjectsResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
-    var reqBody = @toString(request.body);
+    var reqBody = @toXML(request.body);
     protocol = @protocol;
     method = 'POST';
     pathname = `/?delete`;
@@ -335,10 +331,8 @@ module Client {
   }
 
   api putBucketReferer(request: PutBucketRefererRequest, runtime: RuntimeObject): PutBucketRefererResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
-    var reqBody = @toString(request.body);
+    var reqBody = @toXML(request.body);
     protocol = @protocol;
     method = 'PUT';
     pathname = `/?referer`;
@@ -450,10 +444,8 @@ module Client {
   }
 
   api putBucketWebsite(request: PutBucketWebsiteRequest, runtime: RuntimeObject): PutBucketWebsiteResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
-    var reqBody = @toString(request.body);
+    var reqBody = @toXML(request.body);
     protocol = @protocol;
     method = 'PUT';
     pathname = `/?website`;
@@ -540,10 +532,8 @@ module Client {
   }
 
   api completeMultipartUpload(request: CompleteMultipartUploadRequest, runtime: RuntimeObject): CompleteMultipartUploadResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
-    var reqBody = @toString(request.body);
+    var reqBody = @toXML(request.body);
     protocol = @protocol;
     method = 'POST';
     pathname = `/${request.objectName}`;
@@ -620,10 +610,8 @@ module Client {
   }
 
   api putBucketLogging(request: PutBucketLoggingRequest, runtime: RuntimeObject): PutBucketLoggingResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
-    var reqBody = @toString(request.body);
+    var reqBody = @toXML(request.body);
     protocol = @protocol;
     method = 'PUT';
     pathname = `/?logging`;
@@ -693,10 +681,8 @@ module Client {
   }
 
   api putBucketRequestPayment(request: PutBucketRequestPaymentRequest, runtime: RuntimeObject): PutBucketRequestPaymentResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
-    var reqBody = @toString(request.body);
+    var reqBody = @toXML(request.body);
     protocol = @protocol;
     method = 'PUT';
     pathname = `/?requestPayment`;
@@ -769,10 +755,8 @@ module Client {
   }
 
   api putBucketEncryption(request: PutBucketEncryptionRequest, runtime: RuntimeObject): PutBucketEncryptionResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
-    var reqBody = @toString(request.body);
+    var reqBody = @toXML(request.body);
     protocol = @protocol;
     method = 'PUT';
     pathname = `/?encryption`;
@@ -864,10 +848,8 @@ module Client {
   }
 
   api putLiveChannel(request: PutLiveChannelRequest, runtime: RuntimeObject): PutLiveChannelResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
-    var reqBody = @toString(request.body);
+    var reqBody = @toXML(request.body);
     protocol = @protocol;
     method = 'PUT';
     pathname = `/${request.channelName}?live`;
@@ -947,10 +929,8 @@ module Client {
   }
 
   api putBucketTags(request: PutBucketTagsRequest, runtime: RuntimeObject): PutBucketTagsResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
-    var reqBody = @toString(request.body);
+    var reqBody = @toXML(request.body);
     protocol = @protocol;
     method = 'PUT';
     pathname = `/?tagging`;
@@ -1028,10 +1008,8 @@ module Client {
   }
 
   api putObjectTagging(request: PutObjectTaggingRequest, runtime: RuntimeObject): PutObjectTaggingResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
-    var reqBody = @toString(request.body);
+    var reqBody = @toXML(request.body);
     protocol = @protocol;
     method = 'PUT';
     pathname = `/${request.objectName}?tagging`;
@@ -1130,10 +1108,8 @@ module Client {
   }
 
   api selectObject(request: SelectObjectRequest, runtime: RuntimeObject): SelectObjectResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
-    var reqBody = @toString(request.body);
+    var reqBody = @toXML(request.body);
     protocol = @protocol;
     method = 'POST';
     pathname = `/${request.objectName}`;
@@ -1212,10 +1188,8 @@ module Client {
   }
 
   api putBucketCORS(request: PutBucketCORSRequest, runtime: RuntimeObject): PutBucketCORSResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
-    var reqBody = @toString(request.body);
+    var reqBody = @toXML(request.body);
     protocol = @protocol;
     method = 'PUT';
     pathname = `/?cors`;
@@ -1289,10 +1263,8 @@ module Client {
   }
 
   api putBucket(request: PutBucketRequest, runtime: RuntimeObject): PutBucketResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
-    var reqBody = @toString(request.body);
+    var reqBody = @toXML(request.body);
     protocol = @protocol;
     method = 'PUT';
     pathname = `/`;
@@ -1384,8 +1356,6 @@ module Client {
   }
 
   api listMultipartUploads(request: ListMultipartUploadsRequest, runtime: RuntimeObject): ListMultipartUploadsResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
@@ -1457,8 +1427,6 @@ module Client {
   }
 
   api getBucketRequestPayment(request: GetBucketRequestPaymentRequest, runtime: RuntimeObject): GetBucketRequestPaymentResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
@@ -1532,8 +1500,6 @@ module Client {
   }
 
   api getBucketEncryption(request: GetBucketEncryptionRequest, runtime: RuntimeObject): GetBucketEncryptionResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
@@ -1611,8 +1577,6 @@ module Client {
   }
 
   api getBucketTags(request: GetBucketTagsRequest, runtime: RuntimeObject): GetBucketTagsResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
@@ -1707,8 +1671,6 @@ module Client {
   }
 
   api getService(request: GetServiceRequest, runtime: RuntimeObject): GetServiceResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
@@ -1777,8 +1739,6 @@ module Client {
   }
 
   api deleteBucketEncryption(request: DeleteBucketEncryptionRequest, runtime: RuntimeObject): DeleteBucketEncryptionResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'DELETE';
@@ -1846,8 +1806,6 @@ module Client {
   }
 
   api deleteBucketTags(request: DeleteBucketTagsRequest, runtime: RuntimeObject): DeleteBucketTagsResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'DELETE';
@@ -1958,8 +1916,6 @@ module Client {
   }
 
   api getBucketWebsite(request: GetBucketWebsiteRequest, runtime: RuntimeObject): GetBucketWebsiteResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
@@ -2028,8 +1984,6 @@ module Client {
   }
 
   api deleteLiveChannel(request: DeleteLiveChannelRequest, runtime: RuntimeObject): DeleteLiveChannelResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'DELETE';
@@ -2095,8 +2049,6 @@ module Client {
   }
 
   api getBucketLocation(request: GetBucketLocationRequest, runtime: RuntimeObject): GetBucketLocationResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
@@ -2188,8 +2140,6 @@ module Client {
   }
 
   api listLiveChannel(request: ListLiveChannelRequest, runtime: RuntimeObject): ListLiveChannelResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
@@ -2262,8 +2212,6 @@ module Client {
   }
 
   api getObjectMeta(request: GetObjectMetaRequest, runtime: RuntimeObject): GetObjectMetaResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'HEAD';
@@ -2337,8 +2285,6 @@ module Client {
   }
 
   api getBucketAcl(request: GetBucketAclRequest, runtime: RuntimeObject): GetBucketAclResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
@@ -2431,8 +2377,6 @@ module Client {
   }
 
   api listParts(request: ListPartsRequest, runtime: RuntimeObject): ListPartsResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
@@ -2514,8 +2458,6 @@ module Client {
   }
 
   api getLiveChannelHistory(request: GetLiveChannelHistoryRequest, runtime: RuntimeObject): GetLiveChannelHistoryResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
@@ -2614,8 +2556,6 @@ module Client {
   }
 
   api getBucket(request: GetBucketRequest, runtime: RuntimeObject): GetBucketResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
@@ -2695,8 +2635,6 @@ module Client {
   }
 
   api getLiveChannelInfo(request: GetLiveChannelInfoRequest, runtime: RuntimeObject): GetLiveChannelInfoResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
@@ -2785,8 +2723,6 @@ module Client {
   }
 
   api getLiveChannelStat(request: GetLiveChannelStatRequest, runtime: RuntimeObject): GetLiveChannelStatResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
@@ -2856,8 +2792,6 @@ module Client {
   }
 
   api deleteObject(request: DeleteObjectRequest, runtime: RuntimeObject): DeleteObjectResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'DELETE';
@@ -2926,8 +2860,6 @@ module Client {
   }
 
   api abortMultipartUpload(request: AbortMultipartUploadRequest, runtime: RuntimeObject): AbortMultipartUploadResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'DELETE';
@@ -3012,8 +2944,6 @@ module Client {
   }
 
   api appendObject(request: AppendObjectRequest, runtime: RuntimeObject): AppendObjectResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'POST';
@@ -3100,8 +3030,6 @@ module Client {
   }
 
   api uploadPartCopy(request: UploadPartCopyRequest, runtime: RuntimeObject): UploadPartCopyResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'PUT';
@@ -3176,8 +3104,6 @@ module Client {
   }
 
   api getVodPlaylist(request: GetVodPlaylistRequest, runtime: RuntimeObject): GetVodPlaylistResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
@@ -3243,8 +3169,6 @@ module Client {
   }
 
   api deleteBucketCORS(request: DeleteBucketCORSRequest, runtime: RuntimeObject): DeleteBucketCORSResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'DELETE';
@@ -3329,8 +3253,6 @@ module Client {
   }
 
   api getObject(request: GetObjectRequest, runtime: RuntimeObject): GetObjectResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
@@ -3403,8 +3325,6 @@ module Client {
   }
 
   api uploadPart(request: UploadPartRequest, runtime: RuntimeObject): UploadPartResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'PUT';
@@ -3478,8 +3398,6 @@ module Client {
   }
 
   api getBucketCORS(request: GetBucketCORSRequest, runtime: RuntimeObject): GetBucketCORSResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
@@ -3566,8 +3484,6 @@ module Client {
   }
 
   api copyObject(request: CopyObjectRequest, runtime: RuntimeObject): CopyObjectResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'PUT';
@@ -3649,8 +3565,6 @@ module Client {
   }
 
   api getObjectTagging(request: GetObjectTaggingRequest, runtime: RuntimeObject): GetObjectTaggingResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
@@ -3718,8 +3632,6 @@ module Client {
   }
 
   api deleteBucketLifecycle(request: DeleteBucketLifecycleRequest, runtime: RuntimeObject): DeleteBucketLifecycleResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'DELETE';
@@ -3784,8 +3696,6 @@ module Client {
   }
 
   api deleteBucketLogging(request: DeleteBucketLoggingRequest, runtime: RuntimeObject): DeleteBucketLoggingResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'DELETE';
@@ -3850,8 +3760,6 @@ module Client {
   }
 
   api deleteBucketWebsite(request: DeleteBucketWebsiteRequest, runtime: RuntimeObject): DeleteBucketWebsiteResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'DELETE';
@@ -3918,8 +3826,6 @@ module Client {
   }
 
   api getSymlink(request: GetSymlinkRequest, runtime: RuntimeObject): GetSymlinkResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
@@ -4009,8 +3915,6 @@ module Client {
   }
 
   api getBucketLifecycle(request: GetBucketLifecycleRequest, runtime: RuntimeObject): GetBucketLifecycleResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
@@ -4083,8 +3987,6 @@ module Client {
   }
 
   api putSymlink(request: PutSymlinkRequest, runtime: RuntimeObject): PutSymlinkResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'PUT';
@@ -4156,8 +4058,6 @@ module Client {
   }
 
   api getBucketReferer(request: GetBucketRefererRequest, runtime: RuntimeObject): GetBucketRefererResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
@@ -4225,8 +4125,6 @@ module Client {
   }
 
   api callback(request: CallbackRequest, runtime: RuntimeObject): CallbackResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
@@ -4297,8 +4195,6 @@ module Client {
   }
 
   api getBucketLogging(request: GetBucketLoggingRequest, runtime: RuntimeObject): GetBucketLoggingResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
@@ -4370,8 +4266,6 @@ module Client {
   }
 
   api putObjectAcl(request: PutObjectAclRequest, runtime: RuntimeObject): PutObjectAclResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'PUT';
@@ -4456,8 +4350,6 @@ module Client {
   }
 
   api getBucketInfo(request: GetBucketInfoRequest, runtime: RuntimeObject): GetBucketInfoResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
@@ -4529,8 +4421,6 @@ module Client {
   }
 
   api putLiveChannelStatus(request: PutLiveChannelStatusRequest, runtime: RuntimeObject): PutLiveChannelStatusResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'PUT';
@@ -4616,8 +4506,6 @@ module Client {
   }
 
   api initiateMultipartUpload(request: InitiateMultipartUploadRequest, runtime: RuntimeObject): InitiateMultipartUploadResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'POST';
@@ -4699,8 +4587,6 @@ module Client {
   }
 
   api optionObject(request: OptionObjectRequest, runtime: RuntimeObject): OptionObjectResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'OPTIONS';
@@ -4772,8 +4658,6 @@ module Client {
   }
 
   api postVodPlaylist(request: PostVodPlaylistRequest, runtime: RuntimeObject): PostVodPlaylistResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'POST';
@@ -4840,8 +4724,6 @@ module Client {
   }
 
   api postObject(request: PostObjectRequest, runtime: RuntimeObject): PostObjectResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'POST';
@@ -4932,8 +4814,6 @@ module Client {
   }
 
   api headObject(request: HeadObjectRequest, runtime: RuntimeObject): HeadObjectResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'HEAD';
@@ -5001,8 +4881,6 @@ module Client {
   }
 
   api deleteObjectTagging(request: DeleteObjectTaggingRequest, runtime: RuntimeObject): DeleteObjectTaggingResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'DELETE';
@@ -5068,8 +4946,6 @@ module Client {
   }
 
   api restoreObject(request: RestoreObjectRequest, runtime: RuntimeObject): RestoreObjectResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'POST';
@@ -5144,8 +5020,6 @@ module Client {
   }
 
   api getObjectAcl(request: GetObjectAclRequest, runtime: RuntimeObject): GetObjectAclResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'GET';
@@ -5216,8 +5090,6 @@ module Client {
   }
 
   api putBucketAcl(request: PutBucketAclRequest, runtime: RuntimeObject): PutBucketAclResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'PUT';
@@ -5283,8 +5155,6 @@ module Client {
   }
 
   api deleteBucket(request: DeleteBucketRequest, runtime: RuntimeObject): DeleteBucketResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'DELETE';
@@ -5371,8 +5241,6 @@ module Client {
   }
 
   api putObject(request: PutObjectRequest, runtime: RuntimeObject): PutObjectResponse {
-    var accessKeyId = @getAccessKeyID();
-    var accessKeySecret = @getAccessKeySecret();
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'PUT';
@@ -5433,3 +5301,4 @@ module Client {
     listener = runtime.listener,
   }
 }
+
