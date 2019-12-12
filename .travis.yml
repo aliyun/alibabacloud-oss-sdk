@@ -21,7 +21,6 @@ jobs:
         - cd baseclient/java
         - mvn test -B
     - language: csharp
-      sudo: true
       mono: none
       dotnet: 2.2
       dist: xenial
