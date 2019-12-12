@@ -13,25 +13,16 @@ module Client {
   type @toQuery = (object): map[string]string
   type @toMeta = (object, string): map[string]string
   type @parseMeta = (object, string): map[string]string
-  type @getContentMD5 = ($Request, string, int64): string
-  type @getContentLength = ($Request, string): string
+  type @getContentMD5 = ($Request, string): string
   type @endpoint = string
   type @regionId = string
   type @hostModel = string
-  type @autoretry = boolean
   type @protocol = string
   type @getSpecialValue = (any, string): string
   type @getContentType = (string): string
-  type @isNotCrcMatched = (string, string): boolean
-  type @isNotMD5Matched = (string, string): boolean
   type @encode = (string, string): string
-  type @base64Decode = (string): string
-  type @urlDecode = (string): string
-  type @parseUint = (string, boolean): number
-  type @getRespCrc = ($Response, boolean, any, any): uint64
   type @readAsStream = ($Response): readable
   type @toHeader = (object): map[string]string
-  type @getRefer = (readable): map[string]string
   type @equal = (string, string): boolean
   type @getSecurityToken = async (): string
   type @empty = (string): boolean
@@ -51,10 +42,7 @@ module Client {
   type @socks5NetWork = string
   type @maxIdleConns = number
   type @getUserAgent = (): string
-  type @isUploadSpeedLimit = (any, number): readable
-  type @ifRange = (any): boolean
   type @logger = any
-  type @getTracker = (): any
 
   prop version = '2019-05-17';
 
@@ -123,6 +111,2060 @@ module Client {
     return host;
   }
 
+  model PutBucketLifecycleRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+    body?: {
+      lifecycleConfiguration: {
+        rule: [
+          {
+            expiration: {
+              days: integer(description='Days', name='Days'),
+              createdBeforeDate: string(description='CreatedBeforeDate', name='CreatedBeforeDate'),
+            }(description='Expiration', name='Expiration'),
+            transition: {
+              days: integer(description='Days', name='Days'),
+              storageClass: string(description='StorageClass', name='StorageClass'),
+            }(description='Transition', name='Transition'),
+            abortMultipartUpload: {
+              days: integer(description='Days', name='Days'),
+              createdBeforeDate: string(description='CreatedBeforeDate', name='CreatedBeforeDate'),
+            }(description='AbortMultipartUpload', name='AbortMultipartUpload'),
+            tag: {
+              key: string(description='Key', name='Key'),
+              value: string(description='Value', name='Value'),
+            }(description='Tag', name='Tag'),
+            iD: string(description='ID', name='ID'),
+            prefix: string(description='Prefix', name='Prefix'),
+            status: string(description='Status', name='Status'),
+          }
+        ](description='Rule', name='Rule'),
+      }(description='LifecycleConfiguration', name='LifecycleConfiguration'),
+    }(description='Body', name='Body'),
+  }
+
+  model PutBucketLifecycleResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+  }
+
+  api putBucketLifecycle(request: PutBucketLifecycleRequest, runtime: RuntimeObject): PutBucketLifecycleResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
+    var token = @getSecurityToken();
+    protocol = @protocol;
+    method = 'PUT';
+    pathname = `/?lifecycle`;
+    headers = {
+      host = getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    if (!@empty(token)) {
+      headers.x-oss-security-token = token;
+    }
+    body = @toBody(request.body);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
+  } returns {
+    var respMap : object = null;
+    var bodyStr : string = null;
+    if (@isFail(__response)) {
+      bodyStr = @readAsString(__response);
+      respMap = @getErrMessage(bodyStr);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    return {
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+  model DeleteMultipleObjectsRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+    body?: {
+      delete: {
+        object: [
+          {
+            key: string(description='Key', name='Key'),
+          }
+        ](description='Object', name='Object'),
+        quiet: string(description='Quiet', name='Quiet'),
+      }(description='Delete', name='Delete'),
+    }(description='Body', name='Body'),
+    header: {
+      encodingType?: string(description='Encoding-type', name='Encoding-type'),
+      contentLength: string(description='Content-Length', name='Content-Length'),
+      contentMD5: string(description='Content-MD5', name='Content-MD5'),
+    }(description='Header', name='Header'),
+  }
+
+  model DeleteMultipleObjectsResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+    deleteResult: {
+      quiet: string(description='Quiet', name='Quiet'),
+      encodingType: string(description='EncodingType', name='EncodingType'),
+      deleted: [
+        {
+          key: string(description='Key', name='Key'),
+        }
+      ](description='Deleted', name='Deleted'),
+    }(description='DeleteResult', name='DeleteResult'),
+  }
+
+  api deleteMultipleObjects(request: DeleteMultipleObjectsRequest, runtime: RuntimeObject): DeleteMultipleObjectsResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
+    var token = @getSecurityToken();
+    protocol = @protocol;
+    method = 'POST';
+    pathname = `/?delete`;
+    headers = {
+      host = getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+      ...@toHeader(request.header),
+    };
+    if (!@empty(token)) {
+      headers.x-oss-security-token = token;
+    }
+    body = @toBody(request.body);
+    headers.content-md5 = @getContentMD5(__request,  @getSpecialValue(request.header, 'Content-MD5'));
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
+  } returns {
+    var respMap : object = null;
+    var bodyStr : string = null;
+    if (@isFail(__response)) {
+      bodyStr = @readAsString(__response);
+      respMap = @getErrMessage(bodyStr);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    bodyStr = @readAsString(__response);
+    respMap = @parseXml(bodyStr, DeleteMultipleObjectsResponse);
+    return {
+      DeleteResult = respMap.DeleteResult,
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+  model PutBucketRefererRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+    body?: {
+      refererConfiguration: {
+        refererList: {
+          referer: [ string ](description='Referer', name='Referer'),
+        }(description='RefererList', name='RefererList'),
+        allowEmptyReferer: boolean(description='AllowEmptyReferer', name='AllowEmptyReferer'),
+      }(description='RefererConfiguration', name='RefererConfiguration'),
+    }(description='Body', name='Body'),
+  }
+
+  model PutBucketRefererResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+  }
+
+  api putBucketReferer(request: PutBucketRefererRequest, runtime: RuntimeObject): PutBucketRefererResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
+    var token = @getSecurityToken();
+    protocol = @protocol;
+    method = 'PUT';
+    pathname = `/?referer`;
+    headers = {
+      host = getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    if (!@empty(token)) {
+      headers.x-oss-security-token = token;
+    }
+    body = @toBody(request.body);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
+  } returns {
+    var respMap : object = null;
+    var bodyStr : string = null;
+    if (@isFail(__response)) {
+      bodyStr = @readAsString(__response);
+      respMap = @getErrMessage(bodyStr);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    return {
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+  model PutBucketWebsiteRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+    body?: {
+      websiteConfiguration: {
+        indexDocument: {
+          suffix: string(description='Suffix', name='Suffix'),
+        }(description='IndexDocument', name='IndexDocument'),
+        errorDocument: {
+          key: string(description='Key', name='Key'),
+        }(description='ErrorDocument', name='ErrorDocument'),
+        routingRules: {
+          routingRule: [
+            {
+              condition: {
+                includeHeader: {
+                  key: string(description='Key', name='Key'),
+                  equals: string(description='Equals', name='Equals'),
+                }(description='IncludeHeader', name='IncludeHeader'),
+                keyPrefixEquals: string(description='KeyPrefixEquals', name='KeyPrefixEquals'),
+                httpErrorCodeReturnedEquals: string(description='HttpErrorCodeReturnedEquals', name='HttpErrorCodeReturnedEquals'),
+              }(description='Condition', name='Condition'),
+              redirect: {
+                mirrorHeaders: {
+                  set: {
+                    key: string(description='Key', name='Key'),
+                    value: string(description='Value', name='Value'),
+                  }(description='Set', name='Set'),
+                  passAll: boolean(description='PassAll', name='PassAll'),
+                  pass: string(description='Pass', name='Pass'),
+                  remove: string(description='Remove', name='Remove'),
+                }(description='MirrorHeaders', name='MirrorHeaders'),
+                redirectType: string(description='RedirectType', name='RedirectType'),
+                passQueryString: boolean(description='PassQueryString', name='PassQueryString'),
+                mirrorURL: string(description='MirrorURL', name='MirrorURL'),
+                mirrorPassQueryString: boolean(description='MirrorPassQueryString', name='MirrorPassQueryString'),
+                mirrorFollowRedirect: boolean(description='MirrorFollowRedirect', name='MirrorFollowRedirect'),
+                mirrorCheckMd5: boolean(description='MirrorCheckMd5', name='MirrorCheckMd5'),
+                protocol: string(description='Protocol', name='Protocol'),
+                hostName: string(description='HostName', name='HostName'),
+                httpRedirectCode: string(description='HttpRedirectCode', name='HttpRedirectCode'),
+                replaceKeyPrefixWith: string(description='ReplaceKeyPrefixWith', name='ReplaceKeyPrefixWith'),
+                replaceKeyWith: string(description='ReplaceKeyWith', name='ReplaceKeyWith'),
+              }(description='Redirect', name='Redirect'),
+              ruleNumber: integer(description='RuleNumber', name='RuleNumber'),
+            }
+          ](description='RoutingRule', name='RoutingRule'),
+        }(description='RoutingRules', name='RoutingRules'),
+      }(description='WebsiteConfiguration', name='WebsiteConfiguration'),
+    }(description='Body', name='Body'),
+  }
+
+  model PutBucketWebsiteResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+  }
+
+  api putBucketWebsite(request: PutBucketWebsiteRequest, runtime: RuntimeObject): PutBucketWebsiteResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
+    var token = @getSecurityToken();
+    protocol = @protocol;
+    method = 'PUT';
+    pathname = `/?website`;
+    headers = {
+      host = getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    if (!@empty(token)) {
+      headers.x-oss-security-token = token;
+    }
+    body = @toBody(request.body);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
+  } returns {
+    var respMap : object = null;
+    var bodyStr : string = null;
+    if (@isFail(__response)) {
+      bodyStr = @readAsString(__response);
+      respMap = @getErrMessage(bodyStr);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    return {
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+  model CompleteMultipartUploadRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+    objectName: string(description='ObjectName', name='ObjectName'),
+    filter: {
+      uploadId: string(description='uploadId', name='uploadId', signed='true'),
+      encodingType?: string(description='Encoding-type', name='Encoding-type'),
+    }(description='Filter', name='Filter'),
+    body?: {
+      completeMultipartUpload: {
+        part: [
+          {
+            partNumber: string(description='PartNumber', name='PartNumber'),
+            eTag: string(description='ETag', name='ETag'),
+          }
+        ](description='Part', name='Part'),
+      }(description='CompleteMultipartUpload', name='CompleteMultipartUpload'),
+    }(description='Body', name='Body'),
+  }
+
+  model CompleteMultipartUploadResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+    completeMultipartUploadResult: {
+      bucket: string(description='Bucket', name='Bucket'),
+      eTag: string(description='ETag', name='ETag'),
+      location: string(description='Location', name='Location'),
+      key: string(description='Key', name='Key'),
+      encodingType: string(description='EncodingType', name='EncodingType'),
+    }(description='CompleteMultipartUploadResult', name='CompleteMultipartUploadResult'),
+  }
+
+  api completeMultipartUpload(request: CompleteMultipartUploadRequest, runtime: RuntimeObject): CompleteMultipartUploadResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
+    var token = @getSecurityToken();
+    protocol = @protocol;
+    method = 'POST';
+    pathname = `/${request.objectName}`;
+    headers = {
+      host = getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    if (!@empty(token)) {
+      headers.x-oss-security-token = token;
+    }
+    query = @toQuery(request.filter);
+    body = @toBody(request.body);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
+  } returns {
+    var respMap : object = null;
+    var bodyStr : string = null;
+    if (@isFail(__response)) {
+      bodyStr = @readAsString(__response);
+      respMap = @getErrMessage(bodyStr);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    bodyStr = @readAsString(__response);
+    respMap = @parseXml(bodyStr, CompleteMultipartUploadResponse);
+    return {
+      CompleteMultipartUploadResult = respMap.CompleteMultipartUploadResult,
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+  model PutBucketLoggingRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+    body?: {
+      bucketLoggingStatus: {
+        loggingEnabled: {
+          targetBucket: string(description='TargetBucket', name='TargetBucket'),
+          targetPrefix: string(description='TargetPrefix', name='TargetPrefix'),
+        }(description='LoggingEnabled', name='LoggingEnabled'),
+      }(description='BucketLoggingStatus', name='BucketLoggingStatus'),
+    }(description='Body', name='Body'),
+  }
+
+  model PutBucketLoggingResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+  }
+
+  api putBucketLogging(request: PutBucketLoggingRequest, runtime: RuntimeObject): PutBucketLoggingResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
+    var token = @getSecurityToken();
+    protocol = @protocol;
+    method = 'PUT';
+    pathname = `/?logging`;
+    headers = {
+      host = getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    if (!@empty(token)) {
+      headers.x-oss-security-token = token;
+    }
+    body = @toBody(request.body);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
+  } returns {
+    var respMap : object = null;
+    var bodyStr : string = null;
+    if (@isFail(__response)) {
+      bodyStr = @readAsString(__response);
+      respMap = @getErrMessage(bodyStr);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    return {
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+  model PutBucketRequestPaymentRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+    body?: {
+      requestPaymentConfiguration: {
+        payer: string(description='Payer', name='Payer'),
+      }(description='RequestPaymentConfiguration', name='RequestPaymentConfiguration'),
+    }(description='Body', name='Body'),
+  }
+
+  model PutBucketRequestPaymentResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+  }
+
+  api putBucketRequestPayment(request: PutBucketRequestPaymentRequest, runtime: RuntimeObject): PutBucketRequestPaymentResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
+    var token = @getSecurityToken();
+    protocol = @protocol;
+    method = 'PUT';
+    pathname = `/?requestPayment`;
+    headers = {
+      host = getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    if (!@empty(token)) {
+      headers.x-oss-security-token = token;
+    }
+    body = @toBody(request.body);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
+  } returns {
+    var respMap : object = null;
+    var bodyStr : string = null;
+    if (@isFail(__response)) {
+      bodyStr = @readAsString(__response);
+      respMap = @getErrMessage(bodyStr);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    return {
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+  model PutBucketEncryptionRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+    body?: {
+      serverSideEncryptionRule: {
+        applyServerSideEncryptionByDefault: {
+          sSEAlgorithm: string(description='SSEAlgorithm', name='SSEAlgorithm'),
+          kMSMasterKeyID: string(description='KMSMasterKeyID', name='KMSMasterKeyID'),
+        }(description='ApplyServerSideEncryptionByDefault', name='ApplyServerSideEncryptionByDefault'),
+      }(description='ServerSideEncryptionRule', name='ServerSideEncryptionRule'),
+    }(description='Body', name='Body'),
+  }
+
+  model PutBucketEncryptionResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+  }
+
+  api putBucketEncryption(request: PutBucketEncryptionRequest, runtime: RuntimeObject): PutBucketEncryptionResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
+    var token = @getSecurityToken();
+    protocol = @protocol;
+    method = 'PUT';
+    pathname = `/?encryption`;
+    headers = {
+      host = getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    if (!@empty(token)) {
+      headers.x-oss-security-token = token;
+    }
+    body = @toBody(request.body);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
+  } returns {
+    var respMap : object = null;
+    var bodyStr : string = null;
+    if (@isFail(__response)) {
+      bodyStr = @readAsString(__response);
+      respMap = @getErrMessage(bodyStr);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    return {
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+  model PutLiveChannelRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+    channelName: string(description='ChannelName', name='ChannelName'),
+    body?: {
+      liveChannelConfiguration: {
+        target: {
+          type: string(description='Type', name='Type'),
+          fragDuration: string(description='FragDuration', name='FragDuration'),
+          fragCount: string(description='FragCount', name='FragCount'),
+          playlistName: string(description='PlaylistName', name='PlaylistName'),
+        }(description='Target', name='Target'),
+        snapshot: {
+          roleName: string(description='RoleName', name='RoleName'),
+          destBucket: string(description='DestBucket', name='DestBucket'),
+          notifyTopic: string(description='NotifyTopic', name='NotifyTopic'),
+          interval: string(description='Interval', name='Interval'),
+        }(description='Snapshot', name='Snapshot'),
+        description: string(description='Description', name='Description'),
+        status: string(description='Status', name='Status'),
+      }(description='LiveChannelConfiguration', name='LiveChannelConfiguration'),
+    }(description='Body', name='Body'),
+  }
+
+  model PutLiveChannelResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+    createLiveChannelResult: {
+      publishUrls: {
+        url: string(description='Url', name='Url'),
+      }(description='PublishUrls', name='PublishUrls'),
+      playUrls: {
+        url: string(description='Url', name='Url'),
+      }(description='PlayUrls', name='PlayUrls'),
+    }(description='CreateLiveChannelResult', name='CreateLiveChannelResult'),
+  }
+
+  api putLiveChannel(request: PutLiveChannelRequest, runtime: RuntimeObject): PutLiveChannelResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
+    var token = @getSecurityToken();
+    protocol = @protocol;
+    method = 'PUT';
+    pathname = `/${request.channelName}?live`;
+    headers = {
+      host = getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    if (!@empty(token)) {
+      headers.x-oss-security-token = token;
+    }
+    body = @toBody(request.body);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
+  } returns {
+    var respMap : object = null;
+    var bodyStr : string = null;
+    if (@isFail(__response)) {
+      bodyStr = @readAsString(__response);
+      respMap = @getErrMessage(bodyStr);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    bodyStr = @readAsString(__response);
+    respMap = @parseXml(bodyStr, PutLiveChannelResponse);
+    return {
+      CreateLiveChannelResult = respMap.CreateLiveChannelResult,
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+  model PutBucketTagsRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+    body?: {
+      tagging: {
+        tagSet: {
+          tag: [
+            {
+              key: string(description='Key', name='Key'),
+              value: string(description='Value', name='Value'),
+            }
+          ](description='Tag', name='Tag'),
+        }(description='TagSet', name='TagSet'),
+      }(description='Tagging', name='Tagging'),
+    }(description='Body', name='Body'),
+  }
+
+  model PutBucketTagsResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+  }
+
+  api putBucketTags(request: PutBucketTagsRequest, runtime: RuntimeObject): PutBucketTagsResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
+    var token = @getSecurityToken();
+    protocol = @protocol;
+    method = 'PUT';
+    pathname = `/?tagging`;
+    headers = {
+      host = getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    if (!@empty(token)) {
+      headers.x-oss-security-token = token;
+    }
+    body = @toBody(request.body);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
+  } returns {
+    var respMap : object = null;
+    var bodyStr : string = null;
+    if (@isFail(__response)) {
+      bodyStr = @readAsString(__response);
+      respMap = @getErrMessage(bodyStr);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    return {
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+  model PutObjectTaggingRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+    objectName: string(description='ObjectName', name='ObjectName'),
+    body?: {
+      tagging: {
+        tagSet: {
+          tag: [
+            {
+              key: string(description='Key', name='Key'),
+              value: string(description='Value', name='Value'),
+            }
+          ](description='Tag', name='Tag'),
+        }(description='TagSet', name='TagSet'),
+      }(description='Tagging', name='Tagging'),
+    }(description='Body', name='Body'),
+  }
+
+  model PutObjectTaggingResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+  }
+
+  api putObjectTagging(request: PutObjectTaggingRequest, runtime: RuntimeObject): PutObjectTaggingResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
+    var token = @getSecurityToken();
+    protocol = @protocol;
+    method = 'PUT';
+    pathname = `/${request.objectName}?tagging`;
+    headers = {
+      host = getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    if (!@empty(token)) {
+      headers.x-oss-security-token = token;
+    }
+    body = @toBody(request.body);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
+  } returns {
+    var respMap : object = null;
+    var bodyStr : string = null;
+    if (@isFail(__response)) {
+      bodyStr = @readAsString(__response);
+      respMap = @getErrMessage(bodyStr);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    return {
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+  model SelectObjectRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+    objectName: string(description='ObjectName', name='ObjectName'),
+    filter: {
+      porcess: string(description='x-oss-process', name='x-oss-process'),
+    }(description='Filter', name='Filter'),
+    body?: {
+      selectRequest: {
+        inputSerialization: {
+          cSV: {
+            fileHeaderInfo: string(description='FileHeaderInfo', name='FileHeaderInfo'),
+            recordDelimiter: string(description='RecordDelimiter', name='RecordDelimiter'),
+            fieldDelimiter: string(description='FieldDelimiter', name='FieldDelimiter'),
+            quoteCharacter: string(description='QuoteCharacter', name='QuoteCharacter'),
+            commentCharacter: string(description='CommentCharacter', name='CommentCharacter'),
+            range: string(description='Range', name='Range'),
+          }(description='CSV', name='CSV'),
+          compressionType: string(description='CompressionType', name='CompressionType'),
+        }(description='InputSerialization', name='InputSerialization'),
+        outputSerialization: {
+          cSV: {
+            recordDelimiter: string(description='RecordDelimiter', name='RecordDelimiter'),
+            fieldDelimiter: string(description='FieldDelimiter', name='FieldDelimiter'),
+          }(description='CSV', name='CSV'),
+          keepAllColumns: string(description='KeepAllColumns', name='KeepAllColumns'),
+          outputRawData: string(description='OutputRawData', name='OutputRawData'),
+          enablePayloadCrc: string(description='EnablePayloadCrc', name='EnablePayloadCrc'),
+          outputHeader: string(description='OutputHeader', name='OutputHeader'),
+        }(description='OutputSerialization', name='OutputSerialization'),
+        options: {
+          skipPartialDataRecord: string(description='SkipPartialDataRecord', name='SkipPartialDataRecord'),
+          maxSkippedRecordsAllowed: string(description='MaxSkippedRecordsAllowed', name='MaxSkippedRecordsAllowed'),
+        }(description='Options', name='Options'),
+        expression: string(description='Expression', name='Expression'),
+      }(description='SelectRequest', name='SelectRequest'),
+    }(description='Body', name='Body'),
+  }
+
+  model SelectObjectResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+  }
+
+  api selectObject(request: SelectObjectRequest, runtime: RuntimeObject): SelectObjectResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
+    var token = @getSecurityToken();
+    protocol = @protocol;
+    method = 'POST';
+    pathname = `/${request.objectName}`;
+    headers = {
+      host = getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    if (!@empty(token)) {
+      headers.x-oss-security-token = token;
+    }
+    query = @toQuery(request.filter);
+    body = @toBody(request.body);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
+  } returns {
+    var respMap : object = null;
+    var bodyStr : string = null;
+    if (@isFail(__response)) {
+      bodyStr = @readAsString(__response);
+      respMap = @getErrMessage(bodyStr);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    return {
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+  model PutBucketCORSRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+    body?: {
+      cORSConfiguration: {
+        cORSRule: [
+          {
+            allowedOrigin: [ string ](description='AllowedOrigin', name='AllowedOrigin'),
+            allowedMethod: [ string ](description='AllowedMethod', name='AllowedMethod'),
+            allowedHeader: [ string ](description='AllowedHeader', name='AllowedHeader'),
+            exposeHeader: [ string ](description='ExposeHeader', name='ExposeHeader'),
+            maxAgeSeconds: string(description='MaxAgeSeconds', name='MaxAgeSeconds'),
+          }
+        ](description='CORSRule', name='CORSRule'),
+      }(description='CORSConfiguration', name='CORSConfiguration'),
+    }(description='Body', name='Body'),
+  }
+
+  model PutBucketCORSResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+  }
+
+  api putBucketCORS(request: PutBucketCORSRequest, runtime: RuntimeObject): PutBucketCORSResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
+    var token = @getSecurityToken();
+    protocol = @protocol;
+    method = 'PUT';
+    pathname = `/?cors`;
+    headers = {
+      host = getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    if (!@empty(token)) {
+      headers.x-oss-security-token = token;
+    }
+    body = @toBody(request.body);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
+  } returns {
+    var respMap : object = null;
+    var bodyStr : string = null;
+    if (@isFail(__response)) {
+      bodyStr = @readAsString(__response);
+      respMap = @getErrMessage(bodyStr);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    return {
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+  model PutBucketRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+    body?: {
+      createBucketConfiguration: {
+        storageClass: string(description='StorageClass', name='StorageClass'),
+        dataRedundancyType: string(description='DataRedundancyType', name='DataRedundancyType'),
+      }(description='CreateBucketConfiguration', name='CreateBucketConfiguration'),
+    }(description='Body', name='Body'),
+    header?: {
+      acl?: string(description='x-oss-acl', name='x-oss-acl'),
+    }(description='Header', name='Header'),
+  }
+
+  model PutBucketResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+  }
+
+  api putBucket(request: PutBucketRequest, runtime: RuntimeObject): PutBucketResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
+    var token = @getSecurityToken();
+    protocol = @protocol;
+    method = 'PUT';
+    pathname = `/`;
+    headers = {
+      host = getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+      ...@toHeader(request.header),
+    };
+    if (!@empty(token)) {
+      headers.x-oss-security-token = token;
+    }
+    body = @toBody(request.body);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
+  } returns {
+    var respMap : object = null;
+    var bodyStr : string = null;
+    if (@isFail(__response)) {
+      bodyStr = @readAsString(__response);
+      respMap = @getErrMessage(bodyStr);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    return {
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+  model ListMultipartUploadsRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+    filter?: {
+      delimiter?: string(description='delimiter', name='delimiter'),
+      maxUploads?: string(description='max-uploads', name='max-uploads'),
+      keyMarker?: string(description='key-marker', name='key-marker'),
+      prefix?: string(description='prefix', name='prefix'),
+      uploadIdMarker?: string(description='upload-id-marker', name='upload-id-marker'),
+      encodingType?: string(description='encoding-type', name='encoding-type'),
+    }(description='Filter', name='Filter'),
+  }
+
+  model ListMultipartUploadsResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+    listMultipartUploadsResult: {
+      bucket: string(description='Bucket', name='Bucket'),
+      encodingType: string(description='EncodingType', name='EncodingType'),
+      keyMarker: string(description='KeyMarker', name='KeyMarker'),
+      uploadIdMarker: string(description='UploadIdMarker', name='UploadIdMarker'),
+      nextKeyMarker: string(description='NextKeyMarker', name='NextKeyMarker'),
+      nextUploadIdMarker: string(description='NextUploadIdMarker', name='NextUploadIdMarker'),
+      delimiter: string(description='Delimiter', name='Delimiter'),
+      maxUploads: string(description='MaxUploads', name='MaxUploads'),
+      isTruncated: string(description='IsTruncated', name='IsTruncated'),
+      upload: [
+        {
+          key: string(description='Key', name='Key'),
+          uploadId: string(description='UploadId', name='UploadId'),
+          initiated: string(description='Initiated', name='Initiated'),
+        }
+      ](description='Upload', name='Upload'),
+    }(description='ListMultipartUploadsResult', name='ListMultipartUploadsResult'),
+  }
+
+  api listMultipartUploads(request: ListMultipartUploadsRequest, runtime: RuntimeObject): ListMultipartUploadsResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
+    var token = @getSecurityToken();
+    protocol = @protocol;
+    method = 'GET';
+    pathname = `/?uploads`;
+    headers = {
+      host = getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    if (!@empty(token)) {
+      headers.x-oss-security-token = token;
+    }
+    query = @toQuery(request.filter);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
+  } returns {
+    var respMap : object = null;
+    var bodyStr : string = null;
+    if (@isFail(__response)) {
+      bodyStr = @readAsString(__response);
+      respMap = @getErrMessage(bodyStr);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    bodyStr = @readAsString(__response);
+    respMap = @parseXml(bodyStr, ListMultipartUploadsResponse);
+    return {
+      ListMultipartUploadsResult = respMap.ListMultipartUploadsResult,
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+  model GetBucketRequestPaymentRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+  }
+
+  model GetBucketRequestPaymentResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+    requestPaymentConfiguration: {
+      payer: string(description='Payer', name='Payer'),
+    }(description='RequestPaymentConfiguration', name='RequestPaymentConfiguration'),
+  }
+
+  api getBucketRequestPayment(request: GetBucketRequestPaymentRequest, runtime: RuntimeObject): GetBucketRequestPaymentResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
+    var token = @getSecurityToken();
+    protocol = @protocol;
+    method = 'GET';
+    pathname = `/?requestPayment`;
+    headers = {
+      host = getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    if (!@empty(token)) {
+      headers.x-oss-security-token = token;
+    }
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
+  } returns {
+    var respMap : object = null;
+    var bodyStr : string = null;
+    if (@isFail(__response)) {
+      bodyStr = @readAsString(__response);
+      respMap = @getErrMessage(bodyStr);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    bodyStr = @readAsString(__response);
+    respMap = @parseXml(bodyStr, GetBucketRequestPaymentResponse);
+    return {
+      RequestPaymentConfiguration = respMap.RequestPaymentConfiguration,
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+  model GetBucketEncryptionRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+  }
+
+  model GetBucketEncryptionResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+    serverSideEncryptionRule: {
+      applyServerSideEncryptionByDefault: {
+        sSEAlgorithm: string(description='SSEAlgorithm', name='SSEAlgorithm'),
+        kMSMasterKeyID: string(description='KMSMasterKeyID', name='KMSMasterKeyID'),
+      }(description='ApplyServerSideEncryptionByDefault', name='ApplyServerSideEncryptionByDefault'),
+    }(description='ServerSideEncryptionRule', name='ServerSideEncryptionRule'),
+  }
+
+  api getBucketEncryption(request: GetBucketEncryptionRequest, runtime: RuntimeObject): GetBucketEncryptionResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
+    var token = @getSecurityToken();
+    protocol = @protocol;
+    method = 'GET';
+    pathname = `/?encryption`;
+    headers = {
+      host = getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    if (!@empty(token)) {
+      headers.x-oss-security-token = token;
+    }
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
+  } returns {
+    var respMap : object = null;
+    var bodyStr : string = null;
+    if (@isFail(__response)) {
+      bodyStr = @readAsString(__response);
+      respMap = @getErrMessage(bodyStr);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    bodyStr = @readAsString(__response);
+    respMap = @parseXml(bodyStr, GetBucketEncryptionResponse);
+    return {
+      ServerSideEncryptionRule = respMap.ServerSideEncryptionRule,
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+  model GetBucketTagsRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+  }
+
+  model GetBucketTagsResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+    tagging: {
+      tagSet: {
+        tag: [
+          {
+            key: string(description='Key', name='Key'),
+            value: string(description='Value', name='Value'),
+          }
+        ](description='Tag', name='Tag'),
+      }(description='TagSet', name='TagSet'),
+    }(description='Tagging', name='Tagging'),
+  }
+
+  api getBucketTags(request: GetBucketTagsRequest, runtime: RuntimeObject): GetBucketTagsResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
+    var token = @getSecurityToken();
+    protocol = @protocol;
+    method = 'GET';
+    pathname = `/?tagging`;
+    headers = {
+      host = getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    if (!@empty(token)) {
+      headers.x-oss-security-token = token;
+    }
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
+  } returns {
+    var respMap : object = null;
+    var bodyStr : string = null;
+    if (@isFail(__response)) {
+      bodyStr = @readAsString(__response);
+      respMap = @getErrMessage(bodyStr);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    bodyStr = @readAsString(__response);
+    respMap = @parseXml(bodyStr, GetBucketTagsResponse);
+    return {
+      Tagging = respMap.Tagging,
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+  model GetServiceRequest = {
+    filter?: {
+      prefix?: string(description='prefix', name='prefix'),
+      marker?: string(description='marker', name='marker'),
+      maxKeys?: string(description='max-keys', name='max-keys'),
+    }(description='Filter', name='Filter'),
+  }
+
+  model GetServiceResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+    listAllMyBucketsResult: {
+      prefix: string(description='Prefix', name='Prefix'),
+      marker: string(description='Marker', name='Marker'),
+      maxKeys: string(description='MaxKeys', name='MaxKeys'),
+      isTruncated: string(description='IsTruncated', name='IsTruncated'),
+      nextMarker: string(description='NextMarker', name='NextMarker'),
+      owner: {
+        iD: string(description='ID', name='ID'),
+        displayName: string(description='DisplayName', name='DisplayName'),
+      }(description='Owner', name='Owner'),
+      buckets: {
+        bucket: [
+          {
+            name: string(description='Name', name='Name'),
+            createDate: string(description='CreateDate', name='CreateDate'),
+            location: string(description='Location', name='Location'),
+            extranetEndpoint: string(description='ExtranetEndpoint', name='ExtranetEndpoint'),
+            intranetEndpoint: string(description='IntranetEndpoint', name='IntranetEndpoint'),
+            storageClass: string(description='StorageClass', name='StorageClass'),
+          }
+        ](description='Bucket', name='Bucket'),
+      }(description='Buckets', name='Buckets'),
+    }(description='ListAllMyBucketsResult', name='ListAllMyBucketsResult'),
+  }
+
+  api getService(request: GetServiceRequest, runtime: RuntimeObject): GetServiceResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
+    var token = @getSecurityToken();
+    protocol = @protocol;
+    method = 'GET';
+    pathname = `/`;
+    headers = {
+      host = getHost(''),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    if (!@empty(token)) {
+      headers.x-oss-security-token = token;
+    }
+    query = @toQuery(request.filter);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, "", accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, "", accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, "", accessKeySecret)}`;
+    }
+  } returns {
+    var respMap : object = null;
+    var bodyStr : string = null;
+    if (@isFail(__response)) {
+      bodyStr = @readAsString(__response);
+      respMap = @getErrMessage(bodyStr);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    bodyStr = @readAsString(__response);
+    respMap = @parseXml(bodyStr, GetServiceResponse);
+    return {
+      ListAllMyBucketsResult = respMap.ListAllMyBucketsResult,
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+  model DeleteBucketEncryptionRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+  }
+
+  model DeleteBucketEncryptionResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+  }
+
+  api deleteBucketEncryption(request: DeleteBucketEncryptionRequest, runtime: RuntimeObject): DeleteBucketEncryptionResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
+    var token = @getSecurityToken();
+    protocol = @protocol;
+    method = 'DELETE';
+    pathname = `/?encryption`;
+    headers = {
+      host = getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    if (!@empty(token)) {
+      headers.x-oss-security-token = token;
+    }
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
+  } returns {
+    var respMap : object = null;
+    var bodyStr : string = null;
+    if (@isFail(__response)) {
+      bodyStr = @readAsString(__response);
+      respMap = @getErrMessage(bodyStr);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    return {
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+  model DeleteBucketTagsRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+    filter: {
+      tagging: string(description='tagging', name='tagging', signed='true'),
+    }(description='Filter', name='Filter'),
+  }
+
+  model DeleteBucketTagsResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+  }
+
+  api deleteBucketTags(request: DeleteBucketTagsRequest, runtime: RuntimeObject): DeleteBucketTagsResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
+    var token = @getSecurityToken();
+    protocol = @protocol;
+    method = 'DELETE';
+    pathname = `/`;
+    headers = {
+      host = getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    if (!@empty(token)) {
+      headers.x-oss-security-token = token;
+    }
+    query = @toQuery(request.filter);
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
+  } returns {
+    var respMap : object = null;
+    var bodyStr : string = null;
+    if (@isFail(__response)) {
+      bodyStr = @readAsString(__response);
+      respMap = @getErrMessage(bodyStr);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    return {
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
+  model GetBucketWebsiteRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+  }
+
+  model GetBucketWebsiteResponse = {
+    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
+    websiteConfiguration: {
+      indexDocument: {
+        suffix: string(description='Suffix', name='Suffix'),
+      }(description='IndexDocument', name='IndexDocument'),
+      errorDocument: {
+        key: string(description='Key', name='Key'),
+      }(description='ErrorDocument', name='ErrorDocument'),
+      routingRules: {
+        routingRule: [
+          {
+            ruleNumber: integer(description='RuleNumber', name='RuleNumber'),
+            condition: {
+              keyPrefixEquals: string(description='KeyPrefixEquals', name='KeyPrefixEquals'),
+              httpErrorCodeReturnedEquals: string(description='HttpErrorCodeReturnedEquals', name='HttpErrorCodeReturnedEquals'),
+              includeHeader: {
+                key: string(description='Key', name='Key'),
+                equals: string(description='Equals', name='Equals'),
+              }(description='IncludeHeader', name='IncludeHeader'),
+            }(description='Condition', name='Condition'),
+            redirect: {
+              redirectType: string(description='RedirectType', name='RedirectType'),
+              passQueryString: boolean(description='PassQueryString', name='PassQueryString'),
+              mirrorURL: string(description='MirrorURL', name='MirrorURL'),
+              mirrorPassQueryString: boolean(description='MirrorPassQueryString', name='MirrorPassQueryString'),
+              mirrorFollowRedirect: boolean(description='MirrorFollowRedirect', name='MirrorFollowRedirect'),
+              mirrorCheckMd5: boolean(description='MirrorCheckMd5', name='MirrorCheckMd5'),
+              protocol: string(description='Protocol', name='Protocol'),
+              hostName: string(description='HostName', name='HostName'),
+              httpRedirectCode: string(description='HttpRedirectCode', name='HttpRedirectCode'),
+              replaceKeyPrefixWith: string(description='ReplaceKeyPrefixWith', name='ReplaceKeyPrefixWith'),
+              replaceKeyWith: string(description='ReplaceKeyWith', name='ReplaceKeyWith'),
+              mirrorHeaders: {
+                passAll: boolean(description='PassAll', name='PassAll'),
+                pass: string(description='Pass', name='Pass'),
+                remove: string(description='Remove', name='Remove'),
+                set: {
+                  key: string(description='Key', name='Key'),
+                  value: string(description='Value', name='Value'),
+                }(description='Set', name='Set'),
+              }(description='MirrorHeaders', name='MirrorHeaders'),
+            }(description='Redirect', name='Redirect'),
+          }
+        ](description='RoutingRule', name='RoutingRule'),
+      }(description='RoutingRules', name='RoutingRules'),
+    }(description='WebsiteConfiguration', name='WebsiteConfiguration'),
+  }
+
+  api getBucketWebsite(request: GetBucketWebsiteRequest, runtime: RuntimeObject): GetBucketWebsiteResponse {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
+    var token = @getSecurityToken();
+    protocol = @protocol;
+    method = 'GET';
+    pathname = `/?website`;
+    headers = {
+      host = getHost(request.bucketName),
+      date = @getDate(),
+      user-agent = @getUserAgent(),
+    };
+    if (!@empty(token)) {
+      headers.x-oss-security-token = token;
+    }
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
+    }
+  } returns {
+    var respMap : object = null;
+    var bodyStr : string = null;
+    if (@isFail(__response)) {
+      bodyStr = @readAsString(__response);
+      respMap = @getErrMessage(bodyStr);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+    bodyStr = @readAsString(__response);
+    respMap = @parseXml(bodyStr, GetBucketWebsiteResponse);
+    return {
+      WebsiteConfiguration = respMap.WebsiteConfiguration,
+      ...__response.headers,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
+    localAddr = @default(runtime.localAddr, @localAddr),
+    httpProxy = @default(runtime.httpProxy, @httpProxy),
+    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
+    noProxy = @default(runtime.noProxy, @noProxy),
+    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
+    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
+    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = @default(runtime.backoffPolicy, 'no'),
+      period = @defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL,
+    logger = @logger,
+    listener = runtime.listener,
+  }
   model DeleteLiveChannelRequest = {
     bucketName: string(description='BucketName', name='BucketName'),
     channelName: string(description='ChannelName', name='ChannelName'),
