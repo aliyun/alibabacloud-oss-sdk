@@ -1,6 +1,7 @@
 import * as $tea from '@alicloud/tea-typescript';
 import Creadential from '@alicloud/credentials';
 import { Parser, Builder } from 'xml2js';
+import kitx from 'kitx';
 import { platform, arch } from 'os';
 import { getType } from 'mime';
 import { Readable } from 'stream';
@@ -285,13 +286,8 @@ export default class BaseClient {
     return ret;
   }
 
-  _getContentMD5(request: $tea.Request, md5Value: string, md5Threshold: Buffer): string {
-    if (!this._isEnableMD5) {
-      return '';
-    }
-    if (md5Value) {
-      return md5Value;
-    }
+  _getContentMD5(body: string): string {
+    return kitx.md5(body);
   }
 
   _getContentLength(request: $tea.Request, length: string): string {
@@ -455,5 +451,14 @@ export default class BaseClient {
   _getErrMessage(xml: string): { [key: string]: any } {
     let body: { [key: string]: any } = parseXML(xml);
     return body.Error || {};
+  }
+
+  _toXML(body: any): string {
+    const builder = new Builder();
+    return builder.buildObject(body);
+  }
+
+  _notNull(obj: {[key: string]: any}): boolean {
+    return !!obj;
   }
 }

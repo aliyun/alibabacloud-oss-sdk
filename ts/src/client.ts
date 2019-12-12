@@ -152,6 +152,941 @@ export class Config extends $tea.Model {
   }
 }
 
+export class PutBucketLifecycleRequest extends $tea.Model {
+  bucketName: string;
+  body?: PutBucketLifecycleRequestBody;
+  static names(): { [key: string]: string } {
+    return {
+      bucketName: 'BucketName',
+      body: 'Body',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      bucketName: 'string',
+      body: PutBucketLifecycleRequestBody,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+}
+
+export class PutBucketLifecycleResponse extends $tea.Model {
+  requestId: string;
+  static names(): { [key: string]: string } {
+    return {
+      requestId: 'x-oss-request-id',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      requestId: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+}
+
+export class DeleteMultipleObjectsRequest extends $tea.Model {
+  bucketName: string;
+  body?: DeleteMultipleObjectsRequestBody;
+  header: DeleteMultipleObjectsRequestHeader;
+  static names(): { [key: string]: string } {
+    return {
+      bucketName: 'BucketName',
+      body: 'Body',
+      header: 'Header',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      bucketName: 'string',
+      body: DeleteMultipleObjectsRequestBody,
+      header: DeleteMultipleObjectsRequestHeader,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+}
+
+export class DeleteMultipleObjectsResponse extends $tea.Model {
+  requestId: string;
+  deleteResult: DeleteMultipleObjectsResponseDeleteResult;
+  static names(): { [key: string]: string } {
+    return {
+      requestId: 'x-oss-request-id',
+      deleteResult: 'DeleteResult',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      requestId: 'string',
+      deleteResult: DeleteMultipleObjectsResponseDeleteResult,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+}
+
+export class PutBucketRefererRequest extends $tea.Model {
+  bucketName: string;
+  body?: PutBucketRefererRequestBody;
+  static names(): { [key: string]: string } {
+    return {
+      bucketName: 'BucketName',
+      body: 'Body',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      bucketName: 'string',
+      body: PutBucketRefererRequestBody,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+}
+
+export class PutBucketRefererResponse extends $tea.Model {
+  requestId: string;
+  static names(): { [key: string]: string } {
+    return {
+      requestId: 'x-oss-request-id',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      requestId: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+}
+
+export class PutBucketWebsiteRequest extends $tea.Model {
+  bucketName: string;
+  body?: PutBucketWebsiteRequestBody;
+  static names(): { [key: string]: string } {
+    return {
+      bucketName: 'BucketName',
+      body: 'Body',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      bucketName: 'string',
+      body: PutBucketWebsiteRequestBody,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+}
+
+export class PutBucketWebsiteResponse extends $tea.Model {
+  requestId: string;
+  static names(): { [key: string]: string } {
+    return {
+      requestId: 'x-oss-request-id',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      requestId: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+}
+
+export class CompleteMultipartUploadRequest extends $tea.Model {
+  bucketName: string;
+  objectName: string;
+  filter: CompleteMultipartUploadRequestFilter;
+  body?: CompleteMultipartUploadRequestBody;
+  static names(): { [key: string]: string } {
+    return {
+      bucketName: 'BucketName',
+      objectName: 'ObjectName',
+      filter: 'Filter',
+      body: 'Body',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      bucketName: 'string',
+      objectName: 'string',
+      filter: CompleteMultipartUploadRequestFilter,
+      body: CompleteMultipartUploadRequestBody,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+}
+
+export class CompleteMultipartUploadResponse extends $tea.Model {
+  requestId: string;
+  completeMultipartUploadResult: CompleteMultipartUploadResponseCompleteMultipartUploadResult;
+  static names(): { [key: string]: string } {
+    return {
+      requestId: 'x-oss-request-id',
+      completeMultipartUploadResult: 'CompleteMultipartUploadResult',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      requestId: 'string',
+      completeMultipartUploadResult: CompleteMultipartUploadResponseCompleteMultipartUploadResult,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+}
+
+export class PutBucketLoggingRequest extends $tea.Model {
+  bucketName: string;
+  body?: PutBucketLoggingRequestBody;
+  static names(): { [key: string]: string } {
+    return {
+      bucketName: 'BucketName',
+      body: 'Body',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      bucketName: 'string',
+      body: PutBucketLoggingRequestBody,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+}
+
+export class PutBucketLoggingResponse extends $tea.Model {
+  requestId: string;
+  static names(): { [key: string]: string } {
+    return {
+      requestId: 'x-oss-request-id',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      requestId: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+}
+
+export class PutBucketRequestPaymentRequest extends $tea.Model {
+  bucketName: string;
+  body?: PutBucketRequestPaymentRequestBody;
+  static names(): { [key: string]: string } {
+    return {
+      bucketName: 'BucketName',
+      body: 'Body',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      bucketName: 'string',
+      body: PutBucketRequestPaymentRequestBody,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+}
+
+export class PutBucketRequestPaymentResponse extends $tea.Model {
+  requestId: string;
+  static names(): { [key: string]: string } {
+    return {
+      requestId: 'x-oss-request-id',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      requestId: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+}
+
+export class PutBucketEncryptionRequest extends $tea.Model {
+  bucketName: string;
+  body?: PutBucketEncryptionRequestBody;
+  static names(): { [key: string]: string } {
+    return {
+      bucketName: 'BucketName',
+      body: 'Body',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      bucketName: 'string',
+      body: PutBucketEncryptionRequestBody,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+}
+
+export class PutBucketEncryptionResponse extends $tea.Model {
+  requestId: string;
+  static names(): { [key: string]: string } {
+    return {
+      requestId: 'x-oss-request-id',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      requestId: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+}
+
+export class PutLiveChannelRequest extends $tea.Model {
+  bucketName: string;
+  channelName: string;
+  body?: PutLiveChannelRequestBody;
+  static names(): { [key: string]: string } {
+    return {
+      bucketName: 'BucketName',
+      channelName: 'ChannelName',
+      body: 'Body',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      bucketName: 'string',
+      channelName: 'string',
+      body: PutLiveChannelRequestBody,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+}
+
+export class PutLiveChannelResponse extends $tea.Model {
+  requestId: string;
+  createLiveChannelResult: PutLiveChannelResponseCreateLiveChannelResult;
+  static names(): { [key: string]: string } {
+    return {
+      requestId: 'x-oss-request-id',
+      createLiveChannelResult: 'CreateLiveChannelResult',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      requestId: 'string',
+      createLiveChannelResult: PutLiveChannelResponseCreateLiveChannelResult,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+}
+
+export class PutBucketTagsRequest extends $tea.Model {
+  bucketName: string;
+  body?: PutBucketTagsRequestBody;
+  static names(): { [key: string]: string } {
+    return {
+      bucketName: 'BucketName',
+      body: 'Body',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      bucketName: 'string',
+      body: PutBucketTagsRequestBody,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+}
+
+export class PutBucketTagsResponse extends $tea.Model {
+  requestId: string;
+  static names(): { [key: string]: string } {
+    return {
+      requestId: 'x-oss-request-id',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      requestId: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+}
+
+export class PutObjectTaggingRequest extends $tea.Model {
+  bucketName: string;
+  objectName: string;
+  body?: PutObjectTaggingRequestBody;
+  static names(): { [key: string]: string } {
+    return {
+      bucketName: 'BucketName',
+      objectName: 'ObjectName',
+      body: 'Body',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      bucketName: 'string',
+      objectName: 'string',
+      body: PutObjectTaggingRequestBody,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+}
+
+export class PutObjectTaggingResponse extends $tea.Model {
+  requestId: string;
+  static names(): { [key: string]: string } {
+    return {
+      requestId: 'x-oss-request-id',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      requestId: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+}
+
+export class SelectObjectRequest extends $tea.Model {
+  bucketName: string;
+  objectName: string;
+  filter: SelectObjectRequestFilter;
+  body?: SelectObjectRequestBody;
+  static names(): { [key: string]: string } {
+    return {
+      bucketName: 'BucketName',
+      objectName: 'ObjectName',
+      filter: 'Filter',
+      body: 'Body',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      bucketName: 'string',
+      objectName: 'string',
+      filter: SelectObjectRequestFilter,
+      body: SelectObjectRequestBody,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+}
+
+export class SelectObjectResponse extends $tea.Model {
+  requestId: string;
+  static names(): { [key: string]: string } {
+    return {
+      requestId: 'x-oss-request-id',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      requestId: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+}
+
+export class PutBucketCORSRequest extends $tea.Model {
+  bucketName: string;
+  body?: PutBucketCORSRequestBody;
+  static names(): { [key: string]: string } {
+    return {
+      bucketName: 'BucketName',
+      body: 'Body',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      bucketName: 'string',
+      body: PutBucketCORSRequestBody,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+}
+
+export class PutBucketCORSResponse extends $tea.Model {
+  requestId: string;
+  static names(): { [key: string]: string } {
+    return {
+      requestId: 'x-oss-request-id',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      requestId: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+}
+
+export class PutBucketRequest extends $tea.Model {
+  bucketName: string;
+  body?: PutBucketRequestBody;
+  header?: PutBucketRequestHeader;
+  static names(): { [key: string]: string } {
+    return {
+      bucketName: 'BucketName',
+      body: 'Body',
+      header: 'Header',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      bucketName: 'string',
+      body: PutBucketRequestBody,
+      header: PutBucketRequestHeader,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+}
+
+export class PutBucketResponse extends $tea.Model {
+  requestId: string;
+  static names(): { [key: string]: string } {
+    return {
+      requestId: 'x-oss-request-id',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      requestId: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+}
+
+export class ListMultipartUploadsRequest extends $tea.Model {
+  bucketName: string;
+  filter?: ListMultipartUploadsRequestFilter;
+  static names(): { [key: string]: string } {
+    return {
+      bucketName: 'BucketName',
+      filter: 'Filter',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      bucketName: 'string',
+      filter: ListMultipartUploadsRequestFilter,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+}
+
+export class ListMultipartUploadsResponse extends $tea.Model {
+  requestId: string;
+  listMultipartUploadsResult: ListMultipartUploadsResponseListMultipartUploadsResult;
+  static names(): { [key: string]: string } {
+    return {
+      requestId: 'x-oss-request-id',
+      listMultipartUploadsResult: 'ListMultipartUploadsResult',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      requestId: 'string',
+      listMultipartUploadsResult: ListMultipartUploadsResponseListMultipartUploadsResult,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+}
+
+export class GetBucketRequestPaymentRequest extends $tea.Model {
+  bucketName: string;
+  static names(): { [key: string]: string } {
+    return {
+      bucketName: 'BucketName',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      bucketName: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+}
+
+export class GetBucketRequestPaymentResponse extends $tea.Model {
+  requestId: string;
+  requestPaymentConfiguration: GetBucketRequestPaymentResponseRequestPaymentConfiguration;
+  static names(): { [key: string]: string } {
+    return {
+      requestId: 'x-oss-request-id',
+      requestPaymentConfiguration: 'RequestPaymentConfiguration',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      requestId: 'string',
+      requestPaymentConfiguration: GetBucketRequestPaymentResponseRequestPaymentConfiguration,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+}
+
+export class GetBucketEncryptionRequest extends $tea.Model {
+  bucketName: string;
+  static names(): { [key: string]: string } {
+    return {
+      bucketName: 'BucketName',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      bucketName: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+}
+
+export class GetBucketEncryptionResponse extends $tea.Model {
+  requestId: string;
+  serverSideEncryptionRule: GetBucketEncryptionResponseServerSideEncryptionRule;
+  static names(): { [key: string]: string } {
+    return {
+      requestId: 'x-oss-request-id',
+      serverSideEncryptionRule: 'ServerSideEncryptionRule',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      requestId: 'string',
+      serverSideEncryptionRule: GetBucketEncryptionResponseServerSideEncryptionRule,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+}
+
+export class GetBucketTagsRequest extends $tea.Model {
+  bucketName: string;
+  static names(): { [key: string]: string } {
+    return {
+      bucketName: 'BucketName',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      bucketName: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+}
+
+export class GetBucketTagsResponse extends $tea.Model {
+  requestId: string;
+  tagging: GetBucketTagsResponseTagging;
+  static names(): { [key: string]: string } {
+    return {
+      requestId: 'x-oss-request-id',
+      tagging: 'Tagging',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      requestId: 'string',
+      tagging: GetBucketTagsResponseTagging,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+}
+
+export class GetServiceRequest extends $tea.Model {
+  filter?: GetServiceRequestFilter;
+  static names(): { [key: string]: string } {
+    return {
+      filter: 'Filter',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      filter: GetServiceRequestFilter,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+}
+
+export class GetServiceResponse extends $tea.Model {
+  requestId: string;
+  listAllMyBucketsResult: GetServiceResponseListAllMyBucketsResult;
+  static names(): { [key: string]: string } {
+    return {
+      requestId: 'x-oss-request-id',
+      listAllMyBucketsResult: 'ListAllMyBucketsResult',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      requestId: 'string',
+      listAllMyBucketsResult: GetServiceResponseListAllMyBucketsResult,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+}
+
+export class DeleteBucketEncryptionRequest extends $tea.Model {
+  bucketName: string;
+  static names(): { [key: string]: string } {
+    return {
+      bucketName: 'BucketName',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      bucketName: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+}
+
+export class DeleteBucketEncryptionResponse extends $tea.Model {
+  requestId: string;
+  static names(): { [key: string]: string } {
+    return {
+      requestId: 'x-oss-request-id',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      requestId: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+}
+
+export class DeleteBucketTagsRequest extends $tea.Model {
+  bucketName: string;
+  filter: DeleteBucketTagsRequestFilter;
+  static names(): { [key: string]: string } {
+    return {
+      bucketName: 'BucketName',
+      filter: 'Filter',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      bucketName: 'string',
+      filter: DeleteBucketTagsRequestFilter,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+}
+
+export class DeleteBucketTagsResponse extends $tea.Model {
+  requestId: string;
+  static names(): { [key: string]: string } {
+    return {
+      requestId: 'x-oss-request-id',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      requestId: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+}
+
+export class GetBucketWebsiteRequest extends $tea.Model {
+  bucketName: string;
+  static names(): { [key: string]: string } {
+    return {
+      bucketName: 'BucketName',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      bucketName: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+}
+
+export class GetBucketWebsiteResponse extends $tea.Model {
+  requestId: string;
+  websiteConfiguration: GetBucketWebsiteResponseWebsiteConfiguration;
+  static names(): { [key: string]: string } {
+    return {
+      requestId: 'x-oss-request-id',
+      websiteConfiguration: 'WebsiteConfiguration',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      requestId: 'string',
+      websiteConfiguration: GetBucketWebsiteResponseWebsiteConfiguration,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+}
+
 export class DeleteLiveChannelRequest extends $tea.Model {
   bucketName: string;
   channelName: string;
@@ -2166,6 +3101,2282 @@ export class PutObjectResponse extends $tea.Model {
   }
 }
 
+export class PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration extends $tea.Model {
+  days: number;
+  createdBeforeDate: string;
+  static names(): { [key: string]: string } {
+    return {
+      days: 'Days',
+      createdBeforeDate: 'CreatedBeforeDate',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      days: 'number',
+      createdBeforeDate: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition extends $tea.Model {
+  days: number;
+  storageClass: string;
+  static names(): { [key: string]: string } {
+    return {
+      days: 'Days',
+      storageClass: 'StorageClass',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      days: 'number',
+      storageClass: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUpload extends $tea.Model {
+  days: number;
+  createdBeforeDate: string;
+  static names(): { [key: string]: string } {
+    return {
+      days: 'Days',
+      createdBeforeDate: 'CreatedBeforeDate',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      days: 'number',
+      createdBeforeDate: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag extends $tea.Model {
+  key: string;
+  value: string;
+  static names(): { [key: string]: string } {
+    return {
+      key: 'Key',
+      value: 'Value',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      key: 'string',
+      value: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PutBucketLifecycleRequestBodyLifecycleConfigurationRule extends $tea.Model {
+  expiration: PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration;
+  transition: PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition;
+  abortMultipartUpload: PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUpload;
+  tag: PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag;
+  iD: string;
+  prefix: string;
+  status: string;
+  static names(): { [key: string]: string } {
+    return {
+      expiration: 'Expiration',
+      transition: 'Transition',
+      abortMultipartUpload: 'AbortMultipartUpload',
+      tag: 'Tag',
+      iD: 'ID',
+      prefix: 'Prefix',
+      status: 'Status',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      expiration: PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration,
+      transition: PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition,
+      abortMultipartUpload: PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUpload,
+      tag: PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag,
+      iD: 'string',
+      prefix: 'string',
+      status: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PutBucketLifecycleRequestBodyLifecycleConfiguration extends $tea.Model {
+  rule: PutBucketLifecycleRequestBodyLifecycleConfigurationRule[];
+  static names(): { [key: string]: string } {
+    return {
+      rule: 'Rule',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      rule: { 'type': 'array', 'itemType': PutBucketLifecycleRequestBodyLifecycleConfigurationRule },
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PutBucketLifecycleRequestBody extends $tea.Model {
+  lifecycleConfiguration: PutBucketLifecycleRequestBodyLifecycleConfiguration;
+  static names(): { [key: string]: string } {
+    return {
+      lifecycleConfiguration: 'LifecycleConfiguration',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      lifecycleConfiguration: PutBucketLifecycleRequestBodyLifecycleConfiguration,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class DeleteMultipleObjectsRequestBodyDeleteObject extends $tea.Model {
+  key: string;
+  static names(): { [key: string]: string } {
+    return {
+      key: 'Key',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      key: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class DeleteMultipleObjectsRequestBodyDelete extends $tea.Model {
+  object: DeleteMultipleObjectsRequestBodyDeleteObject[];
+  quiet: string;
+  static names(): { [key: string]: string } {
+    return {
+      object: 'Object',
+      quiet: 'Quiet',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      object: { 'type': 'array', 'itemType': DeleteMultipleObjectsRequestBodyDeleteObject },
+      quiet: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class DeleteMultipleObjectsRequestBody extends $tea.Model {
+  delete: DeleteMultipleObjectsRequestBodyDelete;
+  static names(): { [key: string]: string } {
+    return {
+      delete: 'Delete',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      delete: DeleteMultipleObjectsRequestBodyDelete,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class DeleteMultipleObjectsRequestHeader extends $tea.Model {
+  encodingType?: string;
+  contentLength: string;
+  contentMD5: string;
+  static names(): { [key: string]: string } {
+    return {
+      encodingType: 'Encoding-type',
+      contentLength: 'Content-Length',
+      contentMD5: 'Content-MD5',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      encodingType: 'string',
+      contentLength: 'string',
+      contentMD5: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class DeleteMultipleObjectsResponseDeleteResultDeleted extends $tea.Model {
+  key: string;
+  static names(): { [key: string]: string } {
+    return {
+      key: 'Key',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      key: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class DeleteMultipleObjectsResponseDeleteResult extends $tea.Model {
+  quiet: string;
+  encodingType: string;
+  deleted: DeleteMultipleObjectsResponseDeleteResultDeleted[];
+  static names(): { [key: string]: string } {
+    return {
+      quiet: 'Quiet',
+      encodingType: 'EncodingType',
+      deleted: 'Deleted',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      quiet: 'string',
+      encodingType: 'string',
+      deleted: { 'type': 'array', 'itemType': DeleteMultipleObjectsResponseDeleteResultDeleted },
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PutBucketRefererRequestBodyRefererConfigurationRefererList extends $tea.Model {
+  referer: string[];
+  static names(): { [key: string]: string } {
+    return {
+      referer: 'Referer',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      referer: { 'type': 'array', 'itemType': 'string' },
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PutBucketRefererRequestBodyRefererConfiguration extends $tea.Model {
+  refererList: PutBucketRefererRequestBodyRefererConfigurationRefererList;
+  allowEmptyReferer: boolean;
+  static names(): { [key: string]: string } {
+    return {
+      refererList: 'RefererList',
+      allowEmptyReferer: 'AllowEmptyReferer',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      refererList: PutBucketRefererRequestBodyRefererConfigurationRefererList,
+      allowEmptyReferer: 'boolean',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PutBucketRefererRequestBody extends $tea.Model {
+  refererConfiguration: PutBucketRefererRequestBodyRefererConfiguration;
+  static names(): { [key: string]: string } {
+    return {
+      refererConfiguration: 'RefererConfiguration',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      refererConfiguration: PutBucketRefererRequestBodyRefererConfiguration,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument extends $tea.Model {
+  suffix: string;
+  static names(): { [key: string]: string } {
+    return {
+      suffix: 'Suffix',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      suffix: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument extends $tea.Model {
+  key: string;
+  static names(): { [key: string]: string } {
+    return {
+      key: 'Key',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      key: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader extends $tea.Model {
+  key: string;
+  equals: string;
+  static names(): { [key: string]: string } {
+    return {
+      key: 'Key',
+      equals: 'Equals',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      key: 'string',
+      equals: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCondition extends $tea.Model {
+  includeHeader: PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader;
+  keyPrefixEquals: string;
+  httpErrorCodeReturnedEquals: string;
+  static names(): { [key: string]: string } {
+    return {
+      includeHeader: 'IncludeHeader',
+      keyPrefixEquals: 'KeyPrefixEquals',
+      httpErrorCodeReturnedEquals: 'HttpErrorCodeReturnedEquals',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      includeHeader: PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader,
+      keyPrefixEquals: 'string',
+      httpErrorCodeReturnedEquals: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet extends $tea.Model {
+  key: string;
+  value: string;
+  static names(): { [key: string]: string } {
+    return {
+      key: 'Key',
+      value: 'Value',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      key: 'string',
+      value: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders extends $tea.Model {
+  set: PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet;
+  passAll: boolean;
+  pass: string;
+  remove: string;
+  static names(): { [key: string]: string } {
+    return {
+      set: 'Set',
+      passAll: 'PassAll',
+      pass: 'Pass',
+      remove: 'Remove',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      set: PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet,
+      passAll: 'boolean',
+      pass: 'string',
+      remove: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect extends $tea.Model {
+  mirrorHeaders: PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders;
+  redirectType: string;
+  passQueryString: boolean;
+  mirrorURL: string;
+  mirrorPassQueryString: boolean;
+  mirrorFollowRedirect: boolean;
+  mirrorCheckMd5: boolean;
+  protocol: string;
+  hostName: string;
+  httpRedirectCode: string;
+  replaceKeyPrefixWith: string;
+  replaceKeyWith: string;
+  static names(): { [key: string]: string } {
+    return {
+      mirrorHeaders: 'MirrorHeaders',
+      redirectType: 'RedirectType',
+      passQueryString: 'PassQueryString',
+      mirrorURL: 'MirrorURL',
+      mirrorPassQueryString: 'MirrorPassQueryString',
+      mirrorFollowRedirect: 'MirrorFollowRedirect',
+      mirrorCheckMd5: 'MirrorCheckMd5',
+      protocol: 'Protocol',
+      hostName: 'HostName',
+      httpRedirectCode: 'HttpRedirectCode',
+      replaceKeyPrefixWith: 'ReplaceKeyPrefixWith',
+      replaceKeyWith: 'ReplaceKeyWith',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      mirrorHeaders: PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders,
+      redirectType: 'string',
+      passQueryString: 'boolean',
+      mirrorURL: 'string',
+      mirrorPassQueryString: 'boolean',
+      mirrorFollowRedirect: 'boolean',
+      mirrorCheckMd5: 'boolean',
+      protocol: 'string',
+      hostName: 'string',
+      httpRedirectCode: 'string',
+      replaceKeyPrefixWith: 'string',
+      replaceKeyWith: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule extends $tea.Model {
+  condition: PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCondition;
+  redirect: PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect;
+  ruleNumber: number;
+  static names(): { [key: string]: string } {
+    return {
+      condition: 'Condition',
+      redirect: 'Redirect',
+      ruleNumber: 'RuleNumber',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      condition: PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCondition,
+      redirect: PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect,
+      ruleNumber: 'number',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules extends $tea.Model {
+  routingRule: PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule[];
+  static names(): { [key: string]: string } {
+    return {
+      routingRule: 'RoutingRule',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      routingRule: { 'type': 'array', 'itemType': PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule },
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PutBucketWebsiteRequestBodyWebsiteConfiguration extends $tea.Model {
+  indexDocument: PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument;
+  errorDocument: PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument;
+  routingRules: PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules;
+  static names(): { [key: string]: string } {
+    return {
+      indexDocument: 'IndexDocument',
+      errorDocument: 'ErrorDocument',
+      routingRules: 'RoutingRules',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      indexDocument: PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument,
+      errorDocument: PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument,
+      routingRules: PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PutBucketWebsiteRequestBody extends $tea.Model {
+  websiteConfiguration: PutBucketWebsiteRequestBodyWebsiteConfiguration;
+  static names(): { [key: string]: string } {
+    return {
+      websiteConfiguration: 'WebsiteConfiguration',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      websiteConfiguration: PutBucketWebsiteRequestBodyWebsiteConfiguration,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class CompleteMultipartUploadRequestFilter extends $tea.Model {
+  uploadId: string;
+  encodingType?: string;
+  static names(): { [key: string]: string } {
+    return {
+      uploadId: 'uploadId',
+      encodingType: 'Encoding-type',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      uploadId: 'string',
+      encodingType: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart extends $tea.Model {
+  partNumber: string;
+  eTag: string;
+  static names(): { [key: string]: string } {
+    return {
+      partNumber: 'PartNumber',
+      eTag: 'ETag',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      partNumber: 'string',
+      eTag: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class CompleteMultipartUploadRequestBodyCompleteMultipartUpload extends $tea.Model {
+  part: CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart[];
+  static names(): { [key: string]: string } {
+    return {
+      part: 'Part',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      part: { 'type': 'array', 'itemType': CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart },
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class CompleteMultipartUploadRequestBody extends $tea.Model {
+  completeMultipartUpload: CompleteMultipartUploadRequestBodyCompleteMultipartUpload;
+  static names(): { [key: string]: string } {
+    return {
+      completeMultipartUpload: 'CompleteMultipartUpload',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      completeMultipartUpload: CompleteMultipartUploadRequestBodyCompleteMultipartUpload,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class CompleteMultipartUploadResponseCompleteMultipartUploadResult extends $tea.Model {
+  bucket: string;
+  eTag: string;
+  location: string;
+  key: string;
+  encodingType: string;
+  static names(): { [key: string]: string } {
+    return {
+      bucket: 'Bucket',
+      eTag: 'ETag',
+      location: 'Location',
+      key: 'Key',
+      encodingType: 'EncodingType',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      bucket: 'string',
+      eTag: 'string',
+      location: 'string',
+      key: 'string',
+      encodingType: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PutBucketLoggingRequestBodyBucketLoggingStatusLoggingEnabled extends $tea.Model {
+  targetBucket: string;
+  targetPrefix: string;
+  static names(): { [key: string]: string } {
+    return {
+      targetBucket: 'TargetBucket',
+      targetPrefix: 'TargetPrefix',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      targetBucket: 'string',
+      targetPrefix: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PutBucketLoggingRequestBodyBucketLoggingStatus extends $tea.Model {
+  loggingEnabled: PutBucketLoggingRequestBodyBucketLoggingStatusLoggingEnabled;
+  static names(): { [key: string]: string } {
+    return {
+      loggingEnabled: 'LoggingEnabled',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      loggingEnabled: PutBucketLoggingRequestBodyBucketLoggingStatusLoggingEnabled,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PutBucketLoggingRequestBody extends $tea.Model {
+  bucketLoggingStatus: PutBucketLoggingRequestBodyBucketLoggingStatus;
+  static names(): { [key: string]: string } {
+    return {
+      bucketLoggingStatus: 'BucketLoggingStatus',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      bucketLoggingStatus: PutBucketLoggingRequestBodyBucketLoggingStatus,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PutBucketRequestPaymentRequestBodyRequestPaymentConfiguration extends $tea.Model {
+  payer: string;
+  static names(): { [key: string]: string } {
+    return {
+      payer: 'Payer',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      payer: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PutBucketRequestPaymentRequestBody extends $tea.Model {
+  requestPaymentConfiguration: PutBucketRequestPaymentRequestBodyRequestPaymentConfiguration;
+  static names(): { [key: string]: string } {
+    return {
+      requestPaymentConfiguration: 'RequestPaymentConfiguration',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      requestPaymentConfiguration: PutBucketRequestPaymentRequestBodyRequestPaymentConfiguration,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PutBucketEncryptionRequestBodyServerSideEncryptionRuleApplyServerSideEncryptionByDefault extends $tea.Model {
+  sSEAlgorithm: string;
+  kMSMasterKeyID: string;
+  static names(): { [key: string]: string } {
+    return {
+      sSEAlgorithm: 'SSEAlgorithm',
+      kMSMasterKeyID: 'KMSMasterKeyID',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      sSEAlgorithm: 'string',
+      kMSMasterKeyID: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PutBucketEncryptionRequestBodyServerSideEncryptionRule extends $tea.Model {
+  applyServerSideEncryptionByDefault: PutBucketEncryptionRequestBodyServerSideEncryptionRuleApplyServerSideEncryptionByDefault;
+  static names(): { [key: string]: string } {
+    return {
+      applyServerSideEncryptionByDefault: 'ApplyServerSideEncryptionByDefault',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      applyServerSideEncryptionByDefault: PutBucketEncryptionRequestBodyServerSideEncryptionRuleApplyServerSideEncryptionByDefault,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PutBucketEncryptionRequestBody extends $tea.Model {
+  serverSideEncryptionRule: PutBucketEncryptionRequestBodyServerSideEncryptionRule;
+  static names(): { [key: string]: string } {
+    return {
+      serverSideEncryptionRule: 'ServerSideEncryptionRule',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      serverSideEncryptionRule: PutBucketEncryptionRequestBodyServerSideEncryptionRule,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PutLiveChannelRequestBodyLiveChannelConfigurationTarget extends $tea.Model {
+  type: string;
+  fragDuration: string;
+  fragCount: string;
+  playlistName: string;
+  static names(): { [key: string]: string } {
+    return {
+      type: 'Type',
+      fragDuration: 'FragDuration',
+      fragCount: 'FragCount',
+      playlistName: 'PlaylistName',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      type: 'string',
+      fragDuration: 'string',
+      fragCount: 'string',
+      playlistName: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot extends $tea.Model {
+  roleName: string;
+  destBucket: string;
+  notifyTopic: string;
+  interval: string;
+  static names(): { [key: string]: string } {
+    return {
+      roleName: 'RoleName',
+      destBucket: 'DestBucket',
+      notifyTopic: 'NotifyTopic',
+      interval: 'Interval',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      roleName: 'string',
+      destBucket: 'string',
+      notifyTopic: 'string',
+      interval: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PutLiveChannelRequestBodyLiveChannelConfiguration extends $tea.Model {
+  target: PutLiveChannelRequestBodyLiveChannelConfigurationTarget;
+  snapshot: PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot;
+  description: string;
+  status: string;
+  static names(): { [key: string]: string } {
+    return {
+      target: 'Target',
+      snapshot: 'Snapshot',
+      description: 'Description',
+      status: 'Status',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      target: PutLiveChannelRequestBodyLiveChannelConfigurationTarget,
+      snapshot: PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot,
+      description: 'string',
+      status: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PutLiveChannelRequestBody extends $tea.Model {
+  liveChannelConfiguration: PutLiveChannelRequestBodyLiveChannelConfiguration;
+  static names(): { [key: string]: string } {
+    return {
+      liveChannelConfiguration: 'LiveChannelConfiguration',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      liveChannelConfiguration: PutLiveChannelRequestBodyLiveChannelConfiguration,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PutLiveChannelResponseCreateLiveChannelResultPublishUrls extends $tea.Model {
+  url: string;
+  static names(): { [key: string]: string } {
+    return {
+      url: 'Url',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      url: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PutLiveChannelResponseCreateLiveChannelResultPlayUrls extends $tea.Model {
+  url: string;
+  static names(): { [key: string]: string } {
+    return {
+      url: 'Url',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      url: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PutLiveChannelResponseCreateLiveChannelResult extends $tea.Model {
+  publishUrls: PutLiveChannelResponseCreateLiveChannelResultPublishUrls;
+  playUrls: PutLiveChannelResponseCreateLiveChannelResultPlayUrls;
+  static names(): { [key: string]: string } {
+    return {
+      publishUrls: 'PublishUrls',
+      playUrls: 'PlayUrls',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      publishUrls: PutLiveChannelResponseCreateLiveChannelResultPublishUrls,
+      playUrls: PutLiveChannelResponseCreateLiveChannelResultPlayUrls,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PutBucketTagsRequestBodyTaggingTagSetTag extends $tea.Model {
+  key: string;
+  value: string;
+  static names(): { [key: string]: string } {
+    return {
+      key: 'Key',
+      value: 'Value',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      key: 'string',
+      value: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PutBucketTagsRequestBodyTaggingTagSet extends $tea.Model {
+  tag: PutBucketTagsRequestBodyTaggingTagSetTag[];
+  static names(): { [key: string]: string } {
+    return {
+      tag: 'Tag',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      tag: { 'type': 'array', 'itemType': PutBucketTagsRequestBodyTaggingTagSetTag },
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PutBucketTagsRequestBodyTagging extends $tea.Model {
+  tagSet: PutBucketTagsRequestBodyTaggingTagSet;
+  static names(): { [key: string]: string } {
+    return {
+      tagSet: 'TagSet',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      tagSet: PutBucketTagsRequestBodyTaggingTagSet,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PutBucketTagsRequestBody extends $tea.Model {
+  tagging: PutBucketTagsRequestBodyTagging;
+  static names(): { [key: string]: string } {
+    return {
+      tagging: 'Tagging',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      tagging: PutBucketTagsRequestBodyTagging,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PutObjectTaggingRequestBodyTaggingTagSetTag extends $tea.Model {
+  key: string;
+  value: string;
+  static names(): { [key: string]: string } {
+    return {
+      key: 'Key',
+      value: 'Value',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      key: 'string',
+      value: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PutObjectTaggingRequestBodyTaggingTagSet extends $tea.Model {
+  tag: PutObjectTaggingRequestBodyTaggingTagSetTag[];
+  static names(): { [key: string]: string } {
+    return {
+      tag: 'Tag',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      tag: { 'type': 'array', 'itemType': PutObjectTaggingRequestBodyTaggingTagSetTag },
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PutObjectTaggingRequestBodyTagging extends $tea.Model {
+  tagSet: PutObjectTaggingRequestBodyTaggingTagSet;
+  static names(): { [key: string]: string } {
+    return {
+      tagSet: 'TagSet',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      tagSet: PutObjectTaggingRequestBodyTaggingTagSet,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PutObjectTaggingRequestBody extends $tea.Model {
+  tagging: PutObjectTaggingRequestBodyTagging;
+  static names(): { [key: string]: string } {
+    return {
+      tagging: 'Tagging',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      tagging: PutObjectTaggingRequestBodyTagging,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class SelectObjectRequestFilter extends $tea.Model {
+  porcess: string;
+  static names(): { [key: string]: string } {
+    return {
+      porcess: 'x-oss-process',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      porcess: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class SelectObjectRequestBodySelectRequestInputSerializationCSV extends $tea.Model {
+  fileHeaderInfo: string;
+  recordDelimiter: string;
+  fieldDelimiter: string;
+  quoteCharacter: string;
+  commentCharacter: string;
+  range: string;
+  static names(): { [key: string]: string } {
+    return {
+      fileHeaderInfo: 'FileHeaderInfo',
+      recordDelimiter: 'RecordDelimiter',
+      fieldDelimiter: 'FieldDelimiter',
+      quoteCharacter: 'QuoteCharacter',
+      commentCharacter: 'CommentCharacter',
+      range: 'Range',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      fileHeaderInfo: 'string',
+      recordDelimiter: 'string',
+      fieldDelimiter: 'string',
+      quoteCharacter: 'string',
+      commentCharacter: 'string',
+      range: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class SelectObjectRequestBodySelectRequestInputSerialization extends $tea.Model {
+  cSV: SelectObjectRequestBodySelectRequestInputSerializationCSV;
+  compressionType: string;
+  static names(): { [key: string]: string } {
+    return {
+      cSV: 'CSV',
+      compressionType: 'CompressionType',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      cSV: SelectObjectRequestBodySelectRequestInputSerializationCSV,
+      compressionType: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class SelectObjectRequestBodySelectRequestOutputSerializationCSV extends $tea.Model {
+  recordDelimiter: string;
+  fieldDelimiter: string;
+  static names(): { [key: string]: string } {
+    return {
+      recordDelimiter: 'RecordDelimiter',
+      fieldDelimiter: 'FieldDelimiter',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      recordDelimiter: 'string',
+      fieldDelimiter: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class SelectObjectRequestBodySelectRequestOutputSerialization extends $tea.Model {
+  cSV: SelectObjectRequestBodySelectRequestOutputSerializationCSV;
+  keepAllColumns: string;
+  outputRawData: string;
+  enablePayloadCrc: string;
+  outputHeader: string;
+  static names(): { [key: string]: string } {
+    return {
+      cSV: 'CSV',
+      keepAllColumns: 'KeepAllColumns',
+      outputRawData: 'OutputRawData',
+      enablePayloadCrc: 'EnablePayloadCrc',
+      outputHeader: 'OutputHeader',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      cSV: SelectObjectRequestBodySelectRequestOutputSerializationCSV,
+      keepAllColumns: 'string',
+      outputRawData: 'string',
+      enablePayloadCrc: 'string',
+      outputHeader: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class SelectObjectRequestBodySelectRequestOptions extends $tea.Model {
+  skipPartialDataRecord: string;
+  maxSkippedRecordsAllowed: string;
+  static names(): { [key: string]: string } {
+    return {
+      skipPartialDataRecord: 'SkipPartialDataRecord',
+      maxSkippedRecordsAllowed: 'MaxSkippedRecordsAllowed',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      skipPartialDataRecord: 'string',
+      maxSkippedRecordsAllowed: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class SelectObjectRequestBodySelectRequest extends $tea.Model {
+  inputSerialization: SelectObjectRequestBodySelectRequestInputSerialization;
+  outputSerialization: SelectObjectRequestBodySelectRequestOutputSerialization;
+  options: SelectObjectRequestBodySelectRequestOptions;
+  expression: string;
+  static names(): { [key: string]: string } {
+    return {
+      inputSerialization: 'InputSerialization',
+      outputSerialization: 'OutputSerialization',
+      options: 'Options',
+      expression: 'Expression',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      inputSerialization: SelectObjectRequestBodySelectRequestInputSerialization,
+      outputSerialization: SelectObjectRequestBodySelectRequestOutputSerialization,
+      options: SelectObjectRequestBodySelectRequestOptions,
+      expression: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class SelectObjectRequestBody extends $tea.Model {
+  selectRequest: SelectObjectRequestBodySelectRequest;
+  static names(): { [key: string]: string } {
+    return {
+      selectRequest: 'SelectRequest',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      selectRequest: SelectObjectRequestBodySelectRequest,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PutBucketCORSRequestBodyCORSConfigurationCORSRule extends $tea.Model {
+  allowedOrigin: string[];
+  allowedMethod: string[];
+  allowedHeader: string[];
+  exposeHeader: string[];
+  maxAgeSeconds: string;
+  static names(): { [key: string]: string } {
+    return {
+      allowedOrigin: 'AllowedOrigin',
+      allowedMethod: 'AllowedMethod',
+      allowedHeader: 'AllowedHeader',
+      exposeHeader: 'ExposeHeader',
+      maxAgeSeconds: 'MaxAgeSeconds',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      allowedOrigin: { 'type': 'array', 'itemType': 'string' },
+      allowedMethod: { 'type': 'array', 'itemType': 'string' },
+      allowedHeader: { 'type': 'array', 'itemType': 'string' },
+      exposeHeader: { 'type': 'array', 'itemType': 'string' },
+      maxAgeSeconds: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PutBucketCORSRequestBodyCORSConfiguration extends $tea.Model {
+  cORSRule: PutBucketCORSRequestBodyCORSConfigurationCORSRule[];
+  static names(): { [key: string]: string } {
+    return {
+      cORSRule: 'CORSRule',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      cORSRule: { 'type': 'array', 'itemType': PutBucketCORSRequestBodyCORSConfigurationCORSRule },
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PutBucketCORSRequestBody extends $tea.Model {
+  cORSConfiguration: PutBucketCORSRequestBodyCORSConfiguration;
+  static names(): { [key: string]: string } {
+    return {
+      cORSConfiguration: 'CORSConfiguration',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      cORSConfiguration: PutBucketCORSRequestBodyCORSConfiguration,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PutBucketRequestBodyCreateBucketConfiguration extends $tea.Model {
+  storageClass: string;
+  dataRedundancyType: string;
+  static names(): { [key: string]: string } {
+    return {
+      storageClass: 'StorageClass',
+      dataRedundancyType: 'DataRedundancyType',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      storageClass: 'string',
+      dataRedundancyType: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PutBucketRequestBody extends $tea.Model {
+  createBucketConfiguration: PutBucketRequestBodyCreateBucketConfiguration;
+  static names(): { [key: string]: string } {
+    return {
+      createBucketConfiguration: 'CreateBucketConfiguration',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      createBucketConfiguration: PutBucketRequestBodyCreateBucketConfiguration,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PutBucketRequestHeader extends $tea.Model {
+  acl?: string;
+  static names(): { [key: string]: string } {
+    return {
+      acl: 'x-oss-acl',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      acl: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class ListMultipartUploadsRequestFilter extends $tea.Model {
+  delimiter?: string;
+  maxUploads?: string;
+  keyMarker?: string;
+  prefix?: string;
+  uploadIdMarker?: string;
+  encodingType?: string;
+  static names(): { [key: string]: string } {
+    return {
+      delimiter: 'delimiter',
+      maxUploads: 'max-uploads',
+      keyMarker: 'key-marker',
+      prefix: 'prefix',
+      uploadIdMarker: 'upload-id-marker',
+      encodingType: 'encoding-type',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      delimiter: 'string',
+      maxUploads: 'string',
+      keyMarker: 'string',
+      prefix: 'string',
+      uploadIdMarker: 'string',
+      encodingType: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class ListMultipartUploadsResponseListMultipartUploadsResultUpload extends $tea.Model {
+  key: string;
+  uploadId: string;
+  initiated: string;
+  static names(): { [key: string]: string } {
+    return {
+      key: 'Key',
+      uploadId: 'UploadId',
+      initiated: 'Initiated',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      key: 'string',
+      uploadId: 'string',
+      initiated: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class ListMultipartUploadsResponseListMultipartUploadsResult extends $tea.Model {
+  bucket: string;
+  encodingType: string;
+  keyMarker: string;
+  uploadIdMarker: string;
+  nextKeyMarker: string;
+  nextUploadIdMarker: string;
+  delimiter: string;
+  maxUploads: string;
+  isTruncated: string;
+  upload: ListMultipartUploadsResponseListMultipartUploadsResultUpload[];
+  static names(): { [key: string]: string } {
+    return {
+      bucket: 'Bucket',
+      encodingType: 'EncodingType',
+      keyMarker: 'KeyMarker',
+      uploadIdMarker: 'UploadIdMarker',
+      nextKeyMarker: 'NextKeyMarker',
+      nextUploadIdMarker: 'NextUploadIdMarker',
+      delimiter: 'Delimiter',
+      maxUploads: 'MaxUploads',
+      isTruncated: 'IsTruncated',
+      upload: 'Upload',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      bucket: 'string',
+      encodingType: 'string',
+      keyMarker: 'string',
+      uploadIdMarker: 'string',
+      nextKeyMarker: 'string',
+      nextUploadIdMarker: 'string',
+      delimiter: 'string',
+      maxUploads: 'string',
+      isTruncated: 'string',
+      upload: { 'type': 'array', 'itemType': ListMultipartUploadsResponseListMultipartUploadsResultUpload },
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class GetBucketRequestPaymentResponseRequestPaymentConfiguration extends $tea.Model {
+  payer: string;
+  static names(): { [key: string]: string } {
+    return {
+      payer: 'Payer',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      payer: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class GetBucketEncryptionResponseServerSideEncryptionRuleApplyServerSideEncryptionByDefault extends $tea.Model {
+  sSEAlgorithm: string;
+  kMSMasterKeyID: string;
+  static names(): { [key: string]: string } {
+    return {
+      sSEAlgorithm: 'SSEAlgorithm',
+      kMSMasterKeyID: 'KMSMasterKeyID',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      sSEAlgorithm: 'string',
+      kMSMasterKeyID: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class GetBucketEncryptionResponseServerSideEncryptionRule extends $tea.Model {
+  applyServerSideEncryptionByDefault: GetBucketEncryptionResponseServerSideEncryptionRuleApplyServerSideEncryptionByDefault;
+  static names(): { [key: string]: string } {
+    return {
+      applyServerSideEncryptionByDefault: 'ApplyServerSideEncryptionByDefault',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      applyServerSideEncryptionByDefault: GetBucketEncryptionResponseServerSideEncryptionRuleApplyServerSideEncryptionByDefault,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class GetBucketTagsResponseTaggingTagSetTag extends $tea.Model {
+  key: string;
+  value: string;
+  static names(): { [key: string]: string } {
+    return {
+      key: 'Key',
+      value: 'Value',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      key: 'string',
+      value: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class GetBucketTagsResponseTaggingTagSet extends $tea.Model {
+  tag: GetBucketTagsResponseTaggingTagSetTag[];
+  static names(): { [key: string]: string } {
+    return {
+      tag: 'Tag',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      tag: { 'type': 'array', 'itemType': GetBucketTagsResponseTaggingTagSetTag },
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class GetBucketTagsResponseTagging extends $tea.Model {
+  tagSet: GetBucketTagsResponseTaggingTagSet;
+  static names(): { [key: string]: string } {
+    return {
+      tagSet: 'TagSet',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      tagSet: GetBucketTagsResponseTaggingTagSet,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class GetServiceRequestFilter extends $tea.Model {
+  prefix?: string;
+  marker?: string;
+  maxKeys?: string;
+  static names(): { [key: string]: string } {
+    return {
+      prefix: 'prefix',
+      marker: 'marker',
+      maxKeys: 'max-keys',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      prefix: 'string',
+      marker: 'string',
+      maxKeys: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class GetServiceResponseListAllMyBucketsResultOwner extends $tea.Model {
+  iD: string;
+  displayName: string;
+  static names(): { [key: string]: string } {
+    return {
+      iD: 'ID',
+      displayName: 'DisplayName',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      iD: 'string',
+      displayName: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class GetServiceResponseListAllMyBucketsResultBucketsBucket extends $tea.Model {
+  name: string;
+  createDate: string;
+  location: string;
+  extranetEndpoint: string;
+  intranetEndpoint: string;
+  storageClass: string;
+  static names(): { [key: string]: string } {
+    return {
+      name: 'Name',
+      createDate: 'CreateDate',
+      location: 'Location',
+      extranetEndpoint: 'ExtranetEndpoint',
+      intranetEndpoint: 'IntranetEndpoint',
+      storageClass: 'StorageClass',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      name: 'string',
+      createDate: 'string',
+      location: 'string',
+      extranetEndpoint: 'string',
+      intranetEndpoint: 'string',
+      storageClass: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class GetServiceResponseListAllMyBucketsResultBuckets extends $tea.Model {
+  bucket: GetServiceResponseListAllMyBucketsResultBucketsBucket[];
+  static names(): { [key: string]: string } {
+    return {
+      bucket: 'Bucket',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      bucket: { 'type': 'array', 'itemType': GetServiceResponseListAllMyBucketsResultBucketsBucket },
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class GetServiceResponseListAllMyBucketsResult extends $tea.Model {
+  prefix: string;
+  marker: string;
+  maxKeys: string;
+  isTruncated: string;
+  nextMarker: string;
+  owner: GetServiceResponseListAllMyBucketsResultOwner;
+  buckets: GetServiceResponseListAllMyBucketsResultBuckets;
+  static names(): { [key: string]: string } {
+    return {
+      prefix: 'Prefix',
+      marker: 'Marker',
+      maxKeys: 'MaxKeys',
+      isTruncated: 'IsTruncated',
+      nextMarker: 'NextMarker',
+      owner: 'Owner',
+      buckets: 'Buckets',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      prefix: 'string',
+      marker: 'string',
+      maxKeys: 'string',
+      isTruncated: 'string',
+      nextMarker: 'string',
+      owner: GetServiceResponseListAllMyBucketsResultOwner,
+      buckets: GetServiceResponseListAllMyBucketsResultBuckets,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class DeleteBucketTagsRequestFilter extends $tea.Model {
+  tagging: string;
+  static names(): { [key: string]: string } {
+    return {
+      tagging: 'tagging',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      tagging: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class GetBucketWebsiteResponseWebsiteConfigurationIndexDocument extends $tea.Model {
+  suffix: string;
+  static names(): { [key: string]: string } {
+    return {
+      suffix: 'Suffix',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      suffix: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class GetBucketWebsiteResponseWebsiteConfigurationErrorDocument extends $tea.Model {
+  key: string;
+  static names(): { [key: string]: string } {
+    return {
+      key: 'Key',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      key: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader extends $tea.Model {
+  key: string;
+  equals: string;
+  static names(): { [key: string]: string } {
+    return {
+      key: 'Key',
+      equals: 'Equals',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      key: 'string',
+      equals: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleCondition extends $tea.Model {
+  keyPrefixEquals: string;
+  httpErrorCodeReturnedEquals: string;
+  includeHeader: GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader;
+  static names(): { [key: string]: string } {
+    return {
+      keyPrefixEquals: 'KeyPrefixEquals',
+      httpErrorCodeReturnedEquals: 'HttpErrorCodeReturnedEquals',
+      includeHeader: 'IncludeHeader',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      keyPrefixEquals: 'string',
+      httpErrorCodeReturnedEquals: 'string',
+      includeHeader: GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet extends $tea.Model {
+  key: string;
+  value: string;
+  static names(): { [key: string]: string } {
+    return {
+      key: 'Key',
+      value: 'Value',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      key: 'string',
+      value: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders extends $tea.Model {
+  passAll: boolean;
+  pass: string;
+  remove: string;
+  set: GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet;
+  static names(): { [key: string]: string } {
+    return {
+      passAll: 'PassAll',
+      pass: 'Pass',
+      remove: 'Remove',
+      set: 'Set',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      passAll: 'boolean',
+      pass: 'string',
+      remove: 'string',
+      set: GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect extends $tea.Model {
+  redirectType: string;
+  passQueryString: boolean;
+  mirrorURL: string;
+  mirrorPassQueryString: boolean;
+  mirrorFollowRedirect: boolean;
+  mirrorCheckMd5: boolean;
+  protocol: string;
+  hostName: string;
+  httpRedirectCode: string;
+  replaceKeyPrefixWith: string;
+  replaceKeyWith: string;
+  mirrorHeaders: GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders;
+  static names(): { [key: string]: string } {
+    return {
+      redirectType: 'RedirectType',
+      passQueryString: 'PassQueryString',
+      mirrorURL: 'MirrorURL',
+      mirrorPassQueryString: 'MirrorPassQueryString',
+      mirrorFollowRedirect: 'MirrorFollowRedirect',
+      mirrorCheckMd5: 'MirrorCheckMd5',
+      protocol: 'Protocol',
+      hostName: 'HostName',
+      httpRedirectCode: 'HttpRedirectCode',
+      replaceKeyPrefixWith: 'ReplaceKeyPrefixWith',
+      replaceKeyWith: 'ReplaceKeyWith',
+      mirrorHeaders: 'MirrorHeaders',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      redirectType: 'string',
+      passQueryString: 'boolean',
+      mirrorURL: 'string',
+      mirrorPassQueryString: 'boolean',
+      mirrorFollowRedirect: 'boolean',
+      mirrorCheckMd5: 'boolean',
+      protocol: 'string',
+      hostName: 'string',
+      httpRedirectCode: 'string',
+      replaceKeyPrefixWith: 'string',
+      replaceKeyWith: 'string',
+      mirrorHeaders: GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule extends $tea.Model {
+  ruleNumber: number;
+  condition: GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleCondition;
+  redirect: GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect;
+  static names(): { [key: string]: string } {
+    return {
+      ruleNumber: 'RuleNumber',
+      condition: 'Condition',
+      redirect: 'Redirect',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      ruleNumber: 'number',
+      condition: GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleCondition,
+      redirect: GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class GetBucketWebsiteResponseWebsiteConfigurationRoutingRules extends $tea.Model {
+  routingRule: GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule[];
+  static names(): { [key: string]: string } {
+    return {
+      routingRule: 'RoutingRule',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      routingRule: { 'type': 'array', 'itemType': GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule },
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class GetBucketWebsiteResponseWebsiteConfiguration extends $tea.Model {
+  indexDocument: GetBucketWebsiteResponseWebsiteConfigurationIndexDocument;
+  errorDocument: GetBucketWebsiteResponseWebsiteConfigurationErrorDocument;
+  routingRules: GetBucketWebsiteResponseWebsiteConfigurationRoutingRules;
+  static names(): { [key: string]: string } {
+    return {
+      indexDocument: 'IndexDocument',
+      errorDocument: 'ErrorDocument',
+      routingRules: 'RoutingRules',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      indexDocument: GetBucketWebsiteResponseWebsiteConfigurationIndexDocument,
+      errorDocument: GetBucketWebsiteResponseWebsiteConfigurationErrorDocument,
+      routingRules: GetBucketWebsiteResponseWebsiteConfigurationRoutingRules,
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
 export class ListLiveChannelRequestFilter extends $tea.Model {
   marker?: string;
   maxKeys?: string;
@@ -4006,6 +7217,1943 @@ export default class Client extends BaseClient {
     super($tea.toMap(config));
   }
 
+  async putBucketLifecycle(request: PutBucketLifecycleRequest, runtime: RuntimeObject): Promise<PutBucketLifecycleResponse> {
+    let _runtime: { [key: string]: any } = {
+      timeouted: "retry",
+      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: this._default(runtime.localAddr, this._localAddr),
+      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
+      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
+      noProxy: this._default(runtime.noProxy, this._noProxy),
+      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      retry: {
+        retryable: runtime.autoretry,
+        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+      },
+      backoff: {
+        policy: this._default(runtime.backoffPolicy, "no"),
+        period: this._defaultNumber(runtime.backoffPeriod, 1),
+      },
+      ignoreSSL: runtime.ignoreSSL,
+      logger: this._logger,
+      listener: runtime.listener,
+    }
+
+    let _lastRequest = null;
+    let _now = Date.now();
+    let _retryTimes = 0;
+    while ($tea.allowRetry(_runtime['retry'], _retryTimes, _now)) {
+      if (_retryTimes > 0) {
+        let _backoffTime = $tea.getBackoffTime(_runtime['backoff'], _retryTimes);
+        if (_backoffTime > 0) {
+          await $tea.sleep(_backoffTime);
+        }
+      }
+
+      _retryTimes = _retryTimes + 1;
+      try {
+        let request_ = new $tea.Request();
+        let token = await this._getSecurityToken();
+        let reqBody = this._toXML(request.body);
+        request_.protocol = this._protocol;
+        request_.method = "PUT";
+        request_.pathname = `/?lifecycle`;
+        request_.headers = {
+          host: this.getHost(request.bucketName),
+          date: this._getDate(),
+          'user-agent': this._getUserAgent(),
+        };
+        if (!this._empty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
+        request_.body = new $tea.BytesReadable(reqBody);
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+        _lastRequest = request_;
+        let response_ = await $tea.doAction(request_, _runtime);
+
+        let respMap = null;
+        let bodyStr = null;
+        if (this._isFail(response_)) {
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
+          throw $tea.newError({
+            code: respMap["Code"],
+            message: respMap["Message"],
+            data: {
+              httpCode: response_.statusCode,
+              requestId: respMap["RequestId"],
+              hostId: respMap["HostId"],
+            },
+          });
+        }
+
+        return $tea.cast<PutBucketLifecycleResponse>({
+          ...response_.headers,
+        }, new PutBucketLifecycleResponse({}));
+      } catch (ex) {
+        if ($tea.isRetryable(ex)) {
+          continue;
+        }
+        throw ex;
+      }
+    }
+
+    throw $tea.newUnretryableError(_lastRequest);
+  }
+
+  async deleteMultipleObjects(request: DeleteMultipleObjectsRequest, runtime: RuntimeObject): Promise<DeleteMultipleObjectsResponse> {
+    let _runtime: { [key: string]: any } = {
+      timeouted: "retry",
+      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: this._default(runtime.localAddr, this._localAddr),
+      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
+      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
+      noProxy: this._default(runtime.noProxy, this._noProxy),
+      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      retry: {
+        retryable: runtime.autoretry,
+        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+      },
+      backoff: {
+        policy: this._default(runtime.backoffPolicy, "no"),
+        period: this._defaultNumber(runtime.backoffPeriod, 1),
+      },
+      ignoreSSL: runtime.ignoreSSL,
+      logger: this._logger,
+      listener: runtime.listener,
+    }
+
+    let _lastRequest = null;
+    let _now = Date.now();
+    let _retryTimes = 0;
+    while ($tea.allowRetry(_runtime['retry'], _retryTimes, _now)) {
+      if (_retryTimes > 0) {
+        let _backoffTime = $tea.getBackoffTime(_runtime['backoff'], _retryTimes);
+        if (_backoffTime > 0) {
+          await $tea.sleep(_backoffTime);
+        }
+      }
+
+      _retryTimes = _retryTimes + 1;
+      try {
+        let request_ = new $tea.Request();
+        let token = await this._getSecurityToken();
+        let reqBody = this._toXML(request.body);
+        request_.protocol = this._protocol;
+        request_.method = "POST";
+        request_.pathname = `/?delete`;
+        request_.headers = {
+          host: this.getHost(request.bucketName),
+          date: this._getDate(),
+          'user-agent': this._getUserAgent(),
+          ...this._toHeader(request.header),
+        };
+        if (!this._empty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
+        request_.body = new $tea.BytesReadable(reqBody);
+        if (this._notNull(request.header) && !this._empty(request.header.contentMD5)) {
+          request_.headers["content-md5"] = request.header.contentMD5;
+        } else {
+          request_.headers["content-md5"] = this._getContentMD5(reqBody);
+        }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+        _lastRequest = request_;
+        let response_ = await $tea.doAction(request_, _runtime);
+
+        let respMap = null;
+        let bodyStr = null;
+        if (this._isFail(response_)) {
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
+          throw $tea.newError({
+            code: respMap["Code"],
+            message: respMap["Message"],
+            data: {
+              httpCode: response_.statusCode,
+              requestId: respMap["RequestId"],
+              hostId: respMap["HostId"],
+            },
+          });
+        }
+
+        bodyStr = await this._readAsString(response_);
+        respMap = this._parseXml(bodyStr, DeleteMultipleObjectsResponse);
+        return $tea.cast<DeleteMultipleObjectsResponse>({
+          DeleteResult: respMap["DeleteResult"],
+          ...response_.headers,
+        }, new DeleteMultipleObjectsResponse({}));
+      } catch (ex) {
+        if ($tea.isRetryable(ex)) {
+          continue;
+        }
+        throw ex;
+      }
+    }
+
+    throw $tea.newUnretryableError(_lastRequest);
+  }
+
+  async putBucketReferer(request: PutBucketRefererRequest, runtime: RuntimeObject): Promise<PutBucketRefererResponse> {
+    let _runtime: { [key: string]: any } = {
+      timeouted: "retry",
+      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: this._default(runtime.localAddr, this._localAddr),
+      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
+      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
+      noProxy: this._default(runtime.noProxy, this._noProxy),
+      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      retry: {
+        retryable: runtime.autoretry,
+        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+      },
+      backoff: {
+        policy: this._default(runtime.backoffPolicy, "no"),
+        period: this._defaultNumber(runtime.backoffPeriod, 1),
+      },
+      ignoreSSL: runtime.ignoreSSL,
+      logger: this._logger,
+      listener: runtime.listener,
+    }
+
+    let _lastRequest = null;
+    let _now = Date.now();
+    let _retryTimes = 0;
+    while ($tea.allowRetry(_runtime['retry'], _retryTimes, _now)) {
+      if (_retryTimes > 0) {
+        let _backoffTime = $tea.getBackoffTime(_runtime['backoff'], _retryTimes);
+        if (_backoffTime > 0) {
+          await $tea.sleep(_backoffTime);
+        }
+      }
+
+      _retryTimes = _retryTimes + 1;
+      try {
+        let request_ = new $tea.Request();
+        let token = await this._getSecurityToken();
+        let reqBody = this._toXML(request.body);
+        request_.protocol = this._protocol;
+        request_.method = "PUT";
+        request_.pathname = `/?referer`;
+        request_.headers = {
+          host: this.getHost(request.bucketName),
+          date: this._getDate(),
+          'user-agent': this._getUserAgent(),
+        };
+        if (!this._empty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
+        request_.body = new $tea.BytesReadable(reqBody);
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+        _lastRequest = request_;
+        let response_ = await $tea.doAction(request_, _runtime);
+
+        let respMap = null;
+        let bodyStr = null;
+        if (this._isFail(response_)) {
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
+          throw $tea.newError({
+            code: respMap["Code"],
+            message: respMap["Message"],
+            data: {
+              httpCode: response_.statusCode,
+              requestId: respMap["RequestId"],
+              hostId: respMap["HostId"],
+            },
+          });
+        }
+
+        return $tea.cast<PutBucketRefererResponse>({
+          ...response_.headers,
+        }, new PutBucketRefererResponse({}));
+      } catch (ex) {
+        if ($tea.isRetryable(ex)) {
+          continue;
+        }
+        throw ex;
+      }
+    }
+
+    throw $tea.newUnretryableError(_lastRequest);
+  }
+
+  async putBucketWebsite(request: PutBucketWebsiteRequest, runtime: RuntimeObject): Promise<PutBucketWebsiteResponse> {
+    let _runtime: { [key: string]: any } = {
+      timeouted: "retry",
+      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: this._default(runtime.localAddr, this._localAddr),
+      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
+      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
+      noProxy: this._default(runtime.noProxy, this._noProxy),
+      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      retry: {
+        retryable: runtime.autoretry,
+        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+      },
+      backoff: {
+        policy: this._default(runtime.backoffPolicy, "no"),
+        period: this._defaultNumber(runtime.backoffPeriod, 1),
+      },
+      ignoreSSL: runtime.ignoreSSL,
+      logger: this._logger,
+      listener: runtime.listener,
+    }
+
+    let _lastRequest = null;
+    let _now = Date.now();
+    let _retryTimes = 0;
+    while ($tea.allowRetry(_runtime['retry'], _retryTimes, _now)) {
+      if (_retryTimes > 0) {
+        let _backoffTime = $tea.getBackoffTime(_runtime['backoff'], _retryTimes);
+        if (_backoffTime > 0) {
+          await $tea.sleep(_backoffTime);
+        }
+      }
+
+      _retryTimes = _retryTimes + 1;
+      try {
+        let request_ = new $tea.Request();
+        let token = await this._getSecurityToken();
+        let reqBody = this._toXML(request.body);
+        request_.protocol = this._protocol;
+        request_.method = "PUT";
+        request_.pathname = `/?website`;
+        request_.headers = {
+          host: this.getHost(request.bucketName),
+          date: this._getDate(),
+          'user-agent': this._getUserAgent(),
+        };
+        if (!this._empty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
+        request_.body = new $tea.BytesReadable(reqBody);
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+        _lastRequest = request_;
+        let response_ = await $tea.doAction(request_, _runtime);
+
+        let respMap = null;
+        let bodyStr = null;
+        if (this._isFail(response_)) {
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
+          throw $tea.newError({
+            code: respMap["Code"],
+            message: respMap["Message"],
+            data: {
+              httpCode: response_.statusCode,
+              requestId: respMap["RequestId"],
+              hostId: respMap["HostId"],
+            },
+          });
+        }
+
+        return $tea.cast<PutBucketWebsiteResponse>({
+          ...response_.headers,
+        }, new PutBucketWebsiteResponse({}));
+      } catch (ex) {
+        if ($tea.isRetryable(ex)) {
+          continue;
+        }
+        throw ex;
+      }
+    }
+
+    throw $tea.newUnretryableError(_lastRequest);
+  }
+
+  async completeMultipartUpload(request: CompleteMultipartUploadRequest, runtime: RuntimeObject): Promise<CompleteMultipartUploadResponse> {
+    let _runtime: { [key: string]: any } = {
+      timeouted: "retry",
+      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: this._default(runtime.localAddr, this._localAddr),
+      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
+      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
+      noProxy: this._default(runtime.noProxy, this._noProxy),
+      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      retry: {
+        retryable: runtime.autoretry,
+        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+      },
+      backoff: {
+        policy: this._default(runtime.backoffPolicy, "no"),
+        period: this._defaultNumber(runtime.backoffPeriod, 1),
+      },
+      ignoreSSL: runtime.ignoreSSL,
+      logger: this._logger,
+      listener: runtime.listener,
+    }
+
+    let _lastRequest = null;
+    let _now = Date.now();
+    let _retryTimes = 0;
+    while ($tea.allowRetry(_runtime['retry'], _retryTimes, _now)) {
+      if (_retryTimes > 0) {
+        let _backoffTime = $tea.getBackoffTime(_runtime['backoff'], _retryTimes);
+        if (_backoffTime > 0) {
+          await $tea.sleep(_backoffTime);
+        }
+      }
+
+      _retryTimes = _retryTimes + 1;
+      try {
+        let request_ = new $tea.Request();
+        let token = await this._getSecurityToken();
+        let reqBody = this._toXML(request.body);
+        request_.protocol = this._protocol;
+        request_.method = "POST";
+        request_.pathname = `/${request.objectName}`;
+        request_.headers = {
+          host: this.getHost(request.bucketName),
+          date: this._getDate(),
+          'user-agent': this._getUserAgent(),
+        };
+        if (!this._empty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
+        request_.query = this._toQuery(request.filter);
+        request_.body = new $tea.BytesReadable(reqBody);
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+        _lastRequest = request_;
+        let response_ = await $tea.doAction(request_, _runtime);
+
+        let respMap = null;
+        let bodyStr = null;
+        if (this._isFail(response_)) {
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
+          throw $tea.newError({
+            code: respMap["Code"],
+            message: respMap["Message"],
+            data: {
+              httpCode: response_.statusCode,
+              requestId: respMap["RequestId"],
+              hostId: respMap["HostId"],
+            },
+          });
+        }
+
+        bodyStr = await this._readAsString(response_);
+        respMap = this._parseXml(bodyStr, CompleteMultipartUploadResponse);
+        return $tea.cast<CompleteMultipartUploadResponse>({
+          CompleteMultipartUploadResult: respMap["CompleteMultipartUploadResult"],
+          ...response_.headers,
+        }, new CompleteMultipartUploadResponse({}));
+      } catch (ex) {
+        if ($tea.isRetryable(ex)) {
+          continue;
+        }
+        throw ex;
+      }
+    }
+
+    throw $tea.newUnretryableError(_lastRequest);
+  }
+
+  async putBucketLogging(request: PutBucketLoggingRequest, runtime: RuntimeObject): Promise<PutBucketLoggingResponse> {
+    let _runtime: { [key: string]: any } = {
+      timeouted: "retry",
+      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: this._default(runtime.localAddr, this._localAddr),
+      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
+      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
+      noProxy: this._default(runtime.noProxy, this._noProxy),
+      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      retry: {
+        retryable: runtime.autoretry,
+        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+      },
+      backoff: {
+        policy: this._default(runtime.backoffPolicy, "no"),
+        period: this._defaultNumber(runtime.backoffPeriod, 1),
+      },
+      ignoreSSL: runtime.ignoreSSL,
+      logger: this._logger,
+      listener: runtime.listener,
+    }
+
+    let _lastRequest = null;
+    let _now = Date.now();
+    let _retryTimes = 0;
+    while ($tea.allowRetry(_runtime['retry'], _retryTimes, _now)) {
+      if (_retryTimes > 0) {
+        let _backoffTime = $tea.getBackoffTime(_runtime['backoff'], _retryTimes);
+        if (_backoffTime > 0) {
+          await $tea.sleep(_backoffTime);
+        }
+      }
+
+      _retryTimes = _retryTimes + 1;
+      try {
+        let request_ = new $tea.Request();
+        let token = await this._getSecurityToken();
+        let reqBody = this._toXML(request.body);
+        request_.protocol = this._protocol;
+        request_.method = "PUT";
+        request_.pathname = `/?logging`;
+        request_.headers = {
+          host: this.getHost(request.bucketName),
+          date: this._getDate(),
+          'user-agent': this._getUserAgent(),
+        };
+        if (!this._empty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
+        request_.body = new $tea.BytesReadable(reqBody);
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+        _lastRequest = request_;
+        let response_ = await $tea.doAction(request_, _runtime);
+
+        let respMap = null;
+        let bodyStr = null;
+        if (this._isFail(response_)) {
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
+          throw $tea.newError({
+            code: respMap["Code"],
+            message: respMap["Message"],
+            data: {
+              httpCode: response_.statusCode,
+              requestId: respMap["RequestId"],
+              hostId: respMap["HostId"],
+            },
+          });
+        }
+
+        return $tea.cast<PutBucketLoggingResponse>({
+          ...response_.headers,
+        }, new PutBucketLoggingResponse({}));
+      } catch (ex) {
+        if ($tea.isRetryable(ex)) {
+          continue;
+        }
+        throw ex;
+      }
+    }
+
+    throw $tea.newUnretryableError(_lastRequest);
+  }
+
+  async putBucketRequestPayment(request: PutBucketRequestPaymentRequest, runtime: RuntimeObject): Promise<PutBucketRequestPaymentResponse> {
+    let _runtime: { [key: string]: any } = {
+      timeouted: "retry",
+      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: this._default(runtime.localAddr, this._localAddr),
+      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
+      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
+      noProxy: this._default(runtime.noProxy, this._noProxy),
+      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      retry: {
+        retryable: runtime.autoretry,
+        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+      },
+      backoff: {
+        policy: this._default(runtime.backoffPolicy, "no"),
+        period: this._defaultNumber(runtime.backoffPeriod, 1),
+      },
+      ignoreSSL: runtime.ignoreSSL,
+      logger: this._logger,
+      listener: runtime.listener,
+    }
+
+    let _lastRequest = null;
+    let _now = Date.now();
+    let _retryTimes = 0;
+    while ($tea.allowRetry(_runtime['retry'], _retryTimes, _now)) {
+      if (_retryTimes > 0) {
+        let _backoffTime = $tea.getBackoffTime(_runtime['backoff'], _retryTimes);
+        if (_backoffTime > 0) {
+          await $tea.sleep(_backoffTime);
+        }
+      }
+
+      _retryTimes = _retryTimes + 1;
+      try {
+        let request_ = new $tea.Request();
+        let token = await this._getSecurityToken();
+        let reqBody = this._toXML(request.body);
+        request_.protocol = this._protocol;
+        request_.method = "PUT";
+        request_.pathname = `/?requestPayment`;
+        request_.headers = {
+          host: this.getHost(request.bucketName),
+          date: this._getDate(),
+          'user-agent': this._getUserAgent(),
+        };
+        if (!this._empty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
+        request_.body = new $tea.BytesReadable(reqBody);
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+        _lastRequest = request_;
+        let response_ = await $tea.doAction(request_, _runtime);
+
+        let respMap = null;
+        let bodyStr = null;
+        if (this._isFail(response_)) {
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
+          throw $tea.newError({
+            code: respMap["Code"],
+            message: respMap["Message"],
+            data: {
+              httpCode: response_.statusCode,
+              requestId: respMap["RequestId"],
+              hostId: respMap["HostId"],
+            },
+          });
+        }
+
+        return $tea.cast<PutBucketRequestPaymentResponse>({
+          ...response_.headers,
+        }, new PutBucketRequestPaymentResponse({}));
+      } catch (ex) {
+        if ($tea.isRetryable(ex)) {
+          continue;
+        }
+        throw ex;
+      }
+    }
+
+    throw $tea.newUnretryableError(_lastRequest);
+  }
+
+  async putBucketEncryption(request: PutBucketEncryptionRequest, runtime: RuntimeObject): Promise<PutBucketEncryptionResponse> {
+    let _runtime: { [key: string]: any } = {
+      timeouted: "retry",
+      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: this._default(runtime.localAddr, this._localAddr),
+      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
+      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
+      noProxy: this._default(runtime.noProxy, this._noProxy),
+      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      retry: {
+        retryable: runtime.autoretry,
+        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+      },
+      backoff: {
+        policy: this._default(runtime.backoffPolicy, "no"),
+        period: this._defaultNumber(runtime.backoffPeriod, 1),
+      },
+      ignoreSSL: runtime.ignoreSSL,
+      logger: this._logger,
+      listener: runtime.listener,
+    }
+
+    let _lastRequest = null;
+    let _now = Date.now();
+    let _retryTimes = 0;
+    while ($tea.allowRetry(_runtime['retry'], _retryTimes, _now)) {
+      if (_retryTimes > 0) {
+        let _backoffTime = $tea.getBackoffTime(_runtime['backoff'], _retryTimes);
+        if (_backoffTime > 0) {
+          await $tea.sleep(_backoffTime);
+        }
+      }
+
+      _retryTimes = _retryTimes + 1;
+      try {
+        let request_ = new $tea.Request();
+        let token = await this._getSecurityToken();
+        let reqBody = this._toXML(request.body);
+        request_.protocol = this._protocol;
+        request_.method = "PUT";
+        request_.pathname = `/?encryption`;
+        request_.headers = {
+          host: this.getHost(request.bucketName),
+          date: this._getDate(),
+          'user-agent': this._getUserAgent(),
+        };
+        if (!this._empty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
+        request_.body = new $tea.BytesReadable(reqBody);
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+        _lastRequest = request_;
+        let response_ = await $tea.doAction(request_, _runtime);
+
+        let respMap = null;
+        let bodyStr = null;
+        if (this._isFail(response_)) {
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
+          throw $tea.newError({
+            code: respMap["Code"],
+            message: respMap["Message"],
+            data: {
+              httpCode: response_.statusCode,
+              requestId: respMap["RequestId"],
+              hostId: respMap["HostId"],
+            },
+          });
+        }
+
+        return $tea.cast<PutBucketEncryptionResponse>({
+          ...response_.headers,
+        }, new PutBucketEncryptionResponse({}));
+      } catch (ex) {
+        if ($tea.isRetryable(ex)) {
+          continue;
+        }
+        throw ex;
+      }
+    }
+
+    throw $tea.newUnretryableError(_lastRequest);
+  }
+
+  async putLiveChannel(request: PutLiveChannelRequest, runtime: RuntimeObject): Promise<PutLiveChannelResponse> {
+    let _runtime: { [key: string]: any } = {
+      timeouted: "retry",
+      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: this._default(runtime.localAddr, this._localAddr),
+      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
+      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
+      noProxy: this._default(runtime.noProxy, this._noProxy),
+      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      retry: {
+        retryable: runtime.autoretry,
+        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+      },
+      backoff: {
+        policy: this._default(runtime.backoffPolicy, "no"),
+        period: this._defaultNumber(runtime.backoffPeriod, 1),
+      },
+      ignoreSSL: runtime.ignoreSSL,
+      logger: this._logger,
+      listener: runtime.listener,
+    }
+
+    let _lastRequest = null;
+    let _now = Date.now();
+    let _retryTimes = 0;
+    while ($tea.allowRetry(_runtime['retry'], _retryTimes, _now)) {
+      if (_retryTimes > 0) {
+        let _backoffTime = $tea.getBackoffTime(_runtime['backoff'], _retryTimes);
+        if (_backoffTime > 0) {
+          await $tea.sleep(_backoffTime);
+        }
+      }
+
+      _retryTimes = _retryTimes + 1;
+      try {
+        let request_ = new $tea.Request();
+        let token = await this._getSecurityToken();
+        let reqBody = this._toXML(request.body);
+        request_.protocol = this._protocol;
+        request_.method = "PUT";
+        request_.pathname = `/${request.channelName}?live`;
+        request_.headers = {
+          host: this.getHost(request.bucketName),
+          date: this._getDate(),
+          'user-agent': this._getUserAgent(),
+        };
+        if (!this._empty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
+        request_.body = new $tea.BytesReadable(reqBody);
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+        _lastRequest = request_;
+        let response_ = await $tea.doAction(request_, _runtime);
+
+        let respMap = null;
+        let bodyStr = null;
+        if (this._isFail(response_)) {
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
+          throw $tea.newError({
+            code: respMap["Code"],
+            message: respMap["Message"],
+            data: {
+              httpCode: response_.statusCode,
+              requestId: respMap["RequestId"],
+              hostId: respMap["HostId"],
+            },
+          });
+        }
+
+        bodyStr = await this._readAsString(response_);
+        respMap = this._parseXml(bodyStr, PutLiveChannelResponse);
+        return $tea.cast<PutLiveChannelResponse>({
+          CreateLiveChannelResult: respMap["CreateLiveChannelResult"],
+          ...response_.headers,
+        }, new PutLiveChannelResponse({}));
+      } catch (ex) {
+        if ($tea.isRetryable(ex)) {
+          continue;
+        }
+        throw ex;
+      }
+    }
+
+    throw $tea.newUnretryableError(_lastRequest);
+  }
+
+  async putBucketTags(request: PutBucketTagsRequest, runtime: RuntimeObject): Promise<PutBucketTagsResponse> {
+    let _runtime: { [key: string]: any } = {
+      timeouted: "retry",
+      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: this._default(runtime.localAddr, this._localAddr),
+      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
+      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
+      noProxy: this._default(runtime.noProxy, this._noProxy),
+      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      retry: {
+        retryable: runtime.autoretry,
+        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+      },
+      backoff: {
+        policy: this._default(runtime.backoffPolicy, "no"),
+        period: this._defaultNumber(runtime.backoffPeriod, 1),
+      },
+      ignoreSSL: runtime.ignoreSSL,
+      logger: this._logger,
+      listener: runtime.listener,
+    }
+
+    let _lastRequest = null;
+    let _now = Date.now();
+    let _retryTimes = 0;
+    while ($tea.allowRetry(_runtime['retry'], _retryTimes, _now)) {
+      if (_retryTimes > 0) {
+        let _backoffTime = $tea.getBackoffTime(_runtime['backoff'], _retryTimes);
+        if (_backoffTime > 0) {
+          await $tea.sleep(_backoffTime);
+        }
+      }
+
+      _retryTimes = _retryTimes + 1;
+      try {
+        let request_ = new $tea.Request();
+        let token = await this._getSecurityToken();
+        let reqBody = this._toXML(request.body);
+        request_.protocol = this._protocol;
+        request_.method = "PUT";
+        request_.pathname = `/?tagging`;
+        request_.headers = {
+          host: this.getHost(request.bucketName),
+          date: this._getDate(),
+          'user-agent': this._getUserAgent(),
+        };
+        if (!this._empty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
+        request_.body = new $tea.BytesReadable(reqBody);
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+        _lastRequest = request_;
+        let response_ = await $tea.doAction(request_, _runtime);
+
+        let respMap = null;
+        let bodyStr = null;
+        if (this._isFail(response_)) {
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
+          throw $tea.newError({
+            code: respMap["Code"],
+            message: respMap["Message"],
+            data: {
+              httpCode: response_.statusCode,
+              requestId: respMap["RequestId"],
+              hostId: respMap["HostId"],
+            },
+          });
+        }
+
+        return $tea.cast<PutBucketTagsResponse>({
+          ...response_.headers,
+        }, new PutBucketTagsResponse({}));
+      } catch (ex) {
+        if ($tea.isRetryable(ex)) {
+          continue;
+        }
+        throw ex;
+      }
+    }
+
+    throw $tea.newUnretryableError(_lastRequest);
+  }
+
+  async putObjectTagging(request: PutObjectTaggingRequest, runtime: RuntimeObject): Promise<PutObjectTaggingResponse> {
+    let _runtime: { [key: string]: any } = {
+      timeouted: "retry",
+      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: this._default(runtime.localAddr, this._localAddr),
+      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
+      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
+      noProxy: this._default(runtime.noProxy, this._noProxy),
+      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      retry: {
+        retryable: runtime.autoretry,
+        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+      },
+      backoff: {
+        policy: this._default(runtime.backoffPolicy, "no"),
+        period: this._defaultNumber(runtime.backoffPeriod, 1),
+      },
+      ignoreSSL: runtime.ignoreSSL,
+      logger: this._logger,
+      listener: runtime.listener,
+    }
+
+    let _lastRequest = null;
+    let _now = Date.now();
+    let _retryTimes = 0;
+    while ($tea.allowRetry(_runtime['retry'], _retryTimes, _now)) {
+      if (_retryTimes > 0) {
+        let _backoffTime = $tea.getBackoffTime(_runtime['backoff'], _retryTimes);
+        if (_backoffTime > 0) {
+          await $tea.sleep(_backoffTime);
+        }
+      }
+
+      _retryTimes = _retryTimes + 1;
+      try {
+        let request_ = new $tea.Request();
+        let token = await this._getSecurityToken();
+        let reqBody = this._toXML(request.body);
+        request_.protocol = this._protocol;
+        request_.method = "PUT";
+        request_.pathname = `/${request.objectName}?tagging`;
+        request_.headers = {
+          host: this.getHost(request.bucketName),
+          date: this._getDate(),
+          'user-agent': this._getUserAgent(),
+        };
+        if (!this._empty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
+        request_.body = new $tea.BytesReadable(reqBody);
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+        _lastRequest = request_;
+        let response_ = await $tea.doAction(request_, _runtime);
+
+        let respMap = null;
+        let bodyStr = null;
+        if (this._isFail(response_)) {
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
+          throw $tea.newError({
+            code: respMap["Code"],
+            message: respMap["Message"],
+            data: {
+              httpCode: response_.statusCode,
+              requestId: respMap["RequestId"],
+              hostId: respMap["HostId"],
+            },
+          });
+        }
+
+        return $tea.cast<PutObjectTaggingResponse>({
+          ...response_.headers,
+        }, new PutObjectTaggingResponse({}));
+      } catch (ex) {
+        if ($tea.isRetryable(ex)) {
+          continue;
+        }
+        throw ex;
+      }
+    }
+
+    throw $tea.newUnretryableError(_lastRequest);
+  }
+
+  async selectObject(request: SelectObjectRequest, runtime: RuntimeObject): Promise<SelectObjectResponse> {
+    let _runtime: { [key: string]: any } = {
+      timeouted: "retry",
+      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: this._default(runtime.localAddr, this._localAddr),
+      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
+      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
+      noProxy: this._default(runtime.noProxy, this._noProxy),
+      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      retry: {
+        retryable: runtime.autoretry,
+        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+      },
+      backoff: {
+        policy: this._default(runtime.backoffPolicy, "no"),
+        period: this._defaultNumber(runtime.backoffPeriod, 1),
+      },
+      ignoreSSL: runtime.ignoreSSL,
+      logger: this._logger,
+      listener: runtime.listener,
+    }
+
+    let _lastRequest = null;
+    let _now = Date.now();
+    let _retryTimes = 0;
+    while ($tea.allowRetry(_runtime['retry'], _retryTimes, _now)) {
+      if (_retryTimes > 0) {
+        let _backoffTime = $tea.getBackoffTime(_runtime['backoff'], _retryTimes);
+        if (_backoffTime > 0) {
+          await $tea.sleep(_backoffTime);
+        }
+      }
+
+      _retryTimes = _retryTimes + 1;
+      try {
+        let request_ = new $tea.Request();
+        let token = await this._getSecurityToken();
+        let reqBody = this._toXML(request.body);
+        request_.protocol = this._protocol;
+        request_.method = "POST";
+        request_.pathname = `/${request.objectName}`;
+        request_.headers = {
+          host: this.getHost(request.bucketName),
+          date: this._getDate(),
+          'user-agent': this._getUserAgent(),
+        };
+        if (!this._empty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
+        request_.query = this._toQuery(request.filter);
+        request_.body = new $tea.BytesReadable(reqBody);
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+        _lastRequest = request_;
+        let response_ = await $tea.doAction(request_, _runtime);
+
+        let respMap = null;
+        let bodyStr = null;
+        if (this._isFail(response_)) {
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
+          throw $tea.newError({
+            code: respMap["Code"],
+            message: respMap["Message"],
+            data: {
+              httpCode: response_.statusCode,
+              requestId: respMap["RequestId"],
+              hostId: respMap["HostId"],
+            },
+          });
+        }
+
+        return $tea.cast<SelectObjectResponse>({
+          ...response_.headers,
+        }, new SelectObjectResponse({}));
+      } catch (ex) {
+        if ($tea.isRetryable(ex)) {
+          continue;
+        }
+        throw ex;
+      }
+    }
+
+    throw $tea.newUnretryableError(_lastRequest);
+  }
+
+  async putBucketCORS(request: PutBucketCORSRequest, runtime: RuntimeObject): Promise<PutBucketCORSResponse> {
+    let _runtime: { [key: string]: any } = {
+      timeouted: "retry",
+      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: this._default(runtime.localAddr, this._localAddr),
+      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
+      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
+      noProxy: this._default(runtime.noProxy, this._noProxy),
+      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      retry: {
+        retryable: runtime.autoretry,
+        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+      },
+      backoff: {
+        policy: this._default(runtime.backoffPolicy, "no"),
+        period: this._defaultNumber(runtime.backoffPeriod, 1),
+      },
+      ignoreSSL: runtime.ignoreSSL,
+      logger: this._logger,
+      listener: runtime.listener,
+    }
+
+    let _lastRequest = null;
+    let _now = Date.now();
+    let _retryTimes = 0;
+    while ($tea.allowRetry(_runtime['retry'], _retryTimes, _now)) {
+      if (_retryTimes > 0) {
+        let _backoffTime = $tea.getBackoffTime(_runtime['backoff'], _retryTimes);
+        if (_backoffTime > 0) {
+          await $tea.sleep(_backoffTime);
+        }
+      }
+
+      _retryTimes = _retryTimes + 1;
+      try {
+        let request_ = new $tea.Request();
+        let token = await this._getSecurityToken();
+        let reqBody = this._toXML(request.body);
+        request_.protocol = this._protocol;
+        request_.method = "PUT";
+        request_.pathname = `/?cors`;
+        request_.headers = {
+          host: this.getHost(request.bucketName),
+          date: this._getDate(),
+          'user-agent': this._getUserAgent(),
+        };
+        if (!this._empty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
+        request_.body = new $tea.BytesReadable(reqBody);
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+        _lastRequest = request_;
+        let response_ = await $tea.doAction(request_, _runtime);
+
+        let respMap = null;
+        let bodyStr = null;
+        if (this._isFail(response_)) {
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
+          throw $tea.newError({
+            code: respMap["Code"],
+            message: respMap["Message"],
+            data: {
+              httpCode: response_.statusCode,
+              requestId: respMap["RequestId"],
+              hostId: respMap["HostId"],
+            },
+          });
+        }
+
+        return $tea.cast<PutBucketCORSResponse>({
+          ...response_.headers,
+        }, new PutBucketCORSResponse({}));
+      } catch (ex) {
+        if ($tea.isRetryable(ex)) {
+          continue;
+        }
+        throw ex;
+      }
+    }
+
+    throw $tea.newUnretryableError(_lastRequest);
+  }
+
+  async putBucket(request: PutBucketRequest, runtime: RuntimeObject): Promise<PutBucketResponse> {
+    let _runtime: { [key: string]: any } = {
+      timeouted: "retry",
+      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: this._default(runtime.localAddr, this._localAddr),
+      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
+      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
+      noProxy: this._default(runtime.noProxy, this._noProxy),
+      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      retry: {
+        retryable: runtime.autoretry,
+        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+      },
+      backoff: {
+        policy: this._default(runtime.backoffPolicy, "no"),
+        period: this._defaultNumber(runtime.backoffPeriod, 1),
+      },
+      ignoreSSL: runtime.ignoreSSL,
+      logger: this._logger,
+      listener: runtime.listener,
+    }
+
+    let _lastRequest = null;
+    let _now = Date.now();
+    let _retryTimes = 0;
+    while ($tea.allowRetry(_runtime['retry'], _retryTimes, _now)) {
+      if (_retryTimes > 0) {
+        let _backoffTime = $tea.getBackoffTime(_runtime['backoff'], _retryTimes);
+        if (_backoffTime > 0) {
+          await $tea.sleep(_backoffTime);
+        }
+      }
+
+      _retryTimes = _retryTimes + 1;
+      try {
+        let request_ = new $tea.Request();
+        let token = await this._getSecurityToken();
+        let reqBody = this._toXML(request.body);
+        request_.protocol = this._protocol;
+        request_.method = "PUT";
+        request_.pathname = `/`;
+        request_.headers = {
+          host: this.getHost(request.bucketName),
+          date: this._getDate(),
+          'user-agent': this._getUserAgent(),
+          ...this._toHeader(request.header),
+        };
+        if (!this._empty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
+        request_.body = new $tea.BytesReadable(reqBody);
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+        _lastRequest = request_;
+        let response_ = await $tea.doAction(request_, _runtime);
+
+        let respMap = null;
+        let bodyStr = null;
+        if (this._isFail(response_)) {
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
+          throw $tea.newError({
+            code: respMap["Code"],
+            message: respMap["Message"],
+            data: {
+              httpCode: response_.statusCode,
+              requestId: respMap["RequestId"],
+              hostId: respMap["HostId"],
+            },
+          });
+        }
+
+        return $tea.cast<PutBucketResponse>({
+          ...response_.headers,
+        }, new PutBucketResponse({}));
+      } catch (ex) {
+        if ($tea.isRetryable(ex)) {
+          continue;
+        }
+        throw ex;
+      }
+    }
+
+    throw $tea.newUnretryableError(_lastRequest);
+  }
+
+  async listMultipartUploads(request: ListMultipartUploadsRequest, runtime: RuntimeObject): Promise<ListMultipartUploadsResponse> {
+    let _runtime: { [key: string]: any } = {
+      timeouted: "retry",
+      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: this._default(runtime.localAddr, this._localAddr),
+      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
+      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
+      noProxy: this._default(runtime.noProxy, this._noProxy),
+      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      retry: {
+        retryable: runtime.autoretry,
+        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+      },
+      backoff: {
+        policy: this._default(runtime.backoffPolicy, "no"),
+        period: this._defaultNumber(runtime.backoffPeriod, 1),
+      },
+      ignoreSSL: runtime.ignoreSSL,
+      logger: this._logger,
+      listener: runtime.listener,
+    }
+
+    let _lastRequest = null;
+    let _now = Date.now();
+    let _retryTimes = 0;
+    while ($tea.allowRetry(_runtime['retry'], _retryTimes, _now)) {
+      if (_retryTimes > 0) {
+        let _backoffTime = $tea.getBackoffTime(_runtime['backoff'], _retryTimes);
+        if (_backoffTime > 0) {
+          await $tea.sleep(_backoffTime);
+        }
+      }
+
+      _retryTimes = _retryTimes + 1;
+      try {
+        let request_ = new $tea.Request();
+        let token = await this._getSecurityToken();
+        request_.protocol = this._protocol;
+        request_.method = "GET";
+        request_.pathname = `/?uploads`;
+        request_.headers = {
+          host: this.getHost(request.bucketName),
+          date: this._getDate(),
+          'user-agent': this._getUserAgent(),
+        };
+        if (!this._empty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
+        request_.query = this._toQuery(request.filter);
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+        _lastRequest = request_;
+        let response_ = await $tea.doAction(request_, _runtime);
+
+        let respMap = null;
+        let bodyStr = null;
+        if (this._isFail(response_)) {
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
+          throw $tea.newError({
+            code: respMap["Code"],
+            message: respMap["Message"],
+            data: {
+              httpCode: response_.statusCode,
+              requestId: respMap["RequestId"],
+              hostId: respMap["HostId"],
+            },
+          });
+        }
+
+        bodyStr = await this._readAsString(response_);
+        respMap = this._parseXml(bodyStr, ListMultipartUploadsResponse);
+        return $tea.cast<ListMultipartUploadsResponse>({
+          ListMultipartUploadsResult: respMap["ListMultipartUploadsResult"],
+          ...response_.headers,
+        }, new ListMultipartUploadsResponse({}));
+      } catch (ex) {
+        if ($tea.isRetryable(ex)) {
+          continue;
+        }
+        throw ex;
+      }
+    }
+
+    throw $tea.newUnretryableError(_lastRequest);
+  }
+
+  async getBucketRequestPayment(request: GetBucketRequestPaymentRequest, runtime: RuntimeObject): Promise<GetBucketRequestPaymentResponse> {
+    let _runtime: { [key: string]: any } = {
+      timeouted: "retry",
+      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: this._default(runtime.localAddr, this._localAddr),
+      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
+      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
+      noProxy: this._default(runtime.noProxy, this._noProxy),
+      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      retry: {
+        retryable: runtime.autoretry,
+        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+      },
+      backoff: {
+        policy: this._default(runtime.backoffPolicy, "no"),
+        period: this._defaultNumber(runtime.backoffPeriod, 1),
+      },
+      ignoreSSL: runtime.ignoreSSL,
+      logger: this._logger,
+      listener: runtime.listener,
+    }
+
+    let _lastRequest = null;
+    let _now = Date.now();
+    let _retryTimes = 0;
+    while ($tea.allowRetry(_runtime['retry'], _retryTimes, _now)) {
+      if (_retryTimes > 0) {
+        let _backoffTime = $tea.getBackoffTime(_runtime['backoff'], _retryTimes);
+        if (_backoffTime > 0) {
+          await $tea.sleep(_backoffTime);
+        }
+      }
+
+      _retryTimes = _retryTimes + 1;
+      try {
+        let request_ = new $tea.Request();
+        let token = await this._getSecurityToken();
+        request_.protocol = this._protocol;
+        request_.method = "GET";
+        request_.pathname = `/?requestPayment`;
+        request_.headers = {
+          host: this.getHost(request.bucketName),
+          date: this._getDate(),
+          'user-agent': this._getUserAgent(),
+        };
+        if (!this._empty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+        _lastRequest = request_;
+        let response_ = await $tea.doAction(request_, _runtime);
+
+        let respMap = null;
+        let bodyStr = null;
+        if (this._isFail(response_)) {
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
+          throw $tea.newError({
+            code: respMap["Code"],
+            message: respMap["Message"],
+            data: {
+              httpCode: response_.statusCode,
+              requestId: respMap["RequestId"],
+              hostId: respMap["HostId"],
+            },
+          });
+        }
+
+        bodyStr = await this._readAsString(response_);
+        respMap = this._parseXml(bodyStr, GetBucketRequestPaymentResponse);
+        return $tea.cast<GetBucketRequestPaymentResponse>({
+          RequestPaymentConfiguration: respMap["RequestPaymentConfiguration"],
+          ...response_.headers,
+        }, new GetBucketRequestPaymentResponse({}));
+      } catch (ex) {
+        if ($tea.isRetryable(ex)) {
+          continue;
+        }
+        throw ex;
+      }
+    }
+
+    throw $tea.newUnretryableError(_lastRequest);
+  }
+
+  async getBucketEncryption(request: GetBucketEncryptionRequest, runtime: RuntimeObject): Promise<GetBucketEncryptionResponse> {
+    let _runtime: { [key: string]: any } = {
+      timeouted: "retry",
+      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: this._default(runtime.localAddr, this._localAddr),
+      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
+      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
+      noProxy: this._default(runtime.noProxy, this._noProxy),
+      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      retry: {
+        retryable: runtime.autoretry,
+        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+      },
+      backoff: {
+        policy: this._default(runtime.backoffPolicy, "no"),
+        period: this._defaultNumber(runtime.backoffPeriod, 1),
+      },
+      ignoreSSL: runtime.ignoreSSL,
+      logger: this._logger,
+      listener: runtime.listener,
+    }
+
+    let _lastRequest = null;
+    let _now = Date.now();
+    let _retryTimes = 0;
+    while ($tea.allowRetry(_runtime['retry'], _retryTimes, _now)) {
+      if (_retryTimes > 0) {
+        let _backoffTime = $tea.getBackoffTime(_runtime['backoff'], _retryTimes);
+        if (_backoffTime > 0) {
+          await $tea.sleep(_backoffTime);
+        }
+      }
+
+      _retryTimes = _retryTimes + 1;
+      try {
+        let request_ = new $tea.Request();
+        let token = await this._getSecurityToken();
+        request_.protocol = this._protocol;
+        request_.method = "GET";
+        request_.pathname = `/?encryption`;
+        request_.headers = {
+          host: this.getHost(request.bucketName),
+          date: this._getDate(),
+          'user-agent': this._getUserAgent(),
+        };
+        if (!this._empty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+        _lastRequest = request_;
+        let response_ = await $tea.doAction(request_, _runtime);
+
+        let respMap = null;
+        let bodyStr = null;
+        if (this._isFail(response_)) {
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
+          throw $tea.newError({
+            code: respMap["Code"],
+            message: respMap["Message"],
+            data: {
+              httpCode: response_.statusCode,
+              requestId: respMap["RequestId"],
+              hostId: respMap["HostId"],
+            },
+          });
+        }
+
+        bodyStr = await this._readAsString(response_);
+        respMap = this._parseXml(bodyStr, GetBucketEncryptionResponse);
+        return $tea.cast<GetBucketEncryptionResponse>({
+          ServerSideEncryptionRule: respMap["ServerSideEncryptionRule"],
+          ...response_.headers,
+        }, new GetBucketEncryptionResponse({}));
+      } catch (ex) {
+        if ($tea.isRetryable(ex)) {
+          continue;
+        }
+        throw ex;
+      }
+    }
+
+    throw $tea.newUnretryableError(_lastRequest);
+  }
+
+  async getBucketTags(request: GetBucketTagsRequest, runtime: RuntimeObject): Promise<GetBucketTagsResponse> {
+    let _runtime: { [key: string]: any } = {
+      timeouted: "retry",
+      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: this._default(runtime.localAddr, this._localAddr),
+      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
+      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
+      noProxy: this._default(runtime.noProxy, this._noProxy),
+      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      retry: {
+        retryable: runtime.autoretry,
+        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+      },
+      backoff: {
+        policy: this._default(runtime.backoffPolicy, "no"),
+        period: this._defaultNumber(runtime.backoffPeriod, 1),
+      },
+      ignoreSSL: runtime.ignoreSSL,
+      logger: this._logger,
+      listener: runtime.listener,
+    }
+
+    let _lastRequest = null;
+    let _now = Date.now();
+    let _retryTimes = 0;
+    while ($tea.allowRetry(_runtime['retry'], _retryTimes, _now)) {
+      if (_retryTimes > 0) {
+        let _backoffTime = $tea.getBackoffTime(_runtime['backoff'], _retryTimes);
+        if (_backoffTime > 0) {
+          await $tea.sleep(_backoffTime);
+        }
+      }
+
+      _retryTimes = _retryTimes + 1;
+      try {
+        let request_ = new $tea.Request();
+        let token = await this._getSecurityToken();
+        request_.protocol = this._protocol;
+        request_.method = "GET";
+        request_.pathname = `/?tagging`;
+        request_.headers = {
+          host: this.getHost(request.bucketName),
+          date: this._getDate(),
+          'user-agent': this._getUserAgent(),
+        };
+        if (!this._empty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+        _lastRequest = request_;
+        let response_ = await $tea.doAction(request_, _runtime);
+
+        let respMap = null;
+        let bodyStr = null;
+        if (this._isFail(response_)) {
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
+          throw $tea.newError({
+            code: respMap["Code"],
+            message: respMap["Message"],
+            data: {
+              httpCode: response_.statusCode,
+              requestId: respMap["RequestId"],
+              hostId: respMap["HostId"],
+            },
+          });
+        }
+
+        bodyStr = await this._readAsString(response_);
+        respMap = this._parseXml(bodyStr, GetBucketTagsResponse);
+        return $tea.cast<GetBucketTagsResponse>({
+          Tagging: respMap["Tagging"],
+          ...response_.headers,
+        }, new GetBucketTagsResponse({}));
+      } catch (ex) {
+        if ($tea.isRetryable(ex)) {
+          continue;
+        }
+        throw ex;
+      }
+    }
+
+    throw $tea.newUnretryableError(_lastRequest);
+  }
+
+  async getService(request: GetServiceRequest, runtime: RuntimeObject): Promise<GetServiceResponse> {
+    let _runtime: { [key: string]: any } = {
+      timeouted: "retry",
+      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: this._default(runtime.localAddr, this._localAddr),
+      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
+      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
+      noProxy: this._default(runtime.noProxy, this._noProxy),
+      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      retry: {
+        retryable: runtime.autoretry,
+        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+      },
+      backoff: {
+        policy: this._default(runtime.backoffPolicy, "no"),
+        period: this._defaultNumber(runtime.backoffPeriod, 1),
+      },
+      ignoreSSL: runtime.ignoreSSL,
+      logger: this._logger,
+      listener: runtime.listener,
+    }
+
+    let _lastRequest = null;
+    let _now = Date.now();
+    let _retryTimes = 0;
+    while ($tea.allowRetry(_runtime['retry'], _retryTimes, _now)) {
+      if (_retryTimes > 0) {
+        let _backoffTime = $tea.getBackoffTime(_runtime['backoff'], _retryTimes);
+        if (_backoffTime > 0) {
+          await $tea.sleep(_backoffTime);
+        }
+      }
+
+      _retryTimes = _retryTimes + 1;
+      try {
+        let request_ = new $tea.Request();
+        let token = await this._getSecurityToken();
+        request_.protocol = this._protocol;
+        request_.method = "GET";
+        request_.pathname = `/`;
+        request_.headers = {
+          host: this.getHost(""),
+          date: this._getDate(),
+          'user-agent': this._getUserAgent(),
+        };
+        if (!this._empty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
+        request_.query = this._toQuery(request.filter);
+        request_.headers["authorization"] = await this.getSignature(request_, "");
+        _lastRequest = request_;
+        let response_ = await $tea.doAction(request_, _runtime);
+
+        let respMap = null;
+        let bodyStr = null;
+        if (this._isFail(response_)) {
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
+          throw $tea.newError({
+            code: respMap["Code"],
+            message: respMap["Message"],
+            data: {
+              httpCode: response_.statusCode,
+              requestId: respMap["RequestId"],
+              hostId: respMap["HostId"],
+            },
+          });
+        }
+
+        bodyStr = await this._readAsString(response_);
+        respMap = this._parseXml(bodyStr, GetServiceResponse);
+        return $tea.cast<GetServiceResponse>({
+          ListAllMyBucketsResult: respMap["ListAllMyBucketsResult"],
+          ...response_.headers,
+        }, new GetServiceResponse({}));
+      } catch (ex) {
+        if ($tea.isRetryable(ex)) {
+          continue;
+        }
+        throw ex;
+      }
+    }
+
+    throw $tea.newUnretryableError(_lastRequest);
+  }
+
+  async deleteBucketEncryption(request: DeleteBucketEncryptionRequest, runtime: RuntimeObject): Promise<DeleteBucketEncryptionResponse> {
+    let _runtime: { [key: string]: any } = {
+      timeouted: "retry",
+      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: this._default(runtime.localAddr, this._localAddr),
+      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
+      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
+      noProxy: this._default(runtime.noProxy, this._noProxy),
+      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      retry: {
+        retryable: runtime.autoretry,
+        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+      },
+      backoff: {
+        policy: this._default(runtime.backoffPolicy, "no"),
+        period: this._defaultNumber(runtime.backoffPeriod, 1),
+      },
+      ignoreSSL: runtime.ignoreSSL,
+      logger: this._logger,
+      listener: runtime.listener,
+    }
+
+    let _lastRequest = null;
+    let _now = Date.now();
+    let _retryTimes = 0;
+    while ($tea.allowRetry(_runtime['retry'], _retryTimes, _now)) {
+      if (_retryTimes > 0) {
+        let _backoffTime = $tea.getBackoffTime(_runtime['backoff'], _retryTimes);
+        if (_backoffTime > 0) {
+          await $tea.sleep(_backoffTime);
+        }
+      }
+
+      _retryTimes = _retryTimes + 1;
+      try {
+        let request_ = new $tea.Request();
+        let token = await this._getSecurityToken();
+        request_.protocol = this._protocol;
+        request_.method = "DELETE";
+        request_.pathname = `/?encryption`;
+        request_.headers = {
+          host: this.getHost(request.bucketName),
+          date: this._getDate(),
+          'user-agent': this._getUserAgent(),
+        };
+        if (!this._empty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+        _lastRequest = request_;
+        let response_ = await $tea.doAction(request_, _runtime);
+
+        let respMap = null;
+        let bodyStr = null;
+        if (this._isFail(response_)) {
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
+          throw $tea.newError({
+            code: respMap["Code"],
+            message: respMap["Message"],
+            data: {
+              httpCode: response_.statusCode,
+              requestId: respMap["RequestId"],
+              hostId: respMap["HostId"],
+            },
+          });
+        }
+
+        return $tea.cast<DeleteBucketEncryptionResponse>({
+          ...response_.headers,
+        }, new DeleteBucketEncryptionResponse({}));
+      } catch (ex) {
+        if ($tea.isRetryable(ex)) {
+          continue;
+        }
+        throw ex;
+      }
+    }
+
+    throw $tea.newUnretryableError(_lastRequest);
+  }
+
+  async deleteBucketTags(request: DeleteBucketTagsRequest, runtime: RuntimeObject): Promise<DeleteBucketTagsResponse> {
+    let _runtime: { [key: string]: any } = {
+      timeouted: "retry",
+      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: this._default(runtime.localAddr, this._localAddr),
+      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
+      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
+      noProxy: this._default(runtime.noProxy, this._noProxy),
+      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      retry: {
+        retryable: runtime.autoretry,
+        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+      },
+      backoff: {
+        policy: this._default(runtime.backoffPolicy, "no"),
+        period: this._defaultNumber(runtime.backoffPeriod, 1),
+      },
+      ignoreSSL: runtime.ignoreSSL,
+      logger: this._logger,
+      listener: runtime.listener,
+    }
+
+    let _lastRequest = null;
+    let _now = Date.now();
+    let _retryTimes = 0;
+    while ($tea.allowRetry(_runtime['retry'], _retryTimes, _now)) {
+      if (_retryTimes > 0) {
+        let _backoffTime = $tea.getBackoffTime(_runtime['backoff'], _retryTimes);
+        if (_backoffTime > 0) {
+          await $tea.sleep(_backoffTime);
+        }
+      }
+
+      _retryTimes = _retryTimes + 1;
+      try {
+        let request_ = new $tea.Request();
+        let token = await this._getSecurityToken();
+        request_.protocol = this._protocol;
+        request_.method = "DELETE";
+        request_.pathname = `/`;
+        request_.headers = {
+          host: this.getHost(request.bucketName),
+          date: this._getDate(),
+          'user-agent': this._getUserAgent(),
+        };
+        if (!this._empty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
+        request_.query = this._toQuery(request.filter);
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+        _lastRequest = request_;
+        let response_ = await $tea.doAction(request_, _runtime);
+
+        let respMap = null;
+        let bodyStr = null;
+        if (this._isFail(response_)) {
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
+          throw $tea.newError({
+            code: respMap["Code"],
+            message: respMap["Message"],
+            data: {
+              httpCode: response_.statusCode,
+              requestId: respMap["RequestId"],
+              hostId: respMap["HostId"],
+            },
+          });
+        }
+
+        return $tea.cast<DeleteBucketTagsResponse>({
+          ...response_.headers,
+        }, new DeleteBucketTagsResponse({}));
+      } catch (ex) {
+        if ($tea.isRetryable(ex)) {
+          continue;
+        }
+        throw ex;
+      }
+    }
+
+    throw $tea.newUnretryableError(_lastRequest);
+  }
+
+  async getBucketWebsite(request: GetBucketWebsiteRequest, runtime: RuntimeObject): Promise<GetBucketWebsiteResponse> {
+    let _runtime: { [key: string]: any } = {
+      timeouted: "retry",
+      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: this._default(runtime.localAddr, this._localAddr),
+      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
+      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
+      noProxy: this._default(runtime.noProxy, this._noProxy),
+      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      retry: {
+        retryable: runtime.autoretry,
+        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+      },
+      backoff: {
+        policy: this._default(runtime.backoffPolicy, "no"),
+        period: this._defaultNumber(runtime.backoffPeriod, 1),
+      },
+      ignoreSSL: runtime.ignoreSSL,
+      logger: this._logger,
+      listener: runtime.listener,
+    }
+
+    let _lastRequest = null;
+    let _now = Date.now();
+    let _retryTimes = 0;
+    while ($tea.allowRetry(_runtime['retry'], _retryTimes, _now)) {
+      if (_retryTimes > 0) {
+        let _backoffTime = $tea.getBackoffTime(_runtime['backoff'], _retryTimes);
+        if (_backoffTime > 0) {
+          await $tea.sleep(_backoffTime);
+        }
+      }
+
+      _retryTimes = _retryTimes + 1;
+      try {
+        let request_ = new $tea.Request();
+        let token = await this._getSecurityToken();
+        request_.protocol = this._protocol;
+        request_.method = "GET";
+        request_.pathname = `/?website`;
+        request_.headers = {
+          host: this.getHost(request.bucketName),
+          date: this._getDate(),
+          'user-agent': this._getUserAgent(),
+        };
+        if (!this._empty(token)) {
+          request_.headers["x-oss-security-token"] = token;
+        }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+        _lastRequest = request_;
+        let response_ = await $tea.doAction(request_, _runtime);
+
+        let respMap = null;
+        let bodyStr = null;
+        if (this._isFail(response_)) {
+          bodyStr = await this._readAsString(response_);
+          respMap = this._getErrMessage(bodyStr);
+          throw $tea.newError({
+            code: respMap["Code"],
+            message: respMap["Message"],
+            data: {
+              httpCode: response_.statusCode,
+              requestId: respMap["RequestId"],
+              hostId: respMap["HostId"],
+            },
+          });
+        }
+
+        bodyStr = await this._readAsString(response_);
+        respMap = this._parseXml(bodyStr, GetBucketWebsiteResponse);
+        return $tea.cast<GetBucketWebsiteResponse>({
+          WebsiteConfiguration: respMap["WebsiteConfiguration"],
+          ...response_.headers,
+        }, new GetBucketWebsiteResponse({}));
+      } catch (ex) {
+        if ($tea.isRetryable(ex)) {
+          continue;
+        }
+        throw ex;
+      }
+    }
+
+    throw $tea.newUnretryableError(_lastRequest);
+  }
+
   async deleteLiveChannel(request: DeleteLiveChannelRequest, runtime: RuntimeObject): Promise<DeleteLiveChannelResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
@@ -4045,8 +9193,6 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let accessKeyId = await this._getAccessKeyID();
-        let accessKeySecret = await this._getAccessKeySecret();
         let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "DELETE";
@@ -4059,15 +9205,7 @@ export default class Client extends BaseClient {
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        if (this._equal(this._signatureVersion, "V2")) {
-          if (this._ifListEmpty(this._addtionalHeaders)) {
-            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          } else {
-              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          }
-        } else {
-            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
-        }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
@@ -4140,8 +9278,6 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let accessKeyId = await this._getAccessKeyID();
-        let accessKeySecret = await this._getAccessKeySecret();
         let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
@@ -4154,15 +9290,7 @@ export default class Client extends BaseClient {
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        if (this._equal(this._signatureVersion, "V2")) {
-          if (this._ifListEmpty(this._addtionalHeaders)) {
-            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          } else {
-              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          }
-        } else {
-            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
-        }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
@@ -4238,8 +9366,6 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let accessKeyId = await this._getAccessKeyID();
-        let accessKeySecret = await this._getAccessKeySecret();
         let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
@@ -4253,15 +9379,7 @@ export default class Client extends BaseClient {
           request_.headers["x-oss-security-token"] = token;
         }
         request_.query = this._toQuery(request.filter);
-        if (this._equal(this._signatureVersion, "V2")) {
-          if (this._ifListEmpty(this._addtionalHeaders)) {
-            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          } else {
-              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          }
-        } else {
-            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
-        }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
@@ -4337,8 +9455,6 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let accessKeyId = await this._getAccessKeyID();
-        let accessKeySecret = await this._getAccessKeySecret();
         let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "HEAD";
@@ -4351,15 +9467,7 @@ export default class Client extends BaseClient {
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        if (this._equal(this._signatureVersion, "V2")) {
-          if (this._ifListEmpty(this._addtionalHeaders)) {
-            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          } else {
-              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          }
-        } else {
-            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
-        }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
@@ -4432,8 +9540,6 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let accessKeyId = await this._getAccessKeyID();
-        let accessKeySecret = await this._getAccessKeySecret();
         let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
@@ -4446,15 +9552,7 @@ export default class Client extends BaseClient {
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        if (this._equal(this._signatureVersion, "V2")) {
-          if (this._ifListEmpty(this._addtionalHeaders)) {
-            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          } else {
-              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          }
-        } else {
-            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
-        }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
@@ -4530,8 +9628,6 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let accessKeyId = await this._getAccessKeyID();
-        let accessKeySecret = await this._getAccessKeySecret();
         let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
@@ -4545,15 +9641,7 @@ export default class Client extends BaseClient {
           request_.headers["x-oss-security-token"] = token;
         }
         request_.query = this._toQuery(request.filter);
-        if (this._equal(this._signatureVersion, "V2")) {
-          if (this._ifListEmpty(this._addtionalHeaders)) {
-            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          } else {
-              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          }
-        } else {
-            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
-        }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
@@ -4629,8 +9717,6 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let accessKeyId = await this._getAccessKeyID();
-        let accessKeySecret = await this._getAccessKeySecret();
         let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
@@ -4644,15 +9730,7 @@ export default class Client extends BaseClient {
           request_.headers["x-oss-security-token"] = token;
         }
         request_.query = this._toQuery(request.filter);
-        if (this._equal(this._signatureVersion, "V2")) {
-          if (this._ifListEmpty(this._addtionalHeaders)) {
-            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          } else {
-              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          }
-        } else {
-            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
-        }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
@@ -4728,8 +9806,6 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let accessKeyId = await this._getAccessKeyID();
-        let accessKeySecret = await this._getAccessKeySecret();
         let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
@@ -4743,15 +9819,7 @@ export default class Client extends BaseClient {
           request_.headers["x-oss-security-token"] = token;
         }
         request_.query = this._toQuery(request.filter);
-        if (this._equal(this._signatureVersion, "V2")) {
-          if (this._ifListEmpty(this._addtionalHeaders)) {
-            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          } else {
-              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          }
-        } else {
-            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
-        }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
@@ -4827,8 +9895,6 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let accessKeyId = await this._getAccessKeyID();
-        let accessKeySecret = await this._getAccessKeySecret();
         let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
@@ -4841,15 +9907,7 @@ export default class Client extends BaseClient {
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        if (this._equal(this._signatureVersion, "V2")) {
-          if (this._ifListEmpty(this._addtionalHeaders)) {
-            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          } else {
-              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          }
-        } else {
-            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
-        }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
@@ -4925,8 +9983,6 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let accessKeyId = await this._getAccessKeyID();
-        let accessKeySecret = await this._getAccessKeySecret();
         let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
@@ -4940,15 +9996,7 @@ export default class Client extends BaseClient {
           request_.headers["x-oss-security-token"] = token;
         }
         request_.query = this._toQuery(request.filter);
-        if (this._equal(this._signatureVersion, "V2")) {
-          if (this._ifListEmpty(this._addtionalHeaders)) {
-            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          } else {
-              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          }
-        } else {
-            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
-        }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
@@ -5024,8 +10072,6 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let accessKeyId = await this._getAccessKeyID();
-        let accessKeySecret = await this._getAccessKeySecret();
         let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "DELETE";
@@ -5038,15 +10084,7 @@ export default class Client extends BaseClient {
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        if (this._equal(this._signatureVersion, "V2")) {
-          if (this._ifListEmpty(this._addtionalHeaders)) {
-            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          } else {
-              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          }
-        } else {
-            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
-        }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
@@ -5119,8 +10157,6 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let accessKeyId = await this._getAccessKeyID();
-        let accessKeySecret = await this._getAccessKeySecret();
         let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "DELETE";
@@ -5134,15 +10170,7 @@ export default class Client extends BaseClient {
           request_.headers["x-oss-security-token"] = token;
         }
         request_.query = this._toQuery(request.filter);
-        if (this._equal(this._signatureVersion, "V2")) {
-          if (this._ifListEmpty(this._addtionalHeaders)) {
-            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          } else {
-              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          }
-        } else {
-            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
-        }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
@@ -5215,8 +10243,6 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let accessKeyId = await this._getAccessKeyID();
-        let accessKeySecret = await this._getAccessKeySecret();
         let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "POST";
@@ -5233,16 +10259,12 @@ export default class Client extends BaseClient {
         }
         request_.query = this._toQuery(request.filter);
         request_.body = request.body;
-        request_.headers["content-type"] = this._default(this._getSpecialValue(request.header, "content-type"), this._getContentType(request.objectName));
-        if (this._equal(this._signatureVersion, "V2")) {
-          if (this._ifListEmpty(this._addtionalHeaders)) {
-            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          } else {
-              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          }
+        if (this._notNull(request.header) && !this._empty(request.header.contentType)) {
+          request_.headers["content-type"] = request.header.contentType;
         } else {
-            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
+          request_.headers["content-type"] = this._getContentType(request.objectName);
         }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
@@ -5315,8 +10337,6 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let accessKeyId = await this._getAccessKeyID();
-        let accessKeySecret = await this._getAccessKeySecret();
         let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "PUT";
@@ -5331,15 +10351,7 @@ export default class Client extends BaseClient {
           request_.headers["x-oss-security-token"] = token;
         }
         request_.query = this._toQuery(request.filter);
-        if (this._equal(this._signatureVersion, "V2")) {
-          if (this._ifListEmpty(this._addtionalHeaders)) {
-            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          } else {
-              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          }
-        } else {
-            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
-        }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
@@ -5415,8 +10427,6 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let accessKeyId = await this._getAccessKeyID();
-        let accessKeySecret = await this._getAccessKeySecret();
         let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
@@ -5430,15 +10440,7 @@ export default class Client extends BaseClient {
           request_.headers["x-oss-security-token"] = token;
         }
         request_.query = this._toQuery(request.filter);
-        if (this._equal(this._signatureVersion, "V2")) {
-          if (this._ifListEmpty(this._addtionalHeaders)) {
-            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          } else {
-              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          }
-        } else {
-            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
-        }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
@@ -5511,8 +10513,6 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let accessKeyId = await this._getAccessKeyID();
-        let accessKeySecret = await this._getAccessKeySecret();
         let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "DELETE";
@@ -5525,15 +10525,7 @@ export default class Client extends BaseClient {
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        if (this._equal(this._signatureVersion, "V2")) {
-          if (this._ifListEmpty(this._addtionalHeaders)) {
-            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          } else {
-              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          }
-        } else {
-            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
-        }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
@@ -5606,8 +10598,6 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let accessKeyId = await this._getAccessKeyID();
-        let accessKeySecret = await this._getAccessKeySecret();
         let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
@@ -5621,15 +10611,7 @@ export default class Client extends BaseClient {
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        if (this._equal(this._signatureVersion, "V2")) {
-          if (this._ifListEmpty(this._addtionalHeaders)) {
-            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          } else {
-              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          }
-        } else {
-            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
-        }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
@@ -5703,8 +10685,6 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let accessKeyId = await this._getAccessKeyID();
-        let accessKeySecret = await this._getAccessKeySecret();
         let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "PUT";
@@ -5719,15 +10699,7 @@ export default class Client extends BaseClient {
         }
         request_.query = this._toQuery(request.filter);
         request_.body = request.body;
-        if (this._equal(this._signatureVersion, "V2")) {
-          if (this._ifListEmpty(this._addtionalHeaders)) {
-            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          } else {
-              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          }
-        } else {
-            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
-        }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
@@ -5800,8 +10772,6 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let accessKeyId = await this._getAccessKeyID();
-        let accessKeySecret = await this._getAccessKeySecret();
         let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
@@ -5814,15 +10784,7 @@ export default class Client extends BaseClient {
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        if (this._equal(this._signatureVersion, "V2")) {
-          if (this._ifListEmpty(this._addtionalHeaders)) {
-            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          } else {
-              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          }
-        } else {
-            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
-        }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
@@ -5898,8 +10860,6 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let accessKeyId = await this._getAccessKeyID();
-        let accessKeySecret = await this._getAccessKeySecret();
         let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "PUT";
@@ -5914,15 +10874,7 @@ export default class Client extends BaseClient {
           request_.headers["x-oss-security-token"] = token;
         }
         request_.headers["x-oss-copy-source"] = this._encode(request_.headers["x-oss-copy-source"], "UrlEncode");
-        if (this._equal(this._signatureVersion, "V2")) {
-          if (this._ifListEmpty(this._addtionalHeaders)) {
-            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          } else {
-              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          }
-        } else {
-            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
-        }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
@@ -5998,8 +10950,6 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let accessKeyId = await this._getAccessKeyID();
-        let accessKeySecret = await this._getAccessKeySecret();
         let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
@@ -6012,15 +10962,7 @@ export default class Client extends BaseClient {
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        if (this._equal(this._signatureVersion, "V2")) {
-          if (this._ifListEmpty(this._addtionalHeaders)) {
-            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          } else {
-              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          }
-        } else {
-            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
-        }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
@@ -6096,8 +11038,6 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let accessKeyId = await this._getAccessKeyID();
-        let accessKeySecret = await this._getAccessKeySecret();
         let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "DELETE";
@@ -6110,15 +11050,7 @@ export default class Client extends BaseClient {
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        if (this._equal(this._signatureVersion, "V2")) {
-          if (this._ifListEmpty(this._addtionalHeaders)) {
-            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          } else {
-              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          }
-        } else {
-            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
-        }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
@@ -6191,8 +11123,6 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let accessKeyId = await this._getAccessKeyID();
-        let accessKeySecret = await this._getAccessKeySecret();
         let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "DELETE";
@@ -6205,15 +11135,7 @@ export default class Client extends BaseClient {
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        if (this._equal(this._signatureVersion, "V2")) {
-          if (this._ifListEmpty(this._addtionalHeaders)) {
-            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          } else {
-              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          }
-        } else {
-            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
-        }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
@@ -6286,8 +11208,6 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let accessKeyId = await this._getAccessKeyID();
-        let accessKeySecret = await this._getAccessKeySecret();
         let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "DELETE";
@@ -6300,15 +11220,7 @@ export default class Client extends BaseClient {
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        if (this._equal(this._signatureVersion, "V2")) {
-          if (this._ifListEmpty(this._addtionalHeaders)) {
-            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          } else {
-              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          }
-        } else {
-            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
-        }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
@@ -6381,8 +11293,6 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let accessKeyId = await this._getAccessKeyID();
-        let accessKeySecret = await this._getAccessKeySecret();
         let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
@@ -6395,15 +11305,7 @@ export default class Client extends BaseClient {
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        if (this._equal(this._signatureVersion, "V2")) {
-          if (this._ifListEmpty(this._addtionalHeaders)) {
-            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          } else {
-              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          }
-        } else {
-            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
-        }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
@@ -6476,8 +11378,6 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let accessKeyId = await this._getAccessKeyID();
-        let accessKeySecret = await this._getAccessKeySecret();
         let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
@@ -6490,15 +11390,7 @@ export default class Client extends BaseClient {
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        if (this._equal(this._signatureVersion, "V2")) {
-          if (this._ifListEmpty(this._addtionalHeaders)) {
-            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          } else {
-              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          }
-        } else {
-            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
-        }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
@@ -6574,8 +11466,6 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let accessKeyId = await this._getAccessKeyID();
-        let accessKeySecret = await this._getAccessKeySecret();
         let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "PUT";
@@ -6589,15 +11479,7 @@ export default class Client extends BaseClient {
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        if (this._equal(this._signatureVersion, "V2")) {
-          if (this._ifListEmpty(this._addtionalHeaders)) {
-            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          } else {
-              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          }
-        } else {
-            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
-        }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
@@ -6670,8 +11552,6 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let accessKeyId = await this._getAccessKeyID();
-        let accessKeySecret = await this._getAccessKeySecret();
         let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
@@ -6684,15 +11564,7 @@ export default class Client extends BaseClient {
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        if (this._equal(this._signatureVersion, "V2")) {
-          if (this._ifListEmpty(this._addtionalHeaders)) {
-            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          } else {
-              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          }
-        } else {
-            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
-        }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
@@ -6768,8 +11640,6 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let accessKeyId = await this._getAccessKeyID();
-        let accessKeySecret = await this._getAccessKeySecret();
         let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
@@ -6782,15 +11652,7 @@ export default class Client extends BaseClient {
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        if (this._equal(this._signatureVersion, "V2")) {
-          if (this._ifListEmpty(this._addtionalHeaders)) {
-            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          } else {
-              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          }
-        } else {
-            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
-        }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
@@ -6863,8 +11725,6 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let accessKeyId = await this._getAccessKeyID();
-        let accessKeySecret = await this._getAccessKeySecret();
         let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
@@ -6877,15 +11737,7 @@ export default class Client extends BaseClient {
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        if (this._equal(this._signatureVersion, "V2")) {
-          if (this._ifListEmpty(this._addtionalHeaders)) {
-            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          } else {
-              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          }
-        } else {
-            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
-        }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
@@ -6961,8 +11813,6 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let accessKeyId = await this._getAccessKeyID();
-        let accessKeySecret = await this._getAccessKeySecret();
         let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "PUT";
@@ -6976,15 +11826,7 @@ export default class Client extends BaseClient {
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        if (this._equal(this._signatureVersion, "V2")) {
-          if (this._ifListEmpty(this._addtionalHeaders)) {
-            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          } else {
-              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          }
-        } else {
-            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
-        }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
@@ -7057,8 +11899,6 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let accessKeyId = await this._getAccessKeyID();
-        let accessKeySecret = await this._getAccessKeySecret();
         let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
@@ -7071,15 +11911,7 @@ export default class Client extends BaseClient {
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        if (this._equal(this._signatureVersion, "V2")) {
-          if (this._ifListEmpty(this._addtionalHeaders)) {
-            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          } else {
-              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          }
-        } else {
-            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
-        }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
@@ -7155,8 +11987,6 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let accessKeyId = await this._getAccessKeyID();
-        let accessKeySecret = await this._getAccessKeySecret();
         let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "PUT";
@@ -7170,15 +12000,7 @@ export default class Client extends BaseClient {
           request_.headers["x-oss-security-token"] = token;
         }
         request_.query = this._toQuery(request.filter);
-        if (this._equal(this._signatureVersion, "V2")) {
-          if (this._ifListEmpty(this._addtionalHeaders)) {
-            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          } else {
-              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          }
-        } else {
-            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
-        }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
@@ -7251,8 +12073,6 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let accessKeyId = await this._getAccessKeyID();
-        let accessKeySecret = await this._getAccessKeySecret();
         let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "POST";
@@ -7267,16 +12087,12 @@ export default class Client extends BaseClient {
           request_.headers["x-oss-security-token"] = token;
         }
         request_.query = this._toQuery(request.filter);
-        request_.headers["content-type"] = this._default(this._getSpecialValue(request.header, "content-type"), this._getContentType(request.objectName));
-        if (this._equal(this._signatureVersion, "V2")) {
-          if (this._ifListEmpty(this._addtionalHeaders)) {
-            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          } else {
-              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          }
+        if (this._notNull(request.header) && !this._empty(request.header.contentType)) {
+          request_.headers["content-type"] = request.header.contentType;
         } else {
-            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
+          request_.headers["content-type"] = this._getContentType(request.objectName);
         }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
@@ -7352,8 +12168,6 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let accessKeyId = await this._getAccessKeyID();
-        let accessKeySecret = await this._getAccessKeySecret();
         let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "OPTIONS";
@@ -7367,15 +12181,7 @@ export default class Client extends BaseClient {
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        if (this._equal(this._signatureVersion, "V2")) {
-          if (this._ifListEmpty(this._addtionalHeaders)) {
-            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          } else {
-              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          }
-        } else {
-            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
-        }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
@@ -7448,8 +12254,6 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let accessKeyId = await this._getAccessKeyID();
-        let accessKeySecret = await this._getAccessKeySecret();
         let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "POST";
@@ -7463,15 +12267,7 @@ export default class Client extends BaseClient {
           request_.headers["x-oss-security-token"] = token;
         }
         request_.query = this._toQuery(request.filter);
-        if (this._equal(this._signatureVersion, "V2")) {
-          if (this._ifListEmpty(this._addtionalHeaders)) {
-            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          } else {
-              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          }
-        } else {
-            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
-        }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
@@ -7544,8 +12340,6 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let accessKeyId = await this._getAccessKeyID();
-        let accessKeySecret = await this._getAccessKeySecret();
         let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "POST";
@@ -7558,15 +12352,7 @@ export default class Client extends BaseClient {
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        if (this._equal(this._signatureVersion, "V2")) {
-          if (this._ifListEmpty(this._addtionalHeaders)) {
-            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          } else {
-              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          }
-        } else {
-            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
-        }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
@@ -7639,8 +12425,6 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let accessKeyId = await this._getAccessKeyID();
-        let accessKeySecret = await this._getAccessKeySecret();
         let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "HEAD";
@@ -7654,15 +12438,7 @@ export default class Client extends BaseClient {
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        if (this._equal(this._signatureVersion, "V2")) {
-          if (this._ifListEmpty(this._addtionalHeaders)) {
-            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          } else {
-              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          }
-        } else {
-            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
-        }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
@@ -7736,8 +12512,6 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let accessKeyId = await this._getAccessKeyID();
-        let accessKeySecret = await this._getAccessKeySecret();
         let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "DELETE";
@@ -7750,15 +12524,7 @@ export default class Client extends BaseClient {
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        if (this._equal(this._signatureVersion, "V2")) {
-          if (this._ifListEmpty(this._addtionalHeaders)) {
-            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          } else {
-              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          }
-        } else {
-            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
-        }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
@@ -7831,8 +12597,6 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let accessKeyId = await this._getAccessKeyID();
-        let accessKeySecret = await this._getAccessKeySecret();
         let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "POST";
@@ -7845,15 +12609,7 @@ export default class Client extends BaseClient {
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        if (this._equal(this._signatureVersion, "V2")) {
-          if (this._ifListEmpty(this._addtionalHeaders)) {
-            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          } else {
-              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          }
-        } else {
-            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
-        }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
@@ -7926,8 +12682,6 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let accessKeyId = await this._getAccessKeyID();
-        let accessKeySecret = await this._getAccessKeySecret();
         let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
@@ -7940,15 +12694,7 @@ export default class Client extends BaseClient {
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        if (this._equal(this._signatureVersion, "V2")) {
-          if (this._ifListEmpty(this._addtionalHeaders)) {
-            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          } else {
-              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          }
-        } else {
-            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
-        }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
@@ -8024,8 +12770,6 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let accessKeyId = await this._getAccessKeyID();
-        let accessKeySecret = await this._getAccessKeySecret();
         let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "PUT";
@@ -8039,15 +12783,7 @@ export default class Client extends BaseClient {
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        if (this._equal(this._signatureVersion, "V2")) {
-          if (this._ifListEmpty(this._addtionalHeaders)) {
-            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          } else {
-              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          }
-        } else {
-            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
-        }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
@@ -8120,8 +12856,6 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let accessKeyId = await this._getAccessKeyID();
-        let accessKeySecret = await this._getAccessKeySecret();
         let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "DELETE";
@@ -8134,15 +12868,7 @@ export default class Client extends BaseClient {
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        if (this._equal(this._signatureVersion, "V2")) {
-          if (this._ifListEmpty(this._addtionalHeaders)) {
-            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          } else {
-              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          }
-        } else {
-            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
-        }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
@@ -8215,8 +12941,6 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let accessKeyId = await this._getAccessKeyID();
-        let accessKeySecret = await this._getAccessKeySecret();
         let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "PUT";
@@ -8232,16 +12956,12 @@ export default class Client extends BaseClient {
           request_.headers["x-oss-security-token"] = token;
         }
         request_.body = request.body;
-        request_.headers["content-type"] = this._default(this._getSpecialValue(request.header, "content-type"), this._getContentType(request.objectName));
-        if (this._equal(this._signatureVersion, "V2")) {
-          if (this._ifListEmpty(this._addtionalHeaders)) {
-            request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          } else {
-              request_.headers["authorization"] = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request_, request.bucketName, accessKeySecret, this._addtionalHeaders)}`;
-          }
+        if (this._notNull(request.header) && !this._empty(request.header.contentType)) {
+          request_.headers["content-type"] = request.header.contentType;
         } else {
-            request_.headers["authorization"] = `OSS ${accessKeyId}:${this._getSignatureV1(request_, request.bucketName, accessKeySecret)}`;
+          request_.headers["content-type"] = this._getContentType(request.objectName);
         }
+        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
@@ -8294,6 +13014,22 @@ export default class Client extends BaseClient {
     }
 
     return host;
+  }
+
+  async getSignature(request: $tea.Request, bucketName: string): Promise<string> {
+    let accessKeyId = await this._getAccessKeyID();
+    let accessKeySecret = await this._getAccessKeySecret();
+    if (this._equal(this._signatureVersion, "V2")) {
+      if (this._ifListEmpty(this._addtionalHeaders)) {
+        return `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request, bucketName, accessKeySecret, this._addtionalHeaders)}`;
+      } else {
+        return `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request, bucketName, accessKeySecret, this._addtionalHeaders)}`;
+      }
+
+    } else {
+      return `OSS ${accessKeyId}:${this._getSignatureV1(request, bucketName, accessKeySecret)}`;
+    }
+
   }
 
 }
