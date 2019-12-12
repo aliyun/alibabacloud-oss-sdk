@@ -2,6 +2,7 @@ jobs:
   include:
     - language: node_js
       node_js: 12
+      if: branch = master
       script:
         - cd baseclient/ts
         - npm install
@@ -10,6 +11,7 @@ jobs:
         - bash <(curl -s https://codecov.io/bash)
     - language: go
       go: 1.12.x
+      if: branch = master
       script:
         - cd baseclient/go
         - export GO111MODULE=on
@@ -17,16 +19,15 @@ jobs:
         - go test -race -coverprofile=coverage.txt -covermode=atomic ./service/... ./utils...       
     - language: java
       jdk: openjdk8
+      if: branch = master
       script:
         - cd baseclient/java
         - mvn test -B
     - language: csharp
       mono: none
       dotnet: 2.2
+      if: branch = master
       dist: xenial
-      branches:
-        only:
-          - master
       install:
         - cd baseclient/csharp/unitTest
         - dotnet tool install --global altcover.visualizer
