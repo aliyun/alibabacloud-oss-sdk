@@ -420,17 +420,6 @@ describe('base client', function () {
     assert.strictEqual(client._defaultNumber(2019, 2020), 2019);
     assert.strictEqual(client._defaultNumber(undefined, 2020), 2020);
   });
-  it('_toBody should ok', async function () {
-    const client = new BaseClient({
-      accessKeySecret:'accessKeySecret',
-      accessKeyId: 'accessKeyId',
-    });
-    const data = {
-      Owner: { ID: '1325847523475998', DisplayName: '1325847523475998' },
-      AccessControlList: { Grant: 'public-read' }
-    };
-    assert.strictEqual(client._toBody(data), testXml);
-  });
 
   it('_isFail should ok', async function () {
     const client = new BaseClient({
