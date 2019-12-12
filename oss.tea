@@ -112,6 +112,20 @@ module Client {
     return host;
   }
 
+  async function getSignature(request: $Request, bucketName: string): string {
+    var accessKeyId = @getAccessKeyID();
+    var accessKeySecret = @getAccessKeySecret();
+    if (@equal(@signatureVersion, 'V2')) {
+      if (@ifListEmpty(@addtionalHeaders)) {
+        return `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(request, bucketName, accessKeySecret, @addtionalHeaders)}`;
+      } else {
+        return `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(request, bucketName, accessKeySecret, @addtionalHeaders)}`;
+      }
+    } else {
+      return `OSS ${accessKeyId}:${@getSignatureV1(request, bucketName, accessKeySecret)}`;
+    }
+  }
+
   model PutBucketLifecycleRequest = {
     bucketName: string(description='BucketName', name='BucketName'),
     body?: {
@@ -164,15 +178,7 @@ module Client {
       headers.x-oss-security-token = token;
     }
     body = reqBody;
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -266,15 +272,7 @@ module Client {
     }
     body = reqBody;
     headers.content-md5 = @getContentMD5(reqBody,  @getSpecialValue(request.header, 'Content-MD5'));
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -353,15 +351,7 @@ module Client {
       headers.x-oss-security-token = token;
     }
     body = reqBody;
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -476,15 +466,7 @@ module Client {
       headers.x-oss-security-token = token;
     }
     body = reqBody;
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -575,15 +557,7 @@ module Client {
     }
     query = @toQuery(request.filter);
     body = reqBody;
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -662,15 +636,7 @@ module Client {
       headers.x-oss-security-token = token;
     }
     body = reqBody;
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -743,15 +709,7 @@ module Client {
       headers.x-oss-security-token = token;
     }
     body = reqBody;
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -827,15 +785,7 @@ module Client {
       headers.x-oss-security-token = token;
     }
     body = reqBody;
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -930,15 +880,7 @@ module Client {
       headers.x-oss-security-token = token;
     }
     body = reqBody;
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -1021,15 +963,7 @@ module Client {
       headers.x-oss-security-token = token;
     }
     body = reqBody;
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -1110,15 +1044,7 @@ module Client {
       headers.x-oss-security-token = token;
     }
     body = reqBody;
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -1221,15 +1147,7 @@ module Client {
     }
     query = @toQuery(request.filter);
     body = reqBody;
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -1310,15 +1228,7 @@ module Client {
       headers.x-oss-security-token = token;
     }
     body = reqBody;
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -1396,15 +1306,7 @@ module Client {
       headers.x-oss-security-token = token;
     }
     body = reqBody;
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -1497,15 +1399,7 @@ module Client {
       headers.x-oss-security-token = token;
     }
     query = @toQuery(request.filter);
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -1577,15 +1471,7 @@ module Client {
     if (!@empty(token)) {
       headers.x-oss-security-token = token;
     }
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -1660,15 +1546,7 @@ module Client {
     if (!@empty(token)) {
       headers.x-oss-security-token = token;
     }
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -1747,15 +1625,7 @@ module Client {
     if (!@empty(token)) {
       headers.x-oss-security-token = token;
     }
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -1852,15 +1722,7 @@ module Client {
       headers.x-oss-security-token = token;
     }
     query = @toQuery(request.filter);
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, "", accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, "", accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, "", accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, '');
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -1929,15 +1791,7 @@ module Client {
     if (!@empty(token)) {
       headers.x-oss-security-token = token;
     }
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -2007,15 +1861,7 @@ module Client {
       headers.x-oss-security-token = token;
     }
     query = @toQuery(request.filter);
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -2126,15 +1972,7 @@ module Client {
     if (!@empty(token)) {
       headers.x-oss-security-token = token;
     }
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -2204,15 +2042,7 @@ module Client {
     if (!@empty(token)) {
       headers.x-oss-security-token = token;
     }
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -2279,15 +2109,7 @@ module Client {
     if (!@empty(token)) {
       headers.x-oss-security-token = token;
     }
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -2381,15 +2203,7 @@ module Client {
       headers.x-oss-security-token = token;
     }
     query = @toQuery(request.filter);
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -2462,15 +2276,7 @@ module Client {
     if (!@empty(token)) {
       headers.x-oss-security-token = token;
     }
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -2545,15 +2351,7 @@ module Client {
     if (!@empty(token)) {
       headers.x-oss-security-token = token;
     }
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -2648,15 +2446,7 @@ module Client {
       headers.x-oss-security-token = token;
     }
     query = @toQuery(request.filter);
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -2739,15 +2529,7 @@ module Client {
       headers.x-oss-security-token = token;
     }
     query = @toQuery(request.filter);
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -2847,15 +2629,7 @@ module Client {
       headers.x-oss-security-token = token;
     }
     query = @toQuery(request.filter);
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -2935,15 +2709,7 @@ module Client {
     if (!@empty(token)) {
       headers.x-oss-security-token = token;
     }
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -3034,15 +2800,7 @@ module Client {
       headers.x-oss-security-token = token;
     }
     query = @toQuery(request.filter);
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -3112,15 +2870,7 @@ module Client {
     if (!@empty(token)) {
       headers.x-oss-security-token = token;
     }
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -3191,15 +2941,7 @@ module Client {
       headers.x-oss-security-token = token;
     }
     query = @toQuery(request.filter);
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -3289,15 +3031,7 @@ module Client {
     query = @toQuery(request.filter);
     body = request.body;
     headers.content-type = @default(@getSpecialValue(request.header, 'content-type'), @getContentType(request.objectName));
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -3382,15 +3116,7 @@ module Client {
       headers.x-oss-security-token = token;
     }
     query = @toQuery(request.filter);
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -3465,15 +3191,7 @@ module Client {
       headers.x-oss-security-token = token;
     }
     query = @toQuery(request.filter);
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -3539,15 +3257,7 @@ module Client {
     if (!@empty(token)) {
       headers.x-oss-security-token = token;
     }
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -3634,15 +3344,7 @@ module Client {
     if (!@empty(token)) {
       headers.x-oss-security-token = token;
     }
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -3717,15 +3419,7 @@ module Client {
     }
     query = @toQuery(request.filter);
     body = request.body;
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -3798,15 +3492,7 @@ module Client {
     if (!@empty(token)) {
       headers.x-oss-security-token = token;
     }
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -3897,15 +3583,7 @@ module Client {
     }
     
       headers.x-oss-copy-source = @encode(__request.headers.x-oss-copy-source, 'UrlEncode');
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -3985,15 +3663,7 @@ module Client {
     if (!@empty(token)) {
       headers.x-oss-security-token = token;
     }
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -4062,15 +3732,7 @@ module Client {
     if (!@empty(token)) {
       headers.x-oss-security-token = token;
     }
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -4136,15 +3798,7 @@ module Client {
     if (!@empty(token)) {
       headers.x-oss-security-token = token;
     }
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -4210,15 +3864,7 @@ module Client {
     if (!@empty(token)) {
       headers.x-oss-security-token = token;
     }
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -4286,15 +3932,7 @@ module Client {
     if (!@empty(token)) {
       headers.x-oss-security-token = token;
     }
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -4385,15 +4023,7 @@ module Client {
     if (!@empty(token)) {
       headers.x-oss-security-token = token;
     }
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -4468,15 +4098,7 @@ module Client {
     if (!@empty(token)) {
       headers.x-oss-security-token = token;
     }
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -4548,15 +4170,7 @@ module Client {
     if (!@empty(token)) {
       headers.x-oss-security-token = token;
     }
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -4625,15 +4239,7 @@ module Client {
     if (!@empty(token)) {
       headers.x-oss-security-token = token;
     }
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -4705,15 +4311,7 @@ module Client {
     if (!@empty(token)) {
       headers.x-oss-security-token = token;
     }
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -4787,15 +4385,7 @@ module Client {
     if (!@empty(token)) {
       headers.x-oss-security-token = token;
     }
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -4880,15 +4470,7 @@ module Client {
     if (!@empty(token)) {
       headers.x-oss-security-token = token;
     }
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -4962,15 +4544,7 @@ module Client {
       headers.x-oss-security-token = token;
     }
     query = @toQuery(request.filter);
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -5059,15 +4633,7 @@ module Client {
     }
     query = @toQuery(request.filter);
     headers.content-type = @default(@getSpecialValue(request.header, 'content-type'), @getContentType(request.objectName));
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -5148,15 +4714,7 @@ module Client {
     if (!@empty(token)) {
       headers.x-oss-security-token = token;
     }
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -5229,15 +4787,7 @@ module Client {
       headers.x-oss-security-token = token;
     }
     query = @toQuery(request.filter);
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -5304,15 +4854,7 @@ module Client {
     if (!@empty(token)) {
       headers.x-oss-security-token = token;
     }
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -5405,15 +4947,7 @@ module Client {
     if (!@empty(token)) {
       headers.x-oss-security-token = token;
     }
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -5481,15 +5015,7 @@ module Client {
     if (!@empty(token)) {
       headers.x-oss-security-token = token;
     }
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -5556,15 +5082,7 @@ module Client {
     if (!@empty(token)) {
       headers.x-oss-security-token = token;
     }
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -5640,15 +5158,7 @@ module Client {
     if (!@empty(token)) {
       headers.x-oss-security-token = token;
     }
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -5721,15 +5231,7 @@ module Client {
     if (!@empty(token)) {
       headers.x-oss-security-token = token;
     }
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -5795,15 +5297,7 @@ module Client {
     if (!@empty(token)) {
       headers.x-oss-security-token = token;
     }
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
@@ -5895,15 +5389,7 @@ module Client {
     }
     body = request.body;
     headers.content-type = @default(@getSpecialValue(request.header, 'content-type'), @getContentType(request.objectName));
-    if (@equal(@signatureVersion, 'V2')) {
-      if (@ifListEmpty(@addtionalHeaders)) {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      } else {
-        headers.authorization = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${@listToString(@addtionalHeaders, ";")},Signature:${@getSignatureV2(__request, request.bucketName, accessKeySecret, @addtionalHeaders)}`;
-      }
-    } else {
-      headers.authorization = `OSS ${accessKeyId}:${@getSignatureV1(__request, request.bucketName, accessKeySecret)}`;
-    }
+        headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
     var bodyStr : string = null;
