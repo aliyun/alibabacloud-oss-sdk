@@ -428,12 +428,14 @@ describe('base client', function () {
         AccessControlList: { Grant: 'public-read' },
       },
     };
-    assert.deepStrictEqual(await client._parseXml(testXml, GetBucketAclResponse), data);
+    assert.deepStrictEqual(client._parseXml(testXml, GetBucketAclResponse), data);
     try {
-      await client._parseXml('ddsfadf', GetBucketAclResponse)
+      client._parseXml('ddsfadf', GetBucketAclResponse)
     } catch (err) {
       assert.ok(err);
+      return;
     }
+    assert.ok(false);
     
   });
 
@@ -652,7 +654,9 @@ describe('base client', function () {
       client._getCrc(undefined,undefined,undefined,undefined)
     }catch(err){
       assert.ok(err);
+      return;
     }
+    assert.ok(false);
   });
 
   it('_getRespCrc should ok', async function () {
@@ -664,7 +668,9 @@ describe('base client', function () {
       client._getRespCrc(undefined,undefined,undefined,undefined)
     }catch(err){
       assert.ok(err);
+      return;
     }
+    assert.ok(false);
   });
 
   it('_getUserAgent should ok', async function () {
@@ -796,7 +802,9 @@ describe('base client', function () {
       client._getTracker();
     } catch(err) {
       assert.ok(err);
+      return;
     }
+    assert.ok(false);
   });
 
   it('_readAsString should ok', async function () {
