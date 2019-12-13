@@ -164,6 +164,24 @@ describe('base client', function () {
       accessKeyId: 'accessKeyId',
     });
     assert.strictEqual(client._getDate(), (new Date()).toUTCString());
+  }); 
+
+  it('_ifListEmpty should ok', async function () {
+    const client = new BaseClient({
+      accessKeySecret: 'accessKeySecret',
+      accessKeyId: 'accessKeyId',
+    });
+    assert.strictEqual(client._ifListEmpty(['test1', 'test2']), false);
+    assert.strictEqual(client._ifListEmpty([]), true);
+    assert.strictEqual(client._ifListEmpty(undefined), true);
+  });
+
+  it('_listToString should ok', async function () {
+    const client = new BaseClient({
+      accessKeySecret: 'accessKeySecret',
+      accessKeyId: 'accessKeyId',
+    });
+    assert.strictEqual(client._listToString(['test1','test2'],'/'), 'test1/test2');
   });
 
   it('_getSignatureV1 should ok', async function () {
@@ -174,9 +192,13 @@ describe('base client', function () {
     let req = new $tea.Request();
     req.method = 'GET';
     req.headers['date'] = 'Wed, 11 Dec 2019 10:33:08 GMT';
+    req.headers['x-oss-test'] = 'test';
     req.pathname = '/';
+    req.query = {
+      location: 'hangzhou',
+    };
     let sign = client._getSignatureV1(req, 'sdk-oss-test', 'accessKeySecret');
-    assert.strictEqual(sign, 'vLE8QOVCxn1H7/+/ob/zdnuGAAI=');
+    assert.strictEqual(sign, '6CXQEydyX4SlqhgI3WK8NZwuSNs=');
   });
 
   it('_getSignatureV2 should ok', async function () {
@@ -187,9 +209,15 @@ describe('base client', function () {
     let req = new $tea.Request();
     req.method = 'GET';
     req.headers['date'] = 'Wed, 11 Dec 2019 10:33:08 GMT';
-    req.pathname = '/';
-    let sign = client._getSignatureV2(req, 'sdk-oss-test', 'accessKeySecret', []);
-    assert.strictEqual(sign, '+3zZ5X8TzrIbttsnkE3YhEwtKNETaK69VZzIgvZyTdo=');
+    req.headers['x-oss-test'] = 'test';
+    req.headers['test'] = 'test';
+    req.query = {
+      key1: 'string',
+      key2: undefined,
+    };
+    req.pathname = '/?putObject';
+    let sign = client._getSignatureV2(req, 'sdk-oss-test', 'accessKeySecret', ['test']);
+    assert.strictEqual(sign, '3TKXBGVJwa6szBjUDsy453upQ40BN5198kLeZ9ZgET0=');
   });
 
   it('_xmlCast should ok', async function () {
@@ -401,6 +429,12 @@ describe('base client', function () {
       },
     };
     assert.deepStrictEqual(await client._parseXml(testXml, GetBucketAclResponse), data);
+    try {
+      await client._parseXml('ddsfadf', GetBucketAclResponse)
+    } catch (err) {
+      assert.ok(err);
+    }
+    
   });
 
   it('_default should ok', async function () {
@@ -767,12 +801,38 @@ describe('base client', function () {
 
   it('_readAsString should ok', async function () {
     const client = new BaseClient({
-      accessKeySecret:'accessKeySecret',
+      accessKeySecret: 'accessKeySecret',
       accessKeyId: 'accessKeyId',
     });
     const res = await request('http://127.0.0.1:8848', { method: 'POST' });
     const teaRes = new $tea.Response(res);
     assert.deepStrictEqual(await client._readAsString(teaRes), errorXml);
+  });
+
+  it('_getSecurityToken should ok', async function () {
+    const client = new BaseClient({
+      accessKeySecret:'accessKeySecret',
+      accessKeyId: 'accessKeyId',
+      securityToken: 'securityToken',
+      type: 'sts',
+    });
+    assert.strictEqual(await client._getSecurityToken(), 'securityToken');
+  });
+
+  it('_getErrMessage should ok', async function () {
+    const client = new BaseClient({
+      accessKeySecret: 'accessKeySecret',
+      accessKeyId: 'accessKeyId',
+    });
+    const res = await request('http://127.0.0.1:8848', { method: 'POST' });
+    const teaRes = new $tea.Response(res);
+    const xml = await client._readAsString(teaRes);
+    assert.deepStrictEqual(await client._getErrMessage(xml), {
+      Code: 'AccessForbidden',
+      Message: 'CORSResponse: CORS is not enabled for this bucket.',
+      RequestId: '5DECB1F6F3150D373335D8D2',
+      HostId: 'sdk-oss-test.oss-cn-hangzhou.aliyuncs.com',
+    });
   });
 
   after(() => {
