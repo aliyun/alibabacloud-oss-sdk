@@ -12,7 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@alicloud/oss-baseclient": "^1.0.0",
+    "@alicloud/oss-baseclient": "^1.1.0",
     "@alicloud/tea-typescript": "^1.2.0"
   },
   "devDependencies": {
