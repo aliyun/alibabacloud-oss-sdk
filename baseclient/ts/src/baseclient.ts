@@ -287,25 +287,7 @@ export default class BaseClient {
   }
 
   _getContentMD5(body: string): string {
-    return kitx.md5(body);
-  }
-
-  _getContentLength(request: $tea.Request, length: string): string {
-    if (length) {
-      return length;
-    }
-    return '0';
-  }
-
-  _getSpecialValue(obj: any, key: string): string {
-    if (!obj) {
-      return '';
-    }
-    let ret = obj[key];
-    if (!ret) {
-      return '';
-    }
-    return ret.toString();
+    return kitx.md5(body, 'hex');
   }
 
   _getContentType(name: string): string {
@@ -345,23 +327,6 @@ export default class BaseClient {
     const result = Buffer.from(strs[strs.length - 1], 'base64').toString('utf8');
     strs[strs.length - 1] = result
     return strs.join('/');
-  }
-
-  _urlDecode(value: string): string {
-    if (!value) {
-      return '';
-    }
-    const strs = value.split('/');
-    const result = decodeURIComponent(strs[strs.length - 1]);
-    strs[strs.length - 1] = result
-    return strs.join('/');
-  }
-
-  _parseUint(respCrc: string, hasRange: boolean): number {
-    if (hasRange) {
-      return 0;
-    }
-    return parseInt(respCrc);
   }
 
   _getCrc(a: $tea.Request, b: string, c: any, d: any): Buffer {
