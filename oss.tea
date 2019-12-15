@@ -1,36 +1,9 @@
 module Client {
 
-  type @getDate = (): string
-  type @getSignatureV1 = ($Request, string, string): string
-  type @getSignatureV2 = ($Request, string, string, [ string ]): string  
-  type @readAsString = async ($Response): string
-  type @parseXml = (string, class): object
-  type @getErrMessage = (string): object
-  type @default = (string, string): string
-  type @defaultNumber = (number, number): number
-  type @toBody = (any): string
-  type @isFail = ($Response): boolean
-  type @toQuery = (object): map[string]string
-  type @toMeta = (object, string): map[string]string
-  type @parseMeta = (object, string): map[string]string
-  type @getContentMD5 = (string, string): string
-  type @toXML = (any): string
   type @endpoint = string
   type @regionId = string
   type @hostModel = string
   type @protocol = string
-  type @getSpecialValue = (any, string): string
-  type @getContentType = (string): string
-  type @encode = (string, string): string
-  type @readAsStream = ($Response): readable
-  type @toHeader = (object): map[string]string
-  type @equal = (string, string): boolean
-  type @getSecurityToken = async (): string
-  type @empty = (string): boolean
-  type @getAccessKeyID = async (): string
-  type @getAccessKeySecret = async (): string
-  type @listToString = ([ string ], string): string
-  type @ifListEmpty = ([ string ]): boolean
   type @readTimeout = number
   type @connectTimeout = number
   type @signatureVersion = string
@@ -42,8 +15,36 @@ module Client {
   type @socks5Proxy = string
   type @socks5NetWork = string
   type @maxIdleConns = number
-  type @getUserAgent = (): string
   type @logger = any
+
+  type @getDate = (): string
+  type @getSignatureV1 = ($Request, string, string): string
+  type @getSignatureV2 = ($Request, string, string, [ string ]): string
+  type @readAsString = async ($Response): string
+  type @parseXml = (string, class): object
+  type @getErrMessage = (string): object
+  type @default = (string, string): string
+  type @defaultNumber = (number, number): number
+  type @toBody = (any): string
+  type @isFail = ($Response): boolean
+  type @toQuery = (object): map[string]string
+  type @toMeta = (object, string): map[string]string
+  type @parseMeta = (object, string): map[string]string
+  type @toXML = (any): string
+  type @getContentType = (string): string
+  type @notNull = (any): boolean
+  type @getContentMD5 = (string): string
+  type @encode = (string, string): string
+  type @readAsStream = ($Response): readable
+  type @toHeader = (object): map[string]string
+  type @equal = (string, string): boolean
+  type @getSecurityToken = async (): string
+  type @empty = (string): boolean
+  type @getAccessKeyID = async (): string
+  type @getAccessKeySecret = async (): string
+  type @listToString = ([ string ], string): string
+  type @ifListEmpty = ([ string ]): boolean
+  type @getUserAgent = (): string
 
   prop version = '2019-05-17';
 
@@ -267,7 +268,11 @@ module Client {
       headers.x-oss-security-token = token;
     }
     body = reqBody;
-    headers.content-md5 = @getContentMD5(reqBody,  @getSpecialValue(request.header, 'Content-MD5'));
+    if (@notNull(request.header) && !@empty(request.header.contentMD5)) {
+      headers.content-md5 = request.header.contentMD5;
+    } else {
+      headers.content-md5 = @getContentMD5(reqBody);
+    }
     headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
@@ -2960,7 +2965,11 @@ module Client {
     }
     query = @toQuery(request.filter);
     body = request.body;
-    headers.content-type = @default(@getSpecialValue(request.header, 'content-type'), @getContentType(request.objectName));
+    if (@notNull(request.header) && !@empty(request.header.contentType)) {
+      headers.content-type = request.header.contentType;
+    } else {
+      headers.content-type = @getContentType(request.objectName);
+    }
     headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
@@ -4520,7 +4529,11 @@ module Client {
       headers.x-oss-security-token = token;
     }
     query = @toQuery(request.filter);
-    headers.content-type = @default(@getSpecialValue(request.header, 'content-type'), @getContentType(request.objectName));
+    if (@notNull(request.header) && !@empty(request.header.contentType)) {
+      headers.content-type = request.header.contentType;
+    } else {
+      headers.content-type = @getContentType(request.objectName);
+    }
     headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
@@ -5256,7 +5269,11 @@ module Client {
       headers.x-oss-security-token = token;
     }
     body = request.body;
-    headers.content-type = @default(@getSpecialValue(request.header, 'content-type'), @getContentType(request.objectName));
+    if (@notNull(request.header) && !@empty(request.header.contentType)) {
+      headers.content-type = request.header.contentType;
+    } else {
+      headers.content-type = @getContentType(request.objectName);
+    }
     headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
