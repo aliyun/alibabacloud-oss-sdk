@@ -726,16 +726,6 @@ describe('base client', function () {
     assert.deepStrictEqual(client._empty(undefined), true);
   });
 
-  it('_notEmpty should ok', async function () {
-    const client = new BaseClient({
-      accessKeySecret:'accessKeySecret',
-      accessKeyId: 'accessKeyId',
-    });
-    assert.deepStrictEqual(client._notEmpty(''), false);
-    assert.deepStrictEqual(client._notEmpty('hehe'), true);
-    assert.deepStrictEqual(client._notEmpty(undefined), false);
-  });
-
   it('_equal should ok', async function () {
     const client = new BaseClient({
       accessKeySecret:'accessKeySecret',

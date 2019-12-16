@@ -192,10 +192,6 @@ export default class BaseClient {
     return !input;
   }
 
-  _notEmpty(input: string): boolean {
-    return !!input;
-  }
-
   _ifListEmpty(list: string[]): boolean {
     return !list || list.length === 0
   }
