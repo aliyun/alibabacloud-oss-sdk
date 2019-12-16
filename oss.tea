@@ -45,6 +45,7 @@ module Client {
   type @listToString = ([ string ], string): string
   type @ifListEmpty = ([ string ]): boolean
   type @getUserAgent = (): string
+  type @inject = (readable, map[string]string): readable
 
   prop version = '2019-05-17';
 
@@ -96,6 +97,9 @@ module Client {
   init(config: Config);
 
   function getHost(bucketName: string): string {
+    if (@empty(@regionId)) {
+      @regionId = `cn-hangzhou`;
+    }
     if (@empty(@endpoint)) {
       @endpoint = `oss-${@regionId}.aliyuncs.com`;
     }
@@ -2949,6 +2953,7 @@ module Client {
   }
 
   api appendObject(request: AppendObjectRequest, runtime: RuntimeObject): AppendObjectResponse {
+    var ref : map[string]string = null;
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'POST';
@@ -2964,7 +2969,7 @@ module Client {
       headers.x-oss-security-token = token;
     }
     query = @toQuery(request.filter);
-    body = request.body;
+    body = @inject(request.body, ref);
     if (@notNull(request.header) && !@empty(request.header.contentType)) {
       headers.content-type = request.header.contentType;
     } else {
@@ -2987,6 +2992,26 @@ module Client {
         }
       };
     }
+    if (!@equal(ref.crc, __response.headers.x-oss-hash-crc64ecma)) {
+      throw {
+        code = 'CrcNotMatched',
+        data = {
+          clientCrc = ref.crc,
+          serverCrc = __response.headers.x-oss-hash-crc64ecma,
+        },
+      };
+    }
+
+    if (!@equal(ref.md5, __response.headers.content-md5)) {
+      throw {
+        code = 'MD5NotMatched',
+        data = {
+          clientMD5 = ref.md5,
+          serverMD5 = __response.headers.content-md5,
+        },
+      };
+    }
+
     return {
       ...__response.headers,
     };
@@ -3334,6 +3359,7 @@ module Client {
   }
 
   api uploadPart(request: UploadPartRequest, runtime: RuntimeObject): UploadPartResponse {
+    var ref : map[string]string = null;
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'PUT';
@@ -3347,7 +3373,7 @@ module Client {
       headers.x-oss-security-token = token;
     }
     query = @toQuery(request.filter);
-    body = request.body;
+    body = @inject(request.body, ref);
     headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
@@ -3365,6 +3391,26 @@ module Client {
         }
       };
     }
+    if (!@equal(ref.crc, __response.headers.x-oss-hash-crc64ecma)) {
+      throw {
+        code = 'CrcNotMatched',
+        data = {
+          clientCrc = ref.crc,
+          serverCrc = __response.headers.x-oss-hash-crc64ecma,
+        },
+      };
+    }
+
+    if (!@equal(ref.md5, __response.headers.content-md5)) {
+      throw {
+        code = 'MD5NotMatched',
+        data = {
+          clientMD5 = ref.md5,
+          serverMD5 = __response.headers.content-md5,
+        },
+      };
+    }
+
     return {
       ...__response.headers,
     };
@@ -5254,6 +5300,7 @@ module Client {
   }
 
   api putObject(request: PutObjectRequest, runtime: RuntimeObject): PutObjectResponse {
+    var ref : map[string]string = null;
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'PUT';
@@ -5268,7 +5315,7 @@ module Client {
     if (!@empty(token)) {
       headers.x-oss-security-token = token;
     }
-    body = request.body;
+    body = @inject(request.body, ref);
     if (@notNull(request.header) && !@empty(request.header.contentType)) {
       headers.content-type = request.header.contentType;
     } else {
@@ -5291,6 +5338,26 @@ module Client {
         }
       };
     }
+    if (!@equal(ref.crc, __response.headers.x-oss-hash-crc64ecma)) {
+      throw {
+        code = 'CrcNotMatched',
+        data = {
+          clientCrc = ref.crc,
+          serverCrc = __response.headers.x-oss-hash-crc64ecma,
+        },
+      };
+    }
+
+    if (!@equal(ref.md5, __response.headers.content-md5)) {
+      throw {
+        code = 'MD5NotMatched',
+        data = {
+          clientMD5 = ref.md5,
+          serverMD5 = __response.headers.content-md5,
+        },
+      };
+    }
+
     return {
       ...__response.headers,
     };

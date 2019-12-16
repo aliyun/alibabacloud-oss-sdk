@@ -5,7 +5,6 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/alibabacloud-go/tea/tea"
 	"github.com/aliyun/alibabacloud-oss-sdk/baseclient/go/utils"
 )
 
@@ -19,16 +18,6 @@ type validatorTest struct {
 type errLength struct {
 	Num *int `json:"num" maxLength:"a"`
 }
-
-type encodeType struct {
-	Num  *int    `json:"num" encode:"Base64"`
-	Str  *string `json:"str" encode:"UrlEncode"`
-	Str2 *string `json:"str2"`
-	Str3 *string `json:"str3"`
-}
-
-var num = 1
-var str1, str2 = "abc", "acd"
 
 type PrettifyTest struct {
 	name     string
@@ -73,20 +62,6 @@ func Test_Sorter(t *testing.T) {
 	utils.AssertEqual(t, isLess, false)
 }
 
-func Test_getSignatureV1(t *testing.T) {
-	request := tea.NewRequest()
-	request.Query = map[string]string{
-		"oss":      "ok",
-		"location": "oss",
-		"endTime": "now",
-	}
-	request.Headers = map[string]string{
-		"x-oss-meta": "user",
-	}
-	str := getSignatureV1(request, "script", "")
-	utils.AssertEqual(t, 28, len(str))
-}
-
 func Test_flatRepeatedList(t *testing.T) {
 	input := map[string]interface{}{
 		"Nums": []int{1, 2},
@@ -107,23 +82,6 @@ func Test_flatRepeatedList(t *testing.T) {
 func Test_isParamSign(t *testing.T) {
 	isok := isParamSign("location")
 	utils.AssertEqual(t, true, isok)
-}
-func Test_getSignatureV2(t *testing.T) {
-	request := tea.NewRequest()
-	request.Query = map[string]string{
-		"oss":      "ok",
-		"location": "oss",
-	}
-	request.Headers = map[string]string{
-		"x-oss-meta": "user",
-		"oss":        "ok",
-	}
-	str := getSignatureV2(request, "script", "", []string{})
-	utils.AssertEqual(t, 44, len(str))
-
-	request.Pathname = "?"
-	str = getSignatureV2(request, "script", "", []string{"oss"})
-	utils.AssertEqual(t, 44, len(str))
 }
 
 func Test_uriEncode(t *testing.T) {

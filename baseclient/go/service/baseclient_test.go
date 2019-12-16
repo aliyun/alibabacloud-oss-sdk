@@ -32,8 +32,9 @@ func Test_InitClient(t *testing.T) {
 
 	byt, _ := json.Marshal(configTest)
 	config := make(map[string]interface{})
-	json.Unmarshal(byt, &config)
-	err := client.InitClient(config)
+	err := json.Unmarshal(byt, &config)
+	utils.AssertNil(t, err)
+	err = client.InitClient(config)
 	utils.AssertEqual(t, "AccessKeySecret cannot be empty", err.Error())
 
 	configTest = &ConfigTest{
@@ -44,86 +45,11 @@ func Test_InitClient(t *testing.T) {
 	}
 
 	byt, _ = json.Marshal(configTest)
-	json.Unmarshal(byt, &config)
+	err = json.Unmarshal(byt, &config)
+	utils.AssertNil(t, err)
 	err = client.InitClient(config)
 	utils.AssertNil(t, err)
 }
-
-func Test_GetAuth(t *testing.T) {
-	originCredential := client.credential
-	client.credential = nil
-	request := tea.NewRequest()
-	request.Headers["host"] = "oss.aliyun.com"
-	auth := client.GetAuth(request, "oss")
-	utils.AssertEqual(t, "", auth)
-
-	client.credential = originCredential
-	auth = client.GetAuth(request, "oss")
-	utils.AssertEqual(t, "OSS accessKeyId:pKbGkl6i6KlGaQPl9QWFqNw1wuw=", auth)
-
-	client.SignatureVersion = "V2"
-	auth = client.GetAuth(request, "oss")
-	utils.AssertEqual(t, "OSS2 AccessKeyId:accessKeyId,Signature:ec99QpyH6hbQIJAJayQksSGkXcepQw5vfsw9zik0tkA=", auth)
-
-	client.SignatureVersion = "V2"
-	client.AddtionalHeaders = []string{"host"}
-	auth = client.GetAuth(request, "oss")
-	utils.AssertEqual(t, "OSS2 AccessKeyId:accessKeyId,AdditionalHeaders:host,Signature:NqYFfxGjPjmSSQVqQtvao7jRs2VKvgqh1Hj9wS6SLaA=", auth)
-}
-
-func Test_GetHost(t *testing.T) {
-	host := client.GetHost("")
-	utils.AssertEqual(t, "oss-cn-hangzhou.aliyuncs.com", host)
-
-	host = client.GetHost("oss")
-	utils.AssertEqual(t, "oss.oss-cn-hangzhou.aliyuncs.com", host)
-
-	client.HostModel = "cname"
-	host = client.GetHost("oss")
-	utils.AssertEqual(t, "oss-cn-hangzhou.aliyuncs.com", host)
-
-	client.HostModel = "ip"
-	host = client.GetHost("oss")
-	utils.AssertEqual(t, "oss-cn-hangzhou.aliyuncs.com/oss", host)
-}
-
-// func Test_GetCrc(t *testing.T) {
-// 	listener := &listenerTest{}
-// 	tracker := client.GetTracker()
-// 	request := tea.NewRequest()
-// 	crc := client.GetCrc(request, "0", listener, tracker)
-// 	utils.AssertNil(t, crc)
-
-// 	client.IsEnableCrc = true
-// 	crc = client.GetCrc(request, "0", listener, tracker)
-// 	utils.AssertEqual(t, uint64(0), crc.Sum64())
-// }
-
-// func Test_GetRespCrc(t *testing.T) {
-// 	listener := &listenerTest{}
-// 	tracker := client.GetTracker()
-// 	httpResp := &http.Response{
-// 		Body:          ioutil.NopCloser(strings.NewReader("oss")),
-// 		ContentLength: 10,
-// 	}
-// 	resp := tea.NewResponse(httpResp)
-// 	crc := client.GetRespCrc(resp, true, listener, tracker)
-// 	utils.AssertNil(t, crc)
-
-// 	crc = client.GetRespCrc(resp, false, listener, tracker)
-// 	utils.AssertEqual(t, uint64(0), crc.Sum64())
-// }
-
-// func Test_IsNotCrcMatched(t *testing.T) {
-// 	client.IsEnableCrc = false
-// 	notmatch := client.IsNotCrcMatched(nil, "oss")
-// 	utils.AssertEqual(t, false, notmatch)
-
-// 	client.IsEnableCrc = true
-// 	crc := NewCRC(crcTable(), uint64(64))
-// 	notmatch = client.IsNotCrcMatched(crc, "oss")
-// 	utils.AssertEqual(t, true, notmatch)
-// }
 
 func Test_GetUserAgent(t *testing.T) {
 	ua := client.GetUserAgent()
@@ -220,26 +146,6 @@ func Test_ToMeta(t *testing.T) {
 	utils.AssertEqual(t, "ok", result["x-oss-a"])
 }
 
-type Resp struct {
-	Num *int    `json:"num" xml:"num"`
-	Str *string `json:"str" xml:"str"`
-}
-
-func Test_ToBody(t *testing.T) {
-	input := map[string]string{
-		"oss": "ok",
-	}
-	body := client.ToBody(input)
-	utils.AssertNil(t, body)
-
-	con := &Resp{
-		Num: &num,
-		Str: &str1,
-	}
-	body = client.ToBody(con)
-	utils.AssertNotNil(t, body)
-}
-
 func Test_GetSpecialValue(t *testing.T) {
 	val := client.GetSpecialValue(map[string]interface{}{"key": "value"}, "oss")
 	utils.AssertEqual(t, "", val)
@@ -332,40 +238,13 @@ func Test_IsFail(t *testing.T) {
 // 	utils.AssertEqual(t, "0", length)
 // }
 
-// func Test_GetContentMD5(t *testing.T) {
-// 	request := tea.NewRequest()
-// 	md5 := client.GetContentMD5(request, "md5Value", int64(10))
-// 	utils.AssertEqual(t, "", md5)
-
-// 	client.IsEnableMD5 = true
-// 	md5 = client.GetContentMD5(request, "md5Value", int64(10))
-// 	utils.AssertEqual(t, "md5Value", md5)
-
-// 	request.Headers["content-length"] = "ok"
-// 	md5 = client.GetContentMD5(request, "", int64(10))
-// 	utils.AssertEqual(t, "", md5)
-
-// 	request.Headers["content-length"] = "10"
-// 	request.Body = strings.NewReader("oss")
-// 	md5 = client.GetContentMD5(request, "", int64(10))
-// 	utils.AssertEqual(t, "NpZEESCkAveTpwR2ZUDmng==", md5)
-// }
-
 func Test_GetErrmessage(t *testing.T) {
-	httpResponse := &http.Response{
-		Body: ioutil.NopCloser(strings.NewReader("")),
-	}
-	resp := tea.NewResponse(httpResponse)
-	result, err := client.GetErrMessage(resp)
-	utils.AssertEqual(t, "EOF", err.Error())
+	result := client.GetErrMessage("")
 	utils.AssertEqual(t, len(result), 0)
 
 	str := `<?xml version="1.0" encoding="utf-8" standalone="no"?>
 	<num>10</num>`
-	httpResponse.Body = ioutil.NopCloser(strings.NewReader(str))
-	resp = tea.NewResponse(httpResponse)
-	result, err = client.GetErrMessage(resp)
-	utils.AssertNil(t, err)
+	result = client.GetErrMessage(str)
 	utils.AssertEqual(t, result["Code"].(string), "")
 
 }
@@ -399,41 +278,15 @@ func Test_UrlDecode(t *testing.T) {
 	utils.AssertEqual(t, 4, len(dec))
 }
 
-type parseTest struct {
-	Body io.ReadCloser `json:"Body"`
-}
-
 func Test_ParseXml(t *testing.T) {
-	httpResp := &http.Response{
-		Body: ioutil.NopCloser(strings.NewReader("")),
-	}
-
-	resp := tea.NewResponse(httpResp)
-	resp.Headers["Content-Type"] = "application/json"
-	result, err := client.ParseXml(resp, new(parseTest))
-	utils.AssertEqual(t, 1, len(result))
-
-	resp.Headers["Content-Type"] = "application/json"
-	result, err = client.ParseXml(resp, new(validatorTest))
-	utils.AssertEqual(t, "unexpected end of JSON input", err.Error())
-	utils.AssertEqual(t, 0, len(result))
-
 	str := `<?xml version="1.0" encoding="utf-8" standalone="no"?>
 	<num>10</num>`
-	httpResp.Body = ioutil.NopCloser(strings.NewReader(str))
-	resp = tea.NewResponse(httpResp)
-	resp.Headers["Content-Type"] = "application/xml"
-	result, err = client.ParseXml(resp, new(validatorTest))
-	utils.AssertNil(t, err)
+	result := client.ParseXml(str, new(validatorTest))
 	utils.AssertEqual(t, 1, len(result))
 
 	str = `<?xml version="1.0" encoding="utf-8" standalone="no"?>
 	<num/num>`
-	httpResp.Body = ioutil.NopCloser(strings.NewReader(str))
-	resp = tea.NewResponse(httpResp)
-	resp.Headers["Content-Type"] = "application/xml"
-	result, err = client.ParseXml(resp, new(validatorTest))
-	utils.AssertNil(t, err)
+	result = client.ParseXml(str, new(validatorTest))
 	utils.AssertEqual(t, 1, len(result))
 }
 
@@ -461,4 +314,168 @@ func Test_ToHeader(t *testing.T) {
 	}
 	header = client.ToHeader(raw)
 	utils.AssertEqual(t, "value", header["key"])
+}
+
+func Test_GetRefer(t *testing.T) {
+	body := strings.NewReader("oss")
+	ref := make(map[string]string)
+	reader := client.Inject(body, ref)
+	_, err := ioutil.ReadAll(reader)
+	utils.AssertNil(t, err)
+	utils.AssertEqual(t, "NpZEESCkAveTpwR2ZUDmng==", ref["md5"])
+	utils.AssertEqual(t, "14794686500134955722", ref["crc"])
+
+	err = reader.(io.ReadCloser).Close()
+	utils.AssertNil(t, err)
+
+	tmp := ioutil.NopCloser(body)
+	reader = client.Inject(tmp, ref)
+	err = reader.(io.ReadCloser).Close()
+	utils.AssertNil(t, err)
+}
+
+func Test_Empty(t *testing.T) {
+	ok := client.Empty("")
+	utils.AssertEqual(t, true, ok)
+
+	ok = client.Empty("oss")
+	utils.AssertEqual(t, false, ok)
+}
+
+func Test_Equal(t *testing.T) {
+	ok := client.Equal("v1", "v1")
+	utils.AssertEqual(t, true, ok)
+
+	ok = client.Equal("v1", "v2")
+	utils.AssertEqual(t, false, ok)
+}
+
+func Test_IfListEmpty(t *testing.T) {
+	strs := []string{}
+	ok := client.IfListEmpty(strs)
+	utils.AssertEqual(t, true, ok)
+
+	strs = []string{"oss"}
+	ok = client.IfListEmpty(strs)
+	utils.AssertEqual(t, false, ok)
+}
+
+func Test_ReadAsString(t *testing.T) {
+	httpResp := &http.Response{
+		Body: ioutil.NopCloser(strings.NewReader("oss")),
+	}
+	resp := tea.NewResponse(httpResp)
+	str, err := client.ReadAsString(resp)
+	utils.AssertNil(t, err)
+	utils.AssertEqual(t, "oss", str)
+}
+
+func Test_GetSignatureV1(t *testing.T) {
+	request := tea.NewRequest()
+	request.Query = map[string]string{
+		"oss":      "ok",
+		"location": "oss",
+	}
+	request.Headers = map[string]string{
+		"x-oss-meta": "user",
+	}
+	str := client.GetSignatureV1(request, "script", "")
+	utils.AssertEqual(t, 28, len(str))
+}
+
+func Test_GetSignatureV2(t *testing.T) {
+	request := tea.NewRequest()
+	request.Query = map[string]string{
+		"oss":      "ok",
+		"location": "oss",
+	}
+	request.Headers = map[string]string{
+		"x-oss-meta": "user",
+		"oss":        "ok",
+	}
+	str := client.GetSignatureV2(request, "script", "", []string{})
+	utils.AssertEqual(t, 44, len(str))
+
+	request.Pathname = "?"
+	str = client.GetSignatureV2(request, "script", "", []string{"oss"})
+	utils.AssertEqual(t, 44, len(str))
+}
+
+func Test_GetContentMD5(t *testing.T) {
+	client.IsEnableMD5 = true
+	md5 := client.GetContentMD5("oss")
+	utils.AssertEqual(t, "NpZEESCkAveTpwR2ZUDmng==", md5)
+
+	client.IsEnableMD5 = false
+	md5 = client.GetContentMD5("oss")
+	utils.AssertEqual(t, "", md5)
+}
+
+func Test_NotNull(t *testing.T) {
+	val := map[string]interface{}{
+		"oss": "sdk",
+	}
+	ok := client.NotNull(val)
+	utils.AssertEqual(t, true, ok)
+}
+
+func Test_ToXML(t *testing.T) {
+	val := map[string]interface{}{
+		"oss": map[string]interface{}{
+			"key": "value",
+		},
+	}
+	str := client.ToXML(val)
+	utils.AssertEqual(t, "<oss><key>value</key></oss>", str)
+}
+
+func Test_GetAccessKeyID(t *testing.T) {
+	originCre := client.credential
+	defer func() {
+		client.credential = originCre
+	}()
+	token, err := client.GetAccessKeyID()
+	utils.AssertNil(t, err)
+	utils.AssertEqual(t, "accessKeyId", token)
+
+	client.credential = nil
+	token, err = client.GetAccessKeyID()
+	utils.AssertEqual(t, "No credential valid!", err.Error())
+	utils.AssertEqual(t, "", token)
+}
+
+func Test_GetAccessKeySecret(t *testing.T) {
+	originCre := client.credential
+	defer func() {
+		client.credential = originCre
+	}()
+	token, err := client.GetAccessKeySecret()
+	utils.AssertNil(t, err)
+	utils.AssertEqual(t, "accessKeySecret", token)
+
+	client.credential = nil
+	token, err = client.GetAccessKeySecret()
+	utils.AssertEqual(t, "No credential valid!", err.Error())
+	utils.AssertEqual(t, "", token)
+}
+
+func Test_GetSecurityToken(t *testing.T) {
+	originCre := client.credential
+	defer func() {
+		client.credential = originCre
+	}()
+	token, err := client.GetSecurityToken()
+	utils.AssertNil(t, err)
+	utils.AssertEqual(t, "securityToken", token)
+
+	client.credential = nil
+	token, err = client.GetSecurityToken()
+	utils.AssertEqual(t, "No credential valid!", err.Error())
+	utils.AssertEqual(t, "", token)
+}
+
+func Test_ListToString(t *testing.T) {
+	val := []string{"oss", "sdk"}
+	str := client.ListToString(val, ";")
+	utils.AssertEqual(t, "oss;sdk", str)
 }

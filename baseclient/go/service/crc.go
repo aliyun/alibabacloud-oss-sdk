@@ -1,7 +1,6 @@
 package service
 
 import (
-	"hash"
 	"hash/crc64"
 )
 
@@ -13,7 +12,7 @@ type digest struct {
 
 // NewCRC creates a new hash.Hash64 computing the CRC64 checksum
 // using the polynomial represented by the Table.
-func NewCRC(tab *crc64.Table, init uint64) hash.Hash64 { return &digest{init, tab} }
+func NewCRC(tab *crc64.Table, init uint64) *digest { return &digest{init, tab} }
 
 // Size returns the number of bytes sum will return.
 func (d *digest) Size() int { return crc64.Size }

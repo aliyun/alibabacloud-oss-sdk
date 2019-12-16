@@ -219,7 +219,7 @@ func Test_PutObject(t *testing.T) {
 	header := &PutObjectRequestHeader{}
 	header.SetStorageClass("Archive")
 	setting.SetBucketName("sdk-oss-test").
-		SetObjectName("obj.txt").
+		SetObjectName("tmp.txt").
 		SetBody(obj).
 		SetHeader(header)
 	resp, err := client.PutObject(setting, runtimeObject)

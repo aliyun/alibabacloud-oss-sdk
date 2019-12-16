@@ -1,17 +1,12 @@
 package utils
 
 import (
-	"bytes"
 	"crypto/md5"
 	"crypto/rand"
-	"encoding/base64"
 	"encoding/hex"
 	"hash"
-	"io"
-	"io/ioutil"
 	"mime"
 	"net/url"
-	"os"
 	"path"
 	"strings"
 	"time"
@@ -305,32 +300,5 @@ func GetUrlFormedMap(source map[string]string) (urlEncoded string) {
 		urlEncoder.Add(key, value)
 	}
 	urlEncoded = urlEncoder.Encode()
-	return
-}
-
-func CalcMD5(body io.Reader, contentLen, md5Threshold int64) (reader io.Reader, b64 string) {
-	if contentLen == 0 || contentLen > md5Threshold {
-		// Huge body, use temporary file
-		tempFile, err := ioutil.TempFile(os.TempDir(), "oss-go-temp-")
-		if err != nil {
-			return
-		}
-		if tempFile != nil {
-			io.Copy(tempFile, body)
-			tempFile.Seek(0, os.SEEK_SET)
-			md5 := md5.New()
-			io.Copy(md5, tempFile)
-			sum := md5.Sum(nil)
-			b64 = base64.StdEncoding.EncodeToString(sum[:])
-			tempFile.Seek(0, os.SEEK_SET)
-			reader = tempFile
-		}
-	} else {
-		// Small body, use memory
-		buf, _ := ioutil.ReadAll(body)
-		sum := md5.Sum(buf)
-		b64 = base64.StdEncoding.EncodeToString(sum[:])
-		reader = bytes.NewReader(buf)
-	}
 	return
 }

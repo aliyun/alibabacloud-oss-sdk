@@ -1,9 +1,11 @@
 package service
 
 import (
+	"crypto/md5"
 	"encoding/base64"
 	"encoding/json"
 	"encoding/xml"
+	"errors"
 	"fmt"
 	"hash/crc64"
 	"io"
@@ -19,6 +21,7 @@ import (
 	teautil "github.com/alibabacloud-go/tea/utils"
 	"github.com/aliyun/alibabacloud-oss-sdk/baseclient/go/utils"
 	"github.com/aliyun/credentials-go/credentials"
+	"github.com/clbanning/mxj"
 )
 
 var crcTable = func() *crc64.Table {
@@ -82,112 +85,8 @@ func (client *BaseClient) InitClient(config map[string]interface{}) error {
 	return nil
 }
 
-// Get Signature according to reqeust and bucketName
-func (client *BaseClient) GetAuth(request *tea.Request, bucketName string) string {
-	auth := ""
-	if client.credential == nil {
-		return ""
-	}
-	accessKeyId, err := client.credential.GetAccessKeyID()
-	if err != nil {
-		return ""
-	}
-
-	accessKeySecret, err := client.credential.GetAccessSecret()
-	if err != nil {
-		return ""
-	}
-
-	securityToken, err := client.credential.GetSecurityToken()
-	if err != nil {
-		return ""
-	}
-
-	if securityToken != "" {
-		request.Headers["X-Oss-Security-Token"] = securityToken
-	}
-	if strings.ToLower(client.SignatureVersion) == "v2" {
-		signature := getSignatureV2(request, bucketName, accessKeySecret, client.AddtionalHeaders)
-		if len(client.AddtionalHeaders) == 0 {
-			auth = "OSS2 AccessKeyId:" + accessKeyId + ",Signature:" + signature
-		} else {
-			auth = "OSS2 AccessKeyId:" + accessKeyId + ",AdditionalHeaders:" + strings.Join(client.AddtionalHeaders, ";") + ",Signature:" + signature
-		}
-	} else {
-		signature := getSignatureV1(request, bucketName, accessKeySecret)
-		auth = "OSS " + accessKeyId + ":" + signature
-	}
-	return auth
-}
-
-// Get OSS host
-func (client *BaseClient) GetHost(bucketName string) string {
-	host := ""
-	if client.RegionId == "" {
-		client.RegionId = "cn-hangzhou"
-	}
-	if client.Endpoint == "" {
-		client.Endpoint = "oss-" + client.RegionId + ".aliyuncs.com"
-	}
-	if bucketName != "" {
-		if strings.ToLower(client.HostModel) == "ip" {
-			host = client.Endpoint + "/" + bucketName
-		} else if strings.ToLower(client.HostModel) == "cname" {
-			host = client.Endpoint
-		} else {
-			host = bucketName + "." + client.Endpoint
-		}
-	} else {
-		host = client.Endpoint
-	}
-	return host
-}
-
-// Get Crc from request
-// func (client *BaseClient) GetCrc(request *tea.Request, contentlength string, listener interface{}, tracker *teautil.ReaderTracker) hash.Hash64 {
-// 	if !client.IsEnableCrc {
-// 		return nil
-// 	}
-// 	val, err := strconv.Atoi(contentlength)
-// 	if err != nil {
-// 		return nil
-// 	}
-// 	crc := NewCRC(crcTable(), 0)
-// 	reader := TeeReader(request.Body, crc, int64(val), teautil.GetProgressListener(listener), tracker)
-// 	request.Body = reader
-
-// 	return crc
-// }
-
-// func (client *BaseClient) GetTracker() *teautil.ReaderTracker {
-// 	return &teautil.ReaderTracker{CompletedBytes: 0}
-// }
-
 // func (client *BaseClient) SetLogger(level string, channel string, out io.Writer, template string) {
 // 	client.Logger = teautil.NewLogger(level, channel, out, template)
-// }
-
-// Get Crc from response
-// func (client *BaseClient) GetRespCrc(response *tea.Response, hasRange bool, listener interface{}, tracker *teautil.ReaderTracker) hash.Hash64 {
-// 	if !client.IsEnableCrc || hasRange {
-// 		return nil
-// 	}
-// 	crc := NewCRC(crcTable(), 0)
-
-// 	reader := TeeReader(response.Body, crc, response.ContentLength, teautil.GetProgressListener(listener), tracker)
-// 	response.Body = reader
-// 	return crc
-// }
-
-// Verify that the two CRC values are the same
-// func (client *BaseClient) IsNotCrcMatched(calCrc hash.Hash64, respCrc string) bool {
-// 	if client.IsEnableCrc {
-// 		crc, err := strconv.ParseUint(respCrc, 10, 64)
-// 		if crc != calCrc.Sum64() || err != nil {
-// 			return true
-// 		}
-// 	}
-// 	return false
 // }
 
 func (client *BaseClient) ReadAsStream(response *tea.Response) io.ReadCloser {
@@ -199,6 +98,82 @@ func (client *BaseClient) GetUserAgent() string {
 		return defaultUserAgent
 	}
 	return defaultUserAgent + " " + client.UserAgent
+}
+
+func (client *BaseClient) Empty(val string) bool {
+	return val == ""
+}
+
+func (client *BaseClient) Equal(val, val2 string) bool {
+	return val == val2
+}
+
+func (client *BaseClient) IfListEmpty(val []string) bool {
+	return len(val) == 0
+}
+
+func (client *BaseClient) ReadAsString(resp *tea.Response) (string, error) {
+	byt, err := resp.ReadBody()
+	if err != nil {
+		return "", err
+	}
+	return string(byt), err
+}
+
+func (client *BaseClient) GetSignatureV1(request *tea.Request, bucketName, accessKeySecret string) string {
+	resource := ""
+	if bucketName != "" {
+		resource = "/" + bucketName
+	}
+	resource = resource + request.Pathname
+	if !strings.Contains(resource, "?") {
+		resource += "?"
+	}
+	for key, value := range request.Query {
+		if isParamSign(key) {
+			if value != "" {
+				if strings.HasSuffix(resource, "?") {
+					resource = resource + key + "=" + value
+				} else {
+					resource = resource + "&" + key + "=" + value
+				}
+			}
+		}
+	}
+	return getSignedStrV1(request, resource, accessKeySecret)
+}
+
+func (client *BaseClient) GetSignatureV2(request *tea.Request, bucketName, accessKeySecret string, additionalHeaders []string) string {
+	resource := ""
+	pathName := request.Pathname
+	if bucketName != "" {
+		pathName = "/" + bucketName + request.Pathname
+	}
+
+	strs := strings.Split(pathName, "?")
+	resource += uriEncode(strs[0], true)
+	hs := newSorter(request.Query)
+	if strings.Contains(pathName, "?") {
+		hs.Keys = append(hs.Keys, strs[1])
+		hs.Vals = append(hs.Vals, "")
+	}
+
+	// Sort the temp by the ascending order
+	hs.Sort()
+	if len(hs.Keys) > 0 {
+		resource += "?"
+	}
+	for i := range hs.Keys {
+		if !strings.HasSuffix(resource, "?") {
+			resource += "&"
+		}
+		if hs.Vals[i] == "" {
+			resource += uriEncode(hs.Keys[i], true)
+		} else {
+			resource += uriEncode(hs.Keys[i], true) + "=" + uriEncode(hs.Vals[i], true)
+		}
+	}
+	return getSignedStrV2(request, resource, accessKeySecret, additionalHeaders)
 }
 
 // Parse string to uint
@@ -257,19 +232,6 @@ func (client *BaseClient) GetDate() string {
 	return time.Now().UTC().Format(http.TimeFormat)
 }
 
-// func (client *BaseClient) IfRange(header interface{}) bool {
-// 	result := make(map[string]string)
-// 	byt, _ := json.Marshal(header)
-// 	err := json.Unmarshal(byt, &result)
-// 	if err != nil {
-// 		return false
-// 	}
-// 	if v := result["Range"]; v == "" {
-// 		return false
-// 	}
-// 	return true
-// }
-
 // Add prefix to key of meta
 func (client *BaseClient) ToMeta(meta map[string]string, prefix string) map[string]string {
 	result := make(map[string]string)
@@ -282,20 +244,14 @@ func (client *BaseClient) ToMeta(meta map[string]string, prefix string) map[stri
 	return result
 }
 
-// Translate interface{} to io.Reader
-func (client *BaseClient) ToBody(body interface{}) io.Reader {
-	byt, err := xml.Marshal(body)
-	if err != nil {
-		return nil
-	}
-	return strings.NewReader(string(byt))
-}
-
 // Get value from obj according to key
 func (client *BaseClient) GetSpecialValue(obj map[string]interface{}, key string) string {
 	tmp := make(map[string]string)
 	byt, _ := json.Marshal(obj)
-	json.Unmarshal(byt, &tmp)
+	err := json.Unmarshal(byt, &tmp)
+	if err != nil {
+		return ""
+	}
 
 	return tmp[key]
 }
@@ -312,54 +268,31 @@ func (client *BaseClient) ParseMeta(meta map[string]string, prefix string) map[s
 	return userMeta
 }
 
-func (client *BaseClient) GetErrMessage(response *tea.Response) (map[string]interface{}, error) {
+func (client *BaseClient) GetErrMessage(bodyStr string) map[string]interface{} {
 	resp := make(map[string]interface{})
-	body, err := response.ReadBody()
-	if err != nil {
-		return resp, err
-	}
 	errMsg := &ServiceError{}
-	err = xml.Unmarshal(body, errMsg)
+	err := xml.Unmarshal([]byte(bodyStr), errMsg)
 	if err != nil {
-		return resp, err
+		return resp
 	}
 	resp["Code"] = errMsg.Code
 	resp["Message"] = errMsg.Message
 	resp["RequestId"] = errMsg.RequestId
 	resp["HostId"] = errMsg.HostId
-	return resp, nil
+	return resp
 }
 
 // Parse Body to map[string]interface{}
-func (client *BaseClient) ParseXml(response *tea.Response, result interface{}) (map[string]interface{}, error) {
+func (client *BaseClient) ParseXml(val string, result interface{}) map[string]interface{} {
 	resp := make(map[string]interface{})
-	contentType := "application/xml"
-	if response.Headers["Content-Type"] != "" {
-		contentType = response.Headers["Content-Type"]
+
+	start := getStartElement([]byte(val))
+	out, err := XmlUnmarshal([]byte(val), result)
+	if err != nil {
+		return resp
 	}
-	_, isBodyExist := reflect.TypeOf(result).Elem().FieldByName("Body")
-	if isBodyExist {
-		resp["Body"] = response.Body
-	} else {
-		body, err := response.ReadBody()
-		if err != nil {
-			return resp, err
-		}
-		if contentType == "application/xml" {
-			start := getStartElement(body)
-			out, err := XmlUnmarshal(body, result)
-			if err != nil {
-				return resp, err
-			}
-			resp[start] = out
-		} else {
-			err := json.Unmarshal(body, &resp)
-			if err != nil {
-				return resp, err
-			}
-		}
-	}
-	return resp, nil
+	resp[start] = out
+	return resp
 }
 
 // Determine whether the request failed
@@ -375,66 +308,58 @@ func (client *BaseClient) Default(realStr string, defaultStr string) string {
 	return defaultStr
 }
 
-// Return body length
-// func (client *BaseClient) GetContentLength(request *tea.Request, length string) string {
-// 	if length != "" {
-// 		return length
-// 	}
-// 	var contentlength int64
-// 	switch v := request.Body.(type) {
-// 	case *teeReader:
-// 		switch a := v.reader.(type) {
-// 		case *bytes.Buffer:
-// 			contentlength = int64(a.Len())
-// 		case *bytes.Reader:
-// 			contentlength = int64(a.Len())
-// 		case *strings.Reader:
-// 			contentlength = int64(a.Len())
-// 		case *os.File:
-// 			contentlength = tryGetFileSize(a)
-// 		case *io.LimitedReader:
-// 			contentlength = int64(a.N)
-// 		}
-// 	case *bytes.Buffer:
-// 		contentlength = int64(v.Len())
-// 	case *bytes.Reader:
-// 		contentlength = int64(v.Len())
-// 	case *strings.Reader:
-// 		contentlength = int64(v.Len())
-// 	case *os.File:
-// 		contentlength = tryGetFileSize(v)
-// 	case *io.LimitedReader:
-// 		contentlength = int64(v.N)
-// 	}
-// 	return strconv.FormatInt(contentlength, 10)
-// }
-
-// func tryGetFileSize(f *os.File) int64 {
-// 	fInfo, _ := f.Stat()
-// 	return fInfo.Size()
-// }
-
 // Return md5 according to body
-// func (client *BaseClient) GetContentMD5(request *tea.Request, md5Value string, md5Threshold int64) string {
-// 	if !client.IsEnableMD5 {
-// 		return ""
-// 	}
-// 	if md5Value != "" {
-// 		return md5Value
-// 	}
-// 	contntlength := request.Headers["content-length"]
-// 	realLength, err := strconv.Atoi(contntlength)
-// 	if err != nil {
-// 		return ""
-// 	}
-// 	reader, md5 := utils.CalcMD5(request.Body, int64(realLength), md5Threshold)
-// 	request.Body = reader
-// 	return md5
-// }
+func (client *BaseClient) GetContentMD5(a string) string {
+	if !client.IsEnableMD5 {
+		return ""
+	}
+
+	sum := md5.Sum([]byte(a))
+	b64 := base64.StdEncoding.EncodeToString(sum[:])
+	return b64
+}
+
+func (client *BaseClient) ToXML(obj map[string]interface{}) string {
+	mv := mxj.Map(obj)
+	byt, _ := mv.Xml()
+	return string(byt)
+}
+
+func (client *BaseClient) NotNull(obj map[string]interface{}) bool {
+	return len(obj) > 0
+}
 
 // Return content-type according to object name
 func (client *BaseClient) GetContentType(name string) string {
 	return utils.TypeByExtension(name)
+}
+
+func (client *BaseClient) GetAccessKeyID() (string, error) {
+	if client.credential == nil {
+		return "", errors.New("No credential valid!")
+	}
+	accessKeyId, err := client.credential.GetAccessKeyID()
+	return accessKeyId, err
+}
+
+func (client *BaseClient) GetAccessKeySecret() (string, error) {
+	if client.credential == nil {
+		return "", errors.New("No credential valid!")
+	}
+	accessKeySecret, err := client.credential.GetAccessSecret()
+	return accessKeySecret, err
+}
+
+func (client *BaseClient) ListToString(a []string, sep string) string {
+	return strings.Join(a, sep)
+}
+
+func (client *BaseClient) GetSecurityToken() (string, error) {
+	if client.credential == nil {
+		return "", errors.New("No credential valid!")
+	}
+	token, err := client.credential.GetSecurityToken()
+	return token, err
 }
 
 // Encryption
@@ -473,4 +398,9 @@ func (client *BaseClient) UrlDecode(value string) string {
 	}
 	strs[len(strs)-1] = result
 	return strings.Join(strs, "/")
+}
+
+func (client *BaseClient) Inject(body io.Reader, ref map[string]string) io.Reader {
+	body = ComplexReader(body, ref)
+	return body
 }
