@@ -9,12 +9,13 @@ jobs:
         - npm run test-cov
       after_success:
         - bash <(curl -s https://codecov.io/bash) -cF node_js
-    - language: node_js
-      node_js: 12
-      script:
-        - cd ts
-        - npm install
-        - npm run test
+    # - language: node_js
+    #   node_js: 12
+    #   script:
+    #     - cd ts
+    #     - npm install
+    #     - rm -rf node_modules/@alicloud/oss-baseclient
+    #     - npm run test
     - language: go
       go: 1.12.x
       if: branch = master

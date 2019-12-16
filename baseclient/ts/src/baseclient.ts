@@ -1,6 +1,7 @@
 import * as $tea from '@alicloud/tea-typescript';
 import Creadential from '@alicloud/credentials';
 import { Parser, Builder } from 'xml2js';
+import kitx from 'kitx';
 import { platform, arch } from 'os';
 import { getType } from 'mime';
 import { Readable } from 'stream';
@@ -191,10 +192,6 @@ export default class BaseClient {
     return !input;
   }
 
-  _notEmpty(input: string): boolean {
-    return !!input;
-  }
-
   _ifListEmpty(list: string[]): boolean {
     return !list || list.length === 0
   }
@@ -285,31 +282,8 @@ export default class BaseClient {
     return ret;
   }
 
-  _getContentMD5(request: $tea.Request, md5Value: string, md5Threshold: Buffer): string {
-    if (!this._isEnableMD5) {
-      return '';
-    }
-    if (md5Value) {
-      return md5Value;
-    }
-  }
-
-  _getContentLength(request: $tea.Request, length: string): string {
-    if (length) {
-      return length;
-    }
-    return '0';
-  }
-
-  _getSpecialValue(obj: any, key: string): string {
-    if (!obj) {
-      return '';
-    }
-    let ret = obj[key];
-    if (!ret) {
-      return '';
-    }
-    return ret.toString();
+  _getContentMD5(body: string): string {
+    return kitx.md5(body, 'hex');
   }
 
   _getContentType(name: string): string {
@@ -349,23 +323,6 @@ export default class BaseClient {
     const result = Buffer.from(strs[strs.length - 1], 'base64').toString('utf8');
     strs[strs.length - 1] = result
     return strs.join('/');
-  }
-
-  _urlDecode(value: string): string {
-    if (!value) {
-      return '';
-    }
-    const strs = value.split('/');
-    const result = decodeURIComponent(strs[strs.length - 1]);
-    strs[strs.length - 1] = result
-    return strs.join('/');
-  }
-
-  _parseUint(respCrc: string, hasRange: boolean): number {
-    if (hasRange) {
-      return 0;
-    }
-    return parseInt(respCrc);
   }
 
   _getCrc(a: $tea.Request, b: string, c: any, d: any): Buffer {
@@ -455,5 +412,14 @@ export default class BaseClient {
   _getErrMessage(xml: string): { [key: string]: any } {
     let body: { [key: string]: any } = parseXML(xml);
     return body.Error || {};
+  }
+
+  _toXML(body: any): string {
+    const builder = new Builder();
+    return builder.buildObject(body);
+  }
+
+  _notNull(obj: {[key: string]: any}): boolean {
+    return !!obj;
   }
 }
