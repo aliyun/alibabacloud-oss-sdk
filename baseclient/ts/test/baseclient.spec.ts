@@ -540,22 +540,7 @@ describe('base client', function () {
       accessKeySecret:'accessKeySecret',
       accessKeyId: 'accessKeyId',
     });
-    assert.strictEqual(client._getContentMD5(req, 'md5', Buffer.from('a')), '');
-    client = new BaseClient({
-      isEnableMD5: true,
-      accessKeySecret:'accessKeySecret',
-      accessKeyId: 'accessKeyId',
-    });
-    assert.strictEqual(client._getContentMD5(req, 'md5', Buffer.from('a')), 'md5');
-  });
-
-  it('_getContentLength should ok', async function () {
-    const client = new BaseClient({
-      accessKeySecret:'accessKeySecret',
-      accessKeyId: 'accessKeyId',
-    });
-    assert.strictEqual(client._getContentLength(req, '100'), '100');
-    assert.strictEqual(client._getContentLength(req, undefined), '0');
+    assert.strictEqual(client._getContentMD5('a'), '0cc175b9c0f1b6a831c399e269772661');
   });
 
   it('_defaultNumber should ok', async function () {
@@ -565,19 +550,6 @@ describe('base client', function () {
     });
     assert.strictEqual(client._defaultNumber(undefined, 2019), 2019);
     assert.strictEqual(client._defaultNumber(2020, 2019), 2020);
-  });
-
-  it('_getSpecialValue should ok', async function () {
-    const client = new BaseClient({
-      accessKeySecret:'accessKeySecret',
-      accessKeyId: 'accessKeyId',
-    });
-    const data = {
-      val: 'value'
-    };
-    assert.strictEqual(client._getSpecialValue(undefined, 'val'), '');
-    assert.strictEqual(client._getSpecialValue(data, 'val'), 'value');
-    assert.strictEqual(client._getSpecialValue(data, 'value'), '');
   });
 
   it('_getContentType should ok', async function () {
@@ -626,25 +598,6 @@ describe('base client', function () {
     assert.strictEqual(client._base64Decode('path/JjJi'), 'path/&2b');
   });
 
-  it('_urlDecode should ok', async function () {
-    const client = new BaseClient({
-      accessKeySecret:'accessKeySecret',
-      accessKeyId: 'accessKeyId',
-    });
-    assert.strictEqual(client._urlDecode(undefined), '');
-    assert.strictEqual(client._urlDecode('%262b'), '&2b');
-    assert.strictEqual(client._urlDecode('path/%262b'), 'path/&2b');
-  });
-
-  it('_parseUint should ok', async function () {
-    const client = new BaseClient({
-      accessKeySecret:'accessKeySecret',
-      accessKeyId: 'accessKeyId',
-    });
-    assert.strictEqual(client._parseUint(undefined,true), 0);
-    assert.strictEqual(client._parseUint('2019',false), 2019);
-  });
-
   it('_getCrc should ok', async function () {
     const client = new BaseClient({
       accessKeySecret:'accessKeySecret',
@@ -652,7 +605,7 @@ describe('base client', function () {
     });
     try{
       client._getCrc(undefined,undefined,undefined,undefined)
-    }catch(err){
+    } catch (err) {
       assert.ok(err);
       return;
     }

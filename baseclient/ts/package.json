@@ -16,6 +16,7 @@
     "@alicloud/tea-typescript": "^1.2.0",
     "@types/mime": "^2.0.1",
     "@types/xml2js": "^0.4.5",
+    "kitx": "^2.0.0",
     "mime": "^2.4.4",
     "xml2js": "^0.4.22"
   },
