@@ -155,30 +155,6 @@ func getStartElement(body []byte) string {
 	}
 }
 
-// Get V1 version Signature
-func getSignatureV1(request *tea.Request, bucketName, accessKeySecret string) string {
-	resource := ""
-	if bucketName != "" {
-		resource = "/" + bucketName
-	}
-	resource = resource + request.Pathname
-	if !strings.Contains(resource, "?") {
-		resource += "?"
-	}
-	for key, value := range request.Query {
-		if isParamSign(key) {
-			if value != "" {
-				if strings.HasSuffix(resource, "?") {
-					resource = resource + key + "=" + value
-				} else {
-					resource = resource + "&" + key + "=" + value
-				}
-			}
-		}
-	}
-	return getSignedStrV1(request, resource, accessKeySecret)
-}
-
 func getSignedStrV1(req *tea.Request, canonicalizedResource, accessKeySecret string) string {
 	// Find out the "x-oss-"'s address in header of the request
 	temp := make(map[string]string)
@@ -211,40 +187,6 @@ func getSignedStrV1(req *tea.Request, canonicalizedResource, accessKeySecret str
 	signedStr := base64.StdEncoding.EncodeToString(h.Sum(nil))
 
 	return signedStr
-}
-
-// Get V2 version Signature
-func getSignatureV2(request *tea.Request, bucketName, accessKeySecret string, additionalHeaders []string) string {
-	resource := ""
-	pathName := request.Pathname
-	if bucketName != "" {
-		pathName = "/" + bucketName + request.Pathname
-	}
-
-	strs := strings.Split(pathName, "?")
-	resource += uriEncode(strs[0], true)
-	hs := newSorter(request.Query)
-	if strings.Contains(pathName, "?") {
-		hs.Keys = append(hs.Keys, strs[1])
-		hs.Vals = append(hs.Vals, "")
-	}
-
-	// Sort the temp by the ascending order
-	hs.Sort()
-	if len(hs.Keys) > 0 {
-		resource += "?"
-	}
-	for i := range hs.Keys {
-		if !strings.HasSuffix(resource, "?") {
-			resource += "&"
-		}
-		if hs.Vals[i] == "" {
-			resource += uriEncode(hs.Keys[i], true)
-		} else {
-			resource += uriEncode(hs.Keys[i], true) + "=" + uriEncode(hs.Vals[i], true)
-		}
-	}
-	return getSignedStrV2(request, resource, accessKeySecret, additionalHeaders)
 }
 
 func getSignedStrV2(req *tea.Request, canonicalizedResource, accessKeySecret string, additionalHeaders []string) string {

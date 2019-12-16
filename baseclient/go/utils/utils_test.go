@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"strings"
 	"testing"
 )
 
@@ -26,14 +25,4 @@ func Test_GetUrlFormedMap(t *testing.T) {
 	}
 	encode := GetUrlFormedMap(tmp)
 	AssertEqual(t, encode, "key=value")
-}
-
-func Test_CalcMD5(t *testing.T) {
-	body := strings.NewReader("oss")
-	_, b64 := CalcMD5(body, 3, 5)
-	AssertEqual(t, b64, "NpZEESCkAveTpwR2ZUDmng==")
-
-	buf := strings.NewReader("oss")
-	_, b64 = CalcMD5(buf, 0, 5)
-	AssertEqual(t, b64, "NpZEESCkAveTpwR2ZUDmng==")
 }

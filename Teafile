@@ -11,7 +11,7 @@
     "namespace": "AlibabaCloud.OSS"
   },
   "go": {
-    "baseClient": "github.com/aliyun/alibabacloud-oss-sdk/baseclient/go",
+    "baseClient": "github.com/aliyun/alibabacloud-oss-sdk/baseclient",
     "package": [
       "io"
     ]

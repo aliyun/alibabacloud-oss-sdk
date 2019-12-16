@@ -264,6 +264,3342 @@ func (s *Config) SetAddtionalHeaders(v []*string) *Config {
 	return s
 }
 
+type PutBucketLifecycleRequest struct {
+	BucketName *string                        `json:"BucketName" xml:"BucketName" require:"true"`
+	Body       *PutBucketLifecycleRequestBody `json:"Body" xml:"Body" type:"Struct"`
+}
+
+func (s PutBucketLifecycleRequest) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketLifecycleRequest) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketLifecycleRequest) SetBucketName(v string) *PutBucketLifecycleRequest {
+	s.BucketName = &v
+	return s
+}
+
+func (s *PutBucketLifecycleRequest) SetBody(v *PutBucketLifecycleRequestBody) *PutBucketLifecycleRequest {
+	s.Body = v
+	return s
+}
+
+type PutBucketLifecycleRequestBody struct {
+	LifecycleConfiguration *PutBucketLifecycleRequestBodyLifecycleConfiguration `json:"LifecycleConfiguration" xml:"LifecycleConfiguration" require:"true" type:"Struct"`
+}
+
+func (s PutBucketLifecycleRequestBody) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketLifecycleRequestBody) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketLifecycleRequestBody) SetLifecycleConfiguration(v *PutBucketLifecycleRequestBodyLifecycleConfiguration) *PutBucketLifecycleRequestBody {
+	s.LifecycleConfiguration = v
+	return s
+}
+
+type PutBucketLifecycleRequestBodyLifecycleConfiguration struct {
+	Rule []*PutBucketLifecycleRequestBodyLifecycleConfigurationRule `json:"Rule" xml:"Rule" require:"true" type:"Repeated"`
+}
+
+func (s PutBucketLifecycleRequestBodyLifecycleConfiguration) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketLifecycleRequestBodyLifecycleConfiguration) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketLifecycleRequestBodyLifecycleConfiguration) SetRule(v []*PutBucketLifecycleRequestBodyLifecycleConfigurationRule) *PutBucketLifecycleRequestBodyLifecycleConfiguration {
+	s.Rule = v
+	return s
+}
+
+type PutBucketLifecycleRequestBodyLifecycleConfigurationRule struct {
+	Expiration           *PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration           `json:"Expiration" xml:"Expiration" require:"true" type:"Struct"`
+	Transition           *PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition           `json:"Transition" xml:"Transition" require:"true" type:"Struct"`
+	AbortMultipartUpload *PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUpload `json:"AbortMultipartUpload" xml:"AbortMultipartUpload" require:"true" type:"Struct"`
+	Tag                  *PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag                  `json:"Tag" xml:"Tag" require:"true" type:"Struct"`
+	ID                   *string                                                                      `json:"ID" xml:"ID" require:"true"`
+	Prefix               *string                                                                      `json:"Prefix" xml:"Prefix" require:"true"`
+	Status               *string                                                                      `json:"Status" xml:"Status" require:"true"`
+}
+
+func (s PutBucketLifecycleRequestBodyLifecycleConfigurationRule) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketLifecycleRequestBodyLifecycleConfigurationRule) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketLifecycleRequestBodyLifecycleConfigurationRule) SetExpiration(v *PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration) *PutBucketLifecycleRequestBodyLifecycleConfigurationRule {
+	s.Expiration = v
+	return s
+}
+
+func (s *PutBucketLifecycleRequestBodyLifecycleConfigurationRule) SetTransition(v *PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition) *PutBucketLifecycleRequestBodyLifecycleConfigurationRule {
+	s.Transition = v
+	return s
+}
+
+func (s *PutBucketLifecycleRequestBodyLifecycleConfigurationRule) SetAbortMultipartUpload(v *PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUpload) *PutBucketLifecycleRequestBodyLifecycleConfigurationRule {
+	s.AbortMultipartUpload = v
+	return s
+}
+
+func (s *PutBucketLifecycleRequestBodyLifecycleConfigurationRule) SetTag(v *PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag) *PutBucketLifecycleRequestBodyLifecycleConfigurationRule {
+	s.Tag = v
+	return s
+}
+
+func (s *PutBucketLifecycleRequestBodyLifecycleConfigurationRule) SetID(v string) *PutBucketLifecycleRequestBodyLifecycleConfigurationRule {
+	s.ID = &v
+	return s
+}
+
+func (s *PutBucketLifecycleRequestBodyLifecycleConfigurationRule) SetPrefix(v string) *PutBucketLifecycleRequestBodyLifecycleConfigurationRule {
+	s.Prefix = &v
+	return s
+}
+
+func (s *PutBucketLifecycleRequestBodyLifecycleConfigurationRule) SetStatus(v string) *PutBucketLifecycleRequestBodyLifecycleConfigurationRule {
+	s.Status = &v
+	return s
+}
+
+type PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration struct {
+	Days              *int    `json:"Days" xml:"Days" require:"true"`
+	CreatedBeforeDate *string `json:"CreatedBeforeDate" xml:"CreatedBeforeDate" require:"true"`
+}
+
+func (s PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration) SetDays(v int) *PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration {
+	s.Days = &v
+	return s
+}
+
+func (s *PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration) SetCreatedBeforeDate(v string) *PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration {
+	s.CreatedBeforeDate = &v
+	return s
+}
+
+type PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition struct {
+	Days         *int    `json:"Days" xml:"Days" require:"true"`
+	StorageClass *string `json:"StorageClass" xml:"StorageClass" require:"true"`
+}
+
+func (s PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition) SetDays(v int) *PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition {
+	s.Days = &v
+	return s
+}
+
+func (s *PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition) SetStorageClass(v string) *PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition {
+	s.StorageClass = &v
+	return s
+}
+
+type PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUpload struct {
+	Days              *int    `json:"Days" xml:"Days" require:"true"`
+	CreatedBeforeDate *string `json:"CreatedBeforeDate" xml:"CreatedBeforeDate" require:"true"`
+}
+
+func (s PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUpload) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUpload) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUpload) SetDays(v int) *PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUpload {
+	s.Days = &v
+	return s
+}
+
+func (s *PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUpload) SetCreatedBeforeDate(v string) *PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUpload {
+	s.CreatedBeforeDate = &v
+	return s
+}
+
+type PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag struct {
+	Key   *string `json:"Key" xml:"Key" require:"true"`
+	Value *string `json:"Value" xml:"Value" require:"true"`
+}
+
+func (s PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag) SetKey(v string) *PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag {
+	s.Key = &v
+	return s
+}
+
+func (s *PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag) SetValue(v string) *PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag {
+	s.Value = &v
+	return s
+}
+
+type PutBucketLifecycleResponse struct {
+	RequestId *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+}
+
+func (s PutBucketLifecycleResponse) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketLifecycleResponse) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketLifecycleResponse) SetRequestId(v string) *PutBucketLifecycleResponse {
+	s.RequestId = &v
+	return s
+}
+
+type DeleteMultipleObjectsRequest struct {
+	BucketName *string                             `json:"BucketName" xml:"BucketName" require:"true"`
+	Body       *DeleteMultipleObjectsRequestBody   `json:"Body" xml:"Body" type:"Struct"`
+	Header     *DeleteMultipleObjectsRequestHeader `json:"Header" xml:"Header" require:"true" type:"Struct"`
+}
+
+func (s DeleteMultipleObjectsRequest) String() string {
+	return service.Prettify(s)
+}
+
+func (s DeleteMultipleObjectsRequest) GoString() string {
+	return s.String()
+}
+
+func (s *DeleteMultipleObjectsRequest) SetBucketName(v string) *DeleteMultipleObjectsRequest {
+	s.BucketName = &v
+	return s
+}
+
+func (s *DeleteMultipleObjectsRequest) SetBody(v *DeleteMultipleObjectsRequestBody) *DeleteMultipleObjectsRequest {
+	s.Body = v
+	return s
+}
+
+func (s *DeleteMultipleObjectsRequest) SetHeader(v *DeleteMultipleObjectsRequestHeader) *DeleteMultipleObjectsRequest {
+	s.Header = v
+	return s
+}
+
+type DeleteMultipleObjectsRequestBody struct {
+	Delete *DeleteMultipleObjectsRequestBodyDelete `json:"Delete" xml:"Delete" require:"true" type:"Struct"`
+}
+
+func (s DeleteMultipleObjectsRequestBody) String() string {
+	return service.Prettify(s)
+}
+
+func (s DeleteMultipleObjectsRequestBody) GoString() string {
+	return s.String()
+}
+
+func (s *DeleteMultipleObjectsRequestBody) SetDelete(v *DeleteMultipleObjectsRequestBodyDelete) *DeleteMultipleObjectsRequestBody {
+	s.Delete = v
+	return s
+}
+
+type DeleteMultipleObjectsRequestBodyDelete struct {
+	Object []*DeleteMultipleObjectsRequestBodyDeleteObject `json:"Object" xml:"Object" require:"true" type:"Repeated"`
+	Quiet  *string                                         `json:"Quiet" xml:"Quiet" require:"true"`
+}
+
+func (s DeleteMultipleObjectsRequestBodyDelete) String() string {
+	return service.Prettify(s)
+}
+
+func (s DeleteMultipleObjectsRequestBodyDelete) GoString() string {
+	return s.String()
+}
+
+func (s *DeleteMultipleObjectsRequestBodyDelete) SetObject(v []*DeleteMultipleObjectsRequestBodyDeleteObject) *DeleteMultipleObjectsRequestBodyDelete {
+	s.Object = v
+	return s
+}
+
+func (s *DeleteMultipleObjectsRequestBodyDelete) SetQuiet(v string) *DeleteMultipleObjectsRequestBodyDelete {
+	s.Quiet = &v
+	return s
+}
+
+type DeleteMultipleObjectsRequestBodyDeleteObject struct {
+	Key *string `json:"Key" xml:"Key" require:"true"`
+}
+
+func (s DeleteMultipleObjectsRequestBodyDeleteObject) String() string {
+	return service.Prettify(s)
+}
+
+func (s DeleteMultipleObjectsRequestBodyDeleteObject) GoString() string {
+	return s.String()
+}
+
+func (s *DeleteMultipleObjectsRequestBodyDeleteObject) SetKey(v string) *DeleteMultipleObjectsRequestBodyDeleteObject {
+	s.Key = &v
+	return s
+}
+
+type DeleteMultipleObjectsRequestHeader struct {
+	EncodingType  *string `json:"Encoding-type" xml:"Encoding-type"`
+	ContentLength *string `json:"Content-Length" xml:"Content-Length" require:"true"`
+	ContentMD5    *string `json:"Content-MD5" xml:"Content-MD5" require:"true"`
+}
+
+func (s DeleteMultipleObjectsRequestHeader) String() string {
+	return service.Prettify(s)
+}
+
+func (s DeleteMultipleObjectsRequestHeader) GoString() string {
+	return s.String()
+}
+
+func (s *DeleteMultipleObjectsRequestHeader) SetEncodingType(v string) *DeleteMultipleObjectsRequestHeader {
+	s.EncodingType = &v
+	return s
+}
+
+func (s *DeleteMultipleObjectsRequestHeader) SetContentLength(v string) *DeleteMultipleObjectsRequestHeader {
+	s.ContentLength = &v
+	return s
+}
+
+func (s *DeleteMultipleObjectsRequestHeader) SetContentMD5(v string) *DeleteMultipleObjectsRequestHeader {
+	s.ContentMD5 = &v
+	return s
+}
+
+type DeleteMultipleObjectsResponse struct {
+	RequestId    *string                                    `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+	DeleteResult *DeleteMultipleObjectsResponseDeleteResult `json:"DeleteResult" xml:"DeleteResult" require:"true" type:"Struct"`
+}
+
+func (s DeleteMultipleObjectsResponse) String() string {
+	return service.Prettify(s)
+}
+
+func (s DeleteMultipleObjectsResponse) GoString() string {
+	return s.String()
+}
+
+func (s *DeleteMultipleObjectsResponse) SetRequestId(v string) *DeleteMultipleObjectsResponse {
+	s.RequestId = &v
+	return s
+}
+
+func (s *DeleteMultipleObjectsResponse) SetDeleteResult(v *DeleteMultipleObjectsResponseDeleteResult) *DeleteMultipleObjectsResponse {
+	s.DeleteResult = v
+	return s
+}
+
+type DeleteMultipleObjectsResponseDeleteResult struct {
+	Quiet        *string                                             `json:"Quiet" xml:"Quiet" require:"true"`
+	EncodingType *string                                             `json:"EncodingType" xml:"EncodingType" require:"true"`
+	Deleted      []*DeleteMultipleObjectsResponseDeleteResultDeleted `json:"Deleted" xml:"Deleted" require:"true" type:"Repeated"`
+}
+
+func (s DeleteMultipleObjectsResponseDeleteResult) String() string {
+	return service.Prettify(s)
+}
+
+func (s DeleteMultipleObjectsResponseDeleteResult) GoString() string {
+	return s.String()
+}
+
+func (s *DeleteMultipleObjectsResponseDeleteResult) SetQuiet(v string) *DeleteMultipleObjectsResponseDeleteResult {
+	s.Quiet = &v
+	return s
+}
+
+func (s *DeleteMultipleObjectsResponseDeleteResult) SetEncodingType(v string) *DeleteMultipleObjectsResponseDeleteResult {
+	s.EncodingType = &v
+	return s
+}
+
+func (s *DeleteMultipleObjectsResponseDeleteResult) SetDeleted(v []*DeleteMultipleObjectsResponseDeleteResultDeleted) *DeleteMultipleObjectsResponseDeleteResult {
+	s.Deleted = v
+	return s
+}
+
+type DeleteMultipleObjectsResponseDeleteResultDeleted struct {
+	Key *string `json:"Key" xml:"Key" require:"true"`
+}
+
+func (s DeleteMultipleObjectsResponseDeleteResultDeleted) String() string {
+	return service.Prettify(s)
+}
+
+func (s DeleteMultipleObjectsResponseDeleteResultDeleted) GoString() string {
+	return s.String()
+}
+
+func (s *DeleteMultipleObjectsResponseDeleteResultDeleted) SetKey(v string) *DeleteMultipleObjectsResponseDeleteResultDeleted {
+	s.Key = &v
+	return s
+}
+
+type PutBucketRefererRequest struct {
+	BucketName *string                      `json:"BucketName" xml:"BucketName" require:"true"`
+	Body       *PutBucketRefererRequestBody `json:"Body" xml:"Body" type:"Struct"`
+}
+
+func (s PutBucketRefererRequest) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketRefererRequest) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketRefererRequest) SetBucketName(v string) *PutBucketRefererRequest {
+	s.BucketName = &v
+	return s
+}
+
+func (s *PutBucketRefererRequest) SetBody(v *PutBucketRefererRequestBody) *PutBucketRefererRequest {
+	s.Body = v
+	return s
+}
+
+type PutBucketRefererRequestBody struct {
+	RefererConfiguration *PutBucketRefererRequestBodyRefererConfiguration `json:"RefererConfiguration" xml:"RefererConfiguration" require:"true" type:"Struct"`
+}
+
+func (s PutBucketRefererRequestBody) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketRefererRequestBody) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketRefererRequestBody) SetRefererConfiguration(v *PutBucketRefererRequestBodyRefererConfiguration) *PutBucketRefererRequestBody {
+	s.RefererConfiguration = v
+	return s
+}
+
+type PutBucketRefererRequestBodyRefererConfiguration struct {
+	RefererList       *PutBucketRefererRequestBodyRefererConfigurationRefererList `json:"RefererList" xml:"RefererList" require:"true" type:"Struct"`
+	AllowEmptyReferer *bool                                                       `json:"AllowEmptyReferer" xml:"AllowEmptyReferer" require:"true"`
+}
+
+func (s PutBucketRefererRequestBodyRefererConfiguration) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketRefererRequestBodyRefererConfiguration) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketRefererRequestBodyRefererConfiguration) SetRefererList(v *PutBucketRefererRequestBodyRefererConfigurationRefererList) *PutBucketRefererRequestBodyRefererConfiguration {
+	s.RefererList = v
+	return s
+}
+
+func (s *PutBucketRefererRequestBodyRefererConfiguration) SetAllowEmptyReferer(v bool) *PutBucketRefererRequestBodyRefererConfiguration {
+	s.AllowEmptyReferer = &v
+	return s
+}
+
+type PutBucketRefererRequestBodyRefererConfigurationRefererList struct {
+	Referer []*string `json:"Referer" xml:"Referer" require:"true" type:"Repeated"`
+}
+
+func (s PutBucketRefererRequestBodyRefererConfigurationRefererList) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketRefererRequestBodyRefererConfigurationRefererList) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketRefererRequestBodyRefererConfigurationRefererList) SetReferer(v []*string) *PutBucketRefererRequestBodyRefererConfigurationRefererList {
+	s.Referer = v
+	return s
+}
+
+type PutBucketRefererResponse struct {
+	RequestId *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+}
+
+func (s PutBucketRefererResponse) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketRefererResponse) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketRefererResponse) SetRequestId(v string) *PutBucketRefererResponse {
+	s.RequestId = &v
+	return s
+}
+
+type PutBucketWebsiteRequest struct {
+	BucketName *string                      `json:"BucketName" xml:"BucketName" require:"true"`
+	Body       *PutBucketWebsiteRequestBody `json:"Body" xml:"Body" type:"Struct"`
+}
+
+func (s PutBucketWebsiteRequest) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketWebsiteRequest) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketWebsiteRequest) SetBucketName(v string) *PutBucketWebsiteRequest {
+	s.BucketName = &v
+	return s
+}
+
+func (s *PutBucketWebsiteRequest) SetBody(v *PutBucketWebsiteRequestBody) *PutBucketWebsiteRequest {
+	s.Body = v
+	return s
+}
+
+type PutBucketWebsiteRequestBody struct {
+	WebsiteConfiguration *PutBucketWebsiteRequestBodyWebsiteConfiguration `json:"WebsiteConfiguration" xml:"WebsiteConfiguration" require:"true" type:"Struct"`
+}
+
+func (s PutBucketWebsiteRequestBody) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketWebsiteRequestBody) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketWebsiteRequestBody) SetWebsiteConfiguration(v *PutBucketWebsiteRequestBodyWebsiteConfiguration) *PutBucketWebsiteRequestBody {
+	s.WebsiteConfiguration = v
+	return s
+}
+
+type PutBucketWebsiteRequestBodyWebsiteConfiguration struct {
+	IndexDocument *PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument `json:"IndexDocument" xml:"IndexDocument" require:"true" type:"Struct"`
+	ErrorDocument *PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument `json:"ErrorDocument" xml:"ErrorDocument" require:"true" type:"Struct"`
+	RoutingRules  *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules  `json:"RoutingRules" xml:"RoutingRules" require:"true" type:"Struct"`
+}
+
+func (s PutBucketWebsiteRequestBodyWebsiteConfiguration) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketWebsiteRequestBodyWebsiteConfiguration) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketWebsiteRequestBodyWebsiteConfiguration) SetIndexDocument(v *PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument) *PutBucketWebsiteRequestBodyWebsiteConfiguration {
+	s.IndexDocument = v
+	return s
+}
+
+func (s *PutBucketWebsiteRequestBodyWebsiteConfiguration) SetErrorDocument(v *PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument) *PutBucketWebsiteRequestBodyWebsiteConfiguration {
+	s.ErrorDocument = v
+	return s
+}
+
+func (s *PutBucketWebsiteRequestBodyWebsiteConfiguration) SetRoutingRules(v *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules) *PutBucketWebsiteRequestBodyWebsiteConfiguration {
+	s.RoutingRules = v
+	return s
+}
+
+type PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument struct {
+	Suffix *string `json:"Suffix" xml:"Suffix" require:"true"`
+}
+
+func (s PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument) SetSuffix(v string) *PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument {
+	s.Suffix = &v
+	return s
+}
+
+type PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument struct {
+	Key *string `json:"Key" xml:"Key" require:"true"`
+}
+
+func (s PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument) SetKey(v string) *PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument {
+	s.Key = &v
+	return s
+}
+
+type PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules struct {
+	RoutingRule []*PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule `json:"RoutingRule" xml:"RoutingRule" require:"true" type:"Repeated"`
+}
+
+func (s PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules) SetRoutingRule(v []*PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule) *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules {
+	s.RoutingRule = v
+	return s
+}
+
+type PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule struct {
+	Condition  *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCondition `json:"Condition" xml:"Condition" require:"true" type:"Struct"`
+	Redirect   *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect  `json:"Redirect" xml:"Redirect" require:"true" type:"Struct"`
+	RuleNumber *int                                                                             `json:"RuleNumber" xml:"RuleNumber" require:"true"`
+}
+
+func (s PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule) SetCondition(v *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCondition) *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule {
+	s.Condition = v
+	return s
+}
+
+func (s *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule) SetRedirect(v *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect) *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule {
+	s.Redirect = v
+	return s
+}
+
+func (s *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule) SetRuleNumber(v int) *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule {
+	s.RuleNumber = &v
+	return s
+}
+
+type PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCondition struct {
+	IncludeHeader               *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader `json:"IncludeHeader" xml:"IncludeHeader" require:"true" type:"Struct"`
+	KeyPrefixEquals             *string                                                                                       `json:"KeyPrefixEquals" xml:"KeyPrefixEquals" require:"true"`
+	HttpErrorCodeReturnedEquals *string                                                                                       `json:"HttpErrorCodeReturnedEquals" xml:"HttpErrorCodeReturnedEquals" require:"true"`
+}
+
+func (s PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCondition) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCondition) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCondition) SetIncludeHeader(v *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader) *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCondition {
+	s.IncludeHeader = v
+	return s
+}
+
+func (s *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCondition) SetKeyPrefixEquals(v string) *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCondition {
+	s.KeyPrefixEquals = &v
+	return s
+}
+
+func (s *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCondition) SetHttpErrorCodeReturnedEquals(v string) *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCondition {
+	s.HttpErrorCodeReturnedEquals = &v
+	return s
+}
+
+type PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader struct {
+	Key    *string `json:"Key" xml:"Key" require:"true"`
+	Equals *string `json:"Equals" xml:"Equals" require:"true"`
+}
+
+func (s PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader) SetKey(v string) *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader {
+	s.Key = &v
+	return s
+}
+
+func (s *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader) SetEquals(v string) *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader {
+	s.Equals = &v
+	return s
+}
+
+type PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect struct {
+	MirrorHeaders         *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders `json:"MirrorHeaders" xml:"MirrorHeaders" require:"true" type:"Struct"`
+	RedirectType          *string                                                                                      `json:"RedirectType" xml:"RedirectType" require:"true"`
+	PassQueryString       *bool                                                                                        `json:"PassQueryString" xml:"PassQueryString" require:"true"`
+	MirrorURL             *string                                                                                      `json:"MirrorURL" xml:"MirrorURL" require:"true"`
+	MirrorPassQueryString *bool                                                                                        `json:"MirrorPassQueryString" xml:"MirrorPassQueryString" require:"true"`
+	MirrorFollowRedirect  *bool                                                                                        `json:"MirrorFollowRedirect" xml:"MirrorFollowRedirect" require:"true"`
+	MirrorCheckMd5        *bool                                                                                        `json:"MirrorCheckMd5" xml:"MirrorCheckMd5" require:"true"`
+	Protocol              *string                                                                                      `json:"Protocol" xml:"Protocol" require:"true"`
+	HostName              *string                                                                                      `json:"HostName" xml:"HostName" require:"true"`
+	HttpRedirectCode      *string                                                                                      `json:"HttpRedirectCode" xml:"HttpRedirectCode" require:"true"`
+	ReplaceKeyPrefixWith  *string                                                                                      `json:"ReplaceKeyPrefixWith" xml:"ReplaceKeyPrefixWith" require:"true"`
+	ReplaceKeyWith        *string                                                                                      `json:"ReplaceKeyWith" xml:"ReplaceKeyWith" require:"true"`
+}
+
+func (s PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect) SetMirrorHeaders(v *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders) *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect {
+	s.MirrorHeaders = v
+	return s
+}
+
+func (s *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect) SetRedirectType(v string) *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect {
+	s.RedirectType = &v
+	return s
+}
+
+func (s *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect) SetPassQueryString(v bool) *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect {
+	s.PassQueryString = &v
+	return s
+}
+
+func (s *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect) SetMirrorURL(v string) *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect {
+	s.MirrorURL = &v
+	return s
+}
+
+func (s *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect) SetMirrorPassQueryString(v bool) *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect {
+	s.MirrorPassQueryString = &v
+	return s
+}
+
+func (s *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect) SetMirrorFollowRedirect(v bool) *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect {
+	s.MirrorFollowRedirect = &v
+	return s
+}
+
+func (s *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect) SetMirrorCheckMd5(v bool) *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect {
+	s.MirrorCheckMd5 = &v
+	return s
+}
+
+func (s *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect) SetProtocol(v string) *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect {
+	s.Protocol = &v
+	return s
+}
+
+func (s *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect) SetHostName(v string) *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect {
+	s.HostName = &v
+	return s
+}
+
+func (s *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect) SetHttpRedirectCode(v string) *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect {
+	s.HttpRedirectCode = &v
+	return s
+}
+
+func (s *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect) SetReplaceKeyPrefixWith(v string) *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect {
+	s.ReplaceKeyPrefixWith = &v
+	return s
+}
+
+func (s *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect) SetReplaceKeyWith(v string) *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect {
+	s.ReplaceKeyWith = &v
+	return s
+}
+
+type PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders struct {
+	Set     *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet `json:"Set" xml:"Set" require:"true" type:"Struct"`
+	PassAll *bool                                                                                           `json:"PassAll" xml:"PassAll" require:"true"`
+	Pass    *string                                                                                         `json:"Pass" xml:"Pass" require:"true"`
+	Remove  *string                                                                                         `json:"Remove" xml:"Remove" require:"true"`
+}
+
+func (s PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders) SetSet(v *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet) *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders {
+	s.Set = v
+	return s
+}
+
+func (s *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders) SetPassAll(v bool) *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders {
+	s.PassAll = &v
+	return s
+}
+
+func (s *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders) SetPass(v string) *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders {
+	s.Pass = &v
+	return s
+}
+
+func (s *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders) SetRemove(v string) *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders {
+	s.Remove = &v
+	return s
+}
+
+type PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet struct {
+	Key   *string `json:"Key" xml:"Key" require:"true"`
+	Value *string `json:"Value" xml:"Value" require:"true"`
+}
+
+func (s PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet) SetKey(v string) *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet {
+	s.Key = &v
+	return s
+}
+
+func (s *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet) SetValue(v string) *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet {
+	s.Value = &v
+	return s
+}
+
+type PutBucketWebsiteResponse struct {
+	RequestId *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+}
+
+func (s PutBucketWebsiteResponse) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketWebsiteResponse) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketWebsiteResponse) SetRequestId(v string) *PutBucketWebsiteResponse {
+	s.RequestId = &v
+	return s
+}
+
+type CompleteMultipartUploadRequest struct {
+	BucketName *string                               `json:"BucketName" xml:"BucketName" require:"true"`
+	ObjectName *string                               `json:"ObjectName" xml:"ObjectName" require:"true"`
+	Filter     *CompleteMultipartUploadRequestFilter `json:"Filter" xml:"Filter" require:"true" type:"Struct"`
+	Body       *CompleteMultipartUploadRequestBody   `json:"Body" xml:"Body" type:"Struct"`
+}
+
+func (s CompleteMultipartUploadRequest) String() string {
+	return service.Prettify(s)
+}
+
+func (s CompleteMultipartUploadRequest) GoString() string {
+	return s.String()
+}
+
+func (s *CompleteMultipartUploadRequest) SetBucketName(v string) *CompleteMultipartUploadRequest {
+	s.BucketName = &v
+	return s
+}
+
+func (s *CompleteMultipartUploadRequest) SetObjectName(v string) *CompleteMultipartUploadRequest {
+	s.ObjectName = &v
+	return s
+}
+
+func (s *CompleteMultipartUploadRequest) SetFilter(v *CompleteMultipartUploadRequestFilter) *CompleteMultipartUploadRequest {
+	s.Filter = v
+	return s
+}
+
+func (s *CompleteMultipartUploadRequest) SetBody(v *CompleteMultipartUploadRequestBody) *CompleteMultipartUploadRequest {
+	s.Body = v
+	return s
+}
+
+type CompleteMultipartUploadRequestFilter struct {
+	UploadId     *string `json:"uploadId" xml:"uploadId" require:"true" signed:"true"`
+	EncodingType *string `json:"Encoding-type" xml:"Encoding-type"`
+}
+
+func (s CompleteMultipartUploadRequestFilter) String() string {
+	return service.Prettify(s)
+}
+
+func (s CompleteMultipartUploadRequestFilter) GoString() string {
+	return s.String()
+}
+
+func (s *CompleteMultipartUploadRequestFilter) SetUploadId(v string) *CompleteMultipartUploadRequestFilter {
+	s.UploadId = &v
+	return s
+}
+
+func (s *CompleteMultipartUploadRequestFilter) SetEncodingType(v string) *CompleteMultipartUploadRequestFilter {
+	s.EncodingType = &v
+	return s
+}
+
+type CompleteMultipartUploadRequestBody struct {
+	CompleteMultipartUpload *CompleteMultipartUploadRequestBodyCompleteMultipartUpload `json:"CompleteMultipartUpload" xml:"CompleteMultipartUpload" require:"true" type:"Struct"`
+}
+
+func (s CompleteMultipartUploadRequestBody) String() string {
+	return service.Prettify(s)
+}
+
+func (s CompleteMultipartUploadRequestBody) GoString() string {
+	return s.String()
+}
+
+func (s *CompleteMultipartUploadRequestBody) SetCompleteMultipartUpload(v *CompleteMultipartUploadRequestBodyCompleteMultipartUpload) *CompleteMultipartUploadRequestBody {
+	s.CompleteMultipartUpload = v
+	return s
+}
+
+type CompleteMultipartUploadRequestBodyCompleteMultipartUpload struct {
+	Part []*CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart `json:"Part" xml:"Part" require:"true" type:"Repeated"`
+}
+
+func (s CompleteMultipartUploadRequestBodyCompleteMultipartUpload) String() string {
+	return service.Prettify(s)
+}
+
+func (s CompleteMultipartUploadRequestBodyCompleteMultipartUpload) GoString() string {
+	return s.String()
+}
+
+func (s *CompleteMultipartUploadRequestBodyCompleteMultipartUpload) SetPart(v []*CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart) *CompleteMultipartUploadRequestBodyCompleteMultipartUpload {
+	s.Part = v
+	return s
+}
+
+type CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart struct {
+	PartNumber *string `json:"PartNumber" xml:"PartNumber" require:"true"`
+	ETag       *string `json:"ETag" xml:"ETag" require:"true"`
+}
+
+func (s CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart) String() string {
+	return service.Prettify(s)
+}
+
+func (s CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart) GoString() string {
+	return s.String()
+}
+
+func (s *CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart) SetPartNumber(v string) *CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart {
+	s.PartNumber = &v
+	return s
+}
+
+func (s *CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart) SetETag(v string) *CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart {
+	s.ETag = &v
+	return s
+}
+
+type CompleteMultipartUploadResponse struct {
+	RequestId                     *string                                                       `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+	CompleteMultipartUploadResult *CompleteMultipartUploadResponseCompleteMultipartUploadResult `json:"CompleteMultipartUploadResult" xml:"CompleteMultipartUploadResult" require:"true" type:"Struct"`
+}
+
+func (s CompleteMultipartUploadResponse) String() string {
+	return service.Prettify(s)
+}
+
+func (s CompleteMultipartUploadResponse) GoString() string {
+	return s.String()
+}
+
+func (s *CompleteMultipartUploadResponse) SetRequestId(v string) *CompleteMultipartUploadResponse {
+	s.RequestId = &v
+	return s
+}
+
+func (s *CompleteMultipartUploadResponse) SetCompleteMultipartUploadResult(v *CompleteMultipartUploadResponseCompleteMultipartUploadResult) *CompleteMultipartUploadResponse {
+	s.CompleteMultipartUploadResult = v
+	return s
+}
+
+type CompleteMultipartUploadResponseCompleteMultipartUploadResult struct {
+	Bucket       *string `json:"Bucket" xml:"Bucket" require:"true"`
+	ETag         *string `json:"ETag" xml:"ETag" require:"true"`
+	Location     *string `json:"Location" xml:"Location" require:"true"`
+	Key          *string `json:"Key" xml:"Key" require:"true"`
+	EncodingType *string `json:"EncodingType" xml:"EncodingType" require:"true"`
+}
+
+func (s CompleteMultipartUploadResponseCompleteMultipartUploadResult) String() string {
+	return service.Prettify(s)
+}
+
+func (s CompleteMultipartUploadResponseCompleteMultipartUploadResult) GoString() string {
+	return s.String()
+}
+
+func (s *CompleteMultipartUploadResponseCompleteMultipartUploadResult) SetBucket(v string) *CompleteMultipartUploadResponseCompleteMultipartUploadResult {
+	s.Bucket = &v
+	return s
+}
+
+func (s *CompleteMultipartUploadResponseCompleteMultipartUploadResult) SetETag(v string) *CompleteMultipartUploadResponseCompleteMultipartUploadResult {
+	s.ETag = &v
+	return s
+}
+
+func (s *CompleteMultipartUploadResponseCompleteMultipartUploadResult) SetLocation(v string) *CompleteMultipartUploadResponseCompleteMultipartUploadResult {
+	s.Location = &v
+	return s
+}
+
+func (s *CompleteMultipartUploadResponseCompleteMultipartUploadResult) SetKey(v string) *CompleteMultipartUploadResponseCompleteMultipartUploadResult {
+	s.Key = &v
+	return s
+}
+
+func (s *CompleteMultipartUploadResponseCompleteMultipartUploadResult) SetEncodingType(v string) *CompleteMultipartUploadResponseCompleteMultipartUploadResult {
+	s.EncodingType = &v
+	return s
+}
+
+type PutBucketLoggingRequest struct {
+	BucketName *string                      `json:"BucketName" xml:"BucketName" require:"true"`
+	Body       *PutBucketLoggingRequestBody `json:"Body" xml:"Body" type:"Struct"`
+}
+
+func (s PutBucketLoggingRequest) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketLoggingRequest) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketLoggingRequest) SetBucketName(v string) *PutBucketLoggingRequest {
+	s.BucketName = &v
+	return s
+}
+
+func (s *PutBucketLoggingRequest) SetBody(v *PutBucketLoggingRequestBody) *PutBucketLoggingRequest {
+	s.Body = v
+	return s
+}
+
+type PutBucketLoggingRequestBody struct {
+	BucketLoggingStatus *PutBucketLoggingRequestBodyBucketLoggingStatus `json:"BucketLoggingStatus" xml:"BucketLoggingStatus" require:"true" type:"Struct"`
+}
+
+func (s PutBucketLoggingRequestBody) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketLoggingRequestBody) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketLoggingRequestBody) SetBucketLoggingStatus(v *PutBucketLoggingRequestBodyBucketLoggingStatus) *PutBucketLoggingRequestBody {
+	s.BucketLoggingStatus = v
+	return s
+}
+
+type PutBucketLoggingRequestBodyBucketLoggingStatus struct {
+	LoggingEnabled *PutBucketLoggingRequestBodyBucketLoggingStatusLoggingEnabled `json:"LoggingEnabled" xml:"LoggingEnabled" require:"true" type:"Struct"`
+}
+
+func (s PutBucketLoggingRequestBodyBucketLoggingStatus) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketLoggingRequestBodyBucketLoggingStatus) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketLoggingRequestBodyBucketLoggingStatus) SetLoggingEnabled(v *PutBucketLoggingRequestBodyBucketLoggingStatusLoggingEnabled) *PutBucketLoggingRequestBodyBucketLoggingStatus {
+	s.LoggingEnabled = v
+	return s
+}
+
+type PutBucketLoggingRequestBodyBucketLoggingStatusLoggingEnabled struct {
+	TargetBucket *string `json:"TargetBucket" xml:"TargetBucket" require:"true"`
+	TargetPrefix *string `json:"TargetPrefix" xml:"TargetPrefix" require:"true"`
+}
+
+func (s PutBucketLoggingRequestBodyBucketLoggingStatusLoggingEnabled) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketLoggingRequestBodyBucketLoggingStatusLoggingEnabled) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketLoggingRequestBodyBucketLoggingStatusLoggingEnabled) SetTargetBucket(v string) *PutBucketLoggingRequestBodyBucketLoggingStatusLoggingEnabled {
+	s.TargetBucket = &v
+	return s
+}
+
+func (s *PutBucketLoggingRequestBodyBucketLoggingStatusLoggingEnabled) SetTargetPrefix(v string) *PutBucketLoggingRequestBodyBucketLoggingStatusLoggingEnabled {
+	s.TargetPrefix = &v
+	return s
+}
+
+type PutBucketLoggingResponse struct {
+	RequestId *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+}
+
+func (s PutBucketLoggingResponse) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketLoggingResponse) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketLoggingResponse) SetRequestId(v string) *PutBucketLoggingResponse {
+	s.RequestId = &v
+	return s
+}
+
+type PutBucketRequestPaymentRequest struct {
+	BucketName *string                             `json:"BucketName" xml:"BucketName" require:"true"`
+	Body       *PutBucketRequestPaymentRequestBody `json:"Body" xml:"Body" type:"Struct"`
+}
+
+func (s PutBucketRequestPaymentRequest) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketRequestPaymentRequest) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketRequestPaymentRequest) SetBucketName(v string) *PutBucketRequestPaymentRequest {
+	s.BucketName = &v
+	return s
+}
+
+func (s *PutBucketRequestPaymentRequest) SetBody(v *PutBucketRequestPaymentRequestBody) *PutBucketRequestPaymentRequest {
+	s.Body = v
+	return s
+}
+
+type PutBucketRequestPaymentRequestBody struct {
+	RequestPaymentConfiguration *PutBucketRequestPaymentRequestBodyRequestPaymentConfiguration `json:"RequestPaymentConfiguration" xml:"RequestPaymentConfiguration" require:"true" type:"Struct"`
+}
+
+func (s PutBucketRequestPaymentRequestBody) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketRequestPaymentRequestBody) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketRequestPaymentRequestBody) SetRequestPaymentConfiguration(v *PutBucketRequestPaymentRequestBodyRequestPaymentConfiguration) *PutBucketRequestPaymentRequestBody {
+	s.RequestPaymentConfiguration = v
+	return s
+}
+
+type PutBucketRequestPaymentRequestBodyRequestPaymentConfiguration struct {
+	Payer *string `json:"Payer" xml:"Payer" require:"true"`
+}
+
+func (s PutBucketRequestPaymentRequestBodyRequestPaymentConfiguration) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketRequestPaymentRequestBodyRequestPaymentConfiguration) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketRequestPaymentRequestBodyRequestPaymentConfiguration) SetPayer(v string) *PutBucketRequestPaymentRequestBodyRequestPaymentConfiguration {
+	s.Payer = &v
+	return s
+}
+
+type PutBucketRequestPaymentResponse struct {
+	RequestId *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+}
+
+func (s PutBucketRequestPaymentResponse) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketRequestPaymentResponse) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketRequestPaymentResponse) SetRequestId(v string) *PutBucketRequestPaymentResponse {
+	s.RequestId = &v
+	return s
+}
+
+type PutBucketEncryptionRequest struct {
+	BucketName *string                         `json:"BucketName" xml:"BucketName" require:"true"`
+	Body       *PutBucketEncryptionRequestBody `json:"Body" xml:"Body" type:"Struct"`
+}
+
+func (s PutBucketEncryptionRequest) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketEncryptionRequest) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketEncryptionRequest) SetBucketName(v string) *PutBucketEncryptionRequest {
+	s.BucketName = &v
+	return s
+}
+
+func (s *PutBucketEncryptionRequest) SetBody(v *PutBucketEncryptionRequestBody) *PutBucketEncryptionRequest {
+	s.Body = v
+	return s
+}
+
+type PutBucketEncryptionRequestBody struct {
+	ServerSideEncryptionRule *PutBucketEncryptionRequestBodyServerSideEncryptionRule `json:"ServerSideEncryptionRule" xml:"ServerSideEncryptionRule" require:"true" type:"Struct"`
+}
+
+func (s PutBucketEncryptionRequestBody) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketEncryptionRequestBody) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketEncryptionRequestBody) SetServerSideEncryptionRule(v *PutBucketEncryptionRequestBodyServerSideEncryptionRule) *PutBucketEncryptionRequestBody {
+	s.ServerSideEncryptionRule = v
+	return s
+}
+
+type PutBucketEncryptionRequestBodyServerSideEncryptionRule struct {
+	ApplyServerSideEncryptionByDefault *PutBucketEncryptionRequestBodyServerSideEncryptionRuleApplyServerSideEncryptionByDefault `json:"ApplyServerSideEncryptionByDefault" xml:"ApplyServerSideEncryptionByDefault" require:"true" type:"Struct"`
+}
+
+func (s PutBucketEncryptionRequestBodyServerSideEncryptionRule) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketEncryptionRequestBodyServerSideEncryptionRule) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketEncryptionRequestBodyServerSideEncryptionRule) SetApplyServerSideEncryptionByDefault(v *PutBucketEncryptionRequestBodyServerSideEncryptionRuleApplyServerSideEncryptionByDefault) *PutBucketEncryptionRequestBodyServerSideEncryptionRule {
+	s.ApplyServerSideEncryptionByDefault = v
+	return s
+}
+
+type PutBucketEncryptionRequestBodyServerSideEncryptionRuleApplyServerSideEncryptionByDefault struct {
+	SSEAlgorithm   *string `json:"SSEAlgorithm" xml:"SSEAlgorithm" require:"true"`
+	KMSMasterKeyID *string `json:"KMSMasterKeyID" xml:"KMSMasterKeyID" require:"true"`
+}
+
+func (s PutBucketEncryptionRequestBodyServerSideEncryptionRuleApplyServerSideEncryptionByDefault) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketEncryptionRequestBodyServerSideEncryptionRuleApplyServerSideEncryptionByDefault) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketEncryptionRequestBodyServerSideEncryptionRuleApplyServerSideEncryptionByDefault) SetSSEAlgorithm(v string) *PutBucketEncryptionRequestBodyServerSideEncryptionRuleApplyServerSideEncryptionByDefault {
+	s.SSEAlgorithm = &v
+	return s
+}
+
+func (s *PutBucketEncryptionRequestBodyServerSideEncryptionRuleApplyServerSideEncryptionByDefault) SetKMSMasterKeyID(v string) *PutBucketEncryptionRequestBodyServerSideEncryptionRuleApplyServerSideEncryptionByDefault {
+	s.KMSMasterKeyID = &v
+	return s
+}
+
+type PutBucketEncryptionResponse struct {
+	RequestId *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+}
+
+func (s PutBucketEncryptionResponse) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketEncryptionResponse) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketEncryptionResponse) SetRequestId(v string) *PutBucketEncryptionResponse {
+	s.RequestId = &v
+	return s
+}
+
+type PutLiveChannelRequest struct {
+	BucketName  *string                    `json:"BucketName" xml:"BucketName" require:"true"`
+	ChannelName *string                    `json:"ChannelName" xml:"ChannelName" require:"true"`
+	Body        *PutLiveChannelRequestBody `json:"Body" xml:"Body" type:"Struct"`
+}
+
+func (s PutLiveChannelRequest) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutLiveChannelRequest) GoString() string {
+	return s.String()
+}
+
+func (s *PutLiveChannelRequest) SetBucketName(v string) *PutLiveChannelRequest {
+	s.BucketName = &v
+	return s
+}
+
+func (s *PutLiveChannelRequest) SetChannelName(v string) *PutLiveChannelRequest {
+	s.ChannelName = &v
+	return s
+}
+
+func (s *PutLiveChannelRequest) SetBody(v *PutLiveChannelRequestBody) *PutLiveChannelRequest {
+	s.Body = v
+	return s
+}
+
+type PutLiveChannelRequestBody struct {
+	LiveChannelConfiguration *PutLiveChannelRequestBodyLiveChannelConfiguration `json:"LiveChannelConfiguration" xml:"LiveChannelConfiguration" require:"true" type:"Struct"`
+}
+
+func (s PutLiveChannelRequestBody) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutLiveChannelRequestBody) GoString() string {
+	return s.String()
+}
+
+func (s *PutLiveChannelRequestBody) SetLiveChannelConfiguration(v *PutLiveChannelRequestBodyLiveChannelConfiguration) *PutLiveChannelRequestBody {
+	s.LiveChannelConfiguration = v
+	return s
+}
+
+type PutLiveChannelRequestBodyLiveChannelConfiguration struct {
+	Target      *PutLiveChannelRequestBodyLiveChannelConfigurationTarget   `json:"Target" xml:"Target" require:"true" type:"Struct"`
+	Snapshot    *PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot `json:"Snapshot" xml:"Snapshot" require:"true" type:"Struct"`
+	Description *string                                                    `json:"Description" xml:"Description" require:"true"`
+	Status      *string                                                    `json:"Status" xml:"Status" require:"true"`
+}
+
+func (s PutLiveChannelRequestBodyLiveChannelConfiguration) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutLiveChannelRequestBodyLiveChannelConfiguration) GoString() string {
+	return s.String()
+}
+
+func (s *PutLiveChannelRequestBodyLiveChannelConfiguration) SetTarget(v *PutLiveChannelRequestBodyLiveChannelConfigurationTarget) *PutLiveChannelRequestBodyLiveChannelConfiguration {
+	s.Target = v
+	return s
+}
+
+func (s *PutLiveChannelRequestBodyLiveChannelConfiguration) SetSnapshot(v *PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot) *PutLiveChannelRequestBodyLiveChannelConfiguration {
+	s.Snapshot = v
+	return s
+}
+
+func (s *PutLiveChannelRequestBodyLiveChannelConfiguration) SetDescription(v string) *PutLiveChannelRequestBodyLiveChannelConfiguration {
+	s.Description = &v
+	return s
+}
+
+func (s *PutLiveChannelRequestBodyLiveChannelConfiguration) SetStatus(v string) *PutLiveChannelRequestBodyLiveChannelConfiguration {
+	s.Status = &v
+	return s
+}
+
+type PutLiveChannelRequestBodyLiveChannelConfigurationTarget struct {
+	Type         *string `json:"Type" xml:"Type" require:"true"`
+	FragDuration *string `json:"FragDuration" xml:"FragDuration" require:"true"`
+	FragCount    *string `json:"FragCount" xml:"FragCount" require:"true"`
+	PlaylistName *string `json:"PlaylistName" xml:"PlaylistName" require:"true"`
+}
+
+func (s PutLiveChannelRequestBodyLiveChannelConfigurationTarget) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutLiveChannelRequestBodyLiveChannelConfigurationTarget) GoString() string {
+	return s.String()
+}
+
+func (s *PutLiveChannelRequestBodyLiveChannelConfigurationTarget) SetType(v string) *PutLiveChannelRequestBodyLiveChannelConfigurationTarget {
+	s.Type = &v
+	return s
+}
+
+func (s *PutLiveChannelRequestBodyLiveChannelConfigurationTarget) SetFragDuration(v string) *PutLiveChannelRequestBodyLiveChannelConfigurationTarget {
+	s.FragDuration = &v
+	return s
+}
+
+func (s *PutLiveChannelRequestBodyLiveChannelConfigurationTarget) SetFragCount(v string) *PutLiveChannelRequestBodyLiveChannelConfigurationTarget {
+	s.FragCount = &v
+	return s
+}
+
+func (s *PutLiveChannelRequestBodyLiveChannelConfigurationTarget) SetPlaylistName(v string) *PutLiveChannelRequestBodyLiveChannelConfigurationTarget {
+	s.PlaylistName = &v
+	return s
+}
+
+type PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot struct {
+	RoleName    *string `json:"RoleName" xml:"RoleName" require:"true"`
+	DestBucket  *string `json:"DestBucket" xml:"DestBucket" require:"true"`
+	NotifyTopic *string `json:"NotifyTopic" xml:"NotifyTopic" require:"true"`
+	Interval    *string `json:"Interval" xml:"Interval" require:"true"`
+}
+
+func (s PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot) GoString() string {
+	return s.String()
+}
+
+func (s *PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot) SetRoleName(v string) *PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot {
+	s.RoleName = &v
+	return s
+}
+
+func (s *PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot) SetDestBucket(v string) *PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot {
+	s.DestBucket = &v
+	return s
+}
+
+func (s *PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot) SetNotifyTopic(v string) *PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot {
+	s.NotifyTopic = &v
+	return s
+}
+
+func (s *PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot) SetInterval(v string) *PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot {
+	s.Interval = &v
+	return s
+}
+
+type PutLiveChannelResponse struct {
+	RequestId               *string                                        `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+	CreateLiveChannelResult *PutLiveChannelResponseCreateLiveChannelResult `json:"CreateLiveChannelResult" xml:"CreateLiveChannelResult" require:"true" type:"Struct"`
+}
+
+func (s PutLiveChannelResponse) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutLiveChannelResponse) GoString() string {
+	return s.String()
+}
+
+func (s *PutLiveChannelResponse) SetRequestId(v string) *PutLiveChannelResponse {
+	s.RequestId = &v
+	return s
+}
+
+func (s *PutLiveChannelResponse) SetCreateLiveChannelResult(v *PutLiveChannelResponseCreateLiveChannelResult) *PutLiveChannelResponse {
+	s.CreateLiveChannelResult = v
+	return s
+}
+
+type PutLiveChannelResponseCreateLiveChannelResult struct {
+	PublishUrls *PutLiveChannelResponseCreateLiveChannelResultPublishUrls `json:"PublishUrls" xml:"PublishUrls" require:"true" type:"Struct"`
+	PlayUrls    *PutLiveChannelResponseCreateLiveChannelResultPlayUrls    `json:"PlayUrls" xml:"PlayUrls" require:"true" type:"Struct"`
+}
+
+func (s PutLiveChannelResponseCreateLiveChannelResult) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutLiveChannelResponseCreateLiveChannelResult) GoString() string {
+	return s.String()
+}
+
+func (s *PutLiveChannelResponseCreateLiveChannelResult) SetPublishUrls(v *PutLiveChannelResponseCreateLiveChannelResultPublishUrls) *PutLiveChannelResponseCreateLiveChannelResult {
+	s.PublishUrls = v
+	return s
+}
+
+func (s *PutLiveChannelResponseCreateLiveChannelResult) SetPlayUrls(v *PutLiveChannelResponseCreateLiveChannelResultPlayUrls) *PutLiveChannelResponseCreateLiveChannelResult {
+	s.PlayUrls = v
+	return s
+}
+
+type PutLiveChannelResponseCreateLiveChannelResultPublishUrls struct {
+	Url *string `json:"Url" xml:"Url" require:"true"`
+}
+
+func (s PutLiveChannelResponseCreateLiveChannelResultPublishUrls) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutLiveChannelResponseCreateLiveChannelResultPublishUrls) GoString() string {
+	return s.String()
+}
+
+func (s *PutLiveChannelResponseCreateLiveChannelResultPublishUrls) SetUrl(v string) *PutLiveChannelResponseCreateLiveChannelResultPublishUrls {
+	s.Url = &v
+	return s
+}
+
+type PutLiveChannelResponseCreateLiveChannelResultPlayUrls struct {
+	Url *string `json:"Url" xml:"Url" require:"true"`
+}
+
+func (s PutLiveChannelResponseCreateLiveChannelResultPlayUrls) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutLiveChannelResponseCreateLiveChannelResultPlayUrls) GoString() string {
+	return s.String()
+}
+
+func (s *PutLiveChannelResponseCreateLiveChannelResultPlayUrls) SetUrl(v string) *PutLiveChannelResponseCreateLiveChannelResultPlayUrls {
+	s.Url = &v
+	return s
+}
+
+type PutBucketTagsRequest struct {
+	BucketName *string                   `json:"BucketName" xml:"BucketName" require:"true"`
+	Body       *PutBucketTagsRequestBody `json:"Body" xml:"Body" type:"Struct"`
+}
+
+func (s PutBucketTagsRequest) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketTagsRequest) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketTagsRequest) SetBucketName(v string) *PutBucketTagsRequest {
+	s.BucketName = &v
+	return s
+}
+
+func (s *PutBucketTagsRequest) SetBody(v *PutBucketTagsRequestBody) *PutBucketTagsRequest {
+	s.Body = v
+	return s
+}
+
+type PutBucketTagsRequestBody struct {
+	Tagging *PutBucketTagsRequestBodyTagging `json:"Tagging" xml:"Tagging" require:"true" type:"Struct"`
+}
+
+func (s PutBucketTagsRequestBody) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketTagsRequestBody) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketTagsRequestBody) SetTagging(v *PutBucketTagsRequestBodyTagging) *PutBucketTagsRequestBody {
+	s.Tagging = v
+	return s
+}
+
+type PutBucketTagsRequestBodyTagging struct {
+	TagSet *PutBucketTagsRequestBodyTaggingTagSet `json:"TagSet" xml:"TagSet" require:"true" type:"Struct"`
+}
+
+func (s PutBucketTagsRequestBodyTagging) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketTagsRequestBodyTagging) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketTagsRequestBodyTagging) SetTagSet(v *PutBucketTagsRequestBodyTaggingTagSet) *PutBucketTagsRequestBodyTagging {
+	s.TagSet = v
+	return s
+}
+
+type PutBucketTagsRequestBodyTaggingTagSet struct {
+	Tag []*PutBucketTagsRequestBodyTaggingTagSetTag `json:"Tag" xml:"Tag" require:"true" type:"Repeated"`
+}
+
+func (s PutBucketTagsRequestBodyTaggingTagSet) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketTagsRequestBodyTaggingTagSet) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketTagsRequestBodyTaggingTagSet) SetTag(v []*PutBucketTagsRequestBodyTaggingTagSetTag) *PutBucketTagsRequestBodyTaggingTagSet {
+	s.Tag = v
+	return s
+}
+
+type PutBucketTagsRequestBodyTaggingTagSetTag struct {
+	Key   *string `json:"Key" xml:"Key" require:"true"`
+	Value *string `json:"Value" xml:"Value" require:"true"`
+}
+
+func (s PutBucketTagsRequestBodyTaggingTagSetTag) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketTagsRequestBodyTaggingTagSetTag) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketTagsRequestBodyTaggingTagSetTag) SetKey(v string) *PutBucketTagsRequestBodyTaggingTagSetTag {
+	s.Key = &v
+	return s
+}
+
+func (s *PutBucketTagsRequestBodyTaggingTagSetTag) SetValue(v string) *PutBucketTagsRequestBodyTaggingTagSetTag {
+	s.Value = &v
+	return s
+}
+
+type PutBucketTagsResponse struct {
+	RequestId *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+}
+
+func (s PutBucketTagsResponse) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketTagsResponse) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketTagsResponse) SetRequestId(v string) *PutBucketTagsResponse {
+	s.RequestId = &v
+	return s
+}
+
+type PutObjectTaggingRequest struct {
+	BucketName *string                      `json:"BucketName" xml:"BucketName" require:"true"`
+	ObjectName *string                      `json:"ObjectName" xml:"ObjectName" require:"true"`
+	Body       *PutObjectTaggingRequestBody `json:"Body" xml:"Body" type:"Struct"`
+}
+
+func (s PutObjectTaggingRequest) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutObjectTaggingRequest) GoString() string {
+	return s.String()
+}
+
+func (s *PutObjectTaggingRequest) SetBucketName(v string) *PutObjectTaggingRequest {
+	s.BucketName = &v
+	return s
+}
+
+func (s *PutObjectTaggingRequest) SetObjectName(v string) *PutObjectTaggingRequest {
+	s.ObjectName = &v
+	return s
+}
+
+func (s *PutObjectTaggingRequest) SetBody(v *PutObjectTaggingRequestBody) *PutObjectTaggingRequest {
+	s.Body = v
+	return s
+}
+
+type PutObjectTaggingRequestBody struct {
+	Tagging *PutObjectTaggingRequestBodyTagging `json:"Tagging" xml:"Tagging" require:"true" type:"Struct"`
+}
+
+func (s PutObjectTaggingRequestBody) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutObjectTaggingRequestBody) GoString() string {
+	return s.String()
+}
+
+func (s *PutObjectTaggingRequestBody) SetTagging(v *PutObjectTaggingRequestBodyTagging) *PutObjectTaggingRequestBody {
+	s.Tagging = v
+	return s
+}
+
+type PutObjectTaggingRequestBodyTagging struct {
+	TagSet *PutObjectTaggingRequestBodyTaggingTagSet `json:"TagSet" xml:"TagSet" require:"true" type:"Struct"`
+}
+
+func (s PutObjectTaggingRequestBodyTagging) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutObjectTaggingRequestBodyTagging) GoString() string {
+	return s.String()
+}
+
+func (s *PutObjectTaggingRequestBodyTagging) SetTagSet(v *PutObjectTaggingRequestBodyTaggingTagSet) *PutObjectTaggingRequestBodyTagging {
+	s.TagSet = v
+	return s
+}
+
+type PutObjectTaggingRequestBodyTaggingTagSet struct {
+	Tag []*PutObjectTaggingRequestBodyTaggingTagSetTag `json:"Tag" xml:"Tag" require:"true" type:"Repeated"`
+}
+
+func (s PutObjectTaggingRequestBodyTaggingTagSet) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutObjectTaggingRequestBodyTaggingTagSet) GoString() string {
+	return s.String()
+}
+
+func (s *PutObjectTaggingRequestBodyTaggingTagSet) SetTag(v []*PutObjectTaggingRequestBodyTaggingTagSetTag) *PutObjectTaggingRequestBodyTaggingTagSet {
+	s.Tag = v
+	return s
+}
+
+type PutObjectTaggingRequestBodyTaggingTagSetTag struct {
+	Key   *string `json:"Key" xml:"Key" require:"true"`
+	Value *string `json:"Value" xml:"Value" require:"true"`
+}
+
+func (s PutObjectTaggingRequestBodyTaggingTagSetTag) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutObjectTaggingRequestBodyTaggingTagSetTag) GoString() string {
+	return s.String()
+}
+
+func (s *PutObjectTaggingRequestBodyTaggingTagSetTag) SetKey(v string) *PutObjectTaggingRequestBodyTaggingTagSetTag {
+	s.Key = &v
+	return s
+}
+
+func (s *PutObjectTaggingRequestBodyTaggingTagSetTag) SetValue(v string) *PutObjectTaggingRequestBodyTaggingTagSetTag {
+	s.Value = &v
+	return s
+}
+
+type PutObjectTaggingResponse struct {
+	RequestId *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+}
+
+func (s PutObjectTaggingResponse) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutObjectTaggingResponse) GoString() string {
+	return s.String()
+}
+
+func (s *PutObjectTaggingResponse) SetRequestId(v string) *PutObjectTaggingResponse {
+	s.RequestId = &v
+	return s
+}
+
+type SelectObjectRequest struct {
+	BucketName *string                    `json:"BucketName" xml:"BucketName" require:"true"`
+	ObjectName *string                    `json:"ObjectName" xml:"ObjectName" require:"true"`
+	Filter     *SelectObjectRequestFilter `json:"Filter" xml:"Filter" require:"true" type:"Struct"`
+	Body       *SelectObjectRequestBody   `json:"Body" xml:"Body" type:"Struct"`
+}
+
+func (s SelectObjectRequest) String() string {
+	return service.Prettify(s)
+}
+
+func (s SelectObjectRequest) GoString() string {
+	return s.String()
+}
+
+func (s *SelectObjectRequest) SetBucketName(v string) *SelectObjectRequest {
+	s.BucketName = &v
+	return s
+}
+
+func (s *SelectObjectRequest) SetObjectName(v string) *SelectObjectRequest {
+	s.ObjectName = &v
+	return s
+}
+
+func (s *SelectObjectRequest) SetFilter(v *SelectObjectRequestFilter) *SelectObjectRequest {
+	s.Filter = v
+	return s
+}
+
+func (s *SelectObjectRequest) SetBody(v *SelectObjectRequestBody) *SelectObjectRequest {
+	s.Body = v
+	return s
+}
+
+type SelectObjectRequestFilter struct {
+	Porcess *string `json:"x-oss-process" xml:"x-oss-process" require:"true"`
+}
+
+func (s SelectObjectRequestFilter) String() string {
+	return service.Prettify(s)
+}
+
+func (s SelectObjectRequestFilter) GoString() string {
+	return s.String()
+}
+
+func (s *SelectObjectRequestFilter) SetPorcess(v string) *SelectObjectRequestFilter {
+	s.Porcess = &v
+	return s
+}
+
+type SelectObjectRequestBody struct {
+	SelectRequest *SelectObjectRequestBodySelectRequest `json:"SelectRequest" xml:"SelectRequest" require:"true" type:"Struct"`
+}
+
+func (s SelectObjectRequestBody) String() string {
+	return service.Prettify(s)
+}
+
+func (s SelectObjectRequestBody) GoString() string {
+	return s.String()
+}
+
+func (s *SelectObjectRequestBody) SetSelectRequest(v *SelectObjectRequestBodySelectRequest) *SelectObjectRequestBody {
+	s.SelectRequest = v
+	return s
+}
+
+type SelectObjectRequestBodySelectRequest struct {
+	InputSerialization  *SelectObjectRequestBodySelectRequestInputSerialization  `json:"InputSerialization" xml:"InputSerialization" require:"true" type:"Struct"`
+	OutputSerialization *SelectObjectRequestBodySelectRequestOutputSerialization `json:"OutputSerialization" xml:"OutputSerialization" require:"true" type:"Struct"`
+	Options             *SelectObjectRequestBodySelectRequestOptions             `json:"Options" xml:"Options" require:"true" type:"Struct"`
+	Expression          *string                                                  `json:"Expression" xml:"Expression" require:"true"`
+}
+
+func (s SelectObjectRequestBodySelectRequest) String() string {
+	return service.Prettify(s)
+}
+
+func (s SelectObjectRequestBodySelectRequest) GoString() string {
+	return s.String()
+}
+
+func (s *SelectObjectRequestBodySelectRequest) SetInputSerialization(v *SelectObjectRequestBodySelectRequestInputSerialization) *SelectObjectRequestBodySelectRequest {
+	s.InputSerialization = v
+	return s
+}
+
+func (s *SelectObjectRequestBodySelectRequest) SetOutputSerialization(v *SelectObjectRequestBodySelectRequestOutputSerialization) *SelectObjectRequestBodySelectRequest {
+	s.OutputSerialization = v
+	return s
+}
+
+func (s *SelectObjectRequestBodySelectRequest) SetOptions(v *SelectObjectRequestBodySelectRequestOptions) *SelectObjectRequestBodySelectRequest {
+	s.Options = v
+	return s
+}
+
+func (s *SelectObjectRequestBodySelectRequest) SetExpression(v string) *SelectObjectRequestBodySelectRequest {
+	s.Expression = &v
+	return s
+}
+
+type SelectObjectRequestBodySelectRequestInputSerialization struct {
+	CSV             *SelectObjectRequestBodySelectRequestInputSerializationCSV `json:"CSV" xml:"CSV" require:"true" type:"Struct"`
+	CompressionType *string                                                    `json:"CompressionType" xml:"CompressionType" require:"true"`
+}
+
+func (s SelectObjectRequestBodySelectRequestInputSerialization) String() string {
+	return service.Prettify(s)
+}
+
+func (s SelectObjectRequestBodySelectRequestInputSerialization) GoString() string {
+	return s.String()
+}
+
+func (s *SelectObjectRequestBodySelectRequestInputSerialization) SetCSV(v *SelectObjectRequestBodySelectRequestInputSerializationCSV) *SelectObjectRequestBodySelectRequestInputSerialization {
+	s.CSV = v
+	return s
+}
+
+func (s *SelectObjectRequestBodySelectRequestInputSerialization) SetCompressionType(v string) *SelectObjectRequestBodySelectRequestInputSerialization {
+	s.CompressionType = &v
+	return s
+}
+
+type SelectObjectRequestBodySelectRequestInputSerializationCSV struct {
+	FileHeaderInfo   *string `json:"FileHeaderInfo" xml:"FileHeaderInfo" require:"true"`
+	RecordDelimiter  *string `json:"RecordDelimiter" xml:"RecordDelimiter" require:"true"`
+	FieldDelimiter   *string `json:"FieldDelimiter" xml:"FieldDelimiter" require:"true"`
+	QuoteCharacter   *string `json:"QuoteCharacter" xml:"QuoteCharacter" require:"true"`
+	CommentCharacter *string `json:"CommentCharacter" xml:"CommentCharacter" require:"true"`
+	Range            *string `json:"Range" xml:"Range" require:"true"`
+}
+
+func (s SelectObjectRequestBodySelectRequestInputSerializationCSV) String() string {
+	return service.Prettify(s)
+}
+
+func (s SelectObjectRequestBodySelectRequestInputSerializationCSV) GoString() string {
+	return s.String()
+}
+
+func (s *SelectObjectRequestBodySelectRequestInputSerializationCSV) SetFileHeaderInfo(v string) *SelectObjectRequestBodySelectRequestInputSerializationCSV {
+	s.FileHeaderInfo = &v
+	return s
+}
+
+func (s *SelectObjectRequestBodySelectRequestInputSerializationCSV) SetRecordDelimiter(v string) *SelectObjectRequestBodySelectRequestInputSerializationCSV {
+	s.RecordDelimiter = &v
+	return s
+}
+
+func (s *SelectObjectRequestBodySelectRequestInputSerializationCSV) SetFieldDelimiter(v string) *SelectObjectRequestBodySelectRequestInputSerializationCSV {
+	s.FieldDelimiter = &v
+	return s
+}
+
+func (s *SelectObjectRequestBodySelectRequestInputSerializationCSV) SetQuoteCharacter(v string) *SelectObjectRequestBodySelectRequestInputSerializationCSV {
+	s.QuoteCharacter = &v
+	return s
+}
+
+func (s *SelectObjectRequestBodySelectRequestInputSerializationCSV) SetCommentCharacter(v string) *SelectObjectRequestBodySelectRequestInputSerializationCSV {
+	s.CommentCharacter = &v
+	return s
+}
+
+func (s *SelectObjectRequestBodySelectRequestInputSerializationCSV) SetRange(v string) *SelectObjectRequestBodySelectRequestInputSerializationCSV {
+	s.Range = &v
+	return s
+}
+
+type SelectObjectRequestBodySelectRequestOutputSerialization struct {
+	CSV              *SelectObjectRequestBodySelectRequestOutputSerializationCSV `json:"CSV" xml:"CSV" require:"true" type:"Struct"`
+	KeepAllColumns   *string                                                     `json:"KeepAllColumns" xml:"KeepAllColumns" require:"true"`
+	OutputRawData    *string                                                     `json:"OutputRawData" xml:"OutputRawData" require:"true"`
+	EnablePayloadCrc *string                                                     `json:"EnablePayloadCrc" xml:"EnablePayloadCrc" require:"true"`
+	OutputHeader     *string                                                     `json:"OutputHeader" xml:"OutputHeader" require:"true"`
+}
+
+func (s SelectObjectRequestBodySelectRequestOutputSerialization) String() string {
+	return service.Prettify(s)
+}
+
+func (s SelectObjectRequestBodySelectRequestOutputSerialization) GoString() string {
+	return s.String()
+}
+
+func (s *SelectObjectRequestBodySelectRequestOutputSerialization) SetCSV(v *SelectObjectRequestBodySelectRequestOutputSerializationCSV) *SelectObjectRequestBodySelectRequestOutputSerialization {
+	s.CSV = v
+	return s
+}
+
+func (s *SelectObjectRequestBodySelectRequestOutputSerialization) SetKeepAllColumns(v string) *SelectObjectRequestBodySelectRequestOutputSerialization {
+	s.KeepAllColumns = &v
+	return s
+}
+
+func (s *SelectObjectRequestBodySelectRequestOutputSerialization) SetOutputRawData(v string) *SelectObjectRequestBodySelectRequestOutputSerialization {
+	s.OutputRawData = &v
+	return s
+}
+
+func (s *SelectObjectRequestBodySelectRequestOutputSerialization) SetEnablePayloadCrc(v string) *SelectObjectRequestBodySelectRequestOutputSerialization {
+	s.EnablePayloadCrc = &v
+	return s
+}
+
+func (s *SelectObjectRequestBodySelectRequestOutputSerialization) SetOutputHeader(v string) *SelectObjectRequestBodySelectRequestOutputSerialization {
+	s.OutputHeader = &v
+	return s
+}
+
+type SelectObjectRequestBodySelectRequestOutputSerializationCSV struct {
+	RecordDelimiter *string `json:"RecordDelimiter" xml:"RecordDelimiter" require:"true"`
+	FieldDelimiter  *string `json:"FieldDelimiter" xml:"FieldDelimiter" require:"true"`
+}
+
+func (s SelectObjectRequestBodySelectRequestOutputSerializationCSV) String() string {
+	return service.Prettify(s)
+}
+
+func (s SelectObjectRequestBodySelectRequestOutputSerializationCSV) GoString() string {
+	return s.String()
+}
+
+func (s *SelectObjectRequestBodySelectRequestOutputSerializationCSV) SetRecordDelimiter(v string) *SelectObjectRequestBodySelectRequestOutputSerializationCSV {
+	s.RecordDelimiter = &v
+	return s
+}
+
+func (s *SelectObjectRequestBodySelectRequestOutputSerializationCSV) SetFieldDelimiter(v string) *SelectObjectRequestBodySelectRequestOutputSerializationCSV {
+	s.FieldDelimiter = &v
+	return s
+}
+
+type SelectObjectRequestBodySelectRequestOptions struct {
+	SkipPartialDataRecord    *string `json:"SkipPartialDataRecord" xml:"SkipPartialDataRecord" require:"true"`
+	MaxSkippedRecordsAllowed *string `json:"MaxSkippedRecordsAllowed" xml:"MaxSkippedRecordsAllowed" require:"true"`
+}
+
+func (s SelectObjectRequestBodySelectRequestOptions) String() string {
+	return service.Prettify(s)
+}
+
+func (s SelectObjectRequestBodySelectRequestOptions) GoString() string {
+	return s.String()
+}
+
+func (s *SelectObjectRequestBodySelectRequestOptions) SetSkipPartialDataRecord(v string) *SelectObjectRequestBodySelectRequestOptions {
+	s.SkipPartialDataRecord = &v
+	return s
+}
+
+func (s *SelectObjectRequestBodySelectRequestOptions) SetMaxSkippedRecordsAllowed(v string) *SelectObjectRequestBodySelectRequestOptions {
+	s.MaxSkippedRecordsAllowed = &v
+	return s
+}
+
+type SelectObjectResponse struct {
+	RequestId *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+}
+
+func (s SelectObjectResponse) String() string {
+	return service.Prettify(s)
+}
+
+func (s SelectObjectResponse) GoString() string {
+	return s.String()
+}
+
+func (s *SelectObjectResponse) SetRequestId(v string) *SelectObjectResponse {
+	s.RequestId = &v
+	return s
+}
+
+type PutBucketCORSRequest struct {
+	BucketName *string                   `json:"BucketName" xml:"BucketName" require:"true"`
+	Body       *PutBucketCORSRequestBody `json:"Body" xml:"Body" type:"Struct"`
+}
+
+func (s PutBucketCORSRequest) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketCORSRequest) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketCORSRequest) SetBucketName(v string) *PutBucketCORSRequest {
+	s.BucketName = &v
+	return s
+}
+
+func (s *PutBucketCORSRequest) SetBody(v *PutBucketCORSRequestBody) *PutBucketCORSRequest {
+	s.Body = v
+	return s
+}
+
+type PutBucketCORSRequestBody struct {
+	CORSConfiguration *PutBucketCORSRequestBodyCORSConfiguration `json:"CORSConfiguration" xml:"CORSConfiguration" require:"true" type:"Struct"`
+}
+
+func (s PutBucketCORSRequestBody) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketCORSRequestBody) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketCORSRequestBody) SetCORSConfiguration(v *PutBucketCORSRequestBodyCORSConfiguration) *PutBucketCORSRequestBody {
+	s.CORSConfiguration = v
+	return s
+}
+
+type PutBucketCORSRequestBodyCORSConfiguration struct {
+	CORSRule []*PutBucketCORSRequestBodyCORSConfigurationCORSRule `json:"CORSRule" xml:"CORSRule" require:"true" type:"Repeated"`
+}
+
+func (s PutBucketCORSRequestBodyCORSConfiguration) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketCORSRequestBodyCORSConfiguration) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketCORSRequestBodyCORSConfiguration) SetCORSRule(v []*PutBucketCORSRequestBodyCORSConfigurationCORSRule) *PutBucketCORSRequestBodyCORSConfiguration {
+	s.CORSRule = v
+	return s
+}
+
+type PutBucketCORSRequestBodyCORSConfigurationCORSRule struct {
+	AllowedOrigin []*string `json:"AllowedOrigin" xml:"AllowedOrigin" require:"true" type:"Repeated"`
+	AllowedMethod []*string `json:"AllowedMethod" xml:"AllowedMethod" require:"true" type:"Repeated"`
+	AllowedHeader []*string `json:"AllowedHeader" xml:"AllowedHeader" require:"true" type:"Repeated"`
+	ExposeHeader  []*string `json:"ExposeHeader" xml:"ExposeHeader" require:"true" type:"Repeated"`
+	MaxAgeSeconds *string   `json:"MaxAgeSeconds" xml:"MaxAgeSeconds" require:"true"`
+}
+
+func (s PutBucketCORSRequestBodyCORSConfigurationCORSRule) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketCORSRequestBodyCORSConfigurationCORSRule) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketCORSRequestBodyCORSConfigurationCORSRule) SetAllowedOrigin(v []*string) *PutBucketCORSRequestBodyCORSConfigurationCORSRule {
+	s.AllowedOrigin = v
+	return s
+}
+
+func (s *PutBucketCORSRequestBodyCORSConfigurationCORSRule) SetAllowedMethod(v []*string) *PutBucketCORSRequestBodyCORSConfigurationCORSRule {
+	s.AllowedMethod = v
+	return s
+}
+
+func (s *PutBucketCORSRequestBodyCORSConfigurationCORSRule) SetAllowedHeader(v []*string) *PutBucketCORSRequestBodyCORSConfigurationCORSRule {
+	s.AllowedHeader = v
+	return s
+}
+
+func (s *PutBucketCORSRequestBodyCORSConfigurationCORSRule) SetExposeHeader(v []*string) *PutBucketCORSRequestBodyCORSConfigurationCORSRule {
+	s.ExposeHeader = v
+	return s
+}
+
+func (s *PutBucketCORSRequestBodyCORSConfigurationCORSRule) SetMaxAgeSeconds(v string) *PutBucketCORSRequestBodyCORSConfigurationCORSRule {
+	s.MaxAgeSeconds = &v
+	return s
+}
+
+type PutBucketCORSResponse struct {
+	RequestId *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+}
+
+func (s PutBucketCORSResponse) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketCORSResponse) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketCORSResponse) SetRequestId(v string) *PutBucketCORSResponse {
+	s.RequestId = &v
+	return s
+}
+
+type PutBucketRequest struct {
+	BucketName *string                 `json:"BucketName" xml:"BucketName" require:"true"`
+	Body       *PutBucketRequestBody   `json:"Body" xml:"Body" type:"Struct"`
+	Header     *PutBucketRequestHeader `json:"Header" xml:"Header" type:"Struct"`
+}
+
+func (s PutBucketRequest) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketRequest) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketRequest) SetBucketName(v string) *PutBucketRequest {
+	s.BucketName = &v
+	return s
+}
+
+func (s *PutBucketRequest) SetBody(v *PutBucketRequestBody) *PutBucketRequest {
+	s.Body = v
+	return s
+}
+
+func (s *PutBucketRequest) SetHeader(v *PutBucketRequestHeader) *PutBucketRequest {
+	s.Header = v
+	return s
+}
+
+type PutBucketRequestBody struct {
+	CreateBucketConfiguration *PutBucketRequestBodyCreateBucketConfiguration `json:"CreateBucketConfiguration" xml:"CreateBucketConfiguration" require:"true" type:"Struct"`
+}
+
+func (s PutBucketRequestBody) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketRequestBody) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketRequestBody) SetCreateBucketConfiguration(v *PutBucketRequestBodyCreateBucketConfiguration) *PutBucketRequestBody {
+	s.CreateBucketConfiguration = v
+	return s
+}
+
+type PutBucketRequestBodyCreateBucketConfiguration struct {
+	StorageClass       *string `json:"StorageClass" xml:"StorageClass" require:"true"`
+	DataRedundancyType *string `json:"DataRedundancyType" xml:"DataRedundancyType" require:"true"`
+}
+
+func (s PutBucketRequestBodyCreateBucketConfiguration) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketRequestBodyCreateBucketConfiguration) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketRequestBodyCreateBucketConfiguration) SetStorageClass(v string) *PutBucketRequestBodyCreateBucketConfiguration {
+	s.StorageClass = &v
+	return s
+}
+
+func (s *PutBucketRequestBodyCreateBucketConfiguration) SetDataRedundancyType(v string) *PutBucketRequestBodyCreateBucketConfiguration {
+	s.DataRedundancyType = &v
+	return s
+}
+
+type PutBucketRequestHeader struct {
+	Acl *string `json:"x-oss-acl" xml:"x-oss-acl"`
+}
+
+func (s PutBucketRequestHeader) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketRequestHeader) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketRequestHeader) SetAcl(v string) *PutBucketRequestHeader {
+	s.Acl = &v
+	return s
+}
+
+type PutBucketResponse struct {
+	RequestId *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+}
+
+func (s PutBucketResponse) String() string {
+	return service.Prettify(s)
+}
+
+func (s PutBucketResponse) GoString() string {
+	return s.String()
+}
+
+func (s *PutBucketResponse) SetRequestId(v string) *PutBucketResponse {
+	s.RequestId = &v
+	return s
+}
+
+type ListMultipartUploadsRequest struct {
+	BucketName *string                            `json:"BucketName" xml:"BucketName" require:"true"`
+	Filter     *ListMultipartUploadsRequestFilter `json:"Filter" xml:"Filter" type:"Struct"`
+}
+
+func (s ListMultipartUploadsRequest) String() string {
+	return service.Prettify(s)
+}
+
+func (s ListMultipartUploadsRequest) GoString() string {
+	return s.String()
+}
+
+func (s *ListMultipartUploadsRequest) SetBucketName(v string) *ListMultipartUploadsRequest {
+	s.BucketName = &v
+	return s
+}
+
+func (s *ListMultipartUploadsRequest) SetFilter(v *ListMultipartUploadsRequestFilter) *ListMultipartUploadsRequest {
+	s.Filter = v
+	return s
+}
+
+type ListMultipartUploadsRequestFilter struct {
+	Delimiter      *string `json:"delimiter" xml:"delimiter"`
+	MaxUploads     *string `json:"max-uploads" xml:"max-uploads"`
+	KeyMarker      *string `json:"key-marker" xml:"key-marker"`
+	Prefix         *string `json:"prefix" xml:"prefix"`
+	UploadIdMarker *string `json:"upload-id-marker" xml:"upload-id-marker"`
+	EncodingType   *string `json:"encoding-type" xml:"encoding-type"`
+}
+
+func (s ListMultipartUploadsRequestFilter) String() string {
+	return service.Prettify(s)
+}
+
+func (s ListMultipartUploadsRequestFilter) GoString() string {
+	return s.String()
+}
+
+func (s *ListMultipartUploadsRequestFilter) SetDelimiter(v string) *ListMultipartUploadsRequestFilter {
+	s.Delimiter = &v
+	return s
+}
+
+func (s *ListMultipartUploadsRequestFilter) SetMaxUploads(v string) *ListMultipartUploadsRequestFilter {
+	s.MaxUploads = &v
+	return s
+}
+
+func (s *ListMultipartUploadsRequestFilter) SetKeyMarker(v string) *ListMultipartUploadsRequestFilter {
+	s.KeyMarker = &v
+	return s
+}
+
+func (s *ListMultipartUploadsRequestFilter) SetPrefix(v string) *ListMultipartUploadsRequestFilter {
+	s.Prefix = &v
+	return s
+}
+
+func (s *ListMultipartUploadsRequestFilter) SetUploadIdMarker(v string) *ListMultipartUploadsRequestFilter {
+	s.UploadIdMarker = &v
+	return s
+}
+
+func (s *ListMultipartUploadsRequestFilter) SetEncodingType(v string) *ListMultipartUploadsRequestFilter {
+	s.EncodingType = &v
+	return s
+}
+
+type ListMultipartUploadsResponse struct {
+	RequestId                  *string                                                 `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+	ListMultipartUploadsResult *ListMultipartUploadsResponseListMultipartUploadsResult `json:"ListMultipartUploadsResult" xml:"ListMultipartUploadsResult" require:"true" type:"Struct"`
+}
+
+func (s ListMultipartUploadsResponse) String() string {
+	return service.Prettify(s)
+}
+
+func (s ListMultipartUploadsResponse) GoString() string {
+	return s.String()
+}
+
+func (s *ListMultipartUploadsResponse) SetRequestId(v string) *ListMultipartUploadsResponse {
+	s.RequestId = &v
+	return s
+}
+
+func (s *ListMultipartUploadsResponse) SetListMultipartUploadsResult(v *ListMultipartUploadsResponseListMultipartUploadsResult) *ListMultipartUploadsResponse {
+	s.ListMultipartUploadsResult = v
+	return s
+}
+
+type ListMultipartUploadsResponseListMultipartUploadsResult struct {
+	Bucket             *string                                                         `json:"Bucket" xml:"Bucket" require:"true"`
+	EncodingType       *string                                                         `json:"EncodingType" xml:"EncodingType" require:"true"`
+	KeyMarker          *string                                                         `json:"KeyMarker" xml:"KeyMarker" require:"true"`
+	UploadIdMarker     *string                                                         `json:"UploadIdMarker" xml:"UploadIdMarker" require:"true"`
+	NextKeyMarker      *string                                                         `json:"NextKeyMarker" xml:"NextKeyMarker" require:"true"`
+	NextUploadIdMarker *string                                                         `json:"NextUploadIdMarker" xml:"NextUploadIdMarker" require:"true"`
+	Delimiter          *string                                                         `json:"Delimiter" xml:"Delimiter" require:"true"`
+	MaxUploads         *string                                                         `json:"MaxUploads" xml:"MaxUploads" require:"true"`
+	IsTruncated        *string                                                         `json:"IsTruncated" xml:"IsTruncated" require:"true"`
+	Upload             []*ListMultipartUploadsResponseListMultipartUploadsResultUpload `json:"Upload" xml:"Upload" require:"true" type:"Repeated"`
+}
+
+func (s ListMultipartUploadsResponseListMultipartUploadsResult) String() string {
+	return service.Prettify(s)
+}
+
+func (s ListMultipartUploadsResponseListMultipartUploadsResult) GoString() string {
+	return s.String()
+}
+
+func (s *ListMultipartUploadsResponseListMultipartUploadsResult) SetBucket(v string) *ListMultipartUploadsResponseListMultipartUploadsResult {
+	s.Bucket = &v
+	return s
+}
+
+func (s *ListMultipartUploadsResponseListMultipartUploadsResult) SetEncodingType(v string) *ListMultipartUploadsResponseListMultipartUploadsResult {
+	s.EncodingType = &v
+	return s
+}
+
+func (s *ListMultipartUploadsResponseListMultipartUploadsResult) SetKeyMarker(v string) *ListMultipartUploadsResponseListMultipartUploadsResult {
+	s.KeyMarker = &v
+	return s
+}
+
+func (s *ListMultipartUploadsResponseListMultipartUploadsResult) SetUploadIdMarker(v string) *ListMultipartUploadsResponseListMultipartUploadsResult {
+	s.UploadIdMarker = &v
+	return s
+}
+
+func (s *ListMultipartUploadsResponseListMultipartUploadsResult) SetNextKeyMarker(v string) *ListMultipartUploadsResponseListMultipartUploadsResult {
+	s.NextKeyMarker = &v
+	return s
+}
+
+func (s *ListMultipartUploadsResponseListMultipartUploadsResult) SetNextUploadIdMarker(v string) *ListMultipartUploadsResponseListMultipartUploadsResult {
+	s.NextUploadIdMarker = &v
+	return s
+}
+
+func (s *ListMultipartUploadsResponseListMultipartUploadsResult) SetDelimiter(v string) *ListMultipartUploadsResponseListMultipartUploadsResult {
+	s.Delimiter = &v
+	return s
+}
+
+func (s *ListMultipartUploadsResponseListMultipartUploadsResult) SetMaxUploads(v string) *ListMultipartUploadsResponseListMultipartUploadsResult {
+	s.MaxUploads = &v
+	return s
+}
+
+func (s *ListMultipartUploadsResponseListMultipartUploadsResult) SetIsTruncated(v string) *ListMultipartUploadsResponseListMultipartUploadsResult {
+	s.IsTruncated = &v
+	return s
+}
+
+func (s *ListMultipartUploadsResponseListMultipartUploadsResult) SetUpload(v []*ListMultipartUploadsResponseListMultipartUploadsResultUpload) *ListMultipartUploadsResponseListMultipartUploadsResult {
+	s.Upload = v
+	return s
+}
+
+type ListMultipartUploadsResponseListMultipartUploadsResultUpload struct {
+	Key       *string `json:"Key" xml:"Key" require:"true"`
+	UploadId  *string `json:"UploadId" xml:"UploadId" require:"true"`
+	Initiated *string `json:"Initiated" xml:"Initiated" require:"true"`
+}
+
+func (s ListMultipartUploadsResponseListMultipartUploadsResultUpload) String() string {
+	return service.Prettify(s)
+}
+
+func (s ListMultipartUploadsResponseListMultipartUploadsResultUpload) GoString() string {
+	return s.String()
+}
+
+func (s *ListMultipartUploadsResponseListMultipartUploadsResultUpload) SetKey(v string) *ListMultipartUploadsResponseListMultipartUploadsResultUpload {
+	s.Key = &v
+	return s
+}
+
+func (s *ListMultipartUploadsResponseListMultipartUploadsResultUpload) SetUploadId(v string) *ListMultipartUploadsResponseListMultipartUploadsResultUpload {
+	s.UploadId = &v
+	return s
+}
+
+func (s *ListMultipartUploadsResponseListMultipartUploadsResultUpload) SetInitiated(v string) *ListMultipartUploadsResponseListMultipartUploadsResultUpload {
+	s.Initiated = &v
+	return s
+}
+
+type GetBucketRequestPaymentRequest struct {
+	BucketName *string `json:"BucketName" xml:"BucketName" require:"true"`
+}
+
+func (s GetBucketRequestPaymentRequest) String() string {
+	return service.Prettify(s)
+}
+
+func (s GetBucketRequestPaymentRequest) GoString() string {
+	return s.String()
+}
+
+func (s *GetBucketRequestPaymentRequest) SetBucketName(v string) *GetBucketRequestPaymentRequest {
+	s.BucketName = &v
+	return s
+}
+
+type GetBucketRequestPaymentResponse struct {
+	RequestId                   *string                                                     `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+	RequestPaymentConfiguration *GetBucketRequestPaymentResponseRequestPaymentConfiguration `json:"RequestPaymentConfiguration" xml:"RequestPaymentConfiguration" require:"true" type:"Struct"`
+}
+
+func (s GetBucketRequestPaymentResponse) String() string {
+	return service.Prettify(s)
+}
+
+func (s GetBucketRequestPaymentResponse) GoString() string {
+	return s.String()
+}
+
+func (s *GetBucketRequestPaymentResponse) SetRequestId(v string) *GetBucketRequestPaymentResponse {
+	s.RequestId = &v
+	return s
+}
+
+func (s *GetBucketRequestPaymentResponse) SetRequestPaymentConfiguration(v *GetBucketRequestPaymentResponseRequestPaymentConfiguration) *GetBucketRequestPaymentResponse {
+	s.RequestPaymentConfiguration = v
+	return s
+}
+
+type GetBucketRequestPaymentResponseRequestPaymentConfiguration struct {
+	Payer *string `json:"Payer" xml:"Payer" require:"true"`
+}
+
+func (s GetBucketRequestPaymentResponseRequestPaymentConfiguration) String() string {
+	return service.Prettify(s)
+}
+
+func (s GetBucketRequestPaymentResponseRequestPaymentConfiguration) GoString() string {
+	return s.String()
+}
+
+func (s *GetBucketRequestPaymentResponseRequestPaymentConfiguration) SetPayer(v string) *GetBucketRequestPaymentResponseRequestPaymentConfiguration {
+	s.Payer = &v
+	return s
+}
+
+type GetBucketEncryptionRequest struct {
+	BucketName *string `json:"BucketName" xml:"BucketName" require:"true"`
+}
+
+func (s GetBucketEncryptionRequest) String() string {
+	return service.Prettify(s)
+}
+
+func (s GetBucketEncryptionRequest) GoString() string {
+	return s.String()
+}
+
+func (s *GetBucketEncryptionRequest) SetBucketName(v string) *GetBucketEncryptionRequest {
+	s.BucketName = &v
+	return s
+}
+
+type GetBucketEncryptionResponse struct {
+	RequestId                *string                                              `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+	ServerSideEncryptionRule *GetBucketEncryptionResponseServerSideEncryptionRule `json:"ServerSideEncryptionRule" xml:"ServerSideEncryptionRule" require:"true" type:"Struct"`
+}
+
+func (s GetBucketEncryptionResponse) String() string {
+	return service.Prettify(s)
+}
+
+func (s GetBucketEncryptionResponse) GoString() string {
+	return s.String()
+}
+
+func (s *GetBucketEncryptionResponse) SetRequestId(v string) *GetBucketEncryptionResponse {
+	s.RequestId = &v
+	return s
+}
+
+func (s *GetBucketEncryptionResponse) SetServerSideEncryptionRule(v *GetBucketEncryptionResponseServerSideEncryptionRule) *GetBucketEncryptionResponse {
+	s.ServerSideEncryptionRule = v
+	return s
+}
+
+type GetBucketEncryptionResponseServerSideEncryptionRule struct {
+	ApplyServerSideEncryptionByDefault *GetBucketEncryptionResponseServerSideEncryptionRuleApplyServerSideEncryptionByDefault `json:"ApplyServerSideEncryptionByDefault" xml:"ApplyServerSideEncryptionByDefault" require:"true" type:"Struct"`
+}
+
+func (s GetBucketEncryptionResponseServerSideEncryptionRule) String() string {
+	return service.Prettify(s)
+}
+
+func (s GetBucketEncryptionResponseServerSideEncryptionRule) GoString() string {
+	return s.String()
+}
+
+func (s *GetBucketEncryptionResponseServerSideEncryptionRule) SetApplyServerSideEncryptionByDefault(v *GetBucketEncryptionResponseServerSideEncryptionRuleApplyServerSideEncryptionByDefault) *GetBucketEncryptionResponseServerSideEncryptionRule {
+	s.ApplyServerSideEncryptionByDefault = v
+	return s
+}
+
+type GetBucketEncryptionResponseServerSideEncryptionRuleApplyServerSideEncryptionByDefault struct {
+	SSEAlgorithm   *string `json:"SSEAlgorithm" xml:"SSEAlgorithm" require:"true"`
+	KMSMasterKeyID *string `json:"KMSMasterKeyID" xml:"KMSMasterKeyID" require:"true"`
+}
+
+func (s GetBucketEncryptionResponseServerSideEncryptionRuleApplyServerSideEncryptionByDefault) String() string {
+	return service.Prettify(s)
+}
+
+func (s GetBucketEncryptionResponseServerSideEncryptionRuleApplyServerSideEncryptionByDefault) GoString() string {
+	return s.String()
+}
+
+func (s *GetBucketEncryptionResponseServerSideEncryptionRuleApplyServerSideEncryptionByDefault) SetSSEAlgorithm(v string) *GetBucketEncryptionResponseServerSideEncryptionRuleApplyServerSideEncryptionByDefault {
+	s.SSEAlgorithm = &v
+	return s
+}
+
+func (s *GetBucketEncryptionResponseServerSideEncryptionRuleApplyServerSideEncryptionByDefault) SetKMSMasterKeyID(v string) *GetBucketEncryptionResponseServerSideEncryptionRuleApplyServerSideEncryptionByDefault {
+	s.KMSMasterKeyID = &v
+	return s
+}
+
+type GetBucketTagsRequest struct {
+	BucketName *string `json:"BucketName" xml:"BucketName" require:"true"`
+}
+
+func (s GetBucketTagsRequest) String() string {
+	return service.Prettify(s)
+}
+
+func (s GetBucketTagsRequest) GoString() string {
+	return s.String()
+}
+
+func (s *GetBucketTagsRequest) SetBucketName(v string) *GetBucketTagsRequest {
+	s.BucketName = &v
+	return s
+}
+
+type GetBucketTagsResponse struct {
+	RequestId *string                       `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+	Tagging   *GetBucketTagsResponseTagging `json:"Tagging" xml:"Tagging" require:"true" type:"Struct"`
+}
+
+func (s GetBucketTagsResponse) String() string {
+	return service.Prettify(s)
+}
+
+func (s GetBucketTagsResponse) GoString() string {
+	return s.String()
+}
+
+func (s *GetBucketTagsResponse) SetRequestId(v string) *GetBucketTagsResponse {
+	s.RequestId = &v
+	return s
+}
+
+func (s *GetBucketTagsResponse) SetTagging(v *GetBucketTagsResponseTagging) *GetBucketTagsResponse {
+	s.Tagging = v
+	return s
+}
+
+type GetBucketTagsResponseTagging struct {
+	TagSet *GetBucketTagsResponseTaggingTagSet `json:"TagSet" xml:"TagSet" require:"true" type:"Struct"`
+}
+
+func (s GetBucketTagsResponseTagging) String() string {
+	return service.Prettify(s)
+}
+
+func (s GetBucketTagsResponseTagging) GoString() string {
+	return s.String()
+}
+
+func (s *GetBucketTagsResponseTagging) SetTagSet(v *GetBucketTagsResponseTaggingTagSet) *GetBucketTagsResponseTagging {
+	s.TagSet = v
+	return s
+}
+
+type GetBucketTagsResponseTaggingTagSet struct {
+	Tag []*GetBucketTagsResponseTaggingTagSetTag `json:"Tag" xml:"Tag" require:"true" type:"Repeated"`
+}
+
+func (s GetBucketTagsResponseTaggingTagSet) String() string {
+	return service.Prettify(s)
+}
+
+func (s GetBucketTagsResponseTaggingTagSet) GoString() string {
+	return s.String()
+}
+
+func (s *GetBucketTagsResponseTaggingTagSet) SetTag(v []*GetBucketTagsResponseTaggingTagSetTag) *GetBucketTagsResponseTaggingTagSet {
+	s.Tag = v
+	return s
+}
+
+type GetBucketTagsResponseTaggingTagSetTag struct {
+	Key   *string `json:"Key" xml:"Key" require:"true"`
+	Value *string `json:"Value" xml:"Value" require:"true"`
+}
+
+func (s GetBucketTagsResponseTaggingTagSetTag) String() string {
+	return service.Prettify(s)
+}
+
+func (s GetBucketTagsResponseTaggingTagSetTag) GoString() string {
+	return s.String()
+}
+
+func (s *GetBucketTagsResponseTaggingTagSetTag) SetKey(v string) *GetBucketTagsResponseTaggingTagSetTag {
+	s.Key = &v
+	return s
+}
+
+func (s *GetBucketTagsResponseTaggingTagSetTag) SetValue(v string) *GetBucketTagsResponseTaggingTagSetTag {
+	s.Value = &v
+	return s
+}
+
+type GetServiceRequest struct {
+	Filter *GetServiceRequestFilter `json:"Filter" xml:"Filter" type:"Struct"`
+}
+
+func (s GetServiceRequest) String() string {
+	return service.Prettify(s)
+}
+
+func (s GetServiceRequest) GoString() string {
+	return s.String()
+}
+
+func (s *GetServiceRequest) SetFilter(v *GetServiceRequestFilter) *GetServiceRequest {
+	s.Filter = v
+	return s
+}
+
+type GetServiceRequestFilter struct {
+	Prefix  *string `json:"prefix" xml:"prefix"`
+	Marker  *string `json:"marker" xml:"marker"`
+	MaxKeys *string `json:"max-keys" xml:"max-keys"`
+}
+
+func (s GetServiceRequestFilter) String() string {
+	return service.Prettify(s)
+}
+
+func (s GetServiceRequestFilter) GoString() string {
+	return s.String()
+}
+
+func (s *GetServiceRequestFilter) SetPrefix(v string) *GetServiceRequestFilter {
+	s.Prefix = &v
+	return s
+}
+
+func (s *GetServiceRequestFilter) SetMarker(v string) *GetServiceRequestFilter {
+	s.Marker = &v
+	return s
+}
+
+func (s *GetServiceRequestFilter) SetMaxKeys(v string) *GetServiceRequestFilter {
+	s.MaxKeys = &v
+	return s
+}
+
+type GetServiceResponse struct {
+	RequestId              *string                                   `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+	ListAllMyBucketsResult *GetServiceResponseListAllMyBucketsResult `json:"ListAllMyBucketsResult" xml:"ListAllMyBucketsResult" require:"true" type:"Struct"`
+}
+
+func (s GetServiceResponse) String() string {
+	return service.Prettify(s)
+}
+
+func (s GetServiceResponse) GoString() string {
+	return s.String()
+}
+
+func (s *GetServiceResponse) SetRequestId(v string) *GetServiceResponse {
+	s.RequestId = &v
+	return s
+}
+
+func (s *GetServiceResponse) SetListAllMyBucketsResult(v *GetServiceResponseListAllMyBucketsResult) *GetServiceResponse {
+	s.ListAllMyBucketsResult = v
+	return s
+}
+
+type GetServiceResponseListAllMyBucketsResult struct {
+	Prefix      *string                                          `json:"Prefix" xml:"Prefix" require:"true"`
+	Marker      *string                                          `json:"Marker" xml:"Marker" require:"true"`
+	MaxKeys     *string                                          `json:"MaxKeys" xml:"MaxKeys" require:"true"`
+	IsTruncated *string                                          `json:"IsTruncated" xml:"IsTruncated" require:"true"`
+	NextMarker  *string                                          `json:"NextMarker" xml:"NextMarker" require:"true"`
+	Owner       *GetServiceResponseListAllMyBucketsResultOwner   `json:"Owner" xml:"Owner" require:"true" type:"Struct"`
+	Buckets     *GetServiceResponseListAllMyBucketsResultBuckets `json:"Buckets" xml:"Buckets" require:"true" type:"Struct"`
+}
+
+func (s GetServiceResponseListAllMyBucketsResult) String() string {
+	return service.Prettify(s)
+}
+
+func (s GetServiceResponseListAllMyBucketsResult) GoString() string {
+	return s.String()
+}
+
+func (s *GetServiceResponseListAllMyBucketsResult) SetPrefix(v string) *GetServiceResponseListAllMyBucketsResult {
+	s.Prefix = &v
+	return s
+}
+
+func (s *GetServiceResponseListAllMyBucketsResult) SetMarker(v string) *GetServiceResponseListAllMyBucketsResult {
+	s.Marker = &v
+	return s
+}
+
+func (s *GetServiceResponseListAllMyBucketsResult) SetMaxKeys(v string) *GetServiceResponseListAllMyBucketsResult {
+	s.MaxKeys = &v
+	return s
+}
+
+func (s *GetServiceResponseListAllMyBucketsResult) SetIsTruncated(v string) *GetServiceResponseListAllMyBucketsResult {
+	s.IsTruncated = &v
+	return s
+}
+
+func (s *GetServiceResponseListAllMyBucketsResult) SetNextMarker(v string) *GetServiceResponseListAllMyBucketsResult {
+	s.NextMarker = &v
+	return s
+}
+
+func (s *GetServiceResponseListAllMyBucketsResult) SetOwner(v *GetServiceResponseListAllMyBucketsResultOwner) *GetServiceResponseListAllMyBucketsResult {
+	s.Owner = v
+	return s
+}
+
+func (s *GetServiceResponseListAllMyBucketsResult) SetBuckets(v *GetServiceResponseListAllMyBucketsResultBuckets) *GetServiceResponseListAllMyBucketsResult {
+	s.Buckets = v
+	return s
+}
+
+type GetServiceResponseListAllMyBucketsResultOwner struct {
+	ID          *string `json:"ID" xml:"ID" require:"true"`
+	DisplayName *string `json:"DisplayName" xml:"DisplayName" require:"true"`
+}
+
+func (s GetServiceResponseListAllMyBucketsResultOwner) String() string {
+	return service.Prettify(s)
+}
+
+func (s GetServiceResponseListAllMyBucketsResultOwner) GoString() string {
+	return s.String()
+}
+
+func (s *GetServiceResponseListAllMyBucketsResultOwner) SetID(v string) *GetServiceResponseListAllMyBucketsResultOwner {
+	s.ID = &v
+	return s
+}
+
+func (s *GetServiceResponseListAllMyBucketsResultOwner) SetDisplayName(v string) *GetServiceResponseListAllMyBucketsResultOwner {
+	s.DisplayName = &v
+	return s
+}
+
+type GetServiceResponseListAllMyBucketsResultBuckets struct {
+	Bucket []*GetServiceResponseListAllMyBucketsResultBucketsBucket `json:"Bucket" xml:"Bucket" require:"true" type:"Repeated"`
+}
+
+func (s GetServiceResponseListAllMyBucketsResultBuckets) String() string {
+	return service.Prettify(s)
+}
+
+func (s GetServiceResponseListAllMyBucketsResultBuckets) GoString() string {
+	return s.String()
+}
+
+func (s *GetServiceResponseListAllMyBucketsResultBuckets) SetBucket(v []*GetServiceResponseListAllMyBucketsResultBucketsBucket) *GetServiceResponseListAllMyBucketsResultBuckets {
+	s.Bucket = v
+	return s
+}
+
+type GetServiceResponseListAllMyBucketsResultBucketsBucket struct {
+	Name             *string `json:"Name" xml:"Name" require:"true"`
+	CreateDate       *string `json:"CreateDate" xml:"CreateDate" require:"true"`
+	Location         *string `json:"Location" xml:"Location" require:"true"`
+	ExtranetEndpoint *string `json:"ExtranetEndpoint" xml:"ExtranetEndpoint" require:"true"`
+	IntranetEndpoint *string `json:"IntranetEndpoint" xml:"IntranetEndpoint" require:"true"`
+	StorageClass     *string `json:"StorageClass" xml:"StorageClass" require:"true"`
+}
+
+func (s GetServiceResponseListAllMyBucketsResultBucketsBucket) String() string {
+	return service.Prettify(s)
+}
+
+func (s GetServiceResponseListAllMyBucketsResultBucketsBucket) GoString() string {
+	return s.String()
+}
+
+func (s *GetServiceResponseListAllMyBucketsResultBucketsBucket) SetName(v string) *GetServiceResponseListAllMyBucketsResultBucketsBucket {
+	s.Name = &v
+	return s
+}
+
+func (s *GetServiceResponseListAllMyBucketsResultBucketsBucket) SetCreateDate(v string) *GetServiceResponseListAllMyBucketsResultBucketsBucket {
+	s.CreateDate = &v
+	return s
+}
+
+func (s *GetServiceResponseListAllMyBucketsResultBucketsBucket) SetLocation(v string) *GetServiceResponseListAllMyBucketsResultBucketsBucket {
+	s.Location = &v
+	return s
+}
+
+func (s *GetServiceResponseListAllMyBucketsResultBucketsBucket) SetExtranetEndpoint(v string) *GetServiceResponseListAllMyBucketsResultBucketsBucket {
+	s.ExtranetEndpoint = &v
+	return s
+}
+
+func (s *GetServiceResponseListAllMyBucketsResultBucketsBucket) SetIntranetEndpoint(v string) *GetServiceResponseListAllMyBucketsResultBucketsBucket {
+	s.IntranetEndpoint = &v
+	return s
+}
+
+func (s *GetServiceResponseListAllMyBucketsResultBucketsBucket) SetStorageClass(v string) *GetServiceResponseListAllMyBucketsResultBucketsBucket {
+	s.StorageClass = &v
+	return s
+}
+
+type DeleteBucketEncryptionRequest struct {
+	BucketName *string `json:"BucketName" xml:"BucketName" require:"true"`
+}
+
+func (s DeleteBucketEncryptionRequest) String() string {
+	return service.Prettify(s)
+}
+
+func (s DeleteBucketEncryptionRequest) GoString() string {
+	return s.String()
+}
+
+func (s *DeleteBucketEncryptionRequest) SetBucketName(v string) *DeleteBucketEncryptionRequest {
+	s.BucketName = &v
+	return s
+}
+
+type DeleteBucketEncryptionResponse struct {
+	RequestId *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+}
+
+func (s DeleteBucketEncryptionResponse) String() string {
+	return service.Prettify(s)
+}
+
+func (s DeleteBucketEncryptionResponse) GoString() string {
+	return s.String()
+}
+
+func (s *DeleteBucketEncryptionResponse) SetRequestId(v string) *DeleteBucketEncryptionResponse {
+	s.RequestId = &v
+	return s
+}
+
+type DeleteBucketTagsRequest struct {
+	BucketName *string                        `json:"BucketName" xml:"BucketName" require:"true"`
+	Filter     *DeleteBucketTagsRequestFilter `json:"Filter" xml:"Filter" require:"true" type:"Struct"`
+}
+
+func (s DeleteBucketTagsRequest) String() string {
+	return service.Prettify(s)
+}
+
+func (s DeleteBucketTagsRequest) GoString() string {
+	return s.String()
+}
+
+func (s *DeleteBucketTagsRequest) SetBucketName(v string) *DeleteBucketTagsRequest {
+	s.BucketName = &v
+	return s
+}
+
+func (s *DeleteBucketTagsRequest) SetFilter(v *DeleteBucketTagsRequestFilter) *DeleteBucketTagsRequest {
+	s.Filter = v
+	return s
+}
+
+type DeleteBucketTagsRequestFilter struct {
+	Tagging *string `json:"tagging" xml:"tagging" require:"true" signed:"true"`
+}
+
+func (s DeleteBucketTagsRequestFilter) String() string {
+	return service.Prettify(s)
+}
+
+func (s DeleteBucketTagsRequestFilter) GoString() string {
+	return s.String()
+}
+
+func (s *DeleteBucketTagsRequestFilter) SetTagging(v string) *DeleteBucketTagsRequestFilter {
+	s.Tagging = &v
+	return s
+}
+
+type DeleteBucketTagsResponse struct {
+	RequestId *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+}
+
+func (s DeleteBucketTagsResponse) String() string {
+	return service.Prettify(s)
+}
+
+func (s DeleteBucketTagsResponse) GoString() string {
+	return s.String()
+}
+
+func (s *DeleteBucketTagsResponse) SetRequestId(v string) *DeleteBucketTagsResponse {
+	s.RequestId = &v
+	return s
+}
+
+type GetBucketWebsiteRequest struct {
+	BucketName *string `json:"BucketName" xml:"BucketName" require:"true"`
+}
+
+func (s GetBucketWebsiteRequest) String() string {
+	return service.Prettify(s)
+}
+
+func (s GetBucketWebsiteRequest) GoString() string {
+	return s.String()
+}
+
+func (s *GetBucketWebsiteRequest) SetBucketName(v string) *GetBucketWebsiteRequest {
+	s.BucketName = &v
+	return s
+}
+
+type GetBucketWebsiteResponse struct {
+	RequestId            *string                                       `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+	WebsiteConfiguration *GetBucketWebsiteResponseWebsiteConfiguration `json:"WebsiteConfiguration" xml:"WebsiteConfiguration" require:"true" type:"Struct"`
+}
+
+func (s GetBucketWebsiteResponse) String() string {
+	return service.Prettify(s)
+}
+
+func (s GetBucketWebsiteResponse) GoString() string {
+	return s.String()
+}
+
+func (s *GetBucketWebsiteResponse) SetRequestId(v string) *GetBucketWebsiteResponse {
+	s.RequestId = &v
+	return s
+}
+
+func (s *GetBucketWebsiteResponse) SetWebsiteConfiguration(v *GetBucketWebsiteResponseWebsiteConfiguration) *GetBucketWebsiteResponse {
+	s.WebsiteConfiguration = v
+	return s
+}
+
+type GetBucketWebsiteResponseWebsiteConfiguration struct {
+	IndexDocument *GetBucketWebsiteResponseWebsiteConfigurationIndexDocument `json:"IndexDocument" xml:"IndexDocument" require:"true" type:"Struct"`
+	ErrorDocument *GetBucketWebsiteResponseWebsiteConfigurationErrorDocument `json:"ErrorDocument" xml:"ErrorDocument" require:"true" type:"Struct"`
+	RoutingRules  *GetBucketWebsiteResponseWebsiteConfigurationRoutingRules  `json:"RoutingRules" xml:"RoutingRules" require:"true" type:"Struct"`
+}
+
+func (s GetBucketWebsiteResponseWebsiteConfiguration) String() string {
+	return service.Prettify(s)
+}
+
+func (s GetBucketWebsiteResponseWebsiteConfiguration) GoString() string {
+	return s.String()
+}
+
+func (s *GetBucketWebsiteResponseWebsiteConfiguration) SetIndexDocument(v *GetBucketWebsiteResponseWebsiteConfigurationIndexDocument) *GetBucketWebsiteResponseWebsiteConfiguration {
+	s.IndexDocument = v
+	return s
+}
+
+func (s *GetBucketWebsiteResponseWebsiteConfiguration) SetErrorDocument(v *GetBucketWebsiteResponseWebsiteConfigurationErrorDocument) *GetBucketWebsiteResponseWebsiteConfiguration {
+	s.ErrorDocument = v
+	return s
+}
+
+func (s *GetBucketWebsiteResponseWebsiteConfiguration) SetRoutingRules(v *GetBucketWebsiteResponseWebsiteConfigurationRoutingRules) *GetBucketWebsiteResponseWebsiteConfiguration {
+	s.RoutingRules = v
+	return s
+}
+
+type GetBucketWebsiteResponseWebsiteConfigurationIndexDocument struct {
+	Suffix *string `json:"Suffix" xml:"Suffix" require:"true"`
+}
+
+func (s GetBucketWebsiteResponseWebsiteConfigurationIndexDocument) String() string {
+	return service.Prettify(s)
+}
+
+func (s GetBucketWebsiteResponseWebsiteConfigurationIndexDocument) GoString() string {
+	return s.String()
+}
+
+func (s *GetBucketWebsiteResponseWebsiteConfigurationIndexDocument) SetSuffix(v string) *GetBucketWebsiteResponseWebsiteConfigurationIndexDocument {
+	s.Suffix = &v
+	return s
+}
+
+type GetBucketWebsiteResponseWebsiteConfigurationErrorDocument struct {
+	Key *string `json:"Key" xml:"Key" require:"true"`
+}
+
+func (s GetBucketWebsiteResponseWebsiteConfigurationErrorDocument) String() string {
+	return service.Prettify(s)
+}
+
+func (s GetBucketWebsiteResponseWebsiteConfigurationErrorDocument) GoString() string {
+	return s.String()
+}
+
+func (s *GetBucketWebsiteResponseWebsiteConfigurationErrorDocument) SetKey(v string) *GetBucketWebsiteResponseWebsiteConfigurationErrorDocument {
+	s.Key = &v
+	return s
+}
+
+type GetBucketWebsiteResponseWebsiteConfigurationRoutingRules struct {
+	RoutingRule []*GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule `json:"RoutingRule" xml:"RoutingRule" require:"true" type:"Repeated"`
+}
+
+func (s GetBucketWebsiteResponseWebsiteConfigurationRoutingRules) String() string {
+	return service.Prettify(s)
+}
+
+func (s GetBucketWebsiteResponseWebsiteConfigurationRoutingRules) GoString() string {
+	return s.String()
+}
+
+func (s *GetBucketWebsiteResponseWebsiteConfigurationRoutingRules) SetRoutingRule(v []*GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule) *GetBucketWebsiteResponseWebsiteConfigurationRoutingRules {
+	s.RoutingRule = v
+	return s
+}
+
+type GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule struct {
+	RuleNumber *int                                                                          `json:"RuleNumber" xml:"RuleNumber" require:"true"`
+	Condition  *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleCondition `json:"Condition" xml:"Condition" require:"true" type:"Struct"`
+	Redirect   *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect  `json:"Redirect" xml:"Redirect" require:"true" type:"Struct"`
+}
+
+func (s GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule) String() string {
+	return service.Prettify(s)
+}
+
+func (s GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule) GoString() string {
+	return s.String()
+}
+
+func (s *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule) SetRuleNumber(v int) *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule {
+	s.RuleNumber = &v
+	return s
+}
+
+func (s *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule) SetCondition(v *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleCondition) *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule {
+	s.Condition = v
+	return s
+}
+
+func (s *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule) SetRedirect(v *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect) *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule {
+	s.Redirect = v
+	return s
+}
+
+type GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleCondition struct {
+	KeyPrefixEquals             *string                                                                                    `json:"KeyPrefixEquals" xml:"KeyPrefixEquals" require:"true"`
+	HttpErrorCodeReturnedEquals *string                                                                                    `json:"HttpErrorCodeReturnedEquals" xml:"HttpErrorCodeReturnedEquals" require:"true"`
+	IncludeHeader               *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader `json:"IncludeHeader" xml:"IncludeHeader" require:"true" type:"Struct"`
+}
+
+func (s GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleCondition) String() string {
+	return service.Prettify(s)
+}
+
+func (s GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleCondition) GoString() string {
+	return s.String()
+}
+
+func (s *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleCondition) SetKeyPrefixEquals(v string) *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleCondition {
+	s.KeyPrefixEquals = &v
+	return s
+}
+
+func (s *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleCondition) SetHttpErrorCodeReturnedEquals(v string) *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleCondition {
+	s.HttpErrorCodeReturnedEquals = &v
+	return s
+}
+
+func (s *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleCondition) SetIncludeHeader(v *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader) *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleCondition {
+	s.IncludeHeader = v
+	return s
+}
+
+type GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader struct {
+	Key    *string `json:"Key" xml:"Key" require:"true"`
+	Equals *string `json:"Equals" xml:"Equals" require:"true"`
+}
+
+func (s GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader) String() string {
+	return service.Prettify(s)
+}
+
+func (s GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader) GoString() string {
+	return s.String()
+}
+
+func (s *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader) SetKey(v string) *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader {
+	s.Key = &v
+	return s
+}
+
+func (s *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader) SetEquals(v string) *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader {
+	s.Equals = &v
+	return s
+}
+
+type GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect struct {
+	RedirectType          *string                                                                                   `json:"RedirectType" xml:"RedirectType" require:"true"`
+	PassQueryString       *bool                                                                                     `json:"PassQueryString" xml:"PassQueryString" require:"true"`
+	MirrorURL             *string                                                                                   `json:"MirrorURL" xml:"MirrorURL" require:"true"`
+	MirrorPassQueryString *bool                                                                                     `json:"MirrorPassQueryString" xml:"MirrorPassQueryString" require:"true"`
+	MirrorFollowRedirect  *bool                                                                                     `json:"MirrorFollowRedirect" xml:"MirrorFollowRedirect" require:"true"`
+	MirrorCheckMd5        *bool                                                                                     `json:"MirrorCheckMd5" xml:"MirrorCheckMd5" require:"true"`
+	Protocol              *string                                                                                   `json:"Protocol" xml:"Protocol" require:"true"`
+	HostName              *string                                                                                   `json:"HostName" xml:"HostName" require:"true"`
+	HttpRedirectCode      *string                                                                                   `json:"HttpRedirectCode" xml:"HttpRedirectCode" require:"true"`
+	ReplaceKeyPrefixWith  *string                                                                                   `json:"ReplaceKeyPrefixWith" xml:"ReplaceKeyPrefixWith" require:"true"`
+	ReplaceKeyWith        *string                                                                                   `json:"ReplaceKeyWith" xml:"ReplaceKeyWith" require:"true"`
+	MirrorHeaders         *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders `json:"MirrorHeaders" xml:"MirrorHeaders" require:"true" type:"Struct"`
+}
+
+func (s GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect) String() string {
+	return service.Prettify(s)
+}
+
+func (s GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect) GoString() string {
+	return s.String()
+}
+
+func (s *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect) SetRedirectType(v string) *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect {
+	s.RedirectType = &v
+	return s
+}
+
+func (s *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect) SetPassQueryString(v bool) *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect {
+	s.PassQueryString = &v
+	return s
+}
+
+func (s *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect) SetMirrorURL(v string) *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect {
+	s.MirrorURL = &v
+	return s
+}
+
+func (s *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect) SetMirrorPassQueryString(v bool) *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect {
+	s.MirrorPassQueryString = &v
+	return s
+}
+
+func (s *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect) SetMirrorFollowRedirect(v bool) *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect {
+	s.MirrorFollowRedirect = &v
+	return s
+}
+
+func (s *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect) SetMirrorCheckMd5(v bool) *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect {
+	s.MirrorCheckMd5 = &v
+	return s
+}
+
+func (s *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect) SetProtocol(v string) *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect {
+	s.Protocol = &v
+	return s
+}
+
+func (s *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect) SetHostName(v string) *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect {
+	s.HostName = &v
+	return s
+}
+
+func (s *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect) SetHttpRedirectCode(v string) *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect {
+	s.HttpRedirectCode = &v
+	return s
+}
+
+func (s *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect) SetReplaceKeyPrefixWith(v string) *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect {
+	s.ReplaceKeyPrefixWith = &v
+	return s
+}
+
+func (s *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect) SetReplaceKeyWith(v string) *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect {
+	s.ReplaceKeyWith = &v
+	return s
+}
+
+func (s *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect) SetMirrorHeaders(v *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders) *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect {
+	s.MirrorHeaders = v
+	return s
+}
+
+type GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders struct {
+	PassAll *bool                                                                                        `json:"PassAll" xml:"PassAll" require:"true"`
+	Pass    *string                                                                                      `json:"Pass" xml:"Pass" require:"true"`
+	Remove  *string                                                                                      `json:"Remove" xml:"Remove" require:"true"`
+	Set     *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet `json:"Set" xml:"Set" require:"true" type:"Struct"`
+}
+
+func (s GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders) String() string {
+	return service.Prettify(s)
+}
+
+func (s GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders) GoString() string {
+	return s.String()
+}
+
+func (s *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders) SetPassAll(v bool) *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders {
+	s.PassAll = &v
+	return s
+}
+
+func (s *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders) SetPass(v string) *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders {
+	s.Pass = &v
+	return s
+}
+
+func (s *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders) SetRemove(v string) *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders {
+	s.Remove = &v
+	return s
+}
+
+func (s *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders) SetSet(v *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet) *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders {
+	s.Set = v
+	return s
+}
+
+type GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet struct {
+	Key   *string `json:"Key" xml:"Key" require:"true"`
+	Value *string `json:"Value" xml:"Value" require:"true"`
+}
+
+func (s GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet) String() string {
+	return service.Prettify(s)
+}
+
+func (s GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet) GoString() string {
+	return s.String()
+}
+
+func (s *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet) SetKey(v string) *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet {
+	s.Key = &v
+	return s
+}
+
+func (s *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet) SetValue(v string) *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet {
+	s.Value = &v
+	return s
+}
+
 type DeleteLiveChannelRequest struct {
 	BucketName  *string `json:"BucketName" xml:"BucketName" require:"true"`
 	ChannelName *string `json:"ChannelName" xml:"ChannelName" require:"true"`
@@ -4566,6 +7902,2383 @@ func NewClient(config *Config) (*Client, error) {
 	}
 	return client, nil
 }
+func (client *Client) PutBucketLifecycle(request *PutBucketLifecycleRequest, runtime *RuntimeObject) (*PutBucketLifecycleResponse, error) {
+	err := tea.Validate(request)
+	if err != nil {
+		return nil, err
+	}
+	err = tea.Validate(runtime)
+	if err != nil {
+		return nil, err
+	}
+	_runtime := map[string]interface{}{
+		"timeouted":      "retry",
+		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"retry": map[string]interface{}{
+			"retryable":   tea.GetBoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+		},
+		"backoff": map[string]interface{}{
+			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+		},
+		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"logger":    client.Logger,
+		"listener":  runtime.Listener,
+	}
+
+	_resp := &PutBucketLifecycleResponse{}
+	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+		if _retryTimes > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
+			if _backoffTime > 0 {
+				tea.Sleep(_backoffTime)
+			}
+		}
+
+		_resp, err = func() (*PutBucketLifecycleResponse, error) {
+			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
+			reqBody := client.ToXML(tea.ToMap(request.Body))
+			request_.Protocol = client.Protocol
+			request_.Method = "PUT"
+			request_.Pathname = "/?lifecycle"
+			request_.Headers = map[string]string{
+				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"date":       client.GetDate(),
+				"user-agent": client.GetUserAgent(),
+			}
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Body = tea.ToReader(reqBody)
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
+			response_, err := tea.DoRequest(request_, _runtime)
+			if err != nil {
+				return nil, err
+			}
+
+			respMap := make(map[string]interface{})
+			bodyStr := ""
+			if client.IsFail(response_) {
+				bodyStr, err = client.ReadAsString(response_)
+				if err != nil {
+					return nil, err
+				}
+
+				respMap = client.GetErrMessage(bodyStr)
+				err = tea.NewSDKError(map[string]interface{}{
+					"code":    respMap["Code"],
+					"message": respMap["Message"],
+					"data": map[string]interface{}{
+						"httpCode":  response_.StatusCode,
+						"requestId": respMap["RequestId"],
+						"hostId":    respMap["HostId"],
+					},
+				})
+				return nil, err
+			}
+
+			_result := &PutBucketLifecycleResponse{}
+			err = tea.Convert(response_.Headers, &_result)
+			return _result, err
+		}()
+		if !tea.Retryable(err) {
+			break
+		}
+	}
+
+	return _resp, err
+}
+
+func (client *Client) DeleteMultipleObjects(request *DeleteMultipleObjectsRequest, runtime *RuntimeObject) (*DeleteMultipleObjectsResponse, error) {
+	err := tea.Validate(request)
+	if err != nil {
+		return nil, err
+	}
+	err = tea.Validate(runtime)
+	if err != nil {
+		return nil, err
+	}
+	_runtime := map[string]interface{}{
+		"timeouted":      "retry",
+		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"retry": map[string]interface{}{
+			"retryable":   tea.GetBoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+		},
+		"backoff": map[string]interface{}{
+			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+		},
+		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"logger":    client.Logger,
+		"listener":  runtime.Listener,
+	}
+
+	_resp := &DeleteMultipleObjectsResponse{}
+	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+		if _retryTimes > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
+			if _backoffTime > 0 {
+				tea.Sleep(_backoffTime)
+			}
+		}
+
+		_resp, err = func() (*DeleteMultipleObjectsResponse, error) {
+			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
+			reqBody := client.ToXML(tea.ToMap(request.Body))
+			request_.Protocol = client.Protocol
+			request_.Method = "POST"
+			request_.Pathname = "/?delete"
+			request_.Headers = tea.Merge(map[string]string{
+				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"date":       client.GetDate(),
+				"user-agent": client.GetUserAgent(),
+			}, client.ToHeader(tea.ToMap(request.Header)))
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Body = tea.ToReader(reqBody)
+			if client.NotNull(tea.ToMap(request.Header)) && !client.Empty(tea.GetStringValue(request.Header.ContentMD5)) {
+				request_.Headers["content-md5"] = tea.GetStringValue(request.Header.ContentMD5)
+			} else {
+				request_.Headers["content-md5"] = client.GetContentMD5(reqBody)
+			}
+
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
+			response_, err := tea.DoRequest(request_, _runtime)
+			if err != nil {
+				return nil, err
+			}
+
+			respMap := make(map[string]interface{})
+			bodyStr := ""
+			if client.IsFail(response_) {
+				bodyStr, err = client.ReadAsString(response_)
+				if err != nil {
+					return nil, err
+				}
+
+				respMap = client.GetErrMessage(bodyStr)
+				err = tea.NewSDKError(map[string]interface{}{
+					"code":    respMap["Code"],
+					"message": respMap["Message"],
+					"data": map[string]interface{}{
+						"httpCode":  response_.StatusCode,
+						"requestId": respMap["RequestId"],
+						"hostId":    respMap["HostId"],
+					},
+				})
+				return nil, err
+			}
+
+			bodyStr, err = client.ReadAsString(response_)
+			if err != nil {
+				return nil, err
+			}
+
+			respMap = client.ParseXml(bodyStr, new(DeleteMultipleObjectsResponse))
+			_result := &DeleteMultipleObjectsResponse{}
+			err = tea.Convert(tea.ToMap(map[string]interface{}{
+				"DeleteResult": respMap["DeleteResult"],
+			}, response_.Headers), &_result)
+			return _result, err
+		}()
+		if !tea.Retryable(err) {
+			break
+		}
+	}
+
+	return _resp, err
+}
+
+func (client *Client) PutBucketReferer(request *PutBucketRefererRequest, runtime *RuntimeObject) (*PutBucketRefererResponse, error) {
+	err := tea.Validate(request)
+	if err != nil {
+		return nil, err
+	}
+	err = tea.Validate(runtime)
+	if err != nil {
+		return nil, err
+	}
+	_runtime := map[string]interface{}{
+		"timeouted":      "retry",
+		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"retry": map[string]interface{}{
+			"retryable":   tea.GetBoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+		},
+		"backoff": map[string]interface{}{
+			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+		},
+		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"logger":    client.Logger,
+		"listener":  runtime.Listener,
+	}
+
+	_resp := &PutBucketRefererResponse{}
+	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+		if _retryTimes > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
+			if _backoffTime > 0 {
+				tea.Sleep(_backoffTime)
+			}
+		}
+
+		_resp, err = func() (*PutBucketRefererResponse, error) {
+			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
+			reqBody := client.ToXML(tea.ToMap(request.Body))
+			request_.Protocol = client.Protocol
+			request_.Method = "PUT"
+			request_.Pathname = "/?referer"
+			request_.Headers = map[string]string{
+				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"date":       client.GetDate(),
+				"user-agent": client.GetUserAgent(),
+			}
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Body = tea.ToReader(reqBody)
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
+			response_, err := tea.DoRequest(request_, _runtime)
+			if err != nil {
+				return nil, err
+			}
+
+			respMap := make(map[string]interface{})
+			bodyStr := ""
+			if client.IsFail(response_) {
+				bodyStr, err = client.ReadAsString(response_)
+				if err != nil {
+					return nil, err
+				}
+
+				respMap = client.GetErrMessage(bodyStr)
+				err = tea.NewSDKError(map[string]interface{}{
+					"code":    respMap["Code"],
+					"message": respMap["Message"],
+					"data": map[string]interface{}{
+						"httpCode":  response_.StatusCode,
+						"requestId": respMap["RequestId"],
+						"hostId":    respMap["HostId"],
+					},
+				})
+				return nil, err
+			}
+
+			_result := &PutBucketRefererResponse{}
+			err = tea.Convert(response_.Headers, &_result)
+			return _result, err
+		}()
+		if !tea.Retryable(err) {
+			break
+		}
+	}
+
+	return _resp, err
+}
+
+func (client *Client) PutBucketWebsite(request *PutBucketWebsiteRequest, runtime *RuntimeObject) (*PutBucketWebsiteResponse, error) {
+	err := tea.Validate(request)
+	if err != nil {
+		return nil, err
+	}
+	err = tea.Validate(runtime)
+	if err != nil {
+		return nil, err
+	}
+	_runtime := map[string]interface{}{
+		"timeouted":      "retry",
+		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"retry": map[string]interface{}{
+			"retryable":   tea.GetBoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+		},
+		"backoff": map[string]interface{}{
+			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+		},
+		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"logger":    client.Logger,
+		"listener":  runtime.Listener,
+	}
+
+	_resp := &PutBucketWebsiteResponse{}
+	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+		if _retryTimes > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
+			if _backoffTime > 0 {
+				tea.Sleep(_backoffTime)
+			}
+		}
+
+		_resp, err = func() (*PutBucketWebsiteResponse, error) {
+			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
+			reqBody := client.ToXML(tea.ToMap(request.Body))
+			request_.Protocol = client.Protocol
+			request_.Method = "PUT"
+			request_.Pathname = "/?website"
+			request_.Headers = map[string]string{
+				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"date":       client.GetDate(),
+				"user-agent": client.GetUserAgent(),
+			}
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Body = tea.ToReader(reqBody)
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
+			response_, err := tea.DoRequest(request_, _runtime)
+			if err != nil {
+				return nil, err
+			}
+
+			respMap := make(map[string]interface{})
+			bodyStr := ""
+			if client.IsFail(response_) {
+				bodyStr, err = client.ReadAsString(response_)
+				if err != nil {
+					return nil, err
+				}
+
+				respMap = client.GetErrMessage(bodyStr)
+				err = tea.NewSDKError(map[string]interface{}{
+					"code":    respMap["Code"],
+					"message": respMap["Message"],
+					"data": map[string]interface{}{
+						"httpCode":  response_.StatusCode,
+						"requestId": respMap["RequestId"],
+						"hostId":    respMap["HostId"],
+					},
+				})
+				return nil, err
+			}
+
+			_result := &PutBucketWebsiteResponse{}
+			err = tea.Convert(response_.Headers, &_result)
+			return _result, err
+		}()
+		if !tea.Retryable(err) {
+			break
+		}
+	}
+
+	return _resp, err
+}
+
+func (client *Client) CompleteMultipartUpload(request *CompleteMultipartUploadRequest, runtime *RuntimeObject) (*CompleteMultipartUploadResponse, error) {
+	err := tea.Validate(request)
+	if err != nil {
+		return nil, err
+	}
+	err = tea.Validate(runtime)
+	if err != nil {
+		return nil, err
+	}
+	_runtime := map[string]interface{}{
+		"timeouted":      "retry",
+		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"retry": map[string]interface{}{
+			"retryable":   tea.GetBoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+		},
+		"backoff": map[string]interface{}{
+			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+		},
+		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"logger":    client.Logger,
+		"listener":  runtime.Listener,
+	}
+
+	_resp := &CompleteMultipartUploadResponse{}
+	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+		if _retryTimes > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
+			if _backoffTime > 0 {
+				tea.Sleep(_backoffTime)
+			}
+		}
+
+		_resp, err = func() (*CompleteMultipartUploadResponse, error) {
+			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
+			reqBody := client.ToXML(tea.ToMap(request.Body))
+			request_.Protocol = client.Protocol
+			request_.Method = "POST"
+			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ObjectName))
+			request_.Headers = map[string]string{
+				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"date":       client.GetDate(),
+				"user-agent": client.GetUserAgent(),
+			}
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
+			request_.Body = tea.ToReader(reqBody)
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
+			response_, err := tea.DoRequest(request_, _runtime)
+			if err != nil {
+				return nil, err
+			}
+
+			respMap := make(map[string]interface{})
+			bodyStr := ""
+			if client.IsFail(response_) {
+				bodyStr, err = client.ReadAsString(response_)
+				if err != nil {
+					return nil, err
+				}
+
+				respMap = client.GetErrMessage(bodyStr)
+				err = tea.NewSDKError(map[string]interface{}{
+					"code":    respMap["Code"],
+					"message": respMap["Message"],
+					"data": map[string]interface{}{
+						"httpCode":  response_.StatusCode,
+						"requestId": respMap["RequestId"],
+						"hostId":    respMap["HostId"],
+					},
+				})
+				return nil, err
+			}
+
+			bodyStr, err = client.ReadAsString(response_)
+			if err != nil {
+				return nil, err
+			}
+
+			respMap = client.ParseXml(bodyStr, new(CompleteMultipartUploadResponse))
+			_result := &CompleteMultipartUploadResponse{}
+			err = tea.Convert(tea.ToMap(map[string]interface{}{
+				"CompleteMultipartUploadResult": respMap["CompleteMultipartUploadResult"],
+			}, response_.Headers), &_result)
+			return _result, err
+		}()
+		if !tea.Retryable(err) {
+			break
+		}
+	}
+
+	return _resp, err
+}
+
+func (client *Client) PutBucketLogging(request *PutBucketLoggingRequest, runtime *RuntimeObject) (*PutBucketLoggingResponse, error) {
+	err := tea.Validate(request)
+	if err != nil {
+		return nil, err
+	}
+	err = tea.Validate(runtime)
+	if err != nil {
+		return nil, err
+	}
+	_runtime := map[string]interface{}{
+		"timeouted":      "retry",
+		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"retry": map[string]interface{}{
+			"retryable":   tea.GetBoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+		},
+		"backoff": map[string]interface{}{
+			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+		},
+		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"logger":    client.Logger,
+		"listener":  runtime.Listener,
+	}
+
+	_resp := &PutBucketLoggingResponse{}
+	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+		if _retryTimes > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
+			if _backoffTime > 0 {
+				tea.Sleep(_backoffTime)
+			}
+		}
+
+		_resp, err = func() (*PutBucketLoggingResponse, error) {
+			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
+			reqBody := client.ToXML(tea.ToMap(request.Body))
+			request_.Protocol = client.Protocol
+			request_.Method = "PUT"
+			request_.Pathname = "/?logging"
+			request_.Headers = map[string]string{
+				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"date":       client.GetDate(),
+				"user-agent": client.GetUserAgent(),
+			}
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Body = tea.ToReader(reqBody)
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
+			response_, err := tea.DoRequest(request_, _runtime)
+			if err != nil {
+				return nil, err
+			}
+
+			respMap := make(map[string]interface{})
+			bodyStr := ""
+			if client.IsFail(response_) {
+				bodyStr, err = client.ReadAsString(response_)
+				if err != nil {
+					return nil, err
+				}
+
+				respMap = client.GetErrMessage(bodyStr)
+				err = tea.NewSDKError(map[string]interface{}{
+					"code":    respMap["Code"],
+					"message": respMap["Message"],
+					"data": map[string]interface{}{
+						"httpCode":  response_.StatusCode,
+						"requestId": respMap["RequestId"],
+						"hostId":    respMap["HostId"],
+					},
+				})
+				return nil, err
+			}
+
+			_result := &PutBucketLoggingResponse{}
+			err = tea.Convert(response_.Headers, &_result)
+			return _result, err
+		}()
+		if !tea.Retryable(err) {
+			break
+		}
+	}
+
+	return _resp, err
+}
+
+func (client *Client) PutBucketRequestPayment(request *PutBucketRequestPaymentRequest, runtime *RuntimeObject) (*PutBucketRequestPaymentResponse, error) {
+	err := tea.Validate(request)
+	if err != nil {
+		return nil, err
+	}
+	err = tea.Validate(runtime)
+	if err != nil {
+		return nil, err
+	}
+	_runtime := map[string]interface{}{
+		"timeouted":      "retry",
+		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"retry": map[string]interface{}{
+			"retryable":   tea.GetBoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+		},
+		"backoff": map[string]interface{}{
+			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+		},
+		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"logger":    client.Logger,
+		"listener":  runtime.Listener,
+	}
+
+	_resp := &PutBucketRequestPaymentResponse{}
+	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+		if _retryTimes > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
+			if _backoffTime > 0 {
+				tea.Sleep(_backoffTime)
+			}
+		}
+
+		_resp, err = func() (*PutBucketRequestPaymentResponse, error) {
+			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
+			reqBody := client.ToXML(tea.ToMap(request.Body))
+			request_.Protocol = client.Protocol
+			request_.Method = "PUT"
+			request_.Pathname = "/?requestPayment"
+			request_.Headers = map[string]string{
+				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"date":       client.GetDate(),
+				"user-agent": client.GetUserAgent(),
+			}
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Body = tea.ToReader(reqBody)
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
+			response_, err := tea.DoRequest(request_, _runtime)
+			if err != nil {
+				return nil, err
+			}
+
+			respMap := make(map[string]interface{})
+			bodyStr := ""
+			if client.IsFail(response_) {
+				bodyStr, err = client.ReadAsString(response_)
+				if err != nil {
+					return nil, err
+				}
+
+				respMap = client.GetErrMessage(bodyStr)
+				err = tea.NewSDKError(map[string]interface{}{
+					"code":    respMap["Code"],
+					"message": respMap["Message"],
+					"data": map[string]interface{}{
+						"httpCode":  response_.StatusCode,
+						"requestId": respMap["RequestId"],
+						"hostId":    respMap["HostId"],
+					},
+				})
+				return nil, err
+			}
+
+			_result := &PutBucketRequestPaymentResponse{}
+			err = tea.Convert(response_.Headers, &_result)
+			return _result, err
+		}()
+		if !tea.Retryable(err) {
+			break
+		}
+	}
+
+	return _resp, err
+}
+
+func (client *Client) PutBucketEncryption(request *PutBucketEncryptionRequest, runtime *RuntimeObject) (*PutBucketEncryptionResponse, error) {
+	err := tea.Validate(request)
+	if err != nil {
+		return nil, err
+	}
+	err = tea.Validate(runtime)
+	if err != nil {
+		return nil, err
+	}
+	_runtime := map[string]interface{}{
+		"timeouted":      "retry",
+		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"retry": map[string]interface{}{
+			"retryable":   tea.GetBoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+		},
+		"backoff": map[string]interface{}{
+			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+		},
+		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"logger":    client.Logger,
+		"listener":  runtime.Listener,
+	}
+
+	_resp := &PutBucketEncryptionResponse{}
+	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+		if _retryTimes > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
+			if _backoffTime > 0 {
+				tea.Sleep(_backoffTime)
+			}
+		}
+
+		_resp, err = func() (*PutBucketEncryptionResponse, error) {
+			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
+			reqBody := client.ToXML(tea.ToMap(request.Body))
+			request_.Protocol = client.Protocol
+			request_.Method = "PUT"
+			request_.Pathname = "/?encryption"
+			request_.Headers = map[string]string{
+				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"date":       client.GetDate(),
+				"user-agent": client.GetUserAgent(),
+			}
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Body = tea.ToReader(reqBody)
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
+			response_, err := tea.DoRequest(request_, _runtime)
+			if err != nil {
+				return nil, err
+			}
+
+			respMap := make(map[string]interface{})
+			bodyStr := ""
+			if client.IsFail(response_) {
+				bodyStr, err = client.ReadAsString(response_)
+				if err != nil {
+					return nil, err
+				}
+
+				respMap = client.GetErrMessage(bodyStr)
+				err = tea.NewSDKError(map[string]interface{}{
+					"code":    respMap["Code"],
+					"message": respMap["Message"],
+					"data": map[string]interface{}{
+						"httpCode":  response_.StatusCode,
+						"requestId": respMap["RequestId"],
+						"hostId":    respMap["HostId"],
+					},
+				})
+				return nil, err
+			}
+
+			_result := &PutBucketEncryptionResponse{}
+			err = tea.Convert(response_.Headers, &_result)
+			return _result, err
+		}()
+		if !tea.Retryable(err) {
+			break
+		}
+	}
+
+	return _resp, err
+}
+
+func (client *Client) PutLiveChannel(request *PutLiveChannelRequest, runtime *RuntimeObject) (*PutLiveChannelResponse, error) {
+	err := tea.Validate(request)
+	if err != nil {
+		return nil, err
+	}
+	err = tea.Validate(runtime)
+	if err != nil {
+		return nil, err
+	}
+	_runtime := map[string]interface{}{
+		"timeouted":      "retry",
+		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"retry": map[string]interface{}{
+			"retryable":   tea.GetBoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+		},
+		"backoff": map[string]interface{}{
+			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+		},
+		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"logger":    client.Logger,
+		"listener":  runtime.Listener,
+	}
+
+	_resp := &PutLiveChannelResponse{}
+	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+		if _retryTimes > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
+			if _backoffTime > 0 {
+				tea.Sleep(_backoffTime)
+			}
+		}
+
+		_resp, err = func() (*PutLiveChannelResponse, error) {
+			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
+			reqBody := client.ToXML(tea.ToMap(request.Body))
+			request_.Protocol = client.Protocol
+			request_.Method = "PUT"
+			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ChannelName)) + "?live"
+			request_.Headers = map[string]string{
+				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"date":       client.GetDate(),
+				"user-agent": client.GetUserAgent(),
+			}
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Body = tea.ToReader(reqBody)
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
+			response_, err := tea.DoRequest(request_, _runtime)
+			if err != nil {
+				return nil, err
+			}
+
+			respMap := make(map[string]interface{})
+			bodyStr := ""
+			if client.IsFail(response_) {
+				bodyStr, err = client.ReadAsString(response_)
+				if err != nil {
+					return nil, err
+				}
+
+				respMap = client.GetErrMessage(bodyStr)
+				err = tea.NewSDKError(map[string]interface{}{
+					"code":    respMap["Code"],
+					"message": respMap["Message"],
+					"data": map[string]interface{}{
+						"httpCode":  response_.StatusCode,
+						"requestId": respMap["RequestId"],
+						"hostId":    respMap["HostId"],
+					},
+				})
+				return nil, err
+			}
+
+			bodyStr, err = client.ReadAsString(response_)
+			if err != nil {
+				return nil, err
+			}
+
+			respMap = client.ParseXml(bodyStr, new(PutLiveChannelResponse))
+			_result := &PutLiveChannelResponse{}
+			err = tea.Convert(tea.ToMap(map[string]interface{}{
+				"CreateLiveChannelResult": respMap["CreateLiveChannelResult"],
+			}, response_.Headers), &_result)
+			return _result, err
+		}()
+		if !tea.Retryable(err) {
+			break
+		}
+	}
+
+	return _resp, err
+}
+
+func (client *Client) PutBucketTags(request *PutBucketTagsRequest, runtime *RuntimeObject) (*PutBucketTagsResponse, error) {
+	err := tea.Validate(request)
+	if err != nil {
+		return nil, err
+	}
+	err = tea.Validate(runtime)
+	if err != nil {
+		return nil, err
+	}
+	_runtime := map[string]interface{}{
+		"timeouted":      "retry",
+		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"retry": map[string]interface{}{
+			"retryable":   tea.GetBoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+		},
+		"backoff": map[string]interface{}{
+			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+		},
+		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"logger":    client.Logger,
+		"listener":  runtime.Listener,
+	}
+
+	_resp := &PutBucketTagsResponse{}
+	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+		if _retryTimes > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
+			if _backoffTime > 0 {
+				tea.Sleep(_backoffTime)
+			}
+		}
+
+		_resp, err = func() (*PutBucketTagsResponse, error) {
+			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
+			reqBody := client.ToXML(tea.ToMap(request.Body))
+			request_.Protocol = client.Protocol
+			request_.Method = "PUT"
+			request_.Pathname = "/?tagging"
+			request_.Headers = map[string]string{
+				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"date":       client.GetDate(),
+				"user-agent": client.GetUserAgent(),
+			}
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Body = tea.ToReader(reqBody)
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
+			response_, err := tea.DoRequest(request_, _runtime)
+			if err != nil {
+				return nil, err
+			}
+
+			respMap := make(map[string]interface{})
+			bodyStr := ""
+			if client.IsFail(response_) {
+				bodyStr, err = client.ReadAsString(response_)
+				if err != nil {
+					return nil, err
+				}
+
+				respMap = client.GetErrMessage(bodyStr)
+				err = tea.NewSDKError(map[string]interface{}{
+					"code":    respMap["Code"],
+					"message": respMap["Message"],
+					"data": map[string]interface{}{
+						"httpCode":  response_.StatusCode,
+						"requestId": respMap["RequestId"],
+						"hostId":    respMap["HostId"],
+					},
+				})
+				return nil, err
+			}
+
+			_result := &PutBucketTagsResponse{}
+			err = tea.Convert(response_.Headers, &_result)
+			return _result, err
+		}()
+		if !tea.Retryable(err) {
+			break
+		}
+	}
+
+	return _resp, err
+}
+
+func (client *Client) PutObjectTagging(request *PutObjectTaggingRequest, runtime *RuntimeObject) (*PutObjectTaggingResponse, error) {
+	err := tea.Validate(request)
+	if err != nil {
+		return nil, err
+	}
+	err = tea.Validate(runtime)
+	if err != nil {
+		return nil, err
+	}
+	_runtime := map[string]interface{}{
+		"timeouted":      "retry",
+		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"retry": map[string]interface{}{
+			"retryable":   tea.GetBoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+		},
+		"backoff": map[string]interface{}{
+			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+		},
+		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"logger":    client.Logger,
+		"listener":  runtime.Listener,
+	}
+
+	_resp := &PutObjectTaggingResponse{}
+	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+		if _retryTimes > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
+			if _backoffTime > 0 {
+				tea.Sleep(_backoffTime)
+			}
+		}
+
+		_resp, err = func() (*PutObjectTaggingResponse, error) {
+			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
+			reqBody := client.ToXML(tea.ToMap(request.Body))
+			request_.Protocol = client.Protocol
+			request_.Method = "PUT"
+			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ObjectName)) + "?tagging"
+			request_.Headers = map[string]string{
+				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"date":       client.GetDate(),
+				"user-agent": client.GetUserAgent(),
+			}
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Body = tea.ToReader(reqBody)
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
+			response_, err := tea.DoRequest(request_, _runtime)
+			if err != nil {
+				return nil, err
+			}
+
+			respMap := make(map[string]interface{})
+			bodyStr := ""
+			if client.IsFail(response_) {
+				bodyStr, err = client.ReadAsString(response_)
+				if err != nil {
+					return nil, err
+				}
+
+				respMap = client.GetErrMessage(bodyStr)
+				err = tea.NewSDKError(map[string]interface{}{
+					"code":    respMap["Code"],
+					"message": respMap["Message"],
+					"data": map[string]interface{}{
+						"httpCode":  response_.StatusCode,
+						"requestId": respMap["RequestId"],
+						"hostId":    respMap["HostId"],
+					},
+				})
+				return nil, err
+			}
+
+			_result := &PutObjectTaggingResponse{}
+			err = tea.Convert(response_.Headers, &_result)
+			return _result, err
+		}()
+		if !tea.Retryable(err) {
+			break
+		}
+	}
+
+	return _resp, err
+}
+
+func (client *Client) SelectObject(request *SelectObjectRequest, runtime *RuntimeObject) (*SelectObjectResponse, error) {
+	err := tea.Validate(request)
+	if err != nil {
+		return nil, err
+	}
+	err = tea.Validate(runtime)
+	if err != nil {
+		return nil, err
+	}
+	_runtime := map[string]interface{}{
+		"timeouted":      "retry",
+		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"retry": map[string]interface{}{
+			"retryable":   tea.GetBoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+		},
+		"backoff": map[string]interface{}{
+			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+		},
+		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"logger":    client.Logger,
+		"listener":  runtime.Listener,
+	}
+
+	_resp := &SelectObjectResponse{}
+	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+		if _retryTimes > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
+			if _backoffTime > 0 {
+				tea.Sleep(_backoffTime)
+			}
+		}
+
+		_resp, err = func() (*SelectObjectResponse, error) {
+			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
+			reqBody := client.ToXML(tea.ToMap(request.Body))
+			request_.Protocol = client.Protocol
+			request_.Method = "POST"
+			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ObjectName))
+			request_.Headers = map[string]string{
+				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"date":       client.GetDate(),
+				"user-agent": client.GetUserAgent(),
+			}
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
+			request_.Body = tea.ToReader(reqBody)
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
+			response_, err := tea.DoRequest(request_, _runtime)
+			if err != nil {
+				return nil, err
+			}
+
+			respMap := make(map[string]interface{})
+			bodyStr := ""
+			if client.IsFail(response_) {
+				bodyStr, err = client.ReadAsString(response_)
+				if err != nil {
+					return nil, err
+				}
+
+				respMap = client.GetErrMessage(bodyStr)
+				err = tea.NewSDKError(map[string]interface{}{
+					"code":    respMap["Code"],
+					"message": respMap["Message"],
+					"data": map[string]interface{}{
+						"httpCode":  response_.StatusCode,
+						"requestId": respMap["RequestId"],
+						"hostId":    respMap["HostId"],
+					},
+				})
+				return nil, err
+			}
+
+			_result := &SelectObjectResponse{}
+			err = tea.Convert(response_.Headers, &_result)
+			return _result, err
+		}()
+		if !tea.Retryable(err) {
+			break
+		}
+	}
+
+	return _resp, err
+}
+
+func (client *Client) PutBucketCORS(request *PutBucketCORSRequest, runtime *RuntimeObject) (*PutBucketCORSResponse, error) {
+	err := tea.Validate(request)
+	if err != nil {
+		return nil, err
+	}
+	err = tea.Validate(runtime)
+	if err != nil {
+		return nil, err
+	}
+	_runtime := map[string]interface{}{
+		"timeouted":      "retry",
+		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"retry": map[string]interface{}{
+			"retryable":   tea.GetBoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+		},
+		"backoff": map[string]interface{}{
+			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+		},
+		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"logger":    client.Logger,
+		"listener":  runtime.Listener,
+	}
+
+	_resp := &PutBucketCORSResponse{}
+	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+		if _retryTimes > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
+			if _backoffTime > 0 {
+				tea.Sleep(_backoffTime)
+			}
+		}
+
+		_resp, err = func() (*PutBucketCORSResponse, error) {
+			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
+			reqBody := client.ToXML(tea.ToMap(request.Body))
+			request_.Protocol = client.Protocol
+			request_.Method = "PUT"
+			request_.Pathname = "/?cors"
+			request_.Headers = map[string]string{
+				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"date":       client.GetDate(),
+				"user-agent": client.GetUserAgent(),
+			}
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Body = tea.ToReader(reqBody)
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
+			response_, err := tea.DoRequest(request_, _runtime)
+			if err != nil {
+				return nil, err
+			}
+
+			respMap := make(map[string]interface{})
+			bodyStr := ""
+			if client.IsFail(response_) {
+				bodyStr, err = client.ReadAsString(response_)
+				if err != nil {
+					return nil, err
+				}
+
+				respMap = client.GetErrMessage(bodyStr)
+				err = tea.NewSDKError(map[string]interface{}{
+					"code":    respMap["Code"],
+					"message": respMap["Message"],
+					"data": map[string]interface{}{
+						"httpCode":  response_.StatusCode,
+						"requestId": respMap["RequestId"],
+						"hostId":    respMap["HostId"],
+					},
+				})
+				return nil, err
+			}
+
+			_result := &PutBucketCORSResponse{}
+			err = tea.Convert(response_.Headers, &_result)
+			return _result, err
+		}()
+		if !tea.Retryable(err) {
+			break
+		}
+	}
+
+	return _resp, err
+}
+
+func (client *Client) PutBucket(request *PutBucketRequest, runtime *RuntimeObject) (*PutBucketResponse, error) {
+	err := tea.Validate(request)
+	if err != nil {
+		return nil, err
+	}
+	err = tea.Validate(runtime)
+	if err != nil {
+		return nil, err
+	}
+	_runtime := map[string]interface{}{
+		"timeouted":      "retry",
+		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"retry": map[string]interface{}{
+			"retryable":   tea.GetBoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+		},
+		"backoff": map[string]interface{}{
+			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+		},
+		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"logger":    client.Logger,
+		"listener":  runtime.Listener,
+	}
+
+	_resp := &PutBucketResponse{}
+	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+		if _retryTimes > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
+			if _backoffTime > 0 {
+				tea.Sleep(_backoffTime)
+			}
+		}
+
+		_resp, err = func() (*PutBucketResponse, error) {
+			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
+			reqBody := client.ToXML(tea.ToMap(request.Body))
+			request_.Protocol = client.Protocol
+			request_.Method = "PUT"
+			request_.Pathname = "/"
+			request_.Headers = tea.Merge(map[string]string{
+				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"date":       client.GetDate(),
+				"user-agent": client.GetUserAgent(),
+			}, client.ToHeader(tea.ToMap(request.Header)))
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Body = tea.ToReader(reqBody)
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
+			response_, err := tea.DoRequest(request_, _runtime)
+			if err != nil {
+				return nil, err
+			}
+
+			respMap := make(map[string]interface{})
+			bodyStr := ""
+			if client.IsFail(response_) {
+				bodyStr, err = client.ReadAsString(response_)
+				if err != nil {
+					return nil, err
+				}
+
+				respMap = client.GetErrMessage(bodyStr)
+				err = tea.NewSDKError(map[string]interface{}{
+					"code":    respMap["Code"],
+					"message": respMap["Message"],
+					"data": map[string]interface{}{
+						"httpCode":  response_.StatusCode,
+						"requestId": respMap["RequestId"],
+						"hostId":    respMap["HostId"],
+					},
+				})
+				return nil, err
+			}
+
+			_result := &PutBucketResponse{}
+			err = tea.Convert(response_.Headers, &_result)
+			return _result, err
+		}()
+		if !tea.Retryable(err) {
+			break
+		}
+	}
+
+	return _resp, err
+}
+
+func (client *Client) ListMultipartUploads(request *ListMultipartUploadsRequest, runtime *RuntimeObject) (*ListMultipartUploadsResponse, error) {
+	err := tea.Validate(request)
+	if err != nil {
+		return nil, err
+	}
+	err = tea.Validate(runtime)
+	if err != nil {
+		return nil, err
+	}
+	_runtime := map[string]interface{}{
+		"timeouted":      "retry",
+		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"retry": map[string]interface{}{
+			"retryable":   tea.GetBoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+		},
+		"backoff": map[string]interface{}{
+			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+		},
+		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"logger":    client.Logger,
+		"listener":  runtime.Listener,
+	}
+
+	_resp := &ListMultipartUploadsResponse{}
+	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+		if _retryTimes > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
+			if _backoffTime > 0 {
+				tea.Sleep(_backoffTime)
+			}
+		}
+
+		_resp, err = func() (*ListMultipartUploadsResponse, error) {
+			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
+			request_.Protocol = client.Protocol
+			request_.Method = "GET"
+			request_.Pathname = "/?uploads"
+			request_.Headers = map[string]string{
+				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"date":       client.GetDate(),
+				"user-agent": client.GetUserAgent(),
+			}
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
+			response_, err := tea.DoRequest(request_, _runtime)
+			if err != nil {
+				return nil, err
+			}
+
+			respMap := make(map[string]interface{})
+			bodyStr := ""
+			if client.IsFail(response_) {
+				bodyStr, err = client.ReadAsString(response_)
+				if err != nil {
+					return nil, err
+				}
+
+				respMap = client.GetErrMessage(bodyStr)
+				err = tea.NewSDKError(map[string]interface{}{
+					"code":    respMap["Code"],
+					"message": respMap["Message"],
+					"data": map[string]interface{}{
+						"httpCode":  response_.StatusCode,
+						"requestId": respMap["RequestId"],
+						"hostId":    respMap["HostId"],
+					},
+				})
+				return nil, err
+			}
+
+			bodyStr, err = client.ReadAsString(response_)
+			if err != nil {
+				return nil, err
+			}
+
+			respMap = client.ParseXml(bodyStr, new(ListMultipartUploadsResponse))
+			_result := &ListMultipartUploadsResponse{}
+			err = tea.Convert(tea.ToMap(map[string]interface{}{
+				"ListMultipartUploadsResult": respMap["ListMultipartUploadsResult"],
+			}, response_.Headers), &_result)
+			return _result, err
+		}()
+		if !tea.Retryable(err) {
+			break
+		}
+	}
+
+	return _resp, err
+}
+
+func (client *Client) GetBucketRequestPayment(request *GetBucketRequestPaymentRequest, runtime *RuntimeObject) (*GetBucketRequestPaymentResponse, error) {
+	err := tea.Validate(request)
+	if err != nil {
+		return nil, err
+	}
+	err = tea.Validate(runtime)
+	if err != nil {
+		return nil, err
+	}
+	_runtime := map[string]interface{}{
+		"timeouted":      "retry",
+		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"retry": map[string]interface{}{
+			"retryable":   tea.GetBoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+		},
+		"backoff": map[string]interface{}{
+			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+		},
+		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"logger":    client.Logger,
+		"listener":  runtime.Listener,
+	}
+
+	_resp := &GetBucketRequestPaymentResponse{}
+	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+		if _retryTimes > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
+			if _backoffTime > 0 {
+				tea.Sleep(_backoffTime)
+			}
+		}
+
+		_resp, err = func() (*GetBucketRequestPaymentResponse, error) {
+			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
+			request_.Protocol = client.Protocol
+			request_.Method = "GET"
+			request_.Pathname = "/?requestPayment"
+			request_.Headers = map[string]string{
+				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"date":       client.GetDate(),
+				"user-agent": client.GetUserAgent(),
+			}
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
+			response_, err := tea.DoRequest(request_, _runtime)
+			if err != nil {
+				return nil, err
+			}
+
+			respMap := make(map[string]interface{})
+			bodyStr := ""
+			if client.IsFail(response_) {
+				bodyStr, err = client.ReadAsString(response_)
+				if err != nil {
+					return nil, err
+				}
+
+				respMap = client.GetErrMessage(bodyStr)
+				err = tea.NewSDKError(map[string]interface{}{
+					"code":    respMap["Code"],
+					"message": respMap["Message"],
+					"data": map[string]interface{}{
+						"httpCode":  response_.StatusCode,
+						"requestId": respMap["RequestId"],
+						"hostId":    respMap["HostId"],
+					},
+				})
+				return nil, err
+			}
+
+			bodyStr, err = client.ReadAsString(response_)
+			if err != nil {
+				return nil, err
+			}
+
+			respMap = client.ParseXml(bodyStr, new(GetBucketRequestPaymentResponse))
+			_result := &GetBucketRequestPaymentResponse{}
+			err = tea.Convert(tea.ToMap(map[string]interface{}{
+				"RequestPaymentConfiguration": respMap["RequestPaymentConfiguration"],
+			}, response_.Headers), &_result)
+			return _result, err
+		}()
+		if !tea.Retryable(err) {
+			break
+		}
+	}
+
+	return _resp, err
+}
+
+func (client *Client) GetBucketEncryption(request *GetBucketEncryptionRequest, runtime *RuntimeObject) (*GetBucketEncryptionResponse, error) {
+	err := tea.Validate(request)
+	if err != nil {
+		return nil, err
+	}
+	err = tea.Validate(runtime)
+	if err != nil {
+		return nil, err
+	}
+	_runtime := map[string]interface{}{
+		"timeouted":      "retry",
+		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"retry": map[string]interface{}{
+			"retryable":   tea.GetBoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+		},
+		"backoff": map[string]interface{}{
+			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+		},
+		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"logger":    client.Logger,
+		"listener":  runtime.Listener,
+	}
+
+	_resp := &GetBucketEncryptionResponse{}
+	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+		if _retryTimes > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
+			if _backoffTime > 0 {
+				tea.Sleep(_backoffTime)
+			}
+		}
+
+		_resp, err = func() (*GetBucketEncryptionResponse, error) {
+			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
+			request_.Protocol = client.Protocol
+			request_.Method = "GET"
+			request_.Pathname = "/?encryption"
+			request_.Headers = map[string]string{
+				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"date":       client.GetDate(),
+				"user-agent": client.GetUserAgent(),
+			}
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
+			response_, err := tea.DoRequest(request_, _runtime)
+			if err != nil {
+				return nil, err
+			}
+
+			respMap := make(map[string]interface{})
+			bodyStr := ""
+			if client.IsFail(response_) {
+				bodyStr, err = client.ReadAsString(response_)
+				if err != nil {
+					return nil, err
+				}
+
+				respMap = client.GetErrMessage(bodyStr)
+				err = tea.NewSDKError(map[string]interface{}{
+					"code":    respMap["Code"],
+					"message": respMap["Message"],
+					"data": map[string]interface{}{
+						"httpCode":  response_.StatusCode,
+						"requestId": respMap["RequestId"],
+						"hostId":    respMap["HostId"],
+					},
+				})
+				return nil, err
+			}
+
+			bodyStr, err = client.ReadAsString(response_)
+			if err != nil {
+				return nil, err
+			}
+
+			respMap = client.ParseXml(bodyStr, new(GetBucketEncryptionResponse))
+			_result := &GetBucketEncryptionResponse{}
+			err = tea.Convert(tea.ToMap(map[string]interface{}{
+				"ServerSideEncryptionRule": respMap["ServerSideEncryptionRule"],
+			}, response_.Headers), &_result)
+			return _result, err
+		}()
+		if !tea.Retryable(err) {
+			break
+		}
+	}
+
+	return _resp, err
+}
+
+func (client *Client) GetBucketTags(request *GetBucketTagsRequest, runtime *RuntimeObject) (*GetBucketTagsResponse, error) {
+	err := tea.Validate(request)
+	if err != nil {
+		return nil, err
+	}
+	err = tea.Validate(runtime)
+	if err != nil {
+		return nil, err
+	}
+	_runtime := map[string]interface{}{
+		"timeouted":      "retry",
+		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"retry": map[string]interface{}{
+			"retryable":   tea.GetBoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+		},
+		"backoff": map[string]interface{}{
+			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+		},
+		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"logger":    client.Logger,
+		"listener":  runtime.Listener,
+	}
+
+	_resp := &GetBucketTagsResponse{}
+	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+		if _retryTimes > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
+			if _backoffTime > 0 {
+				tea.Sleep(_backoffTime)
+			}
+		}
+
+		_resp, err = func() (*GetBucketTagsResponse, error) {
+			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
+			request_.Protocol = client.Protocol
+			request_.Method = "GET"
+			request_.Pathname = "/?tagging"
+			request_.Headers = map[string]string{
+				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"date":       client.GetDate(),
+				"user-agent": client.GetUserAgent(),
+			}
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
+			response_, err := tea.DoRequest(request_, _runtime)
+			if err != nil {
+				return nil, err
+			}
+
+			respMap := make(map[string]interface{})
+			bodyStr := ""
+			if client.IsFail(response_) {
+				bodyStr, err = client.ReadAsString(response_)
+				if err != nil {
+					return nil, err
+				}
+
+				respMap = client.GetErrMessage(bodyStr)
+				err = tea.NewSDKError(map[string]interface{}{
+					"code":    respMap["Code"],
+					"message": respMap["Message"],
+					"data": map[string]interface{}{
+						"httpCode":  response_.StatusCode,
+						"requestId": respMap["RequestId"],
+						"hostId":    respMap["HostId"],
+					},
+				})
+				return nil, err
+			}
+
+			bodyStr, err = client.ReadAsString(response_)
+			if err != nil {
+				return nil, err
+			}
+
+			respMap = client.ParseXml(bodyStr, new(GetBucketTagsResponse))
+			_result := &GetBucketTagsResponse{}
+			err = tea.Convert(tea.ToMap(map[string]interface{}{
+				"Tagging": respMap["Tagging"],
+			}, response_.Headers), &_result)
+			return _result, err
+		}()
+		if !tea.Retryable(err) {
+			break
+		}
+	}
+
+	return _resp, err
+}
+
+func (client *Client) GetService(request *GetServiceRequest, runtime *RuntimeObject) (*GetServiceResponse, error) {
+	err := tea.Validate(request)
+	if err != nil {
+		return nil, err
+	}
+	err = tea.Validate(runtime)
+	if err != nil {
+		return nil, err
+	}
+	_runtime := map[string]interface{}{
+		"timeouted":      "retry",
+		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"retry": map[string]interface{}{
+			"retryable":   tea.GetBoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+		},
+		"backoff": map[string]interface{}{
+			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+		},
+		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"logger":    client.Logger,
+		"listener":  runtime.Listener,
+	}
+
+	_resp := &GetServiceResponse{}
+	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+		if _retryTimes > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
+			if _backoffTime > 0 {
+				tea.Sleep(_backoffTime)
+			}
+		}
+
+		_resp, err = func() (*GetServiceResponse, error) {
+			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
+			request_.Protocol = client.Protocol
+			request_.Method = "GET"
+			request_.Pathname = "/"
+			request_.Headers = map[string]string{
+				"host":       client.GetHost(""),
+				"date":       client.GetDate(),
+				"user-agent": client.GetUserAgent(),
+			}
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
+			request_.Headers["authorization"], err = client.GetSignature(request_, "")
+			if err != nil {
+				return nil, err
+			}
+
+			response_, err := tea.DoRequest(request_, _runtime)
+			if err != nil {
+				return nil, err
+			}
+
+			respMap := make(map[string]interface{})
+			bodyStr := ""
+			if client.IsFail(response_) {
+				bodyStr, err = client.ReadAsString(response_)
+				if err != nil {
+					return nil, err
+				}
+
+				respMap = client.GetErrMessage(bodyStr)
+				err = tea.NewSDKError(map[string]interface{}{
+					"code":    respMap["Code"],
+					"message": respMap["Message"],
+					"data": map[string]interface{}{
+						"httpCode":  response_.StatusCode,
+						"requestId": respMap["RequestId"],
+						"hostId":    respMap["HostId"],
+					},
+				})
+				return nil, err
+			}
+
+			bodyStr, err = client.ReadAsString(response_)
+			if err != nil {
+				return nil, err
+			}
+
+			respMap = client.ParseXml(bodyStr, new(GetServiceResponse))
+			_result := &GetServiceResponse{}
+			err = tea.Convert(tea.ToMap(map[string]interface{}{
+				"ListAllMyBucketsResult": respMap["ListAllMyBucketsResult"],
+			}, response_.Headers), &_result)
+			return _result, err
+		}()
+		if !tea.Retryable(err) {
+			break
+		}
+	}
+
+	return _resp, err
+}
+
+func (client *Client) DeleteBucketEncryption(request *DeleteBucketEncryptionRequest, runtime *RuntimeObject) (*DeleteBucketEncryptionResponse, error) {
+	err := tea.Validate(request)
+	if err != nil {
+		return nil, err
+	}
+	err = tea.Validate(runtime)
+	if err != nil {
+		return nil, err
+	}
+	_runtime := map[string]interface{}{
+		"timeouted":      "retry",
+		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"retry": map[string]interface{}{
+			"retryable":   tea.GetBoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+		},
+		"backoff": map[string]interface{}{
+			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+		},
+		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"logger":    client.Logger,
+		"listener":  runtime.Listener,
+	}
+
+	_resp := &DeleteBucketEncryptionResponse{}
+	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+		if _retryTimes > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
+			if _backoffTime > 0 {
+				tea.Sleep(_backoffTime)
+			}
+		}
+
+		_resp, err = func() (*DeleteBucketEncryptionResponse, error) {
+			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
+			request_.Protocol = client.Protocol
+			request_.Method = "DELETE"
+			request_.Pathname = "/?encryption"
+			request_.Headers = map[string]string{
+				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"date":       client.GetDate(),
+				"user-agent": client.GetUserAgent(),
+			}
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
+			response_, err := tea.DoRequest(request_, _runtime)
+			if err != nil {
+				return nil, err
+			}
+
+			respMap := make(map[string]interface{})
+			bodyStr := ""
+			if client.IsFail(response_) {
+				bodyStr, err = client.ReadAsString(response_)
+				if err != nil {
+					return nil, err
+				}
+
+				respMap = client.GetErrMessage(bodyStr)
+				err = tea.NewSDKError(map[string]interface{}{
+					"code":    respMap["Code"],
+					"message": respMap["Message"],
+					"data": map[string]interface{}{
+						"httpCode":  response_.StatusCode,
+						"requestId": respMap["RequestId"],
+						"hostId":    respMap["HostId"],
+					},
+				})
+				return nil, err
+			}
+
+			_result := &DeleteBucketEncryptionResponse{}
+			err = tea.Convert(response_.Headers, &_result)
+			return _result, err
+		}()
+		if !tea.Retryable(err) {
+			break
+		}
+	}
+
+	return _resp, err
+}
+
+func (client *Client) DeleteBucketTags(request *DeleteBucketTagsRequest, runtime *RuntimeObject) (*DeleteBucketTagsResponse, error) {
+	err := tea.Validate(request)
+	if err != nil {
+		return nil, err
+	}
+	err = tea.Validate(runtime)
+	if err != nil {
+		return nil, err
+	}
+	_runtime := map[string]interface{}{
+		"timeouted":      "retry",
+		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"retry": map[string]interface{}{
+			"retryable":   tea.GetBoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+		},
+		"backoff": map[string]interface{}{
+			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+		},
+		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"logger":    client.Logger,
+		"listener":  runtime.Listener,
+	}
+
+	_resp := &DeleteBucketTagsResponse{}
+	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+		if _retryTimes > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
+			if _backoffTime > 0 {
+				tea.Sleep(_backoffTime)
+			}
+		}
+
+		_resp, err = func() (*DeleteBucketTagsResponse, error) {
+			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
+			request_.Protocol = client.Protocol
+			request_.Method = "DELETE"
+			request_.Pathname = "/"
+			request_.Headers = map[string]string{
+				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"date":       client.GetDate(),
+				"user-agent": client.GetUserAgent(),
+			}
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
+			response_, err := tea.DoRequest(request_, _runtime)
+			if err != nil {
+				return nil, err
+			}
+
+			respMap := make(map[string]interface{})
+			bodyStr := ""
+			if client.IsFail(response_) {
+				bodyStr, err = client.ReadAsString(response_)
+				if err != nil {
+					return nil, err
+				}
+
+				respMap = client.GetErrMessage(bodyStr)
+				err = tea.NewSDKError(map[string]interface{}{
+					"code":    respMap["Code"],
+					"message": respMap["Message"],
+					"data": map[string]interface{}{
+						"httpCode":  response_.StatusCode,
+						"requestId": respMap["RequestId"],
+						"hostId":    respMap["HostId"],
+					},
+				})
+				return nil, err
+			}
+
+			_result := &DeleteBucketTagsResponse{}
+			err = tea.Convert(response_.Headers, &_result)
+			return _result, err
+		}()
+		if !tea.Retryable(err) {
+			break
+		}
+	}
+
+	return _resp, err
+}
+
+func (client *Client) GetBucketWebsite(request *GetBucketWebsiteRequest, runtime *RuntimeObject) (*GetBucketWebsiteResponse, error) {
+	err := tea.Validate(request)
+	if err != nil {
+		return nil, err
+	}
+	err = tea.Validate(runtime)
+	if err != nil {
+		return nil, err
+	}
+	_runtime := map[string]interface{}{
+		"timeouted":      "retry",
+		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"retry": map[string]interface{}{
+			"retryable":   tea.GetBoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+		},
+		"backoff": map[string]interface{}{
+			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+		},
+		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"logger":    client.Logger,
+		"listener":  runtime.Listener,
+	}
+
+	_resp := &GetBucketWebsiteResponse{}
+	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+		if _retryTimes > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
+			if _backoffTime > 0 {
+				tea.Sleep(_backoffTime)
+			}
+		}
+
+		_resp, err = func() (*GetBucketWebsiteResponse, error) {
+			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
+			request_.Protocol = client.Protocol
+			request_.Method = "GET"
+			request_.Pathname = "/?website"
+			request_.Headers = map[string]string{
+				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"date":       client.GetDate(),
+				"user-agent": client.GetUserAgent(),
+			}
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
+			response_, err := tea.DoRequest(request_, _runtime)
+			if err != nil {
+				return nil, err
+			}
+
+			respMap := make(map[string]interface{})
+			bodyStr := ""
+			if client.IsFail(response_) {
+				bodyStr, err = client.ReadAsString(response_)
+				if err != nil {
+					return nil, err
+				}
+
+				respMap = client.GetErrMessage(bodyStr)
+				err = tea.NewSDKError(map[string]interface{}{
+					"code":    respMap["Code"],
+					"message": respMap["Message"],
+					"data": map[string]interface{}{
+						"httpCode":  response_.StatusCode,
+						"requestId": respMap["RequestId"],
+						"hostId":    respMap["HostId"],
+					},
+				})
+				return nil, err
+			}
+
+			bodyStr, err = client.ReadAsString(response_)
+			if err != nil {
+				return nil, err
+			}
+
+			respMap = client.ParseXml(bodyStr, new(GetBucketWebsiteResponse))
+			_result := &GetBucketWebsiteResponse{}
+			err = tea.Convert(tea.ToMap(map[string]interface{}{
+				"WebsiteConfiguration": respMap["WebsiteConfiguration"],
+			}, response_.Headers), &_result)
+			return _result, err
+		}()
+		if !tea.Retryable(err) {
+			break
+		}
+	}
+
+	return _resp, err
+}
+
 func (client *Client) DeleteLiveChannel(request *DeleteLiveChannelRequest, runtime *RuntimeObject) (*DeleteLiveChannelResponse, error) {
 	err := tea.Validate(request)
 	if err != nil {
@@ -4610,6 +10323,10 @@ func (client *Client) DeleteLiveChannel(request *DeleteLiveChannelRequest, runti
 
 		_resp, err = func() (*DeleteLiveChannelResponse, error) {
 			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
 			request_.Protocol = client.Protocol
 			request_.Method = "DELETE"
 			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ChannelName)) + "?live"
@@ -4618,20 +10335,29 @@ func (client *Client) DeleteLiveChannel(request *DeleteLiveChannelRequest, runti
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
-			request_.Headers["authorization"] = client.GetAuth(request_, tea.GetStringValue(request.BucketName))
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
 			response_, err := tea.DoRequest(request_, _runtime)
 			if err != nil {
 				return nil, err
 			}
 
 			respMap := make(map[string]interface{})
-
+			bodyStr := ""
 			if client.IsFail(response_) {
-				respMap, err = client.GetErrMessage(response_)
+				bodyStr, err = client.ReadAsString(response_)
 				if err != nil {
 					return nil, err
 				}
 
+				respMap = client.GetErrMessage(bodyStr)
 				err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -4700,6 +10426,10 @@ func (client *Client) GetBucketLocation(request *GetBucketLocationRequest, runti
 
 		_resp, err = func() (*GetBucketLocationResponse, error) {
 			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
 			request_.Pathname = "/?location"
@@ -4708,20 +10438,29 @@ func (client *Client) GetBucketLocation(request *GetBucketLocationRequest, runti
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
-			request_.Headers["authorization"] = client.GetAuth(request_, tea.GetStringValue(request.BucketName))
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
 			response_, err := tea.DoRequest(request_, _runtime)
 			if err != nil {
 				return nil, err
 			}
 
 			respMap := make(map[string]interface{})
-
+			bodyStr := ""
 			if client.IsFail(response_) {
-				respMap, err = client.GetErrMessage(response_)
+				bodyStr, err = client.ReadAsString(response_)
 				if err != nil {
 					return nil, err
 				}
 
+				respMap = client.GetErrMessage(bodyStr)
 				err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -4734,11 +10473,12 @@ func (client *Client) GetBucketLocation(request *GetBucketLocationRequest, runti
 				return nil, err
 			}
 
-			respMap, err = client.ParseXml(response_, new(GetBucketLocationResponse))
+			bodyStr, err = client.ReadAsString(response_)
 			if err != nil {
 				return nil, err
 			}
 
+			respMap = client.ParseXml(bodyStr, new(GetBucketLocationResponse))
 			_result := &GetBucketLocationResponse{}
 			err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"LocationConstraint": respMap["LocationConstraint"],
@@ -4797,6 +10537,10 @@ func (client *Client) ListLiveChannel(request *ListLiveChannelRequest, runtime *
 
 		_resp, err = func() (*ListLiveChannelResponse, error) {
 			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
 			request_.Pathname = "/?live"
@@ -4805,21 +10549,30 @@ func (client *Client) ListLiveChannel(request *ListLiveChannelRequest, runtime *
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
 			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
-			request_.Headers["authorization"] = client.GetAuth(request_, tea.GetStringValue(request.BucketName))
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
 			response_, err := tea.DoRequest(request_, _runtime)
 			if err != nil {
 				return nil, err
 			}
 
 			respMap := make(map[string]interface{})
-
+			bodyStr := ""
 			if client.IsFail(response_) {
-				respMap, err = client.GetErrMessage(response_)
+				bodyStr, err = client.ReadAsString(response_)
 				if err != nil {
 					return nil, err
 				}
 
+				respMap = client.GetErrMessage(bodyStr)
 				err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -4832,11 +10585,12 @@ func (client *Client) ListLiveChannel(request *ListLiveChannelRequest, runtime *
 				return nil, err
 			}
 
-			respMap, err = client.ParseXml(response_, new(ListLiveChannelResponse))
+			bodyStr, err = client.ReadAsString(response_)
 			if err != nil {
 				return nil, err
 			}
 
+			respMap = client.ParseXml(bodyStr, new(ListLiveChannelResponse))
 			_result := &ListLiveChannelResponse{}
 			err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"ListLiveChannelResult": respMap["ListLiveChannelResult"],
@@ -4895,6 +10649,10 @@ func (client *Client) GetObjectMeta(request *GetObjectMetaRequest, runtime *Runt
 
 		_resp, err = func() (*GetObjectMetaResponse, error) {
 			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
 			request_.Protocol = client.Protocol
 			request_.Method = "HEAD"
 			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ObjectName)) + "?objectMeta"
@@ -4903,20 +10661,29 @@ func (client *Client) GetObjectMeta(request *GetObjectMetaRequest, runtime *Runt
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
-			request_.Headers["authorization"] = client.GetAuth(request_, tea.GetStringValue(request.BucketName))
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
 			response_, err := tea.DoRequest(request_, _runtime)
 			if err != nil {
 				return nil, err
 			}
 
 			respMap := make(map[string]interface{})
-
+			bodyStr := ""
 			if client.IsFail(response_) {
-				respMap, err = client.GetErrMessage(response_)
+				bodyStr, err = client.ReadAsString(response_)
 				if err != nil {
 					return nil, err
 				}
 
+				respMap = client.GetErrMessage(bodyStr)
 				err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -4985,6 +10752,10 @@ func (client *Client) GetBucketAcl(request *GetBucketAclRequest, runtime *Runtim
 
 		_resp, err = func() (*GetBucketAclResponse, error) {
 			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
 			request_.Pathname = "/?acl"
@@ -4993,20 +10764,29 @@ func (client *Client) GetBucketAcl(request *GetBucketAclRequest, runtime *Runtim
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
-			request_.Headers["authorization"] = client.GetAuth(request_, tea.GetStringValue(request.BucketName))
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
 			response_, err := tea.DoRequest(request_, _runtime)
 			if err != nil {
 				return nil, err
 			}
 
 			respMap := make(map[string]interface{})
-
+			bodyStr := ""
 			if client.IsFail(response_) {
-				respMap, err = client.GetErrMessage(response_)
+				bodyStr, err = client.ReadAsString(response_)
 				if err != nil {
 					return nil, err
 				}
 
+				respMap = client.GetErrMessage(bodyStr)
 				err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -5019,11 +10799,12 @@ func (client *Client) GetBucketAcl(request *GetBucketAclRequest, runtime *Runtim
 				return nil, err
 			}
 
-			respMap, err = client.ParseXml(response_, new(GetBucketAclResponse))
+			bodyStr, err = client.ReadAsString(response_)
 			if err != nil {
 				return nil, err
 			}
 
+			respMap = client.ParseXml(bodyStr, new(GetBucketAclResponse))
 			_result := &GetBucketAclResponse{}
 			err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"AccessControlPolicy": respMap["AccessControlPolicy"],
@@ -5082,6 +10863,10 @@ func (client *Client) ListParts(request *ListPartsRequest, runtime *RuntimeObjec
 
 		_resp, err = func() (*ListPartsResponse, error) {
 			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
 			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ObjectName))
@@ -5090,21 +10875,30 @@ func (client *Client) ListParts(request *ListPartsRequest, runtime *RuntimeObjec
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
 			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
-			request_.Headers["authorization"] = client.GetAuth(request_, tea.GetStringValue(request.BucketName))
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
 			response_, err := tea.DoRequest(request_, _runtime)
 			if err != nil {
 				return nil, err
 			}
 
 			respMap := make(map[string]interface{})
-
+			bodyStr := ""
 			if client.IsFail(response_) {
-				respMap, err = client.GetErrMessage(response_)
+				bodyStr, err = client.ReadAsString(response_)
 				if err != nil {
 					return nil, err
 				}
 
+				respMap = client.GetErrMessage(bodyStr)
 				err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -5117,11 +10911,12 @@ func (client *Client) ListParts(request *ListPartsRequest, runtime *RuntimeObjec
 				return nil, err
 			}
 
-			respMap, err = client.ParseXml(response_, new(ListPartsResponse))
+			bodyStr, err = client.ReadAsString(response_)
 			if err != nil {
 				return nil, err
 			}
 
+			respMap = client.ParseXml(bodyStr, new(ListPartsResponse))
 			_result := &ListPartsResponse{}
 			err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"ListPartsResult": respMap["ListPartsResult"],
@@ -5180,6 +10975,10 @@ func (client *Client) GetLiveChannelHistory(request *GetLiveChannelHistoryReques
 
 		_resp, err = func() (*GetLiveChannelHistoryResponse, error) {
 			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
 			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ChannelName)) + "?live"
@@ -5188,21 +10987,30 @@ func (client *Client) GetLiveChannelHistory(request *GetLiveChannelHistoryReques
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
 			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
-			request_.Headers["authorization"] = client.GetAuth(request_, tea.GetStringValue(request.BucketName))
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
 			response_, err := tea.DoRequest(request_, _runtime)
 			if err != nil {
 				return nil, err
 			}
 
 			respMap := make(map[string]interface{})
-
+			bodyStr := ""
 			if client.IsFail(response_) {
-				respMap, err = client.GetErrMessage(response_)
+				bodyStr, err = client.ReadAsString(response_)
 				if err != nil {
 					return nil, err
 				}
 
+				respMap = client.GetErrMessage(bodyStr)
 				err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -5215,11 +11023,12 @@ func (client *Client) GetLiveChannelHistory(request *GetLiveChannelHistoryReques
 				return nil, err
 			}
 
-			respMap, err = client.ParseXml(response_, new(GetLiveChannelHistoryResponse))
+			bodyStr, err = client.ReadAsString(response_)
 			if err != nil {
 				return nil, err
 			}
 
+			respMap = client.ParseXml(bodyStr, new(GetLiveChannelHistoryResponse))
 			_result := &GetLiveChannelHistoryResponse{}
 			err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"LiveChannelHistory": respMap["LiveChannelHistory"],
@@ -5278,6 +11087,10 @@ func (client *Client) GetBucket(request *GetBucketRequest, runtime *RuntimeObjec
 
 		_resp, err = func() (*GetBucketResponse, error) {
 			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
 			request_.Pathname = "/"
@@ -5286,21 +11099,30 @@ func (client *Client) GetBucket(request *GetBucketRequest, runtime *RuntimeObjec
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
 			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
-			request_.Headers["authorization"] = client.GetAuth(request_, tea.GetStringValue(request.BucketName))
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
 			response_, err := tea.DoRequest(request_, _runtime)
 			if err != nil {
 				return nil, err
 			}
 
 			respMap := make(map[string]interface{})
-
+			bodyStr := ""
 			if client.IsFail(response_) {
-				respMap, err = client.GetErrMessage(response_)
+				bodyStr, err = client.ReadAsString(response_)
 				if err != nil {
 					return nil, err
 				}
 
+				respMap = client.GetErrMessage(bodyStr)
 				err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -5313,11 +11135,12 @@ func (client *Client) GetBucket(request *GetBucketRequest, runtime *RuntimeObjec
 				return nil, err
 			}
 
-			respMap, err = client.ParseXml(response_, new(GetBucketResponse))
+			bodyStr, err = client.ReadAsString(response_)
 			if err != nil {
 				return nil, err
 			}
 
+			respMap = client.ParseXml(bodyStr, new(GetBucketResponse))
 			_result := &GetBucketResponse{}
 			err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"ListBucketResult": respMap["ListBucketResult"],
@@ -5376,6 +11199,10 @@ func (client *Client) GetLiveChannelInfo(request *GetLiveChannelInfoRequest, run
 
 		_resp, err = func() (*GetLiveChannelInfoResponse, error) {
 			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
 			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ChannelName)) + "?live"
@@ -5384,20 +11211,29 @@ func (client *Client) GetLiveChannelInfo(request *GetLiveChannelInfoRequest, run
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
-			request_.Headers["authorization"] = client.GetAuth(request_, tea.GetStringValue(request.BucketName))
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
 			response_, err := tea.DoRequest(request_, _runtime)
 			if err != nil {
 				return nil, err
 			}
 
 			respMap := make(map[string]interface{})
-
+			bodyStr := ""
 			if client.IsFail(response_) {
-				respMap, err = client.GetErrMessage(response_)
+				bodyStr, err = client.ReadAsString(response_)
 				if err != nil {
 					return nil, err
 				}
 
+				respMap = client.GetErrMessage(bodyStr)
 				err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -5410,11 +11246,12 @@ func (client *Client) GetLiveChannelInfo(request *GetLiveChannelInfoRequest, run
 				return nil, err
 			}
 
-			respMap, err = client.ParseXml(response_, new(GetLiveChannelInfoResponse))
+			bodyStr, err = client.ReadAsString(response_)
 			if err != nil {
 				return nil, err
 			}
 
+			respMap = client.ParseXml(bodyStr, new(GetLiveChannelInfoResponse))
 			_result := &GetLiveChannelInfoResponse{}
 			err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"LiveChannelConfiguration": respMap["LiveChannelConfiguration"],
@@ -5473,6 +11310,10 @@ func (client *Client) GetLiveChannelStat(request *GetLiveChannelStatRequest, run
 
 		_resp, err = func() (*GetLiveChannelStatResponse, error) {
 			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
 			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ChannelName)) + "?live"
@@ -5481,21 +11322,30 @@ func (client *Client) GetLiveChannelStat(request *GetLiveChannelStatRequest, run
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
 			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
-			request_.Headers["authorization"] = client.GetAuth(request_, tea.GetStringValue(request.BucketName))
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
 			response_, err := tea.DoRequest(request_, _runtime)
 			if err != nil {
 				return nil, err
 			}
 
 			respMap := make(map[string]interface{})
-
+			bodyStr := ""
 			if client.IsFail(response_) {
-				respMap, err = client.GetErrMessage(response_)
+				bodyStr, err = client.ReadAsString(response_)
 				if err != nil {
 					return nil, err
 				}
 
+				respMap = client.GetErrMessage(bodyStr)
 				err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -5508,11 +11358,12 @@ func (client *Client) GetLiveChannelStat(request *GetLiveChannelStatRequest, run
 				return nil, err
 			}
 
-			respMap, err = client.ParseXml(response_, new(GetLiveChannelStatResponse))
+			bodyStr, err = client.ReadAsString(response_)
 			if err != nil {
 				return nil, err
 			}
 
+			respMap = client.ParseXml(bodyStr, new(GetLiveChannelStatResponse))
 			_result := &GetLiveChannelStatResponse{}
 			err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"LiveChannelStat": respMap["LiveChannelStat"],
@@ -5571,6 +11422,10 @@ func (client *Client) DeleteObject(request *DeleteObjectRequest, runtime *Runtim
 
 		_resp, err = func() (*DeleteObjectResponse, error) {
 			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
 			request_.Protocol = client.Protocol
 			request_.Method = "DELETE"
 			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ObjectName))
@@ -5579,20 +11434,29 @@ func (client *Client) DeleteObject(request *DeleteObjectRequest, runtime *Runtim
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
-			request_.Headers["authorization"] = client.GetAuth(request_, tea.GetStringValue(request.BucketName))
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
 			response_, err := tea.DoRequest(request_, _runtime)
 			if err != nil {
 				return nil, err
 			}
 
 			respMap := make(map[string]interface{})
-
+			bodyStr := ""
 			if client.IsFail(response_) {
-				respMap, err = client.GetErrMessage(response_)
+				bodyStr, err = client.ReadAsString(response_)
 				if err != nil {
 					return nil, err
 				}
 
+				respMap = client.GetErrMessage(bodyStr)
 				err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -5661,6 +11525,10 @@ func (client *Client) AbortMultipartUpload(request *AbortMultipartUploadRequest,
 
 		_resp, err = func() (*AbortMultipartUploadResponse, error) {
 			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
 			request_.Protocol = client.Protocol
 			request_.Method = "DELETE"
 			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ObjectName))
@@ -5669,21 +11537,30 @@ func (client *Client) AbortMultipartUpload(request *AbortMultipartUploadRequest,
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
 			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
-			request_.Headers["authorization"] = client.GetAuth(request_, tea.GetStringValue(request.BucketName))
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
 			response_, err := tea.DoRequest(request_, _runtime)
 			if err != nil {
 				return nil, err
 			}
 
 			respMap := make(map[string]interface{})
-
+			bodyStr := ""
 			if client.IsFail(response_) {
-				respMap, err = client.GetErrMessage(response_)
+				bodyStr, err = client.ReadAsString(response_)
 				if err != nil {
 					return nil, err
 				}
 
+				respMap = client.GetErrMessage(bodyStr)
 				err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -5752,6 +11629,11 @@ func (client *Client) AppendObject(request *AppendObjectRequest, runtime *Runtim
 
 		_resp, err = func() (*AppendObjectResponse, error) {
 			request_ := tea.NewRequest()
+			ref := make(map[string]string)
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
 			request_.Protocol = client.Protocol
 			request_.Method = "POST"
 			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ObjectName)) + "?append"
@@ -5761,23 +11643,37 @@ func (client *Client) AppendObject(request *AppendObjectRequest, runtime *Runtim
 				"user-agent": client.GetUserAgent(),
 			}, client.ToHeader(tea.ToMap(request.Header)),
 				client.ParseMeta(request.UserMeta, "x-oss-meta-"))
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
 			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
-			request_.Body = request.Body
-			request_.Headers["content-type"] = client.Default(client.GetSpecialValue(tea.ToMap(request.Header), "content-type"), client.GetContentType(tea.GetStringValue(request.ObjectName)))
-			request_.Headers["authorization"] = client.GetAuth(request_, tea.GetStringValue(request.BucketName))
+			request_.Body = client.Inject(request.Body, ref)
+			if client.NotNull(tea.ToMap(request.Header)) && !client.Empty(tea.GetStringValue(request.Header.ContentType)) {
+				request_.Headers["content-type"] = tea.GetStringValue(request.Header.ContentType)
+			} else {
+				request_.Headers["content-type"] = client.GetContentType(tea.GetStringValue(request.ObjectName))
+			}
+
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
 			response_, err := tea.DoRequest(request_, _runtime)
 			if err != nil {
 				return nil, err
 			}
 
 			respMap := make(map[string]interface{})
-
+			bodyStr := ""
 			if client.IsFail(response_) {
-				respMap, err = client.GetErrMessage(response_)
+				bodyStr, err = client.ReadAsString(response_)
 				if err != nil {
 					return nil, err
 				}
 
+				respMap = client.GetErrMessage(bodyStr)
 				err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -5785,6 +11681,28 @@ func (client *Client) AppendObject(request *AppendObjectRequest, runtime *Runtim
 						"httpCode":  response_.StatusCode,
 						"requestId": respMap["RequestId"],
 						"hostId":    respMap["HostId"],
+					},
+				})
+				return nil, err
+			}
+
+			if !client.Equal(ref["crc"], response_.Headers["x-oss-hash-crc64ecma"]) {
+				err = tea.NewSDKError(map[string]interface{}{
+					"code": "CrcNotMatched",
+					"data": map[string]interface{}{
+						"clientCrc": ref["crc"],
+						"serverCrc": response_.Headers["x-oss-hash-crc64ecma"],
+					},
+				})
+				return nil, err
+			}
+
+			if !client.Equal(ref["md5"], response_.Headers["content-md5"]) {
+				err = tea.NewSDKError(map[string]interface{}{
+					"code": "MD5NotMatched",
+					"data": map[string]interface{}{
+						"clientMD5": ref["md5"],
+						"serverMD5": response_.Headers["content-md5"],
 					},
 				})
 				return nil, err
@@ -5846,6 +11764,10 @@ func (client *Client) UploadPartCopy(request *UploadPartCopyRequest, runtime *Ru
 
 		_resp, err = func() (*UploadPartCopyResponse, error) {
 			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
 			request_.Protocol = client.Protocol
 			request_.Method = "PUT"
 			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ObjectName))
@@ -5854,21 +11776,30 @@ func (client *Client) UploadPartCopy(request *UploadPartCopyRequest, runtime *Ru
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}, client.ToHeader(tea.ToMap(request.Header)))
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
 			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
-			request_.Headers["authorization"] = client.GetAuth(request_, tea.GetStringValue(request.BucketName))
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
 			response_, err := tea.DoRequest(request_, _runtime)
 			if err != nil {
 				return nil, err
 			}
 
 			respMap := make(map[string]interface{})
-
+			bodyStr := ""
 			if client.IsFail(response_) {
-				respMap, err = client.GetErrMessage(response_)
+				bodyStr, err = client.ReadAsString(response_)
 				if err != nil {
 					return nil, err
 				}
 
+				respMap = client.GetErrMessage(bodyStr)
 				err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -5881,11 +11812,12 @@ func (client *Client) UploadPartCopy(request *UploadPartCopyRequest, runtime *Ru
 				return nil, err
 			}
 
-			respMap, err = client.ParseXml(response_, new(UploadPartCopyResponse))
+			bodyStr, err = client.ReadAsString(response_)
 			if err != nil {
 				return nil, err
 			}
 
+			respMap = client.ParseXml(bodyStr, new(UploadPartCopyResponse))
 			_result := &UploadPartCopyResponse{}
 			err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"CopyPartResult": respMap["CopyPartResult"],
@@ -5944,6 +11876,10 @@ func (client *Client) GetVodPlaylist(request *GetVodPlaylistRequest, runtime *Ru
 
 		_resp, err = func() (*GetVodPlaylistResponse, error) {
 			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
 			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ChannelName)) + "?vod"
@@ -5952,21 +11888,30 @@ func (client *Client) GetVodPlaylist(request *GetVodPlaylistRequest, runtime *Ru
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
 			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
-			request_.Headers["authorization"] = client.GetAuth(request_, tea.GetStringValue(request.BucketName))
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
 			response_, err := tea.DoRequest(request_, _runtime)
 			if err != nil {
 				return nil, err
 			}
 
 			respMap := make(map[string]interface{})
-
+			bodyStr := ""
 			if client.IsFail(response_) {
-				respMap, err = client.GetErrMessage(response_)
+				bodyStr, err = client.ReadAsString(response_)
 				if err != nil {
 					return nil, err
 				}
 
+				respMap = client.GetErrMessage(bodyStr)
 				err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -6035,6 +11980,10 @@ func (client *Client) DeleteBucketCORS(request *DeleteBucketCORSRequest, runtime
 
 		_resp, err = func() (*DeleteBucketCORSResponse, error) {
 			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
 			request_.Protocol = client.Protocol
 			request_.Method = "DELETE"
 			request_.Pathname = "/?cors"
@@ -6043,20 +11992,29 @@ func (client *Client) DeleteBucketCORS(request *DeleteBucketCORSRequest, runtime
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
-			request_.Headers["authorization"] = client.GetAuth(request_, tea.GetStringValue(request.BucketName))
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
 			response_, err := tea.DoRequest(request_, _runtime)
 			if err != nil {
 				return nil, err
 			}
 
 			respMap := make(map[string]interface{})
-
+			bodyStr := ""
 			if client.IsFail(response_) {
-				respMap, err = client.GetErrMessage(response_)
+				bodyStr, err = client.ReadAsString(response_)
 				if err != nil {
 					return nil, err
 				}
 
+				respMap = client.GetErrMessage(bodyStr)
 				err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -6125,6 +12083,10 @@ func (client *Client) GetObject(request *GetObjectRequest, runtime *RuntimeObjec
 
 		_resp, err = func() (*GetObjectResponse, error) {
 			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
 			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ObjectName))
@@ -6133,20 +12095,29 @@ func (client *Client) GetObject(request *GetObjectRequest, runtime *RuntimeObjec
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}, client.ToHeader(tea.ToMap(request.Header)))
-			request_.Headers["authorization"] = client.GetAuth(request_, tea.GetStringValue(request.BucketName))
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
 			response_, err := tea.DoRequest(request_, _runtime)
 			if err != nil {
 				return nil, err
 			}
 
 			respMap := make(map[string]interface{})
-
+			bodyStr := ""
 			if client.IsFail(response_) {
-				respMap, err = client.GetErrMessage(response_)
+				bodyStr, err = client.ReadAsString(response_)
 				if err != nil {
 					return nil, err
 				}
 
+				respMap = client.GetErrMessage(bodyStr)
 				err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -6217,6 +12188,11 @@ func (client *Client) UploadPart(request *UploadPartRequest, runtime *RuntimeObj
 
 		_resp, err = func() (*UploadPartResponse, error) {
 			request_ := tea.NewRequest()
+			ref := make(map[string]string)
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
 			request_.Protocol = client.Protocol
 			request_.Method = "PUT"
 			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ObjectName))
@@ -6225,22 +12201,31 @@ func (client *Client) UploadPart(request *UploadPartRequest, runtime *RuntimeObj
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
 			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
-			request_.Body = request.Body
-			request_.Headers["authorization"] = client.GetAuth(request_, tea.GetStringValue(request.BucketName))
+			request_.Body = client.Inject(request.Body, ref)
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
 			response_, err := tea.DoRequest(request_, _runtime)
 			if err != nil {
 				return nil, err
 			}
 
 			respMap := make(map[string]interface{})
-
+			bodyStr := ""
 			if client.IsFail(response_) {
-				respMap, err = client.GetErrMessage(response_)
+				bodyStr, err = client.ReadAsString(response_)
 				if err != nil {
 					return nil, err
 				}
 
+				respMap = client.GetErrMessage(bodyStr)
 				err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -6248,6 +12233,28 @@ func (client *Client) UploadPart(request *UploadPartRequest, runtime *RuntimeObj
 						"httpCode":  response_.StatusCode,
 						"requestId": respMap["RequestId"],
 						"hostId":    respMap["HostId"],
+					},
+				})
+				return nil, err
+			}
+
+			if !client.Equal(ref["crc"], response_.Headers["x-oss-hash-crc64ecma"]) {
+				err = tea.NewSDKError(map[string]interface{}{
+					"code": "CrcNotMatched",
+					"data": map[string]interface{}{
+						"clientCrc": ref["crc"],
+						"serverCrc": response_.Headers["x-oss-hash-crc64ecma"],
+					},
+				})
+				return nil, err
+			}
+
+			if !client.Equal(ref["md5"], response_.Headers["content-md5"]) {
+				err = tea.NewSDKError(map[string]interface{}{
+					"code": "MD5NotMatched",
+					"data": map[string]interface{}{
+						"clientMD5": ref["md5"],
+						"serverMD5": response_.Headers["content-md5"],
 					},
 				})
 				return nil, err
@@ -6309,6 +12316,10 @@ func (client *Client) GetBucketCORS(request *GetBucketCORSRequest, runtime *Runt
 
 		_resp, err = func() (*GetBucketCORSResponse, error) {
 			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
 			request_.Pathname = "/?cors"
@@ -6317,20 +12328,29 @@ func (client *Client) GetBucketCORS(request *GetBucketCORSRequest, runtime *Runt
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
-			request_.Headers["authorization"] = client.GetAuth(request_, tea.GetStringValue(request.BucketName))
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
 			response_, err := tea.DoRequest(request_, _runtime)
 			if err != nil {
 				return nil, err
 			}
 
 			respMap := make(map[string]interface{})
-
+			bodyStr := ""
 			if client.IsFail(response_) {
-				respMap, err = client.GetErrMessage(response_)
+				bodyStr, err = client.ReadAsString(response_)
 				if err != nil {
 					return nil, err
 				}
 
+				respMap = client.GetErrMessage(bodyStr)
 				err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -6343,11 +12363,12 @@ func (client *Client) GetBucketCORS(request *GetBucketCORSRequest, runtime *Runt
 				return nil, err
 			}
 
-			respMap, err = client.ParseXml(response_, new(GetBucketCORSResponse))
+			bodyStr, err = client.ReadAsString(response_)
 			if err != nil {
 				return nil, err
 			}
 
+			respMap = client.ParseXml(bodyStr, new(GetBucketCORSResponse))
 			_result := &GetBucketCORSResponse{}
 			err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"CORSConfiguration": respMap["CORSConfiguration"],
@@ -6406,6 +12427,10 @@ func (client *Client) CopyObject(request *CopyObjectRequest, runtime *RuntimeObj
 
 		_resp, err = func() (*CopyObjectResponse, error) {
 			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
 			request_.Protocol = client.Protocol
 			request_.Method = "PUT"
 			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.DestObjectName))
@@ -6414,21 +12439,30 @@ func (client *Client) CopyObject(request *CopyObjectRequest, runtime *RuntimeObj
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}, client.ToHeader(tea.ToMap(request.Header)))
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
 			request_.Headers["x-oss-copy-source"] = client.Encode(request_.Headers["x-oss-copy-source"], "UrlEncode")
-			request_.Headers["authorization"] = client.GetAuth(request_, tea.GetStringValue(request.BucketName))
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
 			response_, err := tea.DoRequest(request_, _runtime)
 			if err != nil {
 				return nil, err
 			}
 
 			respMap := make(map[string]interface{})
-
+			bodyStr := ""
 			if client.IsFail(response_) {
-				respMap, err = client.GetErrMessage(response_)
+				bodyStr, err = client.ReadAsString(response_)
 				if err != nil {
 					return nil, err
 				}
 
+				respMap = client.GetErrMessage(bodyStr)
 				err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -6441,11 +12475,12 @@ func (client *Client) CopyObject(request *CopyObjectRequest, runtime *RuntimeObj
 				return nil, err
 			}
 
-			respMap, err = client.ParseXml(response_, new(CopyObjectResponse))
+			bodyStr, err = client.ReadAsString(response_)
 			if err != nil {
 				return nil, err
 			}
 
+			respMap = client.ParseXml(bodyStr, new(CopyObjectResponse))
 			_result := &CopyObjectResponse{}
 			err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"CopyObjectResult": respMap["CopyObjectResult"],
@@ -6504,6 +12539,10 @@ func (client *Client) GetObjectTagging(request *GetObjectTaggingRequest, runtime
 
 		_resp, err = func() (*GetObjectTaggingResponse, error) {
 			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
 			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ObjectName)) + "?tagging"
@@ -6512,20 +12551,29 @@ func (client *Client) GetObjectTagging(request *GetObjectTaggingRequest, runtime
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
-			request_.Headers["authorization"] = client.GetAuth(request_, tea.GetStringValue(request.BucketName))
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
 			response_, err := tea.DoRequest(request_, _runtime)
 			if err != nil {
 				return nil, err
 			}
 
 			respMap := make(map[string]interface{})
-
+			bodyStr := ""
 			if client.IsFail(response_) {
-				respMap, err = client.GetErrMessage(response_)
+				bodyStr, err = client.ReadAsString(response_)
 				if err != nil {
 					return nil, err
 				}
 
+				respMap = client.GetErrMessage(bodyStr)
 				err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -6538,11 +12586,12 @@ func (client *Client) GetObjectTagging(request *GetObjectTaggingRequest, runtime
 				return nil, err
 			}
 
-			respMap, err = client.ParseXml(response_, new(GetObjectTaggingResponse))
+			bodyStr, err = client.ReadAsString(response_)
 			if err != nil {
 				return nil, err
 			}
 
+			respMap = client.ParseXml(bodyStr, new(GetObjectTaggingResponse))
 			_result := &GetObjectTaggingResponse{}
 			err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"Tagging": respMap["Tagging"],
@@ -6601,6 +12650,10 @@ func (client *Client) DeleteBucketLifecycle(request *DeleteBucketLifecycleReques
 
 		_resp, err = func() (*DeleteBucketLifecycleResponse, error) {
 			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
 			request_.Protocol = client.Protocol
 			request_.Method = "DELETE"
 			request_.Pathname = "/?lifecycle"
@@ -6609,20 +12662,29 @@ func (client *Client) DeleteBucketLifecycle(request *DeleteBucketLifecycleReques
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
-			request_.Headers["authorization"] = client.GetAuth(request_, tea.GetStringValue(request.BucketName))
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
 			response_, err := tea.DoRequest(request_, _runtime)
 			if err != nil {
 				return nil, err
 			}
 
 			respMap := make(map[string]interface{})
-
+			bodyStr := ""
 			if client.IsFail(response_) {
-				respMap, err = client.GetErrMessage(response_)
+				bodyStr, err = client.ReadAsString(response_)
 				if err != nil {
 					return nil, err
 				}
 
+				respMap = client.GetErrMessage(bodyStr)
 				err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -6691,6 +12753,10 @@ func (client *Client) DeleteBucketLogging(request *DeleteBucketLoggingRequest, r
 
 		_resp, err = func() (*DeleteBucketLoggingResponse, error) {
 			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
 			request_.Protocol = client.Protocol
 			request_.Method = "DELETE"
 			request_.Pathname = "/?logging"
@@ -6699,20 +12765,29 @@ func (client *Client) DeleteBucketLogging(request *DeleteBucketLoggingRequest, r
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
-			request_.Headers["authorization"] = client.GetAuth(request_, tea.GetStringValue(request.BucketName))
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
 			response_, err := tea.DoRequest(request_, _runtime)
 			if err != nil {
 				return nil, err
 			}
 
 			respMap := make(map[string]interface{})
-
+			bodyStr := ""
 			if client.IsFail(response_) {
-				respMap, err = client.GetErrMessage(response_)
+				bodyStr, err = client.ReadAsString(response_)
 				if err != nil {
 					return nil, err
 				}
 
+				respMap = client.GetErrMessage(bodyStr)
 				err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -6781,6 +12856,10 @@ func (client *Client) DeleteBucketWebsite(request *DeleteBucketWebsiteRequest, r
 
 		_resp, err = func() (*DeleteBucketWebsiteResponse, error) {
 			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
 			request_.Protocol = client.Protocol
 			request_.Method = "DELETE"
 			request_.Pathname = "/?website"
@@ -6789,20 +12868,29 @@ func (client *Client) DeleteBucketWebsite(request *DeleteBucketWebsiteRequest, r
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
-			request_.Headers["authorization"] = client.GetAuth(request_, tea.GetStringValue(request.BucketName))
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
 			response_, err := tea.DoRequest(request_, _runtime)
 			if err != nil {
 				return nil, err
 			}
 
 			respMap := make(map[string]interface{})
-
+			bodyStr := ""
 			if client.IsFail(response_) {
-				respMap, err = client.GetErrMessage(response_)
+				bodyStr, err = client.ReadAsString(response_)
 				if err != nil {
 					return nil, err
 				}
 
+				respMap = client.GetErrMessage(bodyStr)
 				err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -6871,6 +12959,10 @@ func (client *Client) GetSymlink(request *GetSymlinkRequest, runtime *RuntimeObj
 
 		_resp, err = func() (*GetSymlinkResponse, error) {
 			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
 			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ObjectName)) + "?symlink"
@@ -6879,20 +12971,29 @@ func (client *Client) GetSymlink(request *GetSymlinkRequest, runtime *RuntimeObj
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
-			request_.Headers["authorization"] = client.GetAuth(request_, tea.GetStringValue(request.BucketName))
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
 			response_, err := tea.DoRequest(request_, _runtime)
 			if err != nil {
 				return nil, err
 			}
 
 			respMap := make(map[string]interface{})
-
+			bodyStr := ""
 			if client.IsFail(response_) {
-				respMap, err = client.GetErrMessage(response_)
+				bodyStr, err = client.ReadAsString(response_)
 				if err != nil {
 					return nil, err
 				}
 
+				respMap = client.GetErrMessage(bodyStr)
 				err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -6961,6 +13062,10 @@ func (client *Client) GetBucketLifecycle(request *GetBucketLifecycleRequest, run
 
 		_resp, err = func() (*GetBucketLifecycleResponse, error) {
 			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
 			request_.Pathname = "/?lifecycle"
@@ -6969,20 +13074,29 @@ func (client *Client) GetBucketLifecycle(request *GetBucketLifecycleRequest, run
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
-			request_.Headers["authorization"] = client.GetAuth(request_, tea.GetStringValue(request.BucketName))
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
 			response_, err := tea.DoRequest(request_, _runtime)
 			if err != nil {
 				return nil, err
 			}
 
 			respMap := make(map[string]interface{})
-
+			bodyStr := ""
 			if client.IsFail(response_) {
-				respMap, err = client.GetErrMessage(response_)
+				bodyStr, err = client.ReadAsString(response_)
 				if err != nil {
 					return nil, err
 				}
 
+				respMap = client.GetErrMessage(bodyStr)
 				err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -6995,11 +13109,12 @@ func (client *Client) GetBucketLifecycle(request *GetBucketLifecycleRequest, run
 				return nil, err
 			}
 
-			respMap, err = client.ParseXml(response_, new(GetBucketLifecycleResponse))
+			bodyStr, err = client.ReadAsString(response_)
 			if err != nil {
 				return nil, err
 			}
 
+			respMap = client.ParseXml(bodyStr, new(GetBucketLifecycleResponse))
 			_result := &GetBucketLifecycleResponse{}
 			err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"LifecycleConfiguration": respMap["LifecycleConfiguration"],
@@ -7058,6 +13173,10 @@ func (client *Client) PutSymlink(request *PutSymlinkRequest, runtime *RuntimeObj
 
 		_resp, err = func() (*PutSymlinkResponse, error) {
 			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
 			request_.Protocol = client.Protocol
 			request_.Method = "PUT"
 			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ObjectName)) + "?symlink"
@@ -7066,20 +13185,29 @@ func (client *Client) PutSymlink(request *PutSymlinkRequest, runtime *RuntimeObj
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}, client.ToHeader(tea.ToMap(request.Header)))
-			request_.Headers["authorization"] = client.GetAuth(request_, tea.GetStringValue(request.BucketName))
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
 			response_, err := tea.DoRequest(request_, _runtime)
 			if err != nil {
 				return nil, err
 			}
 
 			respMap := make(map[string]interface{})
-
+			bodyStr := ""
 			if client.IsFail(response_) {
-				respMap, err = client.GetErrMessage(response_)
+				bodyStr, err = client.ReadAsString(response_)
 				if err != nil {
 					return nil, err
 				}
 
+				respMap = client.GetErrMessage(bodyStr)
 				err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -7148,6 +13276,10 @@ func (client *Client) GetBucketReferer(request *GetBucketRefererRequest, runtime
 
 		_resp, err = func() (*GetBucketRefererResponse, error) {
 			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
 			request_.Pathname = "/?referer"
@@ -7156,20 +13288,29 @@ func (client *Client) GetBucketReferer(request *GetBucketRefererRequest, runtime
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
-			request_.Headers["authorization"] = client.GetAuth(request_, tea.GetStringValue(request.BucketName))
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
 			response_, err := tea.DoRequest(request_, _runtime)
 			if err != nil {
 				return nil, err
 			}
 
 			respMap := make(map[string]interface{})
-
+			bodyStr := ""
 			if client.IsFail(response_) {
-				respMap, err = client.GetErrMessage(response_)
+				bodyStr, err = client.ReadAsString(response_)
 				if err != nil {
 					return nil, err
 				}
 
+				respMap = client.GetErrMessage(bodyStr)
 				err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -7182,11 +13323,12 @@ func (client *Client) GetBucketReferer(request *GetBucketRefererRequest, runtime
 				return nil, err
 			}
 
-			respMap, err = client.ParseXml(response_, new(GetBucketRefererResponse))
+			bodyStr, err = client.ReadAsString(response_)
 			if err != nil {
 				return nil, err
 			}
 
+			respMap = client.ParseXml(bodyStr, new(GetBucketRefererResponse))
 			_result := &GetBucketRefererResponse{}
 			err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"RefererConfiguration": respMap["RefererConfiguration"],
@@ -7245,6 +13387,10 @@ func (client *Client) Callback(request *CallbackRequest, runtime *RuntimeObject)
 
 		_resp, err = func() (*CallbackResponse, error) {
 			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
 			request_.Pathname = "/"
@@ -7253,20 +13399,29 @@ func (client *Client) Callback(request *CallbackRequest, runtime *RuntimeObject)
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
-			request_.Headers["authorization"] = client.GetAuth(request_, tea.GetStringValue(request.BucketName))
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
 			response_, err := tea.DoRequest(request_, _runtime)
 			if err != nil {
 				return nil, err
 			}
 
 			respMap := make(map[string]interface{})
-
+			bodyStr := ""
 			if client.IsFail(response_) {
-				respMap, err = client.GetErrMessage(response_)
+				bodyStr, err = client.ReadAsString(response_)
 				if err != nil {
 					return nil, err
 				}
 
+				respMap = client.GetErrMessage(bodyStr)
 				err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -7335,6 +13490,10 @@ func (client *Client) GetBucketLogging(request *GetBucketLoggingRequest, runtime
 
 		_resp, err = func() (*GetBucketLoggingResponse, error) {
 			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
 			request_.Pathname = "/?logging"
@@ -7343,20 +13502,29 @@ func (client *Client) GetBucketLogging(request *GetBucketLoggingRequest, runtime
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
-			request_.Headers["authorization"] = client.GetAuth(request_, tea.GetStringValue(request.BucketName))
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
 			response_, err := tea.DoRequest(request_, _runtime)
 			if err != nil {
 				return nil, err
 			}
 
 			respMap := make(map[string]interface{})
-
+			bodyStr := ""
 			if client.IsFail(response_) {
-				respMap, err = client.GetErrMessage(response_)
+				bodyStr, err = client.ReadAsString(response_)
 				if err != nil {
 					return nil, err
 				}
 
+				respMap = client.GetErrMessage(bodyStr)
 				err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -7369,11 +13537,12 @@ func (client *Client) GetBucketLogging(request *GetBucketLoggingRequest, runtime
 				return nil, err
 			}
 
-			respMap, err = client.ParseXml(response_, new(GetBucketLoggingResponse))
+			bodyStr, err = client.ReadAsString(response_)
 			if err != nil {
 				return nil, err
 			}
 
+			respMap = client.ParseXml(bodyStr, new(GetBucketLoggingResponse))
 			_result := &GetBucketLoggingResponse{}
 			err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"BucketLoggingStatus": respMap["BucketLoggingStatus"],
@@ -7432,6 +13601,10 @@ func (client *Client) PutObjectAcl(request *PutObjectAclRequest, runtime *Runtim
 
 		_resp, err = func() (*PutObjectAclResponse, error) {
 			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
 			request_.Protocol = client.Protocol
 			request_.Method = "PUT"
 			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ObjectName)) + "?acl"
@@ -7440,20 +13613,29 @@ func (client *Client) PutObjectAcl(request *PutObjectAclRequest, runtime *Runtim
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}, client.ToHeader(tea.ToMap(request.Header)))
-			request_.Headers["authorization"] = client.GetAuth(request_, tea.GetStringValue(request.BucketName))
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
 			response_, err := tea.DoRequest(request_, _runtime)
 			if err != nil {
 				return nil, err
 			}
 
 			respMap := make(map[string]interface{})
-
+			bodyStr := ""
 			if client.IsFail(response_) {
-				respMap, err = client.GetErrMessage(response_)
+				bodyStr, err = client.ReadAsString(response_)
 				if err != nil {
 					return nil, err
 				}
 
+				respMap = client.GetErrMessage(bodyStr)
 				err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -7522,6 +13704,10 @@ func (client *Client) GetBucketInfo(request *GetBucketInfoRequest, runtime *Runt
 
 		_resp, err = func() (*GetBucketInfoResponse, error) {
 			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
 			request_.Pathname = "/?bucketInfo"
@@ -7530,20 +13716,29 @@ func (client *Client) GetBucketInfo(request *GetBucketInfoRequest, runtime *Runt
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
-			request_.Headers["authorization"] = client.GetAuth(request_, tea.GetStringValue(request.BucketName))
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
 			response_, err := tea.DoRequest(request_, _runtime)
 			if err != nil {
 				return nil, err
 			}
 
 			respMap := make(map[string]interface{})
-
+			bodyStr := ""
 			if client.IsFail(response_) {
-				respMap, err = client.GetErrMessage(response_)
+				bodyStr, err = client.ReadAsString(response_)
 				if err != nil {
 					return nil, err
 				}
 
+				respMap = client.GetErrMessage(bodyStr)
 				err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -7556,11 +13751,12 @@ func (client *Client) GetBucketInfo(request *GetBucketInfoRequest, runtime *Runt
 				return nil, err
 			}
 
-			respMap, err = client.ParseXml(response_, new(GetBucketInfoResponse))
+			bodyStr, err = client.ReadAsString(response_)
 			if err != nil {
 				return nil, err
 			}
 
+			respMap = client.ParseXml(bodyStr, new(GetBucketInfoResponse))
 			_result := &GetBucketInfoResponse{}
 			err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"BucketInfo": respMap["BucketInfo"],
@@ -7619,6 +13815,10 @@ func (client *Client) PutLiveChannelStatus(request *PutLiveChannelStatusRequest,
 
 		_resp, err = func() (*PutLiveChannelStatusResponse, error) {
 			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
 			request_.Protocol = client.Protocol
 			request_.Method = "PUT"
 			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ChannelName)) + "?live"
@@ -7627,21 +13827,30 @@ func (client *Client) PutLiveChannelStatus(request *PutLiveChannelStatusRequest,
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
 			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
-			request_.Headers["authorization"] = client.GetAuth(request_, tea.GetStringValue(request.BucketName))
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
 			response_, err := tea.DoRequest(request_, _runtime)
 			if err != nil {
 				return nil, err
 			}
 
 			respMap := make(map[string]interface{})
-
+			bodyStr := ""
 			if client.IsFail(response_) {
-				respMap, err = client.GetErrMessage(response_)
+				bodyStr, err = client.ReadAsString(response_)
 				if err != nil {
 					return nil, err
 				}
 
+				respMap = client.GetErrMessage(bodyStr)
 				err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -7710,6 +13919,10 @@ func (client *Client) InitiateMultipartUpload(request *InitiateMultipartUploadRe
 
 		_resp, err = func() (*InitiateMultipartUploadResponse, error) {
 			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
 			request_.Protocol = client.Protocol
 			request_.Method = "POST"
 			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ObjectName)) + "?uploads"
@@ -7718,22 +13931,36 @@ func (client *Client) InitiateMultipartUpload(request *InitiateMultipartUploadRe
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}, client.ToHeader(tea.ToMap(request.Header)))
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
 			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
-			request_.Headers["content-type"] = client.Default(client.GetSpecialValue(tea.ToMap(request.Header), "content-type"), client.GetContentType(tea.GetStringValue(request.ObjectName)))
-			request_.Headers["authorization"] = client.GetAuth(request_, tea.GetStringValue(request.BucketName))
+			if client.NotNull(tea.ToMap(request.Header)) && !client.Empty(tea.GetStringValue(request.Header.ContentType)) {
+				request_.Headers["content-type"] = tea.GetStringValue(request.Header.ContentType)
+			} else {
+				request_.Headers["content-type"] = client.GetContentType(tea.GetStringValue(request.ObjectName))
+			}
+
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
 			response_, err := tea.DoRequest(request_, _runtime)
 			if err != nil {
 				return nil, err
 			}
 
 			respMap := make(map[string]interface{})
-
+			bodyStr := ""
 			if client.IsFail(response_) {
-				respMap, err = client.GetErrMessage(response_)
+				bodyStr, err = client.ReadAsString(response_)
 				if err != nil {
 					return nil, err
 				}
 
+				respMap = client.GetErrMessage(bodyStr)
 				err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -7746,11 +13973,12 @@ func (client *Client) InitiateMultipartUpload(request *InitiateMultipartUploadRe
 				return nil, err
 			}
 
-			respMap, err = client.ParseXml(response_, new(InitiateMultipartUploadResponse))
+			bodyStr, err = client.ReadAsString(response_)
 			if err != nil {
 				return nil, err
 			}
 
+			respMap = client.ParseXml(bodyStr, new(InitiateMultipartUploadResponse))
 			_result := &InitiateMultipartUploadResponse{}
 			err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"InitiateMultipartUploadResult": respMap["InitiateMultipartUploadResult"],
@@ -7809,6 +14037,10 @@ func (client *Client) OptionObject(request *OptionObjectRequest, runtime *Runtim
 
 		_resp, err = func() (*OptionObjectResponse, error) {
 			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
 			request_.Protocol = client.Protocol
 			request_.Method = "OPTIONS"
 			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ObjectName))
@@ -7817,20 +14049,29 @@ func (client *Client) OptionObject(request *OptionObjectRequest, runtime *Runtim
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}, client.ToHeader(tea.ToMap(request.Header)))
-			request_.Headers["authorization"] = client.GetAuth(request_, tea.GetStringValue(request.BucketName))
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
 			response_, err := tea.DoRequest(request_, _runtime)
 			if err != nil {
 				return nil, err
 			}
 
 			respMap := make(map[string]interface{})
-
+			bodyStr := ""
 			if client.IsFail(response_) {
-				respMap, err = client.GetErrMessage(response_)
+				bodyStr, err = client.ReadAsString(response_)
 				if err != nil {
 					return nil, err
 				}
 
+				respMap = client.GetErrMessage(bodyStr)
 				err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -7899,6 +14140,10 @@ func (client *Client) PostVodPlaylist(request *PostVodPlaylistRequest, runtime *
 
 		_resp, err = func() (*PostVodPlaylistResponse, error) {
 			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
 			request_.Protocol = client.Protocol
 			request_.Method = "POST"
 			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ChannelName)) + "/" + tea.ToString(tea.GetStringValue(request.PlaylistName)) + "?vod"
@@ -7907,21 +14152,30 @@ func (client *Client) PostVodPlaylist(request *PostVodPlaylistRequest, runtime *
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
 			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
-			request_.Headers["authorization"] = client.GetAuth(request_, tea.GetStringValue(request.BucketName))
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
 			response_, err := tea.DoRequest(request_, _runtime)
 			if err != nil {
 				return nil, err
 			}
 
 			respMap := make(map[string]interface{})
-
+			bodyStr := ""
 			if client.IsFail(response_) {
-				respMap, err = client.GetErrMessage(response_)
+				bodyStr, err = client.ReadAsString(response_)
 				if err != nil {
 					return nil, err
 				}
 
+				respMap = client.GetErrMessage(bodyStr)
 				err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -7990,6 +14244,10 @@ func (client *Client) PostObject(request *PostObjectRequest, runtime *RuntimeObj
 
 		_resp, err = func() (*PostObjectResponse, error) {
 			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
 			request_.Protocol = client.Protocol
 			request_.Method = "POST"
 			request_.Pathname = "/"
@@ -7998,20 +14256,29 @@ func (client *Client) PostObject(request *PostObjectRequest, runtime *RuntimeObj
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
-			request_.Headers["authorization"] = client.GetAuth(request_, tea.GetStringValue(request.BucketName))
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
 			response_, err := tea.DoRequest(request_, _runtime)
 			if err != nil {
 				return nil, err
 			}
 
 			respMap := make(map[string]interface{})
-
+			bodyStr := ""
 			if client.IsFail(response_) {
-				respMap, err = client.GetErrMessage(response_)
+				bodyStr, err = client.ReadAsString(response_)
 				if err != nil {
 					return nil, err
 				}
 
+				respMap = client.GetErrMessage(bodyStr)
 				err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -8080,6 +14347,10 @@ func (client *Client) HeadObject(request *HeadObjectRequest, runtime *RuntimeObj
 
 		_resp, err = func() (*HeadObjectResponse, error) {
 			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
 			request_.Protocol = client.Protocol
 			request_.Method = "HEAD"
 			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ObjectName))
@@ -8088,20 +14359,29 @@ func (client *Client) HeadObject(request *HeadObjectRequest, runtime *RuntimeObj
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}, client.ToHeader(tea.ToMap(request.Header)))
-			request_.Headers["authorization"] = client.GetAuth(request_, tea.GetStringValue(request.BucketName))
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
 			response_, err := tea.DoRequest(request_, _runtime)
 			if err != nil {
 				return nil, err
 			}
 
 			respMap := make(map[string]interface{})
-
+			bodyStr := ""
 			if client.IsFail(response_) {
-				respMap, err = client.GetErrMessage(response_)
+				bodyStr, err = client.ReadAsString(response_)
 				if err != nil {
 					return nil, err
 				}
 
+				respMap = client.GetErrMessage(bodyStr)
 				err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -8172,6 +14452,10 @@ func (client *Client) DeleteObjectTagging(request *DeleteObjectTaggingRequest, r
 
 		_resp, err = func() (*DeleteObjectTaggingResponse, error) {
 			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
 			request_.Protocol = client.Protocol
 			request_.Method = "DELETE"
 			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ObjectName)) + "?tagging"
@@ -8180,20 +14464,29 @@ func (client *Client) DeleteObjectTagging(request *DeleteObjectTaggingRequest, r
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
-			request_.Headers["authorization"] = client.GetAuth(request_, tea.GetStringValue(request.BucketName))
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
 			response_, err := tea.DoRequest(request_, _runtime)
 			if err != nil {
 				return nil, err
 			}
 
 			respMap := make(map[string]interface{})
-
+			bodyStr := ""
 			if client.IsFail(response_) {
-				respMap, err = client.GetErrMessage(response_)
+				bodyStr, err = client.ReadAsString(response_)
 				if err != nil {
 					return nil, err
 				}
 
+				respMap = client.GetErrMessage(bodyStr)
 				err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -8262,6 +14555,10 @@ func (client *Client) RestoreObject(request *RestoreObjectRequest, runtime *Runt
 
 		_resp, err = func() (*RestoreObjectResponse, error) {
 			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
 			request_.Protocol = client.Protocol
 			request_.Method = "POST"
 			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ObjectName)) + "?restore"
@@ -8270,20 +14567,29 @@ func (client *Client) RestoreObject(request *RestoreObjectRequest, runtime *Runt
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
-			request_.Headers["authorization"] = client.GetAuth(request_, tea.GetStringValue(request.BucketName))
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
 			response_, err := tea.DoRequest(request_, _runtime)
 			if err != nil {
 				return nil, err
 			}
 
 			respMap := make(map[string]interface{})
-
+			bodyStr := ""
 			if client.IsFail(response_) {
-				respMap, err = client.GetErrMessage(response_)
+				bodyStr, err = client.ReadAsString(response_)
 				if err != nil {
 					return nil, err
 				}
 
+				respMap = client.GetErrMessage(bodyStr)
 				err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -8352,6 +14658,10 @@ func (client *Client) GetObjectAcl(request *GetObjectAclRequest, runtime *Runtim
 
 		_resp, err = func() (*GetObjectAclResponse, error) {
 			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
 			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ObjectName)) + "?acl"
@@ -8360,20 +14670,29 @@ func (client *Client) GetObjectAcl(request *GetObjectAclRequest, runtime *Runtim
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
-			request_.Headers["authorization"] = client.GetAuth(request_, tea.GetStringValue(request.BucketName))
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
 			response_, err := tea.DoRequest(request_, _runtime)
 			if err != nil {
 				return nil, err
 			}
 
 			respMap := make(map[string]interface{})
-
+			bodyStr := ""
 			if client.IsFail(response_) {
-				respMap, err = client.GetErrMessage(response_)
+				bodyStr, err = client.ReadAsString(response_)
 				if err != nil {
 					return nil, err
 				}
 
+				respMap = client.GetErrMessage(bodyStr)
 				err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -8386,11 +14705,12 @@ func (client *Client) GetObjectAcl(request *GetObjectAclRequest, runtime *Runtim
 				return nil, err
 			}
 
-			respMap, err = client.ParseXml(response_, new(GetObjectAclResponse))
+			bodyStr, err = client.ReadAsString(response_)
 			if err != nil {
 				return nil, err
 			}
 
+			respMap = client.ParseXml(bodyStr, new(GetObjectAclResponse))
 			_result := &GetObjectAclResponse{}
 			err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"AccessControlPolicy": respMap["AccessControlPolicy"],
@@ -8449,6 +14769,10 @@ func (client *Client) PutBucketAcl(request *PutBucketAclRequest, runtime *Runtim
 
 		_resp, err = func() (*PutBucketAclResponse, error) {
 			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
 			request_.Protocol = client.Protocol
 			request_.Method = "PUT"
 			request_.Pathname = "/?acl"
@@ -8457,20 +14781,29 @@ func (client *Client) PutBucketAcl(request *PutBucketAclRequest, runtime *Runtim
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}, client.ToHeader(tea.ToMap(request.Header)))
-			request_.Headers["authorization"] = client.GetAuth(request_, tea.GetStringValue(request.BucketName))
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
 			response_, err := tea.DoRequest(request_, _runtime)
 			if err != nil {
 				return nil, err
 			}
 
 			respMap := make(map[string]interface{})
-
+			bodyStr := ""
 			if client.IsFail(response_) {
-				respMap, err = client.GetErrMessage(response_)
+				bodyStr, err = client.ReadAsString(response_)
 				if err != nil {
 					return nil, err
 				}
 
+				respMap = client.GetErrMessage(bodyStr)
 				err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -8539,6 +14872,10 @@ func (client *Client) DeleteBucket(request *DeleteBucketRequest, runtime *Runtim
 
 		_resp, err = func() (*DeleteBucketResponse, error) {
 			request_ := tea.NewRequest()
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
 			request_.Protocol = client.Protocol
 			request_.Method = "DELETE"
 			request_.Pathname = "/"
@@ -8547,20 +14884,29 @@ func (client *Client) DeleteBucket(request *DeleteBucketRequest, runtime *Runtim
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
-			request_.Headers["authorization"] = client.GetAuth(request_, tea.GetStringValue(request.BucketName))
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
 			response_, err := tea.DoRequest(request_, _runtime)
 			if err != nil {
 				return nil, err
 			}
 
 			respMap := make(map[string]interface{})
-
+			bodyStr := ""
 			if client.IsFail(response_) {
-				respMap, err = client.GetErrMessage(response_)
+				bodyStr, err = client.ReadAsString(response_)
 				if err != nil {
 					return nil, err
 				}
 
+				respMap = client.GetErrMessage(bodyStr)
 				err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -8629,6 +14975,11 @@ func (client *Client) PutObject(request *PutObjectRequest, runtime *RuntimeObjec
 
 		_resp, err = func() (*PutObjectResponse, error) {
 			request_ := tea.NewRequest()
+			ref := make(map[string]string)
+			token, err := client.GetSecurityToken()
+			if err != nil {
+				return nil, err
+			}
 			request_.Protocol = client.Protocol
 			request_.Method = "PUT"
 			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ObjectName))
@@ -8638,22 +14989,36 @@ func (client *Client) PutObject(request *PutObjectRequest, runtime *RuntimeObjec
 				"user-agent": client.GetUserAgent(),
 			}, client.ToHeader(tea.ToMap(request.Header)),
 				client.ParseMeta(request.UserMeta, "x-oss-meta-"))
-			request_.Body = request.Body
-			request_.Headers["content-type"] = client.Default(client.GetSpecialValue(tea.ToMap(request.Header), "content-type"), client.GetContentType(tea.GetStringValue(request.ObjectName)))
-			request_.Headers["authorization"] = client.GetAuth(request_, tea.GetStringValue(request.BucketName))
+			if !client.Empty(token) {
+				request_.Headers["x-oss-security-token"] = token
+			}
+
+			request_.Body = client.Inject(request.Body, ref)
+			if client.NotNull(tea.ToMap(request.Header)) && !client.Empty(tea.GetStringValue(request.Header.ContentType)) {
+				request_.Headers["content-type"] = tea.GetStringValue(request.Header.ContentType)
+			} else {
+				request_.Headers["content-type"] = client.GetContentType(tea.GetStringValue(request.ObjectName))
+			}
+
+			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
+			if err != nil {
+				return nil, err
+			}
+
 			response_, err := tea.DoRequest(request_, _runtime)
 			if err != nil {
 				return nil, err
 			}
 
 			respMap := make(map[string]interface{})
-
+			bodyStr := ""
 			if client.IsFail(response_) {
-				respMap, err = client.GetErrMessage(response_)
+				bodyStr, err = client.ReadAsString(response_)
 				if err != nil {
 					return nil, err
 				}
 
+				respMap = client.GetErrMessage(bodyStr)
 				err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -8661,6 +15026,28 @@ func (client *Client) PutObject(request *PutObjectRequest, runtime *RuntimeObjec
 						"httpCode":  response_.StatusCode,
 						"requestId": respMap["RequestId"],
 						"hostId":    respMap["HostId"],
+					},
+				})
+				return nil, err
+			}
+
+			if !client.Equal(ref["crc"], response_.Headers["x-oss-hash-crc64ecma"]) {
+				err = tea.NewSDKError(map[string]interface{}{
+					"code": "CrcNotMatched",
+					"data": map[string]interface{}{
+						"clientCrc": ref["crc"],
+						"serverCrc": response_.Headers["x-oss-hash-crc64ecma"],
+					},
+				})
+				return nil, err
+			}
+
+			if !client.Equal(ref["md5"], response_.Headers["content-md5"]) {
+				err = tea.NewSDKError(map[string]interface{}{
+					"code": "MD5NotMatched",
+					"data": map[string]interface{}{
+						"clientMD5": ref["md5"],
+						"serverMD5": response_.Headers["content-md5"],
 					},
 				})
 				return nil, err
@@ -8676,4 +15063,61 @@ func (client *Client) PutObject(request *PutObjectRequest, runtime *RuntimeObjec
 	}
 
 	return _resp, err
+}
+
+func (client *Client) GetHost(bucketName string) string {
+	if client.Empty(client.RegionId) {
+		client.RegionId = "cn-hangzhou"
+	}
+
+	if client.Empty(client.Endpoint) {
+		client.Endpoint = "oss-" + tea.ToString(client.RegionId) + ".aliyuncs.com"
+	}
+
+	if client.Empty(bucketName) {
+		return client.Endpoint
+	}
+
+	host := ""
+	if client.Equal(client.HostModel, "ip") {
+		host = tea.ToString(client.Endpoint) + "/" + tea.ToString(bucketName)
+	} else if client.Equal(client.HostModel, "cname") {
+		host = client.Endpoint
+	} else {
+		host = tea.ToString(bucketName) + "." + tea.ToString(client.Endpoint)
+	}
+
+	return host
+}
+
+func (client *Client) GetSignature(request *tea.Request, bucketName string) (string, error) {
+	accessKeyId, err := client.GetAccessKeyID()
+	if err != nil {
+		return "", err
+	}
+	accessKeySecret, err := client.GetAccessKeySecret()
+	if err != nil {
+		return "", err
+	}
+	if client.Equal(client.SignatureVersion, "V2") {
+		if client.IfListEmpty(client.AddtionalHeaders) {
+			_result := ""
+			_result = "OSS2 AccessKeyId:" + tea.ToString(accessKeyId) +
+				",Signature:" + tea.ToString(client.GetSignatureV2(request, bucketName, accessKeySecret, client.AddtionalHeaders))
+			return _result, err
+		} else {
+			_result := ""
+			_result = "OSS2 AccessKeyId:" + tea.ToString(accessKeyId) +
+				",AdditionalHeaders:" + tea.ToString(client.ListToString(client.AddtionalHeaders, ";")) +
+				",Signature:" + tea.ToString(client.GetSignatureV2(request, bucketName, accessKeySecret, client.AddtionalHeaders))
+			return _result, err
+		}
+
+	} else {
+		_result := ""
+		_result = "OSS " + tea.ToString(accessKeyId) +
+			":" + tea.ToString(client.GetSignatureV1(request, bucketName, accessKeySecret))
+		return _result, err
+	}
+
 }
