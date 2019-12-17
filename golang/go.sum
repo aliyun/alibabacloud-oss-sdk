@@ -2,13 +2,16 @@ github.com/alibabacloud-go/debug v0.0.0-20190504072949-9472017b5c68 h1:NqugFkGxx
 github.com/alibabacloud-go/debug v0.0.0-20190504072949-9472017b5c68/go.mod h1:6pb/Qy8c+lqua8cFpEy7g39NRRqOWc3rOwAy8m5Y2BY=
 github.com/alibabacloud-go/tea v0.0.0-20191205092156-3300b502babd h1:DitmrIrHBbzaZxvaGvYhF5ZDRlQtH5Kx9fuzB5mZqDY=
 github.com/alibabacloud-go/tea v0.0.0-20191205092156-3300b502babd/go.mod h1:r5AZdLL+m9H2frPZaXy5TGycjXQu/wqgSgLaVsN7870=
+github.com/alibabacloud-go/tea v0.0.0-20191213065341-8da7978c8dcd h1:7Og7PKQKZzqB/ADfrawNgd6YPx6yHlkzqc7+NulCOxg=
 github.com/alibabacloud-go/tea v0.0.0-20191213065341-8da7978c8dcd/go.mod h1:r5AZdLL+m9H2frPZaXy5TGycjXQu/wqgSgLaVsN7870=
 github.com/aliyun/alibabacloud-oss-sdk v0.0.0-20191216105810-49c962636ba6 h1:Rv8ViS3tWiV6+5xxxghml2t8vxXeSkhn4GNjecC/5qg=
 github.com/aliyun/alibabacloud-oss-sdk/baseclient/go v0.0.0-20191206023718-206d508be3c3 h1:feti2zI5DH0KqBNneoVK9zwZtb8C2dP32SJ9mRi8Qe4=
 github.com/aliyun/alibabacloud-oss-sdk/baseclient/go v0.0.0-20191206023718-206d508be3c3/go.mod h1:xOpbeyIiOsvenWgDzhxn31rcSAzbYLy2+RUyuO9X6bk=
+github.com/aliyun/alibabacloud-oss-sdk/baseclient/go v0.0.0-20191216105810-49c962636ba6 h1:5pCRqlGoZq8Tfe6KItH+HB4b6DY4b/9wlNp5sdkgXIs=
 github.com/aliyun/alibabacloud-oss-sdk/baseclient/go v0.0.0-20191216105810-49c962636ba6/go.mod h1:ua4OKwZitkN7sTVHaVa4zkloIpYY7i9dhq006Euo9Gw=
 github.com/aliyun/credentials-go v0.0.0-20190906110604-c03d72db9395 h1:ey3Xbk1uAgNOlWZAH7KDBxmoa0IcOt+snhA0vN8EA7s=
 github.com/aliyun/credentials-go v0.0.0-20190906110604-c03d72db9395/go.mod h1:AJeNV4JgJLF+XrTuSe0EPfSs702qFXKNJVOqloWotqs=
+github.com/clbanning/mxj v1.8.4 h1:HuhwZtbyvyOw+3Z1AowPkU87JkJUSv751ELWaiTpj8I=
 github.com/clbanning/mxj v1.8.4/go.mod h1:BVjHeAH+rl9rs6f+QIpeRl0tfu10SXn1pUSa5PVGJng=
 github.com/davecgh/go-spew v1.1.0 h1:ZDRjVQ15GmhC3fiQ8ni8+OwkZQO4DARzQgrnXU1Liz8=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
@@ -39,6 +42,7 @@ golang.org/x/net v0.0.0-20190404232315-eb5bcb51f2a3/go.mod h1:t9HGtf8HONx5eT2rtn
 golang.org/x/net v0.0.0-20190620200207-3b0461eec859/go.mod h1:z5CRVTTTmAJ677TzLLGU+0bjPO0LkuOLi4/5GtJWs/s=
 golang.org/x/net v0.0.0-20191204025024-5ee1b9f4859a h1:+HHJiFUXVOIS9mr1ThqkQD1N8vpFCfCShqADBM12KTc=
 golang.org/x/net v0.0.0-20191204025024-5ee1b9f4859a/go.mod h1:z5CRVTTTmAJ677TzLLGU+0bjPO0LkuOLi4/5GtJWs/s=
+golang.org/x/net v0.0.0-20191209160850-c0dbc17a3553 h1:efeOvDhwQ29Dj3SdAV/MJf8oukgn+8D8WgaCaRMchF8=
 golang.org/x/net v0.0.0-20191209160850-c0dbc17a3553/go.mod h1:z5CRVTTTmAJ677TzLLGU+0bjPO0LkuOLi4/5GtJWs/s=
 golang.org/x/sync v0.0.0-20190423024810-112230192c58/go.mod h1:RxMgew5VJxzue5/jJTE5uejpjVlOe/izrB70Jof72aM=
 golang.org/x/sync v0.0.0-20190911185100-cd5d95a43a6e/go.mod h1:RxMgew5VJxzue5/jJTE5uejpjVlOe/izrB70Jof72aM=
