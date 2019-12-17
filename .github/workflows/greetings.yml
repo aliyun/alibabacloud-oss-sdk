@@ -1,0 +1,13 @@
+name: Greetings
+
+on: [pull_request, issues]
+
+jobs:
+  greeting:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/first-interaction@v1
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        issue-message: '感谢您为阿里云 OSS SDK 提交宝贵的建议'
+        pr-message: '感谢您为阿里云 OSS SDK 提交宝贵的 PR'
