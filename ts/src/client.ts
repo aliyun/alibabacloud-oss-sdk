@@ -7274,8 +7274,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -7367,8 +7367,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -7457,8 +7457,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -7544,8 +7544,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -7632,8 +7632,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -7722,8 +7722,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -7809,8 +7809,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -7896,8 +7896,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -7983,8 +7983,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -8073,8 +8073,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -8160,8 +8160,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -8248,8 +8248,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -8335,8 +8335,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -8423,8 +8423,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -8509,8 +8509,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -8597,8 +8597,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -8685,8 +8685,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -8773,8 +8773,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -8862,8 +8862,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -8950,8 +8950,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -9036,8 +9036,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -9121,8 +9121,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -9209,8 +9209,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -9294,8 +9294,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -9383,8 +9383,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -9471,8 +9471,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -9556,8 +9556,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -9645,8 +9645,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -9734,8 +9734,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -9823,8 +9823,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -9911,8 +9911,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -10000,8 +10000,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -10088,8 +10088,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -10174,8 +10174,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -10243,6 +10243,7 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
+        let ctx : {[key: string ]: string} = { };
         let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "POST";
@@ -10258,7 +10259,7 @@ export default class Client extends BaseClient {
           request_.headers["x-oss-security-token"] = token;
         }
         request_.query = this._toQuery(request.filter);
-        request_.body = request.body;
+        request_.body = this._inject(request.body, ctx);
         if (this._notNull(request.header) && !this._empty(request.header.contentType)) {
           request_.headers["content-type"] = request.header.contentType;
         } else {
@@ -10268,8 +10269,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -10280,6 +10281,26 @@ export default class Client extends BaseClient {
               httpCode: response_.statusCode,
               requestId: respMap["RequestId"],
               hostId: respMap["HostId"],
+            },
+          });
+        }
+
+        if (!this._equal(ctx["crc"], response_.headers["x-oss-hash-crc64ecma"])) {
+          throw $tea.newError({
+            code: "CrcNotMatched",
+            data: {
+              clientCrc: ctx["crc"],
+              serverCrc: response_.headers["x-oss-hash-crc64ecma"],
+            },
+          });
+        }
+
+        if (!this._equal(ctx["md5"], response_.headers["content-md5"])) {
+          throw $tea.newError({
+            code: "MD5NotMatched",
+            data: {
+              clientMD5: ctx["md5"],
+              serverMD5: response_.headers["content-md5"],
             },
           });
         }
@@ -10355,8 +10376,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -10444,8 +10465,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -10529,8 +10550,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -10615,8 +10636,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -10685,6 +10706,7 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
+        let ctx : {[key: string ]: string} = { };
         let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "PUT";
@@ -10698,13 +10720,13 @@ export default class Client extends BaseClient {
           request_.headers["x-oss-security-token"] = token;
         }
         request_.query = this._toQuery(request.filter);
-        request_.body = request.body;
+        request_.body = this._inject(request.body, ctx);
         request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -10715,6 +10737,26 @@ export default class Client extends BaseClient {
               httpCode: response_.statusCode,
               requestId: respMap["RequestId"],
               hostId: respMap["HostId"],
+            },
+          });
+        }
+
+        if (!this._equal(ctx["crc"], response_.headers["x-oss-hash-crc64ecma"])) {
+          throw $tea.newError({
+            code: "CrcNotMatched",
+            data: {
+              clientCrc: ctx["crc"],
+              serverCrc: response_.headers["x-oss-hash-crc64ecma"],
+            },
+          });
+        }
+
+        if (!this._equal(ctx["md5"], response_.headers["content-md5"])) {
+          throw $tea.newError({
+            code: "MD5NotMatched",
+            data: {
+              clientMD5: ctx["md5"],
+              serverMD5: response_.headers["content-md5"],
             },
           });
         }
@@ -10788,8 +10830,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -10878,8 +10920,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -10966,8 +11008,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -11054,8 +11096,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -11139,8 +11181,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -11224,8 +11266,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -11309,8 +11351,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -11394,8 +11436,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -11483,8 +11525,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -11568,8 +11610,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -11656,8 +11698,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -11741,8 +11783,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -11830,8 +11872,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -11915,8 +11957,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -12004,8 +12046,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -12096,8 +12138,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -12185,8 +12227,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -12271,8 +12313,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -12356,8 +12398,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -12442,8 +12484,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -12528,8 +12570,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -12613,8 +12655,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -12698,8 +12740,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -12787,8 +12829,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -12872,8 +12914,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -12941,6 +12983,7 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
+        let ctx : {[key: string ]: string} = { };
         let token = await this._getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "PUT";
@@ -12955,7 +12998,7 @@ export default class Client extends BaseClient {
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.body = request.body;
+        request_.body = this._inject(request.body, ctx);
         if (this._notNull(request.header) && !this._empty(request.header.contentType)) {
           request_.headers["content-type"] = request.header.contentType;
         } else {
@@ -12965,8 +13008,8 @@ export default class Client extends BaseClient {
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
-        let respMap = null;
-        let bodyStr = null;
+        let respMap : {[key: string]: any} = null;
+        let bodyStr : string = null;
         if (this._isFail(response_)) {
           bodyStr = await this._readAsString(response_);
           respMap = this._getErrMessage(bodyStr);
@@ -12977,6 +13020,25 @@ export default class Client extends BaseClient {
               httpCode: response_.statusCode,
               requestId: respMap["RequestId"],
               hostId: respMap["HostId"],
+            },
+          });
+        }
+        if (!this._equal(ctx["crc"], response_.headers["x-oss-hash-crc64ecma"])) {
+          throw $tea.newError({
+            code: "CrcNotMatched",
+            data: {
+              clientCrc: ctx["crc"],
+              serverCrc: response_.headers["x-oss-hash-crc64ecma"],
+            },
+          });
+        }
+
+        if (!this._equal(ctx["md5"], response_.headers["content-md5"])) {
+          throw $tea.newError({
+            code: "MD5NotMatched",
+            data: {
+              clientMD5: ctx["md5"],
+              serverMD5: response_.headers["content-md5"],
             },
           });
         }
@@ -12996,6 +13058,10 @@ export default class Client extends BaseClient {
   }
 
   getHost(bucketName: string): string {
+    if (this._empty(this._regionId)) {
+      this._regionId = `cn-hangzhou`;
+    }
+
     if (this._empty(this._endpoint)) {
       this._endpoint = `oss-${this._regionId}.aliyuncs.com`;
     }
@@ -13004,7 +13070,7 @@ export default class Client extends BaseClient {
       return this._endpoint;
     }
 
-    let host = null;
+    let host : string = null;
     if (this._equal(this._hostModel, "ip")) {
       host = `${this._endpoint}/${bucketName}`;
     } else if (this._equal(this._hostModel, "cname")) {
