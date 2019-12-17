@@ -2953,7 +2953,7 @@ module Client {
   }
 
   api appendObject(request: AppendObjectRequest, runtime: RuntimeObject): AppendObjectResponse {
-    var ref : map[string]string = {};
+    var ctx : map[string]string = {};
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'POST';
@@ -2969,7 +2969,7 @@ module Client {
       headers.x-oss-security-token = token;
     }
     query = @toQuery(request.filter);
-    body = @inject(request.body, ref);
+    body = @inject(request.body, ctx);
     if (@notNull(request.header) && !@empty(request.header.contentType)) {
       headers.content-type = request.header.contentType;
     } else {
@@ -2992,21 +2992,21 @@ module Client {
         }
       };
     }
-    if (!@equal(ref.crc, __response.headers.x-oss-hash-crc64ecma)) {
+    if (!@equal(ctx.crc, __response.headers.x-oss-hash-crc64ecma)) {
       throw {
         code = 'CrcNotMatched',
         data = {
-          clientCrc = ref.crc,
+          clientCrc = ctx.crc,
           serverCrc = __response.headers.x-oss-hash-crc64ecma,
         },
       };
     }
 
-    if (!@equal(ref.md5, __response.headers.content-md5)) {
+    if (!@equal(ctx.md5, __response.headers.content-md5)) {
       throw {
         code = 'MD5NotMatched',
         data = {
-          clientMD5 = ref.md5,
+          clientMD5 = ctx.md5,
           serverMD5 = __response.headers.content-md5,
         },
       };
@@ -3359,7 +3359,7 @@ module Client {
   }
 
   api uploadPart(request: UploadPartRequest, runtime: RuntimeObject): UploadPartResponse {
-    var ref : map[string]string = {};
+    var ctx : map[string]string = {};
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'PUT';
@@ -3373,7 +3373,7 @@ module Client {
       headers.x-oss-security-token = token;
     }
     query = @toQuery(request.filter);
-    body = @inject(request.body, ref);
+    body = @inject(request.body, ctx);
     headers.authorization = getSignature(__request, request.bucketName);
   } returns {
     var respMap : object = null;
@@ -3391,21 +3391,21 @@ module Client {
         }
       };
     }
-    if (!@equal(ref.crc, __response.headers.x-oss-hash-crc64ecma)) {
+    if (!@equal(ctx.crc, __response.headers.x-oss-hash-crc64ecma)) {
       throw {
         code = 'CrcNotMatched',
         data = {
-          clientCrc = ref.crc,
+          clientCrc = ctx.crc,
           serverCrc = __response.headers.x-oss-hash-crc64ecma,
         },
       };
     }
 
-    if (!@equal(ref.md5, __response.headers.content-md5)) {
+    if (!@equal(ctx.md5, __response.headers.content-md5)) {
       throw {
         code = 'MD5NotMatched',
         data = {
-          clientMD5 = ref.md5,
+          clientMD5 = ctx.md5,
           serverMD5 = __response.headers.content-md5,
         },
       };
@@ -5300,7 +5300,7 @@ module Client {
   }
 
   api putObject(request: PutObjectRequest, runtime: RuntimeObject): PutObjectResponse {
-    var ref : map[string]string = {};
+    var ctx : map[string]string = {};
     var token = @getSecurityToken();
     protocol = @protocol;
     method = 'PUT';
@@ -5315,7 +5315,7 @@ module Client {
     if (!@empty(token)) {
       headers.x-oss-security-token = token;
     }
-    body = @inject(request.body, ref);
+    body = @inject(request.body, ctx);
     if (@notNull(request.header) && !@empty(request.header.contentType)) {
       headers.content-type = request.header.contentType;
     } else {
@@ -5338,21 +5338,21 @@ module Client {
         }
       };
     }
-    if (!@equal(ref.crc, __response.headers.x-oss-hash-crc64ecma)) {
+    if (!@equal(ctx.crc, __response.headers.x-oss-hash-crc64ecma)) {
       throw {
         code = 'CrcNotMatched',
         data = {
-          clientCrc = ref.crc,
+          clientCrc = ctx.crc,
           serverCrc = __response.headers.x-oss-hash-crc64ecma,
         },
       };
     }
 
-    if (!@equal(ref.md5, __response.headers.content-md5)) {
+    if (!@equal(ctx.md5, __response.headers.content-md5)) {
       throw {
         code = 'MD5NotMatched',
         data = {
-          clientMD5 = ref.md5,
+          clientMD5 = ctx.md5,
           serverMD5 = __response.headers.content-md5,
         },
       };
