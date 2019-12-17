@@ -11629,7 +11629,7 @@ func (client *Client) AppendObject(request *AppendObjectRequest, runtime *Runtim
 
 		_resp, err = func() (*AppendObjectResponse, error) {
 			request_ := tea.NewRequest()
-			ref := make(map[string]string)
+			ctx := make(map[string]string)
 			token, err := client.GetSecurityToken()
 			if err != nil {
 				return nil, err
@@ -11648,7 +11648,7 @@ func (client *Client) AppendObject(request *AppendObjectRequest, runtime *Runtim
 			}
 
 			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
-			request_.Body = client.Inject(request.Body, ref)
+			request_.Body = client.Inject(request.Body, ctx)
 			if client.NotNull(tea.ToMap(request.Header)) && !client.Empty(tea.GetStringValue(request.Header.ContentType)) {
 				request_.Headers["content-type"] = tea.GetStringValue(request.Header.ContentType)
 			} else {
@@ -11686,22 +11686,22 @@ func (client *Client) AppendObject(request *AppendObjectRequest, runtime *Runtim
 				return nil, err
 			}
 
-			if !client.Equal(ref["crc"], response_.Headers["x-oss-hash-crc64ecma"]) {
+			if !client.Equal(ctx["crc"], response_.Headers["x-oss-hash-crc64ecma"]) {
 				err = tea.NewSDKError(map[string]interface{}{
 					"code": "CrcNotMatched",
 					"data": map[string]interface{}{
-						"clientCrc": ref["crc"],
+						"clientCrc": ctx["crc"],
 						"serverCrc": response_.Headers["x-oss-hash-crc64ecma"],
 					},
 				})
 				return nil, err
 			}
 
-			if !client.Equal(ref["md5"], response_.Headers["content-md5"]) {
+			if !client.Equal(ctx["md5"], response_.Headers["content-md5"]) {
 				err = tea.NewSDKError(map[string]interface{}{
 					"code": "MD5NotMatched",
 					"data": map[string]interface{}{
-						"clientMD5": ref["md5"],
+						"clientMD5": ctx["md5"],
 						"serverMD5": response_.Headers["content-md5"],
 					},
 				})
@@ -12188,7 +12188,7 @@ func (client *Client) UploadPart(request *UploadPartRequest, runtime *RuntimeObj
 
 		_resp, err = func() (*UploadPartResponse, error) {
 			request_ := tea.NewRequest()
-			ref := make(map[string]string)
+			ctx := make(map[string]string)
 			token, err := client.GetSecurityToken()
 			if err != nil {
 				return nil, err
@@ -12206,7 +12206,7 @@ func (client *Client) UploadPart(request *UploadPartRequest, runtime *RuntimeObj
 			}
 
 			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
-			request_.Body = client.Inject(request.Body, ref)
+			request_.Body = client.Inject(request.Body, ctx)
 			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
 			if err != nil {
 				return nil, err
@@ -12238,22 +12238,22 @@ func (client *Client) UploadPart(request *UploadPartRequest, runtime *RuntimeObj
 				return nil, err
 			}
 
-			if !client.Equal(ref["crc"], response_.Headers["x-oss-hash-crc64ecma"]) {
+			if !client.Equal(ctx["crc"], response_.Headers["x-oss-hash-crc64ecma"]) {
 				err = tea.NewSDKError(map[string]interface{}{
 					"code": "CrcNotMatched",
 					"data": map[string]interface{}{
-						"clientCrc": ref["crc"],
+						"clientCrc": ctx["crc"],
 						"serverCrc": response_.Headers["x-oss-hash-crc64ecma"],
 					},
 				})
 				return nil, err
 			}
 
-			if !client.Equal(ref["md5"], response_.Headers["content-md5"]) {
+			if !client.Equal(ctx["md5"], response_.Headers["content-md5"]) {
 				err = tea.NewSDKError(map[string]interface{}{
 					"code": "MD5NotMatched",
 					"data": map[string]interface{}{
-						"clientMD5": ref["md5"],
+						"clientMD5": ctx["md5"],
 						"serverMD5": response_.Headers["content-md5"],
 					},
 				})
@@ -14975,7 +14975,7 @@ func (client *Client) PutObject(request *PutObjectRequest, runtime *RuntimeObjec
 
 		_resp, err = func() (*PutObjectResponse, error) {
 			request_ := tea.NewRequest()
-			ref := make(map[string]string)
+			ctx := make(map[string]string)
 			token, err := client.GetSecurityToken()
 			if err != nil {
 				return nil, err
@@ -14993,7 +14993,7 @@ func (client *Client) PutObject(request *PutObjectRequest, runtime *RuntimeObjec
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Body = client.Inject(request.Body, ref)
+			request_.Body = client.Inject(request.Body, ctx)
 			if client.NotNull(tea.ToMap(request.Header)) && !client.Empty(tea.GetStringValue(request.Header.ContentType)) {
 				request_.Headers["content-type"] = tea.GetStringValue(request.Header.ContentType)
 			} else {
@@ -15031,22 +15031,22 @@ func (client *Client) PutObject(request *PutObjectRequest, runtime *RuntimeObjec
 				return nil, err
 			}
 
-			if !client.Equal(ref["crc"], response_.Headers["x-oss-hash-crc64ecma"]) {
+			if !client.Equal(ctx["crc"], response_.Headers["x-oss-hash-crc64ecma"]) {
 				err = tea.NewSDKError(map[string]interface{}{
 					"code": "CrcNotMatched",
 					"data": map[string]interface{}{
-						"clientCrc": ref["crc"],
+						"clientCrc": ctx["crc"],
 						"serverCrc": response_.Headers["x-oss-hash-crc64ecma"],
 					},
 				})
 				return nil, err
 			}
 
-			if !client.Equal(ref["md5"], response_.Headers["content-md5"]) {
+			if !client.Equal(ctx["md5"], response_.Headers["content-md5"]) {
 				err = tea.NewSDKError(map[string]interface{}{
 					"code": "MD5NotMatched",
 					"data": map[string]interface{}{
-						"clientMD5": ref["md5"],
+						"clientMD5": ctx["md5"],
 						"serverMD5": response_.Headers["content-md5"],
 					},
 				})
