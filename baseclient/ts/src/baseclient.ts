@@ -5,6 +5,7 @@ import kitx from 'kitx';
 import { platform, arch } from 'os';
 import { getType } from 'mime';
 import { Readable } from 'stream';
+import { createHash } from 'crypto';
 import { getSignatureV2, getSignatureV1 } from './signature';
 
 function parseXML(body: string): any {
@@ -421,5 +422,17 @@ export default class BaseClient {
 
   _notNull(obj: {[key: string]: any}): boolean {
     return !!obj;
+  }
+
+  _inject(readable: Readable, ref: { [key: string]: string }): Readable {
+    var shasum = createHash('md5');
+    readable.on('data', function (chunk: Buffer) {
+      shasum.update(chunk);
+    });
+    readable.on('end', function () {
+      ref['md5'] = shasum.digest('base64');
+    });
+    readable.pause();
+    return readable;
   }
 }
