@@ -12131,9 +12131,8 @@ func (client *Client) GetObject(request *GetObjectRequest, runtime *RuntimeObjec
 			}
 
 			_result := &GetObjectResponse{}
-			err = tea.Convert(tea.ToMap(map[string]interface{}{
-				"body": client.ReadAsStream(response_),
-			}, response_.Headers), &_result)
+			_result.Body = client.ReadAsStream(response_)
+			err = tea.Convert(response_.Headers, &_result)
 			return _result, err
 		}()
 		if !tea.Retryable(err) {
