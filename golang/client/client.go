@@ -305,7 +305,7 @@ func (s *PutBucketLifecycleRequestBody) SetLifecycleConfiguration(v *PutBucketLi
 }
 
 type PutBucketLifecycleRequestBodyLifecycleConfiguration struct {
-	Rule []*PutBucketLifecycleRequestBodyLifecycleConfigurationRule `json:"Rule" xml:"Rule" require:"true" type:"Repeated"`
+	Rule []*PutBucketLifecycleRequestBodyLifecycleConfigurationRule `json:"Rule" xml:"Rule" type:"Repeated"`
 }
 
 func (s PutBucketLifecycleRequestBodyLifecycleConfiguration) String() string {
@@ -322,13 +322,13 @@ func (s *PutBucketLifecycleRequestBodyLifecycleConfiguration) SetRule(v []*PutBu
 }
 
 type PutBucketLifecycleRequestBodyLifecycleConfigurationRule struct {
-	Expiration           *PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration           `json:"Expiration" xml:"Expiration" require:"true" type:"Struct"`
-	Transition           *PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition           `json:"Transition" xml:"Transition" require:"true" type:"Struct"`
-	AbortMultipartUpload *PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUpload `json:"AbortMultipartUpload" xml:"AbortMultipartUpload" require:"true" type:"Struct"`
-	Tag                  *PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag                  `json:"Tag" xml:"Tag" require:"true" type:"Struct"`
-	ID                   *string                                                                      `json:"ID" xml:"ID" require:"true"`
-	Prefix               *string                                                                      `json:"Prefix" xml:"Prefix" require:"true"`
-	Status               *string                                                                      `json:"Status" xml:"Status" require:"true"`
+	Expiration           *PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration           `json:"Expiration" xml:"Expiration" type:"Struct"`
+	Transition           *PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition           `json:"Transition" xml:"Transition" type:"Struct"`
+	AbortMultipartUpload *PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUpload `json:"AbortMultipartUpload" xml:"AbortMultipartUpload" type:"Struct"`
+	Tag                  *PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag                  `json:"Tag" xml:"Tag" type:"Struct"`
+	ID                   *string                                                                      `json:"ID" xml:"ID"`
+	Prefix               *string                                                                      `json:"Prefix" xml:"Prefix"`
+	Status               *string                                                                      `json:"Status" xml:"Status"`
 }
 
 func (s PutBucketLifecycleRequestBodyLifecycleConfigurationRule) String() string {
@@ -375,8 +375,8 @@ func (s *PutBucketLifecycleRequestBodyLifecycleConfigurationRule) SetStatus(v st
 }
 
 type PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration struct {
-	Days              *int    `json:"Days" xml:"Days" require:"true"`
-	CreatedBeforeDate *string `json:"CreatedBeforeDate" xml:"CreatedBeforeDate" require:"true"`
+	Days              *int    `json:"Days" xml:"Days"`
+	CreatedBeforeDate *string `json:"CreatedBeforeDate" xml:"CreatedBeforeDate"`
 }
 
 func (s PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration) String() string {
@@ -398,8 +398,8 @@ func (s *PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration) SetC
 }
 
 type PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition struct {
-	Days         *int    `json:"Days" xml:"Days" require:"true"`
-	StorageClass *string `json:"StorageClass" xml:"StorageClass" require:"true"`
+	Days         *int    `json:"Days" xml:"Days"`
+	StorageClass *string `json:"StorageClass" xml:"StorageClass"`
 }
 
 func (s PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition) String() string {
@@ -421,8 +421,8 @@ func (s *PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition) SetS
 }
 
 type PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUpload struct {
-	Days              *int    `json:"Days" xml:"Days" require:"true"`
-	CreatedBeforeDate *string `json:"CreatedBeforeDate" xml:"CreatedBeforeDate" require:"true"`
+	Days              *int    `json:"Days" xml:"Days"`
+	CreatedBeforeDate *string `json:"CreatedBeforeDate" xml:"CreatedBeforeDate"`
 }
 
 func (s PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUpload) String() string {
@@ -444,8 +444,8 @@ func (s *PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUp
 }
 
 type PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag struct {
-	Key   *string `json:"Key" xml:"Key" require:"true"`
-	Value *string `json:"Value" xml:"Value" require:"true"`
+	Key   *string `json:"Key" xml:"Key"`
+	Value *string `json:"Value" xml:"Value"`
 }
 
 func (s PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag) String() string {
@@ -530,8 +530,8 @@ func (s *DeleteMultipleObjectsRequestBody) SetDelete(v *DeleteMultipleObjectsReq
 }
 
 type DeleteMultipleObjectsRequestBodyDelete struct {
-	Object []*DeleteMultipleObjectsRequestBodyDeleteObject `json:"Object" xml:"Object" require:"true" type:"Repeated"`
-	Quiet  *string                                         `json:"Quiet" xml:"Quiet" require:"true"`
+	Object []*DeleteMultipleObjectsRequestBodyDeleteObject `json:"Object" xml:"Object" type:"Repeated"`
+	Quiet  *string                                         `json:"Quiet" xml:"Quiet"`
 }
 
 func (s DeleteMultipleObjectsRequestBodyDelete) String() string {
@@ -553,7 +553,7 @@ func (s *DeleteMultipleObjectsRequestBodyDelete) SetQuiet(v string) *DeleteMulti
 }
 
 type DeleteMultipleObjectsRequestBodyDeleteObject struct {
-	Key *string `json:"Key" xml:"Key" require:"true"`
+	Key *string `json:"Key" xml:"Key"`
 }
 
 func (s DeleteMultipleObjectsRequestBodyDeleteObject) String() string {
@@ -622,9 +622,9 @@ func (s *DeleteMultipleObjectsResponse) SetDeleteResult(v *DeleteMultipleObjects
 }
 
 type DeleteMultipleObjectsResponseDeleteResult struct {
-	Quiet        *string                                             `json:"Quiet" xml:"Quiet" require:"true"`
-	EncodingType *string                                             `json:"EncodingType" xml:"EncodingType" require:"true"`
-	Deleted      []*DeleteMultipleObjectsResponseDeleteResultDeleted `json:"Deleted" xml:"Deleted" require:"true" type:"Repeated"`
+	Quiet        *string                                             `json:"Quiet" xml:"Quiet"`
+	EncodingType *string                                             `json:"EncodingType" xml:"EncodingType"`
+	Deleted      []*DeleteMultipleObjectsResponseDeleteResultDeleted `json:"Deleted" xml:"Deleted" type:"Repeated"`
 }
 
 func (s DeleteMultipleObjectsResponseDeleteResult) String() string {
@@ -651,7 +651,7 @@ func (s *DeleteMultipleObjectsResponseDeleteResult) SetDeleted(v []*DeleteMultip
 }
 
 type DeleteMultipleObjectsResponseDeleteResultDeleted struct {
-	Key *string `json:"Key" xml:"Key" require:"true"`
+	Key *string `json:"Key" xml:"Key"`
 }
 
 func (s DeleteMultipleObjectsResponseDeleteResultDeleted) String() string {
@@ -708,8 +708,8 @@ func (s *PutBucketRefererRequestBody) SetRefererConfiguration(v *PutBucketRefere
 }
 
 type PutBucketRefererRequestBodyRefererConfiguration struct {
-	RefererList       *PutBucketRefererRequestBodyRefererConfigurationRefererList `json:"RefererList" xml:"RefererList" require:"true" type:"Struct"`
-	AllowEmptyReferer *bool                                                       `json:"AllowEmptyReferer" xml:"AllowEmptyReferer" require:"true"`
+	RefererList       *PutBucketRefererRequestBodyRefererConfigurationRefererList `json:"RefererList" xml:"RefererList" type:"Struct"`
+	AllowEmptyReferer *bool                                                       `json:"AllowEmptyReferer" xml:"AllowEmptyReferer"`
 }
 
 func (s PutBucketRefererRequestBodyRefererConfiguration) String() string {
@@ -731,7 +731,7 @@ func (s *PutBucketRefererRequestBodyRefererConfiguration) SetAllowEmptyReferer(v
 }
 
 type PutBucketRefererRequestBodyRefererConfigurationRefererList struct {
-	Referer []*string `json:"Referer" xml:"Referer" require:"true" type:"Repeated"`
+	Referer []*string `json:"Referer" xml:"Referer" type:"Repeated"`
 }
 
 func (s PutBucketRefererRequestBodyRefererConfigurationRefererList) String() string {
@@ -805,9 +805,9 @@ func (s *PutBucketWebsiteRequestBody) SetWebsiteConfiguration(v *PutBucketWebsit
 }
 
 type PutBucketWebsiteRequestBodyWebsiteConfiguration struct {
-	IndexDocument *PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument `json:"IndexDocument" xml:"IndexDocument" require:"true" type:"Struct"`
-	ErrorDocument *PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument `json:"ErrorDocument" xml:"ErrorDocument" require:"true" type:"Struct"`
-	RoutingRules  *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules  `json:"RoutingRules" xml:"RoutingRules" require:"true" type:"Struct"`
+	IndexDocument *PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument `json:"IndexDocument" xml:"IndexDocument" type:"Struct"`
+	ErrorDocument *PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument `json:"ErrorDocument" xml:"ErrorDocument" type:"Struct"`
+	RoutingRules  *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules  `json:"RoutingRules" xml:"RoutingRules" type:"Struct"`
 }
 
 func (s PutBucketWebsiteRequestBodyWebsiteConfiguration) String() string {
@@ -834,7 +834,7 @@ func (s *PutBucketWebsiteRequestBodyWebsiteConfiguration) SetRoutingRules(v *Put
 }
 
 type PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument struct {
-	Suffix *string `json:"Suffix" xml:"Suffix" require:"true"`
+	Suffix *string `json:"Suffix" xml:"Suffix"`
 }
 
 func (s PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument) String() string {
@@ -851,7 +851,7 @@ func (s *PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument) SetSuffix
 }
 
 type PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument struct {
-	Key *string `json:"Key" xml:"Key" require:"true"`
+	Key *string `json:"Key" xml:"Key"`
 }
 
 func (s PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument) String() string {
@@ -868,7 +868,7 @@ func (s *PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument) SetKey(v 
 }
 
 type PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules struct {
-	RoutingRule []*PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule `json:"RoutingRule" xml:"RoutingRule" require:"true" type:"Repeated"`
+	RoutingRule []*PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule `json:"RoutingRule" xml:"RoutingRule" type:"Repeated"`
 }
 
 func (s PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules) String() string {
@@ -885,9 +885,9 @@ func (s *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules) SetRouting
 }
 
 type PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule struct {
-	Condition  *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCondition `json:"Condition" xml:"Condition" require:"true" type:"Struct"`
-	Redirect   *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect  `json:"Redirect" xml:"Redirect" require:"true" type:"Struct"`
-	RuleNumber *int                                                                             `json:"RuleNumber" xml:"RuleNumber" require:"true"`
+	Condition  *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCondition `json:"Condition" xml:"Condition" type:"Struct"`
+	Redirect   *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect  `json:"Redirect" xml:"Redirect" type:"Struct"`
+	RuleNumber *int                                                                             `json:"RuleNumber" xml:"RuleNumber"`
 }
 
 func (s PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule) String() string {
@@ -914,9 +914,9 @@ func (s *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule)
 }
 
 type PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCondition struct {
-	IncludeHeader               *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader `json:"IncludeHeader" xml:"IncludeHeader" require:"true" type:"Struct"`
-	KeyPrefixEquals             *string                                                                                       `json:"KeyPrefixEquals" xml:"KeyPrefixEquals" require:"true"`
-	HttpErrorCodeReturnedEquals *string                                                                                       `json:"HttpErrorCodeReturnedEquals" xml:"HttpErrorCodeReturnedEquals" require:"true"`
+	IncludeHeader               *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader `json:"IncludeHeader" xml:"IncludeHeader" type:"Struct"`
+	KeyPrefixEquals             *string                                                                                       `json:"KeyPrefixEquals" xml:"KeyPrefixEquals"`
+	HttpErrorCodeReturnedEquals *string                                                                                       `json:"HttpErrorCodeReturnedEquals" xml:"HttpErrorCodeReturnedEquals"`
 }
 
 func (s PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCondition) String() string {
@@ -943,8 +943,8 @@ func (s *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleC
 }
 
 type PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader struct {
-	Key    *string `json:"Key" xml:"Key" require:"true"`
-	Equals *string `json:"Equals" xml:"Equals" require:"true"`
+	Key    *string `json:"Key" xml:"Key"`
+	Equals *string `json:"Equals" xml:"Equals"`
 }
 
 func (s PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader) String() string {
@@ -966,18 +966,18 @@ func (s *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleC
 }
 
 type PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect struct {
-	MirrorHeaders         *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders `json:"MirrorHeaders" xml:"MirrorHeaders" require:"true" type:"Struct"`
-	RedirectType          *string                                                                                      `json:"RedirectType" xml:"RedirectType" require:"true"`
-	PassQueryString       *bool                                                                                        `json:"PassQueryString" xml:"PassQueryString" require:"true"`
-	MirrorURL             *string                                                                                      `json:"MirrorURL" xml:"MirrorURL" require:"true"`
-	MirrorPassQueryString *bool                                                                                        `json:"MirrorPassQueryString" xml:"MirrorPassQueryString" require:"true"`
-	MirrorFollowRedirect  *bool                                                                                        `json:"MirrorFollowRedirect" xml:"MirrorFollowRedirect" require:"true"`
-	MirrorCheckMd5        *bool                                                                                        `json:"MirrorCheckMd5" xml:"MirrorCheckMd5" require:"true"`
-	Protocol              *string                                                                                      `json:"Protocol" xml:"Protocol" require:"true"`
-	HostName              *string                                                                                      `json:"HostName" xml:"HostName" require:"true"`
-	HttpRedirectCode      *string                                                                                      `json:"HttpRedirectCode" xml:"HttpRedirectCode" require:"true"`
-	ReplaceKeyPrefixWith  *string                                                                                      `json:"ReplaceKeyPrefixWith" xml:"ReplaceKeyPrefixWith" require:"true"`
-	ReplaceKeyWith        *string                                                                                      `json:"ReplaceKeyWith" xml:"ReplaceKeyWith" require:"true"`
+	MirrorHeaders         *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders `json:"MirrorHeaders" xml:"MirrorHeaders" type:"Struct"`
+	RedirectType          *string                                                                                      `json:"RedirectType" xml:"RedirectType"`
+	PassQueryString       *bool                                                                                        `json:"PassQueryString" xml:"PassQueryString"`
+	MirrorURL             *string                                                                                      `json:"MirrorURL" xml:"MirrorURL"`
+	MirrorPassQueryString *bool                                                                                        `json:"MirrorPassQueryString" xml:"MirrorPassQueryString"`
+	MirrorFollowRedirect  *bool                                                                                        `json:"MirrorFollowRedirect" xml:"MirrorFollowRedirect"`
+	MirrorCheckMd5        *bool                                                                                        `json:"MirrorCheckMd5" xml:"MirrorCheckMd5"`
+	Protocol              *string                                                                                      `json:"Protocol" xml:"Protocol"`
+	HostName              *string                                                                                      `json:"HostName" xml:"HostName"`
+	HttpRedirectCode      *string                                                                                      `json:"HttpRedirectCode" xml:"HttpRedirectCode"`
+	ReplaceKeyPrefixWith  *string                                                                                      `json:"ReplaceKeyPrefixWith" xml:"ReplaceKeyPrefixWith"`
+	ReplaceKeyWith        *string                                                                                      `json:"ReplaceKeyWith" xml:"ReplaceKeyWith"`
 }
 
 func (s PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect) String() string {
@@ -1049,10 +1049,10 @@ func (s *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleR
 }
 
 type PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders struct {
-	Set     *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet `json:"Set" xml:"Set" require:"true" type:"Struct"`
-	PassAll *bool                                                                                           `json:"PassAll" xml:"PassAll" require:"true"`
-	Pass    *string                                                                                         `json:"Pass" xml:"Pass" require:"true"`
-	Remove  *string                                                                                         `json:"Remove" xml:"Remove" require:"true"`
+	Set     *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet `json:"Set" xml:"Set" type:"Struct"`
+	PassAll *bool                                                                                           `json:"PassAll" xml:"PassAll"`
+	Pass    *string                                                                                         `json:"Pass" xml:"Pass"`
+	Remove  *string                                                                                         `json:"Remove" xml:"Remove"`
 }
 
 func (s PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders) String() string {
@@ -1084,8 +1084,8 @@ func (s *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleR
 }
 
 type PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet struct {
-	Key   *string `json:"Key" xml:"Key" require:"true"`
-	Value *string `json:"Value" xml:"Value" require:"true"`
+	Key   *string `json:"Key" xml:"Key"`
+	Value *string `json:"Value" xml:"Value"`
 }
 
 func (s PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet) String() string {
@@ -1199,7 +1199,7 @@ func (s *CompleteMultipartUploadRequestBody) SetCompleteMultipartUpload(v *Compl
 }
 
 type CompleteMultipartUploadRequestBodyCompleteMultipartUpload struct {
-	Part []*CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart `json:"Part" xml:"Part" require:"true" type:"Repeated"`
+	Part []*CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart `json:"Part" xml:"Part" type:"Repeated"`
 }
 
 func (s CompleteMultipartUploadRequestBodyCompleteMultipartUpload) String() string {
@@ -1216,8 +1216,8 @@ func (s *CompleteMultipartUploadRequestBodyCompleteMultipartUpload) SetPart(v []
 }
 
 type CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart struct {
-	PartNumber *string `json:"PartNumber" xml:"PartNumber" require:"true"`
-	ETag       *string `json:"ETag" xml:"ETag" require:"true"`
+	PartNumber *string `json:"PartNumber" xml:"PartNumber"`
+	ETag       *string `json:"ETag" xml:"ETag"`
 }
 
 func (s CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart) String() string {
@@ -1262,11 +1262,11 @@ func (s *CompleteMultipartUploadResponse) SetCompleteMultipartUploadResult(v *Co
 }
 
 type CompleteMultipartUploadResponseCompleteMultipartUploadResult struct {
-	Bucket       *string `json:"Bucket" xml:"Bucket" require:"true"`
-	ETag         *string `json:"ETag" xml:"ETag" require:"true"`
-	Location     *string `json:"Location" xml:"Location" require:"true"`
-	Key          *string `json:"Key" xml:"Key" require:"true"`
-	EncodingType *string `json:"EncodingType" xml:"EncodingType" require:"true"`
+	Bucket       *string `json:"Bucket" xml:"Bucket"`
+	ETag         *string `json:"ETag" xml:"ETag"`
+	Location     *string `json:"Location" xml:"Location"`
+	Key          *string `json:"Key" xml:"Key"`
+	EncodingType *string `json:"EncodingType" xml:"EncodingType"`
 }
 
 func (s CompleteMultipartUploadResponseCompleteMultipartUploadResult) String() string {
@@ -1343,7 +1343,7 @@ func (s *PutBucketLoggingRequestBody) SetBucketLoggingStatus(v *PutBucketLogging
 }
 
 type PutBucketLoggingRequestBodyBucketLoggingStatus struct {
-	LoggingEnabled *PutBucketLoggingRequestBodyBucketLoggingStatusLoggingEnabled `json:"LoggingEnabled" xml:"LoggingEnabled" require:"true" type:"Struct"`
+	LoggingEnabled *PutBucketLoggingRequestBodyBucketLoggingStatusLoggingEnabled `json:"LoggingEnabled" xml:"LoggingEnabled" type:"Struct"`
 }
 
 func (s PutBucketLoggingRequestBodyBucketLoggingStatus) String() string {
@@ -1360,8 +1360,8 @@ func (s *PutBucketLoggingRequestBodyBucketLoggingStatus) SetLoggingEnabled(v *Pu
 }
 
 type PutBucketLoggingRequestBodyBucketLoggingStatusLoggingEnabled struct {
-	TargetBucket *string `json:"TargetBucket" xml:"TargetBucket" require:"true"`
-	TargetPrefix *string `json:"TargetPrefix" xml:"TargetPrefix" require:"true"`
+	TargetBucket *string `json:"TargetBucket" xml:"TargetBucket"`
+	TargetPrefix *string `json:"TargetPrefix" xml:"TargetPrefix"`
 }
 
 func (s PutBucketLoggingRequestBodyBucketLoggingStatusLoggingEnabled) String() string {
@@ -1440,7 +1440,7 @@ func (s *PutBucketRequestPaymentRequestBody) SetRequestPaymentConfiguration(v *P
 }
 
 type PutBucketRequestPaymentRequestBodyRequestPaymentConfiguration struct {
-	Payer *string `json:"Payer" xml:"Payer" require:"true"`
+	Payer *string `json:"Payer" xml:"Payer"`
 }
 
 func (s PutBucketRequestPaymentRequestBodyRequestPaymentConfiguration) String() string {
@@ -1514,7 +1514,7 @@ func (s *PutBucketEncryptionRequestBody) SetServerSideEncryptionRule(v *PutBucke
 }
 
 type PutBucketEncryptionRequestBodyServerSideEncryptionRule struct {
-	ApplyServerSideEncryptionByDefault *PutBucketEncryptionRequestBodyServerSideEncryptionRuleApplyServerSideEncryptionByDefault `json:"ApplyServerSideEncryptionByDefault" xml:"ApplyServerSideEncryptionByDefault" require:"true" type:"Struct"`
+	ApplyServerSideEncryptionByDefault *PutBucketEncryptionRequestBodyServerSideEncryptionRuleApplyServerSideEncryptionByDefault `json:"ApplyServerSideEncryptionByDefault" xml:"ApplyServerSideEncryptionByDefault" type:"Struct"`
 }
 
 func (s PutBucketEncryptionRequestBodyServerSideEncryptionRule) String() string {
@@ -1531,8 +1531,8 @@ func (s *PutBucketEncryptionRequestBodyServerSideEncryptionRule) SetApplyServerS
 }
 
 type PutBucketEncryptionRequestBodyServerSideEncryptionRuleApplyServerSideEncryptionByDefault struct {
-	SSEAlgorithm   *string `json:"SSEAlgorithm" xml:"SSEAlgorithm" require:"true"`
-	KMSMasterKeyID *string `json:"KMSMasterKeyID" xml:"KMSMasterKeyID" require:"true"`
+	SSEAlgorithm   *string `json:"SSEAlgorithm" xml:"SSEAlgorithm"`
+	KMSMasterKeyID *string `json:"KMSMasterKeyID" xml:"KMSMasterKeyID"`
 }
 
 func (s PutBucketEncryptionRequestBodyServerSideEncryptionRuleApplyServerSideEncryptionByDefault) String() string {
@@ -1617,10 +1617,10 @@ func (s *PutLiveChannelRequestBody) SetLiveChannelConfiguration(v *PutLiveChanne
 }
 
 type PutLiveChannelRequestBodyLiveChannelConfiguration struct {
-	Target      *PutLiveChannelRequestBodyLiveChannelConfigurationTarget   `json:"Target" xml:"Target" require:"true" type:"Struct"`
-	Snapshot    *PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot `json:"Snapshot" xml:"Snapshot" require:"true" type:"Struct"`
-	Description *string                                                    `json:"Description" xml:"Description" require:"true"`
-	Status      *string                                                    `json:"Status" xml:"Status" require:"true"`
+	Target      *PutLiveChannelRequestBodyLiveChannelConfigurationTarget   `json:"Target" xml:"Target" type:"Struct"`
+	Snapshot    *PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot `json:"Snapshot" xml:"Snapshot" type:"Struct"`
+	Description *string                                                    `json:"Description" xml:"Description"`
+	Status      *string                                                    `json:"Status" xml:"Status"`
 }
 
 func (s PutLiveChannelRequestBodyLiveChannelConfiguration) String() string {
@@ -1652,10 +1652,10 @@ func (s *PutLiveChannelRequestBodyLiveChannelConfiguration) SetStatus(v string) 
 }
 
 type PutLiveChannelRequestBodyLiveChannelConfigurationTarget struct {
-	Type         *string `json:"Type" xml:"Type" require:"true"`
-	FragDuration *string `json:"FragDuration" xml:"FragDuration" require:"true"`
-	FragCount    *string `json:"FragCount" xml:"FragCount" require:"true"`
-	PlaylistName *string `json:"PlaylistName" xml:"PlaylistName" require:"true"`
+	Type         *string `json:"Type" xml:"Type"`
+	FragDuration *string `json:"FragDuration" xml:"FragDuration"`
+	FragCount    *string `json:"FragCount" xml:"FragCount"`
+	PlaylistName *string `json:"PlaylistName" xml:"PlaylistName"`
 }
 
 func (s PutLiveChannelRequestBodyLiveChannelConfigurationTarget) String() string {
@@ -1687,10 +1687,10 @@ func (s *PutLiveChannelRequestBodyLiveChannelConfigurationTarget) SetPlaylistNam
 }
 
 type PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot struct {
-	RoleName    *string `json:"RoleName" xml:"RoleName" require:"true"`
-	DestBucket  *string `json:"DestBucket" xml:"DestBucket" require:"true"`
-	NotifyTopic *string `json:"NotifyTopic" xml:"NotifyTopic" require:"true"`
-	Interval    *string `json:"Interval" xml:"Interval" require:"true"`
+	RoleName    *string `json:"RoleName" xml:"RoleName"`
+	DestBucket  *string `json:"DestBucket" xml:"DestBucket"`
+	NotifyTopic *string `json:"NotifyTopic" xml:"NotifyTopic"`
+	Interval    *string `json:"Interval" xml:"Interval"`
 }
 
 func (s PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot) String() string {
@@ -1768,7 +1768,7 @@ func (s *PutLiveChannelResponseCreateLiveChannelResult) SetPlayUrls(v *PutLiveCh
 }
 
 type PutLiveChannelResponseCreateLiveChannelResultPublishUrls struct {
-	Url *string `json:"Url" xml:"Url" require:"true"`
+	Url *string `json:"Url" xml:"Url"`
 }
 
 func (s PutLiveChannelResponseCreateLiveChannelResultPublishUrls) String() string {
@@ -1785,7 +1785,7 @@ func (s *PutLiveChannelResponseCreateLiveChannelResultPublishUrls) SetUrl(v stri
 }
 
 type PutLiveChannelResponseCreateLiveChannelResultPlayUrls struct {
-	Url *string `json:"Url" xml:"Url" require:"true"`
+	Url *string `json:"Url" xml:"Url"`
 }
 
 func (s PutLiveChannelResponseCreateLiveChannelResultPlayUrls) String() string {
@@ -1842,7 +1842,7 @@ func (s *PutBucketTagsRequestBody) SetTagging(v *PutBucketTagsRequestBodyTagging
 }
 
 type PutBucketTagsRequestBodyTagging struct {
-	TagSet *PutBucketTagsRequestBodyTaggingTagSet `json:"TagSet" xml:"TagSet" require:"true" type:"Struct"`
+	TagSet *PutBucketTagsRequestBodyTaggingTagSet `json:"TagSet" xml:"TagSet" type:"Struct"`
 }
 
 func (s PutBucketTagsRequestBodyTagging) String() string {
@@ -1859,7 +1859,7 @@ func (s *PutBucketTagsRequestBodyTagging) SetTagSet(v *PutBucketTagsRequestBodyT
 }
 
 type PutBucketTagsRequestBodyTaggingTagSet struct {
-	Tag []*PutBucketTagsRequestBodyTaggingTagSetTag `json:"Tag" xml:"Tag" require:"true" type:"Repeated"`
+	Tag []*PutBucketTagsRequestBodyTaggingTagSetTag `json:"Tag" xml:"Tag" type:"Repeated"`
 }
 
 func (s PutBucketTagsRequestBodyTaggingTagSet) String() string {
@@ -1876,8 +1876,8 @@ func (s *PutBucketTagsRequestBodyTaggingTagSet) SetTag(v []*PutBucketTagsRequest
 }
 
 type PutBucketTagsRequestBodyTaggingTagSetTag struct {
-	Key   *string `json:"Key" xml:"Key" require:"true"`
-	Value *string `json:"Value" xml:"Value" require:"true"`
+	Key   *string `json:"Key" xml:"Key"`
+	Value *string `json:"Value" xml:"Value"`
 }
 
 func (s PutBucketTagsRequestBodyTaggingTagSetTag) String() string {
@@ -1962,7 +1962,7 @@ func (s *PutObjectTaggingRequestBody) SetTagging(v *PutObjectTaggingRequestBodyT
 }
 
 type PutObjectTaggingRequestBodyTagging struct {
-	TagSet *PutObjectTaggingRequestBodyTaggingTagSet `json:"TagSet" xml:"TagSet" require:"true" type:"Struct"`
+	TagSet *PutObjectTaggingRequestBodyTaggingTagSet `json:"TagSet" xml:"TagSet" type:"Struct"`
 }
 
 func (s PutObjectTaggingRequestBodyTagging) String() string {
@@ -1979,7 +1979,7 @@ func (s *PutObjectTaggingRequestBodyTagging) SetTagSet(v *PutObjectTaggingReques
 }
 
 type PutObjectTaggingRequestBodyTaggingTagSet struct {
-	Tag []*PutObjectTaggingRequestBodyTaggingTagSetTag `json:"Tag" xml:"Tag" require:"true" type:"Repeated"`
+	Tag []*PutObjectTaggingRequestBodyTaggingTagSetTag `json:"Tag" xml:"Tag" type:"Repeated"`
 }
 
 func (s PutObjectTaggingRequestBodyTaggingTagSet) String() string {
@@ -1996,8 +1996,8 @@ func (s *PutObjectTaggingRequestBodyTaggingTagSet) SetTag(v []*PutObjectTaggingR
 }
 
 type PutObjectTaggingRequestBodyTaggingTagSetTag struct {
-	Key   *string `json:"Key" xml:"Key" require:"true"`
-	Value *string `json:"Value" xml:"Value" require:"true"`
+	Key   *string `json:"Key" xml:"Key"`
+	Value *string `json:"Value" xml:"Value"`
 }
 
 func (s PutObjectTaggingRequestBodyTaggingTagSetTag) String() string {
@@ -2105,10 +2105,10 @@ func (s *SelectObjectRequestBody) SetSelectRequest(v *SelectObjectRequestBodySel
 }
 
 type SelectObjectRequestBodySelectRequest struct {
-	InputSerialization  *SelectObjectRequestBodySelectRequestInputSerialization  `json:"InputSerialization" xml:"InputSerialization" require:"true" type:"Struct"`
-	OutputSerialization *SelectObjectRequestBodySelectRequestOutputSerialization `json:"OutputSerialization" xml:"OutputSerialization" require:"true" type:"Struct"`
-	Options             *SelectObjectRequestBodySelectRequestOptions             `json:"Options" xml:"Options" require:"true" type:"Struct"`
-	Expression          *string                                                  `json:"Expression" xml:"Expression" require:"true"`
+	InputSerialization  *SelectObjectRequestBodySelectRequestInputSerialization  `json:"InputSerialization" xml:"InputSerialization" type:"Struct"`
+	OutputSerialization *SelectObjectRequestBodySelectRequestOutputSerialization `json:"OutputSerialization" xml:"OutputSerialization" type:"Struct"`
+	Options             *SelectObjectRequestBodySelectRequestOptions             `json:"Options" xml:"Options" type:"Struct"`
+	Expression          *string                                                  `json:"Expression" xml:"Expression"`
 }
 
 func (s SelectObjectRequestBodySelectRequest) String() string {
@@ -2140,8 +2140,8 @@ func (s *SelectObjectRequestBodySelectRequest) SetExpression(v string) *SelectOb
 }
 
 type SelectObjectRequestBodySelectRequestInputSerialization struct {
-	CSV             *SelectObjectRequestBodySelectRequestInputSerializationCSV `json:"CSV" xml:"CSV" require:"true" type:"Struct"`
-	CompressionType *string                                                    `json:"CompressionType" xml:"CompressionType" require:"true"`
+	CSV             *SelectObjectRequestBodySelectRequestInputSerializationCSV `json:"CSV" xml:"CSV" type:"Struct"`
+	CompressionType *string                                                    `json:"CompressionType" xml:"CompressionType"`
 }
 
 func (s SelectObjectRequestBodySelectRequestInputSerialization) String() string {
@@ -2163,12 +2163,12 @@ func (s *SelectObjectRequestBodySelectRequestInputSerialization) SetCompressionT
 }
 
 type SelectObjectRequestBodySelectRequestInputSerializationCSV struct {
-	FileHeaderInfo   *string `json:"FileHeaderInfo" xml:"FileHeaderInfo" require:"true"`
-	RecordDelimiter  *string `json:"RecordDelimiter" xml:"RecordDelimiter" require:"true"`
-	FieldDelimiter   *string `json:"FieldDelimiter" xml:"FieldDelimiter" require:"true"`
-	QuoteCharacter   *string `json:"QuoteCharacter" xml:"QuoteCharacter" require:"true"`
-	CommentCharacter *string `json:"CommentCharacter" xml:"CommentCharacter" require:"true"`
-	Range            *string `json:"Range" xml:"Range" require:"true"`
+	FileHeaderInfo   *string `json:"FileHeaderInfo" xml:"FileHeaderInfo"`
+	RecordDelimiter  *string `json:"RecordDelimiter" xml:"RecordDelimiter"`
+	FieldDelimiter   *string `json:"FieldDelimiter" xml:"FieldDelimiter"`
+	QuoteCharacter   *string `json:"QuoteCharacter" xml:"QuoteCharacter"`
+	CommentCharacter *string `json:"CommentCharacter" xml:"CommentCharacter"`
+	Range            *string `json:"Range" xml:"Range"`
 }
 
 func (s SelectObjectRequestBodySelectRequestInputSerializationCSV) String() string {
@@ -2210,11 +2210,11 @@ func (s *SelectObjectRequestBodySelectRequestInputSerializationCSV) SetRange(v s
 }
 
 type SelectObjectRequestBodySelectRequestOutputSerialization struct {
-	CSV              *SelectObjectRequestBodySelectRequestOutputSerializationCSV `json:"CSV" xml:"CSV" require:"true" type:"Struct"`
-	KeepAllColumns   *string                                                     `json:"KeepAllColumns" xml:"KeepAllColumns" require:"true"`
-	OutputRawData    *string                                                     `json:"OutputRawData" xml:"OutputRawData" require:"true"`
-	EnablePayloadCrc *string                                                     `json:"EnablePayloadCrc" xml:"EnablePayloadCrc" require:"true"`
-	OutputHeader     *string                                                     `json:"OutputHeader" xml:"OutputHeader" require:"true"`
+	CSV              *SelectObjectRequestBodySelectRequestOutputSerializationCSV `json:"CSV" xml:"CSV" type:"Struct"`
+	KeepAllColumns   *string                                                     `json:"KeepAllColumns" xml:"KeepAllColumns"`
+	OutputRawData    *string                                                     `json:"OutputRawData" xml:"OutputRawData"`
+	EnablePayloadCrc *string                                                     `json:"EnablePayloadCrc" xml:"EnablePayloadCrc"`
+	OutputHeader     *string                                                     `json:"OutputHeader" xml:"OutputHeader"`
 }
 
 func (s SelectObjectRequestBodySelectRequestOutputSerialization) String() string {
@@ -2251,8 +2251,8 @@ func (s *SelectObjectRequestBodySelectRequestOutputSerialization) SetOutputHeade
 }
 
 type SelectObjectRequestBodySelectRequestOutputSerializationCSV struct {
-	RecordDelimiter *string `json:"RecordDelimiter" xml:"RecordDelimiter" require:"true"`
-	FieldDelimiter  *string `json:"FieldDelimiter" xml:"FieldDelimiter" require:"true"`
+	RecordDelimiter *string `json:"RecordDelimiter" xml:"RecordDelimiter"`
+	FieldDelimiter  *string `json:"FieldDelimiter" xml:"FieldDelimiter"`
 }
 
 func (s SelectObjectRequestBodySelectRequestOutputSerializationCSV) String() string {
@@ -2274,8 +2274,8 @@ func (s *SelectObjectRequestBodySelectRequestOutputSerializationCSV) SetFieldDel
 }
 
 type SelectObjectRequestBodySelectRequestOptions struct {
-	SkipPartialDataRecord    *string `json:"SkipPartialDataRecord" xml:"SkipPartialDataRecord" require:"true"`
-	MaxSkippedRecordsAllowed *string `json:"MaxSkippedRecordsAllowed" xml:"MaxSkippedRecordsAllowed" require:"true"`
+	SkipPartialDataRecord    *string `json:"SkipPartialDataRecord" xml:"SkipPartialDataRecord"`
+	MaxSkippedRecordsAllowed *string `json:"MaxSkippedRecordsAllowed" xml:"MaxSkippedRecordsAllowed"`
 }
 
 func (s SelectObjectRequestBodySelectRequestOptions) String() string {
@@ -2354,7 +2354,7 @@ func (s *PutBucketCORSRequestBody) SetCORSConfiguration(v *PutBucketCORSRequestB
 }
 
 type PutBucketCORSRequestBodyCORSConfiguration struct {
-	CORSRule []*PutBucketCORSRequestBodyCORSConfigurationCORSRule `json:"CORSRule" xml:"CORSRule" require:"true" type:"Repeated"`
+	CORSRule []*PutBucketCORSRequestBodyCORSConfigurationCORSRule `json:"CORSRule" xml:"CORSRule" type:"Repeated"`
 }
 
 func (s PutBucketCORSRequestBodyCORSConfiguration) String() string {
@@ -2371,11 +2371,11 @@ func (s *PutBucketCORSRequestBodyCORSConfiguration) SetCORSRule(v []*PutBucketCO
 }
 
 type PutBucketCORSRequestBodyCORSConfigurationCORSRule struct {
-	AllowedOrigin []*string `json:"AllowedOrigin" xml:"AllowedOrigin" require:"true" type:"Repeated"`
-	AllowedMethod []*string `json:"AllowedMethod" xml:"AllowedMethod" require:"true" type:"Repeated"`
-	AllowedHeader []*string `json:"AllowedHeader" xml:"AllowedHeader" require:"true" type:"Repeated"`
-	ExposeHeader  []*string `json:"ExposeHeader" xml:"ExposeHeader" require:"true" type:"Repeated"`
-	MaxAgeSeconds *string   `json:"MaxAgeSeconds" xml:"MaxAgeSeconds" require:"true"`
+	AllowedOrigin []*string `json:"AllowedOrigin" xml:"AllowedOrigin" type:"Repeated"`
+	AllowedMethod []*string `json:"AllowedMethod" xml:"AllowedMethod" type:"Repeated"`
+	AllowedHeader []*string `json:"AllowedHeader" xml:"AllowedHeader" type:"Repeated"`
+	ExposeHeader  []*string `json:"ExposeHeader" xml:"ExposeHeader" type:"Repeated"`
+	MaxAgeSeconds *string   `json:"MaxAgeSeconds" xml:"MaxAgeSeconds"`
 }
 
 func (s PutBucketCORSRequestBodyCORSConfigurationCORSRule) String() string {
@@ -2475,8 +2475,8 @@ func (s *PutBucketRequestBody) SetCreateBucketConfiguration(v *PutBucketRequestB
 }
 
 type PutBucketRequestBodyCreateBucketConfiguration struct {
-	StorageClass       *string `json:"StorageClass" xml:"StorageClass" require:"true"`
-	DataRedundancyType *string `json:"DataRedundancyType" xml:"DataRedundancyType" require:"true"`
+	StorageClass       *string `json:"StorageClass" xml:"StorageClass"`
+	DataRedundancyType *string `json:"DataRedundancyType" xml:"DataRedundancyType"`
 }
 
 func (s PutBucketRequestBodyCreateBucketConfiguration) String() string {
@@ -2625,16 +2625,16 @@ func (s *ListMultipartUploadsResponse) SetListMultipartUploadsResult(v *ListMult
 }
 
 type ListMultipartUploadsResponseListMultipartUploadsResult struct {
-	Bucket             *string                                                         `json:"Bucket" xml:"Bucket" require:"true"`
-	EncodingType       *string                                                         `json:"EncodingType" xml:"EncodingType" require:"true"`
-	KeyMarker          *string                                                         `json:"KeyMarker" xml:"KeyMarker" require:"true"`
-	UploadIdMarker     *string                                                         `json:"UploadIdMarker" xml:"UploadIdMarker" require:"true"`
-	NextKeyMarker      *string                                                         `json:"NextKeyMarker" xml:"NextKeyMarker" require:"true"`
-	NextUploadIdMarker *string                                                         `json:"NextUploadIdMarker" xml:"NextUploadIdMarker" require:"true"`
-	Delimiter          *string                                                         `json:"Delimiter" xml:"Delimiter" require:"true"`
-	MaxUploads         *string                                                         `json:"MaxUploads" xml:"MaxUploads" require:"true"`
-	IsTruncated        *string                                                         `json:"IsTruncated" xml:"IsTruncated" require:"true"`
-	Upload             []*ListMultipartUploadsResponseListMultipartUploadsResultUpload `json:"Upload" xml:"Upload" require:"true" type:"Repeated"`
+	Bucket             *string                                                         `json:"Bucket" xml:"Bucket"`
+	EncodingType       *string                                                         `json:"EncodingType" xml:"EncodingType"`
+	KeyMarker          *string                                                         `json:"KeyMarker" xml:"KeyMarker"`
+	UploadIdMarker     *string                                                         `json:"UploadIdMarker" xml:"UploadIdMarker"`
+	NextKeyMarker      *string                                                         `json:"NextKeyMarker" xml:"NextKeyMarker"`
+	NextUploadIdMarker *string                                                         `json:"NextUploadIdMarker" xml:"NextUploadIdMarker"`
+	Delimiter          *string                                                         `json:"Delimiter" xml:"Delimiter"`
+	MaxUploads         *string                                                         `json:"MaxUploads" xml:"MaxUploads"`
+	IsTruncated        *string                                                         `json:"IsTruncated" xml:"IsTruncated"`
+	Upload             []*ListMultipartUploadsResponseListMultipartUploadsResultUpload `json:"Upload" xml:"Upload" type:"Repeated"`
 }
 
 func (s ListMultipartUploadsResponseListMultipartUploadsResult) String() string {
@@ -2696,9 +2696,9 @@ func (s *ListMultipartUploadsResponseListMultipartUploadsResult) SetUpload(v []*
 }
 
 type ListMultipartUploadsResponseListMultipartUploadsResultUpload struct {
-	Key       *string `json:"Key" xml:"Key" require:"true"`
-	UploadId  *string `json:"UploadId" xml:"UploadId" require:"true"`
-	Initiated *string `json:"Initiated" xml:"Initiated" require:"true"`
+	Key       *string `json:"Key" xml:"Key"`
+	UploadId  *string `json:"UploadId" xml:"UploadId"`
+	Initiated *string `json:"Initiated" xml:"Initiated"`
 }
 
 func (s ListMultipartUploadsResponseListMultipartUploadsResultUpload) String() string {
@@ -2765,7 +2765,7 @@ func (s *GetBucketRequestPaymentResponse) SetRequestPaymentConfiguration(v *GetB
 }
 
 type GetBucketRequestPaymentResponseRequestPaymentConfiguration struct {
-	Payer *string `json:"Payer" xml:"Payer" require:"true"`
+	Payer *string `json:"Payer" xml:"Payer"`
 }
 
 func (s GetBucketRequestPaymentResponseRequestPaymentConfiguration) String() string {
@@ -2839,8 +2839,8 @@ func (s *GetBucketEncryptionResponseServerSideEncryptionRule) SetApplyServerSide
 }
 
 type GetBucketEncryptionResponseServerSideEncryptionRuleApplyServerSideEncryptionByDefault struct {
-	SSEAlgorithm   *string `json:"SSEAlgorithm" xml:"SSEAlgorithm" require:"true"`
-	KMSMasterKeyID *string `json:"KMSMasterKeyID" xml:"KMSMasterKeyID" require:"true"`
+	SSEAlgorithm   *string `json:"SSEAlgorithm" xml:"SSEAlgorithm"`
+	KMSMasterKeyID *string `json:"KMSMasterKeyID" xml:"KMSMasterKeyID"`
 }
 
 func (s GetBucketEncryptionResponseServerSideEncryptionRuleApplyServerSideEncryptionByDefault) String() string {
@@ -2919,7 +2919,7 @@ func (s *GetBucketTagsResponseTagging) SetTagSet(v *GetBucketTagsResponseTagging
 }
 
 type GetBucketTagsResponseTaggingTagSet struct {
-	Tag []*GetBucketTagsResponseTaggingTagSetTag `json:"Tag" xml:"Tag" require:"true" type:"Repeated"`
+	Tag []*GetBucketTagsResponseTaggingTagSetTag `json:"Tag" xml:"Tag" type:"Repeated"`
 }
 
 func (s GetBucketTagsResponseTaggingTagSet) String() string {
@@ -2936,8 +2936,8 @@ func (s *GetBucketTagsResponseTaggingTagSet) SetTag(v []*GetBucketTagsResponseTa
 }
 
 type GetBucketTagsResponseTaggingTagSetTag struct {
-	Key   *string `json:"Key" xml:"Key" require:"true"`
-	Value *string `json:"Value" xml:"Value" require:"true"`
+	Key   *string `json:"Key" xml:"Key"`
+	Value *string `json:"Value" xml:"Value"`
 }
 
 func (s GetBucketTagsResponseTaggingTagSetTag) String() string {
@@ -3028,11 +3028,11 @@ func (s *GetServiceResponse) SetListAllMyBucketsResult(v *GetServiceResponseList
 }
 
 type GetServiceResponseListAllMyBucketsResult struct {
-	Prefix      *string                                          `json:"Prefix" xml:"Prefix" require:"true"`
-	Marker      *string                                          `json:"Marker" xml:"Marker" require:"true"`
-	MaxKeys     *string                                          `json:"MaxKeys" xml:"MaxKeys" require:"true"`
-	IsTruncated *string                                          `json:"IsTruncated" xml:"IsTruncated" require:"true"`
-	NextMarker  *string                                          `json:"NextMarker" xml:"NextMarker" require:"true"`
+	Prefix      *string                                          `json:"Prefix" xml:"Prefix"`
+	Marker      *string                                          `json:"Marker" xml:"Marker"`
+	MaxKeys     *string                                          `json:"MaxKeys" xml:"MaxKeys"`
+	IsTruncated *string                                          `json:"IsTruncated" xml:"IsTruncated"`
+	NextMarker  *string                                          `json:"NextMarker" xml:"NextMarker"`
 	Owner       *GetServiceResponseListAllMyBucketsResultOwner   `json:"Owner" xml:"Owner" require:"true" type:"Struct"`
 	Buckets     *GetServiceResponseListAllMyBucketsResultBuckets `json:"Buckets" xml:"Buckets" require:"true" type:"Struct"`
 }
@@ -3081,8 +3081,8 @@ func (s *GetServiceResponseListAllMyBucketsResult) SetBuckets(v *GetServiceRespo
 }
 
 type GetServiceResponseListAllMyBucketsResultOwner struct {
-	ID          *string `json:"ID" xml:"ID" require:"true"`
-	DisplayName *string `json:"DisplayName" xml:"DisplayName" require:"true"`
+	ID          *string `json:"ID" xml:"ID"`
+	DisplayName *string `json:"DisplayName" xml:"DisplayName"`
 }
 
 func (s GetServiceResponseListAllMyBucketsResultOwner) String() string {
@@ -3104,7 +3104,7 @@ func (s *GetServiceResponseListAllMyBucketsResultOwner) SetDisplayName(v string)
 }
 
 type GetServiceResponseListAllMyBucketsResultBuckets struct {
-	Bucket []*GetServiceResponseListAllMyBucketsResultBucketsBucket `json:"Bucket" xml:"Bucket" require:"true" type:"Repeated"`
+	Bucket []*GetServiceResponseListAllMyBucketsResultBucketsBucket `json:"Bucket" xml:"Bucket" type:"Repeated"`
 }
 
 func (s GetServiceResponseListAllMyBucketsResultBuckets) String() string {
@@ -3121,12 +3121,12 @@ func (s *GetServiceResponseListAllMyBucketsResultBuckets) SetBucket(v []*GetServ
 }
 
 type GetServiceResponseListAllMyBucketsResultBucketsBucket struct {
-	Name             *string `json:"Name" xml:"Name" require:"true"`
-	CreateDate       *string `json:"CreateDate" xml:"CreateDate" require:"true"`
-	Location         *string `json:"Location" xml:"Location" require:"true"`
-	ExtranetEndpoint *string `json:"ExtranetEndpoint" xml:"ExtranetEndpoint" require:"true"`
-	IntranetEndpoint *string `json:"IntranetEndpoint" xml:"IntranetEndpoint" require:"true"`
-	StorageClass     *string `json:"StorageClass" xml:"StorageClass" require:"true"`
+	Name             *string `json:"Name" xml:"Name"`
+	CreateDate       *string `json:"CreateDate" xml:"CreateDate"`
+	Location         *string `json:"Location" xml:"Location"`
+	ExtranetEndpoint *string `json:"ExtranetEndpoint" xml:"ExtranetEndpoint"`
+	IntranetEndpoint *string `json:"IntranetEndpoint" xml:"IntranetEndpoint"`
+	StorageClass     *string `json:"StorageClass" xml:"StorageClass"`
 }
 
 func (s GetServiceResponseListAllMyBucketsResultBucketsBucket) String() string {
@@ -3328,7 +3328,7 @@ func (s *GetBucketWebsiteResponseWebsiteConfiguration) SetRoutingRules(v *GetBuc
 }
 
 type GetBucketWebsiteResponseWebsiteConfigurationIndexDocument struct {
-	Suffix *string `json:"Suffix" xml:"Suffix" require:"true"`
+	Suffix *string `json:"Suffix" xml:"Suffix"`
 }
 
 func (s GetBucketWebsiteResponseWebsiteConfigurationIndexDocument) String() string {
@@ -3345,7 +3345,7 @@ func (s *GetBucketWebsiteResponseWebsiteConfigurationIndexDocument) SetSuffix(v 
 }
 
 type GetBucketWebsiteResponseWebsiteConfigurationErrorDocument struct {
-	Key *string `json:"Key" xml:"Key" require:"true"`
+	Key *string `json:"Key" xml:"Key"`
 }
 
 func (s GetBucketWebsiteResponseWebsiteConfigurationErrorDocument) String() string {
@@ -3362,7 +3362,7 @@ func (s *GetBucketWebsiteResponseWebsiteConfigurationErrorDocument) SetKey(v str
 }
 
 type GetBucketWebsiteResponseWebsiteConfigurationRoutingRules struct {
-	RoutingRule []*GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule `json:"RoutingRule" xml:"RoutingRule" require:"true" type:"Repeated"`
+	RoutingRule []*GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule `json:"RoutingRule" xml:"RoutingRule" type:"Repeated"`
 }
 
 func (s GetBucketWebsiteResponseWebsiteConfigurationRoutingRules) String() string {
@@ -3379,7 +3379,7 @@ func (s *GetBucketWebsiteResponseWebsiteConfigurationRoutingRules) SetRoutingRul
 }
 
 type GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule struct {
-	RuleNumber *int                                                                          `json:"RuleNumber" xml:"RuleNumber" require:"true"`
+	RuleNumber *int                                                                          `json:"RuleNumber" xml:"RuleNumber"`
 	Condition  *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleCondition `json:"Condition" xml:"Condition" require:"true" type:"Struct"`
 	Redirect   *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect  `json:"Redirect" xml:"Redirect" require:"true" type:"Struct"`
 }
@@ -3408,8 +3408,8 @@ func (s *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule) Se
 }
 
 type GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleCondition struct {
-	KeyPrefixEquals             *string                                                                                    `json:"KeyPrefixEquals" xml:"KeyPrefixEquals" require:"true"`
-	HttpErrorCodeReturnedEquals *string                                                                                    `json:"HttpErrorCodeReturnedEquals" xml:"HttpErrorCodeReturnedEquals" require:"true"`
+	KeyPrefixEquals             *string                                                                                    `json:"KeyPrefixEquals" xml:"KeyPrefixEquals"`
+	HttpErrorCodeReturnedEquals *string                                                                                    `json:"HttpErrorCodeReturnedEquals" xml:"HttpErrorCodeReturnedEquals"`
 	IncludeHeader               *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader `json:"IncludeHeader" xml:"IncludeHeader" require:"true" type:"Struct"`
 }
 
@@ -3437,8 +3437,8 @@ func (s *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleCond
 }
 
 type GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader struct {
-	Key    *string `json:"Key" xml:"Key" require:"true"`
-	Equals *string `json:"Equals" xml:"Equals" require:"true"`
+	Key    *string `json:"Key" xml:"Key"`
+	Equals *string `json:"Equals" xml:"Equals"`
 }
 
 func (s GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader) String() string {
@@ -3460,17 +3460,17 @@ func (s *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleCond
 }
 
 type GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect struct {
-	RedirectType          *string                                                                                   `json:"RedirectType" xml:"RedirectType" require:"true"`
-	PassQueryString       *bool                                                                                     `json:"PassQueryString" xml:"PassQueryString" require:"true"`
-	MirrorURL             *string                                                                                   `json:"MirrorURL" xml:"MirrorURL" require:"true"`
-	MirrorPassQueryString *bool                                                                                     `json:"MirrorPassQueryString" xml:"MirrorPassQueryString" require:"true"`
-	MirrorFollowRedirect  *bool                                                                                     `json:"MirrorFollowRedirect" xml:"MirrorFollowRedirect" require:"true"`
-	MirrorCheckMd5        *bool                                                                                     `json:"MirrorCheckMd5" xml:"MirrorCheckMd5" require:"true"`
-	Protocol              *string                                                                                   `json:"Protocol" xml:"Protocol" require:"true"`
-	HostName              *string                                                                                   `json:"HostName" xml:"HostName" require:"true"`
-	HttpRedirectCode      *string                                                                                   `json:"HttpRedirectCode" xml:"HttpRedirectCode" require:"true"`
-	ReplaceKeyPrefixWith  *string                                                                                   `json:"ReplaceKeyPrefixWith" xml:"ReplaceKeyPrefixWith" require:"true"`
-	ReplaceKeyWith        *string                                                                                   `json:"ReplaceKeyWith" xml:"ReplaceKeyWith" require:"true"`
+	RedirectType          *string                                                                                   `json:"RedirectType" xml:"RedirectType"`
+	PassQueryString       *bool                                                                                     `json:"PassQueryString" xml:"PassQueryString"`
+	MirrorURL             *string                                                                                   `json:"MirrorURL" xml:"MirrorURL"`
+	MirrorPassQueryString *bool                                                                                     `json:"MirrorPassQueryString" xml:"MirrorPassQueryString"`
+	MirrorFollowRedirect  *bool                                                                                     `json:"MirrorFollowRedirect" xml:"MirrorFollowRedirect"`
+	MirrorCheckMd5        *bool                                                                                     `json:"MirrorCheckMd5" xml:"MirrorCheckMd5"`
+	Protocol              *string                                                                                   `json:"Protocol" xml:"Protocol"`
+	HostName              *string                                                                                   `json:"HostName" xml:"HostName"`
+	HttpRedirectCode      *string                                                                                   `json:"HttpRedirectCode" xml:"HttpRedirectCode"`
+	ReplaceKeyPrefixWith  *string                                                                                   `json:"ReplaceKeyPrefixWith" xml:"ReplaceKeyPrefixWith"`
+	ReplaceKeyWith        *string                                                                                   `json:"ReplaceKeyWith" xml:"ReplaceKeyWith"`
 	MirrorHeaders         *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders `json:"MirrorHeaders" xml:"MirrorHeaders" require:"true" type:"Struct"`
 }
 
@@ -3543,9 +3543,9 @@ func (s *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedi
 }
 
 type GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders struct {
-	PassAll *bool                                                                                        `json:"PassAll" xml:"PassAll" require:"true"`
-	Pass    *string                                                                                      `json:"Pass" xml:"Pass" require:"true"`
-	Remove  *string                                                                                      `json:"Remove" xml:"Remove" require:"true"`
+	PassAll *bool                                                                                        `json:"PassAll" xml:"PassAll"`
+	Pass    *string                                                                                      `json:"Pass" xml:"Pass"`
+	Remove  *string                                                                                      `json:"Remove" xml:"Remove"`
 	Set     *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet `json:"Set" xml:"Set" require:"true" type:"Struct"`
 }
 
@@ -3578,8 +3578,8 @@ func (s *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedi
 }
 
 type GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet struct {
-	Key   *string `json:"Key" xml:"Key" require:"true"`
-	Value *string `json:"Value" xml:"Value" require:"true"`
+	Key   *string `json:"Key" xml:"Key"`
+	Value *string `json:"Value" xml:"Value"`
 }
 
 func (s GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet) String() string {
@@ -3756,11 +3756,11 @@ func (s *ListLiveChannelResponse) SetListLiveChannelResult(v *ListLiveChannelRes
 }
 
 type ListLiveChannelResponseListLiveChannelResult struct {
-	Prefix      *string                                                  `json:"Prefix" xml:"Prefix" require:"true"`
-	Marker      *string                                                  `json:"Marker" xml:"Marker" require:"true"`
-	MaxKeys     *string                                                  `json:"MaxKeys" xml:"MaxKeys" require:"true"`
-	IsTruncated *string                                                  `json:"IsTruncated" xml:"IsTruncated" require:"true"`
-	NextMarker  *string                                                  `json:"NextMarker" xml:"NextMarker" require:"true"`
+	Prefix      *string                                                  `json:"Prefix" xml:"Prefix"`
+	Marker      *string                                                  `json:"Marker" xml:"Marker"`
+	MaxKeys     *string                                                  `json:"MaxKeys" xml:"MaxKeys"`
+	IsTruncated *string                                                  `json:"IsTruncated" xml:"IsTruncated"`
+	NextMarker  *string                                                  `json:"NextMarker" xml:"NextMarker"`
 	LiveChannel *ListLiveChannelResponseListLiveChannelResultLiveChannel `json:"LiveChannel" xml:"LiveChannel" require:"true" type:"Struct"`
 }
 
@@ -3803,10 +3803,10 @@ func (s *ListLiveChannelResponseListLiveChannelResult) SetLiveChannel(v *ListLiv
 }
 
 type ListLiveChannelResponseListLiveChannelResultLiveChannel struct {
-	Name         *string                                                             `json:"Name" xml:"Name" require:"true"`
-	Description  *string                                                             `json:"Description" xml:"Description" require:"true"`
-	Status       *string                                                             `json:"Status" xml:"Status" require:"true"`
-	LastModified *string                                                             `json:"LastModified" xml:"LastModified" require:"true"`
+	Name         *string                                                             `json:"Name" xml:"Name"`
+	Description  *string                                                             `json:"Description" xml:"Description"`
+	Status       *string                                                             `json:"Status" xml:"Status"`
+	LastModified *string                                                             `json:"LastModified" xml:"LastModified"`
 	PublishUrls  *ListLiveChannelResponseListLiveChannelResultLiveChannelPublishUrls `json:"PublishUrls" xml:"PublishUrls" require:"true" type:"Struct"`
 	PlayUrls     *ListLiveChannelResponseListLiveChannelResultLiveChannelPlayUrls    `json:"PlayUrls" xml:"PlayUrls" require:"true" type:"Struct"`
 }
@@ -3850,7 +3850,7 @@ func (s *ListLiveChannelResponseListLiveChannelResultLiveChannel) SetPlayUrls(v 
 }
 
 type ListLiveChannelResponseListLiveChannelResultLiveChannelPublishUrls struct {
-	Url *string `json:"Url" xml:"Url" require:"true"`
+	Url *string `json:"Url" xml:"Url"`
 }
 
 func (s ListLiveChannelResponseListLiveChannelResultLiveChannelPublishUrls) String() string {
@@ -3867,7 +3867,7 @@ func (s *ListLiveChannelResponseListLiveChannelResultLiveChannelPublishUrls) Set
 }
 
 type ListLiveChannelResponseListLiveChannelResultLiveChannelPlayUrls struct {
-	Url *string `json:"Url" xml:"Url" require:"true"`
+	Url *string `json:"Url" xml:"Url"`
 }
 
 func (s ListLiveChannelResponseListLiveChannelResultLiveChannelPlayUrls) String() string {
@@ -4005,8 +4005,8 @@ func (s *GetBucketAclResponseAccessControlPolicy) SetAccessControlList(v *GetBuc
 }
 
 type GetBucketAclResponseAccessControlPolicyOwner struct {
-	ID          *string `json:"ID" xml:"ID" require:"true"`
-	DisplayName *string `json:"DisplayName" xml:"DisplayName" require:"true"`
+	ID          *string `json:"ID" xml:"ID"`
+	DisplayName *string `json:"DisplayName" xml:"DisplayName"`
 }
 
 func (s GetBucketAclResponseAccessControlPolicyOwner) String() string {
@@ -4028,7 +4028,7 @@ func (s *GetBucketAclResponseAccessControlPolicyOwner) SetDisplayName(v string) 
 }
 
 type GetBucketAclResponseAccessControlPolicyAccessControlList struct {
-	Grant *string `json:"Grant" xml:"Grant" require:"true"`
+	Grant *string `json:"Grant" xml:"Grant"`
 }
 
 func (s GetBucketAclResponseAccessControlPolicyAccessControlList) String() string {
@@ -4132,15 +4132,15 @@ func (s *ListPartsResponse) SetListPartsResult(v *ListPartsResponseListPartsResu
 }
 
 type ListPartsResponseListPartsResult struct {
-	Bucket               *string                                 `json:"Bucket" xml:"Bucket" require:"true"`
-	EncodingType         *string                                 `json:"EncodingType" xml:"EncodingType" require:"true"`
-	Key                  *string                                 `json:"Key" xml:"Key" require:"true"`
-	UploadId             *string                                 `json:"UploadId" xml:"UploadId" require:"true"`
-	PartNumberMarker     *string                                 `json:"PartNumberMarker" xml:"PartNumberMarker" require:"true"`
-	NextPartNumberMarker *string                                 `json:"NextPartNumberMarker" xml:"NextPartNumberMarker" require:"true"`
-	MaxParts             *string                                 `json:"MaxParts" xml:"MaxParts" require:"true"`
-	IsTruncated          *string                                 `json:"IsTruncated" xml:"IsTruncated" require:"true"`
-	Part                 []*ListPartsResponseListPartsResultPart `json:"Part" xml:"Part" require:"true" type:"Repeated"`
+	Bucket               *string                                 `json:"Bucket" xml:"Bucket"`
+	EncodingType         *string                                 `json:"EncodingType" xml:"EncodingType"`
+	Key                  *string                                 `json:"Key" xml:"Key"`
+	UploadId             *string                                 `json:"UploadId" xml:"UploadId"`
+	PartNumberMarker     *string                                 `json:"PartNumberMarker" xml:"PartNumberMarker"`
+	NextPartNumberMarker *string                                 `json:"NextPartNumberMarker" xml:"NextPartNumberMarker"`
+	MaxParts             *string                                 `json:"MaxParts" xml:"MaxParts"`
+	IsTruncated          *string                                 `json:"IsTruncated" xml:"IsTruncated"`
+	Part                 []*ListPartsResponseListPartsResultPart `json:"Part" xml:"Part" type:"Repeated"`
 }
 
 func (s ListPartsResponseListPartsResult) String() string {
@@ -4197,10 +4197,10 @@ func (s *ListPartsResponseListPartsResult) SetPart(v []*ListPartsResponseListPar
 }
 
 type ListPartsResponseListPartsResultPart struct {
-	PartNumber   *string `json:"PartNumber" xml:"PartNumber" require:"true"`
-	LastModified *string `json:"LastModified" xml:"LastModified" require:"true"`
-	ETag         *string `json:"ETag" xml:"ETag" require:"true"`
-	Size         *string `json:"Size" xml:"Size" require:"true"`
+	PartNumber   *string `json:"PartNumber" xml:"PartNumber"`
+	LastModified *string `json:"LastModified" xml:"LastModified"`
+	ETag         *string `json:"ETag" xml:"ETag"`
+	Size         *string `json:"Size" xml:"Size"`
 }
 
 func (s ListPartsResponseListPartsResultPart) String() string {
@@ -4301,7 +4301,7 @@ func (s *GetLiveChannelHistoryResponse) SetLiveChannelHistory(v *GetLiveChannelH
 }
 
 type GetLiveChannelHistoryResponseLiveChannelHistory struct {
-	LiveRecord []*GetLiveChannelHistoryResponseLiveChannelHistoryLiveRecord `json:"LiveRecord" xml:"LiveRecord" require:"true" type:"Repeated"`
+	LiveRecord []*GetLiveChannelHistoryResponseLiveChannelHistoryLiveRecord `json:"LiveRecord" xml:"LiveRecord" type:"Repeated"`
 }
 
 func (s GetLiveChannelHistoryResponseLiveChannelHistory) String() string {
@@ -4318,9 +4318,9 @@ func (s *GetLiveChannelHistoryResponseLiveChannelHistory) SetLiveRecord(v []*Get
 }
 
 type GetLiveChannelHistoryResponseLiveChannelHistoryLiveRecord struct {
-	StartTime  *string `json:"StartTime" xml:"StartTime" require:"true"`
-	EndTime    *string `json:"EndTime" xml:"EndTime" require:"true"`
-	RemoteAddr *string `json:"RemoteAddr" xml:"RemoteAddr" require:"true"`
+	StartTime  *string `json:"StartTime" xml:"StartTime"`
+	EndTime    *string `json:"EndTime" xml:"EndTime"`
+	RemoteAddr *string `json:"RemoteAddr" xml:"RemoteAddr"`
 }
 
 func (s GetLiveChannelHistoryResponseLiveChannelHistoryLiveRecord) String() string {
@@ -4434,15 +4434,15 @@ func (s *GetBucketResponse) SetListBucketResult(v *GetBucketResponseListBucketRe
 }
 
 type GetBucketResponseListBucketResult struct {
-	Name           *string                                      `json:"Name" xml:"Name" require:"true"`
-	Prefix         *string                                      `json:"Prefix" xml:"Prefix" require:"true"`
-	Marker         *string                                      `json:"Marker" xml:"Marker" require:"true"`
-	MaxKeys        *string                                      `json:"MaxKeys" xml:"MaxKeys" require:"true"`
-	Delimiter      *string                                      `json:"Delimiter" xml:"Delimiter" require:"true"`
-	IsTruncated    *string                                      `json:"IsTruncated" xml:"IsTruncated" require:"true"`
-	EncodingType   *string                                      `json:"EncodingType" xml:"EncodingType" require:"true"`
-	CommonPrefixes *string                                      `json:"CommonPrefixes" xml:"CommonPrefixes" require:"true"`
-	Contents       []*GetBucketResponseListBucketResultContents `json:"Contents" xml:"Contents" require:"true" type:"Repeated"`
+	Name           *string                                      `json:"Name" xml:"Name"`
+	Prefix         *string                                      `json:"Prefix" xml:"Prefix"`
+	Marker         *string                                      `json:"Marker" xml:"Marker"`
+	MaxKeys        *string                                      `json:"MaxKeys" xml:"MaxKeys"`
+	Delimiter      *string                                      `json:"Delimiter" xml:"Delimiter"`
+	IsTruncated    *string                                      `json:"IsTruncated" xml:"IsTruncated"`
+	EncodingType   *string                                      `json:"EncodingType" xml:"EncodingType"`
+	CommonPrefixes *string                                      `json:"CommonPrefixes" xml:"CommonPrefixes"`
+	Contents       []*GetBucketResponseListBucketResultContents `json:"Contents" xml:"Contents" type:"Repeated"`
 }
 
 func (s GetBucketResponseListBucketResult) String() string {
@@ -4499,11 +4499,11 @@ func (s *GetBucketResponseListBucketResult) SetContents(v []*GetBucketResponseLi
 }
 
 type GetBucketResponseListBucketResultContents struct {
-	Key          *string                                         `json:"Key" xml:"Key" require:"true"`
-	ETag         *string                                         `json:"ETag" xml:"ETag" require:"true"`
-	LastModified *string                                         `json:"LastModified" xml:"LastModified" require:"true"`
-	Size         *string                                         `json:"Size" xml:"Size" require:"true"`
-	StorageClass *string                                         `json:"StorageClass" xml:"StorageClass" require:"true"`
+	Key          *string                                         `json:"Key" xml:"Key"`
+	ETag         *string                                         `json:"ETag" xml:"ETag"`
+	LastModified *string                                         `json:"LastModified" xml:"LastModified"`
+	Size         *string                                         `json:"Size" xml:"Size"`
+	StorageClass *string                                         `json:"StorageClass" xml:"StorageClass"`
 	Owner        *GetBucketResponseListBucketResultContentsOwner `json:"Owner" xml:"Owner" require:"true" type:"Struct"`
 }
 
@@ -4546,8 +4546,8 @@ func (s *GetBucketResponseListBucketResultContents) SetOwner(v *GetBucketRespons
 }
 
 type GetBucketResponseListBucketResultContentsOwner struct {
-	ID          *string `json:"ID" xml:"ID" require:"true"`
-	DisplayName *string `json:"DisplayName" xml:"DisplayName" require:"true"`
+	ID          *string `json:"ID" xml:"ID"`
+	DisplayName *string `json:"DisplayName" xml:"DisplayName"`
 }
 
 func (s GetBucketResponseListBucketResultContentsOwner) String() string {
@@ -4615,8 +4615,8 @@ func (s *GetLiveChannelInfoResponse) SetLiveChannelConfiguration(v *GetLiveChann
 }
 
 type GetLiveChannelInfoResponseLiveChannelConfiguration struct {
-	Description *string                                                   `json:"Description" xml:"Description" require:"true"`
-	Status      *string                                                   `json:"Status" xml:"Status" require:"true"`
+	Description *string                                                   `json:"Description" xml:"Description"`
+	Status      *string                                                   `json:"Status" xml:"Status"`
 	Target      *GetLiveChannelInfoResponseLiveChannelConfigurationTarget `json:"Target" xml:"Target" require:"true" type:"Struct"`
 }
 
@@ -4644,10 +4644,10 @@ func (s *GetLiveChannelInfoResponseLiveChannelConfiguration) SetTarget(v *GetLiv
 }
 
 type GetLiveChannelInfoResponseLiveChannelConfigurationTarget struct {
-	Type         *string `json:"Type" xml:"Type" require:"true"`
-	FragDuration *string `json:"FragDuration" xml:"FragDuration" require:"true"`
-	FragCount    *string `json:"FragCount" xml:"FragCount" require:"true"`
-	PlaylistName *string `json:"PlaylistName" xml:"PlaylistName" require:"true"`
+	Type         *string `json:"Type" xml:"Type"`
+	FragDuration *string `json:"FragDuration" xml:"FragDuration"`
+	FragCount    *string `json:"FragCount" xml:"FragCount"`
+	PlaylistName *string `json:"PlaylistName" xml:"PlaylistName"`
 }
 
 func (s GetLiveChannelInfoResponseLiveChannelConfigurationTarget) String() string {
@@ -4748,9 +4748,9 @@ func (s *GetLiveChannelStatResponse) SetLiveChannelStat(v *GetLiveChannelStatRes
 }
 
 type GetLiveChannelStatResponseLiveChannelStat struct {
-	Status        *string                                         `json:"Status" xml:"Status" require:"true"`
-	ConnectedTime *string                                         `json:"ConnectedTime" xml:"ConnectedTime" require:"true"`
-	RemoteAddr    *string                                         `json:"RemoteAddr" xml:"RemoteAddr" require:"true"`
+	Status        *string                                         `json:"Status" xml:"Status"`
+	ConnectedTime *string                                         `json:"ConnectedTime" xml:"ConnectedTime"`
+	RemoteAddr    *string                                         `json:"RemoteAddr" xml:"RemoteAddr"`
 	Video         *GetLiveChannelStatResponseLiveChannelStatVideo `json:"Video" xml:"Video" require:"true" type:"Struct"`
 	Audio         *GetLiveChannelStatResponseLiveChannelStatAudio `json:"Audio" xml:"Audio" require:"true" type:"Struct"`
 }
@@ -4789,11 +4789,11 @@ func (s *GetLiveChannelStatResponseLiveChannelStat) SetAudio(v *GetLiveChannelSt
 }
 
 type GetLiveChannelStatResponseLiveChannelStatVideo struct {
-	Width     *string `json:"Width" xml:"Width" require:"true"`
-	Height    *string `json:"Height" xml:"Height" require:"true"`
-	FrameRate *string `json:"FrameRate" xml:"FrameRate" require:"true"`
-	Bandwidth *string `json:"Bandwidth" xml:"Bandwidth" require:"true"`
-	Codec     *string `json:"Codec" xml:"Codec" require:"true"`
+	Width     *string `json:"Width" xml:"Width"`
+	Height    *string `json:"Height" xml:"Height"`
+	FrameRate *string `json:"FrameRate" xml:"FrameRate"`
+	Bandwidth *string `json:"Bandwidth" xml:"Bandwidth"`
+	Codec     *string `json:"Codec" xml:"Codec"`
 }
 
 func (s GetLiveChannelStatResponseLiveChannelStatVideo) String() string {
@@ -4830,9 +4830,9 @@ func (s *GetLiveChannelStatResponseLiveChannelStatVideo) SetCodec(v string) *Get
 }
 
 type GetLiveChannelStatResponseLiveChannelStatAudio struct {
-	Bandwidth  *string `json:"Bandwidth" xml:"Bandwidth" require:"true"`
-	SampleRate *string `json:"SampleRate" xml:"SampleRate" require:"true"`
-	Codec      *string `json:"Codec" xml:"Codec" require:"true"`
+	Bandwidth  *string `json:"Bandwidth" xml:"Bandwidth"`
+	SampleRate *string `json:"SampleRate" xml:"SampleRate"`
+	Codec      *string `json:"Codec" xml:"Codec"`
 }
 
 func (s GetLiveChannelStatResponseLiveChannelStatAudio) String() string {
@@ -5248,8 +5248,8 @@ func (s *UploadPartCopyResponse) SetCopyPartResult(v *UploadPartCopyResponseCopy
 }
 
 type UploadPartCopyResponseCopyPartResult struct {
-	LastModified *string `json:"LastModified" xml:"LastModified" require:"true"`
-	ETag         *string `json:"ETag" xml:"ETag" require:"true"`
+	LastModified *string `json:"LastModified" xml:"LastModified"`
+	ETag         *string `json:"ETag" xml:"ETag"`
 }
 
 func (s UploadPartCopyResponseCopyPartResult) String() string {
@@ -5648,7 +5648,7 @@ func (s *GetBucketCORSResponse) SetCORSConfiguration(v *GetBucketCORSResponseCOR
 }
 
 type GetBucketCORSResponseCORSConfiguration struct {
-	CORSRule []*GetBucketCORSResponseCORSConfigurationCORSRule `json:"CORSRule" xml:"CORSRule" require:"true" type:"Repeated"`
+	CORSRule []*GetBucketCORSResponseCORSConfigurationCORSRule `json:"CORSRule" xml:"CORSRule" type:"Repeated"`
 }
 
 func (s GetBucketCORSResponseCORSConfiguration) String() string {
@@ -5665,7 +5665,7 @@ func (s *GetBucketCORSResponseCORSConfiguration) SetCORSRule(v []*GetBucketCORSR
 }
 
 type GetBucketCORSResponseCORSConfigurationCORSRule struct {
-	MaxAgeSeconds *string `json:"MaxAgeSeconds" xml:"MaxAgeSeconds" require:"true"`
+	MaxAgeSeconds *string `json:"MaxAgeSeconds" xml:"MaxAgeSeconds"`
 }
 
 func (s GetBucketCORSResponseCORSConfigurationCORSRule) String() string {
@@ -5817,8 +5817,8 @@ func (s *CopyObjectResponse) SetCopyObjectResult(v *CopyObjectResponseCopyObject
 }
 
 type CopyObjectResponseCopyObjectResult struct {
-	LastModified *string `json:"LastModified" xml:"LastModified" require:"true"`
-	ETag         *string `json:"ETag" xml:"ETag" require:"true"`
+	LastModified *string `json:"LastModified" xml:"LastModified"`
+	ETag         *string `json:"ETag" xml:"ETag"`
 }
 
 func (s CopyObjectResponseCopyObjectResult) String() string {
@@ -5903,7 +5903,7 @@ func (s *GetObjectTaggingResponseTagging) SetTagSet(v *GetObjectTaggingResponseT
 }
 
 type GetObjectTaggingResponseTaggingTagSet struct {
-	Tag []*GetObjectTaggingResponseTaggingTagSetTag `json:"Tag" xml:"Tag" require:"true" type:"Repeated"`
+	Tag []*GetObjectTaggingResponseTaggingTagSetTag `json:"Tag" xml:"Tag" type:"Repeated"`
 }
 
 func (s GetObjectTaggingResponseTaggingTagSet) String() string {
@@ -5920,8 +5920,8 @@ func (s *GetObjectTaggingResponseTaggingTagSet) SetTag(v []*GetObjectTaggingResp
 }
 
 type GetObjectTaggingResponseTaggingTagSetTag struct {
-	Key   *string `json:"Key" xml:"Key" require:"true"`
-	Value *string `json:"Value" xml:"Value" require:"true"`
+	Key   *string `json:"Key" xml:"Key"`
+	Value *string `json:"Value" xml:"Value"`
 }
 
 func (s GetObjectTaggingResponseTaggingTagSetTag) String() string {
@@ -6131,7 +6131,7 @@ func (s *GetBucketLifecycleResponse) SetLifecycleConfiguration(v *GetBucketLifec
 }
 
 type GetBucketLifecycleResponseLifecycleConfiguration struct {
-	Rule []*GetBucketLifecycleResponseLifecycleConfigurationRule `json:"Rule" xml:"Rule" require:"true" type:"Repeated"`
+	Rule []*GetBucketLifecycleResponseLifecycleConfigurationRule `json:"Rule" xml:"Rule" type:"Repeated"`
 }
 
 func (s GetBucketLifecycleResponseLifecycleConfiguration) String() string {
@@ -6148,9 +6148,9 @@ func (s *GetBucketLifecycleResponseLifecycleConfiguration) SetRule(v []*GetBucke
 }
 
 type GetBucketLifecycleResponseLifecycleConfigurationRule struct {
-	ID                   *string                                                                   `json:"ID" xml:"ID" require:"true"`
-	Prefix               *string                                                                   `json:"Prefix" xml:"Prefix" require:"true"`
-	Status               *string                                                                   `json:"Status" xml:"Status" require:"true"`
+	ID                   *string                                                                   `json:"ID" xml:"ID"`
+	Prefix               *string                                                                   `json:"Prefix" xml:"Prefix"`
+	Status               *string                                                                   `json:"Status" xml:"Status"`
 	Expiration           *GetBucketLifecycleResponseLifecycleConfigurationRuleExpiration           `json:"Expiration" xml:"Expiration" require:"true" type:"Struct"`
 	Transition           *GetBucketLifecycleResponseLifecycleConfigurationRuleTransition           `json:"Transition" xml:"Transition" require:"true" type:"Struct"`
 	AbortMultipartUpload *GetBucketLifecycleResponseLifecycleConfigurationRuleAbortMultipartUpload `json:"AbortMultipartUpload" xml:"AbortMultipartUpload" require:"true" type:"Struct"`
@@ -6201,8 +6201,8 @@ func (s *GetBucketLifecycleResponseLifecycleConfigurationRule) SetTag(v *GetBuck
 }
 
 type GetBucketLifecycleResponseLifecycleConfigurationRuleExpiration struct {
-	Days              *int    `json:"Days" xml:"Days" require:"true"`
-	CreatedBeforeDate *string `json:"CreatedBeforeDate" xml:"CreatedBeforeDate" require:"true"`
+	Days              *int    `json:"Days" xml:"Days"`
+	CreatedBeforeDate *string `json:"CreatedBeforeDate" xml:"CreatedBeforeDate"`
 }
 
 func (s GetBucketLifecycleResponseLifecycleConfigurationRuleExpiration) String() string {
@@ -6224,8 +6224,8 @@ func (s *GetBucketLifecycleResponseLifecycleConfigurationRuleExpiration) SetCrea
 }
 
 type GetBucketLifecycleResponseLifecycleConfigurationRuleTransition struct {
-	Days         *int    `json:"Days" xml:"Days" require:"true"`
-	StorageClass *string `json:"StorageClass" xml:"StorageClass" require:"true"`
+	Days         *int    `json:"Days" xml:"Days"`
+	StorageClass *string `json:"StorageClass" xml:"StorageClass"`
 }
 
 func (s GetBucketLifecycleResponseLifecycleConfigurationRuleTransition) String() string {
@@ -6247,8 +6247,8 @@ func (s *GetBucketLifecycleResponseLifecycleConfigurationRuleTransition) SetStor
 }
 
 type GetBucketLifecycleResponseLifecycleConfigurationRuleAbortMultipartUpload struct {
-	Days              *int    `json:"Days" xml:"Days" require:"true"`
-	CreatedBeforeDate *string `json:"CreatedBeforeDate" xml:"CreatedBeforeDate" require:"true"`
+	Days              *int    `json:"Days" xml:"Days"`
+	CreatedBeforeDate *string `json:"CreatedBeforeDate" xml:"CreatedBeforeDate"`
 }
 
 func (s GetBucketLifecycleResponseLifecycleConfigurationRuleAbortMultipartUpload) String() string {
@@ -6270,8 +6270,8 @@ func (s *GetBucketLifecycleResponseLifecycleConfigurationRuleAbortMultipartUploa
 }
 
 type GetBucketLifecycleResponseLifecycleConfigurationRuleTag struct {
-	Key   *string `json:"Key" xml:"Key" require:"true"`
-	Value *string `json:"Value" xml:"Value" require:"true"`
+	Key   *string `json:"Key" xml:"Key"`
+	Value *string `json:"Value" xml:"Value"`
 }
 
 func (s GetBucketLifecycleResponseLifecycleConfigurationRuleTag) String() string {
@@ -6402,7 +6402,7 @@ func (s *GetBucketRefererResponse) SetRefererConfiguration(v *GetBucketRefererRe
 }
 
 type GetBucketRefererResponseRefererConfiguration struct {
-	AllowEmptyReferer *bool                                                    `json:"AllowEmptyReferer" xml:"AllowEmptyReferer" require:"true"`
+	AllowEmptyReferer *bool                                                    `json:"AllowEmptyReferer" xml:"AllowEmptyReferer"`
 	RefererList       *GetBucketRefererResponseRefererConfigurationRefererList `json:"RefererList" xml:"RefererList" require:"true" type:"Struct"`
 }
 
@@ -6425,7 +6425,7 @@ func (s *GetBucketRefererResponseRefererConfiguration) SetRefererList(v *GetBuck
 }
 
 type GetBucketRefererResponseRefererConfigurationRefererList struct {
-	Referer []*string `json:"Referer" xml:"Referer" require:"true" type:"Repeated"`
+	Referer []*string `json:"Referer" xml:"Referer" type:"Repeated"`
 }
 
 func (s GetBucketRefererResponseRefererConfigurationRefererList) String() string {
@@ -6533,8 +6533,8 @@ func (s *GetBucketLoggingResponseBucketLoggingStatus) SetLoggingEnabled(v *GetBu
 }
 
 type GetBucketLoggingResponseBucketLoggingStatusLoggingEnabled struct {
-	TargetBucket *string `json:"TargetBucket" xml:"TargetBucket" require:"true"`
-	TargetPrefix *string `json:"TargetPrefix" xml:"TargetPrefix" require:"true"`
+	TargetBucket *string `json:"TargetBucket" xml:"TargetBucket"`
+	TargetPrefix *string `json:"TargetPrefix" xml:"TargetPrefix"`
 }
 
 func (s GetBucketLoggingResponseBucketLoggingStatusLoggingEnabled) String() string {
@@ -6676,14 +6676,14 @@ func (s *GetBucketInfoResponseBucketInfo) SetBucket(v *GetBucketInfoResponseBuck
 }
 
 type GetBucketInfoResponseBucketInfoBucket struct {
-	CreationDate       *string                                                 `json:"CreationDate" xml:"CreationDate" require:"true"`
-	ExtranetEndpoint   *string                                                 `json:"ExtranetEndpoint" xml:"ExtranetEndpoint" require:"true"`
-	IntranetEndpoint   *string                                                 `json:"IntranetEndpoint" xml:"IntranetEndpoint" require:"true"`
-	Location           *string                                                 `json:"Location" xml:"Location" require:"true"`
-	Name               *string                                                 `json:"Name" xml:"Name" require:"true"`
-	DataRedundancyType *string                                                 `json:"DataRedundancyType" xml:"DataRedundancyType" require:"true"`
-	StorageClass       *string                                                 `json:"StorageClass" xml:"StorageClass" require:"true"`
-	Comment            *string                                                 `json:"Comment" xml:"Comment" require:"true"`
+	CreationDate       *string                                                 `json:"CreationDate" xml:"CreationDate"`
+	ExtranetEndpoint   *string                                                 `json:"ExtranetEndpoint" xml:"ExtranetEndpoint"`
+	IntranetEndpoint   *string                                                 `json:"IntranetEndpoint" xml:"IntranetEndpoint"`
+	Location           *string                                                 `json:"Location" xml:"Location"`
+	Name               *string                                                 `json:"Name" xml:"Name"`
+	DataRedundancyType *string                                                 `json:"DataRedundancyType" xml:"DataRedundancyType"`
+	StorageClass       *string                                                 `json:"StorageClass" xml:"StorageClass"`
+	Comment            *string                                                 `json:"Comment" xml:"Comment"`
 	Owner              *GetBucketInfoResponseBucketInfoBucketOwner             `json:"Owner" xml:"Owner" require:"true" type:"Struct"`
 	AccessControlList  *GetBucketInfoResponseBucketInfoBucketAccessControlList `json:"AccessControlList" xml:"AccessControlList" require:"true" type:"Struct"`
 }
@@ -6747,8 +6747,8 @@ func (s *GetBucketInfoResponseBucketInfoBucket) SetAccessControlList(v *GetBucke
 }
 
 type GetBucketInfoResponseBucketInfoBucketOwner struct {
-	ID          *string `json:"ID" xml:"ID" require:"true"`
-	DisplayName *string `json:"DisplayName" xml:"DisplayName" require:"true"`
+	ID          *string `json:"ID" xml:"ID"`
+	DisplayName *string `json:"DisplayName" xml:"DisplayName"`
 }
 
 func (s GetBucketInfoResponseBucketInfoBucketOwner) String() string {
@@ -6770,7 +6770,7 @@ func (s *GetBucketInfoResponseBucketInfoBucketOwner) SetDisplayName(v string) *G
 }
 
 type GetBucketInfoResponseBucketInfoBucketAccessControlList struct {
-	Grant *string `json:"Grant" xml:"Grant" require:"true"`
+	Grant *string `json:"Grant" xml:"Grant"`
 }
 
 func (s GetBucketInfoResponseBucketInfoBucketAccessControlList) String() string {
@@ -6990,9 +6990,9 @@ func (s *InitiateMultipartUploadResponse) SetInitiateMultipartUploadResult(v *In
 }
 
 type InitiateMultipartUploadResponseInitiateMultipartUploadResult struct {
-	Bucket   *string `json:"Bucket" xml:"Bucket" require:"true"`
-	Key      *string `json:"Key" xml:"Key" require:"true"`
-	UploadId *string `json:"UploadId" xml:"UploadId" require:"true"`
+	Bucket   *string `json:"Bucket" xml:"Bucket"`
+	Key      *string `json:"Key" xml:"Key"`
+	UploadId *string `json:"UploadId" xml:"UploadId"`
 }
 
 func (s InitiateMultipartUploadResponseInitiateMultipartUploadResult) String() string {
@@ -7583,8 +7583,8 @@ func (s *GetObjectAclResponseAccessControlPolicy) SetAccessControlList(v *GetObj
 }
 
 type GetObjectAclResponseAccessControlPolicyOwner struct {
-	ID          *string `json:"ID" xml:"ID" require:"true"`
-	DisplayName *string `json:"DisplayName" xml:"DisplayName" require:"true"`
+	ID          *string `json:"ID" xml:"ID"`
+	DisplayName *string `json:"DisplayName" xml:"DisplayName"`
 }
 
 func (s GetObjectAclResponseAccessControlPolicyOwner) String() string {
@@ -7606,7 +7606,7 @@ func (s *GetObjectAclResponseAccessControlPolicyOwner) SetDisplayName(v string) 
 }
 
 type GetObjectAclResponseAccessControlPolicyAccessControlList struct {
-	Grant *string `json:"Grant" xml:"Grant" require:"true"`
+	Grant *string `json:"Grant" xml:"Grant"`
 }
 
 func (s GetObjectAclResponseAccessControlPolicyAccessControlList) String() string {
