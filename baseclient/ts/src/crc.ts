@@ -46,7 +46,6 @@ export default class Crc64 {
     
     let length = buf.length;
     let i = 0;
-
     for (; i < buf.length - 7; i += 8) {
       for(let j = 0;j < this._crc.length; j++){
         this._crc[j] = this._crc[j] ^ buf[i + 7 - j];
