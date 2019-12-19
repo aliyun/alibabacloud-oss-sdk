@@ -135,27 +135,27 @@ module Client {
     bucketName: string(description='BucketName', name='BucketName'),
     body?: {
       lifecycleConfiguration: {
-        rule: [
+        rule?: [
           {
-            expiration: {
-              days: integer(description='Days', name='Days'),
-              createdBeforeDate: string(description='CreatedBeforeDate', name='CreatedBeforeDate'),
+            expiration?: {
+              days?: integer(description='Days', name='Days'),
+              createdBeforeDate?: string(description='CreatedBeforeDate', name='CreatedBeforeDate'),
             }(description='Expiration', name='Expiration'),
-            transition: {
-              days: integer(description='Days', name='Days'),
-              storageClass: string(description='StorageClass', name='StorageClass'),
+            transition?: {
+              days?: integer(description='Days', name='Days'),
+              storageClass?: string(description='StorageClass', name='StorageClass'),
             }(description='Transition', name='Transition'),
-            abortMultipartUpload: {
-              days: integer(description='Days', name='Days'),
-              createdBeforeDate: string(description='CreatedBeforeDate', name='CreatedBeforeDate'),
+            abortMultipartUpload?: {
+              days?: integer(description='Days', name='Days'),
+              createdBeforeDate?: string(description='CreatedBeforeDate', name='CreatedBeforeDate'),
             }(description='AbortMultipartUpload', name='AbortMultipartUpload'),
-            tag: {
-              key: string(description='Key', name='Key'),
-              value: string(description='Value', name='Value'),
+            tag?: {
+              key?: string(description='Key', name='Key'),
+              value?: string(description='Value', name='Value'),
             }(description='Tag', name='Tag'),
-            iD: string(description='ID', name='ID'),
-            prefix: string(description='Prefix', name='Prefix'),
-            status: string(description='Status', name='Status'),
+            iD?: string(description='ID', name='ID'),
+            prefix?: string(description='Prefix', name='Prefix'),
+            status?: string(description='Status', name='Status'),
           }
         ](description='Rule', name='Rule'),
       }(description='LifecycleConfiguration', name='LifecycleConfiguration'),
@@ -228,12 +228,12 @@ module Client {
     bucketName: string(description='BucketName', name='BucketName'),
     body?: {
       delete: {
-        object: [
+        object?: [
           {
-            key: string(description='Key', name='Key'),
+            key?: string(description='Key', name='Key'),
           }
         ](description='Object', name='Object'),
-        quiet: string(description='Quiet', name='Quiet'),
+        quiet?: string(description='Quiet', name='Quiet'),
       }(description='Delete', name='Delete'),
     }(description='Body', name='Body'),
     header: {
@@ -246,11 +246,11 @@ module Client {
   model DeleteMultipleObjectsResponse = {
     requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
     deleteResult: {
-      quiet: string(description='Quiet', name='Quiet'),
-      encodingType: string(description='EncodingType', name='EncodingType'),
-      deleted: [
+      quiet?: string(description='Quiet', name='Quiet'),
+      encodingType?: string(description='EncodingType', name='EncodingType'),
+      deleted?: [
         {
-          key: string(description='Key', name='Key'),
+          key?: string(description='Key', name='Key'),
         }
       ](description='Deleted', name='Deleted'),
     }(description='DeleteResult', name='DeleteResult'),
@@ -327,10 +327,10 @@ module Client {
     bucketName: string(description='BucketName', name='BucketName'),
     body?: {
       refererConfiguration: {
-        refererList: {
-          referer: [ string ](description='Referer', name='Referer'),
+        refererList?: {
+          referer?: [ string ](description='Referer', name='Referer'),
         }(description='RefererList', name='RefererList'),
-        allowEmptyReferer: boolean(description='AllowEmptyReferer', name='AllowEmptyReferer'),
+        allowEmptyReferer?: boolean(description='AllowEmptyReferer', name='AllowEmptyReferer'),
       }(description='RefererConfiguration', name='RefererConfiguration'),
     }(description='Body', name='Body'),
   }
@@ -401,46 +401,46 @@ module Client {
     bucketName: string(description='BucketName', name='BucketName'),
     body?: {
       websiteConfiguration: {
-        indexDocument: {
-          suffix: string(description='Suffix', name='Suffix'),
+        indexDocument?: {
+          suffix?: string(description='Suffix', name='Suffix'),
         }(description='IndexDocument', name='IndexDocument'),
-        errorDocument: {
-          key: string(description='Key', name='Key'),
+        errorDocument?: {
+          key?: string(description='Key', name='Key'),
         }(description='ErrorDocument', name='ErrorDocument'),
-        routingRules: {
-          routingRule: [
+        routingRules?: {
+          routingRule?: [
             {
-              condition: {
-                includeHeader: {
-                  key: string(description='Key', name='Key'),
-                  equals: string(description='Equals', name='Equals'),
+              condition?: {
+                includeHeader?: {
+                  key?: string(description='Key', name='Key'),
+                  equals?: string(description='Equals', name='Equals'),
                 }(description='IncludeHeader', name='IncludeHeader'),
-                keyPrefixEquals: string(description='KeyPrefixEquals', name='KeyPrefixEquals'),
-                httpErrorCodeReturnedEquals: string(description='HttpErrorCodeReturnedEquals', name='HttpErrorCodeReturnedEquals'),
+                keyPrefixEquals?: string(description='KeyPrefixEquals', name='KeyPrefixEquals'),
+                httpErrorCodeReturnedEquals?: string(description='HttpErrorCodeReturnedEquals', name='HttpErrorCodeReturnedEquals'),
               }(description='Condition', name='Condition'),
-              redirect: {
-                mirrorHeaders: {
-                  set: {
-                    key: string(description='Key', name='Key'),
-                    value: string(description='Value', name='Value'),
+              redirect?: {
+                mirrorHeaders?: {
+                  set?: {
+                    key?: string(description='Key', name='Key'),
+                    value?: string(description='Value', name='Value'),
                   }(description='Set', name='Set'),
-                  passAll: boolean(description='PassAll', name='PassAll'),
-                  pass: string(description='Pass', name='Pass'),
-                  remove: string(description='Remove', name='Remove'),
+                  passAll?: boolean(description='PassAll', name='PassAll'),
+                  pass?: string(description='Pass', name='Pass'),
+                  remove?: string(description='Remove', name='Remove'),
                 }(description='MirrorHeaders', name='MirrorHeaders'),
-                redirectType: string(description='RedirectType', name='RedirectType'),
-                passQueryString: boolean(description='PassQueryString', name='PassQueryString'),
-                mirrorURL: string(description='MirrorURL', name='MirrorURL'),
-                mirrorPassQueryString: boolean(description='MirrorPassQueryString', name='MirrorPassQueryString'),
-                mirrorFollowRedirect: boolean(description='MirrorFollowRedirect', name='MirrorFollowRedirect'),
-                mirrorCheckMd5: boolean(description='MirrorCheckMd5', name='MirrorCheckMd5'),
-                protocol: string(description='Protocol', name='Protocol'),
-                hostName: string(description='HostName', name='HostName'),
-                httpRedirectCode: string(description='HttpRedirectCode', name='HttpRedirectCode'),
-                replaceKeyPrefixWith: string(description='ReplaceKeyPrefixWith', name='ReplaceKeyPrefixWith'),
-                replaceKeyWith: string(description='ReplaceKeyWith', name='ReplaceKeyWith'),
+                redirectType?: string(description='RedirectType', name='RedirectType'),
+                passQueryString?: boolean(description='PassQueryString', name='PassQueryString'),
+                mirrorURL?: string(description='MirrorURL', name='MirrorURL'),
+                mirrorPassQueryString?: boolean(description='MirrorPassQueryString', name='MirrorPassQueryString'),
+                mirrorFollowRedirect?: boolean(description='MirrorFollowRedirect', name='MirrorFollowRedirect'),
+                mirrorCheckMd5?: boolean(description='MirrorCheckMd5', name='MirrorCheckMd5'),
+                protocol?: string(description='Protocol', name='Protocol'),
+                hostName?: string(description='HostName', name='HostName'),
+                httpRedirectCode?: string(description='HttpRedirectCode', name='HttpRedirectCode'),
+                replaceKeyPrefixWith?: string(description='ReplaceKeyPrefixWith', name='ReplaceKeyPrefixWith'),
+                replaceKeyWith?: string(description='ReplaceKeyWith', name='ReplaceKeyWith'),
               }(description='Redirect', name='Redirect'),
-              ruleNumber: integer(description='RuleNumber', name='RuleNumber'),
+              ruleNumber?: integer(description='RuleNumber', name='RuleNumber'),
             }
           ](description='RoutingRule', name='RoutingRule'),
         }(description='RoutingRules', name='RoutingRules'),
@@ -519,10 +519,10 @@ module Client {
     }(description='Filter', name='Filter'),
     body?: {
       completeMultipartUpload: {
-        part: [
+        part?: [
           {
-            partNumber: string(description='PartNumber', name='PartNumber'),
-            eTag: string(description='ETag', name='ETag'),
+            partNumber?: string(description='PartNumber', name='PartNumber'),
+            eTag?: string(description='ETag', name='ETag'),
           }
         ](description='Part', name='Part'),
       }(description='CompleteMultipartUpload', name='CompleteMultipartUpload'),
@@ -532,11 +532,11 @@ module Client {
   model CompleteMultipartUploadResponse = {
     requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
     completeMultipartUploadResult: {
-      bucket: string(description='Bucket', name='Bucket'),
-      eTag: string(description='ETag', name='ETag'),
-      location: string(description='Location', name='Location'),
-      key: string(description='Key', name='Key'),
-      encodingType: string(description='EncodingType', name='EncodingType'),
+      bucket?: string(description='Bucket', name='Bucket'),
+      eTag?: string(description='ETag', name='ETag'),
+      location?: string(description='Location', name='Location'),
+      key?: string(description='Key', name='Key'),
+      encodingType?: string(description='EncodingType', name='EncodingType'),
     }(description='CompleteMultipartUploadResult', name='CompleteMultipartUploadResult'),
   }
 
@@ -606,9 +606,9 @@ module Client {
     bucketName: string(description='BucketName', name='BucketName'),
     body?: {
       bucketLoggingStatus: {
-        loggingEnabled: {
-          targetBucket: string(description='TargetBucket', name='TargetBucket'),
-          targetPrefix: string(description='TargetPrefix', name='TargetPrefix'),
+        loggingEnabled?: {
+          targetBucket?: string(description='TargetBucket', name='TargetBucket'),
+          targetPrefix?: string(description='TargetPrefix', name='TargetPrefix'),
         }(description='LoggingEnabled', name='LoggingEnabled'),
       }(description='BucketLoggingStatus', name='BucketLoggingStatus'),
     }(description='Body', name='Body'),
@@ -680,7 +680,7 @@ module Client {
     bucketName: string(description='BucketName', name='BucketName'),
     body?: {
       requestPaymentConfiguration: {
-        payer: string(description='Payer', name='Payer'),
+        payer?: string(description='Payer', name='Payer'),
       }(description='RequestPaymentConfiguration', name='RequestPaymentConfiguration'),
     }(description='Body', name='Body'),
   }
@@ -751,9 +751,9 @@ module Client {
     bucketName: string(description='BucketName', name='BucketName'),
     body?: {
       serverSideEncryptionRule: {
-        applyServerSideEncryptionByDefault: {
-          sSEAlgorithm: string(description='SSEAlgorithm', name='SSEAlgorithm'),
-          kMSMasterKeyID: string(description='KMSMasterKeyID', name='KMSMasterKeyID'),
+        applyServerSideEncryptionByDefault?: {
+          sSEAlgorithm?: string(description='SSEAlgorithm', name='SSEAlgorithm'),
+          kMSMasterKeyID?: string(description='KMSMasterKeyID', name='KMSMasterKeyID'),
         }(description='ApplyServerSideEncryptionByDefault', name='ApplyServerSideEncryptionByDefault'),
       }(description='ServerSideEncryptionRule', name='ServerSideEncryptionRule'),
     }(description='Body', name='Body'),
@@ -826,20 +826,20 @@ module Client {
     channelName: string(description='ChannelName', name='ChannelName'),
     body?: {
       liveChannelConfiguration: {
-        target: {
-          type: string(description='Type', name='Type'),
-          fragDuration: string(description='FragDuration', name='FragDuration'),
-          fragCount: string(description='FragCount', name='FragCount'),
-          playlistName: string(description='PlaylistName', name='PlaylistName'),
+        target?: {
+          type?: string(description='Type', name='Type'),
+          fragDuration?: string(description='FragDuration', name='FragDuration'),
+          fragCount?: string(description='FragCount', name='FragCount'),
+          playlistName?: string(description='PlaylistName', name='PlaylistName'),
         }(description='Target', name='Target'),
-        snapshot: {
-          roleName: string(description='RoleName', name='RoleName'),
-          destBucket: string(description='DestBucket', name='DestBucket'),
-          notifyTopic: string(description='NotifyTopic', name='NotifyTopic'),
-          interval: string(description='Interval', name='Interval'),
+        snapshot?: {
+          roleName?: string(description='RoleName', name='RoleName'),
+          destBucket?: string(description='DestBucket', name='DestBucket'),
+          notifyTopic?: string(description='NotifyTopic', name='NotifyTopic'),
+          interval?: string(description='Interval', name='Interval'),
         }(description='Snapshot', name='Snapshot'),
-        description: string(description='Description', name='Description'),
-        status: string(description='Status', name='Status'),
+        description?: string(description='Description', name='Description'),
+        status?: string(description='Status', name='Status'),
       }(description='LiveChannelConfiguration', name='LiveChannelConfiguration'),
     }(description='Body', name='Body'),
   }
@@ -848,10 +848,10 @@ module Client {
     requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
     createLiveChannelResult: {
       publishUrls: {
-        url: string(description='Url', name='Url'),
+        url?: string(description='Url', name='Url'),
       }(description='PublishUrls', name='PublishUrls'),
       playUrls: {
-        url: string(description='Url', name='Url'),
+        url?: string(description='Url', name='Url'),
       }(description='PlayUrls', name='PlayUrls'),
     }(description='CreateLiveChannelResult', name='CreateLiveChannelResult'),
   }
@@ -921,11 +921,11 @@ module Client {
     bucketName: string(description='BucketName', name='BucketName'),
     body?: {
       tagging: {
-        tagSet: {
-          tag: [
+        tagSet?: {
+          tag?: [
             {
-              key: string(description='Key', name='Key'),
-              value: string(description='Value', name='Value'),
+              key?: string(description='Key', name='Key'),
+              value?: string(description='Value', name='Value'),
             }
           ](description='Tag', name='Tag'),
         }(description='TagSet', name='TagSet'),
@@ -1000,11 +1000,11 @@ module Client {
     objectName: string(description='ObjectName', name='ObjectName'),
     body?: {
       tagging: {
-        tagSet: {
-          tag: [
+        tagSet?: {
+          tag?: [
             {
-              key: string(description='Key', name='Key'),
-              value: string(description='Value', name='Value'),
+              key?: string(description='Key', name='Key'),
+              value?: string(description='Value', name='Value'),
             }
           ](description='Tag', name='Tag'),
         }(description='TagSet', name='TagSet'),
@@ -1082,32 +1082,32 @@ module Client {
     }(description='Filter', name='Filter'),
     body?: {
       selectRequest: {
-        inputSerialization: {
-          cSV: {
-            fileHeaderInfo: string(description='FileHeaderInfo', name='FileHeaderInfo'),
-            recordDelimiter: string(description='RecordDelimiter', name='RecordDelimiter'),
-            fieldDelimiter: string(description='FieldDelimiter', name='FieldDelimiter'),
-            quoteCharacter: string(description='QuoteCharacter', name='QuoteCharacter'),
-            commentCharacter: string(description='CommentCharacter', name='CommentCharacter'),
-            range: string(description='Range', name='Range'),
+        inputSerialization?: {
+          cSV?: {
+            fileHeaderInfo?: string(description='FileHeaderInfo', name='FileHeaderInfo'),
+            recordDelimiter?: string(description='RecordDelimiter', name='RecordDelimiter'),
+            fieldDelimiter?: string(description='FieldDelimiter', name='FieldDelimiter'),
+            quoteCharacter?: string(description='QuoteCharacter', name='QuoteCharacter'),
+            commentCharacter?: string(description='CommentCharacter', name='CommentCharacter'),
+            range?: string(description='Range', name='Range'),
           }(description='CSV', name='CSV'),
-          compressionType: string(description='CompressionType', name='CompressionType'),
+          compressionType?: string(description='CompressionType', name='CompressionType'),
         }(description='InputSerialization', name='InputSerialization'),
-        outputSerialization: {
-          cSV: {
-            recordDelimiter: string(description='RecordDelimiter', name='RecordDelimiter'),
-            fieldDelimiter: string(description='FieldDelimiter', name='FieldDelimiter'),
+        outputSerialization?: {
+          cSV?: {
+            recordDelimiter?: string(description='RecordDelimiter', name='RecordDelimiter'),
+            fieldDelimiter?: string(description='FieldDelimiter', name='FieldDelimiter'),
           }(description='CSV', name='CSV'),
-          keepAllColumns: string(description='KeepAllColumns', name='KeepAllColumns'),
-          outputRawData: string(description='OutputRawData', name='OutputRawData'),
-          enablePayloadCrc: string(description='EnablePayloadCrc', name='EnablePayloadCrc'),
-          outputHeader: string(description='OutputHeader', name='OutputHeader'),
+          keepAllColumns?: string(description='KeepAllColumns', name='KeepAllColumns'),
+          outputRawData?: string(description='OutputRawData', name='OutputRawData'),
+          enablePayloadCrc?: string(description='EnablePayloadCrc', name='EnablePayloadCrc'),
+          outputHeader?: string(description='OutputHeader', name='OutputHeader'),
         }(description='OutputSerialization', name='OutputSerialization'),
-        options: {
-          skipPartialDataRecord: string(description='SkipPartialDataRecord', name='SkipPartialDataRecord'),
-          maxSkippedRecordsAllowed: string(description='MaxSkippedRecordsAllowed', name='MaxSkippedRecordsAllowed'),
+        options?: {
+          skipPartialDataRecord?: string(description='SkipPartialDataRecord', name='SkipPartialDataRecord'),
+          maxSkippedRecordsAllowed?: string(description='MaxSkippedRecordsAllowed', name='MaxSkippedRecordsAllowed'),
         }(description='Options', name='Options'),
-        expression: string(description='Expression', name='Expression'),
+        expression?: string(description='Expression', name='Expression'),
       }(description='SelectRequest', name='SelectRequest'),
     }(description='Body', name='Body'),
   }
@@ -1179,13 +1179,13 @@ module Client {
     bucketName: string(description='BucketName', name='BucketName'),
     body?: {
       cORSConfiguration: {
-        cORSRule: [
+        cORSRule?: [
           {
-            allowedOrigin: [ string ](description='AllowedOrigin', name='AllowedOrigin'),
-            allowedMethod: [ string ](description='AllowedMethod', name='AllowedMethod'),
-            allowedHeader: [ string ](description='AllowedHeader', name='AllowedHeader'),
-            exposeHeader: [ string ](description='ExposeHeader', name='ExposeHeader'),
-            maxAgeSeconds: string(description='MaxAgeSeconds', name='MaxAgeSeconds'),
+            allowedOrigin?: [ string ](description='AllowedOrigin', name='AllowedOrigin'),
+            allowedMethod?: [ string ](description='AllowedMethod', name='AllowedMethod'),
+            allowedHeader?: [ string ](description='AllowedHeader', name='AllowedHeader'),
+            exposeHeader?: [ string ](description='ExposeHeader', name='ExposeHeader'),
+            maxAgeSeconds?: string(description='MaxAgeSeconds', name='MaxAgeSeconds'),
           }
         ](description='CORSRule', name='CORSRule'),
       }(description='CORSConfiguration', name='CORSConfiguration'),
@@ -1258,8 +1258,8 @@ module Client {
     bucketName: string(description='BucketName', name='BucketName'),
     body?: {
       createBucketConfiguration: {
-        storageClass: string(description='StorageClass', name='StorageClass'),
-        dataRedundancyType: string(description='DataRedundancyType', name='DataRedundancyType'),
+        storageClass?: string(description='StorageClass', name='StorageClass'),
+        dataRedundancyType?: string(description='DataRedundancyType', name='DataRedundancyType'),
       }(description='CreateBucketConfiguration', name='CreateBucketConfiguration'),
     }(description='Body', name='Body'),
     header?: {
@@ -1345,20 +1345,20 @@ module Client {
   model ListMultipartUploadsResponse = {
     requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
     listMultipartUploadsResult: {
-      bucket: string(description='Bucket', name='Bucket'),
-      encodingType: string(description='EncodingType', name='EncodingType'),
-      keyMarker: string(description='KeyMarker', name='KeyMarker'),
-      uploadIdMarker: string(description='UploadIdMarker', name='UploadIdMarker'),
-      nextKeyMarker: string(description='NextKeyMarker', name='NextKeyMarker'),
-      nextUploadIdMarker: string(description='NextUploadIdMarker', name='NextUploadIdMarker'),
-      delimiter: string(description='Delimiter', name='Delimiter'),
-      maxUploads: string(description='MaxUploads', name='MaxUploads'),
-      isTruncated: string(description='IsTruncated', name='IsTruncated'),
-      upload: [
+      bucket?: string(description='Bucket', name='Bucket'),
+      encodingType?: string(description='EncodingType', name='EncodingType'),
+      keyMarker?: string(description='KeyMarker', name='KeyMarker'),
+      uploadIdMarker?: string(description='UploadIdMarker', name='UploadIdMarker'),
+      nextKeyMarker?: string(description='NextKeyMarker', name='NextKeyMarker'),
+      nextUploadIdMarker?: string(description='NextUploadIdMarker', name='NextUploadIdMarker'),
+      delimiter?: string(description='Delimiter', name='Delimiter'),
+      maxUploads?: string(description='MaxUploads', name='MaxUploads'),
+      isTruncated?: string(description='IsTruncated', name='IsTruncated'),
+      upload?: [
         {
-          key: string(description='Key', name='Key'),
-          uploadId: string(description='UploadId', name='UploadId'),
-          initiated: string(description='Initiated', name='Initiated'),
+          key?: string(description='Key', name='Key'),
+          uploadId?: string(description='UploadId', name='UploadId'),
+          initiated?: string(description='Initiated', name='Initiated'),
         }
       ](description='Upload', name='Upload'),
     }(description='ListMultipartUploadsResult', name='ListMultipartUploadsResult'),
@@ -1431,7 +1431,7 @@ module Client {
   model GetBucketRequestPaymentResponse = {
     requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
     requestPaymentConfiguration: {
-      payer: string(description='Payer', name='Payer'),
+      payer?: string(description='Payer', name='Payer'),
     }(description='RequestPaymentConfiguration', name='RequestPaymentConfiguration'),
   }
 
@@ -1502,8 +1502,8 @@ module Client {
     requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
     serverSideEncryptionRule: {
       applyServerSideEncryptionByDefault: {
-        sSEAlgorithm: string(description='SSEAlgorithm', name='SSEAlgorithm'),
-        kMSMasterKeyID: string(description='KMSMasterKeyID', name='KMSMasterKeyID'),
+        sSEAlgorithm?: string(description='SSEAlgorithm', name='SSEAlgorithm'),
+        kMSMasterKeyID?: string(description='KMSMasterKeyID', name='KMSMasterKeyID'),
       }(description='ApplyServerSideEncryptionByDefault', name='ApplyServerSideEncryptionByDefault'),
     }(description='ServerSideEncryptionRule', name='ServerSideEncryptionRule'),
   }
@@ -1575,10 +1575,10 @@ module Client {
     requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
     tagging: {
       tagSet: {
-        tag: [
+        tag?: [
           {
-            key: string(description='Key', name='Key'),
-            value: string(description='Value', name='Value'),
+            key?: string(description='Key', name='Key'),
+            value?: string(description='Value', name='Value'),
           }
         ](description='Tag', name='Tag'),
       }(description='TagSet', name='TagSet'),
@@ -1655,24 +1655,24 @@ module Client {
   model GetServiceResponse = {
     requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
     listAllMyBucketsResult: {
-      prefix: string(description='Prefix', name='Prefix'),
-      marker: string(description='Marker', name='Marker'),
-      maxKeys: string(description='MaxKeys', name='MaxKeys'),
-      isTruncated: string(description='IsTruncated', name='IsTruncated'),
-      nextMarker: string(description='NextMarker', name='NextMarker'),
+      prefix?: string(description='Prefix', name='Prefix'),
+      marker?: string(description='Marker', name='Marker'),
+      maxKeys?: string(description='MaxKeys', name='MaxKeys'),
+      isTruncated?: string(description='IsTruncated', name='IsTruncated'),
+      nextMarker?: string(description='NextMarker', name='NextMarker'),
       owner: {
-        iD: string(description='ID', name='ID'),
-        displayName: string(description='DisplayName', name='DisplayName'),
+        iD?: string(description='ID', name='ID'),
+        displayName?: string(description='DisplayName', name='DisplayName'),
       }(description='Owner', name='Owner'),
       buckets: {
-        bucket: [
+        bucket?: [
           {
-            name: string(description='Name', name='Name'),
-            createDate: string(description='CreateDate', name='CreateDate'),
-            location: string(description='Location', name='Location'),
-            extranetEndpoint: string(description='ExtranetEndpoint', name='ExtranetEndpoint'),
-            intranetEndpoint: string(description='IntranetEndpoint', name='IntranetEndpoint'),
-            storageClass: string(description='StorageClass', name='StorageClass'),
+            name?: string(description='Name', name='Name'),
+            createDate?: string(description='CreateDate', name='CreateDate'),
+            location?: string(description='Location', name='Location'),
+            extranetEndpoint?: string(description='ExtranetEndpoint', name='ExtranetEndpoint'),
+            intranetEndpoint?: string(description='IntranetEndpoint', name='IntranetEndpoint'),
+            storageClass?: string(description='StorageClass', name='StorageClass'),
           }
         ](description='Bucket', name='Bucket'),
       }(description='Buckets', name='Buckets'),
@@ -1879,42 +1879,42 @@ module Client {
     requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
     websiteConfiguration: {
       indexDocument: {
-        suffix: string(description='Suffix', name='Suffix'),
+        suffix?: string(description='Suffix', name='Suffix'),
       }(description='IndexDocument', name='IndexDocument'),
       errorDocument: {
-        key: string(description='Key', name='Key'),
+        key?: string(description='Key', name='Key'),
       }(description='ErrorDocument', name='ErrorDocument'),
       routingRules: {
-        routingRule: [
+        routingRule?: [
           {
-            ruleNumber: integer(description='RuleNumber', name='RuleNumber'),
+            ruleNumber?: integer(description='RuleNumber', name='RuleNumber'),
             condition: {
-              keyPrefixEquals: string(description='KeyPrefixEquals', name='KeyPrefixEquals'),
-              httpErrorCodeReturnedEquals: string(description='HttpErrorCodeReturnedEquals', name='HttpErrorCodeReturnedEquals'),
+              keyPrefixEquals?: string(description='KeyPrefixEquals', name='KeyPrefixEquals'),
+              httpErrorCodeReturnedEquals?: string(description='HttpErrorCodeReturnedEquals', name='HttpErrorCodeReturnedEquals'),
               includeHeader: {
-                key: string(description='Key', name='Key'),
-                equals: string(description='Equals', name='Equals'),
+                key?: string(description='Key', name='Key'),
+                equals?: string(description='Equals', name='Equals'),
               }(description='IncludeHeader', name='IncludeHeader'),
             }(description='Condition', name='Condition'),
             redirect: {
-              redirectType: string(description='RedirectType', name='RedirectType'),
-              passQueryString: boolean(description='PassQueryString', name='PassQueryString'),
-              mirrorURL: string(description='MirrorURL', name='MirrorURL'),
-              mirrorPassQueryString: boolean(description='MirrorPassQueryString', name='MirrorPassQueryString'),
-              mirrorFollowRedirect: boolean(description='MirrorFollowRedirect', name='MirrorFollowRedirect'),
-              mirrorCheckMd5: boolean(description='MirrorCheckMd5', name='MirrorCheckMd5'),
-              protocol: string(description='Protocol', name='Protocol'),
-              hostName: string(description='HostName', name='HostName'),
-              httpRedirectCode: string(description='HttpRedirectCode', name='HttpRedirectCode'),
-              replaceKeyPrefixWith: string(description='ReplaceKeyPrefixWith', name='ReplaceKeyPrefixWith'),
-              replaceKeyWith: string(description='ReplaceKeyWith', name='ReplaceKeyWith'),
+              redirectType?: string(description='RedirectType', name='RedirectType'),
+              passQueryString?: boolean(description='PassQueryString', name='PassQueryString'),
+              mirrorURL?: string(description='MirrorURL', name='MirrorURL'),
+              mirrorPassQueryString?: boolean(description='MirrorPassQueryString', name='MirrorPassQueryString'),
+              mirrorFollowRedirect?: boolean(description='MirrorFollowRedirect', name='MirrorFollowRedirect'),
+              mirrorCheckMd5?: boolean(description='MirrorCheckMd5', name='MirrorCheckMd5'),
+              protocol?: string(description='Protocol', name='Protocol'),
+              hostName?: string(description='HostName', name='HostName'),
+              httpRedirectCode?: string(description='HttpRedirectCode', name='HttpRedirectCode'),
+              replaceKeyPrefixWith?: string(description='ReplaceKeyPrefixWith', name='ReplaceKeyPrefixWith'),
+              replaceKeyWith?: string(description='ReplaceKeyWith', name='ReplaceKeyWith'),
               mirrorHeaders: {
-                passAll: boolean(description='PassAll', name='PassAll'),
-                pass: string(description='Pass', name='Pass'),
-                remove: string(description='Remove', name='Remove'),
+                passAll?: boolean(description='PassAll', name='PassAll'),
+                pass?: string(description='Pass', name='Pass'),
+                remove?: string(description='Remove', name='Remove'),
                 set: {
-                  key: string(description='Key', name='Key'),
-                  value: string(description='Value', name='Value'),
+                  key?: string(description='Key', name='Key'),
+                  value?: string(description='Value', name='Value'),
                 }(description='Set', name='Set'),
               }(description='MirrorHeaders', name='MirrorHeaders'),
             }(description='Redirect', name='Redirect'),
@@ -2128,21 +2128,21 @@ module Client {
   model ListLiveChannelResponse = {
     requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
     listLiveChannelResult: {
-      prefix: string(description='Prefix', name='Prefix'),
-      marker: string(description='Marker', name='Marker'),
-      maxKeys: string(description='MaxKeys', name='MaxKeys'),
-      isTruncated: string(description='IsTruncated', name='IsTruncated'),
-      nextMarker: string(description='NextMarker', name='NextMarker'),
+      prefix?: string(description='Prefix', name='Prefix'),
+      marker?: string(description='Marker', name='Marker'),
+      maxKeys?: string(description='MaxKeys', name='MaxKeys'),
+      isTruncated?: string(description='IsTruncated', name='IsTruncated'),
+      nextMarker?: string(description='NextMarker', name='NextMarker'),
       liveChannel: {
-        name: string(description='Name', name='Name'),
-        description: string(description='Description', name='Description'),
-        status: string(description='Status', name='Status'),
-        lastModified: string(description='LastModified', name='LastModified'),
+        name?: string(description='Name', name='Name'),
+        description?: string(description='Description', name='Description'),
+        status?: string(description='Status', name='Status'),
+        lastModified?: string(description='LastModified', name='LastModified'),
         publishUrls: {
-          url: string(description='Url', name='Url'),
+          url?: string(description='Url', name='Url'),
         }(description='PublishUrls', name='PublishUrls'),
         playUrls: {
-          url: string(description='Url', name='Url'),
+          url?: string(description='Url', name='Url'),
         }(description='PlayUrls', name='PlayUrls'),
       }(description='LiveChannel', name='LiveChannel'),
     }(description='ListLiveChannelResult', name='ListLiveChannelResult'),
@@ -2284,11 +2284,11 @@ module Client {
     requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
     accessControlPolicy: {
       owner: {
-        iD: string(description='ID', name='ID'),
-        displayName: string(description='DisplayName', name='DisplayName'),
+        iD?: string(description='ID', name='ID'),
+        displayName?: string(description='DisplayName', name='DisplayName'),
       }(description='Owner', name='Owner'),
       accessControlList: {
-        grant: string(description='Grant', name='Grant'),
+        grant?: string(description='Grant', name='Grant'),
       }(description='AccessControlList', name='AccessControlList'),
     }(description='AccessControlPolicy', name='AccessControlPolicy'),
   }
@@ -2366,20 +2366,20 @@ module Client {
   model ListPartsResponse = {
     requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
     listPartsResult: {
-      bucket: string(description='Bucket', name='Bucket'),
-      encodingType: string(description='EncodingType', name='EncodingType'),
-      key: string(description='Key', name='Key'),
-      uploadId: string(description='UploadId', name='UploadId'),
-      partNumberMarker: string(description='PartNumberMarker', name='PartNumberMarker'),
-      nextPartNumberMarker: string(description='NextPartNumberMarker', name='NextPartNumberMarker'),
-      maxParts: string(description='MaxParts', name='MaxParts'),
-      isTruncated: string(description='IsTruncated', name='IsTruncated'),
-      part: [
+      bucket?: string(description='Bucket', name='Bucket'),
+      encodingType?: string(description='EncodingType', name='EncodingType'),
+      key?: string(description='Key', name='Key'),
+      uploadId?: string(description='UploadId', name='UploadId'),
+      partNumberMarker?: string(description='PartNumberMarker', name='PartNumberMarker'),
+      nextPartNumberMarker?: string(description='NextPartNumberMarker', name='NextPartNumberMarker'),
+      maxParts?: string(description='MaxParts', name='MaxParts'),
+      isTruncated?: string(description='IsTruncated', name='IsTruncated'),
+      part?: [
         {
-          partNumber: string(description='PartNumber', name='PartNumber'),
-          lastModified: string(description='LastModified', name='LastModified'),
-          eTag: string(description='ETag', name='ETag'),
-          size: string(description='Size', name='Size'),
+          partNumber?: string(description='PartNumber', name='PartNumber'),
+          lastModified?: string(description='LastModified', name='LastModified'),
+          eTag?: string(description='ETag', name='ETag'),
+          size?: string(description='Size', name='Size'),
         }
       ](description='Part', name='Part'),
     }(description='ListPartsResult', name='ListPartsResult'),
@@ -2456,11 +2456,11 @@ module Client {
   model GetLiveChannelHistoryResponse = {
     requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
     liveChannelHistory: {
-      liveRecord: [
+      liveRecord?: [
         {
-          startTime: string(description='StartTime', name='StartTime'),
-          endTime: string(description='EndTime', name='EndTime'),
-          remoteAddr: string(description='RemoteAddr', name='RemoteAddr'),
+          startTime?: string(description='StartTime', name='StartTime'),
+          endTime?: string(description='EndTime', name='EndTime'),
+          remoteAddr?: string(description='RemoteAddr', name='RemoteAddr'),
         }
       ](description='LiveRecord', name='LiveRecord'),
     }(description='LiveChannelHistory', name='LiveChannelHistory'),
@@ -2540,24 +2540,24 @@ module Client {
   model GetBucketResponse = {
     requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
     listBucketResult: {
-      name: string(description='Name', name='Name'),
-      prefix: string(description='Prefix', name='Prefix'),
-      marker: string(description='Marker', name='Marker'),
-      maxKeys: string(description='MaxKeys', name='MaxKeys'),
-      delimiter: string(description='Delimiter', name='Delimiter'),
-      isTruncated: string(description='IsTruncated', name='IsTruncated'),
-      encodingType: string(description='EncodingType', name='EncodingType'),
-      commonPrefixes: string(description='CommonPrefixes', name='CommonPrefixes'),
-      contents: [
+      name?: string(description='Name', name='Name'),
+      prefix?: string(description='Prefix', name='Prefix'),
+      marker?: string(description='Marker', name='Marker'),
+      maxKeys?: string(description='MaxKeys', name='MaxKeys'),
+      delimiter?: string(description='Delimiter', name='Delimiter'),
+      isTruncated?: string(description='IsTruncated', name='IsTruncated'),
+      encodingType?: string(description='EncodingType', name='EncodingType'),
+      commonPrefixes?: string(description='CommonPrefixes', name='CommonPrefixes'),
+      contents?: [
         {
-          key: string(description='Key', name='Key'),
-          eTag: string(description='ETag', name='ETag'),
-          lastModified: string(description='LastModified', name='LastModified'),
-          size: string(description='Size', name='Size'),
-          storageClass: string(description='StorageClass', name='StorageClass'),
+          key?: string(description='Key', name='Key'),
+          eTag?: string(description='ETag', name='ETag'),
+          lastModified?: string(description='LastModified', name='LastModified'),
+          size?: string(description='Size', name='Size'),
+          storageClass?: string(description='StorageClass', name='StorageClass'),
           owner: {
-            iD: string(description='ID', name='ID'),
-            displayName: string(description='DisplayName', name='DisplayName'),
+            iD?: string(description='ID', name='ID'),
+            displayName?: string(description='DisplayName', name='DisplayName'),
           }(description='Owner', name='Owner'),
         }
       ](description='Contents', name='Contents'),
@@ -2632,13 +2632,13 @@ module Client {
   model GetLiveChannelInfoResponse = {
     requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
     liveChannelConfiguration: {
-      description: string(description='Description', name='Description'),
-      status: string(description='Status', name='Status'),
+      description?: string(description='Description', name='Description'),
+      status?: string(description='Status', name='Status'),
       target: {
-        type: string(description='Type', name='Type'),
-        fragDuration: string(description='FragDuration', name='FragDuration'),
-        fragCount: string(description='FragCount', name='FragCount'),
-        playlistName: string(description='PlaylistName', name='PlaylistName'),
+        type?: string(description='Type', name='Type'),
+        fragDuration?: string(description='FragDuration', name='FragDuration'),
+        fragCount?: string(description='FragCount', name='FragCount'),
+        playlistName?: string(description='PlaylistName', name='PlaylistName'),
       }(description='Target', name='Target'),
     }(description='LiveChannelConfiguration', name='LiveChannelConfiguration'),
   }
@@ -2713,20 +2713,20 @@ module Client {
   model GetLiveChannelStatResponse = {
     requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
     liveChannelStat: {
-      status: string(description='Status', name='Status'),
-      connectedTime: string(description='ConnectedTime', name='ConnectedTime'),
-      remoteAddr: string(description='RemoteAddr', name='RemoteAddr'),
+      status?: string(description='Status', name='Status'),
+      connectedTime?: string(description='ConnectedTime', name='ConnectedTime'),
+      remoteAddr?: string(description='RemoteAddr', name='RemoteAddr'),
       video: {
-        width: string(description='Width', name='Width'),
-        height: string(description='Height', name='Height'),
-        frameRate: string(description='FrameRate', name='FrameRate'),
-        bandwidth: string(description='Bandwidth', name='Bandwidth'),
-        codec: string(description='Codec', name='Codec'),
+        width?: string(description='Width', name='Width'),
+        height?: string(description='Height', name='Height'),
+        frameRate?: string(description='FrameRate', name='FrameRate'),
+        bandwidth?: string(description='Bandwidth', name='Bandwidth'),
+        codec?: string(description='Codec', name='Codec'),
       }(description='Video', name='Video'),
       audio: {
-        bandwidth: string(description='Bandwidth', name='Bandwidth'),
-        sampleRate: string(description='SampleRate', name='SampleRate'),
-        codec: string(description='Codec', name='Codec'),
+        bandwidth?: string(description='Bandwidth', name='Bandwidth'),
+        sampleRate?: string(description='SampleRate', name='SampleRate'),
+        codec?: string(description='Codec', name='Codec'),
       }(description='Audio', name='Audio'),
     }(description='LiveChannelStat', name='LiveChannelStat'),
   }
@@ -3058,8 +3058,8 @@ module Client {
   model UploadPartCopyResponse = {
     requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
     copyPartResult: {
-      lastModified: string(description='LastModified', name='LastModified'),
-      eTag: string(description='ETag', name='ETag'),
+      lastModified?: string(description='LastModified', name='LastModified'),
+      eTag?: string(description='ETag', name='ETag'),
     }(description='CopyPartResult', name='CopyPartResult'),
   }
 
@@ -3444,9 +3444,9 @@ module Client {
   model GetBucketCORSResponse = {
     requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
     cORSConfiguration: {
-      cORSRule: [
+      cORSRule?: [
         {
-          maxAgeSeconds: string(description='MaxAgeSeconds', name='MaxAgeSeconds'),
+          maxAgeSeconds?: string(description='MaxAgeSeconds', name='MaxAgeSeconds'),
         }
       ](description='CORSRule', name='CORSRule'),
     }(description='CORSConfiguration', name='CORSConfiguration'),
@@ -3533,8 +3533,8 @@ module Client {
   model CopyObjectResponse = {
     requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
     copyObjectResult: {
-      lastModified: string(description='LastModified', name='LastModified'),
-      eTag: string(description='ETag', name='ETag'),
+      lastModified?: string(description='LastModified', name='LastModified'),
+      eTag?: string(description='ETag', name='ETag'),
     }(description='CopyObjectResult', name='CopyObjectResult'),
   }
 
@@ -3609,10 +3609,10 @@ module Client {
     requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
     tagging: {
       tagSet: {
-        tag: [
+        tag?: [
           {
-            key: string(description='Key', name='Key'),
-            value: string(description='Value', name='Value'),
+            key?: string(description='Key', name='Key'),
+            value?: string(description='Value', name='Value'),
           }
         ](description='Tag', name='Tag'),
       }(description='TagSet', name='TagSet'),
@@ -3943,26 +3943,26 @@ module Client {
   model GetBucketLifecycleResponse = {
     requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
     lifecycleConfiguration: {
-      rule: [
+      rule?: [
         {
-          iD: string(description='ID', name='ID'),
-          prefix: string(description='Prefix', name='Prefix'),
-          status: string(description='Status', name='Status'),
+          iD?: string(description='ID', name='ID'),
+          prefix?: string(description='Prefix', name='Prefix'),
+          status?: string(description='Status', name='Status'),
           expiration: {
-            days: integer(description='Days', name='Days'),
-            createdBeforeDate: string(description='CreatedBeforeDate', name='CreatedBeforeDate'),
+            days?: integer(description='Days', name='Days'),
+            createdBeforeDate?: string(description='CreatedBeforeDate', name='CreatedBeforeDate'),
           }(description='Expiration', name='Expiration'),
           transition: {
-            days: integer(description='Days', name='Days'),
-            storageClass: string(description='StorageClass', name='StorageClass'),
+            days?: integer(description='Days', name='Days'),
+            storageClass?: string(description='StorageClass', name='StorageClass'),
           }(description='Transition', name='Transition'),
           abortMultipartUpload: {
-            days: integer(description='Days', name='Days'),
-            createdBeforeDate: string(description='CreatedBeforeDate', name='CreatedBeforeDate'),
+            days?: integer(description='Days', name='Days'),
+            createdBeforeDate?: string(description='CreatedBeforeDate', name='CreatedBeforeDate'),
           }(description='AbortMultipartUpload', name='AbortMultipartUpload'),
           tag: {
-            key: string(description='Key', name='Key'),
-            value: string(description='Value', name='Value'),
+            key?: string(description='Key', name='Key'),
+            value?: string(description='Value', name='Value'),
           }(description='Tag', name='Tag'),
         }
       ](description='Rule', name='Rule'),
@@ -4105,9 +4105,9 @@ module Client {
   model GetBucketRefererResponse = {
     requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
     refererConfiguration: {
-      allowEmptyReferer: boolean(description='AllowEmptyReferer', name='AllowEmptyReferer'),
+      allowEmptyReferer?: boolean(description='AllowEmptyReferer', name='AllowEmptyReferer'),
       refererList: {
-        referer: [ string ](description='Referer', name='Referer'),
+        referer?: [ string ](description='Referer', name='Referer'),
       }(description='RefererList', name='RefererList'),
     }(description='RefererConfiguration', name='RefererConfiguration'),
   }
@@ -4243,8 +4243,8 @@ module Client {
     requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
     bucketLoggingStatus: {
       loggingEnabled: {
-        targetBucket: string(description='TargetBucket', name='TargetBucket'),
-        targetPrefix: string(description='TargetPrefix', name='TargetPrefix'),
+        targetBucket?: string(description='TargetBucket', name='TargetBucket'),
+        targetPrefix?: string(description='TargetPrefix', name='TargetPrefix'),
       }(description='LoggingEnabled', name='LoggingEnabled'),
     }(description='BucketLoggingStatus', name='BucketLoggingStatus'),
   }
@@ -4385,20 +4385,20 @@ module Client {
     requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
     bucketInfo: {
       bucket: {
-        creationDate: string(description='CreationDate', name='CreationDate'),
-        extranetEndpoint: string(description='ExtranetEndpoint', name='ExtranetEndpoint'),
-        intranetEndpoint: string(description='IntranetEndpoint', name='IntranetEndpoint'),
-        location: string(description='Location', name='Location'),
-        name: string(description='Name', name='Name'),
-        dataRedundancyType: string(description='DataRedundancyType', name='DataRedundancyType'),
-        storageClass: string(description='StorageClass', name='StorageClass'),
-        comment: string(description='Comment', name='Comment'),
+        creationDate?: string(description='CreationDate', name='CreationDate'),
+        extranetEndpoint?: string(description='ExtranetEndpoint', name='ExtranetEndpoint'),
+        intranetEndpoint?: string(description='IntranetEndpoint', name='IntranetEndpoint'),
+        location?: string(description='Location', name='Location'),
+        name?: string(description='Name', name='Name'),
+        dataRedundancyType?: string(description='DataRedundancyType', name='DataRedundancyType'),
+        storageClass?: string(description='StorageClass', name='StorageClass'),
+        comment?: string(description='Comment', name='Comment'),
         owner: {
-          iD: string(description='ID', name='ID'),
-          displayName: string(description='DisplayName', name='DisplayName'),
+          iD?: string(description='ID', name='ID'),
+          displayName?: string(description='DisplayName', name='DisplayName'),
         }(description='Owner', name='Owner'),
         accessControlList: {
-          grant: string(description='Grant', name='Grant'),
+          grant?: string(description='Grant', name='Grant'),
         }(description='AccessControlList', name='AccessControlList'),
       }(description='Bucket', name='Bucket'),
     }(description='BucketInfo', name='BucketInfo'),
@@ -4554,9 +4554,9 @@ module Client {
   model InitiateMultipartUploadResponse = {
     requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
     initiateMultipartUploadResult: {
-      bucket: string(description='Bucket', name='Bucket'),
-      key: string(description='Key', name='Key'),
-      uploadId: string(description='UploadId', name='UploadId'),
+      bucket?: string(description='Bucket', name='Bucket'),
+      key?: string(description='Key', name='Key'),
+      uploadId?: string(description='UploadId', name='UploadId'),
     }(description='InitiateMultipartUploadResult', name='InitiateMultipartUploadResult'),
   }
 
@@ -5069,11 +5069,11 @@ module Client {
     requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
     accessControlPolicy: {
       owner: {
-        iD: string(description='ID', name='ID'),
-        displayName: string(description='DisplayName', name='DisplayName'),
+        iD?: string(description='ID', name='ID'),
+        displayName?: string(description='DisplayName', name='DisplayName'),
       }(description='Owner', name='Owner'),
       accessControlList: {
-        grant: string(description='Grant', name='Grant'),
+        grant?: string(description='Grant', name='Grant'),
       }(description='AccessControlList', name='AccessControlList'),
     }(description='AccessControlPolicy', name='AccessControlPolicy'),
   }

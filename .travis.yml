@@ -24,6 +24,9 @@ jobs:
         - export GO111MODULE=on
         - go mod tidy
         - go test -race -coverprofile=coverage.txt -covermode=atomic ./service/... ./utils...
+        - cd ../../golang
+        - go mod tidy
+        - test -z $ACCESS_KEY_ID -a -z $ACCESS_KEY_SECRET || go test -race ./client/...
       after_success:
         - bash <(curl -s https://codecov.io/bash) -cF go
     - language: java
