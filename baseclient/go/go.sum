@@ -2,7 +2,9 @@ github.com/alibabacloud-go/debug v0.0.0-20190504072949-9472017b5c68 h1:NqugFkGxx
 github.com/alibabacloud-go/debug v0.0.0-20190504072949-9472017b5c68/go.mod h1:6pb/Qy8c+lqua8cFpEy7g39NRRqOWc3rOwAy8m5Y2BY=
 github.com/alibabacloud-go/tea v0.0.0-20191213065341-8da7978c8dcd h1:7Og7PKQKZzqB/ADfrawNgd6YPx6yHlkzqc7+NulCOxg=
 github.com/alibabacloud-go/tea v0.0.0-20191213065341-8da7978c8dcd/go.mod h1:r5AZdLL+m9H2frPZaXy5TGycjXQu/wqgSgLaVsN7870=
+github.com/alibabacloud-go/tea v0.0.0-20191219084903-1b923fea9df6/go.mod h1:r5AZdLL+m9H2frPZaXy5TGycjXQu/wqgSgLaVsN7870=
 github.com/aliyun/alibabacloud-oss-sdk v0.0.0-20191219035414-760cf3945b40 h1:gp4YzYoxLybpXFs3pFz6dr05W7pJV5Tj/f7aRFL3pSU=
+github.com/aliyun/alibabacloud-oss-sdk v0.0.0-20191219080740-46b02d4f0d79 h1:blfLyhr1+PqAlM7gJKxFTIozRg90W+BXEzUBbRVkS68=
 github.com/aliyun/credentials-go v0.0.0-20190906110604-c03d72db9395 h1:ey3Xbk1uAgNOlWZAH7KDBxmoa0IcOt+snhA0vN8EA7s=
 github.com/aliyun/credentials-go v0.0.0-20190906110604-c03d72db9395/go.mod h1:AJeNV4JgJLF+XrTuSe0EPfSs702qFXKNJVOqloWotqs=
 github.com/creack/pty v1.1.7/go.mod h1:lj5s0c3V2DBrqTV7llrYr5NG6My20zk30Fl46Y7DoTY=
@@ -57,6 +59,7 @@ golang.org/x/time v0.0.0-20191024005414-555d28b269f0/go.mod h1:tRJNPiyCQ0inRvYxb
 golang.org/x/tools v0.0.0-20180917221912-90fa682c2a6e/go.mod h1:n7NCudcB/nEzxVGmLbDWY5pfWTLqBcC2KZ6jyYvM4mQ=
 golang.org/x/tools v0.0.0-20190328211700-ab21143f2384/go.mod h1:LCzVGOaR6xXOjkQ3onu1FJEFr0SW1gC7cKk1uF8kGRs=
 golang.org/x/tools v0.0.0-20191218225520-84f0c7cf60ea/go.mod h1:TB2adYChydJhpapKDTa4BR/hXlZSLoq2Wpct/0txZ28=
+golang.org/x/tools v0.0.0-20191219041853-979b82bfef62/go.mod h1:TB2adYChydJhpapKDTa4BR/hXlZSLoq2Wpct/0txZ28=
 golang.org/x/xerrors v0.0.0-20191011141410-1b5146add898/go.mod h1:I/5z698sn9Ka8TeJc9MKroUUfqBBauWjQqLJ2OPfmY0=
 golang.org/x/xerrors v0.0.0-20191204190536-9bdfabe68543/go.mod h1:I/5z698sn9Ka8TeJc9MKroUUfqBBauWjQqLJ2OPfmY0=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405 h1:yhCVgyC4o1eVCa2tZl7eS0r+SDo693bJlVdllGtEeKM=

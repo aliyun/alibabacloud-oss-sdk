@@ -18,14 +18,14 @@ namespace AlibabaCloud.OSS.Models
         public GetBucketRefererResponseRefererConfiguration RefererConfiguration { get; set; }
         public class GetBucketRefererResponseRefererConfiguration : TeaModel {
             [NameInMap("AllowEmptyReferer")]
-            [Validation(Required=true)]
+            [Validation(Required=false)]
             public bool? AllowEmptyReferer { get; set; }
             [NameInMap("RefererList")]
             [Validation(Required=true)]
             public GetBucketRefererResponseRefererList RefererList { get; set; }
             public class GetBucketRefererResponseRefererList : TeaModel {
                 [NameInMap("Referer")]
-                [Validation(Required=true)]
+                [Validation(Required=false)]
                 public List<string> Referer { get; set; }
 
             }

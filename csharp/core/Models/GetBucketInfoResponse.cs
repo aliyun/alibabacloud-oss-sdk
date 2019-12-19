@@ -22,55 +22,55 @@ namespace AlibabaCloud.OSS.Models
             public GetBucketInfoResponseBucket Bucket { get; set; }
             public class GetBucketInfoResponseBucket : TeaModel {
                 [NameInMap("CreationDate")]
-                [Validation(Required=true)]
+                [Validation(Required=false)]
                 public string CreationDate { get; set; }
 
                 [NameInMap("ExtranetEndpoint")]
-                [Validation(Required=true)]
+                [Validation(Required=false)]
                 public string ExtranetEndpoint { get; set; }
 
                 [NameInMap("IntranetEndpoint")]
-                [Validation(Required=true)]
+                [Validation(Required=false)]
                 public string IntranetEndpoint { get; set; }
 
                 [NameInMap("Location")]
-                [Validation(Required=true)]
+                [Validation(Required=false)]
                 public string Location { get; set; }
 
                 [NameInMap("Name")]
-                [Validation(Required=true)]
+                [Validation(Required=false)]
                 public string Name { get; set; }
 
                 [NameInMap("DataRedundancyType")]
-                [Validation(Required=true)]
+                [Validation(Required=false)]
                 public string DataRedundancyType { get; set; }
 
                 [NameInMap("StorageClass")]
-                [Validation(Required=true)]
+                [Validation(Required=false)]
                 public string StorageClass { get; set; }
 
                 [NameInMap("Comment")]
-                [Validation(Required=true)]
+                [Validation(Required=false)]
                 public string Comment { get; set; }
 
                 [NameInMap("Owner")]
                 [Validation(Required=true)]
-                public undefinedOwner Owner { get; set; }
-                public class undefinedOwner : TeaModel {
+                public GetBucketInfoResponseOwner Owner { get; set; }
+                public class GetBucketInfoResponseOwner : TeaModel {
                     [NameInMap("ID")]
-                    [Validation(Required=true)]
+                    [Validation(Required=false)]
                     public string ID { get; set; }
                     [NameInMap("DisplayName")]
-                    [Validation(Required=true)]
+                    [Validation(Required=false)]
                     public string DisplayName { get; set; }
                 };
 
                 [NameInMap("AccessControlList")]
                 [Validation(Required=true)]
-                public undefinedAccessControlList AccessControlList { get; set; }
-                public class undefinedAccessControlList : TeaModel {
+                public GetBucketInfoResponseAccessControlList AccessControlList { get; set; }
+                public class GetBucketInfoResponseAccessControlList : TeaModel {
                     [NameInMap("Grant")]
-                    [Validation(Required=true)]
+                    [Validation(Required=false)]
                     public string Grant { get; set; }
                 };
 
