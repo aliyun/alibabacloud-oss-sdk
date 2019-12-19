@@ -6,6 +6,7 @@ import { platform, arch } from 'os';
 import { getType } from 'mime';
 import { Readable } from 'stream';
 import { createHash } from 'crypto';
+import Crc64 from './crc';
 import { getSignatureV2, getSignatureV1 } from './signature';
 
 function parseXML(body: string): any {
@@ -425,12 +426,15 @@ export default class BaseClient {
   }
 
   _inject(readable: Readable, ref: { [key: string]: string }): Readable {
-    var shasum = createHash('md5');
+    let shasum = createHash('md5');
+    let crc64 = new Crc64();
     readable.on('data', function (chunk: Buffer) {
       shasum.update(chunk);
+      crc64.update(chunk);
     });
     readable.on('end', function () {
       ref['md5'] = shasum.digest('base64');
+      ref['crc'] = crc64.sum();
     });
     readable.pause();
     return readable;

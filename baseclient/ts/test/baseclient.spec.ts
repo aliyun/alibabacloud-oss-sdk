@@ -3,6 +3,7 @@
 import BaseClient from "../src/baseclient";
 import * as $tea from "@alicloud/tea-typescript";
 import { createServer, Server } from 'http';
+import { Readable } from 'stream';
 import { platform, arch } from 'os';
 import { request } from 'httpx';
 import 'mocha';
@@ -783,6 +784,45 @@ describe('base client', function () {
       Message: 'CORSResponse: CORS is not enabled for this bucket.',
       RequestId: '5DECB1F6F3150D373335D8D2',
       HostId: 'sdk-oss-test.oss-cn-hangzhou.aliyuncs.com',
+    });
+  });
+
+  it('_inject should ok', async function () {
+    const client = new BaseClient({
+      accessKeySecret:'accessKeySecret',
+      accessKeyId: 'accessKeyId',
+    });
+    class Counter extends Readable {
+      _max: number;
+      _index: number;
+      constructor() {
+        super();
+        this._max = 1000;
+        this._index = 1;
+      }
+
+      _read() {
+        const i = this._index++;
+        if (i > this._max)
+          this.push(null);
+        else {
+          const str = String(i);
+          const buf = Buffer.from(str, 'ascii');
+          this.push(buf);
+        }
+      }
+    }
+    let ref:{ [key: string]: string } = {};
+    let reader:Readable = new Counter();
+    reader = client._inject(reader, ref);
+    ref = await new Promise((resolve,reject) => {
+      reader.resume().on('end',() => {
+        resolve(ref);
+      });
+    });
+    assert.deepStrictEqual(ref, {
+      md5: 'Jx2gJpEVLI2XLN0ggKcY/g==',
+      crc: '1558505285304425618'
     });
   });
 
