@@ -21,7 +21,6 @@ import (
 	teautil "github.com/alibabacloud-go/tea/utils"
 	"github.com/aliyun/alibabacloud-oss-sdk/baseclient/go/utils"
 	"github.com/aliyun/credentials-go/credentials"
-	"github.com/clbanning/mxj"
 )
 
 var crcTable = func() *crc64.Table {
@@ -320,9 +319,7 @@ func (client *BaseClient) GetContentMD5(a string) string {
 }
 
 func (client *BaseClient) ToXML(obj map[string]interface{}) string {
-	mv := mxj.Map(obj)
-	byt, _ := mv.Xml()
-	return string(byt)
+	return mapToXML(obj)
 }
 
 func (client *BaseClient) NotNull(obj map[string]interface{}) bool {
