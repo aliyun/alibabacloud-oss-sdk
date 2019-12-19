@@ -1,13 +1,18 @@
 // This file is auto-generated, don't edit it. Thanks.
 package com.oss;
 
-import com.oss.models.*;
+import com.aliyun.oss.Client;
+import com.aliyun.oss.baseclient.utils.CRC64;
+import com.aliyun.oss.models.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
+
+import com.aliyun.oss.models.PutBucketLifecycleRequest.*;
+import com.aliyun.oss.models.PutBucketRefererRequest.*;
 
 public class ClientTest {
     private Client client;
@@ -18,7 +23,7 @@ public class ClientTest {
         Config config = new Config();
         config.accessKeyId = System.getenv("sdk_testAK");
         config.accessKeySecret = System.getenv("sdk_testSk");
-        config.signatureVersion = "v2";
+        config.signatureVersion = "V1";
         client = new Client(config);
     }
 
@@ -27,7 +32,7 @@ public class ClientTest {
         GetBucketInfoRequest request = new GetBucketInfoRequest();
         request.bucketName = "sdk-script";
         RuntimeObject runtimeObject = new RuntimeObject();
-        GetBucketInfoResponse response = client.GetBucketInfo(request, runtimeObject);
+        GetBucketInfoResponse response = client.getBucketInfo(request, runtimeObject);
         Assert.assertEquals("sdk-script", response.bucketInfo.bucket.name);
     }
 
@@ -36,7 +41,7 @@ public class ClientTest {
         GetBucketRequest request = new GetBucketRequest();
         request.bucketName = "sdk-script";
         RuntimeObject runtimeObject = new RuntimeObject();
-        GetBucketResponse response = client.GetBucket(request, runtimeObject);
+        GetBucketResponse response = client.getBucket(request, runtimeObject);
         Assert.assertEquals("sdk-script", response.listBucketResult.name);
     }
 
@@ -45,7 +50,7 @@ public class ClientTest {
         DeleteBucketLoggingRequest request = new DeleteBucketLoggingRequest();
         request.bucketName = "sdk-oss-test";
         RuntimeObject runtimeObject = new RuntimeObject();
-        DeleteBucketLoggingResponse response = client.DeleteBucketLogging(request, runtimeObject);
+        DeleteBucketLoggingResponse response = client.deleteBucketLogging(request, runtimeObject);
         Assert.assertNotNull(response.requestId);
     }
 
@@ -54,7 +59,7 @@ public class ClientTest {
         GetBucketLoggingRequest request = new GetBucketLoggingRequest();
         request.bucketName = "sdk-oss-test";
         RuntimeObject runtimeObject = new RuntimeObject();
-        GetBucketLoggingResponse response = client.GetBucketLogging(request, runtimeObject);
+        GetBucketLoggingResponse response = client.getBucketLogging(request, runtimeObject);
         Assert.assertNotNull(response.bucketLoggingStatus);
     }
 
@@ -63,7 +68,7 @@ public class ClientTest {
         GetBucketRefererRequest request = new GetBucketRefererRequest();
         request.bucketName = "sdk-oss-test";
         RuntimeObject runtimeObject = new RuntimeObject();
-        GetBucketRefererResponse response = client.GetBucketReferer(request, runtimeObject);
+        GetBucketRefererResponse response = client.getBucketReferer(request, runtimeObject);
         Assert.assertTrue(response.refererConfiguration.allowEmptyReferer);
     }
 
@@ -75,7 +80,7 @@ public class ClientTest {
         header.acl = "public-read";
         request.header = header;
         RuntimeObject runtimeObject = new RuntimeObject();
-        PutBucketAclResponse response = client.PutBucketAcl(request, runtimeObject);
+        PutBucketAclResponse response = client.putBucketAcl(request, runtimeObject);
         Assert.assertNotNull(response.requestId);
     }
 
@@ -84,7 +89,7 @@ public class ClientTest {
         GetBucketAclRequest request = new GetBucketAclRequest();
         request.bucketName = "sdk-oss-test";
         RuntimeObject runtimeObject = new RuntimeObject();
-        GetBucketAclResponse response = client.GetBucketAcl(request, runtimeObject);
+        GetBucketAclResponse response = client.getBucketAcl(request, runtimeObject);
         Assert.assertNotNull(response.accessControlPolicy);
     }
 
@@ -93,7 +98,7 @@ public class ClientTest {
         GetBucketLocationRequest request = new GetBucketLocationRequest();
         request.bucketName = "sdk-oss-test";
         RuntimeObject runtimeObject = new RuntimeObject();
-        GetBucketLocationResponse response = client.GetBucketLocation(request, runtimeObject);
+        GetBucketLocationResponse response = client.getBucketLocation(request, runtimeObject);
         Assert.assertEquals("oss-cn-hangzhou", response.locationConstraint);
     }
 
@@ -102,7 +107,7 @@ public class ClientTest {
         DeleteBucketWebsiteRequest request = new DeleteBucketWebsiteRequest();
         request.bucketName = "sdk-oss-test";
         RuntimeObject runtimeObject = new RuntimeObject();
-        DeleteBucketWebsiteResponse response = client.DeleteBucketWebsite(request, runtimeObject);
+        DeleteBucketWebsiteResponse response = client.deleteBucketWebsite(request, runtimeObject);
         Assert.assertNotNull(response.requestId);
     }
 
@@ -116,7 +121,7 @@ public class ClientTest {
         request.header = header;
         request.body = new ByteArrayInputStream("value".getBytes("UTF-8"));
         RuntimeObject runtimeObject = new RuntimeObject();
-        PutObjectResponse response = client.PutObject(request, runtimeObject);
+        PutObjectResponse response = client.putObject(request, runtimeObject);
         Assert.assertNotNull(response.requestId);
     }
 
@@ -129,7 +134,7 @@ public class ClientTest {
         header.copySource = "/sdk-oss-test/source.txt";
         request.header = header;
         RuntimeObject runtimeObject = new RuntimeObject();
-        CopyObjectResponse response = client.CopyObject(request, runtimeObject);
+        CopyObjectResponse response = client.copyObject(request, runtimeObject);
         Assert.assertNotNull(response.copyObjectResult);
     }
 
@@ -143,7 +148,7 @@ public class ClientTest {
         request.body = new ByteArrayInputStream("oss".getBytes("UTF-8"));
         request.filter = filter;
         RuntimeObject runtimeObject = new RuntimeObject();
-        AppendObjectResponse response = client.AppendObject(request, runtimeObject);
+        AppendObjectResponse response = client.appendObject(request, runtimeObject);
         Assert.assertEquals("3", response.nextAppendPosition);
     }
 
@@ -153,7 +158,7 @@ public class ClientTest {
         request.bucketName = "sdk-oss-test";
         request.objectName = "test123456.txt";
         RuntimeObject runtimeObject = new RuntimeObject();
-        GetObjectResponse response = client.GetObject(request, runtimeObject);
+        GetObjectResponse response = client.getObject(request, runtimeObject);
         Assert.assertEquals("Appendable", response.objectType);
     }
 
@@ -163,7 +168,7 @@ public class ClientTest {
         request.bucketName = "sdk-oss-test";
         request.objectName = "test123456.txt";
         RuntimeObject runtimeObject = new RuntimeObject();
-        GetObjectTaggingResponse response = client.GetObjectTagging(request, runtimeObject);
+        GetObjectTaggingResponse response = client.getObjectTagging(request, runtimeObject);
         Assert.assertNotNull(response.tagging);
     }
 
@@ -173,7 +178,7 @@ public class ClientTest {
         request.bucketName = "sdk-oss-test";
         request.objectName = "test123456.txt";
         RuntimeObject runtimeObject = new RuntimeObject();
-        GetObjectMetaResponse response = client.GetObjectMeta(request, runtimeObject);
+        GetObjectMetaResponse response = client.getObjectMeta(request, runtimeObject);
         Assert.assertEquals("3", response.contentLength);
     }
 
@@ -183,7 +188,7 @@ public class ClientTest {
         request.bucketName = "sdk-oss-test";
         request.objectName = "test123456.txt";
         RuntimeObject runtimeObject = new RuntimeObject();
-        HeadObjectResponse response = client.HeadObject(request, runtimeObject);
+        HeadObjectResponse response = client.headObject(request, runtimeObject);
         Assert.assertEquals("3", response.nextAppendPosition);
     }
 
@@ -193,7 +198,7 @@ public class ClientTest {
         request.bucketName = "sdk-oss-test";
         request.objectName = "test123456.txt";
         RuntimeObject runtimeObject = new RuntimeObject();
-        DeleteObjectTaggingResponse response = client.DeleteObjectTagging(request, runtimeObject);
+        DeleteObjectTaggingResponse response = client.deleteObjectTagging(request, runtimeObject);
         Assert.assertNotNull(response.requestId);
     }
 
@@ -203,20 +208,20 @@ public class ClientTest {
         request.bucketName = "sdk-oss-test";
         request.objectName = "test123456.txt";
         RuntimeObject runtimeObject = new RuntimeObject();
-        DeleteObjectResponse response = client.DeleteObject(request, runtimeObject);
+        DeleteObjectResponse response = client.deleteObject(request, runtimeObject);
         Assert.assertNotNull(response.requestId);
     }
 
     @Test
     public void PutObjectAclTest() throws Exception {
         PutObjectAclRequest request = new PutObjectAclRequest();
-        PutObjectAclRequest.PutObjectAclRequestHeader header =  new  PutObjectAclRequest.PutObjectAclRequestHeader();
+        PutObjectAclRequest.PutObjectAclRequestHeader header = new PutObjectAclRequest.PutObjectAclRequestHeader();
         header.objectAcl = "private";
         request.bucketName = "sdk-oss-test";
         request.objectName = "test123456.txt";
         request.header = header;
         RuntimeObject runtimeObject = new RuntimeObject();
-        PutObjectAclResponse response = client.PutObjectAcl(request, runtimeObject);
+        PutObjectAclResponse response = client.putObjectAcl(request, runtimeObject);
         Assert.assertNotNull(response.requestId);
     }
 
@@ -226,20 +231,20 @@ public class ClientTest {
         request.bucketName = "sdk-oss-test";
         request.objectName = "test123456.txt";
         RuntimeObject runtimeObject = new RuntimeObject();
-        GetObjectAclResponse response = client.GetObjectAcl(request, runtimeObject);
+        GetObjectAclResponse response = client.getObjectAcl(request, runtimeObject);
         Assert.assertNotNull(response.accessControlPolicy);
     }
 
     @Test
     public void PutSymlinkTest() throws Exception {
         PutSymlinkRequest request = new PutSymlinkRequest();
-        PutSymlinkRequest.PutSymlinkRequestHeader header =  new  PutSymlinkRequest.PutSymlinkRequestHeader();
+        PutSymlinkRequest.PutSymlinkRequestHeader header = new PutSymlinkRequest.PutSymlinkRequestHeader();
         header.symlinkTarget = "test123456.txt";
         request.bucketName = "sdk-oss-test";
         request.objectName = "test123456link.txt";
         request.header = header;
         RuntimeObject runtimeObject = new RuntimeObject();
-        PutSymlinkResponse response = client.PutSymlink(request, runtimeObject);
+        PutSymlinkResponse response = client.putSymlink(request, runtimeObject);
         Assert.assertNotNull(response.requestId);
     }
 
@@ -249,7 +254,7 @@ public class ClientTest {
         request.bucketName = "sdk-oss-test";
         request.objectName = "test123456link.txt";
         RuntimeObject runtimeObject = new RuntimeObject();
-        GetSymlinkResponse response = client.GetSymlink(request, runtimeObject);
+        GetSymlinkResponse response = client.getSymlink(request, runtimeObject);
         Assert.assertEquals("test123456.txt", response.symlinkTarget);
     }
 
@@ -259,7 +264,7 @@ public class ClientTest {
         request.bucketName = "sdk-oss-test";
         request.objectName = "obj.txt";
         RuntimeObject runtimeObject = new RuntimeObject();
-        RestoreObjectResponse response = client.RestoreObject(request, runtimeObject);
+        RestoreObjectResponse response = client.restoreObject(request, runtimeObject);
         Assert.assertNotNull(response.requestId);
     }
 
@@ -273,7 +278,7 @@ public class ClientTest {
         request.objectName = "init.txt";
         request.filter = filter;
         RuntimeObject runtimeObject = new RuntimeObject();
-        InitiateMultipartUploadResponse response = client.InitiateMultipartUpload(request, runtimeObject);
+        InitiateMultipartUploadResponse response = client.initiateMultipartUpload(request, runtimeObject);
         this.uploadId = response.initiateMultipartUploadResult.uploadId;
         Assert.assertNotNull(response.requestId);
 
@@ -286,7 +291,7 @@ public class ClientTest {
         uploadPartRequest.objectName = "init.txt";
         uploadPartRequest.filter = uploadPartRequestFilter;
         uploadPartRequest.body = new ByteArrayInputStream("oss test".getBytes("UTF-8"));
-        UploadPartResponse uploadPartResponse = client.UploadPart(uploadPartRequest, runtimeObject);
+        UploadPartResponse uploadPartResponse = client.uploadPart(uploadPartRequest, runtimeObject);
         Assert.assertNotNull(uploadPartResponse.requestId);
 
         UploadPartCopyRequest uploadPartCopyRequest = new UploadPartCopyRequest();
@@ -302,7 +307,7 @@ public class ClientTest {
         uploadPartCopyRequest.objectName = "init.txt";
         uploadPartCopyRequest.filter = uploadPartCopyRequestFilter;
         uploadPartCopyRequest.header = uploadPartCopyRequestHeader;
-        UploadPartCopyResponse UploadPartCopyResponse = client.UploadPartCopy(uploadPartCopyRequest, runtimeObject);
+        UploadPartCopyResponse UploadPartCopyResponse = client.uploadPartCopy(uploadPartCopyRequest, runtimeObject);
         Assert.assertNotNull(UploadPartCopyResponse.copyPartResult);
 
         ListPartsRequest listPartsRequest = new ListPartsRequest();
@@ -312,7 +317,7 @@ public class ClientTest {
         listPartsRequest.bucketName = "sdk-oss-test";
         listPartsRequest.objectName = "init.txt";
         listPartsRequest.filter = listPartsRequestFilter;
-        ListPartsResponse listPartsResponse = client.ListParts(listPartsRequest, runtimeObject);
+        ListPartsResponse listPartsResponse = client.listParts(listPartsRequest, runtimeObject);
         Assert.assertNotNull(listPartsResponse.listPartsResult);
 
         AbortMultipartUploadRequest abortMultipartUploadRequest = new AbortMultipartUploadRequest();
@@ -323,7 +328,7 @@ public class ClientTest {
         abortMultipartUploadRequest.objectName = "init.txt";
         abortMultipartUploadRequest.filter = abortMultipartUploadRequestFilter;
         AbortMultipartUploadResponse abortMultipartUploadResponse =
-                client.AbortMultipartUpload(abortMultipartUploadRequest, runtimeObject);
+                client.abortMultipartUpload(abortMultipartUploadRequest, runtimeObject);
         Assert.assertNotNull(abortMultipartUploadResponse.requestId);
     }
 
@@ -332,14 +337,14 @@ public class ClientTest {
         GetBucketCORSRequest request = new GetBucketCORSRequest();
         request.bucketName = "sdk-oss-test";
         RuntimeObject runtimeObject = new RuntimeObject();
-        GetBucketCORSResponse response = client.GetBucketCORS(request, runtimeObject);
+        GetBucketCORSResponse response = client.getBucketCORS(request, runtimeObject);
         Assert.assertNotNull(response.cORSConfiguration);
     }
 
     @Test
     public void OptionObjectTest() throws Exception {
         OptionObjectRequest request = new OptionObjectRequest();
-        OptionObjectRequest.OptionObjectRequestHeader header = new  OptionObjectRequest.OptionObjectRequestHeader();
+        OptionObjectRequest.OptionObjectRequestHeader header = new OptionObjectRequest.OptionObjectRequestHeader();
         header.origin = "origin";
         header.accessControlRequestHeaders = "sdk";
         header.accessControlRequestMethod = "GET";
@@ -347,7 +352,7 @@ public class ClientTest {
         request.objectName = "obj.txt";
         request.header = header;
         RuntimeObject runtimeObject = new RuntimeObject();
-        OptionObjectResponse response = client.OptionObject(request, runtimeObject);
+        OptionObjectResponse response = client.optionObject(request, runtimeObject);
         Assert.assertEquals("sdk", response.accessControlAllowHeaders);
     }
 
@@ -356,7 +361,7 @@ public class ClientTest {
         DeleteBucketCORSRequest request = new DeleteBucketCORSRequest();
         request.bucketName = "sdk-oss-test";
         RuntimeObject runtimeObject = new RuntimeObject();
-        DeleteBucketCORSResponse response = client.DeleteBucketCORS(request, runtimeObject);
+        DeleteBucketCORSResponse response = client.deleteBucketCORS(request, runtimeObject);
         Assert.assertNotNull(response.requestId);
     }
 
@@ -370,7 +375,7 @@ public class ClientTest {
         request.bucketName = "sdk-oss-test";
         request.channelName = "OSS";
         RuntimeObject runtimeObject = new RuntimeObject();
-        PutLiveChannelStatusResponse response = client.PutLiveChannelStatus(request, runtimeObject);
+        PutLiveChannelStatusResponse response = client.putLiveChannelStatus(request, runtimeObject);
         Assert.assertNotNull(response.requestId);
     }
 
@@ -382,7 +387,7 @@ public class ClientTest {
         request.channelName = "channelname";
         request.playlistName = "playlistname";
         RuntimeObject runtimeObject = new RuntimeObject();
-        PostVodPlaylistResponse response = client.PostVodPlaylist(request, runtimeObject);
+        PostVodPlaylistResponse response = client.postVodPlaylist(request, runtimeObject);
         Assert.assertNotNull(response.requestId);
     }
 
@@ -393,7 +398,79 @@ public class ClientTest {
         request.bucketName = "sdk-oss-test";
         request.channelName = "channelname";
         RuntimeObject runtimeObject = new RuntimeObject();
-        GetVodPlaylistResponse response = client.GetVodPlaylist(request, runtimeObject);
+        GetVodPlaylistResponse response = client.getVodPlaylist(request, runtimeObject);
+        Assert.assertNotNull(response.requestId);
+    }
+
+    @Test
+    public void putBucketLifecycle() throws Exception {
+        PutBucketLifecycleRequest request = new PutBucketLifecycleRequest();
+        PutBucketLifecycleRequestBody body = new PutBucketLifecycleRequestBody();
+        PutBucketLifecycleRequestBodyLifecycleConfiguration configuration = new PutBucketLifecycleRequestBodyLifecycleConfiguration();
+        PutBucketLifecycleRequestBodyLifecycleConfigurationRule rule = new PutBucketLifecycleRequestBodyLifecycleConfigurationRule();
+        PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration expiration = new PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration();
+        expiration.days = 1;
+        rule.prefix = "test";
+        rule.expiration = expiration;
+        rule.iD = "1";
+        rule.prefix = "Prefix";
+        rule.status = "Disabled";
+        configuration.rule = new PutBucketLifecycleRequestBodyLifecycleConfigurationRule[]{rule};
+        body.lifecycleConfiguration = configuration;
+        request.body = body;
+        request.bucketName = "sdk-oss-test";
+        RuntimeObject runtimeObject = new RuntimeObject();
+        client.putBucketLifecycle(request, runtimeObject);
+    }
+
+    @Test
+    public void getBucketLifecycle() throws Exception {
+        GetBucketLifecycleRequest request = new GetBucketLifecycleRequest();
+        request.bucketName = "sdk-oss-test";
+        RuntimeObject runtimeObject = new RuntimeObject();
+        GetBucketLifecycleResponse response = client.getBucketLifecycle(request, runtimeObject);
+        Assert.assertEquals("1", response.lifecycleConfiguration.rule[0].iD);
+        Assert.assertEquals("Prefix", response.lifecycleConfiguration.rule[0].prefix);
+        Assert.assertEquals("Disabled", response.lifecycleConfiguration.rule[0].status);
+    }
+
+    @Test
+    public void deleteBucketLifecycle() throws Exception {
+        DeleteBucketLifecycleRequest request = new DeleteBucketLifecycleRequest();
+        request.bucketName = "sdk-oss-test";
+        RuntimeObject runtimeObject = new RuntimeObject();
+        DeleteBucketLifecycleResponse response = client.deleteBucketLifecycle(request, runtimeObject);
+        Assert.assertNotNull(response.requestId);
+    }
+
+    @Test
+    public void putObejct() throws Exception {
+        PutObjectRequest request = new PutObjectRequest();
+        request.bucketName = "sdk-oss-test";
+        request.body = new ByteArrayInputStream("123456789123456789".getBytes("UTF-8"));
+        request.objectName = "123.txt";
+        RuntimeObject runtimeObject = new RuntimeObject();
+        PutObjectResponse response = client.putObject(request, runtimeObject);
+        Assert.assertEquals("11205368990259748190", response.hashCrc64ecma);
+    }
+
+    @Test
+    public void getObject() throws Exception{
+        GetObjectRequest request = new GetObjectRequest();
+        request.bucketName = "sdk-oss-test";
+        request.objectName = "123.txt";
+        RuntimeObject runtimeObject = new RuntimeObject();
+        GetObjectResponse response = client.getObject(request, runtimeObject);
+        Assert.assertNotNull(response.body);
+    }
+
+    @Test
+    public void deleteObject() throws Exception{
+        DeleteObjectRequest request = new DeleteObjectRequest();
+        request.bucketName = "sdk-oss-test";
+        request.objectName = "123.txt";
+        RuntimeObject runtimeObject = new RuntimeObject();
+        DeleteObjectResponse response = client.deleteObject(request, runtimeObject);
         Assert.assertNotNull(response.requestId);
     }
 
