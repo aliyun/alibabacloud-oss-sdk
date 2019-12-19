@@ -115,7 +115,6 @@ describe('OSS Client', function () {
             });
             let runtime = new RuntimeObject({});
             let response = await client.putBucketReferer(request, runtime);
-            console.log(response);
             assert.strictEqual(response.requestId.length, 24);
         });
 
@@ -125,7 +124,6 @@ describe('OSS Client', function () {
             });
             let runtime = new RuntimeObject({});
             let response = await client.getBucketReferer(request, runtime);
-            console.log(response);
             assert.strictEqual(response.requestId.length, 24);
             assert.ok(response.refererConfiguration.allowEmptyReferer);
         });
