@@ -18,55 +18,55 @@ namespace AlibabaCloud.OSS.Models
         public ListLiveChannelResponseListLiveChannelResult ListLiveChannelResult { get; set; }
         public class ListLiveChannelResponseListLiveChannelResult : TeaModel {
             [NameInMap("Prefix")]
-            [Validation(Required=true)]
+            [Validation(Required=false)]
             public string Prefix { get; set; }
             [NameInMap("Marker")]
-            [Validation(Required=true)]
+            [Validation(Required=false)]
             public string Marker { get; set; }
             [NameInMap("MaxKeys")]
-            [Validation(Required=true)]
+            [Validation(Required=false)]
             public string MaxKeys { get; set; }
             [NameInMap("IsTruncated")]
-            [Validation(Required=true)]
+            [Validation(Required=false)]
             public string IsTruncated { get; set; }
             [NameInMap("NextMarker")]
-            [Validation(Required=true)]
+            [Validation(Required=false)]
             public string NextMarker { get; set; }
             [NameInMap("LiveChannel")]
             [Validation(Required=true)]
             public ListLiveChannelResponseLiveChannel LiveChannel { get; set; }
             public class ListLiveChannelResponseLiveChannel : TeaModel {
                 [NameInMap("Name")]
-                [Validation(Required=true)]
+                [Validation(Required=false)]
                 public string Name { get; set; }
 
                 [NameInMap("Description")]
-                [Validation(Required=true)]
+                [Validation(Required=false)]
                 public string Description { get; set; }
 
                 [NameInMap("Status")]
-                [Validation(Required=true)]
+                [Validation(Required=false)]
                 public string Status { get; set; }
 
                 [NameInMap("LastModified")]
-                [Validation(Required=true)]
+                [Validation(Required=false)]
                 public string LastModified { get; set; }
 
                 [NameInMap("PublishUrls")]
                 [Validation(Required=true)]
-                public undefinedPublishUrls PublishUrls { get; set; }
-                public class undefinedPublishUrls : TeaModel {
+                public ListLiveChannelResponsePublishUrls PublishUrls { get; set; }
+                public class ListLiveChannelResponsePublishUrls : TeaModel {
                     [NameInMap("Url")]
-                    [Validation(Required=true)]
+                    [Validation(Required=false)]
                     public string Url { get; set; }
                 };
 
                 [NameInMap("PlayUrls")]
                 [Validation(Required=true)]
-                public undefinedPlayUrls PlayUrls { get; set; }
-                public class undefinedPlayUrls : TeaModel {
+                public ListLiveChannelResponsePlayUrls PlayUrls { get; set; }
+                public class ListLiveChannelResponsePlayUrls : TeaModel {
                     [NameInMap("Url")]
-                    [Validation(Required=true)]
+                    [Validation(Required=false)]
                     public string Url { get; set; }
                 };
 
