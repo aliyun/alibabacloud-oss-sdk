@@ -13,6 +13,8 @@ module Client {
   type @httpsProxy = string
   type @noProxy = string
   type @socks5Proxy = string
+  type @isEnableCrc = boolean
+  type @isEnableMD5 = boolean
   type @socks5NetWork = string
   type @maxIdleConns = number
   type @logger = any
@@ -2992,7 +2994,7 @@ module Client {
         }
       };
     }
-    if (!@equal(ctx.crc, __response.headers.x-oss-hash-crc64ecma)) {
+    if (@isEnableCrc && !@equal(ctx.crc, __response.headers.x-oss-hash-crc64ecma)) {
       throw {
         code = 'CrcNotMatched',
         data = {
@@ -3002,7 +3004,7 @@ module Client {
       };
     }
 
-    if (!@equal(ctx.md5, __response.headers.content-md5)) {
+    if (@isEnableMD5 && !@equal(ctx.md5, __response.headers.content-md5)) {
       throw {
         code = 'MD5NotMatched',
         data = {
@@ -3391,7 +3393,7 @@ module Client {
         }
       };
     }
-    if (!@equal(ctx.crc, __response.headers.x-oss-hash-crc64ecma)) {
+    if (@isEnableCrc && !@equal(ctx.crc, __response.headers.x-oss-hash-crc64ecma)) {
       throw {
         code = 'CrcNotMatched',
         data = {
@@ -3401,7 +3403,7 @@ module Client {
       };
     }
 
-    if (!@equal(ctx.md5, __response.headers.content-md5)) {
+    if (@isEnableMD5 && !@equal(ctx.md5, __response.headers.content-md5)) {
       throw {
         code = 'MD5NotMatched',
         data = {
@@ -5338,7 +5340,7 @@ module Client {
         }
       };
     }
-    if (!@equal(ctx.crc, __response.headers.x-oss-hash-crc64ecma)) {
+    if (@isEnableCrc && !@equal(ctx.crc, __response.headers.x-oss-hash-crc64ecma)) {
       throw {
         code = 'CrcNotMatched',
         data = {
@@ -5348,7 +5350,7 @@ module Client {
       };
     }
 
-    if (!@equal(ctx.md5, __response.headers.content-md5)) {
+    if (@isEnableMD5 && !@equal(ctx.md5, __response.headers.content-md5)) {
       throw {
         code = 'MD5NotMatched',
         data = {

@@ -11686,7 +11686,7 @@ func (client *Client) AppendObject(request *AppendObjectRequest, runtime *Runtim
 				return nil, err
 			}
 
-			if !client.Equal(ctx["crc"], response_.Headers["x-oss-hash-crc64ecma"]) {
+			if client.IsEnableCrc && !client.Equal(ctx["crc"], response_.Headers["x-oss-hash-crc64ecma"]) {
 				err = tea.NewSDKError(map[string]interface{}{
 					"code": "CrcNotMatched",
 					"data": map[string]interface{}{
@@ -11697,7 +11697,7 @@ func (client *Client) AppendObject(request *AppendObjectRequest, runtime *Runtim
 				return nil, err
 			}
 
-			if !client.Equal(ctx["md5"], response_.Headers["content-md5"]) {
+			if client.IsEnableMD5 && !client.Equal(ctx["md5"], response_.Headers["content-md5"]) {
 				err = tea.NewSDKError(map[string]interface{}{
 					"code": "MD5NotMatched",
 					"data": map[string]interface{}{
@@ -12237,7 +12237,7 @@ func (client *Client) UploadPart(request *UploadPartRequest, runtime *RuntimeObj
 				return nil, err
 			}
 
-			if !client.Equal(ctx["crc"], response_.Headers["x-oss-hash-crc64ecma"]) {
+			if client.IsEnableCrc && !client.Equal(ctx["crc"], response_.Headers["x-oss-hash-crc64ecma"]) {
 				err = tea.NewSDKError(map[string]interface{}{
 					"code": "CrcNotMatched",
 					"data": map[string]interface{}{
@@ -12248,7 +12248,7 @@ func (client *Client) UploadPart(request *UploadPartRequest, runtime *RuntimeObj
 				return nil, err
 			}
 
-			if !client.Equal(ctx["md5"], response_.Headers["content-md5"]) {
+			if client.IsEnableMD5 && !client.Equal(ctx["md5"], response_.Headers["content-md5"]) {
 				err = tea.NewSDKError(map[string]interface{}{
 					"code": "MD5NotMatched",
 					"data": map[string]interface{}{
@@ -15030,7 +15030,7 @@ func (client *Client) PutObject(request *PutObjectRequest, runtime *RuntimeObjec
 				return nil, err
 			}
 
-			if !client.Equal(ctx["crc"], response_.Headers["x-oss-hash-crc64ecma"]) {
+			if client.IsEnableCrc && !client.Equal(ctx["crc"], response_.Headers["x-oss-hash-crc64ecma"]) {
 				err = tea.NewSDKError(map[string]interface{}{
 					"code": "CrcNotMatched",
 					"data": map[string]interface{}{
@@ -15041,7 +15041,7 @@ func (client *Client) PutObject(request *PutObjectRequest, runtime *RuntimeObjec
 				return nil, err
 			}
 
-			if !client.Equal(ctx["md5"], response_.Headers["content-md5"]) {
+			if client.IsEnableMD5 && !client.Equal(ctx["md5"], response_.Headers["content-md5"]) {
 				err = tea.NewSDKError(map[string]interface{}{
 					"code": "MD5NotMatched",
 					"data": map[string]interface{}{
