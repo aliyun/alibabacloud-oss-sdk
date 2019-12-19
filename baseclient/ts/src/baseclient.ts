@@ -392,7 +392,7 @@ export default class BaseClient {
   }
 
   _readAsStream(response: $tea.Response): Readable {
-    return response._response;
+    return response.body;
   }
 
   _getTracker(): any {

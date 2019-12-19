@@ -787,6 +787,20 @@ describe('base client', function () {
     });
   });
 
+  it('_toXML should ok', function () {
+    const data = {
+      root: {
+        Owner: { ID: '1325847523475998', DisplayName: '1325847523475998' },
+        AccessControlList: { Grant: 'public-read' },
+      },
+    };
+    const client = new BaseClient({
+      accessKeySecret: 'accessKeySecret',
+      accessKeyId: 'accessKeyId',
+    });
+    assert.strictEqual(client._toXML(data),testXml);
+  });
+
   it('_inject should ok', async function () {
     const client = new BaseClient({
       accessKeySecret:'accessKeySecret',
@@ -806,7 +820,7 @@ describe('base client', function () {
         if (i > this._max)
           this.push(null);
         else {
-          const str = String(i);
+          const str = String(i) + 'test test';
           const buf = Buffer.from(str, 'ascii');
           this.push(buf);
         }
@@ -821,8 +835,8 @@ describe('base client', function () {
       });
     });
     assert.deepStrictEqual(ref, {
-      md5: 'Jx2gJpEVLI2XLN0ggKcY/g==',
-      crc: '1558505285304425618'
+      md5: 'VNtOPWYrOOq68/+E0bDeLw==',
+      crc: '9572577374999009327'
     });
   });
 
