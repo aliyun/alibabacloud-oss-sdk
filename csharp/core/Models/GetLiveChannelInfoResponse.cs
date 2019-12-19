@@ -18,29 +18,29 @@ namespace AlibabaCloud.OSS.Models
         public GetLiveChannelInfoResponseLiveChannelConfiguration LiveChannelConfiguration { get; set; }
         public class GetLiveChannelInfoResponseLiveChannelConfiguration : TeaModel {
             [NameInMap("Description")]
-            [Validation(Required=true)]
+            [Validation(Required=false)]
             public string Description { get; set; }
             [NameInMap("Status")]
-            [Validation(Required=true)]
+            [Validation(Required=false)]
             public string Status { get; set; }
             [NameInMap("Target")]
             [Validation(Required=true)]
             public GetLiveChannelInfoResponseTarget Target { get; set; }
             public class GetLiveChannelInfoResponseTarget : TeaModel {
                 [NameInMap("Type")]
-                [Validation(Required=true)]
+                [Validation(Required=false)]
                 public string Type { get; set; }
 
                 [NameInMap("FragDuration")]
-                [Validation(Required=true)]
+                [Validation(Required=false)]
                 public string FragDuration { get; set; }
 
                 [NameInMap("FragCount")]
-                [Validation(Required=true)]
+                [Validation(Required=false)]
                 public string FragCount { get; set; }
 
                 [NameInMap("PlaylistName")]
-                [Validation(Required=true)]
+                [Validation(Required=false)]
                 public string PlaylistName { get; set; }
 
             }

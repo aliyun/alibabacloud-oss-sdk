@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -150,19 +150,14 @@ namespace AlibabaCloud.OSS.Utils
 
         internal static string SerializeXml(object obj)
         {
-            string xmlStr = string.Empty;
-            XElement xRoot;
             Type type = obj.GetType();
-            PropertyInfo[] properties = type.GetProperties();
-
-            if (properties.Length > 0)
+            if (typeof(TeaModel).IsAssignableFrom(type))
             {
-                PropertyInfo propertyInfo = properties[0];
-                NameInMapAttribute attribute = propertyInfo.GetCustomAttribute(typeof(NameInMapAttribute)) as NameInMapAttribute;
-                string realName = attribute == null ? propertyInfo.Name : attribute.Name;
-                object rootObj = propertyInfo.GetValue(obj);
-                xRoot = GetXml(rootObj, realName);
-                return xRoot.ToString();
+                return SerializeXmlByModel((TeaModel) obj);
+            }
+            else if (obj is Dictionary<string, object>)
+            {
+                return SerializeXmlByDict((Dictionary<string, object>) obj);
             }
             else
             {
@@ -170,63 +165,108 @@ namespace AlibabaCloud.OSS.Utils
             }
         }
 
-        internal static XElement GetXml(object obj, string nodeName)
+        internal static string SerializeXmlByModel(TeaModel obj)
         {
-            XElement element = new XElement(nodeName);
-            if (obj == null)
-            {
-                return element;
-            }
             Type type = obj.GetType();
             PropertyInfo[] properties = type.GetProperties();
+            if (obj == null || properties.Length == 0)
+            {
+                return string.Empty;
+            }
 
+            PropertyInfo propertyInfo = properties[0];
+            NameInMapAttribute attribute = propertyInfo.GetCustomAttribute(typeof(NameInMapAttribute)) as NameInMapAttribute;
+            string realName = attribute == null ? propertyInfo.Name : attribute.Name;
+            object rootObj = propertyInfo.GetValue(obj);
+
+            XElement element = new XElement(realName);
+            GetXmlFactory(rootObj, element);
+
+            return element.ToString();
+        }
+
+        private static string SerializeXmlByDict(Dictionary<string, object> dict)
+        {
+            if (dict == null || dict.Count == 0)
+            {
+                return string.Empty;
+            }
+
+            string nodeName = dict.Keys.ToList() [0];
+            XElement element = new XElement(nodeName);
+            GetXmlFactory(dict[nodeName], element);
+
+            return element.ToString();
+        }
+
+        private static void GetXmlFactory(object obj, XElement element, XElement xParent = null)
+        {
+            if (obj == null)
+            {
+                return;
+            }
+            Type type = obj.GetType();
+
+            if (typeof(IList).IsAssignableFrom(type))
+            {
+                if (xParent == null)
+                {
+                    throw new ArgumentException("unsupported nest list.");
+                }
+                IList list = (IList) obj;
+                string nodeName = element.Name.LocalName;
+                for (int j = 0; j < list.Count; j++)
+                {
+                    XElement xNode = new XElement(nodeName);
+                    GetXmlFactory(list[j], xNode);
+                    xParent.Add(xNode);
+                }
+                return;
+            }
+
+            if (typeof(TeaModel).IsAssignableFrom(type))
+            {
+                GetXml((TeaModel) obj, element);
+
+            }
+            else if (obj is Dictionary<string, object>)
+            {
+                GetXml((Dictionary<string, object>) obj, element);
+            }
+            else
+            {
+                element.Add(obj);
+            }
+
+            if (xParent != null)
+            {
+                xParent.Add(element);
+            }
+
+        }
+
+        private static void GetXml(Dictionary<string, object> dict, XElement element)
+        {
+            foreach (var keypair in dict)
+            {
+                XElement xNode = new XElement(keypair.Key);
+                GetXmlFactory(keypair.Value, xNode, element);
+            }
+        }
+
+        private static void GetXml(TeaModel model, XElement element)
+        {
+            Type type = model.GetType();
+            PropertyInfo[] properties = type.GetProperties();
             for (int i = 0; i < properties.Length; i++)
             {
                 PropertyInfo propertyInfo = properties[i];
                 Type property = propertyInfo.PropertyType;
                 NameInMapAttribute attribute = propertyInfo.GetCustomAttribute(typeof(NameInMapAttribute)) as NameInMapAttribute;
                 string realName = attribute == null ? propertyInfo.Name : attribute.Name;
-                if (typeof(IList).IsAssignableFrom(property))
-                {
-                    IList list = (IList) propertyInfo.GetValue(obj);
-                    Type innerPropertyType = property.GetGenericArguments() [0];
-                    if (list != null)
-                    {
-                        for (int j = 0; j < list.Count; j++)
-                        {
-                            if (typeof(TeaModel).IsAssignableFrom(innerPropertyType))
-                            {
-                                element.Add(GetXml(list[j], realName));
-                            }
-                            else
-                            {
-                                XElement itemElement = new XElement(realName);
-                                itemElement.Add(list[j]);
-                                element.Add(itemElement);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        XElement nullElement = new XElement(realName);
-                        element.Add(nullElement);
-                    }
-                }
-                else if (typeof(TeaModel).IsAssignableFrom(property))
-                {
-                    object nodeObj = propertyInfo.GetValue(obj);
-                    element.Add(GetXml(nodeObj, realName));
-                }
-                else
-                {
-                    XElement nodeElement = new XElement(realName);
-                    object nodeObj = propertyInfo.GetValue(obj);
-                    nodeElement.Add(nodeObj);
-                    element.Add(nodeElement);
-                }
+                XElement node = new XElement(realName);
+                GetXmlFactory(propertyInfo.GetValue(model), node, element);
             }
-
-            return element;
         }
 
     }

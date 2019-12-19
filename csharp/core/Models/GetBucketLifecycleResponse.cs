@@ -18,7 +18,7 @@ namespace AlibabaCloud.OSS.Models
         public GetBucketLifecycleResponseLifecycleConfiguration LifecycleConfiguration { get; set; }
         public class GetBucketLifecycleResponseLifecycleConfiguration : TeaModel {
             [NameInMap("Rule")]
-            [Validation(Required=true)]
+            [Validation(Required=false)]
             public List<GetBucketLifecycleResponseID> Rule { get; set; }
             public class GetBucketLifecycleResponseID : TeaModel {
                     public string ID { get; set; }
@@ -27,44 +27,44 @@ namespace AlibabaCloud.OSS.Models
                     public GetBucketLifecycleResponseIDExpiration Expiration { get; set; }
                     public class GetBucketLifecycleResponseIDExpiration : TeaModel {
                         [NameInMap("Days")]
-                        [Validation(Required=true)]
+                        [Validation(Required=false)]
                         public int? Days { get; set; }
 
                         [NameInMap("CreatedBeforeDate")]
-                        [Validation(Required=true)]
+                        [Validation(Required=false)]
                         public string CreatedBeforeDate { get; set; }
 
                     }
                     public GetBucketLifecycleResponseIDTransition Transition { get; set; }
                     public class GetBucketLifecycleResponseIDTransition : TeaModel {
                         [NameInMap("Days")]
-                        [Validation(Required=true)]
+                        [Validation(Required=false)]
                         public int? Days { get; set; }
 
                         [NameInMap("StorageClass")]
-                        [Validation(Required=true)]
+                        [Validation(Required=false)]
                         public string StorageClass { get; set; }
 
                     }
                     public GetBucketLifecycleResponseIDAbortMultipartUpload AbortMultipartUpload { get; set; }
                     public class GetBucketLifecycleResponseIDAbortMultipartUpload : TeaModel {
                         [NameInMap("Days")]
-                        [Validation(Required=true)]
+                        [Validation(Required=false)]
                         public int? Days { get; set; }
 
                         [NameInMap("CreatedBeforeDate")]
-                        [Validation(Required=true)]
+                        [Validation(Required=false)]
                         public string CreatedBeforeDate { get; set; }
 
                     }
                     public GetBucketLifecycleResponseIDTag Tag { get; set; }
                     public class GetBucketLifecycleResponseIDTag : TeaModel {
                         [NameInMap("Key")]
-                        [Validation(Required=true)]
+                        [Validation(Required=false)]
                         public string Key { get; set; }
 
                         [NameInMap("Value")]
-                        [Validation(Required=true)]
+                        [Validation(Required=false)]
                         public string Value { get; set; }
 
                     }
