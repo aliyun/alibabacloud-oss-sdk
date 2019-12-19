@@ -3102,8 +3102,8 @@ export class PutObjectResponse extends $tea.Model {
 }
 
 export class PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration extends $tea.Model {
-  days: number;
-  createdBeforeDate: string;
+  days?: number;
+  createdBeforeDate?: string;
   static names(): { [key: string]: string } {
     return {
       days: 'Days',
@@ -3125,8 +3125,8 @@ export class PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration e
 }
 
 export class PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition extends $tea.Model {
-  days: number;
-  storageClass: string;
+  days?: number;
+  storageClass?: string;
   static names(): { [key: string]: string } {
     return {
       days: 'Days',
@@ -3148,8 +3148,8 @@ export class PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition e
 }
 
 export class PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUpload extends $tea.Model {
-  days: number;
-  createdBeforeDate: string;
+  days?: number;
+  createdBeforeDate?: string;
   static names(): { [key: string]: string } {
     return {
       days: 'Days',
@@ -3171,8 +3171,8 @@ export class PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipa
 }
 
 export class PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag extends $tea.Model {
-  key: string;
-  value: string;
+  key?: string;
+  value?: string;
   static names(): { [key: string]: string } {
     return {
       key: 'Key',
@@ -3194,13 +3194,13 @@ export class PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag extends 
 }
 
 export class PutBucketLifecycleRequestBodyLifecycleConfigurationRule extends $tea.Model {
-  expiration: PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration;
-  transition: PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition;
-  abortMultipartUpload: PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUpload;
-  tag: PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag;
-  iD: string;
-  prefix: string;
-  status: string;
+  expiration?: PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration;
+  transition?: PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition;
+  abortMultipartUpload?: PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUpload;
+  tag?: PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag;
+  iD?: string;
+  prefix?: string;
+  status?: string;
   static names(): { [key: string]: string } {
     return {
       expiration: 'Expiration',
@@ -3232,7 +3232,7 @@ export class PutBucketLifecycleRequestBodyLifecycleConfigurationRule extends $te
 }
 
 export class PutBucketLifecycleRequestBodyLifecycleConfiguration extends $tea.Model {
-  rule: PutBucketLifecycleRequestBodyLifecycleConfigurationRule[];
+  rule?: PutBucketLifecycleRequestBodyLifecycleConfigurationRule[];
   static names(): { [key: string]: string } {
     return {
       rule: 'Rule',
@@ -3272,7 +3272,7 @@ export class PutBucketLifecycleRequestBody extends $tea.Model {
 }
 
 export class DeleteMultipleObjectsRequestBodyDeleteObject extends $tea.Model {
-  key: string;
+  key?: string;
   static names(): { [key: string]: string } {
     return {
       key: 'Key',
@@ -3292,8 +3292,8 @@ export class DeleteMultipleObjectsRequestBodyDeleteObject extends $tea.Model {
 }
 
 export class DeleteMultipleObjectsRequestBodyDelete extends $tea.Model {
-  object: DeleteMultipleObjectsRequestBodyDeleteObject[];
-  quiet: string;
+  object?: DeleteMultipleObjectsRequestBodyDeleteObject[];
+  quiet?: string;
   static names(): { [key: string]: string } {
     return {
       object: 'Object',
@@ -3361,7 +3361,7 @@ export class DeleteMultipleObjectsRequestHeader extends $tea.Model {
 }
 
 export class DeleteMultipleObjectsResponseDeleteResultDeleted extends $tea.Model {
-  key: string;
+  key?: string;
   static names(): { [key: string]: string } {
     return {
       key: 'Key',
@@ -3381,9 +3381,9 @@ export class DeleteMultipleObjectsResponseDeleteResultDeleted extends $tea.Model
 }
 
 export class DeleteMultipleObjectsResponseDeleteResult extends $tea.Model {
-  quiet: string;
-  encodingType: string;
-  deleted: DeleteMultipleObjectsResponseDeleteResultDeleted[];
+  quiet?: string;
+  encodingType?: string;
+  deleted?: DeleteMultipleObjectsResponseDeleteResultDeleted[];
   static names(): { [key: string]: string } {
     return {
       quiet: 'Quiet',
@@ -3407,7 +3407,7 @@ export class DeleteMultipleObjectsResponseDeleteResult extends $tea.Model {
 }
 
 export class PutBucketRefererRequestBodyRefererConfigurationRefererList extends $tea.Model {
-  referer: string[];
+  referer?: string[];
   static names(): { [key: string]: string } {
     return {
       referer: 'Referer',
@@ -3427,8 +3427,8 @@ export class PutBucketRefererRequestBodyRefererConfigurationRefererList extends 
 }
 
 export class PutBucketRefererRequestBodyRefererConfiguration extends $tea.Model {
-  refererList: PutBucketRefererRequestBodyRefererConfigurationRefererList;
-  allowEmptyReferer: boolean;
+  refererList?: PutBucketRefererRequestBodyRefererConfigurationRefererList;
+  allowEmptyReferer?: boolean;
   static names(): { [key: string]: string } {
     return {
       refererList: 'RefererList',
@@ -3470,7 +3470,7 @@ export class PutBucketRefererRequestBody extends $tea.Model {
 }
 
 export class PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument extends $tea.Model {
-  suffix: string;
+  suffix?: string;
   static names(): { [key: string]: string } {
     return {
       suffix: 'Suffix',
@@ -3490,7 +3490,7 @@ export class PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument extend
 }
 
 export class PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument extends $tea.Model {
-  key: string;
+  key?: string;
   static names(): { [key: string]: string } {
     return {
       key: 'Key',
@@ -3510,8 +3510,8 @@ export class PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument extend
 }
 
 export class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader extends $tea.Model {
-  key: string;
-  equals: string;
+  key?: string;
+  equals?: string;
   static names(): { [key: string]: string } {
     return {
       key: 'Key',
@@ -3533,9 +3533,9 @@ export class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingR
 }
 
 export class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCondition extends $tea.Model {
-  includeHeader: PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader;
-  keyPrefixEquals: string;
-  httpErrorCodeReturnedEquals: string;
+  includeHeader?: PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader;
+  keyPrefixEquals?: string;
+  httpErrorCodeReturnedEquals?: string;
   static names(): { [key: string]: string } {
     return {
       includeHeader: 'IncludeHeader',
@@ -3559,8 +3559,8 @@ export class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingR
 }
 
 export class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet extends $tea.Model {
-  key: string;
-  value: string;
+  key?: string;
+  value?: string;
   static names(): { [key: string]: string } {
     return {
       key: 'Key',
@@ -3582,10 +3582,10 @@ export class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingR
 }
 
 export class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders extends $tea.Model {
-  set: PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet;
-  passAll: boolean;
-  pass: string;
-  remove: string;
+  set?: PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet;
+  passAll?: boolean;
+  pass?: string;
+  remove?: string;
   static names(): { [key: string]: string } {
     return {
       set: 'Set',
@@ -3611,18 +3611,18 @@ export class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingR
 }
 
 export class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect extends $tea.Model {
-  mirrorHeaders: PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders;
-  redirectType: string;
-  passQueryString: boolean;
-  mirrorURL: string;
-  mirrorPassQueryString: boolean;
-  mirrorFollowRedirect: boolean;
-  mirrorCheckMd5: boolean;
-  protocol: string;
-  hostName: string;
-  httpRedirectCode: string;
-  replaceKeyPrefixWith: string;
-  replaceKeyWith: string;
+  mirrorHeaders?: PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders;
+  redirectType?: string;
+  passQueryString?: boolean;
+  mirrorURL?: string;
+  mirrorPassQueryString?: boolean;
+  mirrorFollowRedirect?: boolean;
+  mirrorCheckMd5?: boolean;
+  protocol?: string;
+  hostName?: string;
+  httpRedirectCode?: string;
+  replaceKeyPrefixWith?: string;
+  replaceKeyWith?: string;
   static names(): { [key: string]: string } {
     return {
       mirrorHeaders: 'MirrorHeaders',
@@ -3664,9 +3664,9 @@ export class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingR
 }
 
 export class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule extends $tea.Model {
-  condition: PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCondition;
-  redirect: PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect;
-  ruleNumber: number;
+  condition?: PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCondition;
+  redirect?: PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect;
+  ruleNumber?: number;
   static names(): { [key: string]: string } {
     return {
       condition: 'Condition',
@@ -3690,7 +3690,7 @@ export class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingR
 }
 
 export class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules extends $tea.Model {
-  routingRule: PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule[];
+  routingRule?: PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule[];
   static names(): { [key: string]: string } {
     return {
       routingRule: 'RoutingRule',
@@ -3710,9 +3710,9 @@ export class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules extends
 }
 
 export class PutBucketWebsiteRequestBodyWebsiteConfiguration extends $tea.Model {
-  indexDocument: PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument;
-  errorDocument: PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument;
-  routingRules: PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules;
+  indexDocument?: PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument;
+  errorDocument?: PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument;
+  routingRules?: PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules;
   static names(): { [key: string]: string } {
     return {
       indexDocument: 'IndexDocument',
@@ -3779,8 +3779,8 @@ export class CompleteMultipartUploadRequestFilter extends $tea.Model {
 }
 
 export class CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart extends $tea.Model {
-  partNumber: string;
-  eTag: string;
+  partNumber?: string;
+  eTag?: string;
   static names(): { [key: string]: string } {
     return {
       partNumber: 'PartNumber',
@@ -3802,7 +3802,7 @@ export class CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart exten
 }
 
 export class CompleteMultipartUploadRequestBodyCompleteMultipartUpload extends $tea.Model {
-  part: CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart[];
+  part?: CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart[];
   static names(): { [key: string]: string } {
     return {
       part: 'Part',
@@ -3842,11 +3842,11 @@ export class CompleteMultipartUploadRequestBody extends $tea.Model {
 }
 
 export class CompleteMultipartUploadResponseCompleteMultipartUploadResult extends $tea.Model {
-  bucket: string;
-  eTag: string;
-  location: string;
-  key: string;
-  encodingType: string;
+  bucket?: string;
+  eTag?: string;
+  location?: string;
+  key?: string;
+  encodingType?: string;
   static names(): { [key: string]: string } {
     return {
       bucket: 'Bucket',
@@ -3874,8 +3874,8 @@ export class CompleteMultipartUploadResponseCompleteMultipartUploadResult extend
 }
 
 export class PutBucketLoggingRequestBodyBucketLoggingStatusLoggingEnabled extends $tea.Model {
-  targetBucket: string;
-  targetPrefix: string;
+  targetBucket?: string;
+  targetPrefix?: string;
   static names(): { [key: string]: string } {
     return {
       targetBucket: 'TargetBucket',
@@ -3897,7 +3897,7 @@ export class PutBucketLoggingRequestBodyBucketLoggingStatusLoggingEnabled extend
 }
 
 export class PutBucketLoggingRequestBodyBucketLoggingStatus extends $tea.Model {
-  loggingEnabled: PutBucketLoggingRequestBodyBucketLoggingStatusLoggingEnabled;
+  loggingEnabled?: PutBucketLoggingRequestBodyBucketLoggingStatusLoggingEnabled;
   static names(): { [key: string]: string } {
     return {
       loggingEnabled: 'LoggingEnabled',
@@ -3937,7 +3937,7 @@ export class PutBucketLoggingRequestBody extends $tea.Model {
 }
 
 export class PutBucketRequestPaymentRequestBodyRequestPaymentConfiguration extends $tea.Model {
-  payer: string;
+  payer?: string;
   static names(): { [key: string]: string } {
     return {
       payer: 'Payer',
@@ -3977,8 +3977,8 @@ export class PutBucketRequestPaymentRequestBody extends $tea.Model {
 }
 
 export class PutBucketEncryptionRequestBodyServerSideEncryptionRuleApplyServerSideEncryptionByDefault extends $tea.Model {
-  sSEAlgorithm: string;
-  kMSMasterKeyID: string;
+  sSEAlgorithm?: string;
+  kMSMasterKeyID?: string;
   static names(): { [key: string]: string } {
     return {
       sSEAlgorithm: 'SSEAlgorithm',
@@ -4000,7 +4000,7 @@ export class PutBucketEncryptionRequestBodyServerSideEncryptionRuleApplyServerSi
 }
 
 export class PutBucketEncryptionRequestBodyServerSideEncryptionRule extends $tea.Model {
-  applyServerSideEncryptionByDefault: PutBucketEncryptionRequestBodyServerSideEncryptionRuleApplyServerSideEncryptionByDefault;
+  applyServerSideEncryptionByDefault?: PutBucketEncryptionRequestBodyServerSideEncryptionRuleApplyServerSideEncryptionByDefault;
   static names(): { [key: string]: string } {
     return {
       applyServerSideEncryptionByDefault: 'ApplyServerSideEncryptionByDefault',
@@ -4040,10 +4040,10 @@ export class PutBucketEncryptionRequestBody extends $tea.Model {
 }
 
 export class PutLiveChannelRequestBodyLiveChannelConfigurationTarget extends $tea.Model {
-  type: string;
-  fragDuration: string;
-  fragCount: string;
-  playlistName: string;
+  type?: string;
+  fragDuration?: string;
+  fragCount?: string;
+  playlistName?: string;
   static names(): { [key: string]: string } {
     return {
       type: 'Type',
@@ -4069,10 +4069,10 @@ export class PutLiveChannelRequestBodyLiveChannelConfigurationTarget extends $te
 }
 
 export class PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot extends $tea.Model {
-  roleName: string;
-  destBucket: string;
-  notifyTopic: string;
-  interval: string;
+  roleName?: string;
+  destBucket?: string;
+  notifyTopic?: string;
+  interval?: string;
   static names(): { [key: string]: string } {
     return {
       roleName: 'RoleName',
@@ -4098,10 +4098,10 @@ export class PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot extends $
 }
 
 export class PutLiveChannelRequestBodyLiveChannelConfiguration extends $tea.Model {
-  target: PutLiveChannelRequestBodyLiveChannelConfigurationTarget;
-  snapshot: PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot;
-  description: string;
-  status: string;
+  target?: PutLiveChannelRequestBodyLiveChannelConfigurationTarget;
+  snapshot?: PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot;
+  description?: string;
+  status?: string;
   static names(): { [key: string]: string } {
     return {
       target: 'Target',
@@ -4147,7 +4147,7 @@ export class PutLiveChannelRequestBody extends $tea.Model {
 }
 
 export class PutLiveChannelResponseCreateLiveChannelResultPublishUrls extends $tea.Model {
-  url: string;
+  url?: string;
   static names(): { [key: string]: string } {
     return {
       url: 'Url',
@@ -4167,7 +4167,7 @@ export class PutLiveChannelResponseCreateLiveChannelResultPublishUrls extends $t
 }
 
 export class PutLiveChannelResponseCreateLiveChannelResultPlayUrls extends $tea.Model {
-  url: string;
+  url?: string;
   static names(): { [key: string]: string } {
     return {
       url: 'Url',
@@ -4210,8 +4210,8 @@ export class PutLiveChannelResponseCreateLiveChannelResult extends $tea.Model {
 }
 
 export class PutBucketTagsRequestBodyTaggingTagSetTag extends $tea.Model {
-  key: string;
-  value: string;
+  key?: string;
+  value?: string;
   static names(): { [key: string]: string } {
     return {
       key: 'Key',
@@ -4233,7 +4233,7 @@ export class PutBucketTagsRequestBodyTaggingTagSetTag extends $tea.Model {
 }
 
 export class PutBucketTagsRequestBodyTaggingTagSet extends $tea.Model {
-  tag: PutBucketTagsRequestBodyTaggingTagSetTag[];
+  tag?: PutBucketTagsRequestBodyTaggingTagSetTag[];
   static names(): { [key: string]: string } {
     return {
       tag: 'Tag',
@@ -4253,7 +4253,7 @@ export class PutBucketTagsRequestBodyTaggingTagSet extends $tea.Model {
 }
 
 export class PutBucketTagsRequestBodyTagging extends $tea.Model {
-  tagSet: PutBucketTagsRequestBodyTaggingTagSet;
+  tagSet?: PutBucketTagsRequestBodyTaggingTagSet;
   static names(): { [key: string]: string } {
     return {
       tagSet: 'TagSet',
@@ -4293,8 +4293,8 @@ export class PutBucketTagsRequestBody extends $tea.Model {
 }
 
 export class PutObjectTaggingRequestBodyTaggingTagSetTag extends $tea.Model {
-  key: string;
-  value: string;
+  key?: string;
+  value?: string;
   static names(): { [key: string]: string } {
     return {
       key: 'Key',
@@ -4316,7 +4316,7 @@ export class PutObjectTaggingRequestBodyTaggingTagSetTag extends $tea.Model {
 }
 
 export class PutObjectTaggingRequestBodyTaggingTagSet extends $tea.Model {
-  tag: PutObjectTaggingRequestBodyTaggingTagSetTag[];
+  tag?: PutObjectTaggingRequestBodyTaggingTagSetTag[];
   static names(): { [key: string]: string } {
     return {
       tag: 'Tag',
@@ -4336,7 +4336,7 @@ export class PutObjectTaggingRequestBodyTaggingTagSet extends $tea.Model {
 }
 
 export class PutObjectTaggingRequestBodyTagging extends $tea.Model {
-  tagSet: PutObjectTaggingRequestBodyTaggingTagSet;
+  tagSet?: PutObjectTaggingRequestBodyTaggingTagSet;
   static names(): { [key: string]: string } {
     return {
       tagSet: 'TagSet',
@@ -4396,12 +4396,12 @@ export class SelectObjectRequestFilter extends $tea.Model {
 }
 
 export class SelectObjectRequestBodySelectRequestInputSerializationCSV extends $tea.Model {
-  fileHeaderInfo: string;
-  recordDelimiter: string;
-  fieldDelimiter: string;
-  quoteCharacter: string;
-  commentCharacter: string;
-  range: string;
+  fileHeaderInfo?: string;
+  recordDelimiter?: string;
+  fieldDelimiter?: string;
+  quoteCharacter?: string;
+  commentCharacter?: string;
+  range?: string;
   static names(): { [key: string]: string } {
     return {
       fileHeaderInfo: 'FileHeaderInfo',
@@ -4431,8 +4431,8 @@ export class SelectObjectRequestBodySelectRequestInputSerializationCSV extends $
 }
 
 export class SelectObjectRequestBodySelectRequestInputSerialization extends $tea.Model {
-  cSV: SelectObjectRequestBodySelectRequestInputSerializationCSV;
-  compressionType: string;
+  cSV?: SelectObjectRequestBodySelectRequestInputSerializationCSV;
+  compressionType?: string;
   static names(): { [key: string]: string } {
     return {
       cSV: 'CSV',
@@ -4454,8 +4454,8 @@ export class SelectObjectRequestBodySelectRequestInputSerialization extends $tea
 }
 
 export class SelectObjectRequestBodySelectRequestOutputSerializationCSV extends $tea.Model {
-  recordDelimiter: string;
-  fieldDelimiter: string;
+  recordDelimiter?: string;
+  fieldDelimiter?: string;
   static names(): { [key: string]: string } {
     return {
       recordDelimiter: 'RecordDelimiter',
@@ -4477,11 +4477,11 @@ export class SelectObjectRequestBodySelectRequestOutputSerializationCSV extends 
 }
 
 export class SelectObjectRequestBodySelectRequestOutputSerialization extends $tea.Model {
-  cSV: SelectObjectRequestBodySelectRequestOutputSerializationCSV;
-  keepAllColumns: string;
-  outputRawData: string;
-  enablePayloadCrc: string;
-  outputHeader: string;
+  cSV?: SelectObjectRequestBodySelectRequestOutputSerializationCSV;
+  keepAllColumns?: string;
+  outputRawData?: string;
+  enablePayloadCrc?: string;
+  outputHeader?: string;
   static names(): { [key: string]: string } {
     return {
       cSV: 'CSV',
@@ -4509,8 +4509,8 @@ export class SelectObjectRequestBodySelectRequestOutputSerialization extends $te
 }
 
 export class SelectObjectRequestBodySelectRequestOptions extends $tea.Model {
-  skipPartialDataRecord: string;
-  maxSkippedRecordsAllowed: string;
+  skipPartialDataRecord?: string;
+  maxSkippedRecordsAllowed?: string;
   static names(): { [key: string]: string } {
     return {
       skipPartialDataRecord: 'SkipPartialDataRecord',
@@ -4532,10 +4532,10 @@ export class SelectObjectRequestBodySelectRequestOptions extends $tea.Model {
 }
 
 export class SelectObjectRequestBodySelectRequest extends $tea.Model {
-  inputSerialization: SelectObjectRequestBodySelectRequestInputSerialization;
-  outputSerialization: SelectObjectRequestBodySelectRequestOutputSerialization;
-  options: SelectObjectRequestBodySelectRequestOptions;
-  expression: string;
+  inputSerialization?: SelectObjectRequestBodySelectRequestInputSerialization;
+  outputSerialization?: SelectObjectRequestBodySelectRequestOutputSerialization;
+  options?: SelectObjectRequestBodySelectRequestOptions;
+  expression?: string;
   static names(): { [key: string]: string } {
     return {
       inputSerialization: 'InputSerialization',
@@ -4581,11 +4581,11 @@ export class SelectObjectRequestBody extends $tea.Model {
 }
 
 export class PutBucketCORSRequestBodyCORSConfigurationCORSRule extends $tea.Model {
-  allowedOrigin: string[];
-  allowedMethod: string[];
-  allowedHeader: string[];
-  exposeHeader: string[];
-  maxAgeSeconds: string;
+  allowedOrigin?: string[];
+  allowedMethod?: string[];
+  allowedHeader?: string[];
+  exposeHeader?: string[];
+  maxAgeSeconds?: string;
   static names(): { [key: string]: string } {
     return {
       allowedOrigin: 'AllowedOrigin',
@@ -4613,7 +4613,7 @@ export class PutBucketCORSRequestBodyCORSConfigurationCORSRule extends $tea.Mode
 }
 
 export class PutBucketCORSRequestBodyCORSConfiguration extends $tea.Model {
-  cORSRule: PutBucketCORSRequestBodyCORSConfigurationCORSRule[];
+  cORSRule?: PutBucketCORSRequestBodyCORSConfigurationCORSRule[];
   static names(): { [key: string]: string } {
     return {
       cORSRule: 'CORSRule',
@@ -4653,8 +4653,8 @@ export class PutBucketCORSRequestBody extends $tea.Model {
 }
 
 export class PutBucketRequestBodyCreateBucketConfiguration extends $tea.Model {
-  storageClass: string;
-  dataRedundancyType: string;
+  storageClass?: string;
+  dataRedundancyType?: string;
   static names(): { [key: string]: string } {
     return {
       storageClass: 'StorageClass',
@@ -4751,9 +4751,9 @@ export class ListMultipartUploadsRequestFilter extends $tea.Model {
 }
 
 export class ListMultipartUploadsResponseListMultipartUploadsResultUpload extends $tea.Model {
-  key: string;
-  uploadId: string;
-  initiated: string;
+  key?: string;
+  uploadId?: string;
+  initiated?: string;
   static names(): { [key: string]: string } {
     return {
       key: 'Key',
@@ -4777,16 +4777,16 @@ export class ListMultipartUploadsResponseListMultipartUploadsResultUpload extend
 }
 
 export class ListMultipartUploadsResponseListMultipartUploadsResult extends $tea.Model {
-  bucket: string;
-  encodingType: string;
-  keyMarker: string;
-  uploadIdMarker: string;
-  nextKeyMarker: string;
-  nextUploadIdMarker: string;
-  delimiter: string;
-  maxUploads: string;
-  isTruncated: string;
-  upload: ListMultipartUploadsResponseListMultipartUploadsResultUpload[];
+  bucket?: string;
+  encodingType?: string;
+  keyMarker?: string;
+  uploadIdMarker?: string;
+  nextKeyMarker?: string;
+  nextUploadIdMarker?: string;
+  delimiter?: string;
+  maxUploads?: string;
+  isTruncated?: string;
+  upload?: ListMultipartUploadsResponseListMultipartUploadsResultUpload[];
   static names(): { [key: string]: string } {
     return {
       bucket: 'Bucket',
@@ -4824,7 +4824,7 @@ export class ListMultipartUploadsResponseListMultipartUploadsResult extends $tea
 }
 
 export class GetBucketRequestPaymentResponseRequestPaymentConfiguration extends $tea.Model {
-  payer: string;
+  payer?: string;
   static names(): { [key: string]: string } {
     return {
       payer: 'Payer',
@@ -4844,8 +4844,8 @@ export class GetBucketRequestPaymentResponseRequestPaymentConfiguration extends 
 }
 
 export class GetBucketEncryptionResponseServerSideEncryptionRuleApplyServerSideEncryptionByDefault extends $tea.Model {
-  sSEAlgorithm: string;
-  kMSMasterKeyID: string;
+  sSEAlgorithm?: string;
+  kMSMasterKeyID?: string;
   static names(): { [key: string]: string } {
     return {
       sSEAlgorithm: 'SSEAlgorithm',
@@ -4887,8 +4887,8 @@ export class GetBucketEncryptionResponseServerSideEncryptionRule extends $tea.Mo
 }
 
 export class GetBucketTagsResponseTaggingTagSetTag extends $tea.Model {
-  key: string;
-  value: string;
+  key?: string;
+  value?: string;
   static names(): { [key: string]: string } {
     return {
       key: 'Key',
@@ -4910,7 +4910,7 @@ export class GetBucketTagsResponseTaggingTagSetTag extends $tea.Model {
 }
 
 export class GetBucketTagsResponseTaggingTagSet extends $tea.Model {
-  tag: GetBucketTagsResponseTaggingTagSetTag[];
+  tag?: GetBucketTagsResponseTaggingTagSetTag[];
   static names(): { [key: string]: string } {
     return {
       tag: 'Tag',
@@ -4976,8 +4976,8 @@ export class GetServiceRequestFilter extends $tea.Model {
 }
 
 export class GetServiceResponseListAllMyBucketsResultOwner extends $tea.Model {
-  iD: string;
-  displayName: string;
+  iD?: string;
+  displayName?: string;
   static names(): { [key: string]: string } {
     return {
       iD: 'ID',
@@ -4999,12 +4999,12 @@ export class GetServiceResponseListAllMyBucketsResultOwner extends $tea.Model {
 }
 
 export class GetServiceResponseListAllMyBucketsResultBucketsBucket extends $tea.Model {
-  name: string;
-  createDate: string;
-  location: string;
-  extranetEndpoint: string;
-  intranetEndpoint: string;
-  storageClass: string;
+  name?: string;
+  createDate?: string;
+  location?: string;
+  extranetEndpoint?: string;
+  intranetEndpoint?: string;
+  storageClass?: string;
   static names(): { [key: string]: string } {
     return {
       name: 'Name',
@@ -5034,7 +5034,7 @@ export class GetServiceResponseListAllMyBucketsResultBucketsBucket extends $tea.
 }
 
 export class GetServiceResponseListAllMyBucketsResultBuckets extends $tea.Model {
-  bucket: GetServiceResponseListAllMyBucketsResultBucketsBucket[];
+  bucket?: GetServiceResponseListAllMyBucketsResultBucketsBucket[];
   static names(): { [key: string]: string } {
     return {
       bucket: 'Bucket',
@@ -5054,11 +5054,11 @@ export class GetServiceResponseListAllMyBucketsResultBuckets extends $tea.Model 
 }
 
 export class GetServiceResponseListAllMyBucketsResult extends $tea.Model {
-  prefix: string;
-  marker: string;
-  maxKeys: string;
-  isTruncated: string;
-  nextMarker: string;
+  prefix?: string;
+  marker?: string;
+  maxKeys?: string;
+  isTruncated?: string;
+  nextMarker?: string;
   owner: GetServiceResponseListAllMyBucketsResultOwner;
   buckets: GetServiceResponseListAllMyBucketsResultBuckets;
   static names(): { [key: string]: string } {
@@ -5112,7 +5112,7 @@ export class DeleteBucketTagsRequestFilter extends $tea.Model {
 }
 
 export class GetBucketWebsiteResponseWebsiteConfigurationIndexDocument extends $tea.Model {
-  suffix: string;
+  suffix?: string;
   static names(): { [key: string]: string } {
     return {
       suffix: 'Suffix',
@@ -5132,7 +5132,7 @@ export class GetBucketWebsiteResponseWebsiteConfigurationIndexDocument extends $
 }
 
 export class GetBucketWebsiteResponseWebsiteConfigurationErrorDocument extends $tea.Model {
-  key: string;
+  key?: string;
   static names(): { [key: string]: string } {
     return {
       key: 'Key',
@@ -5152,8 +5152,8 @@ export class GetBucketWebsiteResponseWebsiteConfigurationErrorDocument extends $
 }
 
 export class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader extends $tea.Model {
-  key: string;
-  equals: string;
+  key?: string;
+  equals?: string;
   static names(): { [key: string]: string } {
     return {
       key: 'Key',
@@ -5175,8 +5175,8 @@ export class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule
 }
 
 export class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleCondition extends $tea.Model {
-  keyPrefixEquals: string;
-  httpErrorCodeReturnedEquals: string;
+  keyPrefixEquals?: string;
+  httpErrorCodeReturnedEquals?: string;
   includeHeader: GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader;
   static names(): { [key: string]: string } {
     return {
@@ -5201,8 +5201,8 @@ export class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule
 }
 
 export class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet extends $tea.Model {
-  key: string;
-  value: string;
+  key?: string;
+  value?: string;
   static names(): { [key: string]: string } {
     return {
       key: 'Key',
@@ -5224,9 +5224,9 @@ export class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule
 }
 
 export class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders extends $tea.Model {
-  passAll: boolean;
-  pass: string;
-  remove: string;
+  passAll?: boolean;
+  pass?: string;
+  remove?: string;
   set: GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet;
   static names(): { [key: string]: string } {
     return {
@@ -5253,17 +5253,17 @@ export class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule
 }
 
 export class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect extends $tea.Model {
-  redirectType: string;
-  passQueryString: boolean;
-  mirrorURL: string;
-  mirrorPassQueryString: boolean;
-  mirrorFollowRedirect: boolean;
-  mirrorCheckMd5: boolean;
-  protocol: string;
-  hostName: string;
-  httpRedirectCode: string;
-  replaceKeyPrefixWith: string;
-  replaceKeyWith: string;
+  redirectType?: string;
+  passQueryString?: boolean;
+  mirrorURL?: string;
+  mirrorPassQueryString?: boolean;
+  mirrorFollowRedirect?: boolean;
+  mirrorCheckMd5?: boolean;
+  protocol?: string;
+  hostName?: string;
+  httpRedirectCode?: string;
+  replaceKeyPrefixWith?: string;
+  replaceKeyWith?: string;
   mirrorHeaders: GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders;
   static names(): { [key: string]: string } {
     return {
@@ -5306,7 +5306,7 @@ export class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule
 }
 
 export class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule extends $tea.Model {
-  ruleNumber: number;
+  ruleNumber?: number;
   condition: GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleCondition;
   redirect: GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect;
   static names(): { [key: string]: string } {
@@ -5332,7 +5332,7 @@ export class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule
 }
 
 export class GetBucketWebsiteResponseWebsiteConfigurationRoutingRules extends $tea.Model {
-  routingRule: GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule[];
+  routingRule?: GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule[];
   static names(): { [key: string]: string } {
     return {
       routingRule: 'RoutingRule',
@@ -5404,7 +5404,7 @@ export class ListLiveChannelRequestFilter extends $tea.Model {
 }
 
 export class ListLiveChannelResponseListLiveChannelResultLiveChannelPublishUrls extends $tea.Model {
-  url: string;
+  url?: string;
   static names(): { [key: string]: string } {
     return {
       url: 'Url',
@@ -5424,7 +5424,7 @@ export class ListLiveChannelResponseListLiveChannelResultLiveChannelPublishUrls 
 }
 
 export class ListLiveChannelResponseListLiveChannelResultLiveChannelPlayUrls extends $tea.Model {
-  url: string;
+  url?: string;
   static names(): { [key: string]: string } {
     return {
       url: 'Url',
@@ -5444,10 +5444,10 @@ export class ListLiveChannelResponseListLiveChannelResultLiveChannelPlayUrls ext
 }
 
 export class ListLiveChannelResponseListLiveChannelResultLiveChannel extends $tea.Model {
-  name: string;
-  description: string;
-  status: string;
-  lastModified: string;
+  name?: string;
+  description?: string;
+  status?: string;
+  lastModified?: string;
   publishUrls: ListLiveChannelResponseListLiveChannelResultLiveChannelPublishUrls;
   playUrls: ListLiveChannelResponseListLiveChannelResultLiveChannelPlayUrls;
   static names(): { [key: string]: string } {
@@ -5479,11 +5479,11 @@ export class ListLiveChannelResponseListLiveChannelResultLiveChannel extends $te
 }
 
 export class ListLiveChannelResponseListLiveChannelResult extends $tea.Model {
-  prefix: string;
-  marker: string;
-  maxKeys: string;
-  isTruncated: string;
-  nextMarker: string;
+  prefix?: string;
+  marker?: string;
+  maxKeys?: string;
+  isTruncated?: string;
+  nextMarker?: string;
   liveChannel: ListLiveChannelResponseListLiveChannelResultLiveChannel;
   static names(): { [key: string]: string } {
     return {
@@ -5514,8 +5514,8 @@ export class ListLiveChannelResponseListLiveChannelResult extends $tea.Model {
 }
 
 export class GetBucketAclResponseAccessControlPolicyOwner extends $tea.Model {
-  iD: string;
-  displayName: string;
+  iD?: string;
+  displayName?: string;
   static names(): { [key: string]: string } {
     return {
       iD: 'ID',
@@ -5537,7 +5537,7 @@ export class GetBucketAclResponseAccessControlPolicyOwner extends $tea.Model {
 }
 
 export class GetBucketAclResponseAccessControlPolicyAccessControlList extends $tea.Model {
-  grant: string;
+  grant?: string;
   static names(): { [key: string]: string } {
     return {
       grant: 'Grant',
@@ -5609,10 +5609,10 @@ export class ListPartsRequestFilter extends $tea.Model {
 }
 
 export class ListPartsResponseListPartsResultPart extends $tea.Model {
-  partNumber: string;
-  lastModified: string;
-  eTag: string;
-  size: string;
+  partNumber?: string;
+  lastModified?: string;
+  eTag?: string;
+  size?: string;
   static names(): { [key: string]: string } {
     return {
       partNumber: 'PartNumber',
@@ -5638,15 +5638,15 @@ export class ListPartsResponseListPartsResultPart extends $tea.Model {
 }
 
 export class ListPartsResponseListPartsResult extends $tea.Model {
-  bucket: string;
-  encodingType: string;
-  key: string;
-  uploadId: string;
-  partNumberMarker: string;
-  nextPartNumberMarker: string;
-  maxParts: string;
-  isTruncated: string;
-  part: ListPartsResponseListPartsResultPart[];
+  bucket?: string;
+  encodingType?: string;
+  key?: string;
+  uploadId?: string;
+  partNumberMarker?: string;
+  nextPartNumberMarker?: string;
+  maxParts?: string;
+  isTruncated?: string;
+  part?: ListPartsResponseListPartsResultPart[];
   static names(): { [key: string]: string } {
     return {
       bucket: 'Bucket',
@@ -5702,9 +5702,9 @@ export class GetLiveChannelHistoryRequestFilter extends $tea.Model {
 }
 
 export class GetLiveChannelHistoryResponseLiveChannelHistoryLiveRecord extends $tea.Model {
-  startTime: string;
-  endTime: string;
-  remoteAddr: string;
+  startTime?: string;
+  endTime?: string;
+  remoteAddr?: string;
   static names(): { [key: string]: string } {
     return {
       startTime: 'StartTime',
@@ -5728,7 +5728,7 @@ export class GetLiveChannelHistoryResponseLiveChannelHistoryLiveRecord extends $
 }
 
 export class GetLiveChannelHistoryResponseLiveChannelHistory extends $tea.Model {
-  liveRecord: GetLiveChannelHistoryResponseLiveChannelHistoryLiveRecord[];
+  liveRecord?: GetLiveChannelHistoryResponseLiveChannelHistoryLiveRecord[];
   static names(): { [key: string]: string } {
     return {
       liveRecord: 'LiveRecord',
@@ -5780,8 +5780,8 @@ export class GetBucketRequestFilter extends $tea.Model {
 }
 
 export class GetBucketResponseListBucketResultContentsOwner extends $tea.Model {
-  iD: string;
-  displayName: string;
+  iD?: string;
+  displayName?: string;
   static names(): { [key: string]: string } {
     return {
       iD: 'ID',
@@ -5803,11 +5803,11 @@ export class GetBucketResponseListBucketResultContentsOwner extends $tea.Model {
 }
 
 export class GetBucketResponseListBucketResultContents extends $tea.Model {
-  key: string;
-  eTag: string;
-  lastModified: string;
-  size: string;
-  storageClass: string;
+  key?: string;
+  eTag?: string;
+  lastModified?: string;
+  size?: string;
+  storageClass?: string;
   owner: GetBucketResponseListBucketResultContentsOwner;
   static names(): { [key: string]: string } {
     return {
@@ -5838,15 +5838,15 @@ export class GetBucketResponseListBucketResultContents extends $tea.Model {
 }
 
 export class GetBucketResponseListBucketResult extends $tea.Model {
-  name: string;
-  prefix: string;
-  marker: string;
-  maxKeys: string;
-  delimiter: string;
-  isTruncated: string;
-  encodingType: string;
-  commonPrefixes: string;
-  contents: GetBucketResponseListBucketResultContents[];
+  name?: string;
+  prefix?: string;
+  marker?: string;
+  maxKeys?: string;
+  delimiter?: string;
+  isTruncated?: string;
+  encodingType?: string;
+  commonPrefixes?: string;
+  contents?: GetBucketResponseListBucketResultContents[];
   static names(): { [key: string]: string } {
     return {
       name: 'Name',
@@ -5882,10 +5882,10 @@ export class GetBucketResponseListBucketResult extends $tea.Model {
 }
 
 export class GetLiveChannelInfoResponseLiveChannelConfigurationTarget extends $tea.Model {
-  type: string;
-  fragDuration: string;
-  fragCount: string;
-  playlistName: string;
+  type?: string;
+  fragDuration?: string;
+  fragCount?: string;
+  playlistName?: string;
   static names(): { [key: string]: string } {
     return {
       type: 'Type',
@@ -5911,8 +5911,8 @@ export class GetLiveChannelInfoResponseLiveChannelConfigurationTarget extends $t
 }
 
 export class GetLiveChannelInfoResponseLiveChannelConfiguration extends $tea.Model {
-  description: string;
-  status: string;
+  description?: string;
+  status?: string;
   target: GetLiveChannelInfoResponseLiveChannelConfigurationTarget;
   static names(): { [key: string]: string } {
     return {
@@ -5957,11 +5957,11 @@ export class GetLiveChannelStatRequestFilter extends $tea.Model {
 }
 
 export class GetLiveChannelStatResponseLiveChannelStatVideo extends $tea.Model {
-  width: string;
-  height: string;
-  frameRate: string;
-  bandwidth: string;
-  codec: string;
+  width?: string;
+  height?: string;
+  frameRate?: string;
+  bandwidth?: string;
+  codec?: string;
   static names(): { [key: string]: string } {
     return {
       width: 'Width',
@@ -5989,9 +5989,9 @@ export class GetLiveChannelStatResponseLiveChannelStatVideo extends $tea.Model {
 }
 
 export class GetLiveChannelStatResponseLiveChannelStatAudio extends $tea.Model {
-  bandwidth: string;
-  sampleRate: string;
-  codec: string;
+  bandwidth?: string;
+  sampleRate?: string;
+  codec?: string;
   static names(): { [key: string]: string } {
     return {
       bandwidth: 'Bandwidth',
@@ -6015,9 +6015,9 @@ export class GetLiveChannelStatResponseLiveChannelStatAudio extends $tea.Model {
 }
 
 export class GetLiveChannelStatResponseLiveChannelStat extends $tea.Model {
-  status: string;
-  connectedTime: string;
-  remoteAddr: string;
+  status?: string;
+  connectedTime?: string;
+  remoteAddr?: string;
   video: GetLiveChannelStatResponseLiveChannelStatVideo;
   audio: GetLiveChannelStatResponseLiveChannelStatAudio;
   static names(): { [key: string]: string } {
@@ -6189,8 +6189,8 @@ export class UploadPartCopyRequestHeader extends $tea.Model {
 }
 
 export class UploadPartCopyResponseCopyPartResult extends $tea.Model {
-  lastModified: string;
-  eTag: string;
+  lastModified?: string;
+  eTag?: string;
   static names(): { [key: string]: string } {
     return {
       lastModified: 'LastModified',
@@ -6311,7 +6311,7 @@ export class UploadPartRequestFilter extends $tea.Model {
 }
 
 export class GetBucketCORSResponseCORSConfigurationCORSRule extends $tea.Model {
-  maxAgeSeconds: string;
+  maxAgeSeconds?: string;
   static names(): { [key: string]: string } {
     return {
       maxAgeSeconds: 'MaxAgeSeconds',
@@ -6331,7 +6331,7 @@ export class GetBucketCORSResponseCORSConfigurationCORSRule extends $tea.Model {
 }
 
 export class GetBucketCORSResponseCORSConfiguration extends $tea.Model {
-  cORSRule: GetBucketCORSResponseCORSConfigurationCORSRule[];
+  cORSRule?: GetBucketCORSResponseCORSConfigurationCORSRule[];
   static names(): { [key: string]: string } {
     return {
       cORSRule: 'CORSRule',
@@ -6404,8 +6404,8 @@ export class CopyObjectRequestHeader extends $tea.Model {
 }
 
 export class CopyObjectResponseCopyObjectResult extends $tea.Model {
-  lastModified: string;
-  eTag: string;
+  lastModified?: string;
+  eTag?: string;
   static names(): { [key: string]: string } {
     return {
       lastModified: 'LastModified',
@@ -6427,8 +6427,8 @@ export class CopyObjectResponseCopyObjectResult extends $tea.Model {
 }
 
 export class GetObjectTaggingResponseTaggingTagSetTag extends $tea.Model {
-  key: string;
-  value: string;
+  key?: string;
+  value?: string;
   static names(): { [key: string]: string } {
     return {
       key: 'Key',
@@ -6450,7 +6450,7 @@ export class GetObjectTaggingResponseTaggingTagSetTag extends $tea.Model {
 }
 
 export class GetObjectTaggingResponseTaggingTagSet extends $tea.Model {
-  tag: GetObjectTaggingResponseTaggingTagSetTag[];
+  tag?: GetObjectTaggingResponseTaggingTagSetTag[];
   static names(): { [key: string]: string } {
     return {
       tag: 'Tag',
@@ -6490,8 +6490,8 @@ export class GetObjectTaggingResponseTagging extends $tea.Model {
 }
 
 export class GetBucketLifecycleResponseLifecycleConfigurationRuleExpiration extends $tea.Model {
-  days: number;
-  createdBeforeDate: string;
+  days?: number;
+  createdBeforeDate?: string;
   static names(): { [key: string]: string } {
     return {
       days: 'Days',
@@ -6513,8 +6513,8 @@ export class GetBucketLifecycleResponseLifecycleConfigurationRuleExpiration exte
 }
 
 export class GetBucketLifecycleResponseLifecycleConfigurationRuleTransition extends $tea.Model {
-  days: number;
-  storageClass: string;
+  days?: number;
+  storageClass?: string;
   static names(): { [key: string]: string } {
     return {
       days: 'Days',
@@ -6536,8 +6536,8 @@ export class GetBucketLifecycleResponseLifecycleConfigurationRuleTransition exte
 }
 
 export class GetBucketLifecycleResponseLifecycleConfigurationRuleAbortMultipartUpload extends $tea.Model {
-  days: number;
-  createdBeforeDate: string;
+  days?: number;
+  createdBeforeDate?: string;
   static names(): { [key: string]: string } {
     return {
       days: 'Days',
@@ -6559,8 +6559,8 @@ export class GetBucketLifecycleResponseLifecycleConfigurationRuleAbortMultipartU
 }
 
 export class GetBucketLifecycleResponseLifecycleConfigurationRuleTag extends $tea.Model {
-  key: string;
-  value: string;
+  key?: string;
+  value?: string;
   static names(): { [key: string]: string } {
     return {
       key: 'Key',
@@ -6582,9 +6582,9 @@ export class GetBucketLifecycleResponseLifecycleConfigurationRuleTag extends $te
 }
 
 export class GetBucketLifecycleResponseLifecycleConfigurationRule extends $tea.Model {
-  iD: string;
-  prefix: string;
-  status: string;
+  iD?: string;
+  prefix?: string;
+  status?: string;
   expiration: GetBucketLifecycleResponseLifecycleConfigurationRuleExpiration;
   transition: GetBucketLifecycleResponseLifecycleConfigurationRuleTransition;
   abortMultipartUpload: GetBucketLifecycleResponseLifecycleConfigurationRuleAbortMultipartUpload;
@@ -6620,7 +6620,7 @@ export class GetBucketLifecycleResponseLifecycleConfigurationRule extends $tea.M
 }
 
 export class GetBucketLifecycleResponseLifecycleConfiguration extends $tea.Model {
-  rule: GetBucketLifecycleResponseLifecycleConfigurationRule[];
+  rule?: GetBucketLifecycleResponseLifecycleConfigurationRule[];
   static names(): { [key: string]: string } {
     return {
       rule: 'Rule',
@@ -6663,7 +6663,7 @@ export class PutSymlinkRequestHeader extends $tea.Model {
 }
 
 export class GetBucketRefererResponseRefererConfigurationRefererList extends $tea.Model {
-  referer: string[];
+  referer?: string[];
   static names(): { [key: string]: string } {
     return {
       referer: 'Referer',
@@ -6683,7 +6683,7 @@ export class GetBucketRefererResponseRefererConfigurationRefererList extends $te
 }
 
 export class GetBucketRefererResponseRefererConfiguration extends $tea.Model {
-  allowEmptyReferer: boolean;
+  allowEmptyReferer?: boolean;
   refererList: GetBucketRefererResponseRefererConfigurationRefererList;
   static names(): { [key: string]: string } {
     return {
@@ -6706,8 +6706,8 @@ export class GetBucketRefererResponseRefererConfiguration extends $tea.Model {
 }
 
 export class GetBucketLoggingResponseBucketLoggingStatusLoggingEnabled extends $tea.Model {
-  targetBucket: string;
-  targetPrefix: string;
+  targetBucket?: string;
+  targetPrefix?: string;
   static names(): { [key: string]: string } {
     return {
       targetBucket: 'TargetBucket',
@@ -6769,8 +6769,8 @@ export class PutObjectAclRequestHeader extends $tea.Model {
 }
 
 export class GetBucketInfoResponseBucketInfoBucketOwner extends $tea.Model {
-  iD: string;
-  displayName: string;
+  iD?: string;
+  displayName?: string;
   static names(): { [key: string]: string } {
     return {
       iD: 'ID',
@@ -6792,7 +6792,7 @@ export class GetBucketInfoResponseBucketInfoBucketOwner extends $tea.Model {
 }
 
 export class GetBucketInfoResponseBucketInfoBucketAccessControlList extends $tea.Model {
-  grant: string;
+  grant?: string;
   static names(): { [key: string]: string } {
     return {
       grant: 'Grant',
@@ -6812,14 +6812,14 @@ export class GetBucketInfoResponseBucketInfoBucketAccessControlList extends $tea
 }
 
 export class GetBucketInfoResponseBucketInfoBucket extends $tea.Model {
-  creationDate: string;
-  extranetEndpoint: string;
-  intranetEndpoint: string;
-  location: string;
-  name: string;
-  dataRedundancyType: string;
-  storageClass: string;
-  comment: string;
+  creationDate?: string;
+  extranetEndpoint?: string;
+  intranetEndpoint?: string;
+  location?: string;
+  name?: string;
+  dataRedundancyType?: string;
+  storageClass?: string;
+  comment?: string;
   owner: GetBucketInfoResponseBucketInfoBucketOwner;
   accessControlList: GetBucketInfoResponseBucketInfoBucketAccessControlList;
   static names(): { [key: string]: string } {
@@ -6963,9 +6963,9 @@ export class InitiateMultipartUploadRequestHeader extends $tea.Model {
 }
 
 export class InitiateMultipartUploadResponseInitiateMultipartUploadResult extends $tea.Model {
-  bucket: string;
-  key: string;
-  uploadId: string;
+  bucket?: string;
+  key?: string;
+  uploadId?: string;
   static names(): { [key: string]: string } {
     return {
       bucket: 'Bucket',
@@ -7067,8 +7067,8 @@ export class HeadObjectRequestHeader extends $tea.Model {
 }
 
 export class GetObjectAclResponseAccessControlPolicyOwner extends $tea.Model {
-  iD: string;
-  displayName: string;
+  iD?: string;
+  displayName?: string;
   static names(): { [key: string]: string } {
     return {
       iD: 'ID',
@@ -7090,7 +7090,7 @@ export class GetObjectAclResponseAccessControlPolicyOwner extends $tea.Model {
 }
 
 export class GetObjectAclResponseAccessControlPolicyAccessControlList extends $tea.Model {
-  grant: string;
+  grant?: string;
   static names(): { [key: string]: string } {
     return {
       grant: 'Grant',
@@ -7257,7 +7257,7 @@ export default class Client extends BaseClient {
       try {
         let request_ = new $tea.Request();
         let token = await this._getSecurityToken();
-        let reqBody = this._toXML(request.body);
+        let reqBody = this._toXML($tea.toMap(request.body));
         request_.protocol = this._protocol;
         request_.method = "PUT";
         request_.pathname = `/?lifecycle`;
@@ -7344,7 +7344,7 @@ export default class Client extends BaseClient {
       try {
         let request_ = new $tea.Request();
         let token = await this._getSecurityToken();
-        let reqBody = this._toXML(request.body);
+        let reqBody = this._toXML($tea.toMap(request.body));
         request_.protocol = this._protocol;
         request_.method = "POST";
         request_.pathname = `/?delete`;
@@ -7352,13 +7352,13 @@ export default class Client extends BaseClient {
           host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
-          ...this._toHeader(request.header),
+          ...this._toHeader($tea.toMap(request.header)),
         };
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
         request_.body = new $tea.BytesReadable(reqBody);
-        if (this._notNull(request.header) && !this._empty(request.header.contentMD5)) {
+        if (this._notNull($tea.toMap(request.header)) && !this._empty(request.header.contentMD5)) {
           request_.headers["content-md5"] = request.header.contentMD5;
         } else {
           request_.headers["content-md5"] = this._getContentMD5(reqBody);
@@ -7440,7 +7440,7 @@ export default class Client extends BaseClient {
       try {
         let request_ = new $tea.Request();
         let token = await this._getSecurityToken();
-        let reqBody = this._toXML(request.body);
+        let reqBody = this._toXML($tea.toMap(request.body));
         request_.protocol = this._protocol;
         request_.method = "PUT";
         request_.pathname = `/?referer`;
@@ -7527,7 +7527,7 @@ export default class Client extends BaseClient {
       try {
         let request_ = new $tea.Request();
         let token = await this._getSecurityToken();
-        let reqBody = this._toXML(request.body);
+        let reqBody = this._toXML($tea.toMap(request.body));
         request_.protocol = this._protocol;
         request_.method = "PUT";
         request_.pathname = `/?website`;
@@ -7614,7 +7614,7 @@ export default class Client extends BaseClient {
       try {
         let request_ = new $tea.Request();
         let token = await this._getSecurityToken();
-        let reqBody = this._toXML(request.body);
+        let reqBody = this._toXML($tea.toMap(request.body));
         request_.protocol = this._protocol;
         request_.method = "POST";
         request_.pathname = `/${request.objectName}`;
@@ -7626,7 +7626,7 @@ export default class Client extends BaseClient {
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.query = this._toQuery(request.filter);
+        request_.query = this._toQuery($tea.toMap(request.filter));
         request_.body = new $tea.BytesReadable(reqBody);
         request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
@@ -7705,7 +7705,7 @@ export default class Client extends BaseClient {
       try {
         let request_ = new $tea.Request();
         let token = await this._getSecurityToken();
-        let reqBody = this._toXML(request.body);
+        let reqBody = this._toXML($tea.toMap(request.body));
         request_.protocol = this._protocol;
         request_.method = "PUT";
         request_.pathname = `/?logging`;
@@ -7792,7 +7792,7 @@ export default class Client extends BaseClient {
       try {
         let request_ = new $tea.Request();
         let token = await this._getSecurityToken();
-        let reqBody = this._toXML(request.body);
+        let reqBody = this._toXML($tea.toMap(request.body));
         request_.protocol = this._protocol;
         request_.method = "PUT";
         request_.pathname = `/?requestPayment`;
@@ -7879,7 +7879,7 @@ export default class Client extends BaseClient {
       try {
         let request_ = new $tea.Request();
         let token = await this._getSecurityToken();
-        let reqBody = this._toXML(request.body);
+        let reqBody = this._toXML($tea.toMap(request.body));
         request_.protocol = this._protocol;
         request_.method = "PUT";
         request_.pathname = `/?encryption`;
@@ -7966,7 +7966,7 @@ export default class Client extends BaseClient {
       try {
         let request_ = new $tea.Request();
         let token = await this._getSecurityToken();
-        let reqBody = this._toXML(request.body);
+        let reqBody = this._toXML($tea.toMap(request.body));
         request_.protocol = this._protocol;
         request_.method = "PUT";
         request_.pathname = `/${request.channelName}?live`;
@@ -8056,7 +8056,7 @@ export default class Client extends BaseClient {
       try {
         let request_ = new $tea.Request();
         let token = await this._getSecurityToken();
-        let reqBody = this._toXML(request.body);
+        let reqBody = this._toXML($tea.toMap(request.body));
         request_.protocol = this._protocol;
         request_.method = "PUT";
         request_.pathname = `/?tagging`;
@@ -8143,7 +8143,7 @@ export default class Client extends BaseClient {
       try {
         let request_ = new $tea.Request();
         let token = await this._getSecurityToken();
-        let reqBody = this._toXML(request.body);
+        let reqBody = this._toXML($tea.toMap(request.body));
         request_.protocol = this._protocol;
         request_.method = "PUT";
         request_.pathname = `/${request.objectName}?tagging`;
@@ -8230,7 +8230,7 @@ export default class Client extends BaseClient {
       try {
         let request_ = new $tea.Request();
         let token = await this._getSecurityToken();
-        let reqBody = this._toXML(request.body);
+        let reqBody = this._toXML($tea.toMap(request.body));
         request_.protocol = this._protocol;
         request_.method = "POST";
         request_.pathname = `/${request.objectName}`;
@@ -8242,7 +8242,7 @@ export default class Client extends BaseClient {
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.query = this._toQuery(request.filter);
+        request_.query = this._toQuery($tea.toMap(request.filter));
         request_.body = new $tea.BytesReadable(reqBody);
         request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
@@ -8318,7 +8318,7 @@ export default class Client extends BaseClient {
       try {
         let request_ = new $tea.Request();
         let token = await this._getSecurityToken();
-        let reqBody = this._toXML(request.body);
+        let reqBody = this._toXML($tea.toMap(request.body));
         request_.protocol = this._protocol;
         request_.method = "PUT";
         request_.pathname = `/?cors`;
@@ -8405,7 +8405,7 @@ export default class Client extends BaseClient {
       try {
         let request_ = new $tea.Request();
         let token = await this._getSecurityToken();
-        let reqBody = this._toXML(request.body);
+        let reqBody = this._toXML($tea.toMap(request.body));
         request_.protocol = this._protocol;
         request_.method = "PUT";
         request_.pathname = `/`;
@@ -8413,7 +8413,7 @@ export default class Client extends BaseClient {
           host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
-          ...this._toHeader(request.header),
+          ...this._toHeader($tea.toMap(request.header)),
         };
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
@@ -8504,7 +8504,7 @@ export default class Client extends BaseClient {
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.query = this._toQuery(request.filter);
+        request_.query = this._toQuery($tea.toMap(request.filter));
         request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
@@ -8857,7 +8857,7 @@ export default class Client extends BaseClient {
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.query = this._toQuery(request.filter);
+        request_.query = this._toQuery($tea.toMap(request.filter));
         request_.headers["authorization"] = await this.getSignature(request_, "");
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
@@ -9031,7 +9031,7 @@ export default class Client extends BaseClient {
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.query = this._toQuery(request.filter);
+        request_.query = this._toQuery($tea.toMap(request.filter));
         request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
@@ -9378,7 +9378,7 @@ export default class Client extends BaseClient {
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.query = this._toQuery(request.filter);
+        request_.query = this._toQuery($tea.toMap(request.filter));
         request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
@@ -9640,7 +9640,7 @@ export default class Client extends BaseClient {
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.query = this._toQuery(request.filter);
+        request_.query = this._toQuery($tea.toMap(request.filter));
         request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
@@ -9729,7 +9729,7 @@ export default class Client extends BaseClient {
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.query = this._toQuery(request.filter);
+        request_.query = this._toQuery($tea.toMap(request.filter));
         request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
@@ -9818,7 +9818,7 @@ export default class Client extends BaseClient {
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.query = this._toQuery(request.filter);
+        request_.query = this._toQuery($tea.toMap(request.filter));
         request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
@@ -9995,7 +9995,7 @@ export default class Client extends BaseClient {
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.query = this._toQuery(request.filter);
+        request_.query = this._toQuery($tea.toMap(request.filter));
         request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
@@ -10169,7 +10169,7 @@ export default class Client extends BaseClient {
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.query = this._toQuery(request.filter);
+        request_.query = this._toQuery($tea.toMap(request.filter));
         request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
@@ -10252,15 +10252,15 @@ export default class Client extends BaseClient {
           host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
-          ...this._toHeader(request.header),
+          ...this._toHeader($tea.toMap(request.header)),
           ...this._parseMeta(request.userMeta, "x-oss-meta-"),
         };
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.query = this._toQuery(request.filter);
+        request_.query = this._toQuery($tea.toMap(request.filter));
         request_.body = this._inject(request.body, ctx);
-        if (this._notNull(request.header) && !this._empty(request.header.contentType)) {
+        if (this._notNull($tea.toMap(request.header)) && !this._empty(request.header.contentType)) {
           request_.headers["content-type"] = request.header.contentType;
         } else {
           request_.headers["content-type"] = this._getContentType(request.objectName);
@@ -10285,7 +10285,7 @@ export default class Client extends BaseClient {
           });
         }
 
-        if (!this._equal(ctx["crc"], response_.headers["x-oss-hash-crc64ecma"])) {
+        if (this._isEnableCrc && !this._equal(ctx["crc"], response_.headers["x-oss-hash-crc64ecma"])) {
           throw $tea.newError({
             code: "CrcNotMatched",
             data: {
@@ -10295,7 +10295,7 @@ export default class Client extends BaseClient {
           });
         }
 
-        if (!this._equal(ctx["md5"], response_.headers["content-md5"])) {
+        if (this._isEnableMD5 && !this._equal(ctx["md5"], response_.headers["content-md5"])) {
           throw $tea.newError({
             code: "MD5NotMatched",
             data: {
@@ -10366,12 +10366,12 @@ export default class Client extends BaseClient {
           host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
-          ...this._toHeader(request.header),
+          ...this._toHeader($tea.toMap(request.header)),
         };
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.query = this._toQuery(request.filter);
+        request_.query = this._toQuery($tea.toMap(request.filter));
         request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
@@ -10460,7 +10460,7 @@ export default class Client extends BaseClient {
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.query = this._toQuery(request.filter);
+        request_.query = this._toQuery($tea.toMap(request.filter));
         request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
@@ -10627,7 +10627,7 @@ export default class Client extends BaseClient {
           host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
-          ...this._toHeader(request.header),
+          ...this._toHeader($tea.toMap(request.header)),
         };
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
@@ -10719,7 +10719,7 @@ export default class Client extends BaseClient {
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.query = this._toQuery(request.filter);
+        request_.query = this._toQuery($tea.toMap(request.filter));
         request_.body = this._inject(request.body, ctx);
         request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
@@ -10741,7 +10741,7 @@ export default class Client extends BaseClient {
           });
         }
 
-        if (!this._equal(ctx["crc"], response_.headers["x-oss-hash-crc64ecma"])) {
+        if (this._isEnableCrc && !this._equal(ctx["crc"], response_.headers["x-oss-hash-crc64ecma"])) {
           throw $tea.newError({
             code: "CrcNotMatched",
             data: {
@@ -10751,7 +10751,7 @@ export default class Client extends BaseClient {
           });
         }
 
-        if (!this._equal(ctx["md5"], response_.headers["content-md5"])) {
+        if (this._isEnableMD5 && !this._equal(ctx["md5"], response_.headers["content-md5"])) {
           throw $tea.newError({
             code: "MD5NotMatched",
             data: {
@@ -10910,7 +10910,7 @@ export default class Client extends BaseClient {
           host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
-          ...this._toHeader(request.header),
+          ...this._toHeader($tea.toMap(request.header)),
         };
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
@@ -11516,7 +11516,7 @@ export default class Client extends BaseClient {
           host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
-          ...this._toHeader(request.header),
+          ...this._toHeader($tea.toMap(request.header)),
         };
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
@@ -11863,7 +11863,7 @@ export default class Client extends BaseClient {
           host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
-          ...this._toHeader(request.header),
+          ...this._toHeader($tea.toMap(request.header)),
         };
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
@@ -12041,7 +12041,7 @@ export default class Client extends BaseClient {
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.query = this._toQuery(request.filter);
+        request_.query = this._toQuery($tea.toMap(request.filter));
         request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
@@ -12123,13 +12123,13 @@ export default class Client extends BaseClient {
           host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
-          ...this._toHeader(request.header),
+          ...this._toHeader($tea.toMap(request.header)),
         };
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.query = this._toQuery(request.filter);
-        if (this._notNull(request.header) && !this._empty(request.header.contentType)) {
+        request_.query = this._toQuery($tea.toMap(request.filter));
+        if (this._notNull($tea.toMap(request.header)) && !this._empty(request.header.contentType)) {
           request_.headers["content-type"] = request.header.contentType;
         } else {
           request_.headers["content-type"] = this._getContentType(request.objectName);
@@ -12218,7 +12218,7 @@ export default class Client extends BaseClient {
           host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
-          ...this._toHeader(request.header),
+          ...this._toHeader($tea.toMap(request.header)),
         };
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
@@ -12308,7 +12308,7 @@ export default class Client extends BaseClient {
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.query = this._toQuery(request.filter);
+        request_.query = this._toQuery($tea.toMap(request.filter));
         request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
@@ -12475,7 +12475,7 @@ export default class Client extends BaseClient {
           host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
-          ...this._toHeader(request.header),
+          ...this._toHeader($tea.toMap(request.header)),
         };
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
@@ -12820,7 +12820,7 @@ export default class Client extends BaseClient {
           host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
-          ...this._toHeader(request.header),
+          ...this._toHeader($tea.toMap(request.header)),
         };
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
@@ -12992,14 +12992,14 @@ export default class Client extends BaseClient {
           host: this.getHost(request.bucketName),
           date: this._getDate(),
           'user-agent': this._getUserAgent(),
-          ...this._toHeader(request.header),
+          ...this._toHeader($tea.toMap(request.header)),
           ...this._parseMeta(request.userMeta, "x-oss-meta-"),
         };
         if (!this._empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
         request_.body = this._inject(request.body, ctx);
-        if (this._notNull(request.header) && !this._empty(request.header.contentType)) {
+        if (this._notNull($tea.toMap(request.header)) && !this._empty(request.header.contentType)) {
           request_.headers["content-type"] = request.header.contentType;
         } else {
           request_.headers["content-type"] = this._getContentType(request.objectName);
@@ -13023,7 +13023,8 @@ export default class Client extends BaseClient {
             },
           });
         }
-        if (!this._equal(ctx["crc"], response_.headers["x-oss-hash-crc64ecma"])) {
+
+        if (this._isEnableCrc && !this._equal(ctx["crc"], response_.headers["x-oss-hash-crc64ecma"])) {
           throw $tea.newError({
             code: "CrcNotMatched",
             data: {
@@ -13033,7 +13034,7 @@ export default class Client extends BaseClient {
           });
         }
 
-        if (!this._equal(ctx["md5"], response_.headers["content-md5"])) {
+        if (this._isEnableMD5 && !this._equal(ctx["md5"], response_.headers["content-md5"])) {
           throw $tea.newError({
             code: "MD5NotMatched",
             data: {
