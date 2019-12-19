@@ -7902,6 +7902,7 @@ func NewClient(config *Config) (*Client, error) {
 	}
 	return client, nil
 }
+
 func (client *Client) PutBucketLifecycle(request *PutBucketLifecycleRequest, runtime *RuntimeObject) (*PutBucketLifecycleResponse, error) {
 	err := tea.Validate(request)
 	if err != nil {
