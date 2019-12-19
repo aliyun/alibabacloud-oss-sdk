@@ -1,2 +1,7 @@
+2019-12-19 Version: 1.1.0
+1. Change the namespace from com.oss to com.aliyun.oss
+2. Support CRC and MD5
+3. improve methods
+
 2019-12-06 Version: 1.0.0
 1. Release version 1.0.0
