@@ -436,11 +436,7 @@ namespace AlibabaCloud.OSS
 
         protected Stream _readAsStream(TeaResponse teaResponse)
         {
-            if (teaResponse._Response != null)
-            {
-                return teaResponse._Response.GetResponseStream();
-            }
-            return null;
+            return teaResponse.Body;
         }
 
         protected string _readAsString(TeaResponse teaResponse)
