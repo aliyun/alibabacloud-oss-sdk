@@ -18,13 +18,13 @@ namespace AlibabaCloud.OSS.Models
         public InitiateMultipartUploadResponseInitiateMultipartUploadResult InitiateMultipartUploadResult { get; set; }
         public class InitiateMultipartUploadResponseInitiateMultipartUploadResult : TeaModel {
             [NameInMap("Bucket")]
-            [Validation(Required=true)]
+            [Validation(Required=false)]
             public string Bucket { get; set; }
             [NameInMap("Key")]
-            [Validation(Required=true)]
+            [Validation(Required=false)]
             public string Key { get; set; }
             [NameInMap("UploadId")]
-            [Validation(Required=true)]
+            [Validation(Required=false)]
             public string UploadId { get; set; }
         };
 

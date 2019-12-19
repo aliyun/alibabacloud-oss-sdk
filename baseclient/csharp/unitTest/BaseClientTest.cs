@@ -71,12 +71,12 @@ namespace unitTest
 
             baseClient.credential = origincredential;
             string auth = (string) TestHelper.RunInstanceMethod(typeof(BaseClient), "_getAuth", baseClient, new object[] { request, "oss" });
-            Assert.Equal("OSS accessKeyId:OVuXr5THk6VcE/2U78ukqMl032w=", auth);
+            Assert.Equal("OVuXr5THk6VcE/2U78ukqMl032w=", auth);
 
             baseClient.SignatureVersion = "V2";
             request.Headers = new Dictionary<string, string>();
             string authV2 = (string) TestHelper.RunInstanceMethod(typeof(BaseClient), "_getAuth", baseClient, new object[] { request, "oss" });
-            Assert.Equal("OSS2 AccessKeyId:accessKeyId,Signature:ec99QpyH6hbQIJAJayQksSGkXcepQw5vfsw9zik0tkA=", authV2);
+            Assert.Equal("ec99QpyH6hbQIJAJayQksSGkXcepQw5vfsw9zik0tkA=", authV2);
 
         }
 
@@ -106,35 +106,25 @@ namespace unitTest
         [Fact]
         public void TestGetContentMD5()
         {
-            TeaRequest teaRequest = new TeaRequest();
             string oss = "oss";
-            byte[] bytes = Encoding.UTF8.GetBytes(oss);
-            MemoryStream stream = new MemoryStream();
-            stream.Write(bytes, 0, bytes.Length);
-            stream.Seek(0, SeekOrigin.Begin);
-            teaRequest.Body = stream;
 
-            Assert.Empty((string) TestHelper.RunInstanceMethod(typeof(BaseClient), "_getContentMD5", baseClient, new object[] { teaRequest, string.Empty, 0 }));
+            Assert.Empty((string) TestHelper.RunInstanceMethod(typeof(BaseClient), "_getContentMD5", baseClient, new object[] { oss }));
 
             BindingFlags InstanceBindFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
             Type type = typeof(BaseClient);
             var filed = type.GetField("_isEnableMD5", InstanceBindFlags);
             filed.SetValue(baseClient, true);
 
-            Assert.Equal("md5", (string) TestHelper.RunInstanceMethod(typeof(BaseClient), "_getContentMD5", baseClient, new object[] { teaRequest, "md5", 0 }));
-
-            string md5 = (string) TestHelper.RunInstanceMethod(typeof(BaseClient), "_getContentMD5", baseClient, new object[] { teaRequest, string.Empty, 0 });
+            string md5 = (string) TestHelper.RunInstanceMethod(typeof(BaseClient), "_getContentMD5", baseClient, new object[] { oss });
             Assert.NotNull(md5);
 
-            teaRequest.Body = null;
-            Assert.Empty((string) TestHelper.RunInstanceMethod(typeof(BaseClient), "_getContentMD5", baseClient, new object[] { teaRequest, string.Empty, 0 }));
         }
 
         [Fact]
         public void TestToBody()
         {
             TeaModel modelNull = new TeaModel();
-            Assert.Empty((string) TestHelper.RunInstanceMethod(typeof(BaseClient), "_toBody", baseClient, new object[] { modelNull }));
+            Assert.Empty((string) TestHelper.RunInstanceMethod(typeof(BaseClient), "_toXML", baseClient, new object[] { modelNull }));
 
             ToBodyModel model = new ToBodyModel();
             ListAllMyBucketsResult result = new ListAllMyBucketsResult();
@@ -160,7 +150,7 @@ namespace unitTest
             model.listAllMyBucketsResult.TestBool = true;
             model.listAllMyBucketsResult.TestNull = null;
             model.listAllMyBucketsResult.TestListNull = null;
-            string xmlStr = (string) TestHelper.RunInstanceMethod(typeof(BaseClient), "_toBody", baseClient, new object[] { model });
+            string xmlStr = (string) TestHelper.RunInstanceMethod(typeof(BaseClient), "_toXML", baseClient, new object[] { model });
             Assert.NotNull(xmlStr);
 
             Mock<HttpWebResponse> mockHttpWebResponse = new Mock<HttpWebResponse>();
@@ -171,7 +161,7 @@ namespace unitTest
             MemoryStream stream = new MemoryStream(array);
             mockHttpWebResponse.Setup(p => p.GetResponseStream()).Returns(stream);
             TeaResponse teaResponse = new TeaResponse(mockHttpWebResponse.Object);
-            Dictionary<string, object> xmlBody = (Dictionary<string, object>) TestHelper.RunInstanceMethod(typeof(BaseClient), "_parseXml", baseClient, new object[] { teaResponse, typeof(ToBodyModel) });
+            Dictionary<string, object> xmlBody = (Dictionary<string, object>) TestHelper.RunInstanceMethod(typeof(BaseClient), "_parseXml", baseClient, new object[] { xmlStr, typeof(ToBodyModel) });
             ToBodyModel teaModel = TeaModel.ToObject<ToBodyModel>(xmlBody);
             Assert.NotNull(teaModel);
             Assert.Equal(1, teaModel.listAllMyBucketsResult.TestDouble);
@@ -359,16 +349,9 @@ namespace unitTest
         [Fact]
         public void TestGetErrmessage()
         {
-            Mock<HttpWebResponse> mockHttpWebResponse = new Mock<HttpWebResponse>();
-            mockHttpWebResponse.Setup(p => p.StatusCode).Returns(HttpStatusCode.OK);
-            mockHttpWebResponse.Setup(p => p.StatusDescription).Returns("StatusDescription");
-            mockHttpWebResponse.Setup(p => p.Headers).Returns(new WebHeaderCollection());
-            byte[] array = Encoding.UTF8.GetBytes("<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?><num>10</num>");
-            MemoryStream stream = new MemoryStream(array);
-            mockHttpWebResponse.Setup(p => p.GetResponseStream()).Returns(stream);
-            TeaResponse teaResponse = new TeaResponse(mockHttpWebResponse.Object);
+            string message = "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?><num>10</num>";
 
-            Assert.Null((Dictionary<string, object>) TestHelper.RunInstanceMethod(typeof(BaseClient), "_getErrMessage", baseClient, new object[] { teaResponse }));
+            Assert.Null((Dictionary<string, object>) TestHelper.RunInstanceMethod(typeof(BaseClient), "_getErrMessage", baseClient, new object[] { message }));
         }
 
         [Fact]

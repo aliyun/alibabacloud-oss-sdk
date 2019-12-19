@@ -18,36 +18,36 @@ namespace AlibabaCloud.OSS.Models
         public GetLiveChannelStatResponseLiveChannelStat LiveChannelStat { get; set; }
         public class GetLiveChannelStatResponseLiveChannelStat : TeaModel {
             [NameInMap("Status")]
-            [Validation(Required=true)]
+            [Validation(Required=false)]
             public string Status { get; set; }
             [NameInMap("ConnectedTime")]
-            [Validation(Required=true)]
+            [Validation(Required=false)]
             public string ConnectedTime { get; set; }
             [NameInMap("RemoteAddr")]
-            [Validation(Required=true)]
+            [Validation(Required=false)]
             public string RemoteAddr { get; set; }
             [NameInMap("Video")]
             [Validation(Required=true)]
             public GetLiveChannelStatResponseVideo Video { get; set; }
             public class GetLiveChannelStatResponseVideo : TeaModel {
                 [NameInMap("Width")]
-                [Validation(Required=true)]
+                [Validation(Required=false)]
                 public string Width { get; set; }
 
                 [NameInMap("Height")]
-                [Validation(Required=true)]
+                [Validation(Required=false)]
                 public string Height { get; set; }
 
                 [NameInMap("FrameRate")]
-                [Validation(Required=true)]
+                [Validation(Required=false)]
                 public string FrameRate { get; set; }
 
                 [NameInMap("Bandwidth")]
-                [Validation(Required=true)]
+                [Validation(Required=false)]
                 public string Bandwidth { get; set; }
 
                 [NameInMap("Codec")]
-                [Validation(Required=true)]
+                [Validation(Required=false)]
                 public string Codec { get; set; }
 
             }
@@ -56,15 +56,15 @@ namespace AlibabaCloud.OSS.Models
             public GetLiveChannelStatResponseAudio Audio { get; set; }
             public class GetLiveChannelStatResponseAudio : TeaModel {
                 [NameInMap("Bandwidth")]
-                [Validation(Required=true)]
+                [Validation(Required=false)]
                 public string Bandwidth { get; set; }
 
                 [NameInMap("SampleRate")]
-                [Validation(Required=true)]
+                [Validation(Required=false)]
                 public string SampleRate { get; set; }
 
                 [NameInMap("Codec")]
-                [Validation(Required=true)]
+                [Validation(Required=false)]
                 public string Codec { get; set; }
 
             }

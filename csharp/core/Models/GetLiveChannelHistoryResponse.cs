@@ -18,7 +18,7 @@ namespace AlibabaCloud.OSS.Models
         public GetLiveChannelHistoryResponseLiveChannelHistory LiveChannelHistory { get; set; }
         public class GetLiveChannelHistoryResponseLiveChannelHistory : TeaModel {
             [NameInMap("LiveRecord")]
-            [Validation(Required=true)]
+            [Validation(Required=false)]
             public List<GetLiveChannelHistoryResponseStartTime> LiveRecord { get; set; }
             public class GetLiveChannelHistoryResponseStartTime : TeaModel {
                     public string StartTime { get; set; }

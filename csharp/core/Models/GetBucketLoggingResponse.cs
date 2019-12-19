@@ -22,11 +22,11 @@ namespace AlibabaCloud.OSS.Models
             public GetBucketLoggingResponseLoggingEnabled LoggingEnabled { get; set; }
             public class GetBucketLoggingResponseLoggingEnabled : TeaModel {
                 [NameInMap("TargetBucket")]
-                [Validation(Required=true)]
+                [Validation(Required=false)]
                 public string TargetBucket { get; set; }
 
                 [NameInMap("TargetPrefix")]
-                [Validation(Required=true)]
+                [Validation(Required=false)]
                 public string TargetPrefix { get; set; }
 
             }
