@@ -18,31 +18,31 @@ namespace AlibabaCloud.OSS.Models
         public GetBucketResponseListBucketResult ListBucketResult { get; set; }
         public class GetBucketResponseListBucketResult : TeaModel {
             [NameInMap("Name")]
-            [Validation(Required=true)]
+            [Validation(Required=false)]
             public string Name { get; set; }
             [NameInMap("Prefix")]
-            [Validation(Required=true)]
+            [Validation(Required=false)]
             public string Prefix { get; set; }
             [NameInMap("Marker")]
-            [Validation(Required=true)]
+            [Validation(Required=false)]
             public string Marker { get; set; }
             [NameInMap("MaxKeys")]
-            [Validation(Required=true)]
+            [Validation(Required=false)]
             public string MaxKeys { get; set; }
             [NameInMap("Delimiter")]
-            [Validation(Required=true)]
+            [Validation(Required=false)]
             public string Delimiter { get; set; }
             [NameInMap("IsTruncated")]
-            [Validation(Required=true)]
+            [Validation(Required=false)]
             public string IsTruncated { get; set; }
             [NameInMap("EncodingType")]
-            [Validation(Required=true)]
+            [Validation(Required=false)]
             public string EncodingType { get; set; }
             [NameInMap("CommonPrefixes")]
-            [Validation(Required=true)]
+            [Validation(Required=false)]
             public string CommonPrefixes { get; set; }
             [NameInMap("Contents")]
-            [Validation(Required=true)]
+            [Validation(Required=false)]
             public List<GetBucketResponseKey> Contents { get; set; }
             public class GetBucketResponseKey : TeaModel {
                     public string Key { get; set; }
@@ -53,11 +53,11 @@ namespace AlibabaCloud.OSS.Models
                     public GetBucketResponseKeyOwner Owner { get; set; }
                     public class GetBucketResponseKeyOwner : TeaModel {
                         [NameInMap("ID")]
-                        [Validation(Required=true)]
+                        [Validation(Required=false)]
                         public string ID { get; set; }
 
                         [NameInMap("DisplayName")]
-                        [Validation(Required=true)]
+                        [Validation(Required=false)]
                         public string DisplayName { get; set; }
 
                     }

@@ -12,6 +12,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 
 using AlibabaCloud.OSS.Models;
+using AlibabaCloud.OSS.Streams;
 using AlibabaCloud.OSS.Utils;
 
 using Aliyun.Credentials;
@@ -44,11 +45,10 @@ namespace AlibabaCloud.OSS
         protected int _maxIdleConns;
         protected object _logger;
         protected Dictionary<string, object> _config;
+        protected string[] _addtionalHeaders;
+        protected string _signatureVersion;
 
         internal Credential credential;
-
-        private string _signatureVersion;
-        private string[] _addtionalHeaders;
 
         private char[] characters = { '-', '_', '.', '~' };
 
@@ -128,15 +128,11 @@ namespace AlibabaCloud.OSS
 
                 if (_signatureVersion.ToSafeString("").ToLower() == "v2")
                 {
-                    if (_addtionalHeaders == null)
-                    {
-                        _addtionalHeaders = new string[0];
-                    }
-                    auth = GetSignatureV2(teaRequest, bucketName, accessKeyId, accessKeySecret, _addtionalHeaders);
+                    auth = _getSignatureV2(teaRequest, bucketName, accessKeySecret, _addtionalHeaders);
                 }
                 else
                 {
-                    auth = GetSignatureV1(teaRequest, bucketName, accessKeyId, accessKeySecret);
+                    auth = _getSignatureV1(teaRequest, bucketName, accessKeySecret);
                 }
             }
             catch
@@ -147,9 +143,8 @@ namespace AlibabaCloud.OSS
             return auth;
         }
 
-        protected Dictionary<string, object> _parseXml(TeaResponse response, Type type)
+        protected Dictionary<string, object> _parseXml(string content, Type type)
         {
-            string content = TeaCore.GetResponseBody(response);
             return XmlUtil.DeserializeXml(content, type);
         }
 
@@ -205,7 +200,7 @@ namespace AlibabaCloud.OSS
             return numDefault;
         }
 
-        protected string _toBody(object obj)
+        protected string _toXML(object obj)
         {
             return XmlUtil.SerializeXml(obj);
         }
@@ -271,20 +266,16 @@ namespace AlibabaCloud.OSS
             return result;
         }
 
-        protected string _getContentMD5(TeaRequest teaRequest, string md5Value, long md5Threshold)
+        protected string _getContentMD5(string str)
         {
             if (!_isEnableMD5)
             {
                 return string.Empty;
             }
-            if (!string.IsNullOrWhiteSpace(md5Value))
-            {
-                return md5Value;
-            }
             try
             {
                 System.Security.Cryptography.MD5 md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();
-                byte[] data = md5.ComputeHash(teaRequest.Body);
+                byte[] data = md5.ComputeHash(Encoding.UTF8.GetBytes(str));
                 return Convert.ToBase64String(data);
             }
             catch
@@ -381,30 +372,6 @@ namespace AlibabaCloud.OSS
             }
         }
 
-        protected ulong? _getCrc(TeaRequest request, string contentlength, object listener, object tracker)
-        {
-            if (!_isEnableCrc)
-            {
-                return null;
-            }
-            try
-            {
-                ulong crc64 = 0;
-                Crc64.InitECMA();
-                byte[] buffer = new byte[4096];
-                int bytesRead;
-                while ((bytesRead = request.Body.Read(buffer, 0, buffer.Length)) != 0)
-                {
-                    crc64 = Crc64.Compute(buffer, 0, buffer.Length, crc64);
-                }
-                return crc64;
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
         protected ulong? _getRespCrc(TeaResponse response, bool hasRange, object listener, object tracker)
         {
             if (hasRange)
@@ -444,24 +411,13 @@ namespace AlibabaCloud.OSS
             return _defaultUserAgent;
         }
 
-        protected Stream _isUploadSpeedLimit(object a, int b)
-        {
-            throw new Exception("the method is un-implemented!");
-        }
-
         protected bool _ifRange(TeaModel model)
         {
             return !string.IsNullOrEmpty(DictUtils.GetDicValue(model.ToMap(), "Range").ToSafeString());
         }
 
-        protected object _getTracker()
+        protected Dictionary<string, object> _getErrMessage(string body)
         {
-            throw new Exception("the method is un-implemented!");
-        }
-
-        protected Dictionary<string, object> _getErrMessage(TeaResponse teaResponse)
-        {
-            string body = TeaCore.GetResponseBody(teaResponse);
             return (Dictionary<string, object>) DictUtils.GetDicValue(XmlUtil.DeserializeXml(body, typeof(ServiceError)), "Error");
         }
 
@@ -485,6 +441,69 @@ namespace AlibabaCloud.OSS
                 return teaResponse._Response.GetResponseStream();
             }
             return null;
+        }
+
+        protected string _readAsString(TeaResponse teaResponse)
+        {
+            string bodyStr = TeaCore.GetResponseBody(teaResponse);
+            return bodyStr;
+        }
+
+        protected string _listToString(string[] str, string sep)
+        {
+            return string.Join(sep, str);
+        }
+
+        protected bool _equal(string val1, string val2)
+        {
+            return val1 == val2;
+        }
+
+        protected bool _empty(string str)
+        {
+            return string.IsNullOrEmpty(str);
+        }
+
+        protected string _getAccessKeyID()
+        {
+            if (credential == null)
+            {
+                throw new ArgumentNullException("No credential valid!");
+            }
+            return credential.AccessKeyId;
+        }
+
+        protected string _getAccessKeySecret()
+        {
+            if (credential == null)
+            {
+                throw new ArgumentNullException("No credential valid!");
+            }
+            return credential.AccessKeySecret;
+        }
+
+        protected string _getSecurityToken()
+        {
+            if (credential == null)
+            {
+                throw new ArgumentNullException("No credential valid!");
+            }
+            return credential.SecurityToken;
+        }
+
+        protected bool _ifListEmpty(string[] strs)
+        {
+            return strs == null || strs.Length == 0;
+        }
+
+        protected bool _notNull(Dictionary<string, object> obj)
+        {
+            return obj != null && obj.Count > 0;
+        }
+
+        protected Stream _inject(Stream body, Dictionary<string, string> dict)
+        {
+            return new VerifyStream(body, dict);
         }
 
         internal string GetDefaultUserAgent()
@@ -527,7 +546,7 @@ namespace AlibabaCloud.OSS
             return finalValue;
         }
 
-        internal string GetSignatureV1(TeaRequest teaRequest, string bucketName, string accessKeyId, string accessKeySecret)
+        protected string _getSignatureV1(TeaRequest teaRequest, string bucketName, string accessKeySecret)
         {
             string resource = string.Empty;
             if (!string.IsNullOrWhiteSpace(bucketName))
@@ -557,10 +576,10 @@ namespace AlibabaCloud.OSS
                 }
             }
 
-            return GetSignedStrV1(teaRequest, resource, accessKeyId, accessKeySecret);
+            return GetSignedStrV1(teaRequest, resource, accessKeySecret);
         }
 
-        internal string GetSignedStrV1(TeaRequest teaRequest, string canonicalizedResource, string accessKeyId, string accessKeySecret)
+        internal string GetSignedStrV1(TeaRequest teaRequest, string canonicalizedResource, string accessKeySecret)
         {
             Dictionary<string, string> temp = new Dictionary<string, string>();
 
@@ -590,11 +609,15 @@ namespace AlibabaCloud.OSS
             }
             string signedStr = Convert.ToBase64String(signData);
 
-            return "OSS " + accessKeyId + ":" + signedStr;
+            return signedStr;
         }
 
-        internal string GetSignatureV2(TeaRequest teaRequest, string bucketName, string accessKeyId, string accessKeySecret, string[] additionalHeaders)
+        protected string _getSignatureV2(TeaRequest teaRequest, string bucketName, string accessKeySecret, string[] additionalHeaders)
         {
+            if (additionalHeaders == null)
+            {
+                additionalHeaders = new string[0];
+            }
             string resource = string.Empty;
             string pathName = teaRequest.Pathname;
             if (!string.IsNullOrWhiteSpace(bucketName))
@@ -634,10 +657,10 @@ namespace AlibabaCloud.OSS
                 }
             }
 
-            return GetSignedStrV2(teaRequest, resource, accessKeyId, accessKeySecret, additionalHeaders);
+            return GetSignedStrV2(teaRequest, resource, accessKeySecret, additionalHeaders);
         }
 
-        internal string GetSignedStrV2(TeaRequest teaRequest, string canonicalizedResource, string accessKeyId, string accessKeySecret, string[] additionalHeaders)
+        internal string GetSignedStrV2(TeaRequest teaRequest, string canonicalizedResource, string accessKeySecret, string[] additionalHeaders)
         {
             Dictionary<string, string> temp = new Dictionary<string, string>();
 
@@ -670,14 +693,7 @@ namespace AlibabaCloud.OSS
                 signData = algorithm.ComputeHash(Encoding.UTF8.GetBytes(signStr.ToCharArray()));
             }
             string signedStr = Convert.ToBase64String(signData);
-            if (additionalHeaders.Length == 0)
-            {
-                return "OSS2 AccessKeyId:" + accessKeyId + ",Signature:" + signedStr;
-            }
-            else
-            {
-                return "OSS2 AccessKeyId:" + accessKeyId + ",AdditionalHeaders:" + string.Join(";", additionalHeaders) + ",Signature:" + signedStr;
-            }
+            return signedStr;
         }
 
         internal string UriEncode(string rawStr, bool encodeSlash)

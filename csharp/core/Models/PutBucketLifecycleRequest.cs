@@ -1,0 +1,95 @@
+// This file is auto-generated, don't edit it. Thanks.
+
+using System;
+using System.Collections.Generic;
+using System.IO;
+
+using Tea;
+
+namespace AlibabaCloud.OSS.Models
+{
+    public class PutBucketLifecycleRequest : TeaModel {
+        [NameInMap("BucketName")]
+        [Validation(Required=true)]
+        public string BucketName { get; set; }
+
+        [NameInMap("Body")]
+        [Validation(Required=false)]
+        public PutBucketLifecycleRequestBody Body { get; set; }
+        public class PutBucketLifecycleRequestBody : TeaModel {
+            [NameInMap("LifecycleConfiguration")]
+            [Validation(Required=true)]
+            public PutBucketLifecycleRequestLifecycleConfiguration LifecycleConfiguration { get; set; }
+            public class PutBucketLifecycleRequestLifecycleConfiguration : TeaModel {
+                [NameInMap("Rule")]
+                [Validation(Required=false)]
+                public List<PutBucketLifecycleRequestRule> Rule { get; set; }
+                public class PutBucketLifecycleRequestRule : TeaModel {
+                    [NameInMap("Expiration")]
+                    [Validation(Required=false)]
+                    public PutBucketLifecycleRequestExpiration Expiration { get; set; }
+                    public class PutBucketLifecycleRequestExpiration : TeaModel {
+                        [NameInMap("Days")]
+                        [Validation(Required=false)]
+                        public int? Days { get; set; }
+                        [NameInMap("CreatedBeforeDate")]
+                        [Validation(Required=false)]
+                        public string CreatedBeforeDate { get; set; }
+                    };
+
+                    [NameInMap("Transition")]
+                    [Validation(Required=false)]
+                    public PutBucketLifecycleRequestTransition Transition { get; set; }
+                    public class PutBucketLifecycleRequestTransition : TeaModel {
+                        [NameInMap("Days")]
+                        [Validation(Required=false)]
+                        public int? Days { get; set; }
+                        [NameInMap("StorageClass")]
+                        [Validation(Required=false)]
+                        public string StorageClass { get; set; }
+                    };
+
+                    [NameInMap("AbortMultipartUpload")]
+                    [Validation(Required=false)]
+                    public PutBucketLifecycleRequestAbortMultipartUpload AbortMultipartUpload { get; set; }
+                    public class PutBucketLifecycleRequestAbortMultipartUpload : TeaModel {
+                        [NameInMap("Days")]
+                        [Validation(Required=false)]
+                        public int? Days { get; set; }
+                        [NameInMap("CreatedBeforeDate")]
+                        [Validation(Required=false)]
+                        public string CreatedBeforeDate { get; set; }
+                    };
+
+                    [NameInMap("Tag")]
+                    [Validation(Required=false)]
+                    public PutBucketLifecycleRequestTag Tag { get; set; }
+                    public class PutBucketLifecycleRequestTag : TeaModel {
+                        [NameInMap("Key")]
+                        [Validation(Required=false)]
+                        public string Key { get; set; }
+                        [NameInMap("Value")]
+                        [Validation(Required=false)]
+                        public string Value { get; set; }
+                    };
+
+                    [NameInMap("ID")]
+                    [Validation(Required=false)]
+                    public string ID { get; set; }
+
+                    [NameInMap("Prefix")]
+                    [Validation(Required=false)]
+                    public string Prefix { get; set; }
+
+                    [NameInMap("Status")]
+                    [Validation(Required=false)]
+                    public string Status { get; set; }
+
+                }
+
+            }
+        };
+
+    }
+
+}

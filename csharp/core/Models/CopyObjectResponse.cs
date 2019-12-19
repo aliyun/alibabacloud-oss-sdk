@@ -18,10 +18,10 @@ namespace AlibabaCloud.OSS.Models
         public CopyObjectResponseCopyObjectResult CopyObjectResult { get; set; }
         public class CopyObjectResponseCopyObjectResult : TeaModel {
             [NameInMap("LastModified")]
-            [Validation(Required=true)]
+            [Validation(Required=false)]
             public string LastModified { get; set; }
             [NameInMap("ETag")]
-            [Validation(Required=true)]
+            [Validation(Required=false)]
             public string ETag { get; set; }
         };
 

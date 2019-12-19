@@ -22,15 +22,15 @@ namespace AlibabaCloud.OSS.Models
             public GetObjectTaggingResponseTagSet TagSet { get; set; }
             public class GetObjectTaggingResponseTagSet : TeaModel {
                 [NameInMap("Tag")]
-                [Validation(Required=true)]
-                public List<undefinedTag> Tag { get; set; }
-                public class undefinedTag : TeaModel {
+                [Validation(Required=false)]
+                public List<GetObjectTaggingResponseTag> Tag { get; set; }
+                public class GetObjectTaggingResponseTag : TeaModel {
                     [NameInMap("Key")]
-                    [Validation(Required=true)]
+                    [Validation(Required=false)]
                     public string Key { get; set; }
 
                     [NameInMap("Value")]
-                    [Validation(Required=true)]
+                    [Validation(Required=false)]
                     public string Value { get; set; }
 
                 }

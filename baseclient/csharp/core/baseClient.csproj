@@ -46,8 +46,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Tea" Version="0.0.9" />
-  </ItemGroup>
+    <PackageReference Include="Tea" Version="0.0.10" />
+  </ItemGroup> 
   
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />

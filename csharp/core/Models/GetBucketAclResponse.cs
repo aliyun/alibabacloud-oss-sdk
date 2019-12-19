@@ -22,11 +22,11 @@ namespace AlibabaCloud.OSS.Models
             public GetBucketAclResponseOwner Owner { get; set; }
             public class GetBucketAclResponseOwner : TeaModel {
                 [NameInMap("ID")]
-                [Validation(Required=true)]
+                [Validation(Required=false)]
                 public string ID { get; set; }
 
                 [NameInMap("DisplayName")]
-                [Validation(Required=true)]
+                [Validation(Required=false)]
                 public string DisplayName { get; set; }
 
             }
@@ -35,7 +35,7 @@ namespace AlibabaCloud.OSS.Models
             public GetBucketAclResponseAccessControlList AccessControlList { get; set; }
             public class GetBucketAclResponseAccessControlList : TeaModel {
                 [NameInMap("Grant")]
-                [Validation(Required=true)]
+                [Validation(Required=false)]
                 public string Grant { get; set; }
 
             }
