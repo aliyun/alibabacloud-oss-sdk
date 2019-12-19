@@ -1,6 +1,17 @@
 'use strict';
 
-import Client, { Config, GetBucketRequest, RuntimeObject, PutObjectRequest, GetObjectRequest } from "../src/client";
+import Client, { 
+    PutBucketRefererRequestBodyRefererConfigurationRefererList,
+    PutBucketRefererRequestBodyRefererConfiguration,
+    PutBucketRefererRequestBody,
+    PutBucketRefererRequest,
+    GetBucketRefererRequest,
+    Config, 
+    GetBucketRequest, 
+    RuntimeObject, 
+    PutObjectRequest, 
+    PutObjectRequestHeader, 
+    GetObjectRequest } from "../src/client";
 import 'mocha';
 import assert from 'assert';
 import { Readable } from "stream";
@@ -80,11 +91,43 @@ describe('OSS Client', function () {
 
         it('getBucketInfo should ok', async function () {
             let request = new GetBucketRequest({});
-            request.bucketName = "sdk-oss-test";
+            request.bucketName = BUCKET_NAME;
             let runtime = new RuntimeObject({});
             let response = await client.getBucket(request, runtime);
             assert.strictEqual(response.requestId.length, 24);
             assert.ok(response.listBucketResult);
+        });
+
+        it('PutBucketReferer should ok', async function () {
+            let refererList = new PutBucketRefererRequestBodyRefererConfigurationRefererList({
+                referer: ['oss sdk']
+            });
+            let conf = new PutBucketRefererRequestBodyRefererConfiguration({
+                allowEmptyReferer: true,
+                refererList
+            });
+            let body = new PutBucketRefererRequestBody({
+                refererConfiguration: conf
+            });
+            let request = new PutBucketRefererRequest({
+                bucketName: BUCKET_NAME,
+                body
+            });
+            let runtime = new RuntimeObject({});
+            let response = await client.putBucketReferer(request, runtime);
+            console.log(response);
+            assert.strictEqual(response.requestId.length, 24);
+        });
+
+        it('getBucketReferer should ok', async function () {
+            let request = new GetBucketRefererRequest({
+                bucketName: BUCKET_NAME
+            });
+            let runtime = new RuntimeObject({});
+            let response = await client.getBucketReferer(request, runtime);
+            console.log(response);
+            assert.strictEqual(response.requestId.length, 24);
+            assert.ok(response.refererConfiguration.allowEmptyReferer);
         });
     });
 
@@ -98,7 +141,12 @@ describe('OSS Client', function () {
         it('putObject/getObject should ok', async function () {
             this.timeout(10000);
             const objectName = "test.txt";
-            let request = new PutObjectRequest({});
+            const header = new PutObjectRequestHeader({
+                storageClass: 'Standard'
+            });
+            let request = new PutObjectRequest({
+                header
+            });
             request.bucketName = BUCKET_NAME;
             request.objectName = objectName;
             let content = "just for test";
