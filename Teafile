@@ -8,7 +8,8 @@
     "baseClient": "com.aliyun.oss.baseclient.BaseClient"
   },
   "csharp": {
-    "namespace": "AlibabaCloud.OSS"
+    "namespace": "AlibabaCloud.OSS",
+    "baseClient": "AlibabaCloud.OSS:BaseClient"
   },
   "go": {
     "baseClient": "github.com/aliyun/alibabacloud-oss-sdk/baseclient",
