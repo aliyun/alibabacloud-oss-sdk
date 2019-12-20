@@ -57,4 +57,4 @@ jobs:
       script:
         - dotnet test unitTest/ /p:AltCover=true
       after_success:
-        - bash <(curl -s https://codecov.io/bash)
+        - bash <(curl -s https://codecov.io/bash) -cF Net
