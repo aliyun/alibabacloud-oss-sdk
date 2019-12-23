@@ -11,12 +11,12 @@
 <dependency>
    <groupId>com.aliyun</groupId>
    <artifactId>oss-baseclient</artifactId>
-   <version>1.0-SNAPSHOT</version>
+   <version>[1.1.0, 2.0.0)</version>
 </dependency>
 <dependency>
     <groupId>com.aliyun</groupId>
     <artifactId>oss-client</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>[1.1.0, 2.0.0)</version>
 </dependency>
 ```
 
