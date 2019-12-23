@@ -26,13 +26,26 @@ English | [简体中文](README-CN.md)
     // your accessKeySecret
     config.accessKeySecret = "";
     // signature version 
-    config.signatureVersion = "v2";
+    config.signatureVersion = "V2";
     Client client = new Client(config);
-    GetBucketInfoRequest request = new GetBucketInfoRequest();
-    request.bucketName = "sdk-script";
-    RuntimeObject runtimeObject = new RuntimeObject();
-    GetBucketInfoResponse response = client.GetBucketInfo(request, runtimeObject);
     
+    // putObject
+    PutObjectRequest request = new PutObjectRequest();
+    request.bucketName = "sdk-oss-test";
+    request.objectName = "sdk.txt";
+    PutObjectRequest.PutObjectRequestHeader header = new PutObjectRequest.PutObjectRequestHeader();
+    header.storageClass = "Archive";
+    request.header = header;
+    request.body = new ByteArrayInputStream("value".getBytes("UTF-8"));
+    RuntimeObject runtimeObject = new RuntimeObject();
+    PutObjectResponse response = client.putObject(request, runtimeObject);
+    
+    // getObject
+    GetObjectRequest request = new GetObjectRequest();
+    request.bucketName = "sdk-oss-test";
+    request.objectName = "123.txt";
+    RuntimeObject runtimeObject = new RuntimeObject();
+    GetObjectResponse response = client.getObject(request, runtimeObject);
 ```
 
 ## Issues
