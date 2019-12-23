@@ -42,7 +42,7 @@ namespace unitTest
         public void TestProperties()
         {
             BaseClient baseClientPorp = new BaseClient(config);
-            baseClientPorp.AddtionalHeaders = new string[] { "test" };
+            baseClientPorp.AddtionalHeaders = new List<string> { "test" };
             Assert.Equal("test", baseClientPorp.AddtionalHeaders[0]);
             baseClientPorp.SignatureVersion = "test";
             Assert.Equal("test", baseClientPorp.SignatureVersion);
@@ -390,5 +390,129 @@ namespace unitTest
 
             Assert.Equal("a%7BA%5B0%3A%2F_", baseClient.UriEncode("a{A[0:/_", true));
         }
+
+        [Fact]
+        public void TestReadAsString()
+        {
+            Mock<HttpWebResponse> mock = new Mock<HttpWebResponse>();
+            mock.Setup(p => p.StatusCode).Returns(HttpStatusCode.OK);
+            mock.Setup(p => p.Headers).Returns(new WebHeaderCollection());
+            mock.Setup(p => p.GetResponseStream()).Returns(new MemoryStream(Encoding.UTF8.GetBytes("test")));
+            TeaResponse response = new TeaResponse(mock.Object);
+            Assert.Equal("test", (string) TestHelper.RunInstanceMethod(typeof(BaseClient), "_readAsString", baseClient, new object[] { response }));
+        }
+
+        [Fact]
+        public void TestListToString()
+        {
+            List<string> strs = new List<string> { "te", "st" };
+            Assert.Equal("te;st", (string) TestHelper.RunInstanceMethod(typeof(BaseClient), "_listToString", baseClient, new object[] { strs, ";" }));
+        }
+
+        [Fact]
+        public void TestEqual()
+        {
+            Assert.True((bool) TestHelper.RunInstanceMethod(typeof(BaseClient), "_equal", baseClient, new object[] { "test", "test" }));
+            Assert.False((bool) TestHelper.RunInstanceMethod(typeof(BaseClient), "_equal", baseClient, new object[] { "test", "testFalse" }));
+        }
+
+        [Fact]
+        public void TestEmpty()
+        {
+            Assert.True((bool) TestHelper.RunInstanceMethod(typeof(BaseClient), "_empty", baseClient, new object[] { string.Empty }));
+            Assert.False((bool) TestHelper.RunInstanceMethod(typeof(BaseClient), "_empty", baseClient, new object[] { "test" }));
+        }
+
+        [Fact]
+        public void TestCredential()
+        {
+            Dictionary<string, object> configNull = new Dictionary<string, object>();
+            configNull.Add("accessKeyId", "accessKeyId");
+            configNull.Add("accessKeySecret", "accessKeySecret");
+            configNull.Add("securityToken", "securityToken");
+            configNull.Add("type", AuthConstant.Sts);
+            BaseClient clientNull = new BaseClient(configNull);
+            clientNull.credential = null;
+            Assert.Throws<ArgumentNullException>(() => { TestHelper.RunInstanceMethod(typeof(BaseClient), "_getAccessKeyID", clientNull, new object[] { }); });
+            Assert.Throws<ArgumentNullException>(() => { TestHelper.RunInstanceMethod(typeof(BaseClient), "_getAccessKeySecret", clientNull, new object[] { }); });
+            Assert.Throws<ArgumentNullException>(() => { TestHelper.RunInstanceMethod(typeof(BaseClient), "_getSecurityToken", clientNull, new object[] { }); });
+
+            Assert.Equal("accessKeyId", (string) TestHelper.RunInstanceMethod(typeof(BaseClient), "_getAccessKeyID", baseClient, new object[] { }));
+            Assert.Equal("accessKeySecret", (string) TestHelper.RunInstanceMethod(typeof(BaseClient), "_getAccessKeySecret", baseClient, new object[] { }));
+            Assert.Equal("securityToken", (string) TestHelper.RunInstanceMethod(typeof(BaseClient), "_getSecurityToken", baseClient, new object[] { }));
+
+        }
+
+        [Fact]
+        public void TestIfListEmpty()
+        {
+            Assert.True((bool) TestHelper.RunInstanceMethod(typeof(BaseClient), "_ifListEmpty", baseClient, new object[] { null }));
+            Assert.True((bool) TestHelper.RunInstanceMethod(typeof(BaseClient), "_ifListEmpty", baseClient, new object[] { new List<string>() }));
+            Assert.False((bool) TestHelper.RunInstanceMethod(typeof(BaseClient), "_ifListEmpty", baseClient, new object[] { new List<string> { "test" } }));
+        }
+
+        [Fact]
+        public void TestNotNull()
+        {
+            Assert.False((bool) TestHelper.RunInstanceMethod(typeof(BaseClient), "_notNull", baseClient, new object[] { null }));
+            Assert.False((bool) TestHelper.RunInstanceMethod(typeof(BaseClient), "_notNull", baseClient, new object[] { new Dictionary<string, object>() }));
+            Assert.True((bool) TestHelper.RunInstanceMethod(typeof(BaseClient), "_notNull", baseClient, new object[] { new Dictionary<string, object> { { "key", "value" } } }));
+        }
+
+        [Fact]
+        public void TestInject()
+        {
+            Assert.NotNull((Stream) TestHelper.RunInstanceMethod(typeof(BaseClient), "_inject", baseClient, new object[] { new MemoryStream(), new Dictionary<string, string>() }));
+        }
+
+        [Fact]
+        public void TestGetSignedStrV1()
+        {
+            TeaRequest request = new TeaRequest();
+            request.Method = "GET";
+            request.Headers.Add("test", null);
+            request.Headers.Add("x-oss-test", "test");
+            string result = baseClient.GetSignedStrV1(request, "test", "sk");
+            Assert.Equal("VVpCxhs5fWxzPsVpaNqiPr1iXEE=", result);
+
+            request.Headers.Add("content-type", "type");
+            request.Headers.Add("content-md5", "md5");
+            result = baseClient.GetSignedStrV1(request, "test", "sk");
+            Assert.Equal("MSexwBJvDwWazzrX9GV3mlsjI0g=", result);
+        }
+
+        [Fact]
+        public void TestGetSignatureV1()
+        {
+            TeaRequest request = new TeaRequest();
+            request.Method = "GET";
+            request.Headers.Add("x-oss-test", "test");
+            request.Headers.Add("content-type", "type");
+            request.Headers.Add("content-md5", "md5");
+            request.Query.Add("testQuery", "testQuery");
+            request.Query.Add("queryKey", "queryValue");
+            request.Query.Add("x-oss-process", "value");
+
+            string result = (string) TestHelper.RunInstanceMethod(typeof(BaseClient), "_getSignatureV1", baseClient, new object[] { request, "test", "sk" });
+            Assert.Equal("q9lSDGVH1VmpjMTGSwUZn3tg3J4=", result);
+        }
+
+        [Fact]
+        public void Test_getSignatureV2()
+        {
+            TeaRequest request = new TeaRequest();
+            request.Method = "GET";
+            request.Pathname = "test?aa";
+            request.Headers.Add("x-oss-test", "test");
+            request.Headers.Add("content-type", "type");
+            request.Headers.Add("content-md5", "md5");
+            request.Query.Add("testQuery", "testQuery");
+            request.Query.Add("querykey", "queryValue");
+            request.Query.Add("x-oss-test", "test");
+
+            string result = (string) TestHelper.RunInstanceMethod(typeof(BaseClient), "_getSignatureV2", baseClient, new object[] { request, "test", "sk", new List<string> { "querykey" } });
+            Assert.Equal("NTrErwnblTk2y8h/NJKCcPCr73iRTfcl99PEc1fCgZY=", result);
+        }
+
     }
 }
