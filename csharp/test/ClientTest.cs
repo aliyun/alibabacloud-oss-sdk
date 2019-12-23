@@ -6,6 +6,8 @@ using System.Text;
 using AlibabaCloud.OSS;
 using AlibabaCloud.OSS.Models;
 
+using Aliyun.Credentials.Utils;
+
 using Xunit;
 using static AlibabaCloud.OSS.Models.PutObjectRequest;
 
@@ -26,12 +28,11 @@ namespace test
 
         public ClientTest()
         {
-            List<string> a = new List<string> { { "1" }, { "2" } };
             config = new Config
             {
                 AccessKeyId = Environment.GetEnvironmentVariable("ACCESS_KEY_ID"),
                 AccessKeySecret = Environment.GetEnvironmentVariable("ACCESS_KEY_SECRET"),
-                Type = "ACCESS_KEY"
+                Type = AuthConstant.AccessKey.ToString()
             };
 
             runtime = new RuntimeObject
