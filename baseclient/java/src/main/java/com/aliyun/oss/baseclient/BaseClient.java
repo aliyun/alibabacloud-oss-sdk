@@ -588,8 +588,7 @@ public class BaseClient {
             sortedKeys[sortedKeys.length - 1] = strs[1];
         }
         Arrays.sort(sortedKeys);
-
-        if (sortedKeys.length > 0 && !resource.contains("?")) {
+        if (sortedKeys.length > 0) {
             resource += "?";
         }
         for (String key : sortedKeys) {
