@@ -36,6 +36,8 @@ namespace unitTest.Models
 
         public bool? TestBool { get; set; }
 
+        public Dictionary<string, string> dict { get; set; }
+
         public List<string> TestListNull { get; set; }
 
         public class Owner : TeaModel

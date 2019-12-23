@@ -14,8 +14,10 @@ namespace unitTest.Utils
             string testStr = "This is a test.";
             byte[] content = Encoding.ASCII.GetBytes(testStr);
             Crc64 crc64 = new Crc64();
-            ulong crc = crc64.Compute(content, 0, content.Length, 0);
-            Assert.Equal(2186167744391481992UL, crc);
+            Assert.Equal(2186167744391481992UL, crc64.Compute(content, 0, content.Length, 0));
+
+            crc64 = new Crc64();
+            Assert.Equal(2186167744391481992UL, crc64.Compute(content, 0, content.Length));
         }
     }
 }
