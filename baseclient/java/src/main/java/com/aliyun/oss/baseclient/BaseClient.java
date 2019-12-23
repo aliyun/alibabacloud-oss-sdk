@@ -502,7 +502,7 @@ public class BaseClient {
             credential = new Credential(configuration);
         } else {
             configuration.setType(AuthConstant.STS);
-            configuration.setAccessKeySecret((String) config.get("securityToken"));
+            configuration.setSecurityToken((String) config.get("securityToken"));
             credential = new Credential(configuration);
         }
         this._signatureVersion = (String) config.get("signatureVersion");
