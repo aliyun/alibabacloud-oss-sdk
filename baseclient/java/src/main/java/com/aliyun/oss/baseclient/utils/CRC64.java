@@ -65,9 +65,4 @@ public class CRC64 {
         this.value = ~this.value;
     }
 
-
-    public void reset() {
-        this.value = 0;
-    }
-
 }
