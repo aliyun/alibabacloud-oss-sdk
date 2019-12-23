@@ -45,7 +45,7 @@ namespace AlibabaCloud.OSS
         protected int _maxIdleConns;
         protected object _logger;
         protected Dictionary<string, object> _config;
-        protected string[] _addtionalHeaders;
+        protected List<string> _addtionalHeaders;
         protected string _signatureVersion;
 
         internal Credential credential;
@@ -64,7 +64,7 @@ namespace AlibabaCloud.OSS
             }
         }
 
-        public string[] AddtionalHeaders
+        public List<string> AddtionalHeaders
         {
             get
             {
@@ -372,23 +372,6 @@ namespace AlibabaCloud.OSS
             }
         }
 
-        protected ulong? _getRespCrc(TeaResponse response, bool hasRange, object listener, object tracker)
-        {
-            if (hasRange)
-            {
-                string crc = DictUtils.GetDicValue(response.Headers, "x-oss-hash-crc64ecma");
-                if (string.IsNullOrWhiteSpace(crc))
-                {
-                    return null;
-                }
-                else
-                {
-                    return Convert.ToUInt64(crc);
-                }
-            }
-            return null;
-        }
-
         public void _appendUserAgent(string userAgent)
         {
             if (!string.IsNullOrWhiteSpace(userAgent))
@@ -409,11 +392,6 @@ namespace AlibabaCloud.OSS
                 return _defaultUserAgent + " " + this._userAgent;
             }
             return _defaultUserAgent;
-        }
-
-        protected bool _ifRange(TeaModel model)
-        {
-            return !string.IsNullOrEmpty(DictUtils.GetDicValue(model.ToMap(), "Range").ToSafeString());
         }
 
         protected Dictionary<string, object> _getErrMessage(string body)
@@ -445,7 +423,7 @@ namespace AlibabaCloud.OSS
             return bodyStr;
         }
 
-        protected string _listToString(string[] str, string sep)
+        protected string _listToString(List<string> str, string sep)
         {
             return string.Join(sep, str);
         }
@@ -487,9 +465,9 @@ namespace AlibabaCloud.OSS
             return credential.SecurityToken;
         }
 
-        protected bool _ifListEmpty(string[] strs)
+        protected bool _ifListEmpty(List<string> strs)
         {
-            return strs == null || strs.Length == 0;
+            return strs == null || strs.Count == 0;
         }
 
         protected bool _notNull(Dictionary<string, object> obj)
@@ -597,6 +575,7 @@ namespace AlibabaCloud.OSS
             string contentType = DictUtils.GetDicValue(teaRequest.Headers, "content-type");
             string contentMd5 = DictUtils.GetDicValue(teaRequest.Headers, "content-md5");
             string signStr = teaRequest.Method + "\n" + contentMd5 + "\n" + contentType + "\n" + date + "\n" + canonicalizedOSSHeaders + canonicalizedResource;
+            System.Diagnostics.Debug.WriteLine(signStr);
             byte[] signData;
             using(KeyedHashAlgorithm algorithm = CryptoConfig.CreateFromName("HMACSHA1") as KeyedHashAlgorithm)
             {
@@ -608,11 +587,11 @@ namespace AlibabaCloud.OSS
             return signedStr;
         }
 
-        protected string _getSignatureV2(TeaRequest teaRequest, string bucketName, string accessKeySecret, string[] additionalHeaders)
+        protected string _getSignatureV2(TeaRequest teaRequest, string bucketName, string accessKeySecret, List<string> additionalHeaders)
         {
             if (additionalHeaders == null)
             {
-                additionalHeaders = new string[0];
+                additionalHeaders = new List<string>();
             }
             string resource = string.Empty;
             string pathName = teaRequest.Pathname;
@@ -656,7 +635,7 @@ namespace AlibabaCloud.OSS
             return GetSignedStrV2(teaRequest, resource, accessKeySecret, additionalHeaders);
         }
 
-        internal string GetSignedStrV2(TeaRequest teaRequest, string canonicalizedResource, string accessKeySecret, string[] additionalHeaders)
+        internal string GetSignedStrV2(TeaRequest teaRequest, string canonicalizedResource, string accessKeySecret, List<string> additionalHeaders)
         {
             Dictionary<string, string> temp = new Dictionary<string, string>();
 
