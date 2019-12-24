@@ -34,7 +34,8 @@ namespace AliyunComdeSample
             {
                 AccessKeyId = "<your-AccessKeyId>",
                 AccessKeySecret = "<your-ACCESS_KEY_SECRET>",
-                Type = AuthConstant.AccessKey.ToString()
+                Type = AuthConstant.AccessKey.ToString(),
+                SignatureVersion = "V2"
             };
 
             RuntimeObject runtime = new RuntimeObject
@@ -43,8 +44,6 @@ namespace AliyunComdeSample
                 MaxIdleConns = 3
             };
             Client client = new Client(config);
-            //signature version
-            client.SignatureVersion = "V2";
 
             //putObject
             PutObjectResponse putObjectResponse = PutObject(client, runtime);

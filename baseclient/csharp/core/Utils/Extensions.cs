@@ -1,4 +1,6 @@
-﻿namespace AlibabaCloud.OSS.Utils
+﻿using System;
+
+namespace AlibabaCloud.OSS.Utils
 {
     internal static class Extensions
     {
@@ -13,5 +15,42 @@
                 return defaultStr;
             }
         }
+
+        internal static bool ToSafeBool(this object obj, bool defaultBool = false)
+        {
+            try
+            {
+                return Convert.ToBoolean(obj);
+            }
+            catch
+            {
+                return defaultBool;
+            }
+        }
+
+        internal static int? ToSafeInt32(this object obj)
+        {
+            try
+            {
+                return Convert.ToInt32(obj);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        internal static int ToSafeInt32(this object obj, int defaultInt)
+        {
+            try
+            {
+                return Convert.ToInt32(obj);
+            }
+            catch
+            {
+                return defaultInt;
+            }
+        }
+
     }
 }
