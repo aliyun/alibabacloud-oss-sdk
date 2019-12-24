@@ -34,15 +34,15 @@ namespace AlibabaCloud.OSS
         protected string _hostModel;
         protected bool _isEnableMD5;
         protected bool _isEnableCrc;
-        protected int _readTimeout;
-        protected int _connectTimeout;
+        protected int? _readTimeout;
+        protected int? _connectTimeout;
         protected string _localAddr;
         protected string _httpProxy;
         protected string _httpsProxy;
         protected string _noProxy;
         protected string _socks5Proxy;
         protected string _socks5NetWork;
-        protected int _maxIdleConns;
+        protected int? _maxIdleConns;
         protected object _logger;
         protected Dictionary<string, object> _config;
         protected List<string> _addtionalHeaders;
@@ -81,8 +81,21 @@ namespace AlibabaCloud.OSS
             _regionId = DictUtils.GetDicValue(config, "regionId").ToSafeString();
             _protocol = DictUtils.GetDicValue(config, "protocol").ToSafeString();
             _endpoint = DictUtils.GetDicValue(config, "endpoint").ToSafeString();
+            _signatureVersion = DictUtils.GetDicValue(config, "signatureVersion").ToSafeString();
+            _hostModel = DictUtils.GetDicValue(config, "hostModel").ToSafeString();
+            _isEnableMD5 = DictUtils.GetDicValue(config, "isEnableMD5").ToSafeBool();
+            _isEnableCrc = DictUtils.GetDicValue(config, "isEnableCrc").ToSafeBool();
+            _readTimeout = DictUtils.GetDicValue(config, "readTimeout").ToSafeInt32();
+            _connectTimeout = DictUtils.GetDicValue(config, "connectTimeout").ToSafeInt32();
+            _localAddr = DictUtils.GetDicValue(config, "localAddr").ToSafeString();
+            _httpProxy = DictUtils.GetDicValue(config, "httpProxy").ToSafeString();
+            _httpsProxy = DictUtils.GetDicValue(config, "httpsProxy").ToSafeString();
+            _noProxy = DictUtils.GetDicValue(config, "noProxy").ToSafeString();
+            _socks5Proxy = DictUtils.GetDicValue(config, "socks5Proxy").ToSafeString();
+            _socks5NetWork = DictUtils.GetDicValue(config, "socks5NetWork").ToSafeString();
+            _maxIdleConns = DictUtils.GetDicValue(config, "maxIdleConns").ToSafeInt32();
+            AddtionalHeaders = (List<string>) DictUtils.GetDicValue(config, "addtionalHeaders");
             _config = config;
-
             _defaultUserAgent = GetDefaultUserAgent();
 
             SetCredential(config);
@@ -107,40 +120,6 @@ namespace AlibabaCloud.OSS
         protected string _getDate()
         {
             return DateTime.UtcNow.ToUniversalTime().GetDateTimeFormats('r') [0];
-        }
-
-        protected string _getAuth(TeaRequest teaRequest, string bucketName)
-        {
-            string auth = string.Empty;
-            if (credential == null)
-            {
-                return auth;
-            }
-            try
-            {
-                string accessKeyId = credential.AccessKeyId;
-                string accessKeySecret = credential.AccessKeySecret;
-                string securityToken = credential.SecurityToken;
-                if (!string.IsNullOrWhiteSpace(securityToken))
-                {
-                    teaRequest.Headers.Add("X-Oss-Security-Token", securityToken);
-                }
-
-                if (_signatureVersion.ToSafeString("").ToLower() == "v2")
-                {
-                    auth = _getSignatureV2(teaRequest, bucketName, accessKeySecret, _addtionalHeaders);
-                }
-                else
-                {
-                    auth = _getSignatureV1(teaRequest, bucketName, accessKeySecret);
-                }
-            }
-            catch
-            {
-                auth = string.Empty;
-            }
-
-            return auth;
         }
 
         protected Dictionary<string, object> _parseXml(string content, Type type)

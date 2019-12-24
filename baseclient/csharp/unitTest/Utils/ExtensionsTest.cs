@@ -17,5 +17,25 @@ namespace unitTest.Utils
             Assert.Equal("test", strTest.ToSafeString());
             Assert.Equal("test", strTest.ToSafeString(string.Empty));
         }
+
+        [Fact]
+        public void TestToSafeBool()
+        {
+            bool? boolNull = null;
+            string test = "test";
+            Assert.False(boolNull.ToSafeBool());
+            Assert.True(test.ToSafeBool(true));
+            Assert.False(false.ToSafeBool(true));
+        }
+
+        [Fact]
+        public void TestToSafeInt32()
+        {
+            Assert.Null("test".ToSafeInt32());
+            Assert.Equal(1, 1. ToSafeInt32());
+
+            Assert.Equal(1, 1. ToSafeInt32(1));
+            Assert.Equal(2, "test".ToSafeInt32(2));
+        }
     }
 }

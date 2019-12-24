@@ -32,7 +32,8 @@ namespace test
             {
                 AccessKeyId = Environment.GetEnvironmentVariable("ACCESS_KEY_ID"),
                 AccessKeySecret = Environment.GetEnvironmentVariable("ACCESS_KEY_SECRET"),
-                Type = AuthConstant.AccessKey.ToString()
+                Type = AuthConstant.AccessKey.ToString(),
+                SignatureVersion = "V2"
             };
 
             runtime = new RuntimeObject
@@ -41,7 +42,6 @@ namespace test
                 MaxIdleConns = 3
             };
             client = new Client(config);
-            client.SignatureVersion = "V2";
         }
 
         [Fact]

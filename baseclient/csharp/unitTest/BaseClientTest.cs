@@ -61,26 +61,6 @@ namespace unitTest
         }
 
         [Fact]
-        public void TestGetAuth()
-        {
-            Credential origincredential = baseClient.credential;
-            baseClient.credential = null;
-            TeaRequest request = new TeaRequest();
-            string authEmpty = (string) TestHelper.RunInstanceMethod(typeof(BaseClient), "_getAuth", baseClient, new object[] { request, "oss" });
-            Assert.Empty(authEmpty);
-
-            baseClient.credential = origincredential;
-            string auth = (string) TestHelper.RunInstanceMethod(typeof(BaseClient), "_getAuth", baseClient, new object[] { request, "oss" });
-            Assert.Equal("OVuXr5THk6VcE/2U78ukqMl032w=", auth);
-
-            baseClient.SignatureVersion = "V2";
-            request.Headers = new Dictionary<string, string>();
-            string authV2 = (string) TestHelper.RunInstanceMethod(typeof(BaseClient), "_getAuth", baseClient, new object[] { request, "oss" });
-            Assert.Equal("ec99QpyH6hbQIJAJayQksSGkXcepQw5vfsw9zik0tkA=", authV2);
-
-        }
-
-        [Fact]
         public void TestDefaultNumber()
         {
             Assert.Equal(0, (int) TestHelper.RunInstanceMethod(typeof(BaseClient), "_defaultNumber", baseClient, new object[] {-1, 0 }));
