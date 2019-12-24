@@ -66,6 +66,20 @@ func (client *BaseClient) InitClient(config map[string]interface{}) error {
 	client.Protocol = getStringValue(config["protocol"])
 	client.RegionId = getStringValue(config["regionId"])
 	client.Endpoint = getStringValue(config["endpoint"])
+	client.UserAgent = getStringValue(config["userAgent"])
+	client.HostModel = getStringValue(config["hostModel"])
+	client.SignatureVersion = getStringValue(config["signatureVersion"])
+	client.IsEnableMD5 = getBoolValue(config["isEnableMD5"])
+	client.IsEnableCrc = getBoolValue(config["isEnableCrc"])
+	client.ReadTimeout = getIntValue(config["readTimeout"])
+	client.ConnectTimeout = getIntValue(config["connectTimeout"])
+	client.LocalAddr = getStringValue(config["localAddr"])
+	client.HttpProxy = getStringValue(config["httpProxy"])
+	client.HttpsProxy = getStringValue(config["httpsProxy"])
+	client.NoProxy = getStringValue(config["noProxy"])
+	client.Socks5Proxy = getStringValue(config["socks5Proxy"])
+	client.Socks5NetWork = getStringValue(config["socks5NetWork"])
+	client.MaxIdleConns = getIntValue(config["maxIdleConns"])
 	conf := &credentials.Configuration{
 		AccessKeyID:     getStringValue(config["accessKeyId"]),
 		AccessKeySecret: getStringValue(config["accessKeySecret"]),
