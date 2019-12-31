@@ -65,7 +65,7 @@ export class RuntimeObject extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -147,7 +147,7 @@ export class Config extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -169,7 +169,7 @@ export class PutBucketLifecycleRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -188,7 +188,7 @@ export class PutBucketLifecycleResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -213,7 +213,7 @@ export class DeleteMultipleObjectsRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -235,7 +235,7 @@ export class DeleteMultipleObjectsResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -257,7 +257,7 @@ export class PutBucketRefererRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -276,7 +276,7 @@ export class PutBucketRefererResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -298,7 +298,7 @@ export class PutBucketWebsiteRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -317,7 +317,7 @@ export class PutBucketWebsiteResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -345,7 +345,7 @@ export class CompleteMultipartUploadRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -367,7 +367,7 @@ export class CompleteMultipartUploadResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -389,7 +389,7 @@ export class PutBucketLoggingRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -408,7 +408,7 @@ export class PutBucketLoggingResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -430,7 +430,7 @@ export class PutBucketRequestPaymentRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -449,7 +449,7 @@ export class PutBucketRequestPaymentResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -471,7 +471,7 @@ export class PutBucketEncryptionRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -490,7 +490,7 @@ export class PutBucketEncryptionResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -515,7 +515,7 @@ export class PutLiveChannelRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -537,7 +537,7 @@ export class PutLiveChannelResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -559,7 +559,7 @@ export class PutBucketTagsRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -578,7 +578,7 @@ export class PutBucketTagsResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -603,7 +603,7 @@ export class PutObjectTaggingRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -622,7 +622,7 @@ export class PutObjectTaggingResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -650,7 +650,7 @@ export class SelectObjectRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -669,7 +669,7 @@ export class SelectObjectResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -691,7 +691,7 @@ export class PutBucketCORSRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -710,7 +710,7 @@ export class PutBucketCORSResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -735,7 +735,7 @@ export class PutBucketRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -754,7 +754,7 @@ export class PutBucketResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -776,7 +776,7 @@ export class ListMultipartUploadsRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -798,7 +798,7 @@ export class ListMultipartUploadsResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -817,7 +817,7 @@ export class GetBucketRequestPaymentRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -839,7 +839,7 @@ export class GetBucketRequestPaymentResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -858,7 +858,7 @@ export class GetBucketEncryptionRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -880,7 +880,7 @@ export class GetBucketEncryptionResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -899,7 +899,7 @@ export class GetBucketTagsRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -921,7 +921,7 @@ export class GetBucketTagsResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -940,7 +940,7 @@ export class GetServiceRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -962,7 +962,7 @@ export class GetServiceResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -981,7 +981,7 @@ export class DeleteBucketEncryptionRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -1000,7 +1000,7 @@ export class DeleteBucketEncryptionResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -1022,7 +1022,7 @@ export class DeleteBucketTagsRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -1041,7 +1041,7 @@ export class DeleteBucketTagsResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -1060,7 +1060,7 @@ export class GetBucketWebsiteRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -1082,7 +1082,7 @@ export class GetBucketWebsiteResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -1104,7 +1104,7 @@ export class DeleteLiveChannelRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -1123,7 +1123,7 @@ export class DeleteLiveChannelResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -1142,7 +1142,7 @@ export class GetBucketLocationRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -1164,7 +1164,7 @@ export class GetBucketLocationResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -1186,7 +1186,7 @@ export class ListLiveChannelRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -1208,7 +1208,7 @@ export class ListLiveChannelResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -1230,7 +1230,7 @@ export class GetObjectMetaRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -1258,7 +1258,7 @@ export class GetObjectMetaResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -1277,7 +1277,7 @@ export class GetBucketAclRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -1299,7 +1299,7 @@ export class GetBucketAclResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -1324,7 +1324,7 @@ export class ListPartsRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -1346,7 +1346,7 @@ export class ListPartsResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -1371,7 +1371,7 @@ export class GetLiveChannelHistoryRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -1393,7 +1393,7 @@ export class GetLiveChannelHistoryResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -1415,7 +1415,7 @@ export class GetBucketRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -1437,7 +1437,7 @@ export class GetBucketResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -1459,7 +1459,7 @@ export class GetLiveChannelInfoRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -1481,7 +1481,7 @@ export class GetLiveChannelInfoResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -1506,7 +1506,7 @@ export class GetLiveChannelStatRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -1528,7 +1528,7 @@ export class GetLiveChannelStatResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -1550,7 +1550,7 @@ export class DeleteObjectRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -1569,7 +1569,7 @@ export class DeleteObjectResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -1594,7 +1594,7 @@ export class AbortMultipartUploadRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -1613,7 +1613,7 @@ export class AbortMultipartUploadResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -1647,7 +1647,7 @@ export class AppendObjectRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -1672,7 +1672,7 @@ export class AppendObjectResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -1700,7 +1700,7 @@ export class UploadPartCopyRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -1722,7 +1722,7 @@ export class UploadPartCopyResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -1747,7 +1747,7 @@ export class GetVodPlaylistRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -1766,7 +1766,7 @@ export class GetVodPlaylistResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -1785,7 +1785,7 @@ export class DeleteBucketCORSRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -1804,7 +1804,7 @@ export class DeleteBucketCORSResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -1829,7 +1829,7 @@ export class GetObjectRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -1863,7 +1863,7 @@ export class GetObjectResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -1891,7 +1891,7 @@ export class UploadPartRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -1910,7 +1910,7 @@ export class UploadPartResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -1929,7 +1929,7 @@ export class GetBucketCORSRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -1951,7 +1951,7 @@ export class GetBucketCORSResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -1976,7 +1976,7 @@ export class CopyObjectRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -1998,7 +1998,7 @@ export class CopyObjectResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -2020,7 +2020,7 @@ export class GetObjectTaggingRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -2042,7 +2042,7 @@ export class GetObjectTaggingResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -2061,7 +2061,7 @@ export class DeleteBucketLifecycleRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -2080,7 +2080,7 @@ export class DeleteBucketLifecycleResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -2099,7 +2099,7 @@ export class DeleteBucketLoggingRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -2118,7 +2118,7 @@ export class DeleteBucketLoggingResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -2137,7 +2137,7 @@ export class DeleteBucketWebsiteRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -2156,7 +2156,7 @@ export class DeleteBucketWebsiteResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -2178,7 +2178,7 @@ export class GetSymlinkRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -2200,7 +2200,7 @@ export class GetSymlinkResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -2219,7 +2219,7 @@ export class GetBucketLifecycleRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -2241,7 +2241,7 @@ export class GetBucketLifecycleResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -2266,7 +2266,7 @@ export class PutSymlinkRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -2285,7 +2285,7 @@ export class PutSymlinkResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -2304,7 +2304,7 @@ export class GetBucketRefererRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -2326,7 +2326,7 @@ export class GetBucketRefererResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -2345,7 +2345,7 @@ export class CallbackRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -2364,7 +2364,7 @@ export class CallbackResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -2383,7 +2383,7 @@ export class GetBucketLoggingRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -2405,7 +2405,7 @@ export class GetBucketLoggingResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -2430,7 +2430,7 @@ export class PutObjectAclRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -2449,7 +2449,7 @@ export class PutObjectAclResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -2468,7 +2468,7 @@ export class GetBucketInfoRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -2490,7 +2490,7 @@ export class GetBucketInfoResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -2515,7 +2515,7 @@ export class PutLiveChannelStatusRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -2534,7 +2534,7 @@ export class PutLiveChannelStatusResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -2562,7 +2562,7 @@ export class InitiateMultipartUploadRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -2584,7 +2584,7 @@ export class InitiateMultipartUploadResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -2609,7 +2609,7 @@ export class OptionObjectRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -2643,7 +2643,7 @@ export class OptionObjectResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -2671,7 +2671,7 @@ export class PostVodPlaylistRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -2690,7 +2690,7 @@ export class PostVodPlaylistResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -2709,7 +2709,7 @@ export class PostObjectRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -2731,7 +2731,7 @@ export class PostObjectResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -2756,7 +2756,7 @@ export class HeadObjectRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -2832,7 +2832,7 @@ export class HeadObjectResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -2854,7 +2854,7 @@ export class DeleteObjectTaggingRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -2873,7 +2873,7 @@ export class DeleteObjectTaggingResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -2895,7 +2895,7 @@ export class RestoreObjectRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -2914,7 +2914,7 @@ export class RestoreObjectResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -2936,7 +2936,7 @@ export class GetObjectAclRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -2958,7 +2958,7 @@ export class GetObjectAclResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -2980,7 +2980,7 @@ export class PutBucketAclRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -2999,7 +2999,7 @@ export class PutBucketAclResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -3018,7 +3018,7 @@ export class DeleteBucketRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -3037,7 +3037,7 @@ export class DeleteBucketResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -3068,7 +3068,7 @@ export class PutObjectRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
@@ -3096,7 +3096,7 @@ export class PutObjectResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
 }
