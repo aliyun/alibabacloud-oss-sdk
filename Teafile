@@ -12,7 +12,7 @@
     "baseClient": "AlibabaCloud.OSS:BaseClient"
   },
   "go": {
-    "baseClient": "github.com/aliyun/alibabacloud-oss-sdk/baseclient",
+    "baseClient": "github.com/aliyun/alibabacloud-oss-sdk/baseclient/go",
     "package": [
       "io"
     ]
