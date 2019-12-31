@@ -7903,35 +7903,35 @@ func NewClient(config *Config) (*Client, error) {
 	return client, nil
 }
 
-func (client *Client) PutBucketLifecycle(request *PutBucketLifecycleRequest, runtime *RuntimeObject) (*PutBucketLifecycleResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) PutBucketLifecycle(request *PutBucketLifecycleRequest, runtime *RuntimeObject) (_result *PutBucketLifecycleResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -7945,18 +7945,19 @@ func (client *Client) PutBucketLifecycle(request *PutBucketLifecycleRequest, run
 			}
 		}
 
-		_resp, err = func() (*PutBucketLifecycleResponse, error) {
+		_resp, _err = func() (*PutBucketLifecycleResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			reqBody := client.ToXML(tea.ToMap(request.Body))
 			request_.Protocol = client.Protocol
 			request_.Method = "PUT"
 			request_.Pathname = "/?lifecycle"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -7965,26 +7966,25 @@ func (client *Client) PutBucketLifecycle(request *PutBucketLifecycleRequest, run
 			}
 
 			request_.Body = tea.ToReader(reqBody)
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -7993,50 +7993,50 @@ func (client *Client) PutBucketLifecycle(request *PutBucketLifecycleRequest, run
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			_result := &PutBucketLifecycleResponse{}
-			err = tea.Convert(response_.Headers, &_result)
-			return _result, err
+			_result = &PutBucketLifecycleResponse{}
+			_err = tea.Convert(response_.Headers, &_result)
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) DeleteMultipleObjects(request *DeleteMultipleObjectsRequest, runtime *RuntimeObject) (*DeleteMultipleObjectsResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) DeleteMultipleObjects(request *DeleteMultipleObjectsRequest, runtime *RuntimeObject) (_result *DeleteMultipleObjectsResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -8050,18 +8050,19 @@ func (client *Client) DeleteMultipleObjects(request *DeleteMultipleObjectsReques
 			}
 		}
 
-		_resp, err = func() (*DeleteMultipleObjectsResponse, error) {
+		_resp, _err = func() (*DeleteMultipleObjectsResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			reqBody := client.ToXML(tea.ToMap(request.Body))
 			request_.Protocol = client.Protocol
 			request_.Method = "POST"
 			request_.Pathname = "/?delete"
 			request_.Headers = tea.Merge(map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}, client.ToHeader(tea.ToMap(request.Header)))
@@ -8070,32 +8071,31 @@ func (client *Client) DeleteMultipleObjects(request *DeleteMultipleObjectsReques
 			}
 
 			request_.Body = tea.ToReader(reqBody)
-			if client.NotNull(tea.ToMap(request.Header)) && !client.Empty(tea.GetStringValue(request.Header.ContentMD5)) {
-				request_.Headers["content-md5"] = tea.GetStringValue(request.Header.ContentMD5)
+			if client.NotNull(tea.ToMap(request.Header)) && !client.Empty(tea.StringValue(request.Header.ContentMD5)) {
+				request_.Headers["content-md5"] = tea.StringValue(request.Header.ContentMD5)
 			} else {
 				request_.Headers["content-md5"] = client.GetContentMD5(reqBody)
 			}
 
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -8104,58 +8104,58 @@ func (client *Client) DeleteMultipleObjects(request *DeleteMultipleObjectsReques
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			bodyStr, err = client.ReadAsString(response_)
-			if err != nil {
-				return nil, err
+			bodyStr, _err = client.ReadAsString(response_)
+			if _err != nil {
+				return nil, _err
 			}
 
 			respMap = client.ParseXml(bodyStr, new(DeleteMultipleObjectsResponse))
-			_result := &DeleteMultipleObjectsResponse{}
-			err = tea.Convert(tea.ToMap(map[string]interface{}{
+			_result = &DeleteMultipleObjectsResponse{}
+			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"DeleteResult": respMap["DeleteResult"],
 			}, response_.Headers), &_result)
-			return _result, err
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) PutBucketReferer(request *PutBucketRefererRequest, runtime *RuntimeObject) (*PutBucketRefererResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) PutBucketReferer(request *PutBucketRefererRequest, runtime *RuntimeObject) (_result *PutBucketRefererResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -8169,18 +8169,19 @@ func (client *Client) PutBucketReferer(request *PutBucketRefererRequest, runtime
 			}
 		}
 
-		_resp, err = func() (*PutBucketRefererResponse, error) {
+		_resp, _err = func() (*PutBucketRefererResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			reqBody := client.ToXML(tea.ToMap(request.Body))
 			request_.Protocol = client.Protocol
 			request_.Method = "PUT"
 			request_.Pathname = "/?referer"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -8189,26 +8190,25 @@ func (client *Client) PutBucketReferer(request *PutBucketRefererRequest, runtime
 			}
 
 			request_.Body = tea.ToReader(reqBody)
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -8217,50 +8217,50 @@ func (client *Client) PutBucketReferer(request *PutBucketRefererRequest, runtime
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			_result := &PutBucketRefererResponse{}
-			err = tea.Convert(response_.Headers, &_result)
-			return _result, err
+			_result = &PutBucketRefererResponse{}
+			_err = tea.Convert(response_.Headers, &_result)
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) PutBucketWebsite(request *PutBucketWebsiteRequest, runtime *RuntimeObject) (*PutBucketWebsiteResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) PutBucketWebsite(request *PutBucketWebsiteRequest, runtime *RuntimeObject) (_result *PutBucketWebsiteResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -8274,18 +8274,19 @@ func (client *Client) PutBucketWebsite(request *PutBucketWebsiteRequest, runtime
 			}
 		}
 
-		_resp, err = func() (*PutBucketWebsiteResponse, error) {
+		_resp, _err = func() (*PutBucketWebsiteResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			reqBody := client.ToXML(tea.ToMap(request.Body))
 			request_.Protocol = client.Protocol
 			request_.Method = "PUT"
 			request_.Pathname = "/?website"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -8294,26 +8295,25 @@ func (client *Client) PutBucketWebsite(request *PutBucketWebsiteRequest, runtime
 			}
 
 			request_.Body = tea.ToReader(reqBody)
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -8322,50 +8322,50 @@ func (client *Client) PutBucketWebsite(request *PutBucketWebsiteRequest, runtime
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			_result := &PutBucketWebsiteResponse{}
-			err = tea.Convert(response_.Headers, &_result)
-			return _result, err
+			_result = &PutBucketWebsiteResponse{}
+			_err = tea.Convert(response_.Headers, &_result)
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) CompleteMultipartUpload(request *CompleteMultipartUploadRequest, runtime *RuntimeObject) (*CompleteMultipartUploadResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) CompleteMultipartUpload(request *CompleteMultipartUploadRequest, runtime *RuntimeObject) (_result *CompleteMultipartUploadResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -8379,18 +8379,19 @@ func (client *Client) CompleteMultipartUpload(request *CompleteMultipartUploadRe
 			}
 		}
 
-		_resp, err = func() (*CompleteMultipartUploadResponse, error) {
+		_resp, _err = func() (*CompleteMultipartUploadResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			reqBody := client.ToXML(tea.ToMap(request.Body))
 			request_.Protocol = client.Protocol
 			request_.Method = "POST"
-			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ObjectName))
+			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ObjectName))
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -8400,26 +8401,25 @@ func (client *Client) CompleteMultipartUpload(request *CompleteMultipartUploadRe
 
 			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
 			request_.Body = tea.ToReader(reqBody)
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -8428,58 +8428,58 @@ func (client *Client) CompleteMultipartUpload(request *CompleteMultipartUploadRe
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			bodyStr, err = client.ReadAsString(response_)
-			if err != nil {
-				return nil, err
+			bodyStr, _err = client.ReadAsString(response_)
+			if _err != nil {
+				return nil, _err
 			}
 
 			respMap = client.ParseXml(bodyStr, new(CompleteMultipartUploadResponse))
-			_result := &CompleteMultipartUploadResponse{}
-			err = tea.Convert(tea.ToMap(map[string]interface{}{
+			_result = &CompleteMultipartUploadResponse{}
+			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"CompleteMultipartUploadResult": respMap["CompleteMultipartUploadResult"],
 			}, response_.Headers), &_result)
-			return _result, err
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) PutBucketLogging(request *PutBucketLoggingRequest, runtime *RuntimeObject) (*PutBucketLoggingResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) PutBucketLogging(request *PutBucketLoggingRequest, runtime *RuntimeObject) (_result *PutBucketLoggingResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -8493,18 +8493,19 @@ func (client *Client) PutBucketLogging(request *PutBucketLoggingRequest, runtime
 			}
 		}
 
-		_resp, err = func() (*PutBucketLoggingResponse, error) {
+		_resp, _err = func() (*PutBucketLoggingResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			reqBody := client.ToXML(tea.ToMap(request.Body))
 			request_.Protocol = client.Protocol
 			request_.Method = "PUT"
 			request_.Pathname = "/?logging"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -8513,26 +8514,25 @@ func (client *Client) PutBucketLogging(request *PutBucketLoggingRequest, runtime
 			}
 
 			request_.Body = tea.ToReader(reqBody)
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -8541,50 +8541,50 @@ func (client *Client) PutBucketLogging(request *PutBucketLoggingRequest, runtime
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			_result := &PutBucketLoggingResponse{}
-			err = tea.Convert(response_.Headers, &_result)
-			return _result, err
+			_result = &PutBucketLoggingResponse{}
+			_err = tea.Convert(response_.Headers, &_result)
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) PutBucketRequestPayment(request *PutBucketRequestPaymentRequest, runtime *RuntimeObject) (*PutBucketRequestPaymentResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) PutBucketRequestPayment(request *PutBucketRequestPaymentRequest, runtime *RuntimeObject) (_result *PutBucketRequestPaymentResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -8598,18 +8598,19 @@ func (client *Client) PutBucketRequestPayment(request *PutBucketRequestPaymentRe
 			}
 		}
 
-		_resp, err = func() (*PutBucketRequestPaymentResponse, error) {
+		_resp, _err = func() (*PutBucketRequestPaymentResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			reqBody := client.ToXML(tea.ToMap(request.Body))
 			request_.Protocol = client.Protocol
 			request_.Method = "PUT"
 			request_.Pathname = "/?requestPayment"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -8618,26 +8619,25 @@ func (client *Client) PutBucketRequestPayment(request *PutBucketRequestPaymentRe
 			}
 
 			request_.Body = tea.ToReader(reqBody)
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -8646,50 +8646,50 @@ func (client *Client) PutBucketRequestPayment(request *PutBucketRequestPaymentRe
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			_result := &PutBucketRequestPaymentResponse{}
-			err = tea.Convert(response_.Headers, &_result)
-			return _result, err
+			_result = &PutBucketRequestPaymentResponse{}
+			_err = tea.Convert(response_.Headers, &_result)
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) PutBucketEncryption(request *PutBucketEncryptionRequest, runtime *RuntimeObject) (*PutBucketEncryptionResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) PutBucketEncryption(request *PutBucketEncryptionRequest, runtime *RuntimeObject) (_result *PutBucketEncryptionResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -8703,18 +8703,19 @@ func (client *Client) PutBucketEncryption(request *PutBucketEncryptionRequest, r
 			}
 		}
 
-		_resp, err = func() (*PutBucketEncryptionResponse, error) {
+		_resp, _err = func() (*PutBucketEncryptionResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			reqBody := client.ToXML(tea.ToMap(request.Body))
 			request_.Protocol = client.Protocol
 			request_.Method = "PUT"
 			request_.Pathname = "/?encryption"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -8723,26 +8724,25 @@ func (client *Client) PutBucketEncryption(request *PutBucketEncryptionRequest, r
 			}
 
 			request_.Body = tea.ToReader(reqBody)
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -8751,50 +8751,50 @@ func (client *Client) PutBucketEncryption(request *PutBucketEncryptionRequest, r
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			_result := &PutBucketEncryptionResponse{}
-			err = tea.Convert(response_.Headers, &_result)
-			return _result, err
+			_result = &PutBucketEncryptionResponse{}
+			_err = tea.Convert(response_.Headers, &_result)
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) PutLiveChannel(request *PutLiveChannelRequest, runtime *RuntimeObject) (*PutLiveChannelResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) PutLiveChannel(request *PutLiveChannelRequest, runtime *RuntimeObject) (_result *PutLiveChannelResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -8808,18 +8808,19 @@ func (client *Client) PutLiveChannel(request *PutLiveChannelRequest, runtime *Ru
 			}
 		}
 
-		_resp, err = func() (*PutLiveChannelResponse, error) {
+		_resp, _err = func() (*PutLiveChannelResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			reqBody := client.ToXML(tea.ToMap(request.Body))
 			request_.Protocol = client.Protocol
 			request_.Method = "PUT"
-			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ChannelName)) + "?live"
+			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ChannelName)) + "?live"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -8828,26 +8829,25 @@ func (client *Client) PutLiveChannel(request *PutLiveChannelRequest, runtime *Ru
 			}
 
 			request_.Body = tea.ToReader(reqBody)
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -8856,58 +8856,58 @@ func (client *Client) PutLiveChannel(request *PutLiveChannelRequest, runtime *Ru
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			bodyStr, err = client.ReadAsString(response_)
-			if err != nil {
-				return nil, err
+			bodyStr, _err = client.ReadAsString(response_)
+			if _err != nil {
+				return nil, _err
 			}
 
 			respMap = client.ParseXml(bodyStr, new(PutLiveChannelResponse))
-			_result := &PutLiveChannelResponse{}
-			err = tea.Convert(tea.ToMap(map[string]interface{}{
+			_result = &PutLiveChannelResponse{}
+			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"CreateLiveChannelResult": respMap["CreateLiveChannelResult"],
 			}, response_.Headers), &_result)
-			return _result, err
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) PutBucketTags(request *PutBucketTagsRequest, runtime *RuntimeObject) (*PutBucketTagsResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) PutBucketTags(request *PutBucketTagsRequest, runtime *RuntimeObject) (_result *PutBucketTagsResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -8921,18 +8921,19 @@ func (client *Client) PutBucketTags(request *PutBucketTagsRequest, runtime *Runt
 			}
 		}
 
-		_resp, err = func() (*PutBucketTagsResponse, error) {
+		_resp, _err = func() (*PutBucketTagsResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			reqBody := client.ToXML(tea.ToMap(request.Body))
 			request_.Protocol = client.Protocol
 			request_.Method = "PUT"
 			request_.Pathname = "/?tagging"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -8941,26 +8942,25 @@ func (client *Client) PutBucketTags(request *PutBucketTagsRequest, runtime *Runt
 			}
 
 			request_.Body = tea.ToReader(reqBody)
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -8969,50 +8969,50 @@ func (client *Client) PutBucketTags(request *PutBucketTagsRequest, runtime *Runt
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			_result := &PutBucketTagsResponse{}
-			err = tea.Convert(response_.Headers, &_result)
-			return _result, err
+			_result = &PutBucketTagsResponse{}
+			_err = tea.Convert(response_.Headers, &_result)
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) PutObjectTagging(request *PutObjectTaggingRequest, runtime *RuntimeObject) (*PutObjectTaggingResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) PutObjectTagging(request *PutObjectTaggingRequest, runtime *RuntimeObject) (_result *PutObjectTaggingResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -9026,18 +9026,19 @@ func (client *Client) PutObjectTagging(request *PutObjectTaggingRequest, runtime
 			}
 		}
 
-		_resp, err = func() (*PutObjectTaggingResponse, error) {
+		_resp, _err = func() (*PutObjectTaggingResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			reqBody := client.ToXML(tea.ToMap(request.Body))
 			request_.Protocol = client.Protocol
 			request_.Method = "PUT"
-			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ObjectName)) + "?tagging"
+			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ObjectName)) + "?tagging"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -9046,26 +9047,25 @@ func (client *Client) PutObjectTagging(request *PutObjectTaggingRequest, runtime
 			}
 
 			request_.Body = tea.ToReader(reqBody)
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -9074,50 +9074,50 @@ func (client *Client) PutObjectTagging(request *PutObjectTaggingRequest, runtime
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			_result := &PutObjectTaggingResponse{}
-			err = tea.Convert(response_.Headers, &_result)
-			return _result, err
+			_result = &PutObjectTaggingResponse{}
+			_err = tea.Convert(response_.Headers, &_result)
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) SelectObject(request *SelectObjectRequest, runtime *RuntimeObject) (*SelectObjectResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) SelectObject(request *SelectObjectRequest, runtime *RuntimeObject) (_result *SelectObjectResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -9131,18 +9131,19 @@ func (client *Client) SelectObject(request *SelectObjectRequest, runtime *Runtim
 			}
 		}
 
-		_resp, err = func() (*SelectObjectResponse, error) {
+		_resp, _err = func() (*SelectObjectResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			reqBody := client.ToXML(tea.ToMap(request.Body))
 			request_.Protocol = client.Protocol
 			request_.Method = "POST"
-			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ObjectName))
+			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ObjectName))
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -9152,26 +9153,25 @@ func (client *Client) SelectObject(request *SelectObjectRequest, runtime *Runtim
 
 			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
 			request_.Body = tea.ToReader(reqBody)
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -9180,50 +9180,50 @@ func (client *Client) SelectObject(request *SelectObjectRequest, runtime *Runtim
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			_result := &SelectObjectResponse{}
-			err = tea.Convert(response_.Headers, &_result)
-			return _result, err
+			_result = &SelectObjectResponse{}
+			_err = tea.Convert(response_.Headers, &_result)
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) PutBucketCORS(request *PutBucketCORSRequest, runtime *RuntimeObject) (*PutBucketCORSResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) PutBucketCORS(request *PutBucketCORSRequest, runtime *RuntimeObject) (_result *PutBucketCORSResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -9237,18 +9237,19 @@ func (client *Client) PutBucketCORS(request *PutBucketCORSRequest, runtime *Runt
 			}
 		}
 
-		_resp, err = func() (*PutBucketCORSResponse, error) {
+		_resp, _err = func() (*PutBucketCORSResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			reqBody := client.ToXML(tea.ToMap(request.Body))
 			request_.Protocol = client.Protocol
 			request_.Method = "PUT"
 			request_.Pathname = "/?cors"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -9257,26 +9258,25 @@ func (client *Client) PutBucketCORS(request *PutBucketCORSRequest, runtime *Runt
 			}
 
 			request_.Body = tea.ToReader(reqBody)
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -9285,50 +9285,50 @@ func (client *Client) PutBucketCORS(request *PutBucketCORSRequest, runtime *Runt
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			_result := &PutBucketCORSResponse{}
-			err = tea.Convert(response_.Headers, &_result)
-			return _result, err
+			_result = &PutBucketCORSResponse{}
+			_err = tea.Convert(response_.Headers, &_result)
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) PutBucket(request *PutBucketRequest, runtime *RuntimeObject) (*PutBucketResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) PutBucket(request *PutBucketRequest, runtime *RuntimeObject) (_result *PutBucketResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -9342,18 +9342,19 @@ func (client *Client) PutBucket(request *PutBucketRequest, runtime *RuntimeObjec
 			}
 		}
 
-		_resp, err = func() (*PutBucketResponse, error) {
+		_resp, _err = func() (*PutBucketResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			reqBody := client.ToXML(tea.ToMap(request.Body))
 			request_.Protocol = client.Protocol
 			request_.Method = "PUT"
 			request_.Pathname = "/"
 			request_.Headers = tea.Merge(map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}, client.ToHeader(tea.ToMap(request.Header)))
@@ -9362,26 +9363,25 @@ func (client *Client) PutBucket(request *PutBucketRequest, runtime *RuntimeObjec
 			}
 
 			request_.Body = tea.ToReader(reqBody)
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -9390,50 +9390,50 @@ func (client *Client) PutBucket(request *PutBucketRequest, runtime *RuntimeObjec
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			_result := &PutBucketResponse{}
-			err = tea.Convert(response_.Headers, &_result)
-			return _result, err
+			_result = &PutBucketResponse{}
+			_err = tea.Convert(response_.Headers, &_result)
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) ListMultipartUploads(request *ListMultipartUploadsRequest, runtime *RuntimeObject) (*ListMultipartUploadsResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) ListMultipartUploads(request *ListMultipartUploadsRequest, runtime *RuntimeObject) (_result *ListMultipartUploadsResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -9447,17 +9447,18 @@ func (client *Client) ListMultipartUploads(request *ListMultipartUploadsRequest,
 			}
 		}
 
-		_resp, err = func() (*ListMultipartUploadsResponse, error) {
+		_resp, _err = func() (*ListMultipartUploadsResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
 			request_.Pathname = "/?uploads"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -9466,26 +9467,25 @@ func (client *Client) ListMultipartUploads(request *ListMultipartUploadsRequest,
 			}
 
 			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -9494,58 +9494,58 @@ func (client *Client) ListMultipartUploads(request *ListMultipartUploadsRequest,
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			bodyStr, err = client.ReadAsString(response_)
-			if err != nil {
-				return nil, err
+			bodyStr, _err = client.ReadAsString(response_)
+			if _err != nil {
+				return nil, _err
 			}
 
 			respMap = client.ParseXml(bodyStr, new(ListMultipartUploadsResponse))
-			_result := &ListMultipartUploadsResponse{}
-			err = tea.Convert(tea.ToMap(map[string]interface{}{
+			_result = &ListMultipartUploadsResponse{}
+			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"ListMultipartUploadsResult": respMap["ListMultipartUploadsResult"],
 			}, response_.Headers), &_result)
-			return _result, err
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) GetBucketRequestPayment(request *GetBucketRequestPaymentRequest, runtime *RuntimeObject) (*GetBucketRequestPaymentResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) GetBucketRequestPayment(request *GetBucketRequestPaymentRequest, runtime *RuntimeObject) (_result *GetBucketRequestPaymentResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -9559,17 +9559,18 @@ func (client *Client) GetBucketRequestPayment(request *GetBucketRequestPaymentRe
 			}
 		}
 
-		_resp, err = func() (*GetBucketRequestPaymentResponse, error) {
+		_resp, _err = func() (*GetBucketRequestPaymentResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
 			request_.Pathname = "/?requestPayment"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -9577,26 +9578,25 @@ func (client *Client) GetBucketRequestPayment(request *GetBucketRequestPaymentRe
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -9605,58 +9605,58 @@ func (client *Client) GetBucketRequestPayment(request *GetBucketRequestPaymentRe
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			bodyStr, err = client.ReadAsString(response_)
-			if err != nil {
-				return nil, err
+			bodyStr, _err = client.ReadAsString(response_)
+			if _err != nil {
+				return nil, _err
 			}
 
 			respMap = client.ParseXml(bodyStr, new(GetBucketRequestPaymentResponse))
-			_result := &GetBucketRequestPaymentResponse{}
-			err = tea.Convert(tea.ToMap(map[string]interface{}{
+			_result = &GetBucketRequestPaymentResponse{}
+			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"RequestPaymentConfiguration": respMap["RequestPaymentConfiguration"],
 			}, response_.Headers), &_result)
-			return _result, err
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) GetBucketEncryption(request *GetBucketEncryptionRequest, runtime *RuntimeObject) (*GetBucketEncryptionResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) GetBucketEncryption(request *GetBucketEncryptionRequest, runtime *RuntimeObject) (_result *GetBucketEncryptionResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -9670,17 +9670,18 @@ func (client *Client) GetBucketEncryption(request *GetBucketEncryptionRequest, r
 			}
 		}
 
-		_resp, err = func() (*GetBucketEncryptionResponse, error) {
+		_resp, _err = func() (*GetBucketEncryptionResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
 			request_.Pathname = "/?encryption"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -9688,26 +9689,25 @@ func (client *Client) GetBucketEncryption(request *GetBucketEncryptionRequest, r
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -9716,58 +9716,58 @@ func (client *Client) GetBucketEncryption(request *GetBucketEncryptionRequest, r
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			bodyStr, err = client.ReadAsString(response_)
-			if err != nil {
-				return nil, err
+			bodyStr, _err = client.ReadAsString(response_)
+			if _err != nil {
+				return nil, _err
 			}
 
 			respMap = client.ParseXml(bodyStr, new(GetBucketEncryptionResponse))
-			_result := &GetBucketEncryptionResponse{}
-			err = tea.Convert(tea.ToMap(map[string]interface{}{
+			_result = &GetBucketEncryptionResponse{}
+			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"ServerSideEncryptionRule": respMap["ServerSideEncryptionRule"],
 			}, response_.Headers), &_result)
-			return _result, err
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) GetBucketTags(request *GetBucketTagsRequest, runtime *RuntimeObject) (*GetBucketTagsResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) GetBucketTags(request *GetBucketTagsRequest, runtime *RuntimeObject) (_result *GetBucketTagsResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -9781,17 +9781,18 @@ func (client *Client) GetBucketTags(request *GetBucketTagsRequest, runtime *Runt
 			}
 		}
 
-		_resp, err = func() (*GetBucketTagsResponse, error) {
+		_resp, _err = func() (*GetBucketTagsResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
 			request_.Pathname = "/?tagging"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -9799,26 +9800,25 @@ func (client *Client) GetBucketTags(request *GetBucketTagsRequest, runtime *Runt
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -9827,58 +9827,58 @@ func (client *Client) GetBucketTags(request *GetBucketTagsRequest, runtime *Runt
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			bodyStr, err = client.ReadAsString(response_)
-			if err != nil {
-				return nil, err
+			bodyStr, _err = client.ReadAsString(response_)
+			if _err != nil {
+				return nil, _err
 			}
 
 			respMap = client.ParseXml(bodyStr, new(GetBucketTagsResponse))
-			_result := &GetBucketTagsResponse{}
-			err = tea.Convert(tea.ToMap(map[string]interface{}{
+			_result = &GetBucketTagsResponse{}
+			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"Tagging": respMap["Tagging"],
 			}, response_.Headers), &_result)
-			return _result, err
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) GetService(request *GetServiceRequest, runtime *RuntimeObject) (*GetServiceResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) GetService(request *GetServiceRequest, runtime *RuntimeObject) (_result *GetServiceResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -9892,12 +9892,13 @@ func (client *Client) GetService(request *GetServiceRequest, runtime *RuntimeObj
 			}
 		}
 
-		_resp, err = func() (*GetServiceResponse, error) {
+		_resp, _err = func() (*GetServiceResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
 			request_.Pathname = "/"
@@ -9911,26 +9912,25 @@ func (client *Client) GetService(request *GetServiceRequest, runtime *RuntimeObj
 			}
 
 			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
-			request_.Headers["authorization"], err = client.GetSignature(request_, "")
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, "")
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -9939,58 +9939,58 @@ func (client *Client) GetService(request *GetServiceRequest, runtime *RuntimeObj
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			bodyStr, err = client.ReadAsString(response_)
-			if err != nil {
-				return nil, err
+			bodyStr, _err = client.ReadAsString(response_)
+			if _err != nil {
+				return nil, _err
 			}
 
 			respMap = client.ParseXml(bodyStr, new(GetServiceResponse))
-			_result := &GetServiceResponse{}
-			err = tea.Convert(tea.ToMap(map[string]interface{}{
+			_result = &GetServiceResponse{}
+			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"ListAllMyBucketsResult": respMap["ListAllMyBucketsResult"],
 			}, response_.Headers), &_result)
-			return _result, err
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) DeleteBucketEncryption(request *DeleteBucketEncryptionRequest, runtime *RuntimeObject) (*DeleteBucketEncryptionResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) DeleteBucketEncryption(request *DeleteBucketEncryptionRequest, runtime *RuntimeObject) (_result *DeleteBucketEncryptionResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -10004,17 +10004,18 @@ func (client *Client) DeleteBucketEncryption(request *DeleteBucketEncryptionRequ
 			}
 		}
 
-		_resp, err = func() (*DeleteBucketEncryptionResponse, error) {
+		_resp, _err = func() (*DeleteBucketEncryptionResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "DELETE"
 			request_.Pathname = "/?encryption"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -10022,26 +10023,25 @@ func (client *Client) DeleteBucketEncryption(request *DeleteBucketEncryptionRequ
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -10050,50 +10050,50 @@ func (client *Client) DeleteBucketEncryption(request *DeleteBucketEncryptionRequ
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			_result := &DeleteBucketEncryptionResponse{}
-			err = tea.Convert(response_.Headers, &_result)
-			return _result, err
+			_result = &DeleteBucketEncryptionResponse{}
+			_err = tea.Convert(response_.Headers, &_result)
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) DeleteBucketTags(request *DeleteBucketTagsRequest, runtime *RuntimeObject) (*DeleteBucketTagsResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) DeleteBucketTags(request *DeleteBucketTagsRequest, runtime *RuntimeObject) (_result *DeleteBucketTagsResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -10107,17 +10107,18 @@ func (client *Client) DeleteBucketTags(request *DeleteBucketTagsRequest, runtime
 			}
 		}
 
-		_resp, err = func() (*DeleteBucketTagsResponse, error) {
+		_resp, _err = func() (*DeleteBucketTagsResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "DELETE"
 			request_.Pathname = "/"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -10126,26 +10127,25 @@ func (client *Client) DeleteBucketTags(request *DeleteBucketTagsRequest, runtime
 			}
 
 			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -10154,50 +10154,50 @@ func (client *Client) DeleteBucketTags(request *DeleteBucketTagsRequest, runtime
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			_result := &DeleteBucketTagsResponse{}
-			err = tea.Convert(response_.Headers, &_result)
-			return _result, err
+			_result = &DeleteBucketTagsResponse{}
+			_err = tea.Convert(response_.Headers, &_result)
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) GetBucketWebsite(request *GetBucketWebsiteRequest, runtime *RuntimeObject) (*GetBucketWebsiteResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) GetBucketWebsite(request *GetBucketWebsiteRequest, runtime *RuntimeObject) (_result *GetBucketWebsiteResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -10211,17 +10211,18 @@ func (client *Client) GetBucketWebsite(request *GetBucketWebsiteRequest, runtime
 			}
 		}
 
-		_resp, err = func() (*GetBucketWebsiteResponse, error) {
+		_resp, _err = func() (*GetBucketWebsiteResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
 			request_.Pathname = "/?website"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -10229,26 +10230,25 @@ func (client *Client) GetBucketWebsite(request *GetBucketWebsiteRequest, runtime
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -10257,58 +10257,58 @@ func (client *Client) GetBucketWebsite(request *GetBucketWebsiteRequest, runtime
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			bodyStr, err = client.ReadAsString(response_)
-			if err != nil {
-				return nil, err
+			bodyStr, _err = client.ReadAsString(response_)
+			if _err != nil {
+				return nil, _err
 			}
 
 			respMap = client.ParseXml(bodyStr, new(GetBucketWebsiteResponse))
-			_result := &GetBucketWebsiteResponse{}
-			err = tea.Convert(tea.ToMap(map[string]interface{}{
+			_result = &GetBucketWebsiteResponse{}
+			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"WebsiteConfiguration": respMap["WebsiteConfiguration"],
 			}, response_.Headers), &_result)
-			return _result, err
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) DeleteLiveChannel(request *DeleteLiveChannelRequest, runtime *RuntimeObject) (*DeleteLiveChannelResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) DeleteLiveChannel(request *DeleteLiveChannelRequest, runtime *RuntimeObject) (_result *DeleteLiveChannelResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -10322,17 +10322,18 @@ func (client *Client) DeleteLiveChannel(request *DeleteLiveChannelRequest, runti
 			}
 		}
 
-		_resp, err = func() (*DeleteLiveChannelResponse, error) {
+		_resp, _err = func() (*DeleteLiveChannelResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "DELETE"
-			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ChannelName)) + "?live"
+			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ChannelName)) + "?live"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -10340,26 +10341,25 @@ func (client *Client) DeleteLiveChannel(request *DeleteLiveChannelRequest, runti
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -10368,50 +10368,50 @@ func (client *Client) DeleteLiveChannel(request *DeleteLiveChannelRequest, runti
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			_result := &DeleteLiveChannelResponse{}
-			err = tea.Convert(response_.Headers, &_result)
-			return _result, err
+			_result = &DeleteLiveChannelResponse{}
+			_err = tea.Convert(response_.Headers, &_result)
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) GetBucketLocation(request *GetBucketLocationRequest, runtime *RuntimeObject) (*GetBucketLocationResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) GetBucketLocation(request *GetBucketLocationRequest, runtime *RuntimeObject) (_result *GetBucketLocationResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -10425,17 +10425,18 @@ func (client *Client) GetBucketLocation(request *GetBucketLocationRequest, runti
 			}
 		}
 
-		_resp, err = func() (*GetBucketLocationResponse, error) {
+		_resp, _err = func() (*GetBucketLocationResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
 			request_.Pathname = "/?location"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -10443,26 +10444,25 @@ func (client *Client) GetBucketLocation(request *GetBucketLocationRequest, runti
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -10471,58 +10471,58 @@ func (client *Client) GetBucketLocation(request *GetBucketLocationRequest, runti
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			bodyStr, err = client.ReadAsString(response_)
-			if err != nil {
-				return nil, err
+			bodyStr, _err = client.ReadAsString(response_)
+			if _err != nil {
+				return nil, _err
 			}
 
 			respMap = client.ParseXml(bodyStr, new(GetBucketLocationResponse))
-			_result := &GetBucketLocationResponse{}
-			err = tea.Convert(tea.ToMap(map[string]interface{}{
+			_result = &GetBucketLocationResponse{}
+			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"LocationConstraint": respMap["LocationConstraint"],
 			}, response_.Headers), &_result)
-			return _result, err
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) ListLiveChannel(request *ListLiveChannelRequest, runtime *RuntimeObject) (*ListLiveChannelResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) ListLiveChannel(request *ListLiveChannelRequest, runtime *RuntimeObject) (_result *ListLiveChannelResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -10536,17 +10536,18 @@ func (client *Client) ListLiveChannel(request *ListLiveChannelRequest, runtime *
 			}
 		}
 
-		_resp, err = func() (*ListLiveChannelResponse, error) {
+		_resp, _err = func() (*ListLiveChannelResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
 			request_.Pathname = "/?live"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -10555,26 +10556,25 @@ func (client *Client) ListLiveChannel(request *ListLiveChannelRequest, runtime *
 			}
 
 			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -10583,58 +10583,58 @@ func (client *Client) ListLiveChannel(request *ListLiveChannelRequest, runtime *
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			bodyStr, err = client.ReadAsString(response_)
-			if err != nil {
-				return nil, err
+			bodyStr, _err = client.ReadAsString(response_)
+			if _err != nil {
+				return nil, _err
 			}
 
 			respMap = client.ParseXml(bodyStr, new(ListLiveChannelResponse))
-			_result := &ListLiveChannelResponse{}
-			err = tea.Convert(tea.ToMap(map[string]interface{}{
+			_result = &ListLiveChannelResponse{}
+			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"ListLiveChannelResult": respMap["ListLiveChannelResult"],
 			}, response_.Headers), &_result)
-			return _result, err
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) GetObjectMeta(request *GetObjectMetaRequest, runtime *RuntimeObject) (*GetObjectMetaResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) GetObjectMeta(request *GetObjectMetaRequest, runtime *RuntimeObject) (_result *GetObjectMetaResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -10648,17 +10648,18 @@ func (client *Client) GetObjectMeta(request *GetObjectMetaRequest, runtime *Runt
 			}
 		}
 
-		_resp, err = func() (*GetObjectMetaResponse, error) {
+		_resp, _err = func() (*GetObjectMetaResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "HEAD"
-			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ObjectName)) + "?objectMeta"
+			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ObjectName)) + "?objectMeta"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -10666,26 +10667,25 @@ func (client *Client) GetObjectMeta(request *GetObjectMetaRequest, runtime *Runt
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -10694,50 +10694,50 @@ func (client *Client) GetObjectMeta(request *GetObjectMetaRequest, runtime *Runt
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			_result := &GetObjectMetaResponse{}
-			err = tea.Convert(response_.Headers, &_result)
-			return _result, err
+			_result = &GetObjectMetaResponse{}
+			_err = tea.Convert(response_.Headers, &_result)
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) GetBucketAcl(request *GetBucketAclRequest, runtime *RuntimeObject) (*GetBucketAclResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) GetBucketAcl(request *GetBucketAclRequest, runtime *RuntimeObject) (_result *GetBucketAclResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -10751,17 +10751,18 @@ func (client *Client) GetBucketAcl(request *GetBucketAclRequest, runtime *Runtim
 			}
 		}
 
-		_resp, err = func() (*GetBucketAclResponse, error) {
+		_resp, _err = func() (*GetBucketAclResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
 			request_.Pathname = "/?acl"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -10769,26 +10770,25 @@ func (client *Client) GetBucketAcl(request *GetBucketAclRequest, runtime *Runtim
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -10797,58 +10797,58 @@ func (client *Client) GetBucketAcl(request *GetBucketAclRequest, runtime *Runtim
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			bodyStr, err = client.ReadAsString(response_)
-			if err != nil {
-				return nil, err
+			bodyStr, _err = client.ReadAsString(response_)
+			if _err != nil {
+				return nil, _err
 			}
 
 			respMap = client.ParseXml(bodyStr, new(GetBucketAclResponse))
-			_result := &GetBucketAclResponse{}
-			err = tea.Convert(tea.ToMap(map[string]interface{}{
+			_result = &GetBucketAclResponse{}
+			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"AccessControlPolicy": respMap["AccessControlPolicy"],
 			}, response_.Headers), &_result)
-			return _result, err
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) ListParts(request *ListPartsRequest, runtime *RuntimeObject) (*ListPartsResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) ListParts(request *ListPartsRequest, runtime *RuntimeObject) (_result *ListPartsResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -10862,17 +10862,18 @@ func (client *Client) ListParts(request *ListPartsRequest, runtime *RuntimeObjec
 			}
 		}
 
-		_resp, err = func() (*ListPartsResponse, error) {
+		_resp, _err = func() (*ListPartsResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
-			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ObjectName))
+			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ObjectName))
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -10881,26 +10882,25 @@ func (client *Client) ListParts(request *ListPartsRequest, runtime *RuntimeObjec
 			}
 
 			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -10909,58 +10909,58 @@ func (client *Client) ListParts(request *ListPartsRequest, runtime *RuntimeObjec
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			bodyStr, err = client.ReadAsString(response_)
-			if err != nil {
-				return nil, err
+			bodyStr, _err = client.ReadAsString(response_)
+			if _err != nil {
+				return nil, _err
 			}
 
 			respMap = client.ParseXml(bodyStr, new(ListPartsResponse))
-			_result := &ListPartsResponse{}
-			err = tea.Convert(tea.ToMap(map[string]interface{}{
+			_result = &ListPartsResponse{}
+			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"ListPartsResult": respMap["ListPartsResult"],
 			}, response_.Headers), &_result)
-			return _result, err
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) GetLiveChannelHistory(request *GetLiveChannelHistoryRequest, runtime *RuntimeObject) (*GetLiveChannelHistoryResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) GetLiveChannelHistory(request *GetLiveChannelHistoryRequest, runtime *RuntimeObject) (_result *GetLiveChannelHistoryResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -10974,17 +10974,18 @@ func (client *Client) GetLiveChannelHistory(request *GetLiveChannelHistoryReques
 			}
 		}
 
-		_resp, err = func() (*GetLiveChannelHistoryResponse, error) {
+		_resp, _err = func() (*GetLiveChannelHistoryResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
-			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ChannelName)) + "?live"
+			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ChannelName)) + "?live"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -10993,26 +10994,25 @@ func (client *Client) GetLiveChannelHistory(request *GetLiveChannelHistoryReques
 			}
 
 			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -11021,58 +11021,58 @@ func (client *Client) GetLiveChannelHistory(request *GetLiveChannelHistoryReques
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			bodyStr, err = client.ReadAsString(response_)
-			if err != nil {
-				return nil, err
+			bodyStr, _err = client.ReadAsString(response_)
+			if _err != nil {
+				return nil, _err
 			}
 
 			respMap = client.ParseXml(bodyStr, new(GetLiveChannelHistoryResponse))
-			_result := &GetLiveChannelHistoryResponse{}
-			err = tea.Convert(tea.ToMap(map[string]interface{}{
+			_result = &GetLiveChannelHistoryResponse{}
+			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"LiveChannelHistory": respMap["LiveChannelHistory"],
 			}, response_.Headers), &_result)
-			return _result, err
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) GetBucket(request *GetBucketRequest, runtime *RuntimeObject) (*GetBucketResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) GetBucket(request *GetBucketRequest, runtime *RuntimeObject) (_result *GetBucketResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -11086,17 +11086,18 @@ func (client *Client) GetBucket(request *GetBucketRequest, runtime *RuntimeObjec
 			}
 		}
 
-		_resp, err = func() (*GetBucketResponse, error) {
+		_resp, _err = func() (*GetBucketResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
 			request_.Pathname = "/"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -11105,26 +11106,25 @@ func (client *Client) GetBucket(request *GetBucketRequest, runtime *RuntimeObjec
 			}
 
 			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -11133,58 +11133,58 @@ func (client *Client) GetBucket(request *GetBucketRequest, runtime *RuntimeObjec
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			bodyStr, err = client.ReadAsString(response_)
-			if err != nil {
-				return nil, err
+			bodyStr, _err = client.ReadAsString(response_)
+			if _err != nil {
+				return nil, _err
 			}
 
 			respMap = client.ParseXml(bodyStr, new(GetBucketResponse))
-			_result := &GetBucketResponse{}
-			err = tea.Convert(tea.ToMap(map[string]interface{}{
+			_result = &GetBucketResponse{}
+			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"ListBucketResult": respMap["ListBucketResult"],
 			}, response_.Headers), &_result)
-			return _result, err
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) GetLiveChannelInfo(request *GetLiveChannelInfoRequest, runtime *RuntimeObject) (*GetLiveChannelInfoResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) GetLiveChannelInfo(request *GetLiveChannelInfoRequest, runtime *RuntimeObject) (_result *GetLiveChannelInfoResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -11198,17 +11198,18 @@ func (client *Client) GetLiveChannelInfo(request *GetLiveChannelInfoRequest, run
 			}
 		}
 
-		_resp, err = func() (*GetLiveChannelInfoResponse, error) {
+		_resp, _err = func() (*GetLiveChannelInfoResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
-			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ChannelName)) + "?live"
+			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ChannelName)) + "?live"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -11216,26 +11217,25 @@ func (client *Client) GetLiveChannelInfo(request *GetLiveChannelInfoRequest, run
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -11244,58 +11244,58 @@ func (client *Client) GetLiveChannelInfo(request *GetLiveChannelInfoRequest, run
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			bodyStr, err = client.ReadAsString(response_)
-			if err != nil {
-				return nil, err
+			bodyStr, _err = client.ReadAsString(response_)
+			if _err != nil {
+				return nil, _err
 			}
 
 			respMap = client.ParseXml(bodyStr, new(GetLiveChannelInfoResponse))
-			_result := &GetLiveChannelInfoResponse{}
-			err = tea.Convert(tea.ToMap(map[string]interface{}{
+			_result = &GetLiveChannelInfoResponse{}
+			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"LiveChannelConfiguration": respMap["LiveChannelConfiguration"],
 			}, response_.Headers), &_result)
-			return _result, err
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) GetLiveChannelStat(request *GetLiveChannelStatRequest, runtime *RuntimeObject) (*GetLiveChannelStatResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) GetLiveChannelStat(request *GetLiveChannelStatRequest, runtime *RuntimeObject) (_result *GetLiveChannelStatResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -11309,17 +11309,18 @@ func (client *Client) GetLiveChannelStat(request *GetLiveChannelStatRequest, run
 			}
 		}
 
-		_resp, err = func() (*GetLiveChannelStatResponse, error) {
+		_resp, _err = func() (*GetLiveChannelStatResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
-			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ChannelName)) + "?live"
+			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ChannelName)) + "?live"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -11328,26 +11329,25 @@ func (client *Client) GetLiveChannelStat(request *GetLiveChannelStatRequest, run
 			}
 
 			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -11356,58 +11356,58 @@ func (client *Client) GetLiveChannelStat(request *GetLiveChannelStatRequest, run
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			bodyStr, err = client.ReadAsString(response_)
-			if err != nil {
-				return nil, err
+			bodyStr, _err = client.ReadAsString(response_)
+			if _err != nil {
+				return nil, _err
 			}
 
 			respMap = client.ParseXml(bodyStr, new(GetLiveChannelStatResponse))
-			_result := &GetLiveChannelStatResponse{}
-			err = tea.Convert(tea.ToMap(map[string]interface{}{
+			_result = &GetLiveChannelStatResponse{}
+			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"LiveChannelStat": respMap["LiveChannelStat"],
 			}, response_.Headers), &_result)
-			return _result, err
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) DeleteObject(request *DeleteObjectRequest, runtime *RuntimeObject) (*DeleteObjectResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) DeleteObject(request *DeleteObjectRequest, runtime *RuntimeObject) (_result *DeleteObjectResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -11421,17 +11421,18 @@ func (client *Client) DeleteObject(request *DeleteObjectRequest, runtime *Runtim
 			}
 		}
 
-		_resp, err = func() (*DeleteObjectResponse, error) {
+		_resp, _err = func() (*DeleteObjectResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "DELETE"
-			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ObjectName))
+			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ObjectName))
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -11439,26 +11440,25 @@ func (client *Client) DeleteObject(request *DeleteObjectRequest, runtime *Runtim
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -11467,50 +11467,50 @@ func (client *Client) DeleteObject(request *DeleteObjectRequest, runtime *Runtim
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			_result := &DeleteObjectResponse{}
-			err = tea.Convert(response_.Headers, &_result)
-			return _result, err
+			_result = &DeleteObjectResponse{}
+			_err = tea.Convert(response_.Headers, &_result)
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) AbortMultipartUpload(request *AbortMultipartUploadRequest, runtime *RuntimeObject) (*AbortMultipartUploadResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) AbortMultipartUpload(request *AbortMultipartUploadRequest, runtime *RuntimeObject) (_result *AbortMultipartUploadResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -11524,17 +11524,18 @@ func (client *Client) AbortMultipartUpload(request *AbortMultipartUploadRequest,
 			}
 		}
 
-		_resp, err = func() (*AbortMultipartUploadResponse, error) {
+		_resp, _err = func() (*AbortMultipartUploadResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "DELETE"
-			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ObjectName))
+			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ObjectName))
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -11543,26 +11544,25 @@ func (client *Client) AbortMultipartUpload(request *AbortMultipartUploadRequest,
 			}
 
 			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -11571,50 +11571,50 @@ func (client *Client) AbortMultipartUpload(request *AbortMultipartUploadRequest,
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			_result := &AbortMultipartUploadResponse{}
-			err = tea.Convert(response_.Headers, &_result)
-			return _result, err
+			_result = &AbortMultipartUploadResponse{}
+			_err = tea.Convert(response_.Headers, &_result)
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) AppendObject(request *AppendObjectRequest, runtime *RuntimeObject) (*AppendObjectResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) AppendObject(request *AppendObjectRequest, runtime *RuntimeObject) (_result *AppendObjectResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -11628,18 +11628,19 @@ func (client *Client) AppendObject(request *AppendObjectRequest, runtime *Runtim
 			}
 		}
 
-		_resp, err = func() (*AppendObjectResponse, error) {
+		_resp, _err = func() (*AppendObjectResponse, error) {
 			request_ := tea.NewRequest()
 			ctx := make(map[string]string)
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "POST"
-			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ObjectName)) + "?append"
+			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ObjectName)) + "?append"
 			request_.Headers = tea.Merge(map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}, client.ToHeader(tea.ToMap(request.Header)),
@@ -11650,32 +11651,31 @@ func (client *Client) AppendObject(request *AppendObjectRequest, runtime *Runtim
 
 			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
 			request_.Body = client.Inject(request.Body, ctx)
-			if client.NotNull(tea.ToMap(request.Header)) && !client.Empty(tea.GetStringValue(request.Header.ContentType)) {
-				request_.Headers["content-type"] = tea.GetStringValue(request.Header.ContentType)
+			if client.NotNull(tea.ToMap(request.Header)) && !client.Empty(tea.StringValue(request.Header.ContentType)) {
+				request_.Headers["content-type"] = tea.StringValue(request.Header.ContentType)
 			} else {
-				request_.Headers["content-type"] = client.GetContentType(tea.GetStringValue(request.ObjectName))
+				request_.Headers["content-type"] = client.GetContentType(tea.StringValue(request.ObjectName))
 			}
 
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -11684,72 +11684,72 @@ func (client *Client) AppendObject(request *AppendObjectRequest, runtime *Runtim
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
 			if client.IsEnableCrc && !client.Equal(ctx["crc"], response_.Headers["x-oss-hash-crc64ecma"]) {
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code": "CrcNotMatched",
-					"data": map[string]interface{}{
+					"data": map[string]string{
 						"clientCrc": ctx["crc"],
 						"serverCrc": response_.Headers["x-oss-hash-crc64ecma"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
 			if client.IsEnableMD5 && !client.Equal(ctx["md5"], response_.Headers["content-md5"]) {
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code": "MD5NotMatched",
-					"data": map[string]interface{}{
+					"data": map[string]string{
 						"clientMD5": ctx["md5"],
 						"serverMD5": response_.Headers["content-md5"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			_result := &AppendObjectResponse{}
-			err = tea.Convert(response_.Headers, &_result)
-			return _result, err
+			_result = &AppendObjectResponse{}
+			_err = tea.Convert(response_.Headers, &_result)
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) UploadPartCopy(request *UploadPartCopyRequest, runtime *RuntimeObject) (*UploadPartCopyResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) UploadPartCopy(request *UploadPartCopyRequest, runtime *RuntimeObject) (_result *UploadPartCopyResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -11763,17 +11763,18 @@ func (client *Client) UploadPartCopy(request *UploadPartCopyRequest, runtime *Ru
 			}
 		}
 
-		_resp, err = func() (*UploadPartCopyResponse, error) {
+		_resp, _err = func() (*UploadPartCopyResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "PUT"
-			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ObjectName))
+			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ObjectName))
 			request_.Headers = tea.Merge(map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}, client.ToHeader(tea.ToMap(request.Header)))
@@ -11782,26 +11783,25 @@ func (client *Client) UploadPartCopy(request *UploadPartCopyRequest, runtime *Ru
 			}
 
 			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -11810,58 +11810,58 @@ func (client *Client) UploadPartCopy(request *UploadPartCopyRequest, runtime *Ru
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			bodyStr, err = client.ReadAsString(response_)
-			if err != nil {
-				return nil, err
+			bodyStr, _err = client.ReadAsString(response_)
+			if _err != nil {
+				return nil, _err
 			}
 
 			respMap = client.ParseXml(bodyStr, new(UploadPartCopyResponse))
-			_result := &UploadPartCopyResponse{}
-			err = tea.Convert(tea.ToMap(map[string]interface{}{
+			_result = &UploadPartCopyResponse{}
+			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"CopyPartResult": respMap["CopyPartResult"],
 			}, response_.Headers), &_result)
-			return _result, err
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) GetVodPlaylist(request *GetVodPlaylistRequest, runtime *RuntimeObject) (*GetVodPlaylistResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) GetVodPlaylist(request *GetVodPlaylistRequest, runtime *RuntimeObject) (_result *GetVodPlaylistResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -11875,17 +11875,18 @@ func (client *Client) GetVodPlaylist(request *GetVodPlaylistRequest, runtime *Ru
 			}
 		}
 
-		_resp, err = func() (*GetVodPlaylistResponse, error) {
+		_resp, _err = func() (*GetVodPlaylistResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
-			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ChannelName)) + "?vod"
+			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ChannelName)) + "?vod"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -11894,26 +11895,25 @@ func (client *Client) GetVodPlaylist(request *GetVodPlaylistRequest, runtime *Ru
 			}
 
 			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -11922,50 +11922,50 @@ func (client *Client) GetVodPlaylist(request *GetVodPlaylistRequest, runtime *Ru
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			_result := &GetVodPlaylistResponse{}
-			err = tea.Convert(response_.Headers, &_result)
-			return _result, err
+			_result = &GetVodPlaylistResponse{}
+			_err = tea.Convert(response_.Headers, &_result)
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) DeleteBucketCORS(request *DeleteBucketCORSRequest, runtime *RuntimeObject) (*DeleteBucketCORSResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) DeleteBucketCORS(request *DeleteBucketCORSRequest, runtime *RuntimeObject) (_result *DeleteBucketCORSResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -11979,17 +11979,18 @@ func (client *Client) DeleteBucketCORS(request *DeleteBucketCORSRequest, runtime
 			}
 		}
 
-		_resp, err = func() (*DeleteBucketCORSResponse, error) {
+		_resp, _err = func() (*DeleteBucketCORSResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "DELETE"
 			request_.Pathname = "/?cors"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -11997,26 +11998,25 @@ func (client *Client) DeleteBucketCORS(request *DeleteBucketCORSRequest, runtime
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -12025,50 +12025,50 @@ func (client *Client) DeleteBucketCORS(request *DeleteBucketCORSRequest, runtime
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			_result := &DeleteBucketCORSResponse{}
-			err = tea.Convert(response_.Headers, &_result)
-			return _result, err
+			_result = &DeleteBucketCORSResponse{}
+			_err = tea.Convert(response_.Headers, &_result)
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) GetObject(request *GetObjectRequest, runtime *RuntimeObject) (*GetObjectResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) GetObject(request *GetObjectRequest, runtime *RuntimeObject) (_result *GetObjectResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -12082,17 +12082,18 @@ func (client *Client) GetObject(request *GetObjectRequest, runtime *RuntimeObjec
 			}
 		}
 
-		_resp, err = func() (*GetObjectResponse, error) {
+		_resp, _err = func() (*GetObjectResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
-			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ObjectName))
+			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ObjectName))
 			request_.Headers = tea.Merge(map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}, client.ToHeader(tea.ToMap(request.Header)))
@@ -12100,26 +12101,25 @@ func (client *Client) GetObject(request *GetObjectRequest, runtime *RuntimeObjec
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -12128,51 +12128,51 @@ func (client *Client) GetObject(request *GetObjectRequest, runtime *RuntimeObjec
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			_result := &GetObjectResponse{}
+			_result = &GetObjectResponse{}
 			_result.Body = client.ReadAsStream(response_)
-			err = tea.Convert(response_.Headers, &_result)
-			return _result, err
+			_err = tea.Convert(response_.Headers, &_result)
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) UploadPart(request *UploadPartRequest, runtime *RuntimeObject) (*UploadPartResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) UploadPart(request *UploadPartRequest, runtime *RuntimeObject) (_result *UploadPartResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -12186,18 +12186,19 @@ func (client *Client) UploadPart(request *UploadPartRequest, runtime *RuntimeObj
 			}
 		}
 
-		_resp, err = func() (*UploadPartResponse, error) {
+		_resp, _err = func() (*UploadPartResponse, error) {
 			request_ := tea.NewRequest()
 			ctx := make(map[string]string)
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "PUT"
-			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ObjectName))
+			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ObjectName))
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -12207,26 +12208,25 @@ func (client *Client) UploadPart(request *UploadPartRequest, runtime *RuntimeObj
 
 			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
 			request_.Body = client.Inject(request.Body, ctx)
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -12235,72 +12235,72 @@ func (client *Client) UploadPart(request *UploadPartRequest, runtime *RuntimeObj
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
 			if client.IsEnableCrc && !client.Equal(ctx["crc"], response_.Headers["x-oss-hash-crc64ecma"]) {
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code": "CrcNotMatched",
-					"data": map[string]interface{}{
+					"data": map[string]string{
 						"clientCrc": ctx["crc"],
 						"serverCrc": response_.Headers["x-oss-hash-crc64ecma"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
 			if client.IsEnableMD5 && !client.Equal(ctx["md5"], response_.Headers["content-md5"]) {
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code": "MD5NotMatched",
-					"data": map[string]interface{}{
+					"data": map[string]string{
 						"clientMD5": ctx["md5"],
 						"serverMD5": response_.Headers["content-md5"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			_result := &UploadPartResponse{}
-			err = tea.Convert(response_.Headers, &_result)
-			return _result, err
+			_result = &UploadPartResponse{}
+			_err = tea.Convert(response_.Headers, &_result)
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) GetBucketCORS(request *GetBucketCORSRequest, runtime *RuntimeObject) (*GetBucketCORSResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) GetBucketCORS(request *GetBucketCORSRequest, runtime *RuntimeObject) (_result *GetBucketCORSResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -12314,17 +12314,18 @@ func (client *Client) GetBucketCORS(request *GetBucketCORSRequest, runtime *Runt
 			}
 		}
 
-		_resp, err = func() (*GetBucketCORSResponse, error) {
+		_resp, _err = func() (*GetBucketCORSResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
 			request_.Pathname = "/?cors"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -12332,26 +12333,25 @@ func (client *Client) GetBucketCORS(request *GetBucketCORSRequest, runtime *Runt
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -12360,58 +12360,58 @@ func (client *Client) GetBucketCORS(request *GetBucketCORSRequest, runtime *Runt
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			bodyStr, err = client.ReadAsString(response_)
-			if err != nil {
-				return nil, err
+			bodyStr, _err = client.ReadAsString(response_)
+			if _err != nil {
+				return nil, _err
 			}
 
 			respMap = client.ParseXml(bodyStr, new(GetBucketCORSResponse))
-			_result := &GetBucketCORSResponse{}
-			err = tea.Convert(tea.ToMap(map[string]interface{}{
+			_result = &GetBucketCORSResponse{}
+			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"CORSConfiguration": respMap["CORSConfiguration"],
 			}, response_.Headers), &_result)
-			return _result, err
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) CopyObject(request *CopyObjectRequest, runtime *RuntimeObject) (*CopyObjectResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) CopyObject(request *CopyObjectRequest, runtime *RuntimeObject) (_result *CopyObjectResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -12425,17 +12425,18 @@ func (client *Client) CopyObject(request *CopyObjectRequest, runtime *RuntimeObj
 			}
 		}
 
-		_resp, err = func() (*CopyObjectResponse, error) {
+		_resp, _err = func() (*CopyObjectResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "PUT"
-			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.DestObjectName))
+			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.DestObjectName))
 			request_.Headers = tea.Merge(map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}, client.ToHeader(tea.ToMap(request.Header)))
@@ -12444,26 +12445,25 @@ func (client *Client) CopyObject(request *CopyObjectRequest, runtime *RuntimeObj
 			}
 
 			request_.Headers["x-oss-copy-source"] = client.Encode(request_.Headers["x-oss-copy-source"], "UrlEncode")
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -12472,58 +12472,58 @@ func (client *Client) CopyObject(request *CopyObjectRequest, runtime *RuntimeObj
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			bodyStr, err = client.ReadAsString(response_)
-			if err != nil {
-				return nil, err
+			bodyStr, _err = client.ReadAsString(response_)
+			if _err != nil {
+				return nil, _err
 			}
 
 			respMap = client.ParseXml(bodyStr, new(CopyObjectResponse))
-			_result := &CopyObjectResponse{}
-			err = tea.Convert(tea.ToMap(map[string]interface{}{
+			_result = &CopyObjectResponse{}
+			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"CopyObjectResult": respMap["CopyObjectResult"],
 			}, response_.Headers), &_result)
-			return _result, err
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) GetObjectTagging(request *GetObjectTaggingRequest, runtime *RuntimeObject) (*GetObjectTaggingResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) GetObjectTagging(request *GetObjectTaggingRequest, runtime *RuntimeObject) (_result *GetObjectTaggingResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -12537,17 +12537,18 @@ func (client *Client) GetObjectTagging(request *GetObjectTaggingRequest, runtime
 			}
 		}
 
-		_resp, err = func() (*GetObjectTaggingResponse, error) {
+		_resp, _err = func() (*GetObjectTaggingResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
-			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ObjectName)) + "?tagging"
+			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ObjectName)) + "?tagging"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -12555,26 +12556,25 @@ func (client *Client) GetObjectTagging(request *GetObjectTaggingRequest, runtime
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -12583,58 +12583,58 @@ func (client *Client) GetObjectTagging(request *GetObjectTaggingRequest, runtime
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			bodyStr, err = client.ReadAsString(response_)
-			if err != nil {
-				return nil, err
+			bodyStr, _err = client.ReadAsString(response_)
+			if _err != nil {
+				return nil, _err
 			}
 
 			respMap = client.ParseXml(bodyStr, new(GetObjectTaggingResponse))
-			_result := &GetObjectTaggingResponse{}
-			err = tea.Convert(tea.ToMap(map[string]interface{}{
+			_result = &GetObjectTaggingResponse{}
+			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"Tagging": respMap["Tagging"],
 			}, response_.Headers), &_result)
-			return _result, err
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) DeleteBucketLifecycle(request *DeleteBucketLifecycleRequest, runtime *RuntimeObject) (*DeleteBucketLifecycleResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) DeleteBucketLifecycle(request *DeleteBucketLifecycleRequest, runtime *RuntimeObject) (_result *DeleteBucketLifecycleResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -12648,17 +12648,18 @@ func (client *Client) DeleteBucketLifecycle(request *DeleteBucketLifecycleReques
 			}
 		}
 
-		_resp, err = func() (*DeleteBucketLifecycleResponse, error) {
+		_resp, _err = func() (*DeleteBucketLifecycleResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "DELETE"
 			request_.Pathname = "/?lifecycle"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -12666,26 +12667,25 @@ func (client *Client) DeleteBucketLifecycle(request *DeleteBucketLifecycleReques
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -12694,50 +12694,50 @@ func (client *Client) DeleteBucketLifecycle(request *DeleteBucketLifecycleReques
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			_result := &DeleteBucketLifecycleResponse{}
-			err = tea.Convert(response_.Headers, &_result)
-			return _result, err
+			_result = &DeleteBucketLifecycleResponse{}
+			_err = tea.Convert(response_.Headers, &_result)
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) DeleteBucketLogging(request *DeleteBucketLoggingRequest, runtime *RuntimeObject) (*DeleteBucketLoggingResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) DeleteBucketLogging(request *DeleteBucketLoggingRequest, runtime *RuntimeObject) (_result *DeleteBucketLoggingResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -12751,17 +12751,18 @@ func (client *Client) DeleteBucketLogging(request *DeleteBucketLoggingRequest, r
 			}
 		}
 
-		_resp, err = func() (*DeleteBucketLoggingResponse, error) {
+		_resp, _err = func() (*DeleteBucketLoggingResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "DELETE"
 			request_.Pathname = "/?logging"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -12769,26 +12770,25 @@ func (client *Client) DeleteBucketLogging(request *DeleteBucketLoggingRequest, r
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -12797,50 +12797,50 @@ func (client *Client) DeleteBucketLogging(request *DeleteBucketLoggingRequest, r
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			_result := &DeleteBucketLoggingResponse{}
-			err = tea.Convert(response_.Headers, &_result)
-			return _result, err
+			_result = &DeleteBucketLoggingResponse{}
+			_err = tea.Convert(response_.Headers, &_result)
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) DeleteBucketWebsite(request *DeleteBucketWebsiteRequest, runtime *RuntimeObject) (*DeleteBucketWebsiteResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) DeleteBucketWebsite(request *DeleteBucketWebsiteRequest, runtime *RuntimeObject) (_result *DeleteBucketWebsiteResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -12854,17 +12854,18 @@ func (client *Client) DeleteBucketWebsite(request *DeleteBucketWebsiteRequest, r
 			}
 		}
 
-		_resp, err = func() (*DeleteBucketWebsiteResponse, error) {
+		_resp, _err = func() (*DeleteBucketWebsiteResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "DELETE"
 			request_.Pathname = "/?website"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -12872,26 +12873,25 @@ func (client *Client) DeleteBucketWebsite(request *DeleteBucketWebsiteRequest, r
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -12900,50 +12900,50 @@ func (client *Client) DeleteBucketWebsite(request *DeleteBucketWebsiteRequest, r
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			_result := &DeleteBucketWebsiteResponse{}
-			err = tea.Convert(response_.Headers, &_result)
-			return _result, err
+			_result = &DeleteBucketWebsiteResponse{}
+			_err = tea.Convert(response_.Headers, &_result)
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) GetSymlink(request *GetSymlinkRequest, runtime *RuntimeObject) (*GetSymlinkResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) GetSymlink(request *GetSymlinkRequest, runtime *RuntimeObject) (_result *GetSymlinkResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -12957,17 +12957,18 @@ func (client *Client) GetSymlink(request *GetSymlinkRequest, runtime *RuntimeObj
 			}
 		}
 
-		_resp, err = func() (*GetSymlinkResponse, error) {
+		_resp, _err = func() (*GetSymlinkResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
-			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ObjectName)) + "?symlink"
+			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ObjectName)) + "?symlink"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -12975,26 +12976,25 @@ func (client *Client) GetSymlink(request *GetSymlinkRequest, runtime *RuntimeObj
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -13003,50 +13003,50 @@ func (client *Client) GetSymlink(request *GetSymlinkRequest, runtime *RuntimeObj
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			_result := &GetSymlinkResponse{}
-			err = tea.Convert(response_.Headers, &_result)
-			return _result, err
+			_result = &GetSymlinkResponse{}
+			_err = tea.Convert(response_.Headers, &_result)
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) GetBucketLifecycle(request *GetBucketLifecycleRequest, runtime *RuntimeObject) (*GetBucketLifecycleResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) GetBucketLifecycle(request *GetBucketLifecycleRequest, runtime *RuntimeObject) (_result *GetBucketLifecycleResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -13060,17 +13060,18 @@ func (client *Client) GetBucketLifecycle(request *GetBucketLifecycleRequest, run
 			}
 		}
 
-		_resp, err = func() (*GetBucketLifecycleResponse, error) {
+		_resp, _err = func() (*GetBucketLifecycleResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
 			request_.Pathname = "/?lifecycle"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -13078,26 +13079,25 @@ func (client *Client) GetBucketLifecycle(request *GetBucketLifecycleRequest, run
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -13106,58 +13106,58 @@ func (client *Client) GetBucketLifecycle(request *GetBucketLifecycleRequest, run
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			bodyStr, err = client.ReadAsString(response_)
-			if err != nil {
-				return nil, err
+			bodyStr, _err = client.ReadAsString(response_)
+			if _err != nil {
+				return nil, _err
 			}
 
 			respMap = client.ParseXml(bodyStr, new(GetBucketLifecycleResponse))
-			_result := &GetBucketLifecycleResponse{}
-			err = tea.Convert(tea.ToMap(map[string]interface{}{
+			_result = &GetBucketLifecycleResponse{}
+			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"LifecycleConfiguration": respMap["LifecycleConfiguration"],
 			}, response_.Headers), &_result)
-			return _result, err
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) PutSymlink(request *PutSymlinkRequest, runtime *RuntimeObject) (*PutSymlinkResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) PutSymlink(request *PutSymlinkRequest, runtime *RuntimeObject) (_result *PutSymlinkResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -13171,17 +13171,18 @@ func (client *Client) PutSymlink(request *PutSymlinkRequest, runtime *RuntimeObj
 			}
 		}
 
-		_resp, err = func() (*PutSymlinkResponse, error) {
+		_resp, _err = func() (*PutSymlinkResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "PUT"
-			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ObjectName)) + "?symlink"
+			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ObjectName)) + "?symlink"
 			request_.Headers = tea.Merge(map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}, client.ToHeader(tea.ToMap(request.Header)))
@@ -13189,26 +13190,25 @@ func (client *Client) PutSymlink(request *PutSymlinkRequest, runtime *RuntimeObj
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -13217,50 +13217,50 @@ func (client *Client) PutSymlink(request *PutSymlinkRequest, runtime *RuntimeObj
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			_result := &PutSymlinkResponse{}
-			err = tea.Convert(response_.Headers, &_result)
-			return _result, err
+			_result = &PutSymlinkResponse{}
+			_err = tea.Convert(response_.Headers, &_result)
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) GetBucketReferer(request *GetBucketRefererRequest, runtime *RuntimeObject) (*GetBucketRefererResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) GetBucketReferer(request *GetBucketRefererRequest, runtime *RuntimeObject) (_result *GetBucketRefererResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -13274,17 +13274,18 @@ func (client *Client) GetBucketReferer(request *GetBucketRefererRequest, runtime
 			}
 		}
 
-		_resp, err = func() (*GetBucketRefererResponse, error) {
+		_resp, _err = func() (*GetBucketRefererResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
 			request_.Pathname = "/?referer"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -13292,26 +13293,25 @@ func (client *Client) GetBucketReferer(request *GetBucketRefererRequest, runtime
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -13320,58 +13320,58 @@ func (client *Client) GetBucketReferer(request *GetBucketRefererRequest, runtime
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			bodyStr, err = client.ReadAsString(response_)
-			if err != nil {
-				return nil, err
+			bodyStr, _err = client.ReadAsString(response_)
+			if _err != nil {
+				return nil, _err
 			}
 
 			respMap = client.ParseXml(bodyStr, new(GetBucketRefererResponse))
-			_result := &GetBucketRefererResponse{}
-			err = tea.Convert(tea.ToMap(map[string]interface{}{
+			_result = &GetBucketRefererResponse{}
+			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"RefererConfiguration": respMap["RefererConfiguration"],
 			}, response_.Headers), &_result)
-			return _result, err
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) Callback(request *CallbackRequest, runtime *RuntimeObject) (*CallbackResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) Callback(request *CallbackRequest, runtime *RuntimeObject) (_result *CallbackResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -13385,17 +13385,18 @@ func (client *Client) Callback(request *CallbackRequest, runtime *RuntimeObject)
 			}
 		}
 
-		_resp, err = func() (*CallbackResponse, error) {
+		_resp, _err = func() (*CallbackResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
 			request_.Pathname = "/"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -13403,26 +13404,25 @@ func (client *Client) Callback(request *CallbackRequest, runtime *RuntimeObject)
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -13431,50 +13431,50 @@ func (client *Client) Callback(request *CallbackRequest, runtime *RuntimeObject)
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			_result := &CallbackResponse{}
-			err = tea.Convert(response_.Headers, &_result)
-			return _result, err
+			_result = &CallbackResponse{}
+			_err = tea.Convert(response_.Headers, &_result)
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) GetBucketLogging(request *GetBucketLoggingRequest, runtime *RuntimeObject) (*GetBucketLoggingResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) GetBucketLogging(request *GetBucketLoggingRequest, runtime *RuntimeObject) (_result *GetBucketLoggingResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -13488,17 +13488,18 @@ func (client *Client) GetBucketLogging(request *GetBucketLoggingRequest, runtime
 			}
 		}
 
-		_resp, err = func() (*GetBucketLoggingResponse, error) {
+		_resp, _err = func() (*GetBucketLoggingResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
 			request_.Pathname = "/?logging"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -13506,26 +13507,25 @@ func (client *Client) GetBucketLogging(request *GetBucketLoggingRequest, runtime
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -13534,58 +13534,58 @@ func (client *Client) GetBucketLogging(request *GetBucketLoggingRequest, runtime
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			bodyStr, err = client.ReadAsString(response_)
-			if err != nil {
-				return nil, err
+			bodyStr, _err = client.ReadAsString(response_)
+			if _err != nil {
+				return nil, _err
 			}
 
 			respMap = client.ParseXml(bodyStr, new(GetBucketLoggingResponse))
-			_result := &GetBucketLoggingResponse{}
-			err = tea.Convert(tea.ToMap(map[string]interface{}{
+			_result = &GetBucketLoggingResponse{}
+			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"BucketLoggingStatus": respMap["BucketLoggingStatus"],
 			}, response_.Headers), &_result)
-			return _result, err
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) PutObjectAcl(request *PutObjectAclRequest, runtime *RuntimeObject) (*PutObjectAclResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) PutObjectAcl(request *PutObjectAclRequest, runtime *RuntimeObject) (_result *PutObjectAclResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -13599,17 +13599,18 @@ func (client *Client) PutObjectAcl(request *PutObjectAclRequest, runtime *Runtim
 			}
 		}
 
-		_resp, err = func() (*PutObjectAclResponse, error) {
+		_resp, _err = func() (*PutObjectAclResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "PUT"
-			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ObjectName)) + "?acl"
+			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ObjectName)) + "?acl"
 			request_.Headers = tea.Merge(map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}, client.ToHeader(tea.ToMap(request.Header)))
@@ -13617,26 +13618,25 @@ func (client *Client) PutObjectAcl(request *PutObjectAclRequest, runtime *Runtim
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -13645,50 +13645,50 @@ func (client *Client) PutObjectAcl(request *PutObjectAclRequest, runtime *Runtim
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			_result := &PutObjectAclResponse{}
-			err = tea.Convert(response_.Headers, &_result)
-			return _result, err
+			_result = &PutObjectAclResponse{}
+			_err = tea.Convert(response_.Headers, &_result)
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) GetBucketInfo(request *GetBucketInfoRequest, runtime *RuntimeObject) (*GetBucketInfoResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) GetBucketInfo(request *GetBucketInfoRequest, runtime *RuntimeObject) (_result *GetBucketInfoResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -13702,17 +13702,18 @@ func (client *Client) GetBucketInfo(request *GetBucketInfoRequest, runtime *Runt
 			}
 		}
 
-		_resp, err = func() (*GetBucketInfoResponse, error) {
+		_resp, _err = func() (*GetBucketInfoResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
 			request_.Pathname = "/?bucketInfo"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -13720,26 +13721,25 @@ func (client *Client) GetBucketInfo(request *GetBucketInfoRequest, runtime *Runt
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -13748,58 +13748,58 @@ func (client *Client) GetBucketInfo(request *GetBucketInfoRequest, runtime *Runt
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			bodyStr, err = client.ReadAsString(response_)
-			if err != nil {
-				return nil, err
+			bodyStr, _err = client.ReadAsString(response_)
+			if _err != nil {
+				return nil, _err
 			}
 
 			respMap = client.ParseXml(bodyStr, new(GetBucketInfoResponse))
-			_result := &GetBucketInfoResponse{}
-			err = tea.Convert(tea.ToMap(map[string]interface{}{
+			_result = &GetBucketInfoResponse{}
+			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"BucketInfo": respMap["BucketInfo"],
 			}, response_.Headers), &_result)
-			return _result, err
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) PutLiveChannelStatus(request *PutLiveChannelStatusRequest, runtime *RuntimeObject) (*PutLiveChannelStatusResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) PutLiveChannelStatus(request *PutLiveChannelStatusRequest, runtime *RuntimeObject) (_result *PutLiveChannelStatusResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -13813,17 +13813,18 @@ func (client *Client) PutLiveChannelStatus(request *PutLiveChannelStatusRequest,
 			}
 		}
 
-		_resp, err = func() (*PutLiveChannelStatusResponse, error) {
+		_resp, _err = func() (*PutLiveChannelStatusResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "PUT"
-			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ChannelName)) + "?live"
+			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ChannelName)) + "?live"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -13832,26 +13833,25 @@ func (client *Client) PutLiveChannelStatus(request *PutLiveChannelStatusRequest,
 			}
 
 			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -13860,50 +13860,50 @@ func (client *Client) PutLiveChannelStatus(request *PutLiveChannelStatusRequest,
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			_result := &PutLiveChannelStatusResponse{}
-			err = tea.Convert(response_.Headers, &_result)
-			return _result, err
+			_result = &PutLiveChannelStatusResponse{}
+			_err = tea.Convert(response_.Headers, &_result)
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) InitiateMultipartUpload(request *InitiateMultipartUploadRequest, runtime *RuntimeObject) (*InitiateMultipartUploadResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) InitiateMultipartUpload(request *InitiateMultipartUploadRequest, runtime *RuntimeObject) (_result *InitiateMultipartUploadResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -13917,17 +13917,18 @@ func (client *Client) InitiateMultipartUpload(request *InitiateMultipartUploadRe
 			}
 		}
 
-		_resp, err = func() (*InitiateMultipartUploadResponse, error) {
+		_resp, _err = func() (*InitiateMultipartUploadResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "POST"
-			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ObjectName)) + "?uploads"
+			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ObjectName)) + "?uploads"
 			request_.Headers = tea.Merge(map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}, client.ToHeader(tea.ToMap(request.Header)))
@@ -13936,32 +13937,31 @@ func (client *Client) InitiateMultipartUpload(request *InitiateMultipartUploadRe
 			}
 
 			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
-			if client.NotNull(tea.ToMap(request.Header)) && !client.Empty(tea.GetStringValue(request.Header.ContentType)) {
-				request_.Headers["content-type"] = tea.GetStringValue(request.Header.ContentType)
+			if client.NotNull(tea.ToMap(request.Header)) && !client.Empty(tea.StringValue(request.Header.ContentType)) {
+				request_.Headers["content-type"] = tea.StringValue(request.Header.ContentType)
 			} else {
-				request_.Headers["content-type"] = client.GetContentType(tea.GetStringValue(request.ObjectName))
+				request_.Headers["content-type"] = client.GetContentType(tea.StringValue(request.ObjectName))
 			}
 
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -13970,58 +13970,58 @@ func (client *Client) InitiateMultipartUpload(request *InitiateMultipartUploadRe
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			bodyStr, err = client.ReadAsString(response_)
-			if err != nil {
-				return nil, err
+			bodyStr, _err = client.ReadAsString(response_)
+			if _err != nil {
+				return nil, _err
 			}
 
 			respMap = client.ParseXml(bodyStr, new(InitiateMultipartUploadResponse))
-			_result := &InitiateMultipartUploadResponse{}
-			err = tea.Convert(tea.ToMap(map[string]interface{}{
+			_result = &InitiateMultipartUploadResponse{}
+			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"InitiateMultipartUploadResult": respMap["InitiateMultipartUploadResult"],
 			}, response_.Headers), &_result)
-			return _result, err
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) OptionObject(request *OptionObjectRequest, runtime *RuntimeObject) (*OptionObjectResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) OptionObject(request *OptionObjectRequest, runtime *RuntimeObject) (_result *OptionObjectResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -14035,17 +14035,18 @@ func (client *Client) OptionObject(request *OptionObjectRequest, runtime *Runtim
 			}
 		}
 
-		_resp, err = func() (*OptionObjectResponse, error) {
+		_resp, _err = func() (*OptionObjectResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "OPTIONS"
-			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ObjectName))
+			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ObjectName))
 			request_.Headers = tea.Merge(map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}, client.ToHeader(tea.ToMap(request.Header)))
@@ -14053,26 +14054,25 @@ func (client *Client) OptionObject(request *OptionObjectRequest, runtime *Runtim
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -14081,50 +14081,50 @@ func (client *Client) OptionObject(request *OptionObjectRequest, runtime *Runtim
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			_result := &OptionObjectResponse{}
-			err = tea.Convert(response_.Headers, &_result)
-			return _result, err
+			_result = &OptionObjectResponse{}
+			_err = tea.Convert(response_.Headers, &_result)
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) PostVodPlaylist(request *PostVodPlaylistRequest, runtime *RuntimeObject) (*PostVodPlaylistResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) PostVodPlaylist(request *PostVodPlaylistRequest, runtime *RuntimeObject) (_result *PostVodPlaylistResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -14138,17 +14138,18 @@ func (client *Client) PostVodPlaylist(request *PostVodPlaylistRequest, runtime *
 			}
 		}
 
-		_resp, err = func() (*PostVodPlaylistResponse, error) {
+		_resp, _err = func() (*PostVodPlaylistResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "POST"
-			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ChannelName)) + "/" + tea.ToString(tea.GetStringValue(request.PlaylistName)) + "?vod"
+			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ChannelName)) + "/" + tea.ToString(tea.StringValue(request.PlaylistName)) + "?vod"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -14157,26 +14158,25 @@ func (client *Client) PostVodPlaylist(request *PostVodPlaylistRequest, runtime *
 			}
 
 			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -14185,50 +14185,50 @@ func (client *Client) PostVodPlaylist(request *PostVodPlaylistRequest, runtime *
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			_result := &PostVodPlaylistResponse{}
-			err = tea.Convert(response_.Headers, &_result)
-			return _result, err
+			_result = &PostVodPlaylistResponse{}
+			_err = tea.Convert(response_.Headers, &_result)
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) PostObject(request *PostObjectRequest, runtime *RuntimeObject) (*PostObjectResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) PostObject(request *PostObjectRequest, runtime *RuntimeObject) (_result *PostObjectResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -14242,17 +14242,18 @@ func (client *Client) PostObject(request *PostObjectRequest, runtime *RuntimeObj
 			}
 		}
 
-		_resp, err = func() (*PostObjectResponse, error) {
+		_resp, _err = func() (*PostObjectResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "POST"
 			request_.Pathname = "/"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -14260,26 +14261,25 @@ func (client *Client) PostObject(request *PostObjectRequest, runtime *RuntimeObj
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -14288,50 +14288,50 @@ func (client *Client) PostObject(request *PostObjectRequest, runtime *RuntimeObj
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			_result := &PostObjectResponse{}
-			err = tea.Convert(response_.Headers, &_result)
-			return _result, err
+			_result = &PostObjectResponse{}
+			_err = tea.Convert(response_.Headers, &_result)
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) HeadObject(request *HeadObjectRequest, runtime *RuntimeObject) (*HeadObjectResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) HeadObject(request *HeadObjectRequest, runtime *RuntimeObject) (_result *HeadObjectResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -14345,17 +14345,18 @@ func (client *Client) HeadObject(request *HeadObjectRequest, runtime *RuntimeObj
 			}
 		}
 
-		_resp, err = func() (*HeadObjectResponse, error) {
+		_resp, _err = func() (*HeadObjectResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "HEAD"
-			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ObjectName))
+			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ObjectName))
 			request_.Headers = tea.Merge(map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}, client.ToHeader(tea.ToMap(request.Header)))
@@ -14363,26 +14364,25 @@ func (client *Client) HeadObject(request *HeadObjectRequest, runtime *RuntimeObj
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -14391,52 +14391,52 @@ func (client *Client) HeadObject(request *HeadObjectRequest, runtime *RuntimeObj
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			_result := &HeadObjectResponse{}
-			err = tea.Convert(tea.ToMap(map[string]interface{}{
+			_result = &HeadObjectResponse{}
+			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"usermeta": client.ToMeta(response_.Headers, "x-oss-meta-"),
 			}, response_.Headers), &_result)
-			return _result, err
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) DeleteObjectTagging(request *DeleteObjectTaggingRequest, runtime *RuntimeObject) (*DeleteObjectTaggingResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) DeleteObjectTagging(request *DeleteObjectTaggingRequest, runtime *RuntimeObject) (_result *DeleteObjectTaggingResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -14450,17 +14450,18 @@ func (client *Client) DeleteObjectTagging(request *DeleteObjectTaggingRequest, r
 			}
 		}
 
-		_resp, err = func() (*DeleteObjectTaggingResponse, error) {
+		_resp, _err = func() (*DeleteObjectTaggingResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "DELETE"
-			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ObjectName)) + "?tagging"
+			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ObjectName)) + "?tagging"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -14468,26 +14469,25 @@ func (client *Client) DeleteObjectTagging(request *DeleteObjectTaggingRequest, r
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -14496,50 +14496,50 @@ func (client *Client) DeleteObjectTagging(request *DeleteObjectTaggingRequest, r
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			_result := &DeleteObjectTaggingResponse{}
-			err = tea.Convert(response_.Headers, &_result)
-			return _result, err
+			_result = &DeleteObjectTaggingResponse{}
+			_err = tea.Convert(response_.Headers, &_result)
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) RestoreObject(request *RestoreObjectRequest, runtime *RuntimeObject) (*RestoreObjectResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) RestoreObject(request *RestoreObjectRequest, runtime *RuntimeObject) (_result *RestoreObjectResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -14553,17 +14553,18 @@ func (client *Client) RestoreObject(request *RestoreObjectRequest, runtime *Runt
 			}
 		}
 
-		_resp, err = func() (*RestoreObjectResponse, error) {
+		_resp, _err = func() (*RestoreObjectResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "POST"
-			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ObjectName)) + "?restore"
+			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ObjectName)) + "?restore"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -14571,26 +14572,25 @@ func (client *Client) RestoreObject(request *RestoreObjectRequest, runtime *Runt
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -14599,50 +14599,50 @@ func (client *Client) RestoreObject(request *RestoreObjectRequest, runtime *Runt
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			_result := &RestoreObjectResponse{}
-			err = tea.Convert(response_.Headers, &_result)
-			return _result, err
+			_result = &RestoreObjectResponse{}
+			_err = tea.Convert(response_.Headers, &_result)
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) GetObjectAcl(request *GetObjectAclRequest, runtime *RuntimeObject) (*GetObjectAclResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) GetObjectAcl(request *GetObjectAclRequest, runtime *RuntimeObject) (_result *GetObjectAclResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -14656,17 +14656,18 @@ func (client *Client) GetObjectAcl(request *GetObjectAclRequest, runtime *Runtim
 			}
 		}
 
-		_resp, err = func() (*GetObjectAclResponse, error) {
+		_resp, _err = func() (*GetObjectAclResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
-			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ObjectName)) + "?acl"
+			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ObjectName)) + "?acl"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -14674,26 +14675,25 @@ func (client *Client) GetObjectAcl(request *GetObjectAclRequest, runtime *Runtim
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -14702,58 +14702,58 @@ func (client *Client) GetObjectAcl(request *GetObjectAclRequest, runtime *Runtim
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			bodyStr, err = client.ReadAsString(response_)
-			if err != nil {
-				return nil, err
+			bodyStr, _err = client.ReadAsString(response_)
+			if _err != nil {
+				return nil, _err
 			}
 
 			respMap = client.ParseXml(bodyStr, new(GetObjectAclResponse))
-			_result := &GetObjectAclResponse{}
-			err = tea.Convert(tea.ToMap(map[string]interface{}{
+			_result = &GetObjectAclResponse{}
+			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"AccessControlPolicy": respMap["AccessControlPolicy"],
 			}, response_.Headers), &_result)
-			return _result, err
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) PutBucketAcl(request *PutBucketAclRequest, runtime *RuntimeObject) (*PutBucketAclResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) PutBucketAcl(request *PutBucketAclRequest, runtime *RuntimeObject) (_result *PutBucketAclResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -14767,17 +14767,18 @@ func (client *Client) PutBucketAcl(request *PutBucketAclRequest, runtime *Runtim
 			}
 		}
 
-		_resp, err = func() (*PutBucketAclResponse, error) {
+		_resp, _err = func() (*PutBucketAclResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "PUT"
 			request_.Pathname = "/?acl"
 			request_.Headers = tea.Merge(map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}, client.ToHeader(tea.ToMap(request.Header)))
@@ -14785,26 +14786,25 @@ func (client *Client) PutBucketAcl(request *PutBucketAclRequest, runtime *Runtim
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -14813,50 +14813,50 @@ func (client *Client) PutBucketAcl(request *PutBucketAclRequest, runtime *Runtim
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			_result := &PutBucketAclResponse{}
-			err = tea.Convert(response_.Headers, &_result)
-			return _result, err
+			_result = &PutBucketAclResponse{}
+			_err = tea.Convert(response_.Headers, &_result)
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) DeleteBucket(request *DeleteBucketRequest, runtime *RuntimeObject) (*DeleteBucketResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) DeleteBucket(request *DeleteBucketRequest, runtime *RuntimeObject) (_result *DeleteBucketResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -14870,17 +14870,18 @@ func (client *Client) DeleteBucket(request *DeleteBucketRequest, runtime *Runtim
 			}
 		}
 
-		_resp, err = func() (*DeleteBucketResponse, error) {
+		_resp, _err = func() (*DeleteBucketResponse, error) {
 			request_ := tea.NewRequest()
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "DELETE"
 			request_.Pathname = "/"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}
@@ -14888,26 +14889,25 @@ func (client *Client) DeleteBucket(request *DeleteBucketRequest, runtime *Runtim
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -14916,50 +14916,50 @@ func (client *Client) DeleteBucket(request *DeleteBucketRequest, runtime *Runtim
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			_result := &DeleteBucketResponse{}
-			err = tea.Convert(response_.Headers, &_result)
-			return _result, err
+			_result = &DeleteBucketResponse{}
+			_err = tea.Convert(response_.Headers, &_result)
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) PutObject(request *PutObjectRequest, runtime *RuntimeObject) (*PutObjectResponse, error) {
-	err := tea.Validate(request)
-	if err != nil {
-		return nil, err
+func (client *Client) PutObject(request *PutObjectRequest, runtime *RuntimeObject) (_result *PutObjectResponse, _err error) {
+	_err = tea.Validate(request)
+	if _err != nil {
+		return nil, _err
 	}
-	err = tea.Validate(runtime)
-	if err != nil {
-		return nil, err
+	_err = tea.Validate(runtime)
+	if _err != nil {
+		return nil, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.GetIntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.GetIntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.GetStringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.GetStringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.GetStringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.GetStringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.GetStringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.GetStringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.GetIntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.GetBoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.GetIntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.GetStringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.GetIntValue(runtime.BackoffPeriod), 1),
+			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
-		"ignoreSSL": tea.GetBoolValue(runtime.IgnoreSSL),
+		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 		"logger":    client.Logger,
 		"listener":  runtime.Listener,
 	}
@@ -14973,18 +14973,19 @@ func (client *Client) PutObject(request *PutObjectRequest, runtime *RuntimeObjec
 			}
 		}
 
-		_resp, err = func() (*PutObjectResponse, error) {
+		_resp, _err = func() (*PutObjectResponse, error) {
 			request_ := tea.NewRequest()
 			ctx := make(map[string]string)
-			token, err := client.GetSecurityToken()
-			if err != nil {
-				return nil, err
+			token, _err := client.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
 			}
+
 			request_.Protocol = client.Protocol
 			request_.Method = "PUT"
-			request_.Pathname = "/" + tea.ToString(tea.GetStringValue(request.ObjectName))
+			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ObjectName))
 			request_.Headers = tea.Merge(map[string]string{
-				"host":       client.GetHost(tea.GetStringValue(request.BucketName)),
+				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
 				"user-agent": client.GetUserAgent(),
 			}, client.ToHeader(tea.ToMap(request.Header)),
@@ -14994,32 +14995,31 @@ func (client *Client) PutObject(request *PutObjectRequest, runtime *RuntimeObjec
 			}
 
 			request_.Body = client.Inject(request.Body, ctx)
-			if client.NotNull(tea.ToMap(request.Header)) && !client.Empty(tea.GetStringValue(request.Header.ContentType)) {
-				request_.Headers["content-type"] = tea.GetStringValue(request.Header.ContentType)
+			if client.NotNull(tea.ToMap(request.Header)) && !client.Empty(tea.StringValue(request.Header.ContentType)) {
+				request_.Headers["content-type"] = tea.StringValue(request.Header.ContentType)
 			} else {
-				request_.Headers["content-type"] = client.GetContentType(tea.GetStringValue(request.ObjectName))
+				request_.Headers["content-type"] = client.GetContentType(tea.StringValue(request.ObjectName))
 			}
 
-			request_.Headers["authorization"], err = client.GetSignature(request_, tea.GetStringValue(request.BucketName))
-			if err != nil {
-				return nil, err
+			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
+			if _err != nil {
+				return nil, _err
 			}
 
-			response_, err := tea.DoRequest(request_, _runtime)
-			if err != nil {
-				return nil, err
+			response_, _err := tea.DoRequest(request_, _runtime)
+			if _err != nil {
+				return nil, _err
 			}
-
 			respMap := make(map[string]interface{})
 			bodyStr := ""
 			if client.IsFail(response_) {
-				bodyStr, err = client.ReadAsString(response_)
-				if err != nil {
-					return nil, err
+				bodyStr, _err = client.ReadAsString(response_)
+				if _err != nil {
+					return nil, _err
 				}
 
 				respMap = client.GetErrMessage(bodyStr)
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
 					"data": map[string]interface{}{
@@ -15028,44 +15028,44 @@ func (client *Client) PutObject(request *PutObjectRequest, runtime *RuntimeObjec
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
 			if client.IsEnableCrc && !client.Equal(ctx["crc"], response_.Headers["x-oss-hash-crc64ecma"]) {
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code": "CrcNotMatched",
-					"data": map[string]interface{}{
+					"data": map[string]string{
 						"clientCrc": ctx["crc"],
 						"serverCrc": response_.Headers["x-oss-hash-crc64ecma"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
 			if client.IsEnableMD5 && !client.Equal(ctx["md5"], response_.Headers["content-md5"]) {
-				err = tea.NewSDKError(map[string]interface{}{
+				_err = tea.NewSDKError(map[string]interface{}{
 					"code": "MD5NotMatched",
-					"data": map[string]interface{}{
+					"data": map[string]string{
 						"clientMD5": ctx["md5"],
 						"serverMD5": response_.Headers["content-md5"],
 					},
 				})
-				return nil, err
+				return nil, _err
 			}
 
-			_result := &PutObjectResponse{}
-			err = tea.Convert(response_.Headers, &_result)
-			return _result, err
+			_result = &PutObjectResponse{}
+			_err = tea.Convert(response_.Headers, &_result)
+			return _result, _err
 		}()
-		if !tea.Retryable(err) {
+		if !tea.Retryable(_err) {
 			break
 		}
 	}
 
-	return _resp, err
+	return _resp, _err
 }
 
-func (client *Client) GetHost(bucketName string) string {
+func (client *Client) GetHost(bucketName string) (_result string) {
 	if client.Empty(client.RegionId) {
 		client.RegionId = "cn-hangzhou"
 	}
@@ -15090,34 +15090,32 @@ func (client *Client) GetHost(bucketName string) string {
 	return host
 }
 
-func (client *Client) GetSignature(request *tea.Request, bucketName string) (string, error) {
-	accessKeyId, err := client.GetAccessKeyID()
-	if err != nil {
-		return "", err
+func (client *Client) GetSignature(request *tea.Request, bucketName string) (_result string, _err error) {
+	accessKeyId, _err := client.GetAccessKeyID()
+	if _err != nil {
+		return "", _err
 	}
-	accessKeySecret, err := client.GetAccessKeySecret()
-	if err != nil {
-		return "", err
+
+	accessKeySecret, _err := client.GetAccessKeySecret()
+	if _err != nil {
+		return "", _err
 	}
+
 	if client.Equal(client.SignatureVersion, "V2") {
 		if client.IfListEmpty(client.AddtionalHeaders) {
-			_result := ""
-			_result = "OSS2 AccessKeyId:" + tea.ToString(accessKeyId) +
-				",Signature:" + tea.ToString(client.GetSignatureV2(request, bucketName, accessKeySecret, client.AddtionalHeaders))
-			return _result, err
+			_result = ""
+			_result = "OSS2 AccessKeyId:" + tea.ToString(accessKeyId) + ",Signature:" + tea.ToString(client.GetSignatureV2(request, bucketName, accessKeySecret, client.AddtionalHeaders))
+			return _result, nil
 		} else {
-			_result := ""
-			_result = "OSS2 AccessKeyId:" + tea.ToString(accessKeyId) +
-				",AdditionalHeaders:" + tea.ToString(client.ListToString(client.AddtionalHeaders, ";")) +
-				",Signature:" + tea.ToString(client.GetSignatureV2(request, bucketName, accessKeySecret, client.AddtionalHeaders))
-			return _result, err
+			_result = ""
+			_result = "OSS2 AccessKeyId:" + tea.ToString(accessKeyId) + ",AdditionalHeaders:" + tea.ToString(client.ListToString(client.AddtionalHeaders, ";")) + ",Signature:" + tea.ToString(client.GetSignatureV2(request, bucketName, accessKeySecret, client.AddtionalHeaders))
+			return _result, nil
 		}
 
 	} else {
-		_result := ""
-		_result = "OSS " + tea.ToString(accessKeyId) +
-			":" + tea.ToString(client.GetSignatureV1(request, bucketName, accessKeySecret))
-		return _result, err
+		_result = ""
+		_result = "OSS " + tea.ToString(accessKeyId) + ":" + tea.ToString(client.GetSignatureV1(request, bucketName, accessKeySecret))
+		return _result, nil
 	}
 
 }
