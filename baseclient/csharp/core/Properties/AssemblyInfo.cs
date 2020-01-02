@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly : AssemblyConfiguration("")]
 [assembly : AssemblyCompany("Alibaba Cloud, Inc")]
 [assembly : AssemblyProduct("alibabacloud oss baseclient")]
-[assembly : AssemblyCopyright("©2009-2019 Alibaba Cloud")]
+[assembly : AssemblyCopyright("©2009-present Alibaba Cloud")]
 [assembly : AssemblyTrademark("")]
 [assembly : AssemblyCulture("")]
 [assembly : InternalsVisibleTo("UnitTests")]
