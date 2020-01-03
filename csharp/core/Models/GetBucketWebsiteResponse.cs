@@ -19,8 +19,8 @@ namespace AlibabaCloud.OSS.Models
         public class GetBucketWebsiteResponseWebsiteConfiguration : TeaModel {
             [NameInMap("IndexDocument")]
             [Validation(Required=true)]
-            public GetBucketWebsiteResponseIndexDocument IndexDocument { get; set; }
-            public class GetBucketWebsiteResponseIndexDocument : TeaModel {
+            public GetBucketWebsiteResponseWebsiteConfigurationIndexDocument IndexDocument { get; set; }
+            public class GetBucketWebsiteResponseWebsiteConfigurationIndexDocument : TeaModel {
                 [NameInMap("Suffix")]
                 [Validation(Required=false)]
                 public string Suffix { get; set; }
@@ -28,8 +28,8 @@ namespace AlibabaCloud.OSS.Models
             }
             [NameInMap("ErrorDocument")]
             [Validation(Required=true)]
-            public GetBucketWebsiteResponseErrorDocument ErrorDocument { get; set; }
-            public class GetBucketWebsiteResponseErrorDocument : TeaModel {
+            public GetBucketWebsiteResponseWebsiteConfigurationErrorDocument ErrorDocument { get; set; }
+            public class GetBucketWebsiteResponseWebsiteConfigurationErrorDocument : TeaModel {
                 [NameInMap("Key")]
                 [Validation(Required=false)]
                 public string Key { get; set; }
@@ -37,20 +37,20 @@ namespace AlibabaCloud.OSS.Models
             }
             [NameInMap("RoutingRules")]
             [Validation(Required=true)]
-            public GetBucketWebsiteResponseRoutingRules RoutingRules { get; set; }
-            public class GetBucketWebsiteResponseRoutingRules : TeaModel {
+            public GetBucketWebsiteResponseWebsiteConfigurationRoutingRules RoutingRules { get; set; }
+            public class GetBucketWebsiteResponseWebsiteConfigurationRoutingRules : TeaModel {
                 [NameInMap("RoutingRule")]
                 [Validation(Required=false)]
-                public List<GetBucketWebsiteResponseRoutingRule> RoutingRule { get; set; }
-                public class GetBucketWebsiteResponseRoutingRule : TeaModel {
+                public List<GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule> RoutingRule { get; set; }
+                public class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule : TeaModel {
                     [NameInMap("RuleNumber")]
                     [Validation(Required=false)]
                     public int? RuleNumber { get; set; }
 
                     [NameInMap("Condition")]
                     [Validation(Required=true)]
-                    public GetBucketWebsiteResponseCondition Condition { get; set; }
-                    public class GetBucketWebsiteResponseCondition : TeaModel {
+                    public GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleCondition Condition { get; set; }
+                    public class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleCondition : TeaModel {
                         [NameInMap("KeyPrefixEquals")]
                         [Validation(Required=false)]
                         public string KeyPrefixEquals { get; set; }
@@ -59,8 +59,8 @@ namespace AlibabaCloud.OSS.Models
                         public string HttpErrorCodeReturnedEquals { get; set; }
                         [NameInMap("IncludeHeader")]
                         [Validation(Required=true)]
-                        public GetBucketWebsiteResponseIncludeHeader IncludeHeader { get; set; }
-                        public class GetBucketWebsiteResponseIncludeHeader : TeaModel {
+                        public GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader IncludeHeader { get; set; }
+                        public class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader : TeaModel {
                             [NameInMap("Key")]
                             [Validation(Required=false)]
                             public string Key { get; set; }
@@ -74,8 +74,8 @@ namespace AlibabaCloud.OSS.Models
 
                     [NameInMap("Redirect")]
                     [Validation(Required=true)]
-                    public GetBucketWebsiteResponseRedirect Redirect { get; set; }
-                    public class GetBucketWebsiteResponseRedirect : TeaModel {
+                    public GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect Redirect { get; set; }
+                    public class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect : TeaModel {
                         [NameInMap("RedirectType")]
                         [Validation(Required=false)]
                         public string RedirectType { get; set; }
@@ -111,8 +111,8 @@ namespace AlibabaCloud.OSS.Models
                         public string ReplaceKeyWith { get; set; }
                         [NameInMap("MirrorHeaders")]
                         [Validation(Required=true)]
-                        public GetBucketWebsiteResponseMirrorHeaders MirrorHeaders { get; set; }
-                        public class GetBucketWebsiteResponseMirrorHeaders : TeaModel {
+                        public GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders MirrorHeaders { get; set; }
+                        public class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders : TeaModel {
                             [NameInMap("PassAll")]
                             [Validation(Required=false)]
                             public bool? PassAll { get; set; }
@@ -127,8 +127,8 @@ namespace AlibabaCloud.OSS.Models
 
                             [NameInMap("Set")]
                             [Validation(Required=true)]
-                            public GetBucketWebsiteResponseSet Set { get; set; }
-                            public class GetBucketWebsiteResponseSet : TeaModel {
+                            public GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet Set { get; set; }
+                            public class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet : TeaModel {
                                 [NameInMap("Key")]
                                 [Validation(Required=false)]
                                 public string Key { get; set; }

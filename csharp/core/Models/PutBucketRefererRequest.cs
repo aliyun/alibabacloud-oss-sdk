@@ -19,12 +19,12 @@ namespace AlibabaCloud.OSS.Models
         public class PutBucketRefererRequestBody : TeaModel {
             [NameInMap("RefererConfiguration")]
             [Validation(Required=true)]
-            public PutBucketRefererRequestRefererConfiguration RefererConfiguration { get; set; }
-            public class PutBucketRefererRequestRefererConfiguration : TeaModel {
+            public PutBucketRefererRequestBodyRefererConfiguration RefererConfiguration { get; set; }
+            public class PutBucketRefererRequestBodyRefererConfiguration : TeaModel {
                 [NameInMap("RefererList")]
                 [Validation(Required=false)]
-                public PutBucketRefererRequestRefererList RefererList { get; set; }
-                public class PutBucketRefererRequestRefererList : TeaModel {
+                public PutBucketRefererRequestBodyRefererConfigurationRefererList RefererList { get; set; }
+                public class PutBucketRefererRequestBodyRefererConfigurationRefererList : TeaModel {
                     [NameInMap("Referer")]
                     [Validation(Required=false)]
                     public List<string> Referer { get; set; }

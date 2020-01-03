@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 
 using AlibabaCloud.OSS;
 using AlibabaCloud.OSS.Models;
@@ -51,16 +52,16 @@ namespace test
             request.BucketName = bucketName;
             request.Body = new PutBucketLifecycleRequest.PutBucketLifecycleRequestBody
             {
-                LifecycleConfiguration = new PutBucketLifecycleRequest.PutBucketLifecycleRequestBody.PutBucketLifecycleRequestLifecycleConfiguration
+                LifecycleConfiguration = new PutBucketLifecycleRequest.PutBucketLifecycleRequestBody.PutBucketLifecycleRequestBodyLifecycleConfiguration
                 {
-                Rule = new List<PutBucketLifecycleRequest.PutBucketLifecycleRequestBody.PutBucketLifecycleRequestLifecycleConfiguration.PutBucketLifecycleRequestRule>
+                Rule = new List<PutBucketLifecycleRequest.PutBucketLifecycleRequestBody.PutBucketLifecycleRequestBodyLifecycleConfiguration.PutBucketLifecycleRequestBodyLifecycleConfigurationRule>
                 {
-                new PutBucketLifecycleRequest.PutBucketLifecycleRequestBody.PutBucketLifecycleRequestLifecycleConfiguration.PutBucketLifecycleRequestRule
+                new PutBucketLifecycleRequest.PutBucketLifecycleRequestBody.PutBucketLifecycleRequestBodyLifecycleConfiguration.PutBucketLifecycleRequestBodyLifecycleConfigurationRule
                 {
                 ID = "1",
                 Prefix = "Prefix",
                 Status = "Disabled",
-                Expiration = new PutBucketLifecycleRequest.PutBucketLifecycleRequestBody.PutBucketLifecycleRequestLifecycleConfiguration.PutBucketLifecycleRequestRule.PutBucketLifecycleRequestExpiration
+                Expiration = new PutBucketLifecycleRequest.PutBucketLifecycleRequestBody.PutBucketLifecycleRequestBodyLifecycleConfiguration.PutBucketLifecycleRequestBodyLifecycleConfigurationRule.PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration
                 {
                 Days = 1
                 }
@@ -74,6 +75,35 @@ namespace test
         }
 
         [Fact]
+        public async Task Test_putBucketLifecycleAsync()
+        {
+            PutBucketLifecycleRequest request = new PutBucketLifecycleRequest();
+            request.BucketName = bucketName;
+            request.Body = new PutBucketLifecycleRequest.PutBucketLifecycleRequestBody
+            {
+                LifecycleConfiguration = new PutBucketLifecycleRequest.PutBucketLifecycleRequestBody.PutBucketLifecycleRequestBodyLifecycleConfiguration
+                {
+                Rule = new List<PutBucketLifecycleRequest.PutBucketLifecycleRequestBody.PutBucketLifecycleRequestBodyLifecycleConfiguration.PutBucketLifecycleRequestBodyLifecycleConfigurationRule>
+                {
+                new PutBucketLifecycleRequest.PutBucketLifecycleRequestBody.PutBucketLifecycleRequestBodyLifecycleConfiguration.PutBucketLifecycleRequestBodyLifecycleConfigurationRule
+                {
+                ID = "1",
+                Prefix = "Prefix",
+                Status = "Disabled",
+                Expiration = new PutBucketLifecycleRequest.PutBucketLifecycleRequestBody.PutBucketLifecycleRequestBodyLifecycleConfiguration.PutBucketLifecycleRequestBodyLifecycleConfigurationRule.PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration
+                {
+                Days = 1
+                }
+                }
+                }
+                }
+            };
+
+            var response = await client.putBucketLifecycleAsync(request, runtime);
+            Assert.NotNull(response);
+        }
+
+        [Fact]
         public void Test_putBucketReferer()
         {
             PutBucketRefererRequest request = new PutBucketRefererRequest
@@ -81,10 +111,10 @@ namespace test
                 BucketName = bucketName,
                 Body = new PutBucketRefererRequest.PutBucketRefererRequestBody
                 {
-                RefererConfiguration = new PutBucketRefererRequest.PutBucketRefererRequestBody.PutBucketRefererRequestRefererConfiguration
+                RefererConfiguration = new PutBucketRefererRequest.PutBucketRefererRequestBody.PutBucketRefererRequestBodyRefererConfiguration
                 {
                 AllowEmptyReferer = true,
-                RefererList = new PutBucketRefererRequest.PutBucketRefererRequestBody.PutBucketRefererRequestRefererConfiguration.PutBucketRefererRequestRefererList
+                RefererList = new PutBucketRefererRequest.PutBucketRefererRequestBody.PutBucketRefererRequestBodyRefererConfiguration.PutBucketRefererRequestBodyRefererConfigurationRefererList
                 {
                 Referer = new List<string>
                 {
@@ -101,6 +131,33 @@ namespace test
         }
 
         [Fact]
+        public async Task Test_putBucketRefererAsync()
+        {
+            PutBucketRefererRequest request = new PutBucketRefererRequest
+            {
+                BucketName = bucketName,
+                Body = new PutBucketRefererRequest.PutBucketRefererRequestBody
+                {
+                RefererConfiguration = new PutBucketRefererRequest.PutBucketRefererRequestBody.PutBucketRefererRequestBodyRefererConfiguration
+                {
+                AllowEmptyReferer = true,
+                RefererList = new PutBucketRefererRequest.PutBucketRefererRequestBody.PutBucketRefererRequestBodyRefererConfiguration.PutBucketRefererRequestBodyRefererConfigurationRefererList
+                {
+                Referer = new List<string>
+                {
+                "test"
+                }
+                }
+                }
+                }
+            };
+
+            var response = await client.putBucketRefererAsync(request, runtime);
+            Assert.NotNull(response);
+            Assert.NotNull(response.RequestId);
+        }
+
+        [Fact]
         public void Test_getBucketReferer()
         {
             GetBucketRefererRequest request = new GetBucketRefererRequest
@@ -108,6 +165,18 @@ namespace test
                 BucketName = bucketName
             };
             var response = client.getBucketReferer(request, runtime);
+            Assert.NotNull(response);
+            Assert.NotNull(response.RequestId);
+        }
+
+        [Fact]
+        public async Task Test_getBucketRefererAsync()
+        {
+            GetBucketRefererRequest request = new GetBucketRefererRequest
+            {
+                BucketName = bucketName
+            };
+            var response = await client.getBucketRefererAsync(request, runtime);
             Assert.NotNull(response);
             Assert.NotNull(response.RequestId);
         }
@@ -193,6 +262,18 @@ namespace test
             Assert.NotNull(resp.LifecycleConfiguration);
         }
 
+        [Fact]
+        public async Task Test_GetBucketLifecycleAsync()
+        {
+            GetBucketLifecycleRequest request = new GetBucketLifecycleRequest
+            {
+                BucketName = bucketName
+            };
+            var resp = await client.getBucketLifecycleAsync(request, runtime);
+            Assert.NotNull(resp.RequestId);
+            Assert.NotNull(resp.LifecycleConfiguration);
+        }
+
         //[Fact]
         //public void Test_GetBucketAcl()
         //{
@@ -251,6 +332,17 @@ namespace test
         }
 
         [Fact]
+        public async Task Test_DeleteBucketLifecycleAsync()
+        {
+            DeleteBucketLifecycleRequest request = new DeleteBucketLifecycleRequest
+            {
+                BucketName = bucketName
+            };
+            var resp = await client.deleteBucketLifecycleAsync(request, runtime);
+            Assert.NotNull(resp.RequestId);
+        }
+
+        [Fact]
         public void Test_PutObject()
         {
             PutObjectRequestHeader header = new PutObjectRequestHeader
@@ -265,6 +357,25 @@ namespace test
                 ObjectName = appendObj
             };
             var resp = client.putObject(request, runtime);
+            Assert.NotNull(resp.RequestId);
+            Assert.NotNull(resp.HashCrc64ecma);
+        }
+
+        [Fact]
+        public async Task Test_PutObjectAsync()
+        {
+            PutObjectRequestHeader header = new PutObjectRequestHeader
+            {
+                StorageClass = "Standard"
+            };
+            PutObjectRequest request = new PutObjectRequest
+            {
+                BucketName = bucketName,
+                Header = header,
+                Body = new MemoryStream(Encoding.UTF8.GetBytes("123456789")),
+                ObjectName = appendObj
+            };
+            var resp = await client.putObjectAsync(request, runtime);
             Assert.NotNull(resp.RequestId);
             Assert.NotNull(resp.HashCrc64ecma);
         }
@@ -319,6 +430,19 @@ namespace test
             Assert.NotNull(resp.ObjectType);
         }
 
+        [Fact]
+        public async Task Test_GetObjectAsync()
+        {
+            GetObjectRequest request = new GetObjectRequest
+            {
+                BucketName = bucketName,
+                ObjectName = appendObj
+            };
+            var resp = await client.getObjectAsync(request, runtime);
+            Assert.NotNull(resp.RequestId);
+            Assert.NotNull(resp.ObjectType);
+        }
+
         //[Fact]
         //public void Test_GetObjectTagging()
         //{
@@ -366,6 +490,18 @@ namespace test
                 ObjectName = appendObj
             };
             var resp = client.deleteObject(request, runtime);
+            Assert.NotNull(resp.RequestId);
+        }
+
+        [Fact]
+        public async Task Test_DeleteObjectAsync()
+        {
+            DeleteObjectRequest request = new DeleteObjectRequest
+            {
+                BucketName = bucketName,
+                ObjectName = appendObj
+            };
+            var resp = await client.deleteObjectAsync(request, runtime);
             Assert.NotNull(resp.RequestId);
         }
 

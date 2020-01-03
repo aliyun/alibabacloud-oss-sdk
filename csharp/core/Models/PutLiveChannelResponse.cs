@@ -19,8 +19,8 @@ namespace AlibabaCloud.OSS.Models
         public class PutLiveChannelResponseCreateLiveChannelResult : TeaModel {
             [NameInMap("PublishUrls")]
             [Validation(Required=true)]
-            public PutLiveChannelResponsePublishUrls PublishUrls { get; set; }
-            public class PutLiveChannelResponsePublishUrls : TeaModel {
+            public PutLiveChannelResponseCreateLiveChannelResultPublishUrls PublishUrls { get; set; }
+            public class PutLiveChannelResponseCreateLiveChannelResultPublishUrls : TeaModel {
                 [NameInMap("Url")]
                 [Validation(Required=false)]
                 public string Url { get; set; }
@@ -28,8 +28,8 @@ namespace AlibabaCloud.OSS.Models
             }
             [NameInMap("PlayUrls")]
             [Validation(Required=true)]
-            public PutLiveChannelResponsePlayUrls PlayUrls { get; set; }
-            public class PutLiveChannelResponsePlayUrls : TeaModel {
+            public PutLiveChannelResponseCreateLiveChannelResultPlayUrls PlayUrls { get; set; }
+            public class PutLiveChannelResponseCreateLiveChannelResultPlayUrls : TeaModel {
                 [NameInMap("Url")]
                 [Validation(Required=false)]
                 public string Url { get; set; }

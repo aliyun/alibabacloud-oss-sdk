@@ -19,12 +19,12 @@ namespace AlibabaCloud.OSS.Models
         public class DeleteMultipleObjectsRequestBody : TeaModel {
             [NameInMap("Delete")]
             [Validation(Required=true)]
-            public DeleteMultipleObjectsRequestDelete Delete { get; set; }
-            public class DeleteMultipleObjectsRequestDelete : TeaModel {
+            public DeleteMultipleObjectsRequestBodyDelete Delete { get; set; }
+            public class DeleteMultipleObjectsRequestBodyDelete : TeaModel {
                 [NameInMap("Object")]
                 [Validation(Required=false)]
-                public List<DeleteMultipleObjectsRequestObject> Object { get; set; }
-                public class DeleteMultipleObjectsRequestObject : TeaModel {
+                public List<DeleteMultipleObjectsRequestBodyDeleteObject> Object { get; set; }
+                public class DeleteMultipleObjectsRequestBodyDeleteObject : TeaModel {
                     [NameInMap("Key")]
                     [Validation(Required=false)]
                     public string Key { get; set; }

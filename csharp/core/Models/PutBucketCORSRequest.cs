@@ -19,12 +19,12 @@ namespace AlibabaCloud.OSS.Models
         public class PutBucketCORSRequestBody : TeaModel {
             [NameInMap("CORSConfiguration")]
             [Validation(Required=true)]
-            public PutBucketCORSRequestCORSConfiguration CORSConfiguration { get; set; }
-            public class PutBucketCORSRequestCORSConfiguration : TeaModel {
+            public PutBucketCORSRequestBodyCORSConfiguration CORSConfiguration { get; set; }
+            public class PutBucketCORSRequestBodyCORSConfiguration : TeaModel {
                 [NameInMap("CORSRule")]
                 [Validation(Required=false)]
-                public List<PutBucketCORSRequestCORSRule> CORSRule { get; set; }
-                public class PutBucketCORSRequestCORSRule : TeaModel {
+                public List<PutBucketCORSRequestBodyCORSConfigurationCORSRule> CORSRule { get; set; }
+                public class PutBucketCORSRequestBodyCORSConfigurationCORSRule : TeaModel {
                     [NameInMap("AllowedOrigin")]
                     [Validation(Required=false)]
                     public List<string> AllowedOrigin { get; set; }

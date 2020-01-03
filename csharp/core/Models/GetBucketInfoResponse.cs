@@ -19,8 +19,8 @@ namespace AlibabaCloud.OSS.Models
         public class GetBucketInfoResponseBucketInfo : TeaModel {
             [NameInMap("Bucket")]
             [Validation(Required=true)]
-            public GetBucketInfoResponseBucket Bucket { get; set; }
-            public class GetBucketInfoResponseBucket : TeaModel {
+            public GetBucketInfoResponseBucketInfoBucket Bucket { get; set; }
+            public class GetBucketInfoResponseBucketInfoBucket : TeaModel {
                 [NameInMap("CreationDate")]
                 [Validation(Required=false)]
                 public string CreationDate { get; set; }
@@ -55,8 +55,8 @@ namespace AlibabaCloud.OSS.Models
 
                 [NameInMap("Owner")]
                 [Validation(Required=true)]
-                public GetBucketInfoResponseOwner Owner { get; set; }
-                public class GetBucketInfoResponseOwner : TeaModel {
+                public GetBucketInfoResponseBucketInfoBucketOwner Owner { get; set; }
+                public class GetBucketInfoResponseBucketInfoBucketOwner : TeaModel {
                     [NameInMap("ID")]
                     [Validation(Required=false)]
                     public string ID { get; set; }
@@ -67,8 +67,8 @@ namespace AlibabaCloud.OSS.Models
 
                 [NameInMap("AccessControlList")]
                 [Validation(Required=true)]
-                public GetBucketInfoResponseAccessControlList AccessControlList { get; set; }
-                public class GetBucketInfoResponseAccessControlList : TeaModel {
+                public GetBucketInfoResponseBucketInfoBucketAccessControlList AccessControlList { get; set; }
+                public class GetBucketInfoResponseBucketInfoBucketAccessControlList : TeaModel {
                     [NameInMap("Grant")]
                     [Validation(Required=false)]
                     public string Grant { get; set; }

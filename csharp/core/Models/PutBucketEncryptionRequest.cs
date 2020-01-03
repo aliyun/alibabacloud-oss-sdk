@@ -19,12 +19,12 @@ namespace AlibabaCloud.OSS.Models
         public class PutBucketEncryptionRequestBody : TeaModel {
             [NameInMap("ServerSideEncryptionRule")]
             [Validation(Required=true)]
-            public PutBucketEncryptionRequestServerSideEncryptionRule ServerSideEncryptionRule { get; set; }
-            public class PutBucketEncryptionRequestServerSideEncryptionRule : TeaModel {
+            public PutBucketEncryptionRequestBodyServerSideEncryptionRule ServerSideEncryptionRule { get; set; }
+            public class PutBucketEncryptionRequestBodyServerSideEncryptionRule : TeaModel {
                 [NameInMap("ApplyServerSideEncryptionByDefault")]
                 [Validation(Required=false)]
-                public PutBucketEncryptionRequestApplyServerSideEncryptionByDefault ApplyServerSideEncryptionByDefault { get; set; }
-                public class PutBucketEncryptionRequestApplyServerSideEncryptionByDefault : TeaModel {
+                public PutBucketEncryptionRequestBodyServerSideEncryptionRuleApplyServerSideEncryptionByDefault ApplyServerSideEncryptionByDefault { get; set; }
+                public class PutBucketEncryptionRequestBodyServerSideEncryptionRuleApplyServerSideEncryptionByDefault : TeaModel {
                     [NameInMap("SSEAlgorithm")]
                     [Validation(Required=false)]
                     public string SSEAlgorithm { get; set; }

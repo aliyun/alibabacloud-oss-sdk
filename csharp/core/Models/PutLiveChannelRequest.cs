@@ -23,12 +23,12 @@ namespace AlibabaCloud.OSS.Models
         public class PutLiveChannelRequestBody : TeaModel {
             [NameInMap("LiveChannelConfiguration")]
             [Validation(Required=true)]
-            public PutLiveChannelRequestLiveChannelConfiguration LiveChannelConfiguration { get; set; }
-            public class PutLiveChannelRequestLiveChannelConfiguration : TeaModel {
+            public PutLiveChannelRequestBodyLiveChannelConfiguration LiveChannelConfiguration { get; set; }
+            public class PutLiveChannelRequestBodyLiveChannelConfiguration : TeaModel {
                 [NameInMap("Target")]
                 [Validation(Required=false)]
-                public PutLiveChannelRequestTarget Target { get; set; }
-                public class PutLiveChannelRequestTarget : TeaModel {
+                public PutLiveChannelRequestBodyLiveChannelConfigurationTarget Target { get; set; }
+                public class PutLiveChannelRequestBodyLiveChannelConfigurationTarget : TeaModel {
                     [NameInMap("Type")]
                     [Validation(Required=false)]
                     public string Type { get; set; }
@@ -45,8 +45,8 @@ namespace AlibabaCloud.OSS.Models
 
                 [NameInMap("Snapshot")]
                 [Validation(Required=false)]
-                public PutLiveChannelRequestSnapshot Snapshot { get; set; }
-                public class PutLiveChannelRequestSnapshot : TeaModel {
+                public PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot Snapshot { get; set; }
+                public class PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot : TeaModel {
                     [NameInMap("RoleName")]
                     [Validation(Required=false)]
                     public string RoleName { get; set; }

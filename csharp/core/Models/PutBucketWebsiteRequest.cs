@@ -19,12 +19,12 @@ namespace AlibabaCloud.OSS.Models
         public class PutBucketWebsiteRequestBody : TeaModel {
             [NameInMap("WebsiteConfiguration")]
             [Validation(Required=true)]
-            public PutBucketWebsiteRequestWebsiteConfiguration WebsiteConfiguration { get; set; }
-            public class PutBucketWebsiteRequestWebsiteConfiguration : TeaModel {
+            public PutBucketWebsiteRequestBodyWebsiteConfiguration WebsiteConfiguration { get; set; }
+            public class PutBucketWebsiteRequestBodyWebsiteConfiguration : TeaModel {
                 [NameInMap("IndexDocument")]
                 [Validation(Required=false)]
-                public PutBucketWebsiteRequestIndexDocument IndexDocument { get; set; }
-                public class PutBucketWebsiteRequestIndexDocument : TeaModel {
+                public PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument IndexDocument { get; set; }
+                public class PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument : TeaModel {
                     [NameInMap("Suffix")]
                     [Validation(Required=false)]
                     public string Suffix { get; set; }
@@ -32,8 +32,8 @@ namespace AlibabaCloud.OSS.Models
 
                 [NameInMap("ErrorDocument")]
                 [Validation(Required=false)]
-                public PutBucketWebsiteRequestErrorDocument ErrorDocument { get; set; }
-                public class PutBucketWebsiteRequestErrorDocument : TeaModel {
+                public PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument ErrorDocument { get; set; }
+                public class PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument : TeaModel {
                     [NameInMap("Key")]
                     [Validation(Required=false)]
                     public string Key { get; set; }
@@ -41,16 +41,16 @@ namespace AlibabaCloud.OSS.Models
 
                 [NameInMap("RoutingRules")]
                 [Validation(Required=false)]
-                public PutBucketWebsiteRequestRoutingRules RoutingRules { get; set; }
-                public class PutBucketWebsiteRequestRoutingRules : TeaModel {
+                public PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules RoutingRules { get; set; }
+                public class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules : TeaModel {
                     [NameInMap("RoutingRule")]
                     [Validation(Required=false)]
-                    public List<PutBucketWebsiteRequestCondition> RoutingRule { get; set; }
-                    public class PutBucketWebsiteRequestCondition : TeaModel {
+                    public List<PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesCondition> RoutingRule { get; set; }
+                    public class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesCondition : TeaModel {
                         [NameInMap("IncludeHeader")]
                         [Validation(Required=false)]
-                        public PutBucketWebsiteRequestIncludeHeader IncludeHeader { get; set; }
-                        public class PutBucketWebsiteRequestIncludeHeader : TeaModel {
+                        public PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesConditionIncludeHeader IncludeHeader { get; set; }
+                        public class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesConditionIncludeHeader : TeaModel {
                             [NameInMap("Key")]
                             [Validation(Required=false)]
                             public string Key { get; set; }

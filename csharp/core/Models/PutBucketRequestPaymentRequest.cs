@@ -19,8 +19,8 @@ namespace AlibabaCloud.OSS.Models
         public class PutBucketRequestPaymentRequestBody : TeaModel {
             [NameInMap("RequestPaymentConfiguration")]
             [Validation(Required=true)]
-            public PutBucketRequestPaymentRequestRequestPaymentConfiguration RequestPaymentConfiguration { get; set; }
-            public class PutBucketRequestPaymentRequestRequestPaymentConfiguration : TeaModel {
+            public PutBucketRequestPaymentRequestBodyRequestPaymentConfiguration RequestPaymentConfiguration { get; set; }
+            public class PutBucketRequestPaymentRequestBodyRequestPaymentConfiguration : TeaModel {
                 [NameInMap("Payer")]
                 [Validation(Required=false)]
                 public string Payer { get; set; }

@@ -19,12 +19,12 @@ namespace AlibabaCloud.OSS.Models
         public class GetBucketTagsResponseTagging : TeaModel {
             [NameInMap("TagSet")]
             [Validation(Required=true)]
-            public GetBucketTagsResponseTagSet TagSet { get; set; }
-            public class GetBucketTagsResponseTagSet : TeaModel {
+            public GetBucketTagsResponseTaggingTagSet TagSet { get; set; }
+            public class GetBucketTagsResponseTaggingTagSet : TeaModel {
                 [NameInMap("Tag")]
                 [Validation(Required=false)]
-                public List<GetBucketTagsResponseTag> Tag { get; set; }
-                public class GetBucketTagsResponseTag : TeaModel {
+                public List<GetBucketTagsResponseTaggingTagSetTag> Tag { get; set; }
+                public class GetBucketTagsResponseTaggingTagSetTag : TeaModel {
                     [NameInMap("Key")]
                     [Validation(Required=false)]
                     public string Key { get; set; }

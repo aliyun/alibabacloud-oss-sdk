@@ -19,12 +19,12 @@ namespace AlibabaCloud.OSS.Models
         public class PutBucketLoggingRequestBody : TeaModel {
             [NameInMap("BucketLoggingStatus")]
             [Validation(Required=true)]
-            public PutBucketLoggingRequestBucketLoggingStatus BucketLoggingStatus { get; set; }
-            public class PutBucketLoggingRequestBucketLoggingStatus : TeaModel {
+            public PutBucketLoggingRequestBodyBucketLoggingStatus BucketLoggingStatus { get; set; }
+            public class PutBucketLoggingRequestBodyBucketLoggingStatus : TeaModel {
                 [NameInMap("LoggingEnabled")]
                 [Validation(Required=false)]
-                public PutBucketLoggingRequestLoggingEnabled LoggingEnabled { get; set; }
-                public class PutBucketLoggingRequestLoggingEnabled : TeaModel {
+                public PutBucketLoggingRequestBodyBucketLoggingStatusLoggingEnabled LoggingEnabled { get; set; }
+                public class PutBucketLoggingRequestBodyBucketLoggingStatusLoggingEnabled : TeaModel {
                     [NameInMap("TargetBucket")]
                     [Validation(Required=false)]
                     public string TargetBucket { get; set; }

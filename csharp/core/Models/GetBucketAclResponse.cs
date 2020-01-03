@@ -19,8 +19,8 @@ namespace AlibabaCloud.OSS.Models
         public class GetBucketAclResponseAccessControlPolicy : TeaModel {
             [NameInMap("Owner")]
             [Validation(Required=true)]
-            public GetBucketAclResponseOwner Owner { get; set; }
-            public class GetBucketAclResponseOwner : TeaModel {
+            public GetBucketAclResponseAccessControlPolicyOwner Owner { get; set; }
+            public class GetBucketAclResponseAccessControlPolicyOwner : TeaModel {
                 [NameInMap("ID")]
                 [Validation(Required=false)]
                 public string ID { get; set; }
@@ -32,8 +32,8 @@ namespace AlibabaCloud.OSS.Models
             }
             [NameInMap("AccessControlList")]
             [Validation(Required=true)]
-            public GetBucketAclResponseAccessControlList AccessControlList { get; set; }
-            public class GetBucketAclResponseAccessControlList : TeaModel {
+            public GetBucketAclResponseAccessControlPolicyAccessControlList AccessControlList { get; set; }
+            public class GetBucketAclResponseAccessControlPolicyAccessControlList : TeaModel {
                 [NameInMap("Grant")]
                 [Validation(Required=false)]
                 public string Grant { get; set; }
