@@ -19,16 +19,16 @@ namespace AlibabaCloud.OSS.Models
         public class PutBucketLifecycleRequestBody : TeaModel {
             [NameInMap("LifecycleConfiguration")]
             [Validation(Required=true)]
-            public PutBucketLifecycleRequestLifecycleConfiguration LifecycleConfiguration { get; set; }
-            public class PutBucketLifecycleRequestLifecycleConfiguration : TeaModel {
+            public PutBucketLifecycleRequestBodyLifecycleConfiguration LifecycleConfiguration { get; set; }
+            public class PutBucketLifecycleRequestBodyLifecycleConfiguration : TeaModel {
                 [NameInMap("Rule")]
                 [Validation(Required=false)]
-                public List<PutBucketLifecycleRequestRule> Rule { get; set; }
-                public class PutBucketLifecycleRequestRule : TeaModel {
+                public List<PutBucketLifecycleRequestBodyLifecycleConfigurationRule> Rule { get; set; }
+                public class PutBucketLifecycleRequestBodyLifecycleConfigurationRule : TeaModel {
                     [NameInMap("Expiration")]
                     [Validation(Required=false)]
-                    public PutBucketLifecycleRequestExpiration Expiration { get; set; }
-                    public class PutBucketLifecycleRequestExpiration : TeaModel {
+                    public PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration Expiration { get; set; }
+                    public class PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration : TeaModel {
                         [NameInMap("Days")]
                         [Validation(Required=false)]
                         public int? Days { get; set; }
@@ -39,8 +39,8 @@ namespace AlibabaCloud.OSS.Models
 
                     [NameInMap("Transition")]
                     [Validation(Required=false)]
-                    public PutBucketLifecycleRequestTransition Transition { get; set; }
-                    public class PutBucketLifecycleRequestTransition : TeaModel {
+                    public PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition Transition { get; set; }
+                    public class PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition : TeaModel {
                         [NameInMap("Days")]
                         [Validation(Required=false)]
                         public int? Days { get; set; }
@@ -51,8 +51,8 @@ namespace AlibabaCloud.OSS.Models
 
                     [NameInMap("AbortMultipartUpload")]
                     [Validation(Required=false)]
-                    public PutBucketLifecycleRequestAbortMultipartUpload AbortMultipartUpload { get; set; }
-                    public class PutBucketLifecycleRequestAbortMultipartUpload : TeaModel {
+                    public PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUpload AbortMultipartUpload { get; set; }
+                    public class PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUpload : TeaModel {
                         [NameInMap("Days")]
                         [Validation(Required=false)]
                         public int? Days { get; set; }
@@ -63,8 +63,8 @@ namespace AlibabaCloud.OSS.Models
 
                     [NameInMap("Tag")]
                     [Validation(Required=false)]
-                    public PutBucketLifecycleRequestTag Tag { get; set; }
-                    public class PutBucketLifecycleRequestTag : TeaModel {
+                    public PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag Tag { get; set; }
+                    public class PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag : TeaModel {
                         [NameInMap("Key")]
                         [Validation(Required=false)]
                         public string Key { get; set; }

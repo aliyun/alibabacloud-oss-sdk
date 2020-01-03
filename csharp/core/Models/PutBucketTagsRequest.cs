@@ -19,16 +19,16 @@ namespace AlibabaCloud.OSS.Models
         public class PutBucketTagsRequestBody : TeaModel {
             [NameInMap("Tagging")]
             [Validation(Required=true)]
-            public PutBucketTagsRequestTagging Tagging { get; set; }
-            public class PutBucketTagsRequestTagging : TeaModel {
+            public PutBucketTagsRequestBodyTagging Tagging { get; set; }
+            public class PutBucketTagsRequestBodyTagging : TeaModel {
                 [NameInMap("TagSet")]
                 [Validation(Required=false)]
-                public PutBucketTagsRequestTagSet TagSet { get; set; }
-                public class PutBucketTagsRequestTagSet : TeaModel {
+                public PutBucketTagsRequestBodyTaggingTagSet TagSet { get; set; }
+                public class PutBucketTagsRequestBodyTaggingTagSet : TeaModel {
                     [NameInMap("Tag")]
                     [Validation(Required=false)]
-                    public List<PutBucketTagsRequestKey> Tag { get; set; }
-                    public class PutBucketTagsRequestKey : TeaModel {
+                    public List<PutBucketTagsRequestBodyTaggingTagSetKey> Tag { get; set; }
+                    public class PutBucketTagsRequestBodyTaggingTagSetKey : TeaModel {
                             public string Key { get; set; }
                             public string Value { get; set; }
                     }

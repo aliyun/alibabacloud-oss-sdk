@@ -43,15 +43,15 @@ namespace AlibabaCloud.OSS.Models
             public string CommonPrefixes { get; set; }
             [NameInMap("Contents")]
             [Validation(Required=false)]
-            public List<GetBucketResponseKey> Contents { get; set; }
-            public class GetBucketResponseKey : TeaModel {
+            public List<GetBucketResponseListBucketResultKey> Contents { get; set; }
+            public class GetBucketResponseListBucketResultKey : TeaModel {
                     public string Key { get; set; }
                     public string ETag { get; set; }
                     public string LastModified { get; set; }
                     public string Size { get; set; }
                     public string StorageClass { get; set; }
-                    public GetBucketResponseKeyOwner Owner { get; set; }
-                    public class GetBucketResponseKeyOwner : TeaModel {
+                    public GetBucketResponseListBucketResultKeyOwner Owner { get; set; }
+                    public class GetBucketResponseListBucketResultKeyOwner : TeaModel {
                         [NameInMap("ID")]
                         [Validation(Required=false)]
                         public string ID { get; set; }

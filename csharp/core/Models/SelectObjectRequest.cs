@@ -32,16 +32,16 @@ namespace AlibabaCloud.OSS.Models
         public class SelectObjectRequestBody : TeaModel {
             [NameInMap("SelectRequest")]
             [Validation(Required=true)]
-            public SelectObjectRequestSelectRequest SelectRequest { get; set; }
-            public class SelectObjectRequestSelectRequest : TeaModel {
+            public SelectObjectRequestBodySelectRequest SelectRequest { get; set; }
+            public class SelectObjectRequestBodySelectRequest : TeaModel {
                 [NameInMap("InputSerialization")]
                 [Validation(Required=false)]
-                public SelectObjectRequestInputSerialization InputSerialization { get; set; }
-                public class SelectObjectRequestInputSerialization : TeaModel {
+                public SelectObjectRequestBodySelectRequestInputSerialization InputSerialization { get; set; }
+                public class SelectObjectRequestBodySelectRequestInputSerialization : TeaModel {
                     [NameInMap("CSV")]
                     [Validation(Required=false)]
-                    public SelectObjectRequestCSV CSV { get; set; }
-                    public class SelectObjectRequestCSV : TeaModel {
+                    public SelectObjectRequestBodySelectRequestInputSerializationCSV CSV { get; set; }
+                    public class SelectObjectRequestBodySelectRequestInputSerializationCSV : TeaModel {
                         [NameInMap("FileHeaderInfo")]
                         [Validation(Required=false)]
                         public string FileHeaderInfo { get; set; }
@@ -74,12 +74,12 @@ namespace AlibabaCloud.OSS.Models
 
                 [NameInMap("OutputSerialization")]
                 [Validation(Required=false)]
-                public SelectObjectRequestOutputSerialization OutputSerialization { get; set; }
-                public class SelectObjectRequestOutputSerialization : TeaModel {
+                public SelectObjectRequestBodySelectRequestOutputSerialization OutputSerialization { get; set; }
+                public class SelectObjectRequestBodySelectRequestOutputSerialization : TeaModel {
                     [NameInMap("CSV")]
                     [Validation(Required=false)]
-                    public SelectObjectRequestCSV CSV { get; set; }
-                    public class SelectObjectRequestCSV : TeaModel {
+                    public SelectObjectRequestBodySelectRequestOutputSerializationCSV CSV { get; set; }
+                    public class SelectObjectRequestBodySelectRequestOutputSerializationCSV : TeaModel {
                         [NameInMap("RecordDelimiter")]
                         [Validation(Required=false)]
                         public string RecordDelimiter { get; set; }
@@ -105,8 +105,8 @@ namespace AlibabaCloud.OSS.Models
 
                 [NameInMap("Options")]
                 [Validation(Required=false)]
-                public SelectObjectRequestOptions Options { get; set; }
-                public class SelectObjectRequestOptions : TeaModel {
+                public SelectObjectRequestBodySelectRequestOptions Options { get; set; }
+                public class SelectObjectRequestBodySelectRequestOptions : TeaModel {
                     [NameInMap("SkipPartialDataRecord")]
                     [Validation(Required=false)]
                     public string SkipPartialDataRecord { get; set; }

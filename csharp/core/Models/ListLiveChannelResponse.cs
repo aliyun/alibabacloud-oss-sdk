@@ -34,8 +34,8 @@ namespace AlibabaCloud.OSS.Models
             public string NextMarker { get; set; }
             [NameInMap("LiveChannel")]
             [Validation(Required=true)]
-            public ListLiveChannelResponseLiveChannel LiveChannel { get; set; }
-            public class ListLiveChannelResponseLiveChannel : TeaModel {
+            public ListLiveChannelResponseListLiveChannelResultLiveChannel LiveChannel { get; set; }
+            public class ListLiveChannelResponseListLiveChannelResultLiveChannel : TeaModel {
                 [NameInMap("Name")]
                 [Validation(Required=false)]
                 public string Name { get; set; }
@@ -54,8 +54,8 @@ namespace AlibabaCloud.OSS.Models
 
                 [NameInMap("PublishUrls")]
                 [Validation(Required=true)]
-                public ListLiveChannelResponsePublishUrls PublishUrls { get; set; }
-                public class ListLiveChannelResponsePublishUrls : TeaModel {
+                public ListLiveChannelResponseListLiveChannelResultLiveChannelPublishUrls PublishUrls { get; set; }
+                public class ListLiveChannelResponseListLiveChannelResultLiveChannelPublishUrls : TeaModel {
                     [NameInMap("Url")]
                     [Validation(Required=false)]
                     public string Url { get; set; }
@@ -63,8 +63,8 @@ namespace AlibabaCloud.OSS.Models
 
                 [NameInMap("PlayUrls")]
                 [Validation(Required=true)]
-                public ListLiveChannelResponsePlayUrls PlayUrls { get; set; }
-                public class ListLiveChannelResponsePlayUrls : TeaModel {
+                public ListLiveChannelResponseListLiveChannelResultLiveChannelPlayUrls PlayUrls { get; set; }
+                public class ListLiveChannelResponseListLiveChannelResultLiveChannelPlayUrls : TeaModel {
                     [NameInMap("Url")]
                     [Validation(Required=false)]
                     public string Url { get; set; }

@@ -19,8 +19,8 @@ namespace AlibabaCloud.OSS.Models
         public class PutBucketRequestBody : TeaModel {
             [NameInMap("CreateBucketConfiguration")]
             [Validation(Required=true)]
-            public PutBucketRequestCreateBucketConfiguration CreateBucketConfiguration { get; set; }
-            public class PutBucketRequestCreateBucketConfiguration : TeaModel {
+            public PutBucketRequestBodyCreateBucketConfiguration CreateBucketConfiguration { get; set; }
+            public class PutBucketRequestBodyCreateBucketConfiguration : TeaModel {
                 [NameInMap("StorageClass")]
                 [Validation(Required=false)]
                 public string StorageClass { get; set; }

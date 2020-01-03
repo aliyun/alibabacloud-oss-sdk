@@ -34,8 +34,8 @@ namespace AlibabaCloud.OSS.Models
             public string NextMarker { get; set; }
             [NameInMap("Owner")]
             [Validation(Required=true)]
-            public GetServiceResponseOwner Owner { get; set; }
-            public class GetServiceResponseOwner : TeaModel {
+            public GetServiceResponseListAllMyBucketsResultOwner Owner { get; set; }
+            public class GetServiceResponseListAllMyBucketsResultOwner : TeaModel {
                 [NameInMap("ID")]
                 [Validation(Required=false)]
                 public string ID { get; set; }
@@ -47,12 +47,12 @@ namespace AlibabaCloud.OSS.Models
             }
             [NameInMap("Buckets")]
             [Validation(Required=true)]
-            public GetServiceResponseBuckets Buckets { get; set; }
-            public class GetServiceResponseBuckets : TeaModel {
+            public GetServiceResponseListAllMyBucketsResultBuckets Buckets { get; set; }
+            public class GetServiceResponseListAllMyBucketsResultBuckets : TeaModel {
                 [NameInMap("Bucket")]
                 [Validation(Required=false)]
-                public List<GetServiceResponseBucket> Bucket { get; set; }
-                public class GetServiceResponseBucket : TeaModel {
+                public List<GetServiceResponseListAllMyBucketsResultBucketsBucket> Bucket { get; set; }
+                public class GetServiceResponseListAllMyBucketsResultBucketsBucket : TeaModel {
                     [NameInMap("Name")]
                     [Validation(Required=false)]
                     public string Name { get; set; }

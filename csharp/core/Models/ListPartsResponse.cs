@@ -43,8 +43,8 @@ namespace AlibabaCloud.OSS.Models
             public string IsTruncated { get; set; }
             [NameInMap("Part")]
             [Validation(Required=false)]
-            public List<ListPartsResponsePartNumber> Part { get; set; }
-            public class ListPartsResponsePartNumber : TeaModel {
+            public List<ListPartsResponseListPartsResultPartNumber> Part { get; set; }
+            public class ListPartsResponseListPartsResultPartNumber : TeaModel {
                     public string PartNumber { get; set; }
                     public string LastModified { get; set; }
                     public string ETag { get; set; }

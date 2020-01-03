@@ -28,8 +28,8 @@ namespace AlibabaCloud.OSS.Models
             public string RemoteAddr { get; set; }
             [NameInMap("Video")]
             [Validation(Required=true)]
-            public GetLiveChannelStatResponseVideo Video { get; set; }
-            public class GetLiveChannelStatResponseVideo : TeaModel {
+            public GetLiveChannelStatResponseLiveChannelStatVideo Video { get; set; }
+            public class GetLiveChannelStatResponseLiveChannelStatVideo : TeaModel {
                 [NameInMap("Width")]
                 [Validation(Required=false)]
                 public string Width { get; set; }
@@ -53,8 +53,8 @@ namespace AlibabaCloud.OSS.Models
             }
             [NameInMap("Audio")]
             [Validation(Required=true)]
-            public GetLiveChannelStatResponseAudio Audio { get; set; }
-            public class GetLiveChannelStatResponseAudio : TeaModel {
+            public GetLiveChannelStatResponseLiveChannelStatAudio Audio { get; set; }
+            public class GetLiveChannelStatResponseLiveChannelStatAudio : TeaModel {
                 [NameInMap("Bandwidth")]
                 [Validation(Required=false)]
                 public string Bandwidth { get; set; }

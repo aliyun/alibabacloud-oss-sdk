@@ -35,12 +35,12 @@ namespace AlibabaCloud.OSS.Models
         public class CompleteMultipartUploadRequestBody : TeaModel {
             [NameInMap("CompleteMultipartUpload")]
             [Validation(Required=true)]
-            public CompleteMultipartUploadRequestCompleteMultipartUpload CompleteMultipartUpload { get; set; }
-            public class CompleteMultipartUploadRequestCompleteMultipartUpload : TeaModel {
+            public CompleteMultipartUploadRequestBodyCompleteMultipartUpload CompleteMultipartUpload { get; set; }
+            public class CompleteMultipartUploadRequestBodyCompleteMultipartUpload : TeaModel {
                 [NameInMap("Part")]
                 [Validation(Required=false)]
-                public List<CompleteMultipartUploadRequestPart> Part { get; set; }
-                public class CompleteMultipartUploadRequestPart : TeaModel {
+                public List<CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart> Part { get; set; }
+                public class CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart : TeaModel {
                     [NameInMap("PartNumber")]
                     [Validation(Required=false)]
                     public string PartNumber { get; set; }

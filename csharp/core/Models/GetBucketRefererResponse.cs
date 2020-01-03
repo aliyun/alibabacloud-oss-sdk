@@ -22,8 +22,8 @@ namespace AlibabaCloud.OSS.Models
             public bool? AllowEmptyReferer { get; set; }
             [NameInMap("RefererList")]
             [Validation(Required=true)]
-            public GetBucketRefererResponseRefererList RefererList { get; set; }
-            public class GetBucketRefererResponseRefererList : TeaModel {
+            public GetBucketRefererResponseRefererConfigurationRefererList RefererList { get; set; }
+            public class GetBucketRefererResponseRefererConfigurationRefererList : TeaModel {
                 [NameInMap("Referer")]
                 [Validation(Required=false)]
                 public List<string> Referer { get; set; }

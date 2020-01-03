@@ -19,8 +19,8 @@ namespace AlibabaCloud.OSS.Models
         public class GetBucketLoggingResponseBucketLoggingStatus : TeaModel {
             [NameInMap("LoggingEnabled")]
             [Validation(Required=true)]
-            public GetBucketLoggingResponseLoggingEnabled LoggingEnabled { get; set; }
-            public class GetBucketLoggingResponseLoggingEnabled : TeaModel {
+            public GetBucketLoggingResponseBucketLoggingStatusLoggingEnabled LoggingEnabled { get; set; }
+            public class GetBucketLoggingResponseBucketLoggingStatusLoggingEnabled : TeaModel {
                 [NameInMap("TargetBucket")]
                 [Validation(Required=false)]
                 public string TargetBucket { get; set; }

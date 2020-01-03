@@ -25,8 +25,8 @@ namespace AlibabaCloud.OSS.Models
             public string Status { get; set; }
             [NameInMap("Target")]
             [Validation(Required=true)]
-            public GetLiveChannelInfoResponseTarget Target { get; set; }
-            public class GetLiveChannelInfoResponseTarget : TeaModel {
+            public GetLiveChannelInfoResponseLiveChannelConfigurationTarget Target { get; set; }
+            public class GetLiveChannelInfoResponseLiveChannelConfigurationTarget : TeaModel {
                 [NameInMap("Type")]
                 [Validation(Required=false)]
                 public string Type { get; set; }

@@ -19,8 +19,8 @@ namespace AlibabaCloud.OSS.Models
         public class GetBucketEncryptionResponseServerSideEncryptionRule : TeaModel {
             [NameInMap("ApplyServerSideEncryptionByDefault")]
             [Validation(Required=true)]
-            public GetBucketEncryptionResponseApplyServerSideEncryptionByDefault ApplyServerSideEncryptionByDefault { get; set; }
-            public class GetBucketEncryptionResponseApplyServerSideEncryptionByDefault : TeaModel {
+            public GetBucketEncryptionResponseServerSideEncryptionRuleApplyServerSideEncryptionByDefault ApplyServerSideEncryptionByDefault { get; set; }
+            public class GetBucketEncryptionResponseServerSideEncryptionRuleApplyServerSideEncryptionByDefault : TeaModel {
                 [NameInMap("SSEAlgorithm")]
                 [Validation(Required=false)]
                 public string SSEAlgorithm { get; set; }

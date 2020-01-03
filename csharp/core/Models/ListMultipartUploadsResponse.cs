@@ -46,8 +46,8 @@ namespace AlibabaCloud.OSS.Models
             public string IsTruncated { get; set; }
             [NameInMap("Upload")]
             [Validation(Required=false)]
-            public List<ListMultipartUploadsResponseKey> Upload { get; set; }
-            public class ListMultipartUploadsResponseKey : TeaModel {
+            public List<ListMultipartUploadsResponseListMultipartUploadsResultKey> Upload { get; set; }
+            public class ListMultipartUploadsResponseListMultipartUploadsResultKey : TeaModel {
                     public string Key { get; set; }
                     public string UploadId { get; set; }
                     public string Initiated { get; set; }
