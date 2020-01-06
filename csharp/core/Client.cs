@@ -90,7 +90,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<PutBucketLifecycleResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<PutBucketLifecycleResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -179,7 +179,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<PutBucketLifecycleResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<PutBucketLifecycleResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -472,7 +472,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<PutBucketRefererResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<PutBucketRefererResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -561,7 +561,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<PutBucketRefererResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<PutBucketRefererResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -650,7 +650,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<PutBucketWebsiteResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<PutBucketWebsiteResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -739,7 +739,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<PutBucketWebsiteResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<PutBucketWebsiteResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -1018,7 +1018,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<PutBucketLoggingResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<PutBucketLoggingResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -1107,7 +1107,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<PutBucketLoggingResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<PutBucketLoggingResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -1196,7 +1196,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<PutBucketRequestPaymentResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<PutBucketRequestPaymentResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -1285,7 +1285,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<PutBucketRequestPaymentResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<PutBucketRequestPaymentResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -1374,7 +1374,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<PutBucketEncryptionResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<PutBucketEncryptionResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -1463,7 +1463,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<PutBucketEncryptionResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<PutBucketEncryptionResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -1740,7 +1740,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<PutBucketTagsResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<PutBucketTagsResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -1829,7 +1829,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<PutBucketTagsResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<PutBucketTagsResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -1918,7 +1918,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<PutObjectTaggingResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<PutObjectTaggingResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -2007,7 +2007,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<PutObjectTaggingResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<PutObjectTaggingResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -2097,7 +2097,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<SelectObjectResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<SelectObjectResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -2187,7 +2187,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<SelectObjectResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<SelectObjectResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -2276,7 +2276,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<PutBucketCORSResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<PutBucketCORSResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -2365,7 +2365,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<PutBucketCORSResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<PutBucketCORSResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -2457,7 +2457,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<PutBucketResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<PutBucketResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -2549,7 +2549,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<PutBucketResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<PutBucketResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -3560,7 +3560,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<DeleteBucketEncryptionResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<DeleteBucketEncryptionResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -3647,7 +3647,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<DeleteBucketEncryptionResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<DeleteBucketEncryptionResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -3735,7 +3735,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<DeleteBucketTagsResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<DeleteBucketTagsResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -3823,7 +3823,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<DeleteBucketTagsResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<DeleteBucketTagsResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -4094,7 +4094,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<DeleteLiveChannelResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<DeleteLiveChannelResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -4181,7 +4181,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<DeleteLiveChannelResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<DeleteLiveChannelResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -4638,7 +4638,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<GetObjectMetaResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<GetObjectMetaResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -4725,7 +4725,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<GetObjectMetaResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<GetObjectMetaResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -5924,7 +5924,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<DeleteObjectResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<DeleteObjectResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -6011,7 +6011,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<DeleteObjectResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<DeleteObjectResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -6099,7 +6099,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<AbortMultipartUploadResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<AbortMultipartUploadResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -6187,7 +6187,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<AbortMultipartUploadResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<AbortMultipartUploadResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -6289,7 +6289,7 @@ namespace AlibabaCloud.OSS
                     if (_isEnableCrc && !_equal(ctx["crc"], response_.Headers["x-oss-hash-crc64ecma"])) {
                         throw new TeaException(new Dictionary<string, object>(){
                             {"code", "CrcNotMatched"},
-                            {"data", new Dictionary<string, object>(){
+                            {"data", new Dictionary<string, string>(){
                                 {"clientCrc", ctx["crc"]},
                                 {"serverCrc", response_.Headers["x-oss-hash-crc64ecma"]},
                             }},
@@ -6298,13 +6298,13 @@ namespace AlibabaCloud.OSS
                     if (_isEnableMD5 && !_equal(ctx["md5"], response_.Headers["content-md5"])) {
                         throw new TeaException(new Dictionary<string, object>(){
                             {"code", "MD5NotMatched"},
-                            {"data", new Dictionary<string, object>(){
+                            {"data", new Dictionary<string, string>(){
                                 {"clientMD5", ctx["md5"]},
                                 {"serverMD5", response_.Headers["content-md5"]},
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<AppendObjectResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<AppendObjectResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -6406,7 +6406,7 @@ namespace AlibabaCloud.OSS
                     if (_isEnableCrc && !_equal(ctx["crc"], response_.Headers["x-oss-hash-crc64ecma"])) {
                         throw new TeaException(new Dictionary<string, object>(){
                             {"code", "CrcNotMatched"},
-                            {"data", new Dictionary<string, object>(){
+                            {"data", new Dictionary<string, string>(){
                                 {"clientCrc", ctx["crc"]},
                                 {"serverCrc", response_.Headers["x-oss-hash-crc64ecma"]},
                             }},
@@ -6415,13 +6415,13 @@ namespace AlibabaCloud.OSS
                     if (_isEnableMD5 && !_equal(ctx["md5"], response_.Headers["content-md5"])) {
                         throw new TeaException(new Dictionary<string, object>(){
                             {"code", "MD5NotMatched"},
-                            {"data", new Dictionary<string, object>(){
+                            {"data", new Dictionary<string, string>(){
                                 {"clientMD5", ctx["md5"]},
                                 {"serverMD5", response_.Headers["content-md5"]},
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<AppendObjectResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<AppendObjectResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -6701,7 +6701,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<GetVodPlaylistResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<GetVodPlaylistResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -6789,7 +6789,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<GetVodPlaylistResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<GetVodPlaylistResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -6876,7 +6876,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<DeleteBucketCORSResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<DeleteBucketCORSResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -6963,7 +6963,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<DeleteBucketCORSResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<DeleteBucketCORSResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -7242,7 +7242,7 @@ namespace AlibabaCloud.OSS
                     if (_isEnableCrc && !_equal(ctx["crc"], response_.Headers["x-oss-hash-crc64ecma"])) {
                         throw new TeaException(new Dictionary<string, object>(){
                             {"code", "CrcNotMatched"},
-                            {"data", new Dictionary<string, object>(){
+                            {"data", new Dictionary<string, string>(){
                                 {"clientCrc", ctx["crc"]},
                                 {"serverCrc", response_.Headers["x-oss-hash-crc64ecma"]},
                             }},
@@ -7251,13 +7251,13 @@ namespace AlibabaCloud.OSS
                     if (_isEnableMD5 && !_equal(ctx["md5"], response_.Headers["content-md5"])) {
                         throw new TeaException(new Dictionary<string, object>(){
                             {"code", "MD5NotMatched"},
-                            {"data", new Dictionary<string, object>(){
+                            {"data", new Dictionary<string, string>(){
                                 {"clientMD5", ctx["md5"]},
                                 {"serverMD5", response_.Headers["content-md5"]},
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<UploadPartResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<UploadPartResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -7350,7 +7350,7 @@ namespace AlibabaCloud.OSS
                     if (_isEnableCrc && !_equal(ctx["crc"], response_.Headers["x-oss-hash-crc64ecma"])) {
                         throw new TeaException(new Dictionary<string, object>(){
                             {"code", "CrcNotMatched"},
-                            {"data", new Dictionary<string, object>(){
+                            {"data", new Dictionary<string, string>(){
                                 {"clientCrc", ctx["crc"]},
                                 {"serverCrc", response_.Headers["x-oss-hash-crc64ecma"]},
                             }},
@@ -7359,13 +7359,13 @@ namespace AlibabaCloud.OSS
                     if (_isEnableMD5 && !_equal(ctx["md5"], response_.Headers["content-md5"])) {
                         throw new TeaException(new Dictionary<string, object>(){
                             {"code", "MD5NotMatched"},
-                            {"data", new Dictionary<string, object>(){
+                            {"data", new Dictionary<string, string>(){
                                 {"clientMD5", ctx["md5"]},
                                 {"serverMD5", response_.Headers["content-md5"]},
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<UploadPartResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<UploadPartResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -8012,7 +8012,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<DeleteBucketLifecycleResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<DeleteBucketLifecycleResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -8099,7 +8099,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<DeleteBucketLifecycleResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<DeleteBucketLifecycleResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -8186,7 +8186,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<DeleteBucketLoggingResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<DeleteBucketLoggingResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -8273,7 +8273,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<DeleteBucketLoggingResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<DeleteBucketLoggingResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -8360,7 +8360,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<DeleteBucketWebsiteResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<DeleteBucketWebsiteResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -8447,7 +8447,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<DeleteBucketWebsiteResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<DeleteBucketWebsiteResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -8534,7 +8534,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<GetSymlinkResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<GetSymlinkResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -8621,7 +8621,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<GetSymlinkResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<GetSymlinkResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -8895,7 +8895,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<PutSymlinkResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<PutSymlinkResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -8985,7 +8985,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<PutSymlinkResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<PutSymlinkResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -9256,7 +9256,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<CallbackResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<CallbackResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -9343,7 +9343,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<CallbackResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<CallbackResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -9617,7 +9617,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<PutObjectAclResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<PutObjectAclResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -9707,7 +9707,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<PutObjectAclResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<PutObjectAclResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -9979,7 +9979,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<PutLiveChannelStatusResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<PutLiveChannelStatusResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -10067,7 +10067,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<PutLiveChannelStatusResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<PutLiveChannelStatusResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -10359,7 +10359,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<OptionObjectResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<OptionObjectResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -10449,7 +10449,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<OptionObjectResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<OptionObjectResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -10537,7 +10537,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<PostVodPlaylistResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<PostVodPlaylistResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -10625,7 +10625,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<PostVodPlaylistResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<PostVodPlaylistResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -10712,7 +10712,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<PostObjectResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<PostObjectResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -10799,7 +10799,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<PostObjectResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<PostObjectResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -11072,7 +11072,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<DeleteObjectTaggingResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<DeleteObjectTaggingResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -11159,7 +11159,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<DeleteObjectTaggingResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<DeleteObjectTaggingResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -11246,7 +11246,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<RestoreObjectResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<RestoreObjectResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -11333,7 +11333,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<RestoreObjectResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<RestoreObjectResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -11607,7 +11607,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<PutBucketAclResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<PutBucketAclResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -11697,7 +11697,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<PutBucketAclResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<PutBucketAclResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -11784,7 +11784,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<DeleteBucketResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<DeleteBucketResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -11871,7 +11871,7 @@ namespace AlibabaCloud.OSS
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<DeleteBucketResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<DeleteBucketResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -11972,7 +11972,7 @@ namespace AlibabaCloud.OSS
                     if (_isEnableCrc && !_equal(ctx["crc"], response_.Headers["x-oss-hash-crc64ecma"])) {
                         throw new TeaException(new Dictionary<string, object>(){
                             {"code", "CrcNotMatched"},
-                            {"data", new Dictionary<string, object>(){
+                            {"data", new Dictionary<string, string>(){
                                 {"clientCrc", ctx["crc"]},
                                 {"serverCrc", response_.Headers["x-oss-hash-crc64ecma"]},
                             }},
@@ -11981,13 +11981,13 @@ namespace AlibabaCloud.OSS
                     if (_isEnableMD5 && !_equal(ctx["md5"], response_.Headers["content-md5"])) {
                         throw new TeaException(new Dictionary<string, object>(){
                             {"code", "MD5NotMatched"},
-                            {"data", new Dictionary<string, object>(){
+                            {"data", new Dictionary<string, string>(){
                                 {"clientMD5", ctx["md5"]},
                                 {"serverMD5", response_.Headers["content-md5"]},
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<PutObjectResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<PutObjectResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
@@ -12088,7 +12088,7 @@ namespace AlibabaCloud.OSS
                     if (_isEnableCrc && !_equal(ctx["crc"], response_.Headers["x-oss-hash-crc64ecma"])) {
                         throw new TeaException(new Dictionary<string, object>(){
                             {"code", "CrcNotMatched"},
-                            {"data", new Dictionary<string, object>(){
+                            {"data", new Dictionary<string, string>(){
                                 {"clientCrc", ctx["crc"]},
                                 {"serverCrc", response_.Headers["x-oss-hash-crc64ecma"]},
                             }},
@@ -12097,13 +12097,13 @@ namespace AlibabaCloud.OSS
                     if (_isEnableMD5 && !_equal(ctx["md5"], response_.Headers["content-md5"])) {
                         throw new TeaException(new Dictionary<string, object>(){
                             {"code", "MD5NotMatched"},
-                            {"data", new Dictionary<string, object>(){
+                            {"data", new Dictionary<string, string>(){
                                 {"clientMD5", ctx["md5"]},
                                 {"serverMD5", response_.Headers["content-md5"]},
                             }},
                         });
                     }                    
-                    return TeaModel.ToObject<PutObjectResponse>(TeaConverter.merge<object>(
+                    return TeaModel.ToObject<PutObjectResponse>(TeaConverter.merge<string>(
                         response_.Headers
                     ));
                 } catch (Exception e) {
