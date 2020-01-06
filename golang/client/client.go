@@ -8389,7 +8389,7 @@ func (client *Client) CompleteMultipartUpload(request *CompleteMultipartUploadRe
 			reqBody := client.ToXML(tea.ToMap(request.Body))
 			request_.Protocol = client.Protocol
 			request_.Method = "POST"
-			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ObjectName))
+			request_.Pathname = "/" + tea.StringValue(request.ObjectName)
 			request_.Headers = map[string]string{
 				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
@@ -8818,7 +8818,7 @@ func (client *Client) PutLiveChannel(request *PutLiveChannelRequest, runtime *Ru
 			reqBody := client.ToXML(tea.ToMap(request.Body))
 			request_.Protocol = client.Protocol
 			request_.Method = "PUT"
-			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ChannelName)) + "?live"
+			request_.Pathname = "/" + tea.StringValue(request.ChannelName) + "?live"
 			request_.Headers = map[string]string{
 				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
@@ -9036,7 +9036,7 @@ func (client *Client) PutObjectTagging(request *PutObjectTaggingRequest, runtime
 			reqBody := client.ToXML(tea.ToMap(request.Body))
 			request_.Protocol = client.Protocol
 			request_.Method = "PUT"
-			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ObjectName)) + "?tagging"
+			request_.Pathname = "/" + tea.StringValue(request.ObjectName) + "?tagging"
 			request_.Headers = map[string]string{
 				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
@@ -9141,7 +9141,7 @@ func (client *Client) SelectObject(request *SelectObjectRequest, runtime *Runtim
 			reqBody := client.ToXML(tea.ToMap(request.Body))
 			request_.Protocol = client.Protocol
 			request_.Method = "POST"
-			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ObjectName))
+			request_.Pathname = "/" + tea.StringValue(request.ObjectName)
 			request_.Headers = map[string]string{
 				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
@@ -10331,7 +10331,7 @@ func (client *Client) DeleteLiveChannel(request *DeleteLiveChannelRequest, runti
 
 			request_.Protocol = client.Protocol
 			request_.Method = "DELETE"
-			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ChannelName)) + "?live"
+			request_.Pathname = "/" + tea.StringValue(request.ChannelName) + "?live"
 			request_.Headers = map[string]string{
 				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
@@ -10657,7 +10657,7 @@ func (client *Client) GetObjectMeta(request *GetObjectMetaRequest, runtime *Runt
 
 			request_.Protocol = client.Protocol
 			request_.Method = "HEAD"
-			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ObjectName)) + "?objectMeta"
+			request_.Pathname = "/" + tea.StringValue(request.ObjectName) + "?objectMeta"
 			request_.Headers = map[string]string{
 				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
@@ -10871,7 +10871,7 @@ func (client *Client) ListParts(request *ListPartsRequest, runtime *RuntimeObjec
 
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
-			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ObjectName))
+			request_.Pathname = "/" + tea.StringValue(request.ObjectName)
 			request_.Headers = map[string]string{
 				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
@@ -10983,7 +10983,7 @@ func (client *Client) GetLiveChannelHistory(request *GetLiveChannelHistoryReques
 
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
-			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ChannelName)) + "?live"
+			request_.Pathname = "/" + tea.StringValue(request.ChannelName) + "?live"
 			request_.Headers = map[string]string{
 				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
@@ -11207,7 +11207,7 @@ func (client *Client) GetLiveChannelInfo(request *GetLiveChannelInfoRequest, run
 
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
-			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ChannelName)) + "?live"
+			request_.Pathname = "/" + tea.StringValue(request.ChannelName) + "?live"
 			request_.Headers = map[string]string{
 				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
@@ -11318,7 +11318,7 @@ func (client *Client) GetLiveChannelStat(request *GetLiveChannelStatRequest, run
 
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
-			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ChannelName)) + "?live"
+			request_.Pathname = "/" + tea.StringValue(request.ChannelName) + "?live"
 			request_.Headers = map[string]string{
 				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
@@ -11430,7 +11430,7 @@ func (client *Client) DeleteObject(request *DeleteObjectRequest, runtime *Runtim
 
 			request_.Protocol = client.Protocol
 			request_.Method = "DELETE"
-			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ObjectName))
+			request_.Pathname = "/" + tea.StringValue(request.ObjectName)
 			request_.Headers = map[string]string{
 				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
@@ -11533,7 +11533,7 @@ func (client *Client) AbortMultipartUpload(request *AbortMultipartUploadRequest,
 
 			request_.Protocol = client.Protocol
 			request_.Method = "DELETE"
-			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ObjectName))
+			request_.Pathname = "/" + tea.StringValue(request.ObjectName)
 			request_.Headers = map[string]string{
 				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
@@ -11638,7 +11638,7 @@ func (client *Client) AppendObject(request *AppendObjectRequest, runtime *Runtim
 
 			request_.Protocol = client.Protocol
 			request_.Method = "POST"
-			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ObjectName)) + "?append"
+			request_.Pathname = "/" + tea.StringValue(request.ObjectName) + "?append"
 			request_.Headers = tea.Merge(map[string]string{
 				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
@@ -11772,7 +11772,7 @@ func (client *Client) UploadPartCopy(request *UploadPartCopyRequest, runtime *Ru
 
 			request_.Protocol = client.Protocol
 			request_.Method = "PUT"
-			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ObjectName))
+			request_.Pathname = "/" + tea.StringValue(request.ObjectName)
 			request_.Headers = tea.Merge(map[string]string{
 				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
@@ -11884,7 +11884,7 @@ func (client *Client) GetVodPlaylist(request *GetVodPlaylistRequest, runtime *Ru
 
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
-			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ChannelName)) + "?vod"
+			request_.Pathname = "/" + tea.StringValue(request.ChannelName) + "?vod"
 			request_.Headers = map[string]string{
 				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
@@ -12091,7 +12091,7 @@ func (client *Client) GetObject(request *GetObjectRequest, runtime *RuntimeObjec
 
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
-			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ObjectName))
+			request_.Pathname = "/" + tea.StringValue(request.ObjectName)
 			request_.Headers = tea.Merge(map[string]string{
 				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
@@ -12196,7 +12196,7 @@ func (client *Client) UploadPart(request *UploadPartRequest, runtime *RuntimeObj
 
 			request_.Protocol = client.Protocol
 			request_.Method = "PUT"
-			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ObjectName))
+			request_.Pathname = "/" + tea.StringValue(request.ObjectName)
 			request_.Headers = map[string]string{
 				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
@@ -12434,7 +12434,7 @@ func (client *Client) CopyObject(request *CopyObjectRequest, runtime *RuntimeObj
 
 			request_.Protocol = client.Protocol
 			request_.Method = "PUT"
-			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.DestObjectName))
+			request_.Pathname = "/" + tea.StringValue(request.DestObjectName)
 			request_.Headers = tea.Merge(map[string]string{
 				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
@@ -12546,7 +12546,7 @@ func (client *Client) GetObjectTagging(request *GetObjectTaggingRequest, runtime
 
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
-			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ObjectName)) + "?tagging"
+			request_.Pathname = "/" + tea.StringValue(request.ObjectName) + "?tagging"
 			request_.Headers = map[string]string{
 				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
@@ -12966,7 +12966,7 @@ func (client *Client) GetSymlink(request *GetSymlinkRequest, runtime *RuntimeObj
 
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
-			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ObjectName)) + "?symlink"
+			request_.Pathname = "/" + tea.StringValue(request.ObjectName) + "?symlink"
 			request_.Headers = map[string]string{
 				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
@@ -13180,7 +13180,7 @@ func (client *Client) PutSymlink(request *PutSymlinkRequest, runtime *RuntimeObj
 
 			request_.Protocol = client.Protocol
 			request_.Method = "PUT"
-			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ObjectName)) + "?symlink"
+			request_.Pathname = "/" + tea.StringValue(request.ObjectName) + "?symlink"
 			request_.Headers = tea.Merge(map[string]string{
 				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
@@ -13608,7 +13608,7 @@ func (client *Client) PutObjectAcl(request *PutObjectAclRequest, runtime *Runtim
 
 			request_.Protocol = client.Protocol
 			request_.Method = "PUT"
-			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ObjectName)) + "?acl"
+			request_.Pathname = "/" + tea.StringValue(request.ObjectName) + "?acl"
 			request_.Headers = tea.Merge(map[string]string{
 				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
@@ -13822,7 +13822,7 @@ func (client *Client) PutLiveChannelStatus(request *PutLiveChannelStatusRequest,
 
 			request_.Protocol = client.Protocol
 			request_.Method = "PUT"
-			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ChannelName)) + "?live"
+			request_.Pathname = "/" + tea.StringValue(request.ChannelName) + "?live"
 			request_.Headers = map[string]string{
 				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
@@ -13926,7 +13926,7 @@ func (client *Client) InitiateMultipartUpload(request *InitiateMultipartUploadRe
 
 			request_.Protocol = client.Protocol
 			request_.Method = "POST"
-			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ObjectName)) + "?uploads"
+			request_.Pathname = "/" + tea.StringValue(request.ObjectName) + "?uploads"
 			request_.Headers = tea.Merge(map[string]string{
 				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
@@ -14044,7 +14044,7 @@ func (client *Client) OptionObject(request *OptionObjectRequest, runtime *Runtim
 
 			request_.Protocol = client.Protocol
 			request_.Method = "OPTIONS"
-			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ObjectName))
+			request_.Pathname = "/" + tea.StringValue(request.ObjectName)
 			request_.Headers = tea.Merge(map[string]string{
 				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
@@ -14147,7 +14147,7 @@ func (client *Client) PostVodPlaylist(request *PostVodPlaylistRequest, runtime *
 
 			request_.Protocol = client.Protocol
 			request_.Method = "POST"
-			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ChannelName)) + "/" + tea.ToString(tea.StringValue(request.PlaylistName)) + "?vod"
+			request_.Pathname = "/" + tea.StringValue(request.ChannelName) + "/" + tea.StringValue(request.PlaylistName) + "?vod"
 			request_.Headers = map[string]string{
 				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
@@ -14354,7 +14354,7 @@ func (client *Client) HeadObject(request *HeadObjectRequest, runtime *RuntimeObj
 
 			request_.Protocol = client.Protocol
 			request_.Method = "HEAD"
-			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ObjectName))
+			request_.Pathname = "/" + tea.StringValue(request.ObjectName)
 			request_.Headers = tea.Merge(map[string]string{
 				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
@@ -14459,7 +14459,7 @@ func (client *Client) DeleteObjectTagging(request *DeleteObjectTaggingRequest, r
 
 			request_.Protocol = client.Protocol
 			request_.Method = "DELETE"
-			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ObjectName)) + "?tagging"
+			request_.Pathname = "/" + tea.StringValue(request.ObjectName) + "?tagging"
 			request_.Headers = map[string]string{
 				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
@@ -14562,7 +14562,7 @@ func (client *Client) RestoreObject(request *RestoreObjectRequest, runtime *Runt
 
 			request_.Protocol = client.Protocol
 			request_.Method = "POST"
-			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ObjectName)) + "?restore"
+			request_.Pathname = "/" + tea.StringValue(request.ObjectName) + "?restore"
 			request_.Headers = map[string]string{
 				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
@@ -14665,7 +14665,7 @@ func (client *Client) GetObjectAcl(request *GetObjectAclRequest, runtime *Runtim
 
 			request_.Protocol = client.Protocol
 			request_.Method = "GET"
-			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ObjectName)) + "?acl"
+			request_.Pathname = "/" + tea.StringValue(request.ObjectName) + "?acl"
 			request_.Headers = map[string]string{
 				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
@@ -14983,7 +14983,7 @@ func (client *Client) PutObject(request *PutObjectRequest, runtime *RuntimeObjec
 
 			request_.Protocol = client.Protocol
 			request_.Method = "PUT"
-			request_.Pathname = "/" + tea.ToString(tea.StringValue(request.ObjectName))
+			request_.Pathname = "/" + tea.StringValue(request.ObjectName)
 			request_.Headers = tea.Merge(map[string]string{
 				"host":       client.GetHost(tea.StringValue(request.BucketName)),
 				"date":       client.GetDate(),
