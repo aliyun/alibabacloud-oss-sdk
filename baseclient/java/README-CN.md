@@ -3,6 +3,7 @@
 ![](https://aliyunsdk-pages.alicdn.com/icons/AlibabaCloud.svg)
 
 ## Alibaba Cloud OSS BaseClient for Java
+[![Latest Stable Version](https://img.shields.io/maven-central/v/com.aliyun/oss-baseclient.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22com.aliyun%22%20AND%20a:%22oss-baseclient%22)
 
 
 ## 安装
@@ -11,7 +12,7 @@
 <dependency>
    <groupId>com.aliyun</groupId>
    <artifactId>oss-baseclient</artifactId>
-   <version>1.0-SNAPSHOT</version>
+   <version>使用maven标签所示版本</version>
 </dependency>
 ```
 
