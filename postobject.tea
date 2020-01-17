@@ -1,0 +1,137 @@
+import Common;
+module OSS {
+
+  type @endpoint = string
+  type @regionId = string
+  type @protocol = string
+  type @userAgent = string
+  type @endpointType = string
+  type @readTimeout = number
+  type @connectTimeout = number
+  type @httpProxy = string
+  type @httpsProxy = string
+  type @noProxy = string
+  type @maxIdleConns = number
+  type @hostModel = string
+  type @addtionalHeaders = [ string ]
+
+  prop version = '2019-05-17';
+
+  model Config {
+    accessKeyId: string,
+    accessKeySecret: string,
+    type: string,
+    securityToken: string,
+    endpoint: string,
+    protocol: string,
+    regionId: string,
+    hostModel: string,
+    userAgent: string,
+    readTimeout: number,
+    connectTimeout: number,
+    localAddr: string,
+    httpProxy: string,
+    httpsProxy: string,
+    noProxy: string,
+    socks5Proxy: string,
+    socks5NetWork: string,
+    maxIdleConns: number,
+  }
+
+  init(config: Config);
+
+  model PostObjectRequest = {
+    bucketName: string(description='BucketName', name='BucketName'),
+    header: {
+      accessKeyId: string(description='OSSAccessKeyId', name='OSSAccessKeyId'),
+      policy: string(description='policy', name='policy'),
+      signature: string(description='Signature', name='Signature'),
+      successActionStatus?: string(description='success_action_status', name='success_action_status'),
+      file: {
+        fileName: string(description='filename', name='filename'),
+        content: string(description='content', name='content'),
+        contentType: string(description='content-type', name='content-type'),
+      }(description='file', name='file'),
+      key: string(description='key', name='key'),
+    }(description='header', name='header')
+  }
+
+  model PostObjectResponse = {
+    postResponse: {
+      bucket: string(description='Bucket', name='Bucket'),
+      eTag: string(description='ETag', name='ETag'),
+      location: string(description='Location', name='Location'),
+    }(description='PostResponse', name='PostResponse'),
+  }
+
+  function getHost(bucketName: string): string {
+    if (Common.empty(@regionId)) {
+      @regionId = `cn-hangzhou`;
+    }
+    if (Common.empty(@endpoint)) {
+      @endpoint = `oss-${@regionId}.aliyuncs.com`;
+    }
+    if (Common.empty(bucketName)) {
+      return @endpoint;
+    }
+    var host : string = null;
+    if (Common.equal(@hostModel, 'ip')) {
+      host = `${@endpoint}/${bucketName}`;
+    } else if (Common.equal(@hostModel, 'cname')) {
+      host = @endpoint;
+    } else {
+      host = `${bucketName}.${@endpoint}`;
+    }
+    return host;
+  }
+
+  api postObject(request: PostObjectRequest, runtime: Common.RuntimeObject): PostObjectResponse {
+    var boundary = Common.getBoundary();
+    protocol = @protocol;
+    method = 'POST';
+    pathname = `/`;
+    headers = {
+      host = getHost(request.bucketName),
+      date = Common.getDate(),
+    };
+    headers.content-type = `multipart/form-data; boundary=${boundary}`;
+    body = Common.toForm(request.header, boundary);
+  } returns {
+    var respMap : object = null;
+    var bodyStr = Common.readAsString(__response.body);
+    if (Common.isFail(__response)) {
+      respMap = Common.getErrMessage(bodyStr);
+      throw {
+        code = respMap.Code,
+        message = respMap.Message,
+        data = {
+          httpCode = __response.statusCode,
+          requestId = respMap.RequestId,
+          hostId = respMap.HostId,
+        }
+      };
+    }
+
+    respMap = Common.parseXml(bodyStr, PostObjectResponse);
+    return {
+      ...respMap,
+    };
+  } runtime {
+    timeouted = 'retry',
+    readTimeout = Common.defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = Common.defaultNumber(runtime.connectTimeout, @connectTimeout),
+    httpProxy = Common.default(runtime.httpProxy, @httpProxy),
+    httpsProxy = Common.default(runtime.httpsProxy, @httpsProxy),
+    noProxy = Common.default(runtime.noProxy, @noProxy),
+    maxIdleConns = Common.defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    retry = {
+      retryable = runtime.autoretry,
+      max-attempts = Common.defaultNumber(runtime.maxAttempts, 3)
+    },
+    backoff = {
+      policy = Common.default(runtime.backoffPolicy, 'no'),
+      period = Common.defaultNumber(runtime.backoffPeriod, 1)
+    },
+    ignoreSSL = runtime.ignoreSSL
+  }
+}

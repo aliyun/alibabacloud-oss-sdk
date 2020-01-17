@@ -1,3 +1,4 @@
+// This file is auto-generated, don't edit it. Thanks.
 package client
 
 import (
@@ -6,6 +7,7 @@ import (
 
 	"github.com/alibabacloud-go/tea/tea"
 	"github.com/aliyun/alibabacloud-oss-sdk/baseclient/go/service"
+	common "github.com/aliyun/alibabacloud-rpc-util-sdk/golang/common"
 )
 
 type RuntimeObject struct {
@@ -7199,7 +7201,8 @@ func (s *PostVodPlaylistResponse) SetRequestId(v string) *PostVodPlaylistRespons
 }
 
 type PostObjectRequest struct {
-	BucketName *string `json:"BucketName" xml:"BucketName" require:"true"`
+	BucketName *string                  `json:"BucketName" xml:"BucketName" require:"true"`
+	Header     *PostObjectRequestHeader `json:"header" xml:"header" require:"true" type:"Struct"`
 }
 
 func (s PostObjectRequest) String() string {
@@ -7215,9 +7218,89 @@ func (s *PostObjectRequest) SetBucketName(v string) *PostObjectRequest {
 	return s
 }
 
+func (s *PostObjectRequest) SetHeader(v *PostObjectRequestHeader) *PostObjectRequest {
+	s.Header = v
+	return s
+}
+
+type PostObjectRequestHeader struct {
+	AccessKeyId         *string                      `json:"OSSAccessKeyId" xml:"OSSAccessKeyId" require:"true"`
+	Policy              *string                      `json:"policy" xml:"policy" require:"true"`
+	Signature           *string                      `json:"Signature" xml:"Signature" require:"true"`
+	SuccessActionStatus *string                      `json:"success_action_status" xml:"success_action_status"`
+	File                *PostObjectRequestHeaderFile `json:"file" xml:"file" require:"true" type:"Struct"`
+	Key                 *string                      `json:"key" xml:"key" require:"true"`
+}
+
+func (s PostObjectRequestHeader) String() string {
+	return service.Prettify(s)
+}
+
+func (s PostObjectRequestHeader) GoString() string {
+	return s.String()
+}
+
+func (s *PostObjectRequestHeader) SetAccessKeyId(v string) *PostObjectRequestHeader {
+	s.AccessKeyId = &v
+	return s
+}
+
+func (s *PostObjectRequestHeader) SetPolicy(v string) *PostObjectRequestHeader {
+	s.Policy = &v
+	return s
+}
+
+func (s *PostObjectRequestHeader) SetSignature(v string) *PostObjectRequestHeader {
+	s.Signature = &v
+	return s
+}
+
+func (s *PostObjectRequestHeader) SetSuccessActionStatus(v string) *PostObjectRequestHeader {
+	s.SuccessActionStatus = &v
+	return s
+}
+
+func (s *PostObjectRequestHeader) SetFile(v *PostObjectRequestHeaderFile) *PostObjectRequestHeader {
+	s.File = v
+	return s
+}
+
+func (s *PostObjectRequestHeader) SetKey(v string) *PostObjectRequestHeader {
+	s.Key = &v
+	return s
+}
+
+type PostObjectRequestHeaderFile struct {
+	FileName    *string `json:"filename" xml:"filename" require:"true"`
+	Content     *string `json:"content" xml:"content" require:"true"`
+	ContentType *string `json:"content-type" xml:"content-type" require:"true"`
+}
+
+func (s PostObjectRequestHeaderFile) String() string {
+	return service.Prettify(s)
+}
+
+func (s PostObjectRequestHeaderFile) GoString() string {
+	return s.String()
+}
+
+func (s *PostObjectRequestHeaderFile) SetFileName(v string) *PostObjectRequestHeaderFile {
+	s.FileName = &v
+	return s
+}
+
+func (s *PostObjectRequestHeaderFile) SetContent(v string) *PostObjectRequestHeaderFile {
+	s.Content = &v
+	return s
+}
+
+func (s *PostObjectRequestHeaderFile) SetContentType(v string) *PostObjectRequestHeaderFile {
+	s.ContentType = &v
+	return s
+}
+
 type PostObjectResponse struct {
-	RequestId            *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
-	ServerSideEncryption *string `json:"x-oss-server-side-encryption" xml:"x-oss-server-side-encryption" require:"true"`
+	PostResponse *PostObjectResponsePostResponse `json:"PostResponse" xml:"PostResponse" require:"true" type:"Struct"`
 }
 
 func (s PostObjectResponse) String() string {
@@ -7228,13 +7311,37 @@ func (s PostObjectResponse) GoString() string {
 	return s.String()
 }
 
-func (s *PostObjectResponse) SetRequestId(v string) *PostObjectResponse {
-	s.RequestId = &v
+func (s *PostObjectResponse) SetPostResponse(v *PostObjectResponsePostResponse) *PostObjectResponse {
+	s.PostResponse = v
 	return s
 }
 
-func (s *PostObjectResponse) SetServerSideEncryption(v string) *PostObjectResponse {
-	s.ServerSideEncryption = &v
+type PostObjectResponsePostResponse struct {
+	Bucket   *string `json:"Bucket" xml:"Bucket" require:"true"`
+	ETag     *string `json:"ETag" xml:"ETag" require:"true"`
+	Location *string `json:"Location" xml:"Location" require:"true"`
+}
+
+func (s PostObjectResponsePostResponse) String() string {
+	return service.Prettify(s)
+}
+
+func (s PostObjectResponsePostResponse) GoString() string {
+	return s.String()
+}
+
+func (s *PostObjectResponsePostResponse) SetBucket(v string) *PostObjectResponsePostResponse {
+	s.Bucket = &v
+	return s
+}
+
+func (s *PostObjectResponsePostResponse) SetETag(v string) *PostObjectResponsePostResponse {
+	s.ETag = &v
+	return s
+}
+
+func (s *PostObjectResponsePostResponse) SetLocation(v string) *PostObjectResponsePostResponse {
+	s.Location = &v
 	return s
 }
 
@@ -14200,7 +14307,7 @@ func (client *Client) PostVodPlaylist(request *PostVodPlaylistRequest, runtime *
 	return _resp, _err
 }
 
-func (client *Client) PostObject(request *PostObjectRequest, runtime *RuntimeObject) (_result *PostObjectResponse, _err error) {
+func (client *Client) PostObject(request *PostObjectRequest, runtime *common.RuntimeObject) (_result *PostObjectResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -14211,26 +14318,21 @@ func (client *Client) PostObject(request *PostObjectRequest, runtime *RuntimeObj
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    common.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": common.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"httpProxy":      common.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     common.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        common.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"maxIdleConns":   common.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"retryable":    tea.BoolValue(runtime.Autoretry),
+			"max-attempts": common.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": common.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": common.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &PostObjectResponse{}
@@ -14244,41 +14346,28 @@ func (client *Client) PostObject(request *PostObjectRequest, runtime *RuntimeObj
 
 		_resp, _err = func() (*PostObjectResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
-			if _err != nil {
-				return nil, _err
-			}
-
+			boundary := common.GetBoundary()
 			request_.Protocol = client.Protocol
 			request_.Method = "POST"
 			request_.Pathname = "/"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
-				"user-agent": client.GetUserAgent(),
+				"host": client.GetHost(tea.StringValue(request.BucketName)),
+				"date": common.GetDate(),
 			}
-			if !client.Empty(token) {
-				request_.Headers["x-oss-security-token"] = token
-			}
-
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["content-type"] = "multipart/form-data; boundary=" + tea.ToString(boundary)
+			request_.Body = tea.ToReader(common.ToForm(tea.ToMap(request.Header), boundary))
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
-			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
-				if _err != nil {
-					return nil, _err
-				}
+			bodyStr, _err := common.ReadAsString(response_.Body)
+			if _err != nil {
+				return nil, _err
+			}
 
-				respMap = client.GetErrMessage(bodyStr)
+			if common.IsFail(response_) {
+				respMap = common.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -14291,8 +14380,9 @@ func (client *Client) PostObject(request *PostObjectRequest, runtime *RuntimeObj
 				return nil, _err
 			}
 
+			respMap = common.ParseXml(bodyStr, new(PostObjectResponse))
 			_result = &PostObjectResponse{}
-			_err = tea.Convert(response_.Headers, &_result)
+			_err = tea.Convert(respMap, &_result)
 			return _result, _err
 		}()
 		if !tea.Retryable(_err) {

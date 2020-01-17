@@ -1,3 +1,4 @@
+import Common;
 module Client {
 
   type @endpoint = string
@@ -4775,35 +4776,47 @@ module Client {
     logger = @logger,
     listener = runtime.listener,
   }
+
   model PostObjectRequest = {
     bucketName: string(description='BucketName', name='BucketName'),
+    header: {
+      accessKeyId: string(description='OSSAccessKeyId', name='OSSAccessKeyId'),
+      policy: string(description='policy', name='policy'),
+      signature: string(description='Signature', name='Signature'),
+      successActionStatus?: string(description='success_action_status', name='success_action_status'),
+      file: {
+        fileName: string(description='filename', name='filename'),
+        content: string(description='content', name='content'),
+        contentType: string(description='content-type', name='content-type'),
+      }(description='file', name='file'),
+      key: string(description='key', name='key'),
+    }(description='header', name='header')
   }
 
   model PostObjectResponse = {
-    requestId: string(description='x-oss-request-id', name='x-oss-request-id'),
-    serverSideEncryption: string(description='x-oss-server-side-encryption', name='x-oss-server-side-encryption'),
+    postResponse: {
+      bucket: string(description='Bucket', name='Bucket'),
+      eTag: string(description='ETag', name='ETag'),
+      location: string(description='Location', name='Location'),
+    }(description='PostResponse', name='PostResponse'),
   }
 
-  api postObject(request: PostObjectRequest, runtime: RuntimeObject): PostObjectResponse {
-    var token = @getSecurityToken();
+  api postObject(request: PostObjectRequest, runtime: Common.RuntimeObject): PostObjectResponse {
+    var boundary = Common.getBoundary();
     protocol = @protocol;
     method = 'POST';
     pathname = `/`;
     headers = {
       host = getHost(request.bucketName),
-      date = @getDate(),
-      user-agent = @getUserAgent(),
+      date = Common.getDate(),
     };
-    if (!@empty(token)) {
-      headers.x-oss-security-token = token;
-    }
-    headers.authorization = getSignature(__request, request.bucketName);
+    headers.content-type = `multipart/form-data; boundary=${boundary}`;
+    body = Common.toForm(request.header, boundary);
   } returns {
     var respMap : object = null;
-    var bodyStr : string = null;
-    if (@isFail(__response)) {
-      bodyStr = @readAsString(__response);
-      respMap = @getErrMessage(bodyStr);
+    var bodyStr = Common.readAsString(__response.body);
+    if (Common.isFail(__response)) {
+      respMap = Common.getErrMessage(bodyStr);
       throw {
         code = respMap.Code,
         message = respMap.Message,
@@ -4814,32 +4827,30 @@ module Client {
         }
       };
     }
+
+    respMap = Common.parseXml(bodyStr, PostObjectResponse);
     return {
-      ...__response.headers,
+      ...respMap,
     };
   } runtime {
     timeouted = 'retry',
-    readTimeout = @defaultNumber(runtime.readTimeout, @readTimeout),
-    connectTimeout = @defaultNumber(runtime.connectTimeout, @connectTimeout),
-    localAddr = @default(runtime.localAddr, @localAddr),
-    httpProxy = @default(runtime.httpProxy, @httpProxy),
-    httpsProxy = @default(runtime.httpsProxy, @httpsProxy),
-    noProxy = @default(runtime.noProxy, @noProxy),
-    socks5Proxy = @default(runtime.socks5Proxy, @socks5Proxy),
-    socks5NetWork = @default(runtime.socks5NetWork, @socks5NetWork),
-    maxIdleConns = @defaultNumber(runtime.maxIdleConns, @maxIdleConns),
+    readTimeout = Common.defaultNumber(runtime.readTimeout, @readTimeout),
+    connectTimeout = Common.defaultNumber(runtime.connectTimeout, @connectTimeout),
+    httpProxy = Common.default(runtime.httpProxy, @httpProxy),
+    httpsProxy = Common.default(runtime.httpsProxy, @httpsProxy),
+    noProxy = Common.default(runtime.noProxy, @noProxy),
+    maxIdleConns = Common.defaultNumber(runtime.maxIdleConns, @maxIdleConns),
     retry = {
       retryable = runtime.autoretry,
-      maxAttempts = @defaultNumber(runtime.maxAttempts, 3)
+      max-attempts = Common.defaultNumber(runtime.maxAttempts, 3)
     },
     backoff = {
-      policy = @default(runtime.backoffPolicy, 'no'),
-      period = @defaultNumber(runtime.backoffPeriod, 1)
+      policy = Common.default(runtime.backoffPolicy, 'no'),
+      period = Common.defaultNumber(runtime.backoffPeriod, 1)
     },
-    ignoreSSL = runtime.ignoreSSL,
-    logger = @logger,
-    listener = runtime.listener,
+    ignoreSSL = runtime.ignoreSSL
   }
+
   model HeadObjectRequest = {
     bucketName: string(description='BucketName', name='BucketName'),
     objectName: string(description='ObjectName', name='ObjectName'),
