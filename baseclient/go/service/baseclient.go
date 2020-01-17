@@ -349,7 +349,7 @@ func (client *BaseClient) GetAccessKeyID() (string, error) {
 	if client.credential == nil {
 		return "", errors.New("No credential valid!")
 	}
-	accessKeyId, err := client.credential.GetAccessKeyID()
+	accessKeyId, err := client.credential.GetAccessKeyId()
 	return accessKeyId, err
 }
 
@@ -357,7 +357,7 @@ func (client *BaseClient) GetAccessKeySecret() (string, error) {
 	if client.credential == nil {
 		return "", errors.New("No credential valid!")
 	}
-	accessKeySecret, err := client.credential.GetAccessSecret()
+	accessKeySecret, err := client.credential.GetAccessKeySecret()
 	return accessKeySecret, err
 }
 

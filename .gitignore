@@ -22,3 +22,5 @@ baseclient/ts/dist/
 baseclient/ts/coverage/
 baseclient/ts/.nyc_output/
 java/*.iml
+.history/
+*.sum
