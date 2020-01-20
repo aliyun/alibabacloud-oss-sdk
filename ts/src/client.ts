@@ -1,4 +1,5 @@
 // This file is auto-generated, don't edit it
+import Common, * as $Common from '@ali/common';
 import { Readable } from 'stream';
 import * as $tea from '@alicloud/tea-typescript';
 import BaseClient from '@alicloud/oss-baseclient';
@@ -2697,15 +2698,18 @@ export class PostVodPlaylistResponse extends $tea.Model {
 
 export class PostObjectRequest extends $tea.Model {
   bucketName: string;
+  header: PostObjectRequestHeader;
   static names(): { [key: string]: string } {
     return {
       bucketName: 'BucketName',
+      header: 'header',
     };
   }
 
   static types(): { [key: string]: any } {
     return {
       bucketName: 'string',
+      header: PostObjectRequestHeader,
     };
   }
 
@@ -2715,19 +2719,16 @@ export class PostObjectRequest extends $tea.Model {
 }
 
 export class PostObjectResponse extends $tea.Model {
-  requestId: string;
-  serverSideEncryption: string;
+  postResponse: PostObjectResponsePostResponse;
   static names(): { [key: string]: string } {
     return {
-      requestId: 'x-oss-request-id',
-      serverSideEncryption: 'x-oss-server-side-encryption',
+      postResponse: 'PostResponse',
     };
   }
 
   static types(): { [key: string]: any } {
     return {
-      requestId: 'string',
-      serverSideEncryption: 'string',
+      postResponse: PostObjectResponsePostResponse,
     };
   }
 
@@ -7028,6 +7029,93 @@ export class PostVodPlaylistRequestFilter extends $tea.Model {
     return {
       endTime: 'string',
       startTime: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PostObjectRequestHeaderFile extends $tea.Model {
+  fileName: string;
+  content: string;
+  contentType: string;
+  static names(): { [key: string]: string } {
+    return {
+      fileName: 'filename',
+      content: 'content',
+      contentType: 'content-type',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      fileName: 'string',
+      content: 'string',
+      contentType: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PostObjectRequestHeader extends $tea.Model {
+  accessKeyId: string;
+  policy: string;
+  signature: string;
+  successActionStatus?: string;
+  file: PostObjectRequestHeaderFile;
+  key: string;
+  static names(): { [key: string]: string } {
+    return {
+      accessKeyId: 'OSSAccessKeyId',
+      policy: 'policy',
+      signature: 'Signature',
+      successActionStatus: 'success_action_status',
+      file: 'file',
+      key: 'key',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      accessKeyId: 'string',
+      policy: 'string',
+      signature: 'string',
+      successActionStatus: 'string',
+      file: PostObjectRequestHeaderFile,
+      key: 'string',
+    };
+  }
+
+  constructor(map: { [key: string]: any }) {
+    super(map);
+  }
+
+}
+
+export class PostObjectResponsePostResponse extends $tea.Model {
+  bucket: string;
+  eTag: string;
+  location: string;
+  static names(): { [key: string]: string } {
+    return {
+      bucket: 'Bucket',
+      eTag: 'ETag',
+      location: 'Location',
+    };
+  }
+
+  static types(): { [key: string]: any } {
+    return {
+      bucket: 'string',
+      eTag: 'string',
+      location: 'string',
     };
   }
 
@@ -12346,26 +12434,21 @@ export default class Client extends BaseClient {
   async postObject(request: PostObjectRequest, runtime: RuntimeObject): Promise<PostObjectResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: await Common.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: await Common.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      httpProxy: await Common.default(runtime.httpProxy, this._httpProxy),
+      httpsProxy: await Common.default(runtime.httpsProxy, this._httpsProxy),
+      noProxy: await Common.default(runtime.noProxy, this._noProxy),
+      maxIdleConns: await Common.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        'max-attempts': await Common.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: await Common.default(runtime.backoffPolicy, "no"),
+        period: await Common.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -12382,27 +12465,23 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
+        let boundary = await Common.getBoundary();
         request_.protocol = this._protocol;
         request_.method = "POST";
         request_.pathname = `/`;
         request_.headers = {
           host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          date: await Common.getDate(),
         };
-        if (!this._empty(token)) {
-          request_.headers["x-oss-security-token"] = token;
-        }
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+        request_.headers["content-type"] = `multipart/form-data; boundary=${boundary}`;
+        request_.body = new $tea.BytesReadable(await Common.toForm($tea.toMap(request.header), boundary));
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
-        let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        let bodyStr = await Common.readAsString(response_.body);
+        if (await Common.isFail(response_)) {
+          respMap = await Common.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -12414,8 +12493,9 @@ export default class Client extends BaseClient {
           });
         }
 
+        respMap = await Common.parseXml(bodyStr, PostObjectResponse);
         return $tea.cast<PostObjectResponse>({
-          ...response_.headers,
+          ...respMap,
         }, new PostObjectResponse({}));
       } catch (ex) {
         if ($tea.isRetryable(ex)) {
