@@ -12,12 +12,22 @@ public class GetServiceResponse extends TeaModel {
     @Validation(required = true)
     public GetServiceResponseListAllMyBucketsResult listAllMyBucketsResult;
 
+    public static GetServiceResponse build(java.util.Map<String, ?> map) throws Exception {
+        GetServiceResponse self = new GetServiceResponse();
+        return TeaModel.build(map, self);
+    }
+
     public static class GetServiceResponseListAllMyBucketsResultOwner extends TeaModel {
         @NameInMap("ID")
         public String iD;
 
         @NameInMap("DisplayName")
         public String displayName;
+
+        public static GetServiceResponseListAllMyBucketsResultOwner build(java.util.Map<String, ?> map) throws Exception {
+            GetServiceResponseListAllMyBucketsResultOwner self = new GetServiceResponseListAllMyBucketsResultOwner();
+            return TeaModel.build(map, self);
+        }
 
     }
 
@@ -40,11 +50,21 @@ public class GetServiceResponse extends TeaModel {
         @NameInMap("StorageClass")
         public String storageClass;
 
+        public static GetServiceResponseListAllMyBucketsResultBucketsBucket build(java.util.Map<String, ?> map) throws Exception {
+            GetServiceResponseListAllMyBucketsResultBucketsBucket self = new GetServiceResponseListAllMyBucketsResultBucketsBucket();
+            return TeaModel.build(map, self);
+        }
+
     }
 
     public static class GetServiceResponseListAllMyBucketsResultBuckets extends TeaModel {
         @NameInMap("Bucket")
         public GetServiceResponseListAllMyBucketsResultBucketsBucket[] bucket;
+
+        public static GetServiceResponseListAllMyBucketsResultBuckets build(java.util.Map<String, ?> map) throws Exception {
+            GetServiceResponseListAllMyBucketsResultBuckets self = new GetServiceResponseListAllMyBucketsResultBuckets();
+            return TeaModel.build(map, self);
+        }
 
     }
 
@@ -71,6 +91,11 @@ public class GetServiceResponse extends TeaModel {
         @NameInMap("Buckets")
         @Validation(required = true)
         public GetServiceResponseListAllMyBucketsResultBuckets buckets;
+
+        public static GetServiceResponseListAllMyBucketsResult build(java.util.Map<String, ?> map) throws Exception {
+            GetServiceResponseListAllMyBucketsResult self = new GetServiceResponseListAllMyBucketsResult();
+            return TeaModel.build(map, self);
+        }
 
     }
 

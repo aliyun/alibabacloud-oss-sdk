@@ -8,4 +8,9 @@ public class DeleteBucketLoggingRequest extends TeaModel {
     @Validation(required = true)
     public String bucketName;
 
+    public static DeleteBucketLoggingRequest build(java.util.Map<String, ?> map) throws Exception {
+        DeleteBucketLoggingRequest self = new DeleteBucketLoggingRequest();
+        return TeaModel.build(map, self);
+    }
+
 }

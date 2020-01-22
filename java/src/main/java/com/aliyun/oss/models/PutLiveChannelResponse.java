@@ -12,15 +12,30 @@ public class PutLiveChannelResponse extends TeaModel {
     @Validation(required = true)
     public PutLiveChannelResponseCreateLiveChannelResult createLiveChannelResult;
 
+    public static PutLiveChannelResponse build(java.util.Map<String, ?> map) throws Exception {
+        PutLiveChannelResponse self = new PutLiveChannelResponse();
+        return TeaModel.build(map, self);
+    }
+
     public static class PutLiveChannelResponseCreateLiveChannelResultPublishUrls extends TeaModel {
         @NameInMap("Url")
         public String url;
+
+        public static PutLiveChannelResponseCreateLiveChannelResultPublishUrls build(java.util.Map<String, ?> map) throws Exception {
+            PutLiveChannelResponseCreateLiveChannelResultPublishUrls self = new PutLiveChannelResponseCreateLiveChannelResultPublishUrls();
+            return TeaModel.build(map, self);
+        }
 
     }
 
     public static class PutLiveChannelResponseCreateLiveChannelResultPlayUrls extends TeaModel {
         @NameInMap("Url")
         public String url;
+
+        public static PutLiveChannelResponseCreateLiveChannelResultPlayUrls build(java.util.Map<String, ?> map) throws Exception {
+            PutLiveChannelResponseCreateLiveChannelResultPlayUrls self = new PutLiveChannelResponseCreateLiveChannelResultPlayUrls();
+            return TeaModel.build(map, self);
+        }
 
     }
 
@@ -32,6 +47,11 @@ public class PutLiveChannelResponse extends TeaModel {
         @NameInMap("PlayUrls")
         @Validation(required = true)
         public PutLiveChannelResponseCreateLiveChannelResultPlayUrls playUrls;
+
+        public static PutLiveChannelResponseCreateLiveChannelResult build(java.util.Map<String, ?> map) throws Exception {
+            PutLiveChannelResponseCreateLiveChannelResult self = new PutLiveChannelResponseCreateLiveChannelResult();
+            return TeaModel.build(map, self);
+        }
 
     }
 

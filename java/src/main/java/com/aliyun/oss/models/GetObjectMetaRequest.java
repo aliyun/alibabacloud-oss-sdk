@@ -12,4 +12,9 @@ public class GetObjectMetaRequest extends TeaModel {
     @Validation(required = true)
     public String objectName;
 
+    public static GetObjectMetaRequest build(java.util.Map<String, ?> map) throws Exception {
+        GetObjectMetaRequest self = new GetObjectMetaRequest();
+        return TeaModel.build(map, self);
+    }
+
 }

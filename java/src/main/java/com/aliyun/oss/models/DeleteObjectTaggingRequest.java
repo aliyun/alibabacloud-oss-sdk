@@ -12,4 +12,9 @@ public class DeleteObjectTaggingRequest extends TeaModel {
     @Validation(required = true)
     public String objectName;
 
+    public static DeleteObjectTaggingRequest build(java.util.Map<String, ?> map) throws Exception {
+        DeleteObjectTaggingRequest self = new DeleteObjectTaggingRequest();
+        return TeaModel.build(map, self);
+    }
+
 }

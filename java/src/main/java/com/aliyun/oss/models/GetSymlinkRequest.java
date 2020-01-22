@@ -12,4 +12,9 @@ public class GetSymlinkRequest extends TeaModel {
     @Validation(required = true)
     public String objectName;
 
+    public static GetSymlinkRequest build(java.util.Map<String, ?> map) throws Exception {
+        GetSymlinkRequest self = new GetSymlinkRequest();
+        return TeaModel.build(map, self);
+    }
+
 }

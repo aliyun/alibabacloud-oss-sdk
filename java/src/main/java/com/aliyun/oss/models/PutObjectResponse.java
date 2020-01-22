@@ -20,4 +20,9 @@ public class PutObjectResponse extends TeaModel {
     @Validation(required = true)
     public String bucketVersion;
 
+    public static PutObjectResponse build(java.util.Map<String, ?> map) throws Exception {
+        PutObjectResponse self = new PutObjectResponse();
+        return TeaModel.build(map, self);
+    }
+
 }

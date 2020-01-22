@@ -8,4 +8,9 @@ public class PutBucketAclResponse extends TeaModel {
     @Validation(required = true)
     public String requestId;
 
+    public static PutBucketAclResponse build(java.util.Map<String, ?> map) throws Exception {
+        PutBucketAclResponse self = new PutBucketAclResponse();
+        return TeaModel.build(map, self);
+    }
+
 }

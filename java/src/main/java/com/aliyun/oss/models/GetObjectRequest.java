@@ -15,6 +15,11 @@ public class GetObjectRequest extends TeaModel {
     @NameInMap("Header")
     public GetObjectRequestHeader header;
 
+    public static GetObjectRequest build(java.util.Map<String, ?> map) throws Exception {
+        GetObjectRequest self = new GetObjectRequest();
+        return TeaModel.build(map, self);
+    }
+
     public static class GetObjectRequestHeader extends TeaModel {
         @NameInMap("response-content-type")
         public String responseContentType;
@@ -51,6 +56,11 @@ public class GetObjectRequest extends TeaModel {
 
         @NameInMap("Accept-Encoding")
         public String acceptEncoding;
+
+        public static GetObjectRequestHeader build(java.util.Map<String, ?> map) throws Exception {
+            GetObjectRequestHeader self = new GetObjectRequestHeader();
+            return TeaModel.build(map, self);
+        }
 
     }
 

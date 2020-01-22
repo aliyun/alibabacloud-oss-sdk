@@ -11,15 +11,30 @@ public class PutBucketWebsiteRequest extends TeaModel {
     @NameInMap("Body")
     public PutBucketWebsiteRequestBody body;
 
+    public static PutBucketWebsiteRequest build(java.util.Map<String, ?> map) throws Exception {
+        PutBucketWebsiteRequest self = new PutBucketWebsiteRequest();
+        return TeaModel.build(map, self);
+    }
+
     public static class PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument extends TeaModel {
         @NameInMap("Suffix")
         public String suffix;
+
+        public static PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument build(java.util.Map<String, ?> map) throws Exception {
+            PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument self = new PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument();
+            return TeaModel.build(map, self);
+        }
 
     }
 
     public static class PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument extends TeaModel {
         @NameInMap("Key")
         public String key;
+
+        public static PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument build(java.util.Map<String, ?> map) throws Exception {
+            PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument self = new PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument();
+            return TeaModel.build(map, self);
+        }
 
     }
 
@@ -29,6 +44,11 @@ public class PutBucketWebsiteRequest extends TeaModel {
 
         @NameInMap("Equals")
         public String equals;
+
+        public static PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader build(java.util.Map<String, ?> map) throws Exception {
+            PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader self = new PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader();
+            return TeaModel.build(map, self);
+        }
 
     }
 
@@ -42,6 +62,11 @@ public class PutBucketWebsiteRequest extends TeaModel {
         @NameInMap("HttpErrorCodeReturnedEquals")
         public String httpErrorCodeReturnedEquals;
 
+        public static PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCondition build(java.util.Map<String, ?> map) throws Exception {
+            PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCondition self = new PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCondition();
+            return TeaModel.build(map, self);
+        }
+
     }
 
     public static class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet extends TeaModel {
@@ -50,6 +75,11 @@ public class PutBucketWebsiteRequest extends TeaModel {
 
         @NameInMap("Value")
         public String value;
+
+        public static PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet build(java.util.Map<String, ?> map) throws Exception {
+            PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet self = new PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet();
+            return TeaModel.build(map, self);
+        }
 
     }
 
@@ -65,6 +95,11 @@ public class PutBucketWebsiteRequest extends TeaModel {
 
         @NameInMap("Remove")
         public String remove;
+
+        public static PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders build(java.util.Map<String, ?> map) throws Exception {
+            PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders self = new PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders();
+            return TeaModel.build(map, self);
+        }
 
     }
 
@@ -105,6 +140,11 @@ public class PutBucketWebsiteRequest extends TeaModel {
         @NameInMap("ReplaceKeyWith")
         public String replaceKeyWith;
 
+        public static PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect build(java.util.Map<String, ?> map) throws Exception {
+            PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect self = new PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect();
+            return TeaModel.build(map, self);
+        }
+
     }
 
     public static class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule extends TeaModel {
@@ -117,11 +157,21 @@ public class PutBucketWebsiteRequest extends TeaModel {
         @NameInMap("RuleNumber")
         public Integer ruleNumber;
 
+        public static PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule build(java.util.Map<String, ?> map) throws Exception {
+            PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule self = new PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule();
+            return TeaModel.build(map, self);
+        }
+
     }
 
     public static class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules extends TeaModel {
         @NameInMap("RoutingRule")
         public PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule[] routingRule;
+
+        public static PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules build(java.util.Map<String, ?> map) throws Exception {
+            PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules self = new PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules();
+            return TeaModel.build(map, self);
+        }
 
     }
 
@@ -135,12 +185,22 @@ public class PutBucketWebsiteRequest extends TeaModel {
         @NameInMap("RoutingRules")
         public PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules routingRules;
 
+        public static PutBucketWebsiteRequestBodyWebsiteConfiguration build(java.util.Map<String, ?> map) throws Exception {
+            PutBucketWebsiteRequestBodyWebsiteConfiguration self = new PutBucketWebsiteRequestBodyWebsiteConfiguration();
+            return TeaModel.build(map, self);
+        }
+
     }
 
     public static class PutBucketWebsiteRequestBody extends TeaModel {
         @NameInMap("WebsiteConfiguration")
         @Validation(required = true)
         public PutBucketWebsiteRequestBodyWebsiteConfiguration websiteConfiguration;
+
+        public static PutBucketWebsiteRequestBody build(java.util.Map<String, ?> map) throws Exception {
+            PutBucketWebsiteRequestBody self = new PutBucketWebsiteRequestBody();
+            return TeaModel.build(map, self);
+        }
 
     }
 

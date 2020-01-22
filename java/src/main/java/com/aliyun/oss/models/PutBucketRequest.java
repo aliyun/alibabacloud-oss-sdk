@@ -14,12 +14,22 @@ public class PutBucketRequest extends TeaModel {
     @NameInMap("Header")
     public PutBucketRequestHeader header;
 
+    public static PutBucketRequest build(java.util.Map<String, ?> map) throws Exception {
+        PutBucketRequest self = new PutBucketRequest();
+        return TeaModel.build(map, self);
+    }
+
     public static class PutBucketRequestBodyCreateBucketConfiguration extends TeaModel {
         @NameInMap("StorageClass")
         public String storageClass;
 
         @NameInMap("DataRedundancyType")
         public String dataRedundancyType;
+
+        public static PutBucketRequestBodyCreateBucketConfiguration build(java.util.Map<String, ?> map) throws Exception {
+            PutBucketRequestBodyCreateBucketConfiguration self = new PutBucketRequestBodyCreateBucketConfiguration();
+            return TeaModel.build(map, self);
+        }
 
     }
 
@@ -28,11 +38,21 @@ public class PutBucketRequest extends TeaModel {
         @Validation(required = true)
         public PutBucketRequestBodyCreateBucketConfiguration createBucketConfiguration;
 
+        public static PutBucketRequestBody build(java.util.Map<String, ?> map) throws Exception {
+            PutBucketRequestBody self = new PutBucketRequestBody();
+            return TeaModel.build(map, self);
+        }
+
     }
 
     public static class PutBucketRequestHeader extends TeaModel {
         @NameInMap("x-oss-acl")
         public String acl;
+
+        public static PutBucketRequestHeader build(java.util.Map<String, ?> map) throws Exception {
+            PutBucketRequestHeader self = new PutBucketRequestHeader();
+            return TeaModel.build(map, self);
+        }
 
     }
 

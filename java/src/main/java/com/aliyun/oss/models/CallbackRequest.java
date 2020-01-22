@@ -8,4 +8,9 @@ public class CallbackRequest extends TeaModel {
     @Validation(required = true)
     public String bucketName;
 
+    public static CallbackRequest build(java.util.Map<String, ?> map) throws Exception {
+        CallbackRequest self = new CallbackRequest();
+        return TeaModel.build(map, self);
+    }
+
 }

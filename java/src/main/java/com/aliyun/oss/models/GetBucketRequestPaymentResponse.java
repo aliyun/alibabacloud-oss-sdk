@@ -12,9 +12,19 @@ public class GetBucketRequestPaymentResponse extends TeaModel {
     @Validation(required = true)
     public GetBucketRequestPaymentResponseRequestPaymentConfiguration requestPaymentConfiguration;
 
+    public static GetBucketRequestPaymentResponse build(java.util.Map<String, ?> map) throws Exception {
+        GetBucketRequestPaymentResponse self = new GetBucketRequestPaymentResponse();
+        return TeaModel.build(map, self);
+    }
+
     public static class GetBucketRequestPaymentResponseRequestPaymentConfiguration extends TeaModel {
         @NameInMap("Payer")
         public String payer;
+
+        public static GetBucketRequestPaymentResponseRequestPaymentConfiguration build(java.util.Map<String, ?> map) throws Exception {
+            GetBucketRequestPaymentResponseRequestPaymentConfiguration self = new GetBucketRequestPaymentResponseRequestPaymentConfiguration();
+            return TeaModel.build(map, self);
+        }
 
     }
 

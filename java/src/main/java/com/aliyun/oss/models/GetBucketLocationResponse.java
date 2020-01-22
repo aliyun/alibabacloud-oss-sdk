@@ -12,4 +12,9 @@ public class GetBucketLocationResponse extends TeaModel {
     @Validation(required = true)
     public String locationConstraint;
 
+    public static GetBucketLocationResponse build(java.util.Map<String, ?> map) throws Exception {
+        GetBucketLocationResponse self = new GetBucketLocationResponse();
+        return TeaModel.build(map, self);
+    }
+
 }

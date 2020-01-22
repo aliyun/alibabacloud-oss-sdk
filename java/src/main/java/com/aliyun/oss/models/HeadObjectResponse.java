@@ -84,4 +84,9 @@ public class HeadObjectResponse extends TeaModel {
     @Validation(required = true)
     public String taggingCount;
 
+    public static HeadObjectResponse build(java.util.Map<String, ?> map) throws Exception {
+        HeadObjectResponse self = new HeadObjectResponse();
+        return TeaModel.build(map, self);
+    }
+
 }

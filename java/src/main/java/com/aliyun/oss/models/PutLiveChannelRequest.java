@@ -15,6 +15,11 @@ public class PutLiveChannelRequest extends TeaModel {
     @NameInMap("Body")
     public PutLiveChannelRequestBody body;
 
+    public static PutLiveChannelRequest build(java.util.Map<String, ?> map) throws Exception {
+        PutLiveChannelRequest self = new PutLiveChannelRequest();
+        return TeaModel.build(map, self);
+    }
+
     public static class PutLiveChannelRequestBodyLiveChannelConfigurationTarget extends TeaModel {
         @NameInMap("Type")
         public String type;
@@ -27,6 +32,11 @@ public class PutLiveChannelRequest extends TeaModel {
 
         @NameInMap("PlaylistName")
         public String playlistName;
+
+        public static PutLiveChannelRequestBodyLiveChannelConfigurationTarget build(java.util.Map<String, ?> map) throws Exception {
+            PutLiveChannelRequestBodyLiveChannelConfigurationTarget self = new PutLiveChannelRequestBodyLiveChannelConfigurationTarget();
+            return TeaModel.build(map, self);
+        }
 
     }
 
@@ -43,6 +53,11 @@ public class PutLiveChannelRequest extends TeaModel {
         @NameInMap("Interval")
         public String interval;
 
+        public static PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot build(java.util.Map<String, ?> map) throws Exception {
+            PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot self = new PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot();
+            return TeaModel.build(map, self);
+        }
+
     }
 
     public static class PutLiveChannelRequestBodyLiveChannelConfiguration extends TeaModel {
@@ -58,12 +73,22 @@ public class PutLiveChannelRequest extends TeaModel {
         @NameInMap("Status")
         public String status;
 
+        public static PutLiveChannelRequestBodyLiveChannelConfiguration build(java.util.Map<String, ?> map) throws Exception {
+            PutLiveChannelRequestBodyLiveChannelConfiguration self = new PutLiveChannelRequestBodyLiveChannelConfiguration();
+            return TeaModel.build(map, self);
+        }
+
     }
 
     public static class PutLiveChannelRequestBody extends TeaModel {
         @NameInMap("LiveChannelConfiguration")
         @Validation(required = true)
         public PutLiveChannelRequestBodyLiveChannelConfiguration liveChannelConfiguration;
+
+        public static PutLiveChannelRequestBody build(java.util.Map<String, ?> map) throws Exception {
+            PutLiveChannelRequestBody self = new PutLiveChannelRequestBody();
+            return TeaModel.build(map, self);
+        }
 
     }
 

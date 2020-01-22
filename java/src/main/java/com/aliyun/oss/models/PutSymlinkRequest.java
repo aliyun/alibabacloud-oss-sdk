@@ -16,6 +16,11 @@ public class PutSymlinkRequest extends TeaModel {
     @Validation(required = true)
     public PutSymlinkRequestHeader header;
 
+    public static PutSymlinkRequest build(java.util.Map<String, ?> map) throws Exception {
+        PutSymlinkRequest self = new PutSymlinkRequest();
+        return TeaModel.build(map, self);
+    }
+
     public static class PutSymlinkRequestHeader extends TeaModel {
         @NameInMap("x-oss-symlink-target")
         @Validation(required = true)
@@ -23,6 +28,11 @@ public class PutSymlinkRequest extends TeaModel {
 
         @NameInMap("x-oss-storage-class")
         public String storageClass;
+
+        public static PutSymlinkRequestHeader build(java.util.Map<String, ?> map) throws Exception {
+            PutSymlinkRequestHeader self = new PutSymlinkRequestHeader();
+            return TeaModel.build(map, self);
+        }
 
     }
 

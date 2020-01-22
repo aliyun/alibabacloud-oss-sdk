@@ -8,4 +8,9 @@ public class GetBucketCORSRequest extends TeaModel {
     @Validation(required = true)
     public String bucketName;
 
+    public static GetBucketCORSRequest build(java.util.Map<String, ?> map) throws Exception {
+        GetBucketCORSRequest self = new GetBucketCORSRequest();
+        return TeaModel.build(map, self);
+    }
+
 }

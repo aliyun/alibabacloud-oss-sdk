@@ -12,4 +12,9 @@ public class GetObjectTaggingRequest extends TeaModel {
     @Validation(required = true)
     public String objectName;
 
+    public static GetObjectTaggingRequest build(java.util.Map<String, ?> map) throws Exception {
+        GetObjectTaggingRequest self = new GetObjectTaggingRequest();
+        return TeaModel.build(map, self);
+    }
+
 }

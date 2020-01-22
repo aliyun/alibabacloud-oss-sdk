@@ -8,4 +8,9 @@ public class DeleteBucketLifecycleResponse extends TeaModel {
     @Validation(required = true)
     public String requestId;
 
+    public static DeleteBucketLifecycleResponse build(java.util.Map<String, ?> map) throws Exception {
+        DeleteBucketLifecycleResponse self = new DeleteBucketLifecycleResponse();
+        return TeaModel.build(map, self);
+    }
+
 }

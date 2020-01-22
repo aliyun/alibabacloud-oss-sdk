@@ -21,6 +21,11 @@ public class PutObjectRequest extends TeaModel {
     @NameInMap("Header")
     public PutObjectRequestHeader header;
 
+    public static PutObjectRequest build(java.util.Map<String, ?> map) throws Exception {
+        PutObjectRequest self = new PutObjectRequest();
+        return TeaModel.build(map, self);
+    }
+
     public static class PutObjectRequestHeader extends TeaModel {
         @NameInMap("Authorization")
         public String authorization;
@@ -63,6 +68,11 @@ public class PutObjectRequest extends TeaModel {
 
         @NameInMap("content-type")
         public String contentType;
+
+        public static PutObjectRequestHeader build(java.util.Map<String, ?> map) throws Exception {
+            PutObjectRequestHeader self = new PutObjectRequestHeader();
+            return TeaModel.build(map, self);
+        }
 
     }
 

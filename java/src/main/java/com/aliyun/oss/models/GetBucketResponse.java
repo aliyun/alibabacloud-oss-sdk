@@ -12,12 +12,22 @@ public class GetBucketResponse extends TeaModel {
     @Validation(required = true)
     public GetBucketResponseListBucketResult listBucketResult;
 
+    public static GetBucketResponse build(java.util.Map<String, ?> map) throws Exception {
+        GetBucketResponse self = new GetBucketResponse();
+        return TeaModel.build(map, self);
+    }
+
     public static class GetBucketResponseListBucketResultContentsOwner extends TeaModel {
         @NameInMap("ID")
         public String iD;
 
         @NameInMap("DisplayName")
         public String displayName;
+
+        public static GetBucketResponseListBucketResultContentsOwner build(java.util.Map<String, ?> map) throws Exception {
+            GetBucketResponseListBucketResultContentsOwner self = new GetBucketResponseListBucketResultContentsOwner();
+            return TeaModel.build(map, self);
+        }
 
     }
 
@@ -40,6 +50,11 @@ public class GetBucketResponse extends TeaModel {
         @NameInMap("Owner")
         @Validation(required = true)
         public GetBucketResponseListBucketResultContentsOwner owner;
+
+        public static GetBucketResponseListBucketResultContents build(java.util.Map<String, ?> map) throws Exception {
+            GetBucketResponseListBucketResultContents self = new GetBucketResponseListBucketResultContents();
+            return TeaModel.build(map, self);
+        }
 
     }
 
@@ -70,6 +85,11 @@ public class GetBucketResponse extends TeaModel {
 
         @NameInMap("Contents")
         public GetBucketResponseListBucketResultContents[] contents;
+
+        public static GetBucketResponseListBucketResult build(java.util.Map<String, ?> map) throws Exception {
+            GetBucketResponseListBucketResult self = new GetBucketResponseListBucketResult();
+            return TeaModel.build(map, self);
+        }
 
     }
 

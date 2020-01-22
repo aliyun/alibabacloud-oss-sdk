@@ -8,4 +8,9 @@ public class DeleteLiveChannelResponse extends TeaModel {
     @Validation(required = true)
     public String requestId;
 
+    public static DeleteLiveChannelResponse build(java.util.Map<String, ?> map) throws Exception {
+        DeleteLiveChannelResponse self = new DeleteLiveChannelResponse();
+        return TeaModel.build(map, self);
+    }
+
 }

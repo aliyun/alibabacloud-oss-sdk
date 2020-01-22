@@ -8,4 +8,9 @@ public class PutBucketWebsiteResponse extends TeaModel {
     @Validation(required = true)
     public String requestId;
 
+    public static PutBucketWebsiteResponse build(java.util.Map<String, ?> map) throws Exception {
+        PutBucketWebsiteResponse self = new PutBucketWebsiteResponse();
+        return TeaModel.build(map, self);
+    }
+
 }

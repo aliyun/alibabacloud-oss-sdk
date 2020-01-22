@@ -12,6 +12,11 @@ public class ListPartsResponse extends TeaModel {
     @Validation(required = true)
     public ListPartsResponseListPartsResult listPartsResult;
 
+    public static ListPartsResponse build(java.util.Map<String, ?> map) throws Exception {
+        ListPartsResponse self = new ListPartsResponse();
+        return TeaModel.build(map, self);
+    }
+
     public static class ListPartsResponseListPartsResultPart extends TeaModel {
         @NameInMap("PartNumber")
         public String partNumber;
@@ -24,6 +29,11 @@ public class ListPartsResponse extends TeaModel {
 
         @NameInMap("Size")
         public String size;
+
+        public static ListPartsResponseListPartsResultPart build(java.util.Map<String, ?> map) throws Exception {
+            ListPartsResponseListPartsResultPart self = new ListPartsResponseListPartsResultPart();
+            return TeaModel.build(map, self);
+        }
 
     }
 
@@ -54,6 +64,11 @@ public class ListPartsResponse extends TeaModel {
 
         @NameInMap("Part")
         public ListPartsResponseListPartsResultPart[] part;
+
+        public static ListPartsResponseListPartsResult build(java.util.Map<String, ?> map) throws Exception {
+            ListPartsResponseListPartsResult self = new ListPartsResponseListPartsResult();
+            return TeaModel.build(map, self);
+        }
 
     }
 

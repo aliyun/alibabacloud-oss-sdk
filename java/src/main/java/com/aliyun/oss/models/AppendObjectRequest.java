@@ -25,10 +25,20 @@ public class AppendObjectRequest extends TeaModel {
     @NameInMap("Header")
     public AppendObjectRequestHeader header;
 
+    public static AppendObjectRequest build(java.util.Map<String, ?> map) throws Exception {
+        AppendObjectRequest self = new AppendObjectRequest();
+        return TeaModel.build(map, self);
+    }
+
     public static class AppendObjectRequestFilter extends TeaModel {
         @NameInMap("position")
         @Validation(required = true)
         public String position;
+
+        public static AppendObjectRequestFilter build(java.util.Map<String, ?> map) throws Exception {
+            AppendObjectRequestFilter self = new AppendObjectRequestFilter();
+            return TeaModel.build(map, self);
+        }
 
     }
 
@@ -59,6 +69,11 @@ public class AppendObjectRequest extends TeaModel {
 
         @NameInMap("content-type")
         public String contentType;
+
+        public static AppendObjectRequestHeader build(java.util.Map<String, ?> map) throws Exception {
+            AppendObjectRequestHeader self = new AppendObjectRequestHeader();
+            return TeaModel.build(map, self);
+        }
 
     }
 

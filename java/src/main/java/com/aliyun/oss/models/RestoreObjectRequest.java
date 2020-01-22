@@ -12,4 +12,9 @@ public class RestoreObjectRequest extends TeaModel {
     @Validation(required = true)
     public String objectName;
 
+    public static RestoreObjectRequest build(java.util.Map<String, ?> map) throws Exception {
+        RestoreObjectRequest self = new RestoreObjectRequest();
+        return TeaModel.build(map, self);
+    }
+
 }

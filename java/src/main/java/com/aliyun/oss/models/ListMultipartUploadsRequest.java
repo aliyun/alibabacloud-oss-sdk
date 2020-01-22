@@ -11,6 +11,11 @@ public class ListMultipartUploadsRequest extends TeaModel {
     @NameInMap("Filter")
     public ListMultipartUploadsRequestFilter filter;
 
+    public static ListMultipartUploadsRequest build(java.util.Map<String, ?> map) throws Exception {
+        ListMultipartUploadsRequest self = new ListMultipartUploadsRequest();
+        return TeaModel.build(map, self);
+    }
+
     public static class ListMultipartUploadsRequestFilter extends TeaModel {
         @NameInMap("delimiter")
         public String delimiter;
@@ -29,6 +34,11 @@ public class ListMultipartUploadsRequest extends TeaModel {
 
         @NameInMap("encoding-type")
         public String encodingType;
+
+        public static ListMultipartUploadsRequestFilter build(java.util.Map<String, ?> map) throws Exception {
+            ListMultipartUploadsRequestFilter self = new ListMultipartUploadsRequestFilter();
+            return TeaModel.build(map, self);
+        }
 
     }
 
