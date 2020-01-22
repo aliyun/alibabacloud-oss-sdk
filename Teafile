@@ -30,6 +30,12 @@
   "import": {
 		"go": {
 			"common": "github.com/aliyun/alibabacloud-rpc-util-sdk/golang/common"
-		}
+    },
+    "csharp":{
+      "Common": {
+				"staticClass": "AlibabaCloud.Common",
+				"model": "AlibabaCloud.Commons.Models"
+			}
+    }
 	}
 }

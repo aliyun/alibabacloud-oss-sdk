@@ -19,8 +19,8 @@ namespace AlibabaCloud.OSS.Models
         public class GetBucketCORSResponseCORSConfiguration : TeaModel {
             [NameInMap("CORSRule")]
             [Validation(Required=false)]
-            public List<GetBucketCORSResponseCORSConfigurationMaxAgeSeconds> CORSRule { get; set; }
-            public class GetBucketCORSResponseCORSConfigurationMaxAgeSeconds : TeaModel {
+            public List<GetBucketCORSResponseCORSConfigurationCORSRule> CORSRule { get; set; }
+            public class GetBucketCORSResponseCORSConfigurationCORSRule : TeaModel {
                     public string MaxAgeSeconds { get; set; }
             }
         };
