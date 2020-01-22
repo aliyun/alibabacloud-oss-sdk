@@ -28,4 +28,9 @@ public class OptionObjectResponse extends TeaModel {
     @Validation(required = true)
     public String accessControlMaxAge;
 
+    public static OptionObjectResponse build(java.util.Map<String, ?> map) throws Exception {
+        OptionObjectResponse self = new OptionObjectResponse();
+        return TeaModel.build(map, self);
+    }
+
 }

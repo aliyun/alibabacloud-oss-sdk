@@ -8,4 +8,9 @@ public class SelectObjectResponse extends TeaModel {
     @Validation(required = true)
     public String requestId;
 
+    public static SelectObjectResponse build(java.util.Map<String, ?> map) throws Exception {
+        SelectObjectResponse self = new SelectObjectResponse();
+        return TeaModel.build(map, self);
+    }
+
 }

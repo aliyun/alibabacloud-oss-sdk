@@ -12,4 +12,9 @@ public class DeleteLiveChannelRequest extends TeaModel {
     @Validation(required = true)
     public String channelName;
 
+    public static DeleteLiveChannelRequest build(java.util.Map<String, ?> map) throws Exception {
+        DeleteLiveChannelRequest self = new DeleteLiveChannelRequest();
+        return TeaModel.build(map, self);
+    }
+
 }

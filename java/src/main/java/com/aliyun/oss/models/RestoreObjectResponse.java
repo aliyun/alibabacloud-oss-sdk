@@ -8,4 +8,9 @@ public class RestoreObjectResponse extends TeaModel {
     @Validation(required = true)
     public String requestId;
 
+    public static RestoreObjectResponse build(java.util.Map<String, ?> map) throws Exception {
+        RestoreObjectResponse self = new RestoreObjectResponse();
+        return TeaModel.build(map, self);
+    }
+
 }

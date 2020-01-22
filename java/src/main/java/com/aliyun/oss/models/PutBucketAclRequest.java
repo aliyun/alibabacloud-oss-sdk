@@ -12,10 +12,20 @@ public class PutBucketAclRequest extends TeaModel {
     @Validation(required = true)
     public PutBucketAclRequestHeader header;
 
+    public static PutBucketAclRequest build(java.util.Map<String, ?> map) throws Exception {
+        PutBucketAclRequest self = new PutBucketAclRequest();
+        return TeaModel.build(map, self);
+    }
+
     public static class PutBucketAclRequestHeader extends TeaModel {
         @NameInMap("x-oss-acl")
         @Validation(required = true)
         public String acl;
+
+        public static PutBucketAclRequestHeader build(java.util.Map<String, ?> map) throws Exception {
+            PutBucketAclRequestHeader self = new PutBucketAclRequestHeader();
+            return TeaModel.build(map, self);
+        }
 
     }
 

@@ -90,4 +90,9 @@ public class Config extends TeaModel {
     @Validation(required = true)
     public String[] addtionalHeaders;
 
+    public static Config build(java.util.Map<String, ?> map) throws Exception {
+        Config self = new Config();
+        return TeaModel.build(map, self);
+    }
+
 }

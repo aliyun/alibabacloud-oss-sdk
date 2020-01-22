@@ -8,4 +8,9 @@ public class DeleteBucketEncryptionRequest extends TeaModel {
     @Validation(required = true)
     public String bucketName;
 
+    public static DeleteBucketEncryptionRequest build(java.util.Map<String, ?> map) throws Exception {
+        DeleteBucketEncryptionRequest self = new DeleteBucketEncryptionRequest();
+        return TeaModel.build(map, self);
+    }
+
 }

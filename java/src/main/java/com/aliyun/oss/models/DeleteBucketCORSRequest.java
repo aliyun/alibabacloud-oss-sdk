@@ -8,4 +8,9 @@ public class DeleteBucketCORSRequest extends TeaModel {
     @Validation(required = true)
     public String bucketName;
 
+    public static DeleteBucketCORSRequest build(java.util.Map<String, ?> map) throws Exception {
+        DeleteBucketCORSRequest self = new DeleteBucketCORSRequest();
+        return TeaModel.build(map, self);
+    }
+
 }

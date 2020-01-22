@@ -12,4 +12,9 @@ public class DeleteObjectRequest extends TeaModel {
     @Validation(required = true)
     public String objectName;
 
+    public static DeleteObjectRequest build(java.util.Map<String, ?> map) throws Exception {
+        DeleteObjectRequest self = new DeleteObjectRequest();
+        return TeaModel.build(map, self);
+    }
+
 }

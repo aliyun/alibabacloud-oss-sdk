@@ -8,4 +8,9 @@ public class GetBucketInfoRequest extends TeaModel {
     @Validation(required = true)
     public String bucketName;
 
+    public static GetBucketInfoRequest build(java.util.Map<String, ?> map) throws Exception {
+        GetBucketInfoRequest self = new GetBucketInfoRequest();
+        return TeaModel.build(map, self);
+    }
+
 }

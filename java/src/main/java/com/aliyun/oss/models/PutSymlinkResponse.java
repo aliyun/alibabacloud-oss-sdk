@@ -8,4 +8,9 @@ public class PutSymlinkResponse extends TeaModel {
     @Validation(required = true)
     public String requestId;
 
+    public static PutSymlinkResponse build(java.util.Map<String, ?> map) throws Exception {
+        PutSymlinkResponse self = new PutSymlinkResponse();
+        return TeaModel.build(map, self);
+    }
+
 }

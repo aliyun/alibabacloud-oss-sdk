@@ -6,32 +6,31 @@ import com.aliyun.oss.models.*;
 import com.aliyun.oss.baseclient.BaseClient;
 
 public class Client extends BaseClient {
-
     public Client(Config config) throws Exception {
-        super(config.toMap());
+        super(TeaModel.buildMap(config));
     }
 
     public PutBucketLifecycleResponse putBucketLifecycle(PutBucketLifecycleRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -51,17 +50,17 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
-                String reqBody = this._toXML(TeaModel.buildMap(request.body));
+                String token = _getSecurityToken();
+                String reqBody = _toXML(TeaModel.buildMap(request.body));
                 request_.protocol = _protocol;
                 request_.method = "PUT";
                 request_.pathname = "/?lifecycle";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
@@ -72,9 +71,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -86,7 +85,7 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                return TeaModel.toModel(TeaConverter.merge(String.class,
                     response_.headers
                 ), new PutBucketLifecycleResponse());
             } catch (Exception e) {
@@ -101,26 +100,26 @@ public class Client extends BaseClient {
     }
 
     public DeleteMultipleObjectsResponse deleteMultipleObjects(DeleteMultipleObjectsRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -140,28 +139,28 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
-                String reqBody = this._toXML(TeaModel.buildMap(request.body));
+                String token = _getSecurityToken();
+                String reqBody = _toXML(TeaModel.buildMap(request.body));
                 request_.protocol = _protocol;
                 request_.method = "POST";
                 request_.pathname = "/?delete";
-                request_.headers = TeaConverter.merge(String.class, 
+                request_.headers = TeaConverter.merge(String.class,
                     TeaConverter.buildMap(
                         new TeaPair("host", this.getHost(request.bucketName)),
-                        new TeaPair("date", this._getDate()),
-                        new TeaPair("user-agent", this._getUserAgent())
+                        new TeaPair("date", _getDate()),
+                        new TeaPair("user-agent", _getUserAgent())
                     ),
-                    this._toHeader(TeaModel.buildMap(request.header))
+                    _toHeader(TeaModel.buildMap(request.header))
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
                 request_.body = Tea.toReadable(reqBody);
-                if (this._notNull(TeaModel.buildMap(request.header)) && !this._empty(request.header.contentMD5)) {
+                if (_notNull(TeaModel.buildMap(request.header)) && !_empty(request.header.contentMD5)) {
                     request_.headers.put("content-md5", request.header.contentMD5);
                 } else {
-                    request_.headers.put("content-md5", this._getContentMD5(reqBody));
+                    request_.headers.put("content-md5", _getContentMD5(reqBody));
                 }
 
                 request_.headers.put("authorization", this.getSignature(request_, request.bucketName));
@@ -170,9 +169,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -184,9 +183,9 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                bodyStr = this._readAsString(response_);
-                respMap = this._parseXml(bodyStr, DeleteMultipleObjectsResponse.class);
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                bodyStr = _readAsString(response_);
+                respMap = _parseXml(bodyStr, DeleteMultipleObjectsResponse.class);
+                return TeaModel.toModel(TeaConverter.merge(Object.class,
                     TeaConverter.buildMap(
                         new TeaPair("DeleteResult", respMap.get("DeleteResult"))
                     ),
@@ -204,26 +203,26 @@ public class Client extends BaseClient {
     }
 
     public PutBucketRefererResponse putBucketReferer(PutBucketRefererRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -243,17 +242,17 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
-                String reqBody = this._toXML(TeaModel.buildMap(request.body));
+                String token = _getSecurityToken();
+                String reqBody = _toXML(TeaModel.buildMap(request.body));
                 request_.protocol = _protocol;
                 request_.method = "PUT";
                 request_.pathname = "/?referer";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
@@ -264,9 +263,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -278,7 +277,7 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                return TeaModel.toModel(TeaConverter.merge(String.class,
                     response_.headers
                 ), new PutBucketRefererResponse());
             } catch (Exception e) {
@@ -293,26 +292,26 @@ public class Client extends BaseClient {
     }
 
     public PutBucketWebsiteResponse putBucketWebsite(PutBucketWebsiteRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -332,17 +331,17 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
-                String reqBody = this._toXML(TeaModel.buildMap(request.body));
+                String token = _getSecurityToken();
+                String reqBody = _toXML(TeaModel.buildMap(request.body));
                 request_.protocol = _protocol;
                 request_.method = "PUT";
                 request_.pathname = "/?website";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
@@ -353,9 +352,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -367,7 +366,7 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                return TeaModel.toModel(TeaConverter.merge(String.class,
                     response_.headers
                 ), new PutBucketWebsiteResponse());
             } catch (Exception e) {
@@ -382,26 +381,26 @@ public class Client extends BaseClient {
     }
 
     public CompleteMultipartUploadResponse completeMultipartUpload(CompleteMultipartUploadRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -421,21 +420,21 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
-                String reqBody = this._toXML(TeaModel.buildMap(request.body));
+                String token = _getSecurityToken();
+                String reqBody = _toXML(TeaModel.buildMap(request.body));
                 request_.protocol = _protocol;
                 request_.method = "POST";
                 request_.pathname = "/" + request.objectName + "";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
-                request_.query = this._toQuery(TeaModel.buildMap(request.filter));
+                request_.query = _toQuery(TeaModel.buildMap(request.filter));
                 request_.body = Tea.toReadable(reqBody);
                 request_.headers.put("authorization", this.getSignature(request_, request.bucketName));
                 _lastRequest = request_;
@@ -443,9 +442,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -457,9 +456,9 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                bodyStr = this._readAsString(response_);
-                respMap = this._parseXml(bodyStr, CompleteMultipartUploadResponse.class);
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                bodyStr = _readAsString(response_);
+                respMap = _parseXml(bodyStr, CompleteMultipartUploadResponse.class);
+                return TeaModel.toModel(TeaConverter.merge(Object.class,
                     TeaConverter.buildMap(
                         new TeaPair("CompleteMultipartUploadResult", respMap.get("CompleteMultipartUploadResult"))
                     ),
@@ -477,26 +476,26 @@ public class Client extends BaseClient {
     }
 
     public PutBucketLoggingResponse putBucketLogging(PutBucketLoggingRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -516,17 +515,17 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
-                String reqBody = this._toXML(TeaModel.buildMap(request.body));
+                String token = _getSecurityToken();
+                String reqBody = _toXML(TeaModel.buildMap(request.body));
                 request_.protocol = _protocol;
                 request_.method = "PUT";
                 request_.pathname = "/?logging";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
@@ -537,9 +536,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -551,7 +550,7 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                return TeaModel.toModel(TeaConverter.merge(String.class,
                     response_.headers
                 ), new PutBucketLoggingResponse());
             } catch (Exception e) {
@@ -566,26 +565,26 @@ public class Client extends BaseClient {
     }
 
     public PutBucketRequestPaymentResponse putBucketRequestPayment(PutBucketRequestPaymentRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -605,17 +604,17 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
-                String reqBody = this._toXML(TeaModel.buildMap(request.body));
+                String token = _getSecurityToken();
+                String reqBody = _toXML(TeaModel.buildMap(request.body));
                 request_.protocol = _protocol;
                 request_.method = "PUT";
                 request_.pathname = "/?requestPayment";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
@@ -626,9 +625,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -640,7 +639,7 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                return TeaModel.toModel(TeaConverter.merge(String.class,
                     response_.headers
                 ), new PutBucketRequestPaymentResponse());
             } catch (Exception e) {
@@ -655,26 +654,26 @@ public class Client extends BaseClient {
     }
 
     public PutBucketEncryptionResponse putBucketEncryption(PutBucketEncryptionRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -694,17 +693,17 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
-                String reqBody = this._toXML(TeaModel.buildMap(request.body));
+                String token = _getSecurityToken();
+                String reqBody = _toXML(TeaModel.buildMap(request.body));
                 request_.protocol = _protocol;
                 request_.method = "PUT";
                 request_.pathname = "/?encryption";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
@@ -715,9 +714,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -729,7 +728,7 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                return TeaModel.toModel(TeaConverter.merge(String.class,
                     response_.headers
                 ), new PutBucketEncryptionResponse());
             } catch (Exception e) {
@@ -744,26 +743,26 @@ public class Client extends BaseClient {
     }
 
     public PutLiveChannelResponse putLiveChannel(PutLiveChannelRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -783,17 +782,17 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
-                String reqBody = this._toXML(TeaModel.buildMap(request.body));
+                String token = _getSecurityToken();
+                String reqBody = _toXML(TeaModel.buildMap(request.body));
                 request_.protocol = _protocol;
                 request_.method = "PUT";
                 request_.pathname = "/" + request.channelName + "?live";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
@@ -804,9 +803,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -818,9 +817,9 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                bodyStr = this._readAsString(response_);
-                respMap = this._parseXml(bodyStr, PutLiveChannelResponse.class);
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                bodyStr = _readAsString(response_);
+                respMap = _parseXml(bodyStr, PutLiveChannelResponse.class);
+                return TeaModel.toModel(TeaConverter.merge(Object.class,
                     TeaConverter.buildMap(
                         new TeaPair("CreateLiveChannelResult", respMap.get("CreateLiveChannelResult"))
                     ),
@@ -838,26 +837,26 @@ public class Client extends BaseClient {
     }
 
     public PutBucketTagsResponse putBucketTags(PutBucketTagsRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -877,17 +876,17 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
-                String reqBody = this._toXML(TeaModel.buildMap(request.body));
+                String token = _getSecurityToken();
+                String reqBody = _toXML(TeaModel.buildMap(request.body));
                 request_.protocol = _protocol;
                 request_.method = "PUT";
                 request_.pathname = "/?tagging";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
@@ -898,9 +897,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -912,7 +911,7 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                return TeaModel.toModel(TeaConverter.merge(String.class,
                     response_.headers
                 ), new PutBucketTagsResponse());
             } catch (Exception e) {
@@ -927,26 +926,26 @@ public class Client extends BaseClient {
     }
 
     public PutObjectTaggingResponse putObjectTagging(PutObjectTaggingRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -966,17 +965,17 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
-                String reqBody = this._toXML(TeaModel.buildMap(request.body));
+                String token = _getSecurityToken();
+                String reqBody = _toXML(TeaModel.buildMap(request.body));
                 request_.protocol = _protocol;
                 request_.method = "PUT";
                 request_.pathname = "/" + request.objectName + "?tagging";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
@@ -987,9 +986,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -1001,7 +1000,7 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                return TeaModel.toModel(TeaConverter.merge(String.class,
                     response_.headers
                 ), new PutObjectTaggingResponse());
             } catch (Exception e) {
@@ -1016,26 +1015,26 @@ public class Client extends BaseClient {
     }
 
     public SelectObjectResponse selectObject(SelectObjectRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -1055,21 +1054,21 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
-                String reqBody = this._toXML(TeaModel.buildMap(request.body));
+                String token = _getSecurityToken();
+                String reqBody = _toXML(TeaModel.buildMap(request.body));
                 request_.protocol = _protocol;
                 request_.method = "POST";
                 request_.pathname = "/" + request.objectName + "";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
-                request_.query = this._toQuery(TeaModel.buildMap(request.filter));
+                request_.query = _toQuery(TeaModel.buildMap(request.filter));
                 request_.body = Tea.toReadable(reqBody);
                 request_.headers.put("authorization", this.getSignature(request_, request.bucketName));
                 _lastRequest = request_;
@@ -1077,9 +1076,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -1091,7 +1090,7 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                return TeaModel.toModel(TeaConverter.merge(String.class,
                     response_.headers
                 ), new SelectObjectResponse());
             } catch (Exception e) {
@@ -1106,26 +1105,26 @@ public class Client extends BaseClient {
     }
 
     public PutBucketCORSResponse putBucketCORS(PutBucketCORSRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -1145,17 +1144,17 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
-                String reqBody = this._toXML(TeaModel.buildMap(request.body));
+                String token = _getSecurityToken();
+                String reqBody = _toXML(TeaModel.buildMap(request.body));
                 request_.protocol = _protocol;
                 request_.method = "PUT";
                 request_.pathname = "/?cors";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
@@ -1166,9 +1165,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -1180,7 +1179,7 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                return TeaModel.toModel(TeaConverter.merge(String.class,
                     response_.headers
                 ), new PutBucketCORSResponse());
             } catch (Exception e) {
@@ -1195,26 +1194,26 @@ public class Client extends BaseClient {
     }
 
     public PutBucketResponse putBucket(PutBucketRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -1234,20 +1233,20 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
-                String reqBody = this._toXML(TeaModel.buildMap(request.body));
+                String token = _getSecurityToken();
+                String reqBody = _toXML(TeaModel.buildMap(request.body));
                 request_.protocol = _protocol;
                 request_.method = "PUT";
                 request_.pathname = "/";
-                request_.headers = TeaConverter.merge(String.class, 
+                request_.headers = TeaConverter.merge(String.class,
                     TeaConverter.buildMap(
                         new TeaPair("host", this.getHost(request.bucketName)),
-                        new TeaPair("date", this._getDate()),
-                        new TeaPair("user-agent", this._getUserAgent())
+                        new TeaPair("date", _getDate()),
+                        new TeaPair("user-agent", _getUserAgent())
                     ),
-                    this._toHeader(TeaModel.buildMap(request.header))
+                    _toHeader(TeaModel.buildMap(request.header))
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
@@ -1258,9 +1257,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -1272,7 +1271,7 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                return TeaModel.toModel(TeaConverter.merge(String.class,
                     response_.headers
                 ), new PutBucketResponse());
             } catch (Exception e) {
@@ -1287,26 +1286,26 @@ public class Client extends BaseClient {
     }
 
     public ListMultipartUploadsResponse listMultipartUploads(ListMultipartUploadsRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -1326,29 +1325,29 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "GET";
                 request_.pathname = "/?uploads";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
-                request_.query = this._toQuery(TeaModel.buildMap(request.filter));
+                request_.query = _toQuery(TeaModel.buildMap(request.filter));
                 request_.headers.put("authorization", this.getSignature(request_, request.bucketName));
                 _lastRequest = request_;
                 TeaResponse response_ = Tea.doAction(request_, runtime_);
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -1360,9 +1359,9 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                bodyStr = this._readAsString(response_);
-                respMap = this._parseXml(bodyStr, ListMultipartUploadsResponse.class);
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                bodyStr = _readAsString(response_);
+                respMap = _parseXml(bodyStr, ListMultipartUploadsResponse.class);
+                return TeaModel.toModel(TeaConverter.merge(Object.class,
                     TeaConverter.buildMap(
                         new TeaPair("ListMultipartUploadsResult", respMap.get("ListMultipartUploadsResult"))
                     ),
@@ -1380,26 +1379,26 @@ public class Client extends BaseClient {
     }
 
     public GetBucketRequestPaymentResponse getBucketRequestPayment(GetBucketRequestPaymentRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -1419,16 +1418,16 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "GET";
                 request_.pathname = "/?requestPayment";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
@@ -1438,9 +1437,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -1452,9 +1451,9 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                bodyStr = this._readAsString(response_);
-                respMap = this._parseXml(bodyStr, GetBucketRequestPaymentResponse.class);
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                bodyStr = _readAsString(response_);
+                respMap = _parseXml(bodyStr, GetBucketRequestPaymentResponse.class);
+                return TeaModel.toModel(TeaConverter.merge(Object.class,
                     TeaConverter.buildMap(
                         new TeaPair("RequestPaymentConfiguration", respMap.get("RequestPaymentConfiguration"))
                     ),
@@ -1472,26 +1471,26 @@ public class Client extends BaseClient {
     }
 
     public GetBucketEncryptionResponse getBucketEncryption(GetBucketEncryptionRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -1511,16 +1510,16 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "GET";
                 request_.pathname = "/?encryption";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
@@ -1530,9 +1529,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -1544,9 +1543,9 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                bodyStr = this._readAsString(response_);
-                respMap = this._parseXml(bodyStr, GetBucketEncryptionResponse.class);
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                bodyStr = _readAsString(response_);
+                respMap = _parseXml(bodyStr, GetBucketEncryptionResponse.class);
+                return TeaModel.toModel(TeaConverter.merge(Object.class,
                     TeaConverter.buildMap(
                         new TeaPair("ServerSideEncryptionRule", respMap.get("ServerSideEncryptionRule"))
                     ),
@@ -1564,26 +1563,26 @@ public class Client extends BaseClient {
     }
 
     public GetBucketTagsResponse getBucketTags(GetBucketTagsRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -1603,16 +1602,16 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "GET";
                 request_.pathname = "/?tagging";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
@@ -1622,9 +1621,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -1636,9 +1635,9 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                bodyStr = this._readAsString(response_);
-                respMap = this._parseXml(bodyStr, GetBucketTagsResponse.class);
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                bodyStr = _readAsString(response_);
+                respMap = _parseXml(bodyStr, GetBucketTagsResponse.class);
+                return TeaModel.toModel(TeaConverter.merge(Object.class,
                     TeaConverter.buildMap(
                         new TeaPair("Tagging", respMap.get("Tagging"))
                     ),
@@ -1656,26 +1655,26 @@ public class Client extends BaseClient {
     }
 
     public GetServiceResponse getService(GetServiceRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -1695,29 +1694,29 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "GET";
                 request_.pathname = "/";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost("")),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
-                request_.query = this._toQuery(TeaModel.buildMap(request.filter));
+                request_.query = _toQuery(TeaModel.buildMap(request.filter));
                 request_.headers.put("authorization", this.getSignature(request_, ""));
                 _lastRequest = request_;
                 TeaResponse response_ = Tea.doAction(request_, runtime_);
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -1729,9 +1728,9 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                bodyStr = this._readAsString(response_);
-                respMap = this._parseXml(bodyStr, GetServiceResponse.class);
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                bodyStr = _readAsString(response_);
+                respMap = _parseXml(bodyStr, GetServiceResponse.class);
+                return TeaModel.toModel(TeaConverter.merge(Object.class,
                     TeaConverter.buildMap(
                         new TeaPair("ListAllMyBucketsResult", respMap.get("ListAllMyBucketsResult"))
                     ),
@@ -1749,26 +1748,26 @@ public class Client extends BaseClient {
     }
 
     public DeleteBucketEncryptionResponse deleteBucketEncryption(DeleteBucketEncryptionRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -1788,16 +1787,16 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "DELETE";
                 request_.pathname = "/?encryption";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
@@ -1807,9 +1806,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -1821,7 +1820,7 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                return TeaModel.toModel(TeaConverter.merge(String.class,
                     response_.headers
                 ), new DeleteBucketEncryptionResponse());
             } catch (Exception e) {
@@ -1836,26 +1835,26 @@ public class Client extends BaseClient {
     }
 
     public DeleteBucketTagsResponse deleteBucketTags(DeleteBucketTagsRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -1875,29 +1874,29 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "DELETE";
                 request_.pathname = "/";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
-                request_.query = this._toQuery(TeaModel.buildMap(request.filter));
+                request_.query = _toQuery(TeaModel.buildMap(request.filter));
                 request_.headers.put("authorization", this.getSignature(request_, request.bucketName));
                 _lastRequest = request_;
                 TeaResponse response_ = Tea.doAction(request_, runtime_);
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -1909,7 +1908,7 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                return TeaModel.toModel(TeaConverter.merge(String.class,
                     response_.headers
                 ), new DeleteBucketTagsResponse());
             } catch (Exception e) {
@@ -1924,26 +1923,26 @@ public class Client extends BaseClient {
     }
 
     public GetBucketWebsiteResponse getBucketWebsite(GetBucketWebsiteRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -1963,16 +1962,16 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "GET";
                 request_.pathname = "/?website";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
@@ -1982,9 +1981,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -1996,9 +1995,9 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                bodyStr = this._readAsString(response_);
-                respMap = this._parseXml(bodyStr, GetBucketWebsiteResponse.class);
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                bodyStr = _readAsString(response_);
+                respMap = _parseXml(bodyStr, GetBucketWebsiteResponse.class);
+                return TeaModel.toModel(TeaConverter.merge(Object.class,
                     TeaConverter.buildMap(
                         new TeaPair("WebsiteConfiguration", respMap.get("WebsiteConfiguration"))
                     ),
@@ -2016,26 +2015,26 @@ public class Client extends BaseClient {
     }
 
     public DeleteLiveChannelResponse deleteLiveChannel(DeleteLiveChannelRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -2055,16 +2054,16 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "DELETE";
                 request_.pathname = "/" + request.channelName + "?live";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
@@ -2074,9 +2073,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -2088,7 +2087,7 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                return TeaModel.toModel(TeaConverter.merge(String.class,
                     response_.headers
                 ), new DeleteLiveChannelResponse());
             } catch (Exception e) {
@@ -2103,26 +2102,26 @@ public class Client extends BaseClient {
     }
 
     public GetBucketLocationResponse getBucketLocation(GetBucketLocationRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -2142,16 +2141,16 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "GET";
                 request_.pathname = "/?location";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
@@ -2161,9 +2160,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -2175,9 +2174,9 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                bodyStr = this._readAsString(response_);
-                respMap = this._parseXml(bodyStr, GetBucketLocationResponse.class);
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                bodyStr = _readAsString(response_);
+                respMap = _parseXml(bodyStr, GetBucketLocationResponse.class);
+                return TeaModel.toModel(TeaConverter.merge(Object.class,
                     TeaConverter.buildMap(
                         new TeaPair("LocationConstraint", respMap.get("LocationConstraint"))
                     ),
@@ -2195,26 +2194,26 @@ public class Client extends BaseClient {
     }
 
     public ListLiveChannelResponse listLiveChannel(ListLiveChannelRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -2234,29 +2233,29 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "GET";
                 request_.pathname = "/?live";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
-                request_.query = this._toQuery(TeaModel.buildMap(request.filter));
+                request_.query = _toQuery(TeaModel.buildMap(request.filter));
                 request_.headers.put("authorization", this.getSignature(request_, request.bucketName));
                 _lastRequest = request_;
                 TeaResponse response_ = Tea.doAction(request_, runtime_);
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -2268,9 +2267,9 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                bodyStr = this._readAsString(response_);
-                respMap = this._parseXml(bodyStr, ListLiveChannelResponse.class);
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                bodyStr = _readAsString(response_);
+                respMap = _parseXml(bodyStr, ListLiveChannelResponse.class);
+                return TeaModel.toModel(TeaConverter.merge(Object.class,
                     TeaConverter.buildMap(
                         new TeaPair("ListLiveChannelResult", respMap.get("ListLiveChannelResult"))
                     ),
@@ -2288,26 +2287,26 @@ public class Client extends BaseClient {
     }
 
     public GetObjectMetaResponse getObjectMeta(GetObjectMetaRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -2327,16 +2326,16 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "HEAD";
                 request_.pathname = "/" + request.objectName + "?objectMeta";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
@@ -2346,9 +2345,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -2360,7 +2359,7 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                return TeaModel.toModel(TeaConverter.merge(String.class,
                     response_.headers
                 ), new GetObjectMetaResponse());
             } catch (Exception e) {
@@ -2375,26 +2374,26 @@ public class Client extends BaseClient {
     }
 
     public GetBucketAclResponse getBucketAcl(GetBucketAclRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -2414,16 +2413,16 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "GET";
                 request_.pathname = "/?acl";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
@@ -2433,9 +2432,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -2447,9 +2446,9 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                bodyStr = this._readAsString(response_);
-                respMap = this._parseXml(bodyStr, GetBucketAclResponse.class);
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                bodyStr = _readAsString(response_);
+                respMap = _parseXml(bodyStr, GetBucketAclResponse.class);
+                return TeaModel.toModel(TeaConverter.merge(Object.class,
                     TeaConverter.buildMap(
                         new TeaPair("AccessControlPolicy", respMap.get("AccessControlPolicy"))
                     ),
@@ -2467,26 +2466,26 @@ public class Client extends BaseClient {
     }
 
     public ListPartsResponse listParts(ListPartsRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -2506,29 +2505,29 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "GET";
                 request_.pathname = "/" + request.objectName + "";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
-                request_.query = this._toQuery(TeaModel.buildMap(request.filter));
+                request_.query = _toQuery(TeaModel.buildMap(request.filter));
                 request_.headers.put("authorization", this.getSignature(request_, request.bucketName));
                 _lastRequest = request_;
                 TeaResponse response_ = Tea.doAction(request_, runtime_);
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -2540,9 +2539,9 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                bodyStr = this._readAsString(response_);
-                respMap = this._parseXml(bodyStr, ListPartsResponse.class);
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                bodyStr = _readAsString(response_);
+                respMap = _parseXml(bodyStr, ListPartsResponse.class);
+                return TeaModel.toModel(TeaConverter.merge(Object.class,
                     TeaConverter.buildMap(
                         new TeaPair("ListPartsResult", respMap.get("ListPartsResult"))
                     ),
@@ -2560,26 +2559,26 @@ public class Client extends BaseClient {
     }
 
     public GetLiveChannelHistoryResponse getLiveChannelHistory(GetLiveChannelHistoryRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -2599,29 +2598,29 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "GET";
                 request_.pathname = "/" + request.channelName + "?live";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
-                request_.query = this._toQuery(TeaModel.buildMap(request.filter));
+                request_.query = _toQuery(TeaModel.buildMap(request.filter));
                 request_.headers.put("authorization", this.getSignature(request_, request.bucketName));
                 _lastRequest = request_;
                 TeaResponse response_ = Tea.doAction(request_, runtime_);
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -2633,9 +2632,9 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                bodyStr = this._readAsString(response_);
-                respMap = this._parseXml(bodyStr, GetLiveChannelHistoryResponse.class);
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                bodyStr = _readAsString(response_);
+                respMap = _parseXml(bodyStr, GetLiveChannelHistoryResponse.class);
+                return TeaModel.toModel(TeaConverter.merge(Object.class,
                     TeaConverter.buildMap(
                         new TeaPair("LiveChannelHistory", respMap.get("LiveChannelHistory"))
                     ),
@@ -2653,26 +2652,26 @@ public class Client extends BaseClient {
     }
 
     public GetBucketResponse getBucket(GetBucketRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -2692,29 +2691,29 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "GET";
                 request_.pathname = "/";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
-                request_.query = this._toQuery(TeaModel.buildMap(request.filter));
+                request_.query = _toQuery(TeaModel.buildMap(request.filter));
                 request_.headers.put("authorization", this.getSignature(request_, request.bucketName));
                 _lastRequest = request_;
                 TeaResponse response_ = Tea.doAction(request_, runtime_);
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -2726,9 +2725,9 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                bodyStr = this._readAsString(response_);
-                respMap = this._parseXml(bodyStr, GetBucketResponse.class);
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                bodyStr = _readAsString(response_);
+                respMap = _parseXml(bodyStr, GetBucketResponse.class);
+                return TeaModel.toModel(TeaConverter.merge(Object.class,
                     TeaConverter.buildMap(
                         new TeaPair("ListBucketResult", respMap.get("ListBucketResult"))
                     ),
@@ -2746,26 +2745,26 @@ public class Client extends BaseClient {
     }
 
     public GetLiveChannelInfoResponse getLiveChannelInfo(GetLiveChannelInfoRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -2785,16 +2784,16 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "GET";
                 request_.pathname = "/" + request.channelName + "?live";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
@@ -2804,9 +2803,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -2818,9 +2817,9 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                bodyStr = this._readAsString(response_);
-                respMap = this._parseXml(bodyStr, GetLiveChannelInfoResponse.class);
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                bodyStr = _readAsString(response_);
+                respMap = _parseXml(bodyStr, GetLiveChannelInfoResponse.class);
+                return TeaModel.toModel(TeaConverter.merge(Object.class,
                     TeaConverter.buildMap(
                         new TeaPair("LiveChannelConfiguration", respMap.get("LiveChannelConfiguration"))
                     ),
@@ -2838,26 +2837,26 @@ public class Client extends BaseClient {
     }
 
     public GetLiveChannelStatResponse getLiveChannelStat(GetLiveChannelStatRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -2877,29 +2876,29 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "GET";
                 request_.pathname = "/" + request.channelName + "?live";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
-                request_.query = this._toQuery(TeaModel.buildMap(request.filter));
+                request_.query = _toQuery(TeaModel.buildMap(request.filter));
                 request_.headers.put("authorization", this.getSignature(request_, request.bucketName));
                 _lastRequest = request_;
                 TeaResponse response_ = Tea.doAction(request_, runtime_);
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -2911,9 +2910,9 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                bodyStr = this._readAsString(response_);
-                respMap = this._parseXml(bodyStr, GetLiveChannelStatResponse.class);
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                bodyStr = _readAsString(response_);
+                respMap = _parseXml(bodyStr, GetLiveChannelStatResponse.class);
+                return TeaModel.toModel(TeaConverter.merge(Object.class,
                     TeaConverter.buildMap(
                         new TeaPair("LiveChannelStat", respMap.get("LiveChannelStat"))
                     ),
@@ -2931,26 +2930,26 @@ public class Client extends BaseClient {
     }
 
     public DeleteObjectResponse deleteObject(DeleteObjectRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -2970,16 +2969,16 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "DELETE";
                 request_.pathname = "/" + request.objectName + "";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
@@ -2989,9 +2988,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -3003,7 +3002,7 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                return TeaModel.toModel(TeaConverter.merge(String.class,
                     response_.headers
                 ), new DeleteObjectResponse());
             } catch (Exception e) {
@@ -3018,26 +3017,26 @@ public class Client extends BaseClient {
     }
 
     public AbortMultipartUploadResponse abortMultipartUpload(AbortMultipartUploadRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -3057,29 +3056,29 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "DELETE";
                 request_.pathname = "/" + request.objectName + "";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
-                request_.query = this._toQuery(TeaModel.buildMap(request.filter));
+                request_.query = _toQuery(TeaModel.buildMap(request.filter));
                 request_.headers.put("authorization", this.getSignature(request_, request.bucketName));
                 _lastRequest = request_;
                 TeaResponse response_ = Tea.doAction(request_, runtime_);
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -3091,7 +3090,7 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                return TeaModel.toModel(TeaConverter.merge(String.class,
                     response_.headers
                 ), new AbortMultipartUploadResponse());
             } catch (Exception e) {
@@ -3106,26 +3105,26 @@ public class Client extends BaseClient {
     }
 
     public AppendObjectResponse appendObject(AppendObjectRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -3146,29 +3145,29 @@ public class Client extends BaseClient {
             try {
                 TeaRequest request_ = new TeaRequest();
                 java.util.Map<String, String> ctx = new java.util.HashMap<>();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "POST";
                 request_.pathname = "/" + request.objectName + "?append";
-                request_.headers = TeaConverter.merge(String.class, 
+                request_.headers = TeaConverter.merge(String.class,
                     TeaConverter.buildMap(
                         new TeaPair("host", this.getHost(request.bucketName)),
-                        new TeaPair("date", this._getDate()),
-                        new TeaPair("user-agent", this._getUserAgent())
+                        new TeaPair("date", _getDate()),
+                        new TeaPair("user-agent", _getUserAgent())
                     ),
-                    this._toHeader(TeaModel.buildMap(request.header)),
-                    this._parseMeta(request.userMeta, "x-oss-meta-")
+                    _toHeader(TeaModel.buildMap(request.header)),
+                    _parseMeta(request.userMeta, "x-oss-meta-")
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
-                request_.query = this._toQuery(TeaModel.buildMap(request.filter));
-                request_.body = this._inject(request.body, ctx);
-                if (this._notNull(TeaModel.buildMap(request.header)) && !this._empty(request.header.contentType)) {
+                request_.query = _toQuery(TeaModel.buildMap(request.filter));
+                request_.body = _inject(request.body, ctx);
+                if (_notNull(TeaModel.buildMap(request.header)) && !_empty(request.header.contentType)) {
                     request_.headers.put("content-type", request.header.contentType);
                 } else {
-                    request_.headers.put("content-type", this._getContentType(request.objectName));
+                    request_.headers.put("content-type", _getContentType(request.objectName));
                 }
 
                 request_.headers.put("authorization", this.getSignature(request_, request.bucketName));
@@ -3177,9 +3176,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -3191,7 +3190,7 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                if (_isEnableCrc && !this._equal(ctx.get("crc"), response_.headers.get("x-oss-hash-crc64ecma"))) {
+                if (_isEnableCrc && !_equal(ctx.get("crc"), response_.headers.get("x-oss-hash-crc64ecma"))) {
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", "CrcNotMatched"),
                         new TeaPair("data", TeaConverter.buildMap(
@@ -3201,7 +3200,7 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                if (_isEnableMD5 && !this._equal(ctx.get("md5"), response_.headers.get("content-md5"))) {
+                if (_isEnableMD5 && !_equal(ctx.get("md5"), response_.headers.get("content-md5"))) {
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", "MD5NotMatched"),
                         new TeaPair("data", TeaConverter.buildMap(
@@ -3211,7 +3210,7 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                return TeaModel.toModel(TeaConverter.merge(String.class,
                     response_.headers
                 ), new AppendObjectResponse());
             } catch (Exception e) {
@@ -3226,26 +3225,26 @@ public class Client extends BaseClient {
     }
 
     public UploadPartCopyResponse uploadPartCopy(UploadPartCopyRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -3265,32 +3264,32 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "PUT";
                 request_.pathname = "/" + request.objectName + "";
-                request_.headers = TeaConverter.merge(String.class, 
+                request_.headers = TeaConverter.merge(String.class,
                     TeaConverter.buildMap(
                         new TeaPair("host", this.getHost(request.bucketName)),
-                        new TeaPair("date", this._getDate()),
-                        new TeaPair("user-agent", this._getUserAgent())
+                        new TeaPair("date", _getDate()),
+                        new TeaPair("user-agent", _getUserAgent())
                     ),
-                    this._toHeader(TeaModel.buildMap(request.header))
+                    _toHeader(TeaModel.buildMap(request.header))
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
-                request_.query = this._toQuery(TeaModel.buildMap(request.filter));
+                request_.query = _toQuery(TeaModel.buildMap(request.filter));
                 request_.headers.put("authorization", this.getSignature(request_, request.bucketName));
                 _lastRequest = request_;
                 TeaResponse response_ = Tea.doAction(request_, runtime_);
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -3302,9 +3301,9 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                bodyStr = this._readAsString(response_);
-                respMap = this._parseXml(bodyStr, UploadPartCopyResponse.class);
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                bodyStr = _readAsString(response_);
+                respMap = _parseXml(bodyStr, UploadPartCopyResponse.class);
+                return TeaModel.toModel(TeaConverter.merge(Object.class,
                     TeaConverter.buildMap(
                         new TeaPair("CopyPartResult", respMap.get("CopyPartResult"))
                     ),
@@ -3322,26 +3321,26 @@ public class Client extends BaseClient {
     }
 
     public GetVodPlaylistResponse getVodPlaylist(GetVodPlaylistRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -3361,29 +3360,29 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "GET";
                 request_.pathname = "/" + request.channelName + "?vod";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
-                request_.query = this._toQuery(TeaModel.buildMap(request.filter));
+                request_.query = _toQuery(TeaModel.buildMap(request.filter));
                 request_.headers.put("authorization", this.getSignature(request_, request.bucketName));
                 _lastRequest = request_;
                 TeaResponse response_ = Tea.doAction(request_, runtime_);
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -3395,7 +3394,7 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                return TeaModel.toModel(TeaConverter.merge(String.class,
                     response_.headers
                 ), new GetVodPlaylistResponse());
             } catch (Exception e) {
@@ -3410,26 +3409,26 @@ public class Client extends BaseClient {
     }
 
     public DeleteBucketCORSResponse deleteBucketCORS(DeleteBucketCORSRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -3449,16 +3448,16 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "DELETE";
                 request_.pathname = "/?cors";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
@@ -3468,9 +3467,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -3482,7 +3481,7 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                return TeaModel.toModel(TeaConverter.merge(String.class,
                     response_.headers
                 ), new DeleteBucketCORSResponse());
             } catch (Exception e) {
@@ -3497,26 +3496,26 @@ public class Client extends BaseClient {
     }
 
     public GetObjectResponse getObject(GetObjectRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -3536,19 +3535,19 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "GET";
                 request_.pathname = "/" + request.objectName + "";
-                request_.headers = TeaConverter.merge(String.class, 
+                request_.headers = TeaConverter.merge(String.class,
                     TeaConverter.buildMap(
                         new TeaPair("host", this.getHost(request.bucketName)),
-                        new TeaPair("date", this._getDate()),
-                        new TeaPair("user-agent", this._getUserAgent())
+                        new TeaPair("date", _getDate()),
+                        new TeaPair("user-agent", _getUserAgent())
                     ),
-                    this._toHeader(TeaModel.buildMap(request.header))
+                    _toHeader(TeaModel.buildMap(request.header))
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
@@ -3558,9 +3557,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -3572,9 +3571,9 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                return TeaModel.toModel(TeaConverter.merge(Object.class,
                     TeaConverter.buildMap(
-                        new TeaPair("body", this._readAsStream(response_))
+                        new TeaPair("body", _readAsStream(response_))
                     ),
                     response_.headers
                 ), new GetObjectResponse());
@@ -3590,26 +3589,26 @@ public class Client extends BaseClient {
     }
 
     public UploadPartResponse uploadPart(UploadPartRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -3630,30 +3629,30 @@ public class Client extends BaseClient {
             try {
                 TeaRequest request_ = new TeaRequest();
                 java.util.Map<String, String> ctx = new java.util.HashMap<>();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "PUT";
                 request_.pathname = "/" + request.objectName + "";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
-                request_.query = this._toQuery(TeaModel.buildMap(request.filter));
-                request_.body = this._inject(request.body, ctx);
+                request_.query = _toQuery(TeaModel.buildMap(request.filter));
+                request_.body = _inject(request.body, ctx);
                 request_.headers.put("authorization", this.getSignature(request_, request.bucketName));
                 _lastRequest = request_;
                 TeaResponse response_ = Tea.doAction(request_, runtime_);
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -3665,7 +3664,7 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                if (_isEnableCrc && !this._equal(ctx.get("crc"), response_.headers.get("x-oss-hash-crc64ecma"))) {
+                if (_isEnableCrc && !_equal(ctx.get("crc"), response_.headers.get("x-oss-hash-crc64ecma"))) {
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", "CrcNotMatched"),
                         new TeaPair("data", TeaConverter.buildMap(
@@ -3675,7 +3674,7 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                if (_isEnableMD5 && !this._equal(ctx.get("md5"), response_.headers.get("content-md5"))) {
+                if (_isEnableMD5 && !_equal(ctx.get("md5"), response_.headers.get("content-md5"))) {
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", "MD5NotMatched"),
                         new TeaPair("data", TeaConverter.buildMap(
@@ -3685,7 +3684,7 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                return TeaModel.toModel(TeaConverter.merge(String.class,
                     response_.headers
                 ), new UploadPartResponse());
             } catch (Exception e) {
@@ -3700,26 +3699,26 @@ public class Client extends BaseClient {
     }
 
     public GetBucketCORSResponse getBucketCORS(GetBucketCORSRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -3739,16 +3738,16 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "GET";
                 request_.pathname = "/?cors";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
@@ -3758,9 +3757,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -3772,9 +3771,9 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                bodyStr = this._readAsString(response_);
-                respMap = this._parseXml(bodyStr, GetBucketCORSResponse.class);
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                bodyStr = _readAsString(response_);
+                respMap = _parseXml(bodyStr, GetBucketCORSResponse.class);
+                return TeaModel.toModel(TeaConverter.merge(Object.class,
                     TeaConverter.buildMap(
                         new TeaPair("CORSConfiguration", respMap.get("CORSConfiguration"))
                     ),
@@ -3792,26 +3791,26 @@ public class Client extends BaseClient {
     }
 
     public CopyObjectResponse copyObject(CopyObjectRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -3831,32 +3830,32 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "PUT";
                 request_.pathname = "/" + request.destObjectName + "";
-                request_.headers = TeaConverter.merge(String.class, 
+                request_.headers = TeaConverter.merge(String.class,
                     TeaConverter.buildMap(
                         new TeaPair("host", this.getHost(request.bucketName)),
-                        new TeaPair("date", this._getDate()),
-                        new TeaPair("user-agent", this._getUserAgent())
+                        new TeaPair("date", _getDate()),
+                        new TeaPair("user-agent", _getUserAgent())
                     ),
-                    this._toHeader(TeaModel.buildMap(request.header))
+                    _toHeader(TeaModel.buildMap(request.header))
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
-                request_.headers.put("x-oss-copy-source", this._encode(request_.headers.get("x-oss-copy-source"), "UrlEncode"));
+                request_.headers.put("x-oss-copy-source", _encode(request_.headers.get("x-oss-copy-source"), "UrlEncode"));
                 request_.headers.put("authorization", this.getSignature(request_, request.bucketName));
                 _lastRequest = request_;
                 TeaResponse response_ = Tea.doAction(request_, runtime_);
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -3868,9 +3867,9 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                bodyStr = this._readAsString(response_);
-                respMap = this._parseXml(bodyStr, CopyObjectResponse.class);
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                bodyStr = _readAsString(response_);
+                respMap = _parseXml(bodyStr, CopyObjectResponse.class);
+                return TeaModel.toModel(TeaConverter.merge(Object.class,
                     TeaConverter.buildMap(
                         new TeaPair("CopyObjectResult", respMap.get("CopyObjectResult"))
                     ),
@@ -3888,26 +3887,26 @@ public class Client extends BaseClient {
     }
 
     public GetObjectTaggingResponse getObjectTagging(GetObjectTaggingRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -3927,16 +3926,16 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "GET";
                 request_.pathname = "/" + request.objectName + "?tagging";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
@@ -3946,9 +3945,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -3960,9 +3959,9 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                bodyStr = this._readAsString(response_);
-                respMap = this._parseXml(bodyStr, GetObjectTaggingResponse.class);
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                bodyStr = _readAsString(response_);
+                respMap = _parseXml(bodyStr, GetObjectTaggingResponse.class);
+                return TeaModel.toModel(TeaConverter.merge(Object.class,
                     TeaConverter.buildMap(
                         new TeaPair("Tagging", respMap.get("Tagging"))
                     ),
@@ -3980,26 +3979,26 @@ public class Client extends BaseClient {
     }
 
     public DeleteBucketLifecycleResponse deleteBucketLifecycle(DeleteBucketLifecycleRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -4019,16 +4018,16 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "DELETE";
                 request_.pathname = "/?lifecycle";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
@@ -4038,9 +4037,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -4052,7 +4051,7 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                return TeaModel.toModel(TeaConverter.merge(String.class,
                     response_.headers
                 ), new DeleteBucketLifecycleResponse());
             } catch (Exception e) {
@@ -4067,26 +4066,26 @@ public class Client extends BaseClient {
     }
 
     public DeleteBucketLoggingResponse deleteBucketLogging(DeleteBucketLoggingRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -4106,16 +4105,16 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "DELETE";
                 request_.pathname = "/?logging";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
@@ -4125,9 +4124,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -4139,7 +4138,7 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                return TeaModel.toModel(TeaConverter.merge(String.class,
                     response_.headers
                 ), new DeleteBucketLoggingResponse());
             } catch (Exception e) {
@@ -4154,26 +4153,26 @@ public class Client extends BaseClient {
     }
 
     public DeleteBucketWebsiteResponse deleteBucketWebsite(DeleteBucketWebsiteRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -4193,16 +4192,16 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "DELETE";
                 request_.pathname = "/?website";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
@@ -4212,9 +4211,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -4226,7 +4225,7 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                return TeaModel.toModel(TeaConverter.merge(String.class,
                     response_.headers
                 ), new DeleteBucketWebsiteResponse());
             } catch (Exception e) {
@@ -4241,26 +4240,26 @@ public class Client extends BaseClient {
     }
 
     public GetSymlinkResponse getSymlink(GetSymlinkRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -4280,16 +4279,16 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "GET";
                 request_.pathname = "/" + request.objectName + "?symlink";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
@@ -4299,9 +4298,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -4313,7 +4312,7 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                return TeaModel.toModel(TeaConverter.merge(String.class,
                     response_.headers
                 ), new GetSymlinkResponse());
             } catch (Exception e) {
@@ -4328,26 +4327,26 @@ public class Client extends BaseClient {
     }
 
     public GetBucketLifecycleResponse getBucketLifecycle(GetBucketLifecycleRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -4367,16 +4366,16 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "GET";
                 request_.pathname = "/?lifecycle";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
@@ -4386,9 +4385,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -4400,9 +4399,9 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                bodyStr = this._readAsString(response_);
-                respMap = this._parseXml(bodyStr, GetBucketLifecycleResponse.class);
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                bodyStr = _readAsString(response_);
+                respMap = _parseXml(bodyStr, GetBucketLifecycleResponse.class);
+                return TeaModel.toModel(TeaConverter.merge(Object.class,
                     TeaConverter.buildMap(
                         new TeaPair("LifecycleConfiguration", respMap.get("LifecycleConfiguration"))
                     ),
@@ -4420,26 +4419,26 @@ public class Client extends BaseClient {
     }
 
     public PutSymlinkResponse putSymlink(PutSymlinkRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -4459,19 +4458,19 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "PUT";
                 request_.pathname = "/" + request.objectName + "?symlink";
-                request_.headers = TeaConverter.merge(String.class, 
+                request_.headers = TeaConverter.merge(String.class,
                     TeaConverter.buildMap(
                         new TeaPair("host", this.getHost(request.bucketName)),
-                        new TeaPair("date", this._getDate()),
-                        new TeaPair("user-agent", this._getUserAgent())
+                        new TeaPair("date", _getDate()),
+                        new TeaPair("user-agent", _getUserAgent())
                     ),
-                    this._toHeader(TeaModel.buildMap(request.header))
+                    _toHeader(TeaModel.buildMap(request.header))
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
@@ -4481,9 +4480,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -4495,7 +4494,7 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                return TeaModel.toModel(TeaConverter.merge(String.class,
                     response_.headers
                 ), new PutSymlinkResponse());
             } catch (Exception e) {
@@ -4510,26 +4509,26 @@ public class Client extends BaseClient {
     }
 
     public GetBucketRefererResponse getBucketReferer(GetBucketRefererRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -4549,16 +4548,16 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "GET";
                 request_.pathname = "/?referer";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
@@ -4568,9 +4567,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -4582,9 +4581,9 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                bodyStr = this._readAsString(response_);
-                respMap = this._parseXml(bodyStr, GetBucketRefererResponse.class);
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                bodyStr = _readAsString(response_);
+                respMap = _parseXml(bodyStr, GetBucketRefererResponse.class);
+                return TeaModel.toModel(TeaConverter.merge(Object.class,
                     TeaConverter.buildMap(
                         new TeaPair("RefererConfiguration", respMap.get("RefererConfiguration"))
                     ),
@@ -4602,26 +4601,26 @@ public class Client extends BaseClient {
     }
 
     public CallbackResponse callback(CallbackRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -4641,16 +4640,16 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "GET";
                 request_.pathname = "/";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
@@ -4660,9 +4659,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -4674,7 +4673,7 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                return TeaModel.toModel(TeaConverter.merge(String.class,
                     response_.headers
                 ), new CallbackResponse());
             } catch (Exception e) {
@@ -4689,26 +4688,26 @@ public class Client extends BaseClient {
     }
 
     public GetBucketLoggingResponse getBucketLogging(GetBucketLoggingRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -4728,16 +4727,16 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "GET";
                 request_.pathname = "/?logging";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
@@ -4747,9 +4746,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -4761,9 +4760,9 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                bodyStr = this._readAsString(response_);
-                respMap = this._parseXml(bodyStr, GetBucketLoggingResponse.class);
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                bodyStr = _readAsString(response_);
+                respMap = _parseXml(bodyStr, GetBucketLoggingResponse.class);
+                return TeaModel.toModel(TeaConverter.merge(Object.class,
                     TeaConverter.buildMap(
                         new TeaPair("BucketLoggingStatus", respMap.get("BucketLoggingStatus"))
                     ),
@@ -4781,26 +4780,26 @@ public class Client extends BaseClient {
     }
 
     public PutObjectAclResponse putObjectAcl(PutObjectAclRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -4820,19 +4819,19 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "PUT";
                 request_.pathname = "/" + request.objectName + "?acl";
-                request_.headers = TeaConverter.merge(String.class, 
+                request_.headers = TeaConverter.merge(String.class,
                     TeaConverter.buildMap(
                         new TeaPair("host", this.getHost(request.bucketName)),
-                        new TeaPair("date", this._getDate()),
-                        new TeaPair("user-agent", this._getUserAgent())
+                        new TeaPair("date", _getDate()),
+                        new TeaPair("user-agent", _getUserAgent())
                     ),
-                    this._toHeader(TeaModel.buildMap(request.header))
+                    _toHeader(TeaModel.buildMap(request.header))
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
@@ -4842,9 +4841,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -4856,7 +4855,7 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                return TeaModel.toModel(TeaConverter.merge(String.class,
                     response_.headers
                 ), new PutObjectAclResponse());
             } catch (Exception e) {
@@ -4871,26 +4870,26 @@ public class Client extends BaseClient {
     }
 
     public GetBucketInfoResponse getBucketInfo(GetBucketInfoRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -4910,16 +4909,16 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "GET";
                 request_.pathname = "/?bucketInfo";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
@@ -4929,9 +4928,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -4943,9 +4942,9 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                bodyStr = this._readAsString(response_);
-                respMap = this._parseXml(bodyStr, GetBucketInfoResponse.class);
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                bodyStr = _readAsString(response_);
+                respMap = _parseXml(bodyStr, GetBucketInfoResponse.class);
+                return TeaModel.toModel(TeaConverter.merge(Object.class,
                     TeaConverter.buildMap(
                         new TeaPair("BucketInfo", respMap.get("BucketInfo"))
                     ),
@@ -4963,26 +4962,26 @@ public class Client extends BaseClient {
     }
 
     public PutLiveChannelStatusResponse putLiveChannelStatus(PutLiveChannelStatusRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -5002,29 +5001,29 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "PUT";
                 request_.pathname = "/" + request.channelName + "?live";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
-                request_.query = this._toQuery(TeaModel.buildMap(request.filter));
+                request_.query = _toQuery(TeaModel.buildMap(request.filter));
                 request_.headers.put("authorization", this.getSignature(request_, request.bucketName));
                 _lastRequest = request_;
                 TeaResponse response_ = Tea.doAction(request_, runtime_);
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -5036,7 +5035,7 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                return TeaModel.toModel(TeaConverter.merge(String.class,
                     response_.headers
                 ), new PutLiveChannelStatusResponse());
             } catch (Exception e) {
@@ -5051,26 +5050,26 @@ public class Client extends BaseClient {
     }
 
     public InitiateMultipartUploadResponse initiateMultipartUpload(InitiateMultipartUploadRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -5090,27 +5089,27 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "POST";
                 request_.pathname = "/" + request.objectName + "?uploads";
-                request_.headers = TeaConverter.merge(String.class, 
+                request_.headers = TeaConverter.merge(String.class,
                     TeaConverter.buildMap(
                         new TeaPair("host", this.getHost(request.bucketName)),
-                        new TeaPair("date", this._getDate()),
-                        new TeaPair("user-agent", this._getUserAgent())
+                        new TeaPair("date", _getDate()),
+                        new TeaPair("user-agent", _getUserAgent())
                     ),
-                    this._toHeader(TeaModel.buildMap(request.header))
+                    _toHeader(TeaModel.buildMap(request.header))
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
-                request_.query = this._toQuery(TeaModel.buildMap(request.filter));
-                if (this._notNull(TeaModel.buildMap(request.header)) && !this._empty(request.header.contentType)) {
+                request_.query = _toQuery(TeaModel.buildMap(request.filter));
+                if (_notNull(TeaModel.buildMap(request.header)) && !_empty(request.header.contentType)) {
                     request_.headers.put("content-type", request.header.contentType);
                 } else {
-                    request_.headers.put("content-type", this._getContentType(request.objectName));
+                    request_.headers.put("content-type", _getContentType(request.objectName));
                 }
 
                 request_.headers.put("authorization", this.getSignature(request_, request.bucketName));
@@ -5119,9 +5118,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -5133,9 +5132,9 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                bodyStr = this._readAsString(response_);
-                respMap = this._parseXml(bodyStr, InitiateMultipartUploadResponse.class);
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                bodyStr = _readAsString(response_);
+                respMap = _parseXml(bodyStr, InitiateMultipartUploadResponse.class);
+                return TeaModel.toModel(TeaConverter.merge(Object.class,
                     TeaConverter.buildMap(
                         new TeaPair("InitiateMultipartUploadResult", respMap.get("InitiateMultipartUploadResult"))
                     ),
@@ -5153,26 +5152,26 @@ public class Client extends BaseClient {
     }
 
     public OptionObjectResponse optionObject(OptionObjectRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -5192,19 +5191,19 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "OPTIONS";
                 request_.pathname = "/" + request.objectName + "";
-                request_.headers = TeaConverter.merge(String.class, 
+                request_.headers = TeaConverter.merge(String.class,
                     TeaConverter.buildMap(
                         new TeaPair("host", this.getHost(request.bucketName)),
-                        new TeaPair("date", this._getDate()),
-                        new TeaPair("user-agent", this._getUserAgent())
+                        new TeaPair("date", _getDate()),
+                        new TeaPair("user-agent", _getUserAgent())
                     ),
-                    this._toHeader(TeaModel.buildMap(request.header))
+                    _toHeader(TeaModel.buildMap(request.header))
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
@@ -5214,9 +5213,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -5228,7 +5227,7 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                return TeaModel.toModel(TeaConverter.merge(String.class,
                     response_.headers
                 ), new OptionObjectResponse());
             } catch (Exception e) {
@@ -5243,26 +5242,26 @@ public class Client extends BaseClient {
     }
 
     public PostVodPlaylistResponse postVodPlaylist(PostVodPlaylistRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -5282,29 +5281,29 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "POST";
                 request_.pathname = "/" + request.channelName + "/" + request.playlistName + "?vod";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
-                request_.query = this._toQuery(TeaModel.buildMap(request.filter));
+                request_.query = _toQuery(TeaModel.buildMap(request.filter));
                 request_.headers.put("authorization", this.getSignature(request_, request.bucketName));
                 _lastRequest = request_;
                 TeaResponse response_ = Tea.doAction(request_, runtime_);
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -5316,7 +5315,7 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                return TeaModel.toModel(TeaConverter.merge(String.class,
                     response_.headers
                 ), new PostVodPlaylistResponse());
             } catch (Exception e) {
@@ -5330,31 +5329,25 @@ public class Client extends BaseClient {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public PostObjectResponse postObject(PostObjectRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+    public PostObjectResponse postObject(PostObjectRequest request, com.aliyun.common.models.RuntimeObject runtime) throws Exception {
+        TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", com.aliyun.common.Common.defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", com.aliyun.common.Common.defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("httpProxy", com.aliyun.common.Common._default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", com.aliyun.common.Common._default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", com.aliyun.common.Common._default(runtime.noProxy, _noProxy)),
+            new TeaPair("maxIdleConns", com.aliyun.common.Common.defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("max-attempts", com.aliyun.common.Common.defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", com.aliyun.common.Common._default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", com.aliyun.common.Common.defaultNumber(runtime.backoffPeriod, 1))
             )),
-            new TeaPair("ignoreSSL", runtime.ignoreSSL),
-            new TeaPair("logger", _logger),
-            new TeaPair("listener", runtime.listener)
+            new TeaPair("ignoreSSL", runtime.ignoreSSL)
         );
 
         TeaRequest _lastRequest = null;
@@ -5370,28 +5363,23 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
+                String boundary = com.aliyun.common.Common.getBoundary();
                 request_.protocol = _protocol;
                 request_.method = "POST";
                 request_.pathname = "/";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", com.aliyun.common.Common.getDate())
                 );
-                if (!this._empty(token)) {
-                    request_.headers.put("x-oss-security-token", token);
-                }
-
-                request_.headers.put("authorization", this.getSignature(request_, request.bucketName));
+                request_.headers.put("content-type", "multipart/form-data; boundary=" + boundary + "");
+                request_.body = Tea.toReadable(com.aliyun.common.Common.toForm(TeaModel.buildMap(request.header), boundary));
                 _lastRequest = request_;
                 TeaResponse response_ = Tea.doAction(request_, runtime_);
 
                 java.util.Map<String, Object> respMap = null;
-                String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                String bodyStr = com.aliyun.common.Common.readAsString(response_.body);
+                if (com.aliyun.common.Common.isFail(response_)) {
+                    respMap = com.aliyun.common.Common.getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -5403,8 +5391,9 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
-                    response_.headers
+                respMap = com.aliyun.common.Common.parseXml(bodyStr, PostObjectResponse.class);
+                return TeaModel.toModel(TeaConverter.merge(Object.class,
+                    respMap
                 ), new PostObjectResponse());
             } catch (Exception e) {
                 if (Tea.isRetryable(e)) {
@@ -5418,26 +5407,26 @@ public class Client extends BaseClient {
     }
 
     public HeadObjectResponse headObject(HeadObjectRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -5457,19 +5446,19 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "HEAD";
                 request_.pathname = "/" + request.objectName + "";
-                request_.headers = TeaConverter.merge(String.class, 
+                request_.headers = TeaConverter.merge(String.class,
                     TeaConverter.buildMap(
                         new TeaPair("host", this.getHost(request.bucketName)),
-                        new TeaPair("date", this._getDate()),
-                        new TeaPair("user-agent", this._getUserAgent())
+                        new TeaPair("date", _getDate()),
+                        new TeaPair("user-agent", _getUserAgent())
                     ),
-                    this._toHeader(TeaModel.buildMap(request.header))
+                    _toHeader(TeaModel.buildMap(request.header))
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
@@ -5479,9 +5468,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -5493,9 +5482,9 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                return TeaModel.toModel(TeaConverter.merge(Object.class,
                     TeaConverter.buildMap(
-                        new TeaPair("usermeta", this._toMeta(response_.headers, "x-oss-meta-"))
+                        new TeaPair("usermeta", _toMeta(response_.headers, "x-oss-meta-"))
                     ),
                     response_.headers
                 ), new HeadObjectResponse());
@@ -5511,26 +5500,26 @@ public class Client extends BaseClient {
     }
 
     public DeleteObjectTaggingResponse deleteObjectTagging(DeleteObjectTaggingRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -5550,16 +5539,16 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "DELETE";
                 request_.pathname = "/" + request.objectName + "?tagging";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
@@ -5569,9 +5558,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -5583,7 +5572,7 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                return TeaModel.toModel(TeaConverter.merge(String.class,
                     response_.headers
                 ), new DeleteObjectTaggingResponse());
             } catch (Exception e) {
@@ -5598,26 +5587,26 @@ public class Client extends BaseClient {
     }
 
     public RestoreObjectResponse restoreObject(RestoreObjectRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -5637,16 +5626,16 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "POST";
                 request_.pathname = "/" + request.objectName + "?restore";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
@@ -5656,9 +5645,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -5670,7 +5659,7 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                return TeaModel.toModel(TeaConverter.merge(String.class,
                     response_.headers
                 ), new RestoreObjectResponse());
             } catch (Exception e) {
@@ -5685,26 +5674,26 @@ public class Client extends BaseClient {
     }
 
     public GetObjectAclResponse getObjectAcl(GetObjectAclRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -5724,16 +5713,16 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "GET";
                 request_.pathname = "/" + request.objectName + "?acl";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
@@ -5743,9 +5732,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -5757,9 +5746,9 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                bodyStr = this._readAsString(response_);
-                respMap = this._parseXml(bodyStr, GetObjectAclResponse.class);
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                bodyStr = _readAsString(response_);
+                respMap = _parseXml(bodyStr, GetObjectAclResponse.class);
+                return TeaModel.toModel(TeaConverter.merge(Object.class,
                     TeaConverter.buildMap(
                         new TeaPair("AccessControlPolicy", respMap.get("AccessControlPolicy"))
                     ),
@@ -5777,26 +5766,26 @@ public class Client extends BaseClient {
     }
 
     public PutBucketAclResponse putBucketAcl(PutBucketAclRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -5816,19 +5805,19 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "PUT";
                 request_.pathname = "/?acl";
-                request_.headers = TeaConverter.merge(String.class, 
+                request_.headers = TeaConverter.merge(String.class,
                     TeaConverter.buildMap(
                         new TeaPair("host", this.getHost(request.bucketName)),
-                        new TeaPair("date", this._getDate()),
-                        new TeaPair("user-agent", this._getUserAgent())
+                        new TeaPair("date", _getDate()),
+                        new TeaPair("user-agent", _getUserAgent())
                     ),
-                    this._toHeader(TeaModel.buildMap(request.header))
+                    _toHeader(TeaModel.buildMap(request.header))
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
@@ -5838,9 +5827,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -5852,7 +5841,7 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                return TeaModel.toModel(TeaConverter.merge(String.class,
                     response_.headers
                 ), new PutBucketAclResponse());
             } catch (Exception e) {
@@ -5867,26 +5856,26 @@ public class Client extends BaseClient {
     }
 
     public DeleteBucketResponse deleteBucket(DeleteBucketRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -5906,16 +5895,16 @@ public class Client extends BaseClient {
             _retryTimes = _retryTimes + 1;
             try {
                 TeaRequest request_ = new TeaRequest();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "DELETE";
                 request_.pathname = "/";
                 request_.headers = TeaConverter.buildMap(
                     new TeaPair("host", this.getHost(request.bucketName)),
-                    new TeaPair("date", this._getDate()),
-                    new TeaPair("user-agent", this._getUserAgent())
+                    new TeaPair("date", _getDate()),
+                    new TeaPair("user-agent", _getUserAgent())
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
@@ -5925,9 +5914,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -5939,7 +5928,7 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                return TeaModel.toModel(TeaConverter.merge(String.class,
                     response_.headers
                 ), new DeleteBucketResponse());
             } catch (Exception e) {
@@ -5954,26 +5943,26 @@ public class Client extends BaseClient {
     }
 
     public PutObjectResponse putObject(PutObjectRequest request, RuntimeObject runtime) throws Exception {
-        request.validate();
-        runtime.validate();
+        TeaModel.validateParams(request, "request");
+        TeaModel.validateParams(runtime, "runtime");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
-            new TeaPair("readTimeout", this._defaultNumber(runtime.readTimeout, _readTimeout)),
-            new TeaPair("connectTimeout", this._defaultNumber(runtime.connectTimeout, _connectTimeout)),
-            new TeaPair("localAddr", this._default(runtime.localAddr, _localAddr)),
-            new TeaPair("httpProxy", this._default(runtime.httpProxy, _httpProxy)),
-            new TeaPair("httpsProxy", this._default(runtime.httpsProxy, _httpsProxy)),
-            new TeaPair("noProxy", this._default(runtime.noProxy, _noProxy)),
-            new TeaPair("socks5Proxy", this._default(runtime.socks5Proxy, _socks5Proxy)),
-            new TeaPair("socks5NetWork", this._default(runtime.socks5NetWork, _socks5NetWork)),
-            new TeaPair("maxIdleConns", this._defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
+            new TeaPair("readTimeout", _defaultNumber(runtime.readTimeout, _readTimeout)),
+            new TeaPair("connectTimeout", _defaultNumber(runtime.connectTimeout, _connectTimeout)),
+            new TeaPair("localAddr", _default(runtime.localAddr, _localAddr)),
+            new TeaPair("httpProxy", _default(runtime.httpProxy, _httpProxy)),
+            new TeaPair("httpsProxy", _default(runtime.httpsProxy, _httpsProxy)),
+            new TeaPair("noProxy", _default(runtime.noProxy, _noProxy)),
+            new TeaPair("socks5Proxy", _default(runtime.socks5Proxy, _socks5Proxy)),
+            new TeaPair("socks5NetWork", _default(runtime.socks5NetWork, _socks5NetWork)),
+            new TeaPair("maxIdleConns", _defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("maxAttempts", this._defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", _defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
-                new TeaPair("policy", this._default(runtime.backoffPolicy, "no")),
-                new TeaPair("period", this._defaultNumber(runtime.backoffPeriod, 1))
+                new TeaPair("policy", _default(runtime.backoffPolicy, "no")),
+                new TeaPair("period", _defaultNumber(runtime.backoffPeriod, 1))
             )),
             new TeaPair("ignoreSSL", runtime.ignoreSSL),
             new TeaPair("logger", _logger),
@@ -5994,28 +5983,28 @@ public class Client extends BaseClient {
             try {
                 TeaRequest request_ = new TeaRequest();
                 java.util.Map<String, String> ctx = new java.util.HashMap<>();
-                String token = this._getSecurityToken();
+                String token = _getSecurityToken();
                 request_.protocol = _protocol;
                 request_.method = "PUT";
                 request_.pathname = "/" + request.objectName + "";
-                request_.headers = TeaConverter.merge(String.class, 
+                request_.headers = TeaConverter.merge(String.class,
                     TeaConverter.buildMap(
                         new TeaPair("host", this.getHost(request.bucketName)),
-                        new TeaPair("date", this._getDate()),
-                        new TeaPair("user-agent", this._getUserAgent())
+                        new TeaPair("date", _getDate()),
+                        new TeaPair("user-agent", _getUserAgent())
                     ),
-                    this._toHeader(TeaModel.buildMap(request.header)),
-                    this._parseMeta(request.userMeta, "x-oss-meta-")
+                    _toHeader(TeaModel.buildMap(request.header)),
+                    _parseMeta(request.userMeta, "x-oss-meta-")
                 );
-                if (!this._empty(token)) {
+                if (!_empty(token)) {
                     request_.headers.put("x-oss-security-token", token);
                 }
 
-                request_.body = this._inject(request.body, ctx);
-                if (this._notNull(TeaModel.buildMap(request.header)) && !this._empty(request.header.contentType)) {
+                request_.body = _inject(request.body, ctx);
+                if (_notNull(TeaModel.buildMap(request.header)) && !_empty(request.header.contentType)) {
                     request_.headers.put("content-type", request.header.contentType);
                 } else {
-                    request_.headers.put("content-type", this._getContentType(request.objectName));
+                    request_.headers.put("content-type", _getContentType(request.objectName));
                 }
 
                 request_.headers.put("authorization", this.getSignature(request_, request.bucketName));
@@ -6024,9 +6013,9 @@ public class Client extends BaseClient {
 
                 java.util.Map<String, Object> respMap = null;
                 String bodyStr = null;
-                if (this._isFail(response_)) {
-                    bodyStr = this._readAsString(response_);
-                    respMap = this._getErrMessage(bodyStr);
+                if (_isFail(response_)) {
+                    bodyStr = _readAsString(response_);
+                    respMap = _getErrMessage(bodyStr);
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", respMap.get("Code")),
                         new TeaPair("message", respMap.get("Message")),
@@ -6038,7 +6027,7 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                if (_isEnableCrc && !this._equal(ctx.get("crc"), response_.headers.get("x-oss-hash-crc64ecma"))) {
+                if (_isEnableCrc && !_equal(ctx.get("crc"), response_.headers.get("x-oss-hash-crc64ecma"))) {
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", "CrcNotMatched"),
                         new TeaPair("data", TeaConverter.buildMap(
@@ -6048,7 +6037,7 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                if (_isEnableMD5 && !this._equal(ctx.get("md5"), response_.headers.get("content-md5"))) {
+                if (_isEnableMD5 && !_equal(ctx.get("md5"), response_.headers.get("content-md5"))) {
                     throw new TeaException(TeaConverter.buildMap(
                         new TeaPair("code", "MD5NotMatched"),
                         new TeaPair("data", TeaConverter.buildMap(
@@ -6058,7 +6047,7 @@ public class Client extends BaseClient {
                     ));
                 }
 
-                return TeaModel.toModel(TeaConverter.merge(Object.class, 
+                return TeaModel.toModel(TeaConverter.merge(String.class,
                     response_.headers
                 ), new PutObjectResponse());
             } catch (Exception e) {
@@ -6073,22 +6062,22 @@ public class Client extends BaseClient {
     }
 
     public String getHost(String bucketName) throws Exception {
-        if (this._empty(_regionId)) {
+        if (_empty(_regionId)) {
             this._regionId = "cn-hangzhou";
         }
 
-        if (this._empty(_endpoint)) {
+        if (_empty(_endpoint)) {
             this._endpoint = "oss-" + _regionId + ".aliyuncs.com";
         }
 
-        if (this._empty(bucketName)) {
+        if (_empty(bucketName)) {
             return _endpoint;
         }
 
         String host = null;
-        if (this._equal(_hostModel, "ip")) {
+        if (_equal(_hostModel, "ip")) {
             host = "" + _endpoint + "/" + bucketName + "";
-        } else if (this._equal(_hostModel, "cname")) {
+        } else if (_equal(_hostModel, "cname")) {
             host = _endpoint;
         } else {
             host = "" + bucketName + "." + _endpoint + "";
@@ -6097,18 +6086,18 @@ public class Client extends BaseClient {
         return host;
     }
 
-    public String getSignature(TeaRequest  request, String bucketName) throws Exception {
-        String accessKeyId = this._getAccessKeyID();
-        String accessKeySecret = this._getAccessKeySecret();
-        if (this._equal(_signatureVersion, "V2")) {
-            if (this._ifListEmpty(_addtionalHeaders)) {
-                return "OSS2 AccessKeyId:" + accessKeyId + ",Signature:" + this._getSignatureV2(request, bucketName, accessKeySecret, _addtionalHeaders) + "";
+    public String getSignature(TeaRequest request, String bucketName) throws Exception {
+        String accessKeyId = _getAccessKeyID();
+        String accessKeySecret = _getAccessKeySecret();
+        if (_equal(_signatureVersion, "V2")) {
+            if (_ifListEmpty(_addtionalHeaders)) {
+                return "OSS2 AccessKeyId:" + accessKeyId + ",Signature:" + _getSignatureV2(request, bucketName, accessKeySecret, _addtionalHeaders) + "";
             } else {
-                return "OSS2 AccessKeyId:" + accessKeyId + ",AdditionalHeaders:" + this._listToString(_addtionalHeaders, ";") + ",Signature:" + this._getSignatureV2(request, bucketName, accessKeySecret, _addtionalHeaders) + "";
+                return "OSS2 AccessKeyId:" + accessKeyId + ",AdditionalHeaders:" + _listToString(_addtionalHeaders, ";") + ",Signature:" + _getSignatureV2(request, bucketName, accessKeySecret, _addtionalHeaders) + "";
             }
 
         } else {
-            return "OSS " + accessKeyId + ":" + this._getSignatureV1(request, bucketName, accessKeySecret) + "";
+            return "OSS " + accessKeyId + ":" + _getSignatureV1(request, bucketName, accessKeySecret) + "";
         }
 
     }

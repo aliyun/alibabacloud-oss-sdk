@@ -11,6 +11,11 @@ public class GetBucketRequest extends TeaModel {
     @NameInMap("Filter")
     public GetBucketRequestFilter filter;
 
+    public static GetBucketRequest build(java.util.Map<String, ?> map) throws Exception {
+        GetBucketRequest self = new GetBucketRequest();
+        return TeaModel.build(map, self);
+    }
+
     public static class GetBucketRequestFilter extends TeaModel {
         @NameInMap("delimiter")
         public String delimiter;
@@ -26,6 +31,11 @@ public class GetBucketRequest extends TeaModel {
 
         @NameInMap("encoding-type")
         public String encodingType;
+
+        public static GetBucketRequestFilter build(java.util.Map<String, ?> map) throws Exception {
+            GetBucketRequestFilter self = new GetBucketRequestFilter();
+            return TeaModel.build(map, self);
+        }
 
     }
 

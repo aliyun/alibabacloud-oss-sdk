@@ -8,4 +8,9 @@ public class PutLiveChannelStatusResponse extends TeaModel {
     @Validation(required = true)
     public String requestId;
 
+    public static PutLiveChannelStatusResponse build(java.util.Map<String, ?> map) throws Exception {
+        PutLiveChannelStatusResponse self = new PutLiveChannelStatusResponse();
+        return TeaModel.build(map, self);
+    }
+
 }

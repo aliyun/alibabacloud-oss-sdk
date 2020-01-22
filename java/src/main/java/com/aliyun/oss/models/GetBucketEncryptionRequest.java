@@ -8,4 +8,9 @@ public class GetBucketEncryptionRequest extends TeaModel {
     @Validation(required = true)
     public String bucketName;
 
+    public static GetBucketEncryptionRequest build(java.util.Map<String, ?> map) throws Exception {
+        GetBucketEncryptionRequest self = new GetBucketEncryptionRequest();
+        return TeaModel.build(map, self);
+    }
+
 }

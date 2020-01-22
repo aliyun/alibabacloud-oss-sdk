@@ -19,6 +19,11 @@ public class UploadPartRequest extends TeaModel {
     @Validation(required = true)
     public UploadPartRequestFilter filter;
 
+    public static UploadPartRequest build(java.util.Map<String, ?> map) throws Exception {
+        UploadPartRequest self = new UploadPartRequest();
+        return TeaModel.build(map, self);
+    }
+
     public static class UploadPartRequestFilter extends TeaModel {
         @NameInMap("partNumber")
         @Validation(required = true)
@@ -27,6 +32,11 @@ public class UploadPartRequest extends TeaModel {
         @NameInMap("uploadId")
         @Validation(required = true)
         public String uploadId;
+
+        public static UploadPartRequestFilter build(java.util.Map<String, ?> map) throws Exception {
+            UploadPartRequestFilter self = new UploadPartRequestFilter();
+            return TeaModel.build(map, self);
+        }
 
     }
 

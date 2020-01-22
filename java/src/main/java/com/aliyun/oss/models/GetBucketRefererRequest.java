@@ -8,4 +8,9 @@ public class GetBucketRefererRequest extends TeaModel {
     @Validation(required = true)
     public String bucketName;
 
+    public static GetBucketRefererRequest build(java.util.Map<String, ?> map) throws Exception {
+        GetBucketRefererRequest self = new GetBucketRefererRequest();
+        return TeaModel.build(map, self);
+    }
+
 }

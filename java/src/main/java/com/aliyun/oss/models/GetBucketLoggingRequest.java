@@ -8,4 +8,9 @@ public class GetBucketLoggingRequest extends TeaModel {
     @Validation(required = true)
     public String bucketName;
 
+    public static GetBucketLoggingRequest build(java.util.Map<String, ?> map) throws Exception {
+        GetBucketLoggingRequest self = new GetBucketLoggingRequest();
+        return TeaModel.build(map, self);
+    }
+
 }

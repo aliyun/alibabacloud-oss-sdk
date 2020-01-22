@@ -8,4 +8,9 @@ public class DeleteObjectResponse extends TeaModel {
     @Validation(required = true)
     public String requestId;
 
+    public static DeleteObjectResponse build(java.util.Map<String, ?> map) throws Exception {
+        DeleteObjectResponse self = new DeleteObjectResponse();
+        return TeaModel.build(map, self);
+    }
+
 }

@@ -12,4 +12,9 @@ public class GetObjectAclRequest extends TeaModel {
     @Validation(required = true)
     public String objectName;
 
+    public static GetObjectAclRequest build(java.util.Map<String, ?> map) throws Exception {
+        GetObjectAclRequest self = new GetObjectAclRequest();
+        return TeaModel.build(map, self);
+    }
+
 }

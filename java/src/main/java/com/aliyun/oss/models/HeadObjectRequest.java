@@ -15,6 +15,11 @@ public class HeadObjectRequest extends TeaModel {
     @NameInMap("Header")
     public HeadObjectRequestHeader header;
 
+    public static HeadObjectRequest build(java.util.Map<String, ?> map) throws Exception {
+        HeadObjectRequest self = new HeadObjectRequest();
+        return TeaModel.build(map, self);
+    }
+
     public static class HeadObjectRequestHeader extends TeaModel {
         @NameInMap("If-Modified-Since")
         public String ifModifiedSince;
@@ -27,6 +32,11 @@ public class HeadObjectRequest extends TeaModel {
 
         @NameInMap("If-None-Match")
         public String ifNoneMatch;
+
+        public static HeadObjectRequestHeader build(java.util.Map<String, ?> map) throws Exception {
+            HeadObjectRequestHeader self = new HeadObjectRequestHeader();
+            return TeaModel.build(map, self);
+        }
 
     }
 

@@ -8,4 +8,9 @@ public class DeleteBucketWebsiteResponse extends TeaModel {
     @Validation(required = true)
     public String requestId;
 
+    public static DeleteBucketWebsiteResponse build(java.util.Map<String, ?> map) throws Exception {
+        DeleteBucketWebsiteResponse self = new DeleteBucketWebsiteResponse();
+        return TeaModel.build(map, self);
+    }
+
 }

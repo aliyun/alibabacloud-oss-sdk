@@ -8,4 +8,9 @@ public class PutBucketLoggingResponse extends TeaModel {
     @Validation(required = true)
     public String requestId;
 
+    public static PutBucketLoggingResponse build(java.util.Map<String, ?> map) throws Exception {
+        PutBucketLoggingResponse self = new PutBucketLoggingResponse();
+        return TeaModel.build(map, self);
+    }
+
 }

@@ -16,6 +16,11 @@ public class OptionObjectRequest extends TeaModel {
     @Validation(required = true)
     public OptionObjectRequestHeader header;
 
+    public static OptionObjectRequest build(java.util.Map<String, ?> map) throws Exception {
+        OptionObjectRequest self = new OptionObjectRequest();
+        return TeaModel.build(map, self);
+    }
+
     public static class OptionObjectRequestHeader extends TeaModel {
         @NameInMap("Origin")
         @Validation(required = true)
@@ -28,6 +33,11 @@ public class OptionObjectRequest extends TeaModel {
         @NameInMap("Access-Control-Request-Headers")
         @Validation(required = true)
         public String accessControlRequestHeaders;
+
+        public static OptionObjectRequestHeader build(java.util.Map<String, ?> map) throws Exception {
+            OptionObjectRequestHeader self = new OptionObjectRequestHeader();
+            return TeaModel.build(map, self);
+        }
 
     }
 

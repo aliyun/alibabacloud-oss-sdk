@@ -20,6 +20,11 @@ public class PostVodPlaylistRequest extends TeaModel {
     @Validation(required = true)
     public PostVodPlaylistRequestFilter filter;
 
+    public static PostVodPlaylistRequest build(java.util.Map<String, ?> map) throws Exception {
+        PostVodPlaylistRequest self = new PostVodPlaylistRequest();
+        return TeaModel.build(map, self);
+    }
+
     public static class PostVodPlaylistRequestFilter extends TeaModel {
         @NameInMap("endTime")
         @Validation(required = true)
@@ -28,6 +33,11 @@ public class PostVodPlaylistRequest extends TeaModel {
         @NameInMap("startTime")
         @Validation(required = true)
         public String startTime;
+
+        public static PostVodPlaylistRequestFilter build(java.util.Map<String, ?> map) throws Exception {
+            PostVodPlaylistRequestFilter self = new PostVodPlaylistRequestFilter();
+            return TeaModel.build(map, self);
+        }
 
     }
 

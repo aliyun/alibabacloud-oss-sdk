@@ -12,6 +12,11 @@ public class GetBucketInfoResponse extends TeaModel {
     @Validation(required = true)
     public GetBucketInfoResponseBucketInfo bucketInfo;
 
+    public static GetBucketInfoResponse build(java.util.Map<String, ?> map) throws Exception {
+        GetBucketInfoResponse self = new GetBucketInfoResponse();
+        return TeaModel.build(map, self);
+    }
+
     public static class GetBucketInfoResponseBucketInfoBucketOwner extends TeaModel {
         @NameInMap("ID")
         public String iD;
@@ -19,11 +24,21 @@ public class GetBucketInfoResponse extends TeaModel {
         @NameInMap("DisplayName")
         public String displayName;
 
+        public static GetBucketInfoResponseBucketInfoBucketOwner build(java.util.Map<String, ?> map) throws Exception {
+            GetBucketInfoResponseBucketInfoBucketOwner self = new GetBucketInfoResponseBucketInfoBucketOwner();
+            return TeaModel.build(map, self);
+        }
+
     }
 
     public static class GetBucketInfoResponseBucketInfoBucketAccessControlList extends TeaModel {
         @NameInMap("Grant")
         public String grant;
+
+        public static GetBucketInfoResponseBucketInfoBucketAccessControlList build(java.util.Map<String, ?> map) throws Exception {
+            GetBucketInfoResponseBucketInfoBucketAccessControlList self = new GetBucketInfoResponseBucketInfoBucketAccessControlList();
+            return TeaModel.build(map, self);
+        }
 
     }
 
@@ -60,12 +75,22 @@ public class GetBucketInfoResponse extends TeaModel {
         @Validation(required = true)
         public GetBucketInfoResponseBucketInfoBucketAccessControlList accessControlList;
 
+        public static GetBucketInfoResponseBucketInfoBucket build(java.util.Map<String, ?> map) throws Exception {
+            GetBucketInfoResponseBucketInfoBucket self = new GetBucketInfoResponseBucketInfoBucket();
+            return TeaModel.build(map, self);
+        }
+
     }
 
     public static class GetBucketInfoResponseBucketInfo extends TeaModel {
         @NameInMap("Bucket")
         @Validation(required = true)
         public GetBucketInfoResponseBucketInfoBucket bucket;
+
+        public static GetBucketInfoResponseBucketInfo build(java.util.Map<String, ?> map) throws Exception {
+            GetBucketInfoResponseBucketInfo self = new GetBucketInfoResponseBucketInfo();
+            return TeaModel.build(map, self);
+        }
 
     }
 

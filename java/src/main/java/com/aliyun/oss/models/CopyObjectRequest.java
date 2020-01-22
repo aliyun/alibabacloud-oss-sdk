@@ -16,6 +16,11 @@ public class CopyObjectRequest extends TeaModel {
     @Validation(required = true)
     public CopyObjectRequestHeader header;
 
+    public static CopyObjectRequest build(java.util.Map<String, ?> map) throws Exception {
+        CopyObjectRequest self = new CopyObjectRequest();
+        return TeaModel.build(map, self);
+    }
+
     public static class CopyObjectRequestHeader extends TeaModel {
         @NameInMap("x-oss-copy-source")
         @Validation(required = true)
@@ -53,6 +58,11 @@ public class CopyObjectRequest extends TeaModel {
 
         @NameInMap("x-oss-tagging-directive")
         public String taggingDirective;
+
+        public static CopyObjectRequestHeader build(java.util.Map<String, ?> map) throws Exception {
+            CopyObjectRequestHeader self = new CopyObjectRequestHeader();
+            return TeaModel.build(map, self);
+        }
 
     }
 

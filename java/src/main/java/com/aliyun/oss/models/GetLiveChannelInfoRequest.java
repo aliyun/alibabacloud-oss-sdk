@@ -12,4 +12,9 @@ public class GetLiveChannelInfoRequest extends TeaModel {
     @Validation(required = true)
     public String channelName;
 
+    public static GetLiveChannelInfoRequest build(java.util.Map<String, ?> map) throws Exception {
+        GetLiveChannelInfoRequest self = new GetLiveChannelInfoRequest();
+        return TeaModel.build(map, self);
+    }
+
 }

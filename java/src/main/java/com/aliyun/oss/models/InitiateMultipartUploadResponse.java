@@ -12,6 +12,11 @@ public class InitiateMultipartUploadResponse extends TeaModel {
     @Validation(required = true)
     public InitiateMultipartUploadResponseInitiateMultipartUploadResult initiateMultipartUploadResult;
 
+    public static InitiateMultipartUploadResponse build(java.util.Map<String, ?> map) throws Exception {
+        InitiateMultipartUploadResponse self = new InitiateMultipartUploadResponse();
+        return TeaModel.build(map, self);
+    }
+
     public static class InitiateMultipartUploadResponseInitiateMultipartUploadResult extends TeaModel {
         @NameInMap("Bucket")
         public String bucket;
@@ -21,6 +26,11 @@ public class InitiateMultipartUploadResponse extends TeaModel {
 
         @NameInMap("UploadId")
         public String uploadId;
+
+        public static InitiateMultipartUploadResponseInitiateMultipartUploadResult build(java.util.Map<String, ?> map) throws Exception {
+            InitiateMultipartUploadResponseInitiateMultipartUploadResult self = new InitiateMultipartUploadResponseInitiateMultipartUploadResult();
+            return TeaModel.build(map, self);
+        }
 
     }
 

@@ -55,4 +55,9 @@ public class RuntimeObject extends TeaModel {
     @NameInMap("listener")
     public Object listener;
 
+    public static RuntimeObject build(java.util.Map<String, ?> map) throws Exception {
+        RuntimeObject self = new RuntimeObject();
+        return TeaModel.build(map, self);
+    }
+
 }
