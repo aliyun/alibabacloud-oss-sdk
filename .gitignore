@@ -24,3 +24,5 @@ baseclient/ts/.nyc_output/
 java/*.iml
 .history/
 *.sum
+.libraries.json
+libraries/
