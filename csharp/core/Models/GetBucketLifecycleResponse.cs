@@ -19,13 +19,13 @@ namespace AlibabaCloud.OSS.Models
         public class GetBucketLifecycleResponseLifecycleConfiguration : TeaModel {
             [NameInMap("Rule")]
             [Validation(Required=false)]
-            public List<GetBucketLifecycleResponseLifecycleConfigurationID> Rule { get; set; }
-            public class GetBucketLifecycleResponseLifecycleConfigurationID : TeaModel {
+            public List<GetBucketLifecycleResponseLifecycleConfigurationRule> Rule { get; set; }
+            public class GetBucketLifecycleResponseLifecycleConfigurationRule : TeaModel {
                     public string ID { get; set; }
                     public string Prefix { get; set; }
                     public string Status { get; set; }
-                    public GetBucketLifecycleResponseLifecycleConfigurationIDExpiration Expiration { get; set; }
-                    public class GetBucketLifecycleResponseLifecycleConfigurationIDExpiration : TeaModel {
+                    public GetBucketLifecycleResponseLifecycleConfigurationRuleExpiration Expiration { get; set; }
+                    public class GetBucketLifecycleResponseLifecycleConfigurationRuleExpiration : TeaModel {
                         [NameInMap("Days")]
                         [Validation(Required=false)]
                         public int? Days { get; set; }
@@ -35,8 +35,8 @@ namespace AlibabaCloud.OSS.Models
                         public string CreatedBeforeDate { get; set; }
 
                     }
-                    public GetBucketLifecycleResponseLifecycleConfigurationIDTransition Transition { get; set; }
-                    public class GetBucketLifecycleResponseLifecycleConfigurationIDTransition : TeaModel {
+                    public GetBucketLifecycleResponseLifecycleConfigurationRuleTransition Transition { get; set; }
+                    public class GetBucketLifecycleResponseLifecycleConfigurationRuleTransition : TeaModel {
                         [NameInMap("Days")]
                         [Validation(Required=false)]
                         public int? Days { get; set; }
@@ -46,8 +46,8 @@ namespace AlibabaCloud.OSS.Models
                         public string StorageClass { get; set; }
 
                     }
-                    public GetBucketLifecycleResponseLifecycleConfigurationIDAbortMultipartUpload AbortMultipartUpload { get; set; }
-                    public class GetBucketLifecycleResponseLifecycleConfigurationIDAbortMultipartUpload : TeaModel {
+                    public GetBucketLifecycleResponseLifecycleConfigurationRuleAbortMultipartUpload AbortMultipartUpload { get; set; }
+                    public class GetBucketLifecycleResponseLifecycleConfigurationRuleAbortMultipartUpload : TeaModel {
                         [NameInMap("Days")]
                         [Validation(Required=false)]
                         public int? Days { get; set; }
@@ -57,8 +57,8 @@ namespace AlibabaCloud.OSS.Models
                         public string CreatedBeforeDate { get; set; }
 
                     }
-                    public GetBucketLifecycleResponseLifecycleConfigurationIDTag Tag { get; set; }
-                    public class GetBucketLifecycleResponseLifecycleConfigurationIDTag : TeaModel {
+                    public GetBucketLifecycleResponseLifecycleConfigurationRuleTag Tag { get; set; }
+                    public class GetBucketLifecycleResponseLifecycleConfigurationRuleTag : TeaModel {
                         [NameInMap("Key")]
                         [Validation(Required=false)]
                         public string Key { get; set; }

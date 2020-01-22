@@ -31,8 +31,8 @@ namespace AlibabaCloud.OSS.Models
                 public class PutObjectTaggingRequestBodyTaggingTagSet : TeaModel {
                     [NameInMap("Tag")]
                     [Validation(Required=false)]
-                    public List<PutObjectTaggingRequestBodyTaggingTagSetKey> Tag { get; set; }
-                    public class PutObjectTaggingRequestBodyTaggingTagSetKey : TeaModel {
+                    public List<PutObjectTaggingRequestBodyTaggingTagSetTag> Tag { get; set; }
+                    public class PutObjectTaggingRequestBodyTaggingTagSetTag : TeaModel {
                             public string Key { get; set; }
                             public string Value { get; set; }
                     }

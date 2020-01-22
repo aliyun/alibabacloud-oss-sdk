@@ -9,13 +9,20 @@ using Tea;
 namespace AlibabaCloud.OSS.Models
 {
     public class PostObjectResponse : TeaModel {
-        [NameInMap("x-oss-request-id")]
+        [NameInMap("PostResponse")]
         [Validation(Required=true)]
-        public string RequestId { get; set; }
-
-        [NameInMap("x-oss-server-side-encryption")]
-        [Validation(Required=true)]
-        public string ServerSideEncryption { get; set; }
+        public PostObjectResponsePostResponse PostResponse { get; set; }
+        public class PostObjectResponsePostResponse : TeaModel {
+            [NameInMap("Bucket")]
+            [Validation(Required=true)]
+            public string Bucket { get; set; }
+            [NameInMap("ETag")]
+            [Validation(Required=true)]
+            public string ETag { get; set; }
+            [NameInMap("Location")]
+            [Validation(Required=true)]
+            public string Location { get; set; }
+        };
 
     }
 

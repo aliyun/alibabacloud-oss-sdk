@@ -70,7 +70,7 @@ namespace test
                 }
             };
 
-            var response = client.putBucketLifecycle(request, runtime);
+            var response = client.PutBucketLifecycle(request, runtime);
             Assert.NotNull(response);
         }
 
@@ -99,7 +99,7 @@ namespace test
                 }
             };
 
-            var response = await client.putBucketLifecycleAsync(request, runtime);
+            var response = await client.PutBucketLifecycleAsync(request, runtime);
             Assert.NotNull(response);
         }
 
@@ -125,7 +125,7 @@ namespace test
                 }
             };
 
-            var response = client.putBucketReferer(request, runtime);
+            var response = client.PutBucketReferer(request, runtime);
             Assert.NotNull(response);
             Assert.NotNull(response.RequestId);
         }
@@ -152,7 +152,7 @@ namespace test
                 }
             };
 
-            var response = await client.putBucketRefererAsync(request, runtime);
+            var response = await client.PutBucketRefererAsync(request, runtime);
             Assert.NotNull(response);
             Assert.NotNull(response.RequestId);
         }
@@ -164,7 +164,7 @@ namespace test
             {
                 BucketName = bucketName
             };
-            var response = client.getBucketReferer(request, runtime);
+            var response = client.GetBucketReferer(request, runtime);
             Assert.NotNull(response);
             Assert.NotNull(response.RequestId);
         }
@@ -176,7 +176,7 @@ namespace test
             {
                 BucketName = bucketName
             };
-            var response = await client.getBucketRefererAsync(request, runtime);
+            var response = await client.GetBucketRefererAsync(request, runtime);
             Assert.NotNull(response);
             Assert.NotNull(response.RequestId);
         }
@@ -257,7 +257,7 @@ namespace test
             {
                 BucketName = bucketName
             };
-            var resp = client.getBucketLifecycle(request, runtime);
+            var resp = client.GetBucketLifecycle(request, runtime);
             Assert.NotNull(resp.RequestId);
             Assert.NotNull(resp.LifecycleConfiguration);
         }
@@ -269,7 +269,7 @@ namespace test
             {
                 BucketName = bucketName
             };
-            var resp = await client.getBucketLifecycleAsync(request, runtime);
+            var resp = await client.GetBucketLifecycleAsync(request, runtime);
             Assert.NotNull(resp.RequestId);
             Assert.NotNull(resp.LifecycleConfiguration);
         }
@@ -327,7 +327,7 @@ namespace test
             {
                 BucketName = bucketName
             };
-            var resp = client.deleteBucketLifecycle(request, runtime);
+            var resp = client.DeleteBucketLifecycle(request, runtime);
             Assert.NotNull(resp.RequestId);
         }
 
@@ -338,7 +338,7 @@ namespace test
             {
                 BucketName = bucketName
             };
-            var resp = await client.deleteBucketLifecycleAsync(request, runtime);
+            var resp = await client.DeleteBucketLifecycleAsync(request, runtime);
             Assert.NotNull(resp.RequestId);
         }
 
@@ -356,7 +356,7 @@ namespace test
                 Body = new MemoryStream(Encoding.UTF8.GetBytes("123456789")),
                 ObjectName = appendObj
             };
-            var resp = client.putObject(request, runtime);
+            var resp = client.PutObject(request, runtime);
             Assert.NotNull(resp.RequestId);
             Assert.NotNull(resp.HashCrc64ecma);
         }
@@ -375,7 +375,7 @@ namespace test
                 Body = new MemoryStream(Encoding.UTF8.GetBytes("123456789")),
                 ObjectName = appendObj
             };
-            var resp = await client.putObjectAsync(request, runtime);
+            var resp = await client.PutObjectAsync(request, runtime);
             Assert.NotNull(resp.RequestId);
             Assert.NotNull(resp.HashCrc64ecma);
         }
@@ -425,7 +425,7 @@ namespace test
                 BucketName = bucketName,
                 ObjectName = appendObj
             };
-            var resp = client.getObject(request, runtime);
+            var resp = client.GetObject(request, runtime);
             Assert.NotNull(resp.RequestId);
             Assert.NotNull(resp.ObjectType);
         }
@@ -438,7 +438,7 @@ namespace test
                 BucketName = bucketName,
                 ObjectName = appendObj
             };
-            var resp = await client.getObjectAsync(request, runtime);
+            var resp = await client.GetObjectAsync(request, runtime);
             Assert.NotNull(resp.RequestId);
             Assert.NotNull(resp.ObjectType);
         }
@@ -489,7 +489,7 @@ namespace test
                 BucketName = bucketName,
                 ObjectName = appendObj
             };
-            var resp = client.deleteObject(request, runtime);
+            var resp = client.DeleteObject(request, runtime);
             Assert.NotNull(resp.RequestId);
         }
 
@@ -501,7 +501,7 @@ namespace test
                 BucketName = bucketName,
                 ObjectName = appendObj
             };
-            var resp = await client.deleteObjectAsync(request, runtime);
+            var resp = await client.DeleteObjectAsync(request, runtime);
             Assert.NotNull(resp.RequestId);
         }
 

@@ -45,12 +45,12 @@ namespace AlibabaCloud.OSS.Models
                 public class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules : TeaModel {
                     [NameInMap("RoutingRule")]
                     [Validation(Required=false)]
-                    public List<PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesCondition> RoutingRule { get; set; }
-                    public class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesCondition : TeaModel {
+                    public List<PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule> RoutingRule { get; set; }
+                    public class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule : TeaModel {
                         [NameInMap("IncludeHeader")]
                         [Validation(Required=false)]
-                        public PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesConditionIncludeHeader IncludeHeader { get; set; }
-                        public class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesConditionIncludeHeader : TeaModel {
+                        public PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleIncludeHeader IncludeHeader { get; set; }
+                        public class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleIncludeHeader : TeaModel {
                             [NameInMap("Key")]
                             [Validation(Required=false)]
                             public string Key { get; set; }

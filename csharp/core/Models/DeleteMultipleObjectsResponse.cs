@@ -25,8 +25,8 @@ namespace AlibabaCloud.OSS.Models
             public string EncodingType { get; set; }
             [NameInMap("Deleted")]
             [Validation(Required=false)]
-            public List<DeleteMultipleObjectsResponseDeleteResultKey> Deleted { get; set; }
-            public class DeleteMultipleObjectsResponseDeleteResultKey : TeaModel {
+            public List<DeleteMultipleObjectsResponseDeleteResultDeleted> Deleted { get; set; }
+            public class DeleteMultipleObjectsResponseDeleteResultDeleted : TeaModel {
                     public string Key { get; set; }
             }
         };
