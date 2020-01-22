@@ -7,7 +7,7 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <PackageReleaseNotes></PackageReleaseNotes>
     <AssemblyName>AlibabaCloud.SDK.OSS.Client</AssemblyName>
-    <Version>0.0.1</Version>
+    <Version>0.0.2</Version>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <LangVersion>5</LangVersion>
   </PropertyGroup>
@@ -37,14 +37,11 @@
 
   <ItemGroup>
     <PackageReference Include="AlibabaCloud.SDK.Common" Version="0.0.1" />
+    <PackageReference Include="AlibabaCloud.SDK.OSS.BaseClient" Version="0.0.3" />
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.0-preview.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\baseclient\csharp\core\baseClient.csproj" />
   </ItemGroup>
 
 </Project>

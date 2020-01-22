@@ -2,6 +2,8 @@
 
 using AlibabaCloud.OSS.Utils;
 
+using Tea;
+
 using unitTest.Models;
 
 using Xunit;
