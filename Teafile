@@ -1,41 +1,44 @@
 {
-  "scope": "alibabacloud",
-  "name": "OSS",
-  "version": "1.0.0",
-  "main": "./oss.tea",
-  "java": {
-    "package": "com.aliyun.oss",
-    "baseClient": "com.aliyun.oss.baseclient.BaseClient"
-  },
-  "csharp": {
-    "namespace": "AlibabaCloud.OSS",
-    "baseClient": "AlibabaCloud.OSS:BaseClient"
-  },
-  "go": {
-    "baseClient": "github.com/aliyun/alibabacloud-oss-sdk/baseclient/go",
-    "package": [
-      "io"
-    ]
-  },
-  "typescript": {
-    "baseClient": "@alicloud/oss-baseclient"
-  },
-  "releases": {
-    "java": "com.aliyun:oss-file-client:0.1-SNAPSHOT",
-    "ts": "@alicloud/oss:0.0.1"
-  },
-  "libraries": {
+	"scope": "alibabacloud",
+	"name": "OSS",
+	"version": "1.0.0",
+	"main": "./oss.tea",
+	"releases": {
+		"go": "github.com/aliyun/alibabacloud-oss-sdk/golang/client:v1.0.0"
+	},
+	"java": {
+		"package": "com.aliyun.oss",
+		"baseClient": "com.aliyun.oss.baseclient.BaseClient"
+	},
+	"csharp": {
+		"namespace": "AlibabaCloud.OSS",
+		"baseClient": "AlibabaCloud.OSS:BaseClient"
+	},
+	"go": {
+		"baseClient": "github.com/aliyun/alibabacloud-oss-sdk/baseclient/go",
+		"package": [
+			"io"
+		]
+	},
+	"typescript": {
+		"baseClient": "@alicloud/oss-baseclient"
+	},
+	"releases": {
+		"java": "com.aliyun:oss-file-client:0.1-SNAPSHOT",
+		"ts": "@alicloud/oss:0.0.1"
+	},
+	"libraries": {
 		"Common": "alibabacloud:Common:*"
 	},
-  "import": {
+	"import": {
 		"go": {
 			"common": "github.com/aliyun/alibabacloud-rpc-util-sdk/golang/common"
-    },
-    "csharp":{
-      "Common": {
+		},
+		"csharp": {
+			"Common": {
 				"staticClass": "AlibabaCloud.Common",
 				"model": "AlibabaCloud.Commons.Models"
 			}
-    }
+		}
 	}
 }
