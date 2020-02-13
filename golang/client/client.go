@@ -7,7 +7,7 @@ import (
 
 	"github.com/alibabacloud-go/tea/tea"
 	"github.com/aliyun/alibabacloud-oss-sdk/baseclient/go/service"
-	common "github.com/aliyun/alibabacloud-rpc-util-sdk/golang/common"
+	common "github.com/aliyun/alibabacloud-rpc-util-sdk/golang/service"
 )
 
 type RuntimeObject struct {
@@ -7271,9 +7271,9 @@ func (s *PostObjectRequestHeader) SetKey(v string) *PostObjectRequestHeader {
 }
 
 type PostObjectRequestHeaderFile struct {
-	FileName    *string `json:"filename" xml:"filename" require:"true"`
-	Content     *string `json:"content" xml:"content" require:"true"`
-	ContentType *string `json:"content-type" xml:"content-type" require:"true"`
+	FileName    *string   `json:"filename" xml:"filename" require:"true"`
+	Content     io.Reader `json:"content" xml:"content" require:"true"`
+	ContentType *string   `json:"content-type" xml:"content-type" require:"true"`
 }
 
 func (s PostObjectRequestHeaderFile) String() string {
@@ -7289,8 +7289,8 @@ func (s *PostObjectRequestHeaderFile) SetFileName(v string) *PostObjectRequestHe
 	return s
 }
 
-func (s *PostObjectRequestHeaderFile) SetContent(v string) *PostObjectRequestHeaderFile {
-	s.Content = &v
+func (s *PostObjectRequestHeaderFile) SetContent(v io.Reader) *PostObjectRequestHeaderFile {
+	s.Content = v
 	return s
 }
 
@@ -14355,7 +14355,7 @@ func (client *Client) PostObject(request *PostObjectRequest, runtime *common.Run
 				"date": common.GetDate(),
 			}
 			request_.Headers["content-type"] = "multipart/form-data; boundary=" + tea.ToString(boundary)
-			request_.Body = tea.ToReader(common.ToForm(tea.ToMap(request.Header), boundary))
+			request_.Body = common.ToForm(tea.ToMap(request.Header), request.Header.File.Content, boundary)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
