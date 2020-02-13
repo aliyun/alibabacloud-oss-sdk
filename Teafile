@@ -5,7 +5,7 @@
 	"main": "./oss.tea",
 	"releases": {
 		"go": "github.com/aliyun/alibabacloud-oss-sdk/golang/client:v1.0.0",
-		"java": "com.aliyun:oss-client:1.1.0",
+		"java": "com.aliyun:oss-client:1.1.1",
 		"csharp":"AlibabaCloud.SDK.OSS.Client:0.0.2",
 		"ts": "@alicloud/oss-client:1.1.0"
 	},

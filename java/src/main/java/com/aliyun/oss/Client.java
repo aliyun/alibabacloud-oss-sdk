@@ -5372,7 +5372,7 @@ public class Client extends BaseClient {
                     new TeaPair("date", com.aliyun.common.Common.getDate())
                 );
                 request_.headers.put("content-type", "multipart/form-data; boundary=" + boundary + "");
-                request_.body = Tea.toReadable(com.aliyun.common.Common.toForm(TeaModel.buildMap(request.header), boundary));
+                request_.body = com.aliyun.common.Common.toForm(TeaModel.buildMap(request.header), request.header.file.content, boundary);
                 _lastRequest = request_;
                 TeaResponse response_ = Tea.doAction(request_, runtime_);
 
