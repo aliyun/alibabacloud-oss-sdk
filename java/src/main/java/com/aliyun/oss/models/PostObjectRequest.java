@@ -24,7 +24,7 @@ public class PostObjectRequest extends TeaModel {
 
         @NameInMap("content")
         @Validation(required = true)
-        public String content;
+        public java.io.InputStream content;
 
         @NameInMap("content-type")
         @Validation(required = true)
