@@ -4786,7 +4786,7 @@ module Client {
       successActionStatus?: string(description='success_action_status', name='success_action_status'),
       file: {
         fileName: string(description='filename', name='filename'),
-        content: string(description='content', name='content'),
+        content: readable(description='content', name='content'),
         contentType: string(description='content-type', name='content-type'),
       }(description='file', name='file'),
       key: string(description='key', name='key'),
@@ -4811,7 +4811,7 @@ module Client {
       date = Common.getDate(),
     };
     headers.content-type = `multipart/form-data; boundary=${boundary}`;
-    body = Common.toForm(request.header, boundary);
+    body = Common.toForm(request.header, request.header.file.content, boundary);
   } returns {
     var respMap : object = null;
     var bodyStr = Common.readAsString(__response.body);
