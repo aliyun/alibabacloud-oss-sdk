@@ -39,7 +39,7 @@ namespace AlibabaCloud.OSS.Models
 
                 [NameInMap("content")]
                 [Validation(Required=true)]
-                public string Content { get; set; }
+                public Stream Content { get; set; }
 
                 [NameInMap("content-type")]
                 [Validation(Required=true)]
