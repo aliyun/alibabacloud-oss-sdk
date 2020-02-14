@@ -1,5 +1,7 @@
 // This file is auto-generated, don't edit it
-import Common, * as $Common from '@ali/common';
+import Common, {
+  RuntimeObject
+} from "@alicloud/rpc-util";
 import { Readable } from 'stream';
 import * as $tea from '@alicloud/tea-typescript';
 import BaseClient from '@alicloud/oss-baseclient';
@@ -7040,7 +7042,7 @@ export class PostVodPlaylistRequestFilter extends $tea.Model {
 
 export class PostObjectRequestHeaderFile extends $tea.Model {
   fileName: string;
-  content: string;
+  content: Readable;
   contentType: string;
   static names(): { [key: string]: string } {
     return {
@@ -7053,7 +7055,7 @@ export class PostObjectRequestHeaderFile extends $tea.Model {
   static types(): { [key: string]: any } {
     return {
       fileName: 'string',
-      content: 'string',
+      content: 'Readable',
       contentType: 'string',
     };
   }
@@ -12434,19 +12436,19 @@ export default class Client extends BaseClient {
   async postObject(request: PostObjectRequest, runtime: RuntimeObject): Promise<PostObjectResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: await Common.defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: await Common.defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      httpProxy: await Common.default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: await Common.default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: await Common.default(runtime.noProxy, this._noProxy),
-      maxIdleConns: await Common.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: await Common.defaultNumber((runtime.readTimeout, this._readTimeout),
+      connectTimeout: await Common.defaultNumber((runtime.connectTimeout, this._connectTimeout),
+      httpProxy: await Common.default((runtime.httpProxy, this._httpProxy),
+      httpsProxy: await Common.default((runtime.httpsProxy, this._httpsProxy),
+      noProxy: await Common.default((runtime.noProxy, this._noProxy),
+      maxIdleConns: await Common.defaultNumber((runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        'max-attempts': await Common.defaultNumber(runtime.maxAttempts, 3),
+        'max-attempts': await Common.defaultNumber((runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: await Common.default(runtime.backoffPolicy, "no"),
-        period: await Common.defaultNumber(runtime.backoffPeriod, 1),
+        policy: await Common.default((runtime.backoffPolicy, "no"),
+        period: await Common.defaultNumber((runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
     }
@@ -12465,23 +12467,23 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let boundary = await Common.getBoundary();
+        let boundary = await Common.getBoundary(();
         request_.protocol = this._protocol;
         request_.method = "POST";
         request_.pathname = `/`;
         request_.headers = {
           host: this.getHost(request.bucketName),
-          date: await Common.getDate(),
+          date: await Common.getDate((),
         };
         request_.headers["content-type"] = `multipart/form-data; boundary=${boundary}`;
-        request_.body = new $tea.BytesReadable(await Common.toForm($tea.toMap(request.header), boundary));
+        request_.body = await Common.toForm(($tea.toMap(request.header), request.header.file.content, boundary);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
-        let bodyStr = await Common.readAsString(response_.body);
-        if (await Common.isFail(response_)) {
-          respMap = await Common.getErrMessage(bodyStr);
+        let bodyStr = await Common.readAsString((response_.body);
+        if (await Common.isFail((response_)) {
+          respMap = await Common.getErrMessage((bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -12493,7 +12495,7 @@ export default class Client extends BaseClient {
           });
         }
 
-        respMap = await Common.parseXml(bodyStr, PostObjectResponse);
+        respMap = await Common.parseXml((bodyStr, PostObjectResponse);
         return $tea.cast<PostObjectResponse>({
           ...respMap,
         }, new PostObjectResponse({}));
