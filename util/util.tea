@@ -1,0 +1,59 @@
+model RuntimeOptions {
+  autoretry?: boolean(description='autoretry', name='autoretry'),
+  ignoreSSL?: boolean(description='ignoreSSL', name='ignoreSSL'),
+  maxAttempts?: number(description='max attempts', name='maxAttempts'),
+  backoffPolicy?: string(description='backoff policy', name='backoffPolicy'),
+  backoffPeriod?: number(description='backoff period', name='backoffPeriod'),
+  readTimeout?: number(description='read timeout', name='readTimeout'),
+  connectTimeout?: number(description='connect timeout', name='connectTimeout'),
+  localAddr?: string(description='local addr', name='localAddr'),
+  httpProxy?: string(description='http proxy', name='httpProxy'),
+  httpsProxy?: string(description='https proxy', name='httpsProxy'),
+  noProxy?: string(description='no proxy', name='noProxy'),
+  maxIdleConns?: number(description='max idle conns', name='maxIdleConns'),
+  socks5Proxy?: string(description='socks5 proxy', name='socks5Proxy'),
+  socks5NetWork?: string(description='socks5 NetWork', name='socks5NetWork'),
+  uploadLimitSpeed?: number(description='upload limit speed', name='uploadLimitSpeed'),
+  listener?: any(description='listener', name='listener'),
+}
+
+/**
+ * If the code is 4xx or 5xx, return true, or return false.
+ */
+static function is4XXor5XX(code: number): boolean;
+
+/**
+ * Get error message from msg
+ * @return the object
+ */
+static function getErrMessage(msg: string): object;
+
+/**
+ * Unmarshal the body to response, and put the response into object
+ * @return the object
+ */
+static function parseXml(body: string, response: class): object;
+
+static function toQuery(filter: object): map[string]string;
+
+static function toMeta(val: object, prefix: string): map[string]string;
+
+static function parseMeta(val: object, prefix: string): map[string]string;
+
+static function toXML(body: object): string;
+
+static function getContentType(fileName: string): string;
+
+static function getContentMD5(body: string, isEnableMD5: boolean): string;
+
+static function encode(val: string, encodeType: string): string;
+
+static function getUserAgent(val: string): string;
+
+static function getHost(bucketName: string, regionId: string, endpoint: string, hostModel: string): string;
+
+static function inject(body: readable, res: map[string]string): readable;
+
+static function getSignature(request: $Request, bucketName: string, accessKeyId: string, accessKeySecret: string, signatureVersion: string, addtionalHeaders: [string]): string;
+
+static function decode(val: string, decodeType: string): string;
