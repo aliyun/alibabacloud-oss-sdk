@@ -12737,21 +12737,21 @@ else
             Dictionary<string, object> runtime_ = new Dictionary<string, object>()
             {
                 {"timeouted", "retry"},
-                {"readTimeout", AlibabaCloud.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", AlibabaCloud.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"httpProxy", AlibabaCloud.Common.Default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", AlibabaCloud.Common.Default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", AlibabaCloud.Common.Default(runtime.NoProxy, _noProxy)},
-                {"maxIdleConns", AlibabaCloud.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"readTimeout", AlibabaCloud.Commons.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.Commons.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"httpProxy", AlibabaCloud.Commons.Common.Default(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.Commons.Common.Default(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.Commons.Common.Default(runtime.NoProxy, _noProxy)},
+                {"maxIdleConns", AlibabaCloud.Commons.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
                 {"retry", new Dictionary<string, object>()
                 {
                     {"retryable", runtime.Autoretry},
-                    {"max-attempts", AlibabaCloud.Common.DefaultNumber(runtime.MaxAttempts, 3)},
+                    {"max-attempts", AlibabaCloud.Commons.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
                 {"backoff", new Dictionary<string, object>()
                 {
-                    {"policy", AlibabaCloud.Common.Default(runtime.BackoffPolicy, "no")},
-                    {"period", AlibabaCloud.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.Commons.Common.Default(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.Commons.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
             };
@@ -12774,25 +12774,25 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string boundary = AlibabaCloud.Common.GetBoundary();
+                    string boundary = AlibabaCloud.Commons.Common.GetBoundary();
                     request_.Protocol = _protocol;
                     request_.Method = "POST";
                     request_.Pathname = "/";
                     request_.Headers = new Dictionary<string, string>()
                     {
                         {"host", GetHost(request.BucketName)},
-                        {"date", AlibabaCloud.Common.GetDate()},
+                        {"date", AlibabaCloud.Commons.Common.GetDate()},
                     };
                     request_.Headers["content-type"] = "multipart/form-data; boundary=" + boundary;
-                    request_.Body = TeaCore.BytesReadable(AlibabaCloud.Common.ToForm(request.Header.ToMap(), boundary));
+                    request_.Body = AlibabaCloud.Commons.Common.ToForm(request.Header.ToMap(), request.Header.File.Content, boundary);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
-                    string bodyStr = AlibabaCloud.Common.ReadAsString(response_.Body);
-                    if (AlibabaCloud.Common.IsFail(response_))
+                    string bodyStr = AlibabaCloud.Commons.Common.ReadAsString(response_.Body);
+                    if (AlibabaCloud.Commons.Common.IsFail(response_))
                     {
-                        respMap = AlibabaCloud.Common.GetErrMessage(bodyStr);
+                        respMap = AlibabaCloud.Commons.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>()
                         {
                             {"code", respMap["Code"]},
@@ -12805,7 +12805,7 @@ else
                             }},
                         });
                     }
-                    respMap = AlibabaCloud.Common.ParseXml(bodyStr, typeof(PostObjectResponse));
+                    respMap = AlibabaCloud.Commons.Common.ParseXml(bodyStr, typeof(PostObjectResponse));
                     return TeaModel.ToObject<PostObjectResponse>(TeaConverter.merge<object>
                     (
                         respMap
@@ -12831,21 +12831,21 @@ else
             Dictionary<string, object> runtime_ = new Dictionary<string, object>()
             {
                 {"timeouted", "retry"},
-                {"readTimeout", AlibabaCloud.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", AlibabaCloud.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"httpProxy", AlibabaCloud.Common.Default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", AlibabaCloud.Common.Default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", AlibabaCloud.Common.Default(runtime.NoProxy, _noProxy)},
-                {"maxIdleConns", AlibabaCloud.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"readTimeout", AlibabaCloud.Commons.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.Commons.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"httpProxy", AlibabaCloud.Commons.Common.Default(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.Commons.Common.Default(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.Commons.Common.Default(runtime.NoProxy, _noProxy)},
+                {"maxIdleConns", AlibabaCloud.Commons.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
                 {"retry", new Dictionary<string, object>()
                 {
                     {"retryable", runtime.Autoretry},
-                    {"max-attempts", AlibabaCloud.Common.DefaultNumber(runtime.MaxAttempts, 3)},
+                    {"max-attempts", AlibabaCloud.Commons.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
                 {"backoff", new Dictionary<string, object>()
                 {
-                    {"policy", AlibabaCloud.Common.Default(runtime.BackoffPolicy, "no")},
-                    {"period", AlibabaCloud.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.Commons.Common.Default(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.Commons.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
             };
@@ -12868,25 +12868,25 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string boundary = AlibabaCloud.Common.GetBoundary();
+                    string boundary = AlibabaCloud.Commons.Common.GetBoundary();
                     request_.Protocol = _protocol;
                     request_.Method = "POST";
                     request_.Pathname = "/";
                     request_.Headers = new Dictionary<string, string>()
                     {
                         {"host", GetHost(request.BucketName)},
-                        {"date", AlibabaCloud.Common.GetDate()},
+                        {"date", AlibabaCloud.Commons.Common.GetDate()},
                     };
                     request_.Headers["content-type"] = "multipart/form-data; boundary=" + boundary;
-                    request_.Body = TeaCore.BytesReadable(AlibabaCloud.Common.ToForm(request.Header.ToMap(), boundary));
+                    request_.Body = AlibabaCloud.Commons.Common.ToForm(request.Header.ToMap(), request.Header.File.Content, boundary);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
-                    string bodyStr = AlibabaCloud.Common.ReadAsString(response_.Body);
-                    if (AlibabaCloud.Common.IsFail(response_))
+                    string bodyStr = AlibabaCloud.Commons.Common.ReadAsString(response_.Body);
+                    if (AlibabaCloud.Commons.Common.IsFail(response_))
                     {
-                        respMap = AlibabaCloud.Common.GetErrMessage(bodyStr);
+                        respMap = AlibabaCloud.Commons.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>()
                         {
                             {"code", respMap["Code"]},
@@ -12899,7 +12899,7 @@ else
                             }},
                         });
                     }
-                    respMap = AlibabaCloud.Common.ParseXml(bodyStr, typeof(PostObjectResponse));
+                    respMap = AlibabaCloud.Commons.Common.ParseXml(bodyStr, typeof(PostObjectResponse));
                     return TeaModel.ToObject<PostObjectResponse>(TeaConverter.merge<object>
                     (
                         respMap
