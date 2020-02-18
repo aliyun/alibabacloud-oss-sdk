@@ -26,3 +26,6 @@ java/*.iml
 *.sum
 .libraries.json
 libraries/
+**/csharp/**/bin/
+**/csharp/**/obj/
+**/csharp/**/.vs/
