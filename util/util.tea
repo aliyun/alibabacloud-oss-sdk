@@ -18,29 +18,16 @@ model RuntimeOptions {
 }
 
 /**
- * If the code is 4xx or 5xx, return true, or return false.
- */
-static function is4XXor5XX(code: number): boolean;
-
-/**
  * Get error message from msg
  * @return the object
  */
 static function getErrMessage(msg: string): object;
-
-/**
- * Unmarshal the body to response, and put the response into object
- * @return the object
- */
-static function parseXml(body: string, response: class): object;
 
 static function toQuery(filter: object): map[string]string;
 
 static function toMeta(val: object, prefix: string): map[string]string;
 
 static function parseMeta(val: object, prefix: string): map[string]string;
-
-static function toXML(body: object): string;
 
 static function getContentType(fileName: string): string;
 

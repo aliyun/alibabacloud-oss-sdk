@@ -19,11 +19,15 @@ jobs:
     - language: go
       go: 1.12.x
       if: branch = master
+      install: 
+        - export GO111MODULE=on
       script:
         - cd baseclient/go
-        - export GO111MODULE=on
         - go mod tidy
         - go test -race -coverprofile=coverage.txt -covermode=atomic ./service/... ./utils...
+        - cd ../../util/golang
+        - go mod tidy
+        - go test -race -coverprofile=coverage.txt -covermode=atomic ./service/...
         - cd ../../golang
         - go mod tidy
         - test -z $ACCESS_KEY_ID -a -z $ACCESS_KEY_SECRET || go test -race ./client/...
