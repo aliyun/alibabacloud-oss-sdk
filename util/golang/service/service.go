@@ -10,7 +10,6 @@ import (
 	"strings"
 
 	"github.com/alibabacloud-go/tea/tea"
-	"github.com/aliyun/rpc-client-go/service"
 )
 
 var crcTable = func() *crc64.Table {
@@ -37,7 +36,7 @@ type RuntimeOptions struct {
 }
 
 func (s RuntimeOptions) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s RuntimeOptions) GoString() string {
