@@ -4,11 +4,9 @@ import (
 	"crypto/md5"
 	"encoding/base64"
 	"encoding/xml"
-	"fmt"
 	"hash/crc64"
 	"io"
 	"net/url"
-	"runtime"
 	"strings"
 
 	"github.com/alibabacloud-go/tea/tea"
@@ -18,7 +16,24 @@ var crcTable = func() *crc64.Table {
 	return crc64.MakeTable(crc64.ECMA)
 }
 
-var defaultUserAgent = fmt.Sprintf("AlibabaCloud (%s; %s) Golang/%s Core/%s", runtime.GOOS, runtime.GOARCH, strings.Trim(runtime.Version(), "go"), "0.01")
+type RuntimeOptions struct {
+	Autoretry        *bool       `json:"autoretry" xml:"autoretry"`
+	IgnoreSSL        *bool       `json:"ignoreSSL" xml:"ignoreSSL"`
+	MaxAttempts      *int        `json:"maxAttempts" xml:"maxAttempts"`
+	BackoffPolicy    *string     `json:"backoffPolicy" xml:"backoffPolicy"`
+	BackoffPeriod    *int        `json:"backoffPeriod" xml:"backoffPeriod"`
+	ReadTimeout      *int        `json:"readTimeout" xml:"readTimeout"`
+	ConnectTimeout   *int        `json:"connectTimeout" xml:"connectTimeout"`
+	LocalAddr        *string     `json:"localAddr" xml:"localAddr"`
+	HttpProxy        *string     `json:"httpProxy" xml:"httpProxy"`
+	HttpsProxy       *string     `json:"httpsProxy" xml:"httpsProxy"`
+	NoProxy          *string     `json:"noProxy" xml:"noProxy"`
+	MaxIdleConns     *int        `json:"maxIdleConns" xml:"maxIdleConns"`
+	Socks5Proxy      *string     `json:"socks5Proxy" xml:"socks5Proxy"`
+	Socks5NetWork    *string     `json:"socks5NetWork" xml:"socks5NetWork"`
+	UploadLimitSpeed *int        `json:"uploadLimitSpeed" xml:"uploadLimitSpeed"`
+	Listener         interface{} `json:"listener" xml:"listener"`
+}
 
 // ServiceError is for recording error which is caused when sending request
 type ServiceError struct {
@@ -26,13 +41,6 @@ type ServiceError struct {
 	Message   string `json:"Message" xml:"Message"`
 	RequestId string `json:"RequestId" xml:"RequestId"`
 	HostId    string `json:"HostId" xml:"HostId"`
-}
-
-func GetUserAgent(userAgent string) string {
-	if userAgent == "" {
-		return defaultUserAgent
-	}
-	return defaultUserAgent + " " + userAgent
 }
 
 func GetSignature(request *tea.Request, bucketName, accessKeyId, accessKeySecret, signatureVersion string, addtionalHeaders []string) string {
