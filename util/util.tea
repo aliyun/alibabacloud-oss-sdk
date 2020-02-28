@@ -23,8 +23,6 @@ model RuntimeOptions {
  */
 static function getErrMessage(msg: string): object;
 
-static function toQuery(filter: object): map[string]string;
-
 static function toMeta(val: object, prefix: string): map[string]string;
 
 static function parseMeta(val: object, prefix: string): map[string]string;
