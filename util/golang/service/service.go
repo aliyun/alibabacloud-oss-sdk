@@ -10,6 +10,7 @@ import (
 	"strings"
 
 	"github.com/alibabacloud-go/tea/tea"
+	"github.com/aliyun/rpc-client-go/service"
 )
 
 var crcTable = func() *crc64.Table {
@@ -33,6 +34,94 @@ type RuntimeOptions struct {
 	Socks5NetWork    *string     `json:"socks5NetWork" xml:"socks5NetWork"`
 	UploadLimitSpeed *int        `json:"uploadLimitSpeed" xml:"uploadLimitSpeed"`
 	Listener         interface{} `json:"listener" xml:"listener"`
+}
+
+func (s RuntimeOptions) String() string {
+	return service.Prettify(s)
+}
+
+func (s RuntimeOptions) GoString() string {
+	return s.String()
+}
+
+func (s *RuntimeOptions) SetAutoretry(v bool) *RuntimeOptions {
+	s.Autoretry = &v
+	return s
+}
+
+func (s *RuntimeOptions) SetIgnoreSSL(v bool) *RuntimeOptions {
+	s.IgnoreSSL = &v
+	return s
+}
+
+func (s *RuntimeOptions) SetMaxAttempts(v int) *RuntimeOptions {
+	s.MaxAttempts = &v
+	return s
+}
+
+func (s *RuntimeOptions) SetBackoffPolicy(v string) *RuntimeOptions {
+	s.BackoffPolicy = &v
+	return s
+}
+
+func (s *RuntimeOptions) SetBackoffPeriod(v int) *RuntimeOptions {
+	s.BackoffPeriod = &v
+	return s
+}
+
+func (s *RuntimeOptions) SetReadTimeout(v int) *RuntimeOptions {
+	s.ReadTimeout = &v
+	return s
+}
+
+func (s *RuntimeOptions) SetConnectTimeout(v int) *RuntimeOptions {
+	s.ConnectTimeout = &v
+	return s
+}
+
+func (s *RuntimeOptions) SetLocalAddr(v string) *RuntimeOptions {
+	s.LocalAddr = &v
+	return s
+}
+
+func (s *RuntimeOptions) SetHttpProxy(v string) *RuntimeOptions {
+	s.HttpProxy = &v
+	return s
+}
+
+func (s *RuntimeOptions) SetHttpsProxy(v string) *RuntimeOptions {
+	s.HttpsProxy = &v
+	return s
+}
+
+func (s *RuntimeOptions) SetNoProxy(v string) *RuntimeOptions {
+	s.NoProxy = &v
+	return s
+}
+
+func (s *RuntimeOptions) SetMaxIdleConns(v int) *RuntimeOptions {
+	s.MaxIdleConns = &v
+	return s
+}
+
+func (s *RuntimeOptions) SetSocks5Proxy(v string) *RuntimeOptions {
+	s.Socks5Proxy = &v
+	return s
+}
+
+func (s *RuntimeOptions) SetSocks5NetWork(v string) *RuntimeOptions {
+	s.Socks5NetWork = &v
+	return s
+}
+
+func (s *RuntimeOptions) SetUploadLimitSpeed(v int) *RuntimeOptions {
+	s.UploadLimitSpeed = &v
+	return s
+}
+
+func (s *RuntimeOptions) SetListener(v interface{}) *RuntimeOptions {
+	s.Listener = v
+	return s
 }
 
 // ServiceError is for recording error which is caused when sending request
