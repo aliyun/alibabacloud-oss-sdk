@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/aliyun/alibabacloud-oss-sdk/baseclient/go/utils"
+	"github.com/alibabacloud-go/tea/utils"
 )
 
 type validatorTest struct {
