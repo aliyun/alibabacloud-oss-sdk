@@ -10,14 +10,6 @@ import (
 	"github.com/alibabacloud-go/tea/utils"
 )
 
-func Test_GetUserAgent(t *testing.T) {
-	ua := GetUserAgent("")
-	utils.AssertContains(t, ua, "Core/0.01")
-
-	ua = GetUserAgent("ua")
-	utils.AssertContains(t, ua, "Core/0.01 ua")
-}
-
 // func Test_IsUploadSpeedLimit(t *testing.T) {
 // 	body := strings.NewReader("oss")
 // 	read := client.IsUploadSpeedLimit(body, 0)
