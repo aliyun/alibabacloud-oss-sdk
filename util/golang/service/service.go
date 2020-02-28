@@ -156,3 +156,25 @@ func Inject(body io.Reader, ref map[string]string) io.Reader {
 	body = ComplexReader(body, ref)
 	return body
 }
+
+func GetHost(bucketName, regionId, endpoint, hostModel string) string {
+	host := ""
+	if regionId == "" {
+		regionId = "cn-hangzhou"
+	}
+	if endpoint == "" {
+		endpoint = "oss-" + regionId + ".aliyuncs.com"
+	}
+	if bucketName != "" {
+		if strings.ToLower(hostModel) == "ip" {
+			host = endpoint + "/" + bucketName
+		} else if strings.ToLower(hostModel) == "cname" {
+			host = endpoint
+		} else {
+			host = bucketName + "." + endpoint
+		}
+	} else {
+		host = endpoint
+	}
+	return host
+}
