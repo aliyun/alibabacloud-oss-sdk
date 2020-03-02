@@ -111,13 +111,15 @@ public class ClientTest {
                 "accessKeySecret", "v2", null);
         Assert.assertEquals("OSS2 AccessKeyId:accessKeyId,Signature:MdD5Jc6O4yPMls3qSI8jFayeu6IDUKp3VqQ2gt+85Bs=", signatrue);
 
+        List<String> list= new ArrayList<>();
+        list.add("test");
         signatrue = Client.getSignature(teaRequest, "bucket", "accessKeyId",
-                "accessKeySecret", "v2", new String[]{"test"});
+                "accessKeySecret", "v2", list);
         Assert.assertEquals("OSS2 AccessKeyId:accessKeyId,AdditionalHeaders:test,Signature:aZtDGEXEuLKsRdVEobwgwHFFigr7cXJL2OAHGoTTEyI=", signatrue);
 
 
         signatrue = Client.getSignature(teaRequest, "bucket", "accessKeyId",
-                "accessKeySecret", "v1", new String[]{"test"});
+                "accessKeySecret", "v1", list);
         Assert.assertEquals("OSS accessKeyId:mE03/sQeasKAx4nd4Ts8NvgM4hI=", signatrue);
 
 
@@ -217,13 +219,13 @@ public class ClientTest {
 
     @Test
     public void ifListEmptyTest() {
-        String[] strs = null;
+        List<String> strs = null;
         Assert.assertTrue(Client.ifListEmpty(strs));
 
-        strs = new String[]{};
+        strs = new ArrayList<>();
         Assert.assertTrue(Client.ifListEmpty(strs));
 
-        strs = new String[]{"test"};
+        strs .add("test");
         Assert.assertFalse(Client.ifListEmpty(strs));
     }
 
