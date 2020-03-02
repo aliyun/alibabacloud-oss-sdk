@@ -569,19 +569,19 @@ public class Client {
         return new VerifyInputStream(body, res);
     }
 
-    protected static boolean ifListEmpty(List<String> strs) {
-        if (strs == null) {
+    protected static boolean ifListEmpty(String[] strs) {
+        if (null == strs) {
             return true;
         }
-        return strs.size() <= 0;
+        return strs.length <= 0;
     }
 
-    public static String getSignature(TeaRequest request, String bucketName, String accessKeyId, String accessKeySecret, String signatureVersion, java.util.List<String> addtionalHeaders) throws Exception {
+    public static String getSignature(TeaRequest request, String bucketName, String accessKeyId, String accessKeySecret, String signatureVersion, String[] addtionalHeaders) throws Exception {
         String[] headers;
         if (null == addtionalHeaders) {
             headers = new String[]{};
         } else {
-            headers = addtionalHeaders.toArray(new String[]{});
+            headers = addtionalHeaders;
         }
         if ("V2".equals(signatureVersion.toUpperCase())) {
             if (ifListEmpty(addtionalHeaders)) {
