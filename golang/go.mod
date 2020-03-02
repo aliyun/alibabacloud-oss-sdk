@@ -1,14 +1,24 @@
 module github.com/aliyun/alibabacloud-oss-sdk/golang
 
 require (
-	github.com/alibabacloud-go/tea v0.0.2
-	github.com/aliyun/alibabacloud-oss-sdk/baseclient/go v0.0.0-20200213060830-b2058fb9614f
-	github.com/aliyun/alibabacloud-rpc-util-sdk/golang v0.0.0-20200213070916-e13a54443617
-	github.com/gopherjs/gopherjs v0.0.0-20200209183636-89e6cbcd0b6d // indirect
-	golang.org/x/crypto v0.0.0-20200210222208-86ce3cb69678 // indirect
-	golang.org/x/net v0.0.0-20200202094626-16171245cfb2 // indirect
-	golang.org/x/sys v0.0.0-20200212091648-12a6c2dcc1e4 // indirect
-	golang.org/x/tools v0.0.0-20200213050514-49b8ac185c84 // indirect
-	gopkg.in/ini.v1 v1.52.0 // indirect
+	github.com/alibabacloud-go/tea v0.0.7
+	github.com/aliyun/alibabacloud-oss-sdk/util/golang v0.0.0-20200302083640-a9b5e0e5a010
+	github.com/aliyun/credentials-go v0.0.3
+	github.com/aliyun/tea-fileform/golang v0.0.0-20200302081856-d44c1c2f8841
+	github.com/aliyun/tea-util/golang v0.0.0-20200302070822-07a651fdf352
+	github.com/aliyun/tea-xml/golang v0.0.0-20200302082139-ce1730824810
+	github.com/gopherjs/gopherjs v0.0.0-20200217142428-fce0ec30dd00 // indirect
+	github.com/smartystreets/assertions v1.0.1 // indirect
+	github.com/stretchr/objx v0.2.0 // indirect
+	github.com/stretchr/testify v1.5.1 // indirect
+	golang.org/x/crypto v0.0.0-20200221231518-2aa609cf4a9d // indirect
+	golang.org/x/mod v0.2.0 // indirect
+	golang.org/x/net v0.0.0-20200301022130-244492dfa37a // indirect
+	golang.org/x/sync v0.0.0-20190911185100-cd5d95a43a6e // indirect
+	golang.org/x/sys v0.0.0-20200302083256-062a44052db1 // indirect
+	golang.org/x/text v0.3.2 // indirect
+	golang.org/x/tools v0.0.0-20200301222351-066e0c02454c // indirect
+	golang.org/x/xerrors v0.0.0-20191204190536-9bdfabe68543 // indirect
+	gopkg.in/check.v1 v1.0.0-20200227125254-8fa46927fb4f // indirect
 	gopkg.in/yaml.v2 v2.2.8 // indirect
 )

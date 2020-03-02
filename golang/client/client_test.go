@@ -5,15 +5,15 @@ import (
 	"os"
 	"testing"
 
-	"github.com/aliyun/alibabacloud-oss-sdk/baseclient/go/utils"
+	"github.com/alibabacloud-go/tea/utils"
+	ossutil "github.com/aliyun/alibabacloud-oss-sdk/util/golang/service"
 )
 
 var config = new(Config).SetAccessKeyId(os.Getenv("ACCESS_KEY_ID")).
 	SetAccessKeySecret(os.Getenv("ACCESS_KEY_SECRET")).
 	SetType("access_key")
 
-var runtimeObject = new(RuntimeObject).SetAutoretry(false).
-	SetMd5Threshold(1000).
+var runtimeObject = new(ossutil.RuntimeOptions).SetAutoretry(false).
 	SetMaxIdleConns(3)
 
 var client *Client
