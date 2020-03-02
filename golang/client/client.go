@@ -2,168 +2,46 @@
 package client
 
 import (
-	"encoding/json"
-	"io"
-
 	"github.com/alibabacloud-go/tea/tea"
-	"github.com/aliyun/alibabacloud-oss-sdk/baseclient/go/service"
-	common "github.com/aliyun/alibabacloud-rpc-util-sdk/golang/service"
+	ossutil "github.com/aliyun/alibabacloud-oss-sdk/util/golang/service"
+	credential "github.com/aliyun/credentials-go/credentials"
+	fileform "github.com/aliyun/tea-fileform/golang/service"
+	util "github.com/aliyun/tea-util/golang/service"
+	xml "github.com/aliyun/tea-xml/golang/service"
+	"io"
 )
 
-type RuntimeObject struct {
-	Autoretry        *bool       `json:"autoretry" xml:"autoretry"`
-	IgnoreSSL        *bool       `json:"ignoreSSL" xml:"ignoreSSL"`
-	MaxAttempts      *int        `json:"maxAttempts" xml:"maxAttempts"`
-	BackoffPolicy    *string     `json:"backoffPolicy" xml:"backoffPolicy"`
-	BackoffPeriod    *int        `json:"backoffPeriod" xml:"backoffPeriod"`
-	ReadTimeout      *int        `json:"readTimeout" xml:"readTimeout"`
-	ConnectTimeout   *int        `json:"connectTimeout" xml:"connectTimeout"`
-	LocalAddr        *string     `json:"localAddr" xml:"localAddr"`
-	HttpProxy        *string     `json:"httpProxy" xml:"httpProxy"`
-	HttpsProxy       *string     `json:"httpsProxy" xml:"httpsProxy"`
-	NoProxy          *string     `json:"noProxy" xml:"noProxy"`
-	MaxIdleConns     *int        `json:"maxIdleConns" xml:"maxIdleConns"`
-	Socks5Proxy      *string     `json:"socks5Proxy" xml:"socks5Proxy"`
-	Socks5NetWork    *string     `json:"socks5NetWork" xml:"socks5NetWork"`
-	Md5Threshold     *int64      `json:"MD5Threshold" xml:"MD5Threshold"`
-	UploadLimitSpeed *int        `json:"uploadLimitSpeed" xml:"uploadLimitSpeed"`
-	Listener         interface{} `json:"listener" xml:"listener"`
-}
-
-func (s RuntimeObject) String() string {
-	return service.Prettify(s)
-}
-
-func (s RuntimeObject) GoString() string {
-	return s.String()
-}
-
-func (s *RuntimeObject) SetAutoretry(v bool) *RuntimeObject {
-	s.Autoretry = &v
-	return s
-}
-
-func (s *RuntimeObject) SetIgnoreSSL(v bool) *RuntimeObject {
-	s.IgnoreSSL = &v
-	return s
-}
-
-func (s *RuntimeObject) SetMaxAttempts(v int) *RuntimeObject {
-	s.MaxAttempts = &v
-	return s
-}
-
-func (s *RuntimeObject) SetBackoffPolicy(v string) *RuntimeObject {
-	s.BackoffPolicy = &v
-	return s
-}
-
-func (s *RuntimeObject) SetBackoffPeriod(v int) *RuntimeObject {
-	s.BackoffPeriod = &v
-	return s
-}
-
-func (s *RuntimeObject) SetReadTimeout(v int) *RuntimeObject {
-	s.ReadTimeout = &v
-	return s
-}
-
-func (s *RuntimeObject) SetConnectTimeout(v int) *RuntimeObject {
-	s.ConnectTimeout = &v
-	return s
-}
-
-func (s *RuntimeObject) SetLocalAddr(v string) *RuntimeObject {
-	s.LocalAddr = &v
-	return s
-}
-
-func (s *RuntimeObject) SetHttpProxy(v string) *RuntimeObject {
-	s.HttpProxy = &v
-	return s
-}
-
-func (s *RuntimeObject) SetHttpsProxy(v string) *RuntimeObject {
-	s.HttpsProxy = &v
-	return s
-}
-
-func (s *RuntimeObject) SetNoProxy(v string) *RuntimeObject {
-	s.NoProxy = &v
-	return s
-}
-
-func (s *RuntimeObject) SetMaxIdleConns(v int) *RuntimeObject {
-	s.MaxIdleConns = &v
-	return s
-}
-
-func (s *RuntimeObject) SetSocks5Proxy(v string) *RuntimeObject {
-	s.Socks5Proxy = &v
-	return s
-}
-
-func (s *RuntimeObject) SetSocks5NetWork(v string) *RuntimeObject {
-	s.Socks5NetWork = &v
-	return s
-}
-
-func (s *RuntimeObject) SetMd5Threshold(v int64) *RuntimeObject {
-	s.Md5Threshold = &v
-	return s
-}
-
-func (s *RuntimeObject) SetUploadLimitSpeed(v int) *RuntimeObject {
-	s.UploadLimitSpeed = &v
-	return s
-}
-
-func (s *RuntimeObject) SetListener(v interface{}) *RuntimeObject {
-	s.Listener = v
-	return s
-}
-
 type Config struct {
-	AccessKeyId      *string   `json:"accessKeyId" xml:"accessKeyId"`
-	AccessKeySecret  *string   `json:"accessKeySecret" xml:"accessKeySecret"`
-	Type             *string   `json:"type" xml:"type" require:"true"`
-	SecurityToken    *string   `json:"securityToken" xml:"securityToken" require:"true"`
-	Endpoint         *string   `json:"endpoint" xml:"endpoint" require:"true"`
-	Protocol         *string   `json:"protocol" xml:"protocol" require:"true"`
-	RegionId         *string   `json:"regionId" xml:"regionId" require:"true"`
-	UserAgent        *string   `json:"userAgent" xml:"userAgent" require:"true"`
-	HostModel        *string   `json:"hostModel" xml:"hostModel" require:"true"`
-	SignatureVersion *string   `json:"signatureVersion" xml:"signatureVersion" require:"true"`
-	IsEnableMD5      *bool     `json:"isEnableMD5" xml:"isEnableMD5" require:"true"`
-	IsEnableCrc      *bool     `json:"isEnableCrc" xml:"isEnableCrc" require:"true"`
-	ReadTimeout      *int      `json:"readTimeout" xml:"readTimeout" require:"true"`
-	ConnectTimeout   *int      `json:"connectTimeout" xml:"connectTimeout" require:"true"`
-	LocalAddr        *string   `json:"localAddr" xml:"localAddr" require:"true"`
-	HttpProxy        *string   `json:"httpProxy" xml:"httpProxy" require:"true"`
-	HttpsProxy       *string   `json:"httpsProxy" xml:"httpsProxy" require:"true"`
-	NoProxy          *string   `json:"noProxy" xml:"noProxy" require:"true"`
-	Socks5Proxy      *string   `json:"socks5Proxy" xml:"socks5Proxy" require:"true"`
-	Socks5NetWork    *string   `json:"socks5NetWork" xml:"socks5NetWork" require:"true"`
-	MaxIdleConns     *int      `json:"maxIdleConns" xml:"maxIdleConns" require:"true"`
-	AddtionalHeaders []*string `json:"addtionalHeaders" xml:"addtionalHeaders" require:"true" type:"Repeated"`
+	Type             *string   `json:"type" xml:"type"`
+	SecurityToken    *string   `json:"securityToken" xml:"securityToken"`
+	AccessKeyId      *string   `json:"accessKeyId" xml:"accessKeyId" require:"true"`
+	AccessKeySecret  *string   `json:"accessKeySecret" xml:"accessKeySecret" require:"true"`
+	Endpoint         *string   `json:"endpoint" xml:"endpoint"`
+	Protocol         *string   `json:"protocol" xml:"protocol"`
+	RegionId         *string   `json:"regionId" xml:"regionId"`
+	UserAgent        *string   `json:"userAgent" xml:"userAgent"`
+	HostModel        *string   `json:"hostModel" xml:"hostModel"`
+	SignatureVersion *string   `json:"signatureVersion" xml:"signatureVersion"`
+	IsEnableMD5      *bool     `json:"isEnableMD5" xml:"isEnableMD5"`
+	IsEnableCrc      *bool     `json:"isEnableCrc" xml:"isEnableCrc"`
+	ReadTimeout      *int      `json:"readTimeout" xml:"readTimeout"`
+	ConnectTimeout   *int      `json:"connectTimeout" xml:"connectTimeout"`
+	LocalAddr        *string   `json:"localAddr" xml:"localAddr"`
+	HttpProxy        *string   `json:"httpProxy" xml:"httpProxy"`
+	HttpsProxy       *string   `json:"httpsProxy" xml:"httpsProxy"`
+	NoProxy          *string   `json:"noProxy" xml:"noProxy"`
+	Socks5Proxy      *string   `json:"socks5Proxy" xml:"socks5Proxy"`
+	Socks5NetWork    *string   `json:"socks5NetWork" xml:"socks5NetWork"`
+	MaxIdleConns     *int      `json:"maxIdleConns" xml:"maxIdleConns"`
+	AddtionalHeaders []*string `json:"addtionalHeaders" xml:"addtionalHeaders" type:"Repeated"`
 }
 
 func (s Config) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s Config) GoString() string {
 	return s.String()
-}
-
-func (s *Config) SetAccessKeyId(v string) *Config {
-	s.AccessKeyId = &v
-	return s
-}
-
-func (s *Config) SetAccessKeySecret(v string) *Config {
-	s.AccessKeySecret = &v
-	return s
 }
 
 func (s *Config) SetType(v string) *Config {
@@ -173,6 +51,16 @@ func (s *Config) SetType(v string) *Config {
 
 func (s *Config) SetSecurityToken(v string) *Config {
 	s.SecurityToken = &v
+	return s
+}
+
+func (s *Config) SetAccessKeyId(v string) *Config {
+	s.AccessKeyId = &v
+	return s
+}
+
+func (s *Config) SetAccessKeySecret(v string) *Config {
+	s.AccessKeySecret = &v
 	return s
 }
 
@@ -272,7 +160,7 @@ type PutBucketLifecycleRequest struct {
 }
 
 func (s PutBucketLifecycleRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketLifecycleRequest) GoString() string {
@@ -294,7 +182,7 @@ type PutBucketLifecycleRequestBody struct {
 }
 
 func (s PutBucketLifecycleRequestBody) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketLifecycleRequestBody) GoString() string {
@@ -311,7 +199,7 @@ type PutBucketLifecycleRequestBodyLifecycleConfiguration struct {
 }
 
 func (s PutBucketLifecycleRequestBodyLifecycleConfiguration) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketLifecycleRequestBodyLifecycleConfiguration) GoString() string {
@@ -334,7 +222,7 @@ type PutBucketLifecycleRequestBodyLifecycleConfigurationRule struct {
 }
 
 func (s PutBucketLifecycleRequestBodyLifecycleConfigurationRule) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketLifecycleRequestBodyLifecycleConfigurationRule) GoString() string {
@@ -382,7 +270,7 @@ type PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration struct {
 }
 
 func (s PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration) GoString() string {
@@ -405,7 +293,7 @@ type PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition struct {
 }
 
 func (s PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition) GoString() string {
@@ -428,7 +316,7 @@ type PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUpload
 }
 
 func (s PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUpload) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUpload) GoString() string {
@@ -451,7 +339,7 @@ type PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag struct {
 }
 
 func (s PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag) GoString() string {
@@ -473,7 +361,7 @@ type PutBucketLifecycleResponse struct {
 }
 
 func (s PutBucketLifecycleResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketLifecycleResponse) GoString() string {
@@ -492,7 +380,7 @@ type DeleteMultipleObjectsRequest struct {
 }
 
 func (s DeleteMultipleObjectsRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s DeleteMultipleObjectsRequest) GoString() string {
@@ -519,7 +407,7 @@ type DeleteMultipleObjectsRequestBody struct {
 }
 
 func (s DeleteMultipleObjectsRequestBody) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s DeleteMultipleObjectsRequestBody) GoString() string {
@@ -537,7 +425,7 @@ type DeleteMultipleObjectsRequestBodyDelete struct {
 }
 
 func (s DeleteMultipleObjectsRequestBodyDelete) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s DeleteMultipleObjectsRequestBodyDelete) GoString() string {
@@ -559,7 +447,7 @@ type DeleteMultipleObjectsRequestBodyDeleteObject struct {
 }
 
 func (s DeleteMultipleObjectsRequestBodyDeleteObject) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s DeleteMultipleObjectsRequestBodyDeleteObject) GoString() string {
@@ -578,7 +466,7 @@ type DeleteMultipleObjectsRequestHeader struct {
 }
 
 func (s DeleteMultipleObjectsRequestHeader) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s DeleteMultipleObjectsRequestHeader) GoString() string {
@@ -606,7 +494,7 @@ type DeleteMultipleObjectsResponse struct {
 }
 
 func (s DeleteMultipleObjectsResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s DeleteMultipleObjectsResponse) GoString() string {
@@ -630,7 +518,7 @@ type DeleteMultipleObjectsResponseDeleteResult struct {
 }
 
 func (s DeleteMultipleObjectsResponseDeleteResult) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s DeleteMultipleObjectsResponseDeleteResult) GoString() string {
@@ -657,7 +545,7 @@ type DeleteMultipleObjectsResponseDeleteResultDeleted struct {
 }
 
 func (s DeleteMultipleObjectsResponseDeleteResultDeleted) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s DeleteMultipleObjectsResponseDeleteResultDeleted) GoString() string {
@@ -675,7 +563,7 @@ type PutBucketRefererRequest struct {
 }
 
 func (s PutBucketRefererRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketRefererRequest) GoString() string {
@@ -697,7 +585,7 @@ type PutBucketRefererRequestBody struct {
 }
 
 func (s PutBucketRefererRequestBody) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketRefererRequestBody) GoString() string {
@@ -715,7 +603,7 @@ type PutBucketRefererRequestBodyRefererConfiguration struct {
 }
 
 func (s PutBucketRefererRequestBodyRefererConfiguration) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketRefererRequestBodyRefererConfiguration) GoString() string {
@@ -737,7 +625,7 @@ type PutBucketRefererRequestBodyRefererConfigurationRefererList struct {
 }
 
 func (s PutBucketRefererRequestBodyRefererConfigurationRefererList) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketRefererRequestBodyRefererConfigurationRefererList) GoString() string {
@@ -754,7 +642,7 @@ type PutBucketRefererResponse struct {
 }
 
 func (s PutBucketRefererResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketRefererResponse) GoString() string {
@@ -772,7 +660,7 @@ type PutBucketWebsiteRequest struct {
 }
 
 func (s PutBucketWebsiteRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketWebsiteRequest) GoString() string {
@@ -794,7 +682,7 @@ type PutBucketWebsiteRequestBody struct {
 }
 
 func (s PutBucketWebsiteRequestBody) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketWebsiteRequestBody) GoString() string {
@@ -813,7 +701,7 @@ type PutBucketWebsiteRequestBodyWebsiteConfiguration struct {
 }
 
 func (s PutBucketWebsiteRequestBodyWebsiteConfiguration) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketWebsiteRequestBodyWebsiteConfiguration) GoString() string {
@@ -840,7 +728,7 @@ type PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument struct {
 }
 
 func (s PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument) GoString() string {
@@ -857,7 +745,7 @@ type PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument struct {
 }
 
 func (s PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument) GoString() string {
@@ -874,7 +762,7 @@ type PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules struct {
 }
 
 func (s PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules) GoString() string {
@@ -893,7 +781,7 @@ type PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule stru
 }
 
 func (s PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule) GoString() string {
@@ -922,7 +810,7 @@ type PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCondi
 }
 
 func (s PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCondition) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCondition) GoString() string {
@@ -950,7 +838,7 @@ type PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCondi
 }
 
 func (s PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader) GoString() string {
@@ -983,7 +871,7 @@ type PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedir
 }
 
 func (s PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect) GoString() string {
@@ -1058,7 +946,7 @@ type PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedir
 }
 
 func (s PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders) GoString() string {
@@ -1091,7 +979,7 @@ type PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedir
 }
 
 func (s PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet) GoString() string {
@@ -1113,7 +1001,7 @@ type PutBucketWebsiteResponse struct {
 }
 
 func (s PutBucketWebsiteResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketWebsiteResponse) GoString() string {
@@ -1133,7 +1021,7 @@ type CompleteMultipartUploadRequest struct {
 }
 
 func (s CompleteMultipartUploadRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s CompleteMultipartUploadRequest) GoString() string {
@@ -1166,7 +1054,7 @@ type CompleteMultipartUploadRequestFilter struct {
 }
 
 func (s CompleteMultipartUploadRequestFilter) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s CompleteMultipartUploadRequestFilter) GoString() string {
@@ -1188,7 +1076,7 @@ type CompleteMultipartUploadRequestBody struct {
 }
 
 func (s CompleteMultipartUploadRequestBody) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s CompleteMultipartUploadRequestBody) GoString() string {
@@ -1205,7 +1093,7 @@ type CompleteMultipartUploadRequestBodyCompleteMultipartUpload struct {
 }
 
 func (s CompleteMultipartUploadRequestBodyCompleteMultipartUpload) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s CompleteMultipartUploadRequestBodyCompleteMultipartUpload) GoString() string {
@@ -1223,7 +1111,7 @@ type CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart struct {
 }
 
 func (s CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart) GoString() string {
@@ -1246,7 +1134,7 @@ type CompleteMultipartUploadResponse struct {
 }
 
 func (s CompleteMultipartUploadResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s CompleteMultipartUploadResponse) GoString() string {
@@ -1272,7 +1160,7 @@ type CompleteMultipartUploadResponseCompleteMultipartUploadResult struct {
 }
 
 func (s CompleteMultipartUploadResponseCompleteMultipartUploadResult) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s CompleteMultipartUploadResponseCompleteMultipartUploadResult) GoString() string {
@@ -1310,7 +1198,7 @@ type PutBucketLoggingRequest struct {
 }
 
 func (s PutBucketLoggingRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketLoggingRequest) GoString() string {
@@ -1332,7 +1220,7 @@ type PutBucketLoggingRequestBody struct {
 }
 
 func (s PutBucketLoggingRequestBody) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketLoggingRequestBody) GoString() string {
@@ -1349,7 +1237,7 @@ type PutBucketLoggingRequestBodyBucketLoggingStatus struct {
 }
 
 func (s PutBucketLoggingRequestBodyBucketLoggingStatus) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketLoggingRequestBodyBucketLoggingStatus) GoString() string {
@@ -1367,7 +1255,7 @@ type PutBucketLoggingRequestBodyBucketLoggingStatusLoggingEnabled struct {
 }
 
 func (s PutBucketLoggingRequestBodyBucketLoggingStatusLoggingEnabled) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketLoggingRequestBodyBucketLoggingStatusLoggingEnabled) GoString() string {
@@ -1389,7 +1277,7 @@ type PutBucketLoggingResponse struct {
 }
 
 func (s PutBucketLoggingResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketLoggingResponse) GoString() string {
@@ -1407,7 +1295,7 @@ type PutBucketRequestPaymentRequest struct {
 }
 
 func (s PutBucketRequestPaymentRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketRequestPaymentRequest) GoString() string {
@@ -1429,7 +1317,7 @@ type PutBucketRequestPaymentRequestBody struct {
 }
 
 func (s PutBucketRequestPaymentRequestBody) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketRequestPaymentRequestBody) GoString() string {
@@ -1446,7 +1334,7 @@ type PutBucketRequestPaymentRequestBodyRequestPaymentConfiguration struct {
 }
 
 func (s PutBucketRequestPaymentRequestBodyRequestPaymentConfiguration) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketRequestPaymentRequestBodyRequestPaymentConfiguration) GoString() string {
@@ -1463,7 +1351,7 @@ type PutBucketRequestPaymentResponse struct {
 }
 
 func (s PutBucketRequestPaymentResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketRequestPaymentResponse) GoString() string {
@@ -1481,7 +1369,7 @@ type PutBucketEncryptionRequest struct {
 }
 
 func (s PutBucketEncryptionRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketEncryptionRequest) GoString() string {
@@ -1503,7 +1391,7 @@ type PutBucketEncryptionRequestBody struct {
 }
 
 func (s PutBucketEncryptionRequestBody) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketEncryptionRequestBody) GoString() string {
@@ -1520,7 +1408,7 @@ type PutBucketEncryptionRequestBodyServerSideEncryptionRule struct {
 }
 
 func (s PutBucketEncryptionRequestBodyServerSideEncryptionRule) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketEncryptionRequestBodyServerSideEncryptionRule) GoString() string {
@@ -1538,7 +1426,7 @@ type PutBucketEncryptionRequestBodyServerSideEncryptionRuleApplyServerSideEncryp
 }
 
 func (s PutBucketEncryptionRequestBodyServerSideEncryptionRuleApplyServerSideEncryptionByDefault) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketEncryptionRequestBodyServerSideEncryptionRuleApplyServerSideEncryptionByDefault) GoString() string {
@@ -1560,7 +1448,7 @@ type PutBucketEncryptionResponse struct {
 }
 
 func (s PutBucketEncryptionResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketEncryptionResponse) GoString() string {
@@ -1579,7 +1467,7 @@ type PutLiveChannelRequest struct {
 }
 
 func (s PutLiveChannelRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutLiveChannelRequest) GoString() string {
@@ -1606,7 +1494,7 @@ type PutLiveChannelRequestBody struct {
 }
 
 func (s PutLiveChannelRequestBody) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutLiveChannelRequestBody) GoString() string {
@@ -1626,7 +1514,7 @@ type PutLiveChannelRequestBodyLiveChannelConfiguration struct {
 }
 
 func (s PutLiveChannelRequestBodyLiveChannelConfiguration) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutLiveChannelRequestBodyLiveChannelConfiguration) GoString() string {
@@ -1661,7 +1549,7 @@ type PutLiveChannelRequestBodyLiveChannelConfigurationTarget struct {
 }
 
 func (s PutLiveChannelRequestBodyLiveChannelConfigurationTarget) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutLiveChannelRequestBodyLiveChannelConfigurationTarget) GoString() string {
@@ -1696,7 +1584,7 @@ type PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot struct {
 }
 
 func (s PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot) GoString() string {
@@ -1729,7 +1617,7 @@ type PutLiveChannelResponse struct {
 }
 
 func (s PutLiveChannelResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutLiveChannelResponse) GoString() string {
@@ -1752,7 +1640,7 @@ type PutLiveChannelResponseCreateLiveChannelResult struct {
 }
 
 func (s PutLiveChannelResponseCreateLiveChannelResult) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutLiveChannelResponseCreateLiveChannelResult) GoString() string {
@@ -1774,7 +1662,7 @@ type PutLiveChannelResponseCreateLiveChannelResultPublishUrls struct {
 }
 
 func (s PutLiveChannelResponseCreateLiveChannelResultPublishUrls) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutLiveChannelResponseCreateLiveChannelResultPublishUrls) GoString() string {
@@ -1791,7 +1679,7 @@ type PutLiveChannelResponseCreateLiveChannelResultPlayUrls struct {
 }
 
 func (s PutLiveChannelResponseCreateLiveChannelResultPlayUrls) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutLiveChannelResponseCreateLiveChannelResultPlayUrls) GoString() string {
@@ -1809,7 +1697,7 @@ type PutBucketTagsRequest struct {
 }
 
 func (s PutBucketTagsRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketTagsRequest) GoString() string {
@@ -1831,7 +1719,7 @@ type PutBucketTagsRequestBody struct {
 }
 
 func (s PutBucketTagsRequestBody) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketTagsRequestBody) GoString() string {
@@ -1848,7 +1736,7 @@ type PutBucketTagsRequestBodyTagging struct {
 }
 
 func (s PutBucketTagsRequestBodyTagging) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketTagsRequestBodyTagging) GoString() string {
@@ -1865,7 +1753,7 @@ type PutBucketTagsRequestBodyTaggingTagSet struct {
 }
 
 func (s PutBucketTagsRequestBodyTaggingTagSet) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketTagsRequestBodyTaggingTagSet) GoString() string {
@@ -1883,7 +1771,7 @@ type PutBucketTagsRequestBodyTaggingTagSetTag struct {
 }
 
 func (s PutBucketTagsRequestBodyTaggingTagSetTag) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketTagsRequestBodyTaggingTagSetTag) GoString() string {
@@ -1905,7 +1793,7 @@ type PutBucketTagsResponse struct {
 }
 
 func (s PutBucketTagsResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketTagsResponse) GoString() string {
@@ -1924,7 +1812,7 @@ type PutObjectTaggingRequest struct {
 }
 
 func (s PutObjectTaggingRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutObjectTaggingRequest) GoString() string {
@@ -1951,7 +1839,7 @@ type PutObjectTaggingRequestBody struct {
 }
 
 func (s PutObjectTaggingRequestBody) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutObjectTaggingRequestBody) GoString() string {
@@ -1968,7 +1856,7 @@ type PutObjectTaggingRequestBodyTagging struct {
 }
 
 func (s PutObjectTaggingRequestBodyTagging) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutObjectTaggingRequestBodyTagging) GoString() string {
@@ -1985,7 +1873,7 @@ type PutObjectTaggingRequestBodyTaggingTagSet struct {
 }
 
 func (s PutObjectTaggingRequestBodyTaggingTagSet) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutObjectTaggingRequestBodyTaggingTagSet) GoString() string {
@@ -2003,7 +1891,7 @@ type PutObjectTaggingRequestBodyTaggingTagSetTag struct {
 }
 
 func (s PutObjectTaggingRequestBodyTaggingTagSetTag) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutObjectTaggingRequestBodyTaggingTagSetTag) GoString() string {
@@ -2025,7 +1913,7 @@ type PutObjectTaggingResponse struct {
 }
 
 func (s PutObjectTaggingResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutObjectTaggingResponse) GoString() string {
@@ -2045,7 +1933,7 @@ type SelectObjectRequest struct {
 }
 
 func (s SelectObjectRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s SelectObjectRequest) GoString() string {
@@ -2077,7 +1965,7 @@ type SelectObjectRequestFilter struct {
 }
 
 func (s SelectObjectRequestFilter) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s SelectObjectRequestFilter) GoString() string {
@@ -2094,7 +1982,7 @@ type SelectObjectRequestBody struct {
 }
 
 func (s SelectObjectRequestBody) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s SelectObjectRequestBody) GoString() string {
@@ -2114,7 +2002,7 @@ type SelectObjectRequestBodySelectRequest struct {
 }
 
 func (s SelectObjectRequestBodySelectRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s SelectObjectRequestBodySelectRequest) GoString() string {
@@ -2147,7 +2035,7 @@ type SelectObjectRequestBodySelectRequestInputSerialization struct {
 }
 
 func (s SelectObjectRequestBodySelectRequestInputSerialization) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s SelectObjectRequestBodySelectRequestInputSerialization) GoString() string {
@@ -2174,7 +2062,7 @@ type SelectObjectRequestBodySelectRequestInputSerializationCSV struct {
 }
 
 func (s SelectObjectRequestBodySelectRequestInputSerializationCSV) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s SelectObjectRequestBodySelectRequestInputSerializationCSV) GoString() string {
@@ -2220,7 +2108,7 @@ type SelectObjectRequestBodySelectRequestOutputSerialization struct {
 }
 
 func (s SelectObjectRequestBodySelectRequestOutputSerialization) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s SelectObjectRequestBodySelectRequestOutputSerialization) GoString() string {
@@ -2258,7 +2146,7 @@ type SelectObjectRequestBodySelectRequestOutputSerializationCSV struct {
 }
 
 func (s SelectObjectRequestBodySelectRequestOutputSerializationCSV) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s SelectObjectRequestBodySelectRequestOutputSerializationCSV) GoString() string {
@@ -2281,7 +2169,7 @@ type SelectObjectRequestBodySelectRequestOptions struct {
 }
 
 func (s SelectObjectRequestBodySelectRequestOptions) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s SelectObjectRequestBodySelectRequestOptions) GoString() string {
@@ -2303,7 +2191,7 @@ type SelectObjectResponse struct {
 }
 
 func (s SelectObjectResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s SelectObjectResponse) GoString() string {
@@ -2321,7 +2209,7 @@ type PutBucketCORSRequest struct {
 }
 
 func (s PutBucketCORSRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketCORSRequest) GoString() string {
@@ -2343,7 +2231,7 @@ type PutBucketCORSRequestBody struct {
 }
 
 func (s PutBucketCORSRequestBody) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketCORSRequestBody) GoString() string {
@@ -2360,7 +2248,7 @@ type PutBucketCORSRequestBodyCORSConfiguration struct {
 }
 
 func (s PutBucketCORSRequestBodyCORSConfiguration) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketCORSRequestBodyCORSConfiguration) GoString() string {
@@ -2381,7 +2269,7 @@ type PutBucketCORSRequestBodyCORSConfigurationCORSRule struct {
 }
 
 func (s PutBucketCORSRequestBodyCORSConfigurationCORSRule) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketCORSRequestBodyCORSConfigurationCORSRule) GoString() string {
@@ -2418,7 +2306,7 @@ type PutBucketCORSResponse struct {
 }
 
 func (s PutBucketCORSResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketCORSResponse) GoString() string {
@@ -2437,7 +2325,7 @@ type PutBucketRequest struct {
 }
 
 func (s PutBucketRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketRequest) GoString() string {
@@ -2464,7 +2352,7 @@ type PutBucketRequestBody struct {
 }
 
 func (s PutBucketRequestBody) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketRequestBody) GoString() string {
@@ -2482,7 +2370,7 @@ type PutBucketRequestBodyCreateBucketConfiguration struct {
 }
 
 func (s PutBucketRequestBodyCreateBucketConfiguration) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketRequestBodyCreateBucketConfiguration) GoString() string {
@@ -2504,7 +2392,7 @@ type PutBucketRequestHeader struct {
 }
 
 func (s PutBucketRequestHeader) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketRequestHeader) GoString() string {
@@ -2521,7 +2409,7 @@ type PutBucketResponse struct {
 }
 
 func (s PutBucketResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketResponse) GoString() string {
@@ -2539,7 +2427,7 @@ type ListMultipartUploadsRequest struct {
 }
 
 func (s ListMultipartUploadsRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s ListMultipartUploadsRequest) GoString() string {
@@ -2566,7 +2454,7 @@ type ListMultipartUploadsRequestFilter struct {
 }
 
 func (s ListMultipartUploadsRequestFilter) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s ListMultipartUploadsRequestFilter) GoString() string {
@@ -2609,7 +2497,7 @@ type ListMultipartUploadsResponse struct {
 }
 
 func (s ListMultipartUploadsResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s ListMultipartUploadsResponse) GoString() string {
@@ -2640,7 +2528,7 @@ type ListMultipartUploadsResponseListMultipartUploadsResult struct {
 }
 
 func (s ListMultipartUploadsResponseListMultipartUploadsResult) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s ListMultipartUploadsResponseListMultipartUploadsResult) GoString() string {
@@ -2704,7 +2592,7 @@ type ListMultipartUploadsResponseListMultipartUploadsResultUpload struct {
 }
 
 func (s ListMultipartUploadsResponseListMultipartUploadsResultUpload) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s ListMultipartUploadsResponseListMultipartUploadsResultUpload) GoString() string {
@@ -2731,7 +2619,7 @@ type GetBucketRequestPaymentRequest struct {
 }
 
 func (s GetBucketRequestPaymentRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketRequestPaymentRequest) GoString() string {
@@ -2749,7 +2637,7 @@ type GetBucketRequestPaymentResponse struct {
 }
 
 func (s GetBucketRequestPaymentResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketRequestPaymentResponse) GoString() string {
@@ -2771,7 +2659,7 @@ type GetBucketRequestPaymentResponseRequestPaymentConfiguration struct {
 }
 
 func (s GetBucketRequestPaymentResponseRequestPaymentConfiguration) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketRequestPaymentResponseRequestPaymentConfiguration) GoString() string {
@@ -2788,7 +2676,7 @@ type GetBucketEncryptionRequest struct {
 }
 
 func (s GetBucketEncryptionRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketEncryptionRequest) GoString() string {
@@ -2806,7 +2694,7 @@ type GetBucketEncryptionResponse struct {
 }
 
 func (s GetBucketEncryptionResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketEncryptionResponse) GoString() string {
@@ -2828,7 +2716,7 @@ type GetBucketEncryptionResponseServerSideEncryptionRule struct {
 }
 
 func (s GetBucketEncryptionResponseServerSideEncryptionRule) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketEncryptionResponseServerSideEncryptionRule) GoString() string {
@@ -2846,7 +2734,7 @@ type GetBucketEncryptionResponseServerSideEncryptionRuleApplyServerSideEncryptio
 }
 
 func (s GetBucketEncryptionResponseServerSideEncryptionRuleApplyServerSideEncryptionByDefault) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketEncryptionResponseServerSideEncryptionRuleApplyServerSideEncryptionByDefault) GoString() string {
@@ -2868,7 +2756,7 @@ type GetBucketTagsRequest struct {
 }
 
 func (s GetBucketTagsRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketTagsRequest) GoString() string {
@@ -2886,7 +2774,7 @@ type GetBucketTagsResponse struct {
 }
 
 func (s GetBucketTagsResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketTagsResponse) GoString() string {
@@ -2908,7 +2796,7 @@ type GetBucketTagsResponseTagging struct {
 }
 
 func (s GetBucketTagsResponseTagging) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketTagsResponseTagging) GoString() string {
@@ -2925,7 +2813,7 @@ type GetBucketTagsResponseTaggingTagSet struct {
 }
 
 func (s GetBucketTagsResponseTaggingTagSet) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketTagsResponseTaggingTagSet) GoString() string {
@@ -2943,7 +2831,7 @@ type GetBucketTagsResponseTaggingTagSetTag struct {
 }
 
 func (s GetBucketTagsResponseTaggingTagSetTag) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketTagsResponseTaggingTagSetTag) GoString() string {
@@ -2965,7 +2853,7 @@ type GetServiceRequest struct {
 }
 
 func (s GetServiceRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetServiceRequest) GoString() string {
@@ -2984,7 +2872,7 @@ type GetServiceRequestFilter struct {
 }
 
 func (s GetServiceRequestFilter) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetServiceRequestFilter) GoString() string {
@@ -3012,7 +2900,7 @@ type GetServiceResponse struct {
 }
 
 func (s GetServiceResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetServiceResponse) GoString() string {
@@ -3040,7 +2928,7 @@ type GetServiceResponseListAllMyBucketsResult struct {
 }
 
 func (s GetServiceResponseListAllMyBucketsResult) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetServiceResponseListAllMyBucketsResult) GoString() string {
@@ -3088,7 +2976,7 @@ type GetServiceResponseListAllMyBucketsResultOwner struct {
 }
 
 func (s GetServiceResponseListAllMyBucketsResultOwner) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetServiceResponseListAllMyBucketsResultOwner) GoString() string {
@@ -3110,7 +2998,7 @@ type GetServiceResponseListAllMyBucketsResultBuckets struct {
 }
 
 func (s GetServiceResponseListAllMyBucketsResultBuckets) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetServiceResponseListAllMyBucketsResultBuckets) GoString() string {
@@ -3132,7 +3020,7 @@ type GetServiceResponseListAllMyBucketsResultBucketsBucket struct {
 }
 
 func (s GetServiceResponseListAllMyBucketsResultBucketsBucket) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetServiceResponseListAllMyBucketsResultBucketsBucket) GoString() string {
@@ -3174,7 +3062,7 @@ type DeleteBucketEncryptionRequest struct {
 }
 
 func (s DeleteBucketEncryptionRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s DeleteBucketEncryptionRequest) GoString() string {
@@ -3191,7 +3079,7 @@ type DeleteBucketEncryptionResponse struct {
 }
 
 func (s DeleteBucketEncryptionResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s DeleteBucketEncryptionResponse) GoString() string {
@@ -3209,7 +3097,7 @@ type DeleteBucketTagsRequest struct {
 }
 
 func (s DeleteBucketTagsRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s DeleteBucketTagsRequest) GoString() string {
@@ -3231,7 +3119,7 @@ type DeleteBucketTagsRequestFilter struct {
 }
 
 func (s DeleteBucketTagsRequestFilter) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s DeleteBucketTagsRequestFilter) GoString() string {
@@ -3248,7 +3136,7 @@ type DeleteBucketTagsResponse struct {
 }
 
 func (s DeleteBucketTagsResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s DeleteBucketTagsResponse) GoString() string {
@@ -3265,7 +3153,7 @@ type GetBucketWebsiteRequest struct {
 }
 
 func (s GetBucketWebsiteRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketWebsiteRequest) GoString() string {
@@ -3283,7 +3171,7 @@ type GetBucketWebsiteResponse struct {
 }
 
 func (s GetBucketWebsiteResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketWebsiteResponse) GoString() string {
@@ -3307,7 +3195,7 @@ type GetBucketWebsiteResponseWebsiteConfiguration struct {
 }
 
 func (s GetBucketWebsiteResponseWebsiteConfiguration) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketWebsiteResponseWebsiteConfiguration) GoString() string {
@@ -3334,7 +3222,7 @@ type GetBucketWebsiteResponseWebsiteConfigurationIndexDocument struct {
 }
 
 func (s GetBucketWebsiteResponseWebsiteConfigurationIndexDocument) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketWebsiteResponseWebsiteConfigurationIndexDocument) GoString() string {
@@ -3351,7 +3239,7 @@ type GetBucketWebsiteResponseWebsiteConfigurationErrorDocument struct {
 }
 
 func (s GetBucketWebsiteResponseWebsiteConfigurationErrorDocument) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketWebsiteResponseWebsiteConfigurationErrorDocument) GoString() string {
@@ -3368,7 +3256,7 @@ type GetBucketWebsiteResponseWebsiteConfigurationRoutingRules struct {
 }
 
 func (s GetBucketWebsiteResponseWebsiteConfigurationRoutingRules) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketWebsiteResponseWebsiteConfigurationRoutingRules) GoString() string {
@@ -3387,7 +3275,7 @@ type GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule struct 
 }
 
 func (s GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule) GoString() string {
@@ -3416,7 +3304,7 @@ type GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditio
 }
 
 func (s GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleCondition) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleCondition) GoString() string {
@@ -3444,7 +3332,7 @@ type GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditio
 }
 
 func (s GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader) GoString() string {
@@ -3477,7 +3365,7 @@ type GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect
 }
 
 func (s GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect) GoString() string {
@@ -3552,7 +3440,7 @@ type GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect
 }
 
 func (s GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders) GoString() string {
@@ -3585,7 +3473,7 @@ type GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect
 }
 
 func (s GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet) GoString() string {
@@ -3608,7 +3496,7 @@ type DeleteLiveChannelRequest struct {
 }
 
 func (s DeleteLiveChannelRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s DeleteLiveChannelRequest) GoString() string {
@@ -3630,7 +3518,7 @@ type DeleteLiveChannelResponse struct {
 }
 
 func (s DeleteLiveChannelResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s DeleteLiveChannelResponse) GoString() string {
@@ -3647,7 +3535,7 @@ type GetBucketLocationRequest struct {
 }
 
 func (s GetBucketLocationRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketLocationRequest) GoString() string {
@@ -3665,7 +3553,7 @@ type GetBucketLocationResponse struct {
 }
 
 func (s GetBucketLocationResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketLocationResponse) GoString() string {
@@ -3688,7 +3576,7 @@ type ListLiveChannelRequest struct {
 }
 
 func (s ListLiveChannelRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s ListLiveChannelRequest) GoString() string {
@@ -3712,7 +3600,7 @@ type ListLiveChannelRequestFilter struct {
 }
 
 func (s ListLiveChannelRequestFilter) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s ListLiveChannelRequestFilter) GoString() string {
@@ -3740,7 +3628,7 @@ type ListLiveChannelResponse struct {
 }
 
 func (s ListLiveChannelResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s ListLiveChannelResponse) GoString() string {
@@ -3767,7 +3655,7 @@ type ListLiveChannelResponseListLiveChannelResult struct {
 }
 
 func (s ListLiveChannelResponseListLiveChannelResult) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s ListLiveChannelResponseListLiveChannelResult) GoString() string {
@@ -3814,7 +3702,7 @@ type ListLiveChannelResponseListLiveChannelResultLiveChannel struct {
 }
 
 func (s ListLiveChannelResponseListLiveChannelResultLiveChannel) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s ListLiveChannelResponseListLiveChannelResultLiveChannel) GoString() string {
@@ -3856,7 +3744,7 @@ type ListLiveChannelResponseListLiveChannelResultLiveChannelPublishUrls struct {
 }
 
 func (s ListLiveChannelResponseListLiveChannelResultLiveChannelPublishUrls) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s ListLiveChannelResponseListLiveChannelResultLiveChannelPublishUrls) GoString() string {
@@ -3873,7 +3761,7 @@ type ListLiveChannelResponseListLiveChannelResultLiveChannelPlayUrls struct {
 }
 
 func (s ListLiveChannelResponseListLiveChannelResultLiveChannelPlayUrls) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s ListLiveChannelResponseListLiveChannelResultLiveChannelPlayUrls) GoString() string {
@@ -3891,7 +3779,7 @@ type GetObjectMetaRequest struct {
 }
 
 func (s GetObjectMetaRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetObjectMetaRequest) GoString() string {
@@ -3916,7 +3804,7 @@ type GetObjectMetaResponse struct {
 }
 
 func (s GetObjectMetaResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetObjectMetaResponse) GoString() string {
@@ -3948,7 +3836,7 @@ type GetBucketAclRequest struct {
 }
 
 func (s GetBucketAclRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketAclRequest) GoString() string {
@@ -3966,7 +3854,7 @@ type GetBucketAclResponse struct {
 }
 
 func (s GetBucketAclResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketAclResponse) GoString() string {
@@ -3989,7 +3877,7 @@ type GetBucketAclResponseAccessControlPolicy struct {
 }
 
 func (s GetBucketAclResponseAccessControlPolicy) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketAclResponseAccessControlPolicy) GoString() string {
@@ -4012,7 +3900,7 @@ type GetBucketAclResponseAccessControlPolicyOwner struct {
 }
 
 func (s GetBucketAclResponseAccessControlPolicyOwner) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketAclResponseAccessControlPolicyOwner) GoString() string {
@@ -4034,7 +3922,7 @@ type GetBucketAclResponseAccessControlPolicyAccessControlList struct {
 }
 
 func (s GetBucketAclResponseAccessControlPolicyAccessControlList) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketAclResponseAccessControlPolicyAccessControlList) GoString() string {
@@ -4053,7 +3941,7 @@ type ListPartsRequest struct {
 }
 
 func (s ListPartsRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s ListPartsRequest) GoString() string {
@@ -4083,7 +3971,7 @@ type ListPartsRequestFilter struct {
 }
 
 func (s ListPartsRequestFilter) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s ListPartsRequestFilter) GoString() string {
@@ -4116,7 +4004,7 @@ type ListPartsResponse struct {
 }
 
 func (s ListPartsResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s ListPartsResponse) GoString() string {
@@ -4146,7 +4034,7 @@ type ListPartsResponseListPartsResult struct {
 }
 
 func (s ListPartsResponseListPartsResult) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s ListPartsResponseListPartsResult) GoString() string {
@@ -4206,7 +4094,7 @@ type ListPartsResponseListPartsResultPart struct {
 }
 
 func (s ListPartsResponseListPartsResultPart) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s ListPartsResponseListPartsResultPart) GoString() string {
@@ -4240,7 +4128,7 @@ type GetLiveChannelHistoryRequest struct {
 }
 
 func (s GetLiveChannelHistoryRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetLiveChannelHistoryRequest) GoString() string {
@@ -4267,7 +4155,7 @@ type GetLiveChannelHistoryRequestFilter struct {
 }
 
 func (s GetLiveChannelHistoryRequestFilter) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetLiveChannelHistoryRequestFilter) GoString() string {
@@ -4285,7 +4173,7 @@ type GetLiveChannelHistoryResponse struct {
 }
 
 func (s GetLiveChannelHistoryResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetLiveChannelHistoryResponse) GoString() string {
@@ -4307,7 +4195,7 @@ type GetLiveChannelHistoryResponseLiveChannelHistory struct {
 }
 
 func (s GetLiveChannelHistoryResponseLiveChannelHistory) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetLiveChannelHistoryResponseLiveChannelHistory) GoString() string {
@@ -4326,7 +4214,7 @@ type GetLiveChannelHistoryResponseLiveChannelHistoryLiveRecord struct {
 }
 
 func (s GetLiveChannelHistoryResponseLiveChannelHistoryLiveRecord) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetLiveChannelHistoryResponseLiveChannelHistoryLiveRecord) GoString() string {
@@ -4354,7 +4242,7 @@ type GetBucketRequest struct {
 }
 
 func (s GetBucketRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketRequest) GoString() string {
@@ -4380,7 +4268,7 @@ type GetBucketRequestFilter struct {
 }
 
 func (s GetBucketRequestFilter) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketRequestFilter) GoString() string {
@@ -4418,7 +4306,7 @@ type GetBucketResponse struct {
 }
 
 func (s GetBucketResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketResponse) GoString() string {
@@ -4448,7 +4336,7 @@ type GetBucketResponseListBucketResult struct {
 }
 
 func (s GetBucketResponseListBucketResult) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketResponseListBucketResult) GoString() string {
@@ -4510,7 +4398,7 @@ type GetBucketResponseListBucketResultContents struct {
 }
 
 func (s GetBucketResponseListBucketResultContents) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketResponseListBucketResultContents) GoString() string {
@@ -4553,7 +4441,7 @@ type GetBucketResponseListBucketResultContentsOwner struct {
 }
 
 func (s GetBucketResponseListBucketResultContentsOwner) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketResponseListBucketResultContentsOwner) GoString() string {
@@ -4576,7 +4464,7 @@ type GetLiveChannelInfoRequest struct {
 }
 
 func (s GetLiveChannelInfoRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetLiveChannelInfoRequest) GoString() string {
@@ -4599,7 +4487,7 @@ type GetLiveChannelInfoResponse struct {
 }
 
 func (s GetLiveChannelInfoResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetLiveChannelInfoResponse) GoString() string {
@@ -4623,7 +4511,7 @@ type GetLiveChannelInfoResponseLiveChannelConfiguration struct {
 }
 
 func (s GetLiveChannelInfoResponseLiveChannelConfiguration) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetLiveChannelInfoResponseLiveChannelConfiguration) GoString() string {
@@ -4653,7 +4541,7 @@ type GetLiveChannelInfoResponseLiveChannelConfigurationTarget struct {
 }
 
 func (s GetLiveChannelInfoResponseLiveChannelConfigurationTarget) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetLiveChannelInfoResponseLiveChannelConfigurationTarget) GoString() string {
@@ -4687,7 +4575,7 @@ type GetLiveChannelStatRequest struct {
 }
 
 func (s GetLiveChannelStatRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetLiveChannelStatRequest) GoString() string {
@@ -4714,7 +4602,7 @@ type GetLiveChannelStatRequestFilter struct {
 }
 
 func (s GetLiveChannelStatRequestFilter) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetLiveChannelStatRequestFilter) GoString() string {
@@ -4732,7 +4620,7 @@ type GetLiveChannelStatResponse struct {
 }
 
 func (s GetLiveChannelStatResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetLiveChannelStatResponse) GoString() string {
@@ -4758,7 +4646,7 @@ type GetLiveChannelStatResponseLiveChannelStat struct {
 }
 
 func (s GetLiveChannelStatResponseLiveChannelStat) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetLiveChannelStatResponseLiveChannelStat) GoString() string {
@@ -4799,7 +4687,7 @@ type GetLiveChannelStatResponseLiveChannelStatVideo struct {
 }
 
 func (s GetLiveChannelStatResponseLiveChannelStatVideo) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetLiveChannelStatResponseLiveChannelStatVideo) GoString() string {
@@ -4838,7 +4726,7 @@ type GetLiveChannelStatResponseLiveChannelStatAudio struct {
 }
 
 func (s GetLiveChannelStatResponseLiveChannelStatAudio) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetLiveChannelStatResponseLiveChannelStatAudio) GoString() string {
@@ -4866,7 +4754,7 @@ type DeleteObjectRequest struct {
 }
 
 func (s DeleteObjectRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s DeleteObjectRequest) GoString() string {
@@ -4888,7 +4776,7 @@ type DeleteObjectResponse struct {
 }
 
 func (s DeleteObjectResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s DeleteObjectResponse) GoString() string {
@@ -4907,7 +4795,7 @@ type AbortMultipartUploadRequest struct {
 }
 
 func (s AbortMultipartUploadRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s AbortMultipartUploadRequest) GoString() string {
@@ -4934,7 +4822,7 @@ type AbortMultipartUploadRequestFilter struct {
 }
 
 func (s AbortMultipartUploadRequestFilter) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s AbortMultipartUploadRequestFilter) GoString() string {
@@ -4951,7 +4839,7 @@ type AbortMultipartUploadResponse struct {
 }
 
 func (s AbortMultipartUploadResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s AbortMultipartUploadResponse) GoString() string {
@@ -4973,7 +4861,7 @@ type AppendObjectRequest struct {
 }
 
 func (s AppendObjectRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s AppendObjectRequest) GoString() string {
@@ -5015,7 +4903,7 @@ type AppendObjectRequestFilter struct {
 }
 
 func (s AppendObjectRequestFilter) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s AppendObjectRequestFilter) GoString() string {
@@ -5040,7 +4928,7 @@ type AppendObjectRequestHeader struct {
 }
 
 func (s AppendObjectRequestHeader) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s AppendObjectRequestHeader) GoString() string {
@@ -5099,7 +4987,7 @@ type AppendObjectResponse struct {
 }
 
 func (s AppendObjectResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s AppendObjectResponse) GoString() string {
@@ -5129,7 +5017,7 @@ type UploadPartCopyRequest struct {
 }
 
 func (s UploadPartCopyRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s UploadPartCopyRequest) GoString() string {
@@ -5162,7 +5050,7 @@ type UploadPartCopyRequestFilter struct {
 }
 
 func (s UploadPartCopyRequestFilter) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s UploadPartCopyRequestFilter) GoString() string {
@@ -5189,7 +5077,7 @@ type UploadPartCopyRequestHeader struct {
 }
 
 func (s UploadPartCopyRequestHeader) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s UploadPartCopyRequestHeader) GoString() string {
@@ -5232,7 +5120,7 @@ type UploadPartCopyResponse struct {
 }
 
 func (s UploadPartCopyResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s UploadPartCopyResponse) GoString() string {
@@ -5255,7 +5143,7 @@ type UploadPartCopyResponseCopyPartResult struct {
 }
 
 func (s UploadPartCopyResponseCopyPartResult) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s UploadPartCopyResponseCopyPartResult) GoString() string {
@@ -5279,7 +5167,7 @@ type GetVodPlaylistRequest struct {
 }
 
 func (s GetVodPlaylistRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetVodPlaylistRequest) GoString() string {
@@ -5307,7 +5195,7 @@ type GetVodPlaylistRequestFilter struct {
 }
 
 func (s GetVodPlaylistRequestFilter) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetVodPlaylistRequestFilter) GoString() string {
@@ -5329,7 +5217,7 @@ type GetVodPlaylistResponse struct {
 }
 
 func (s GetVodPlaylistResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetVodPlaylistResponse) GoString() string {
@@ -5346,7 +5234,7 @@ type DeleteBucketCORSRequest struct {
 }
 
 func (s DeleteBucketCORSRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s DeleteBucketCORSRequest) GoString() string {
@@ -5363,7 +5251,7 @@ type DeleteBucketCORSResponse struct {
 }
 
 func (s DeleteBucketCORSResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s DeleteBucketCORSResponse) GoString() string {
@@ -5382,7 +5270,7 @@ type GetObjectRequest struct {
 }
 
 func (s GetObjectRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetObjectRequest) GoString() string {
@@ -5420,7 +5308,7 @@ type GetObjectRequestHeader struct {
 }
 
 func (s GetObjectRequestHeader) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetObjectRequestHeader) GoString() string {
@@ -5497,7 +5385,7 @@ type GetObjectResponse struct {
 }
 
 func (s GetObjectResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetObjectResponse) GoString() string {
@@ -5542,7 +5430,7 @@ type UploadPartRequest struct {
 }
 
 func (s UploadPartRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s UploadPartRequest) GoString() string {
@@ -5575,7 +5463,7 @@ type UploadPartRequestFilter struct {
 }
 
 func (s UploadPartRequestFilter) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s UploadPartRequestFilter) GoString() string {
@@ -5597,7 +5485,7 @@ type UploadPartResponse struct {
 }
 
 func (s UploadPartResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s UploadPartResponse) GoString() string {
@@ -5614,7 +5502,7 @@ type GetBucketCORSRequest struct {
 }
 
 func (s GetBucketCORSRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketCORSRequest) GoString() string {
@@ -5632,7 +5520,7 @@ type GetBucketCORSResponse struct {
 }
 
 func (s GetBucketCORSResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketCORSResponse) GoString() string {
@@ -5654,7 +5542,7 @@ type GetBucketCORSResponseCORSConfiguration struct {
 }
 
 func (s GetBucketCORSResponseCORSConfiguration) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketCORSResponseCORSConfiguration) GoString() string {
@@ -5671,7 +5559,7 @@ type GetBucketCORSResponseCORSConfigurationCORSRule struct {
 }
 
 func (s GetBucketCORSResponseCORSConfigurationCORSRule) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketCORSResponseCORSConfigurationCORSRule) GoString() string {
@@ -5690,7 +5578,7 @@ type CopyObjectRequest struct {
 }
 
 func (s CopyObjectRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s CopyObjectRequest) GoString() string {
@@ -5728,7 +5616,7 @@ type CopyObjectRequestHeader struct {
 }
 
 func (s CopyObjectRequestHeader) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s CopyObjectRequestHeader) GoString() string {
@@ -5801,7 +5689,7 @@ type CopyObjectResponse struct {
 }
 
 func (s CopyObjectResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s CopyObjectResponse) GoString() string {
@@ -5824,7 +5712,7 @@ type CopyObjectResponseCopyObjectResult struct {
 }
 
 func (s CopyObjectResponseCopyObjectResult) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s CopyObjectResponseCopyObjectResult) GoString() string {
@@ -5847,7 +5735,7 @@ type GetObjectTaggingRequest struct {
 }
 
 func (s GetObjectTaggingRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetObjectTaggingRequest) GoString() string {
@@ -5870,7 +5758,7 @@ type GetObjectTaggingResponse struct {
 }
 
 func (s GetObjectTaggingResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetObjectTaggingResponse) GoString() string {
@@ -5892,7 +5780,7 @@ type GetObjectTaggingResponseTagging struct {
 }
 
 func (s GetObjectTaggingResponseTagging) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetObjectTaggingResponseTagging) GoString() string {
@@ -5909,7 +5797,7 @@ type GetObjectTaggingResponseTaggingTagSet struct {
 }
 
 func (s GetObjectTaggingResponseTaggingTagSet) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetObjectTaggingResponseTaggingTagSet) GoString() string {
@@ -5927,7 +5815,7 @@ type GetObjectTaggingResponseTaggingTagSetTag struct {
 }
 
 func (s GetObjectTaggingResponseTaggingTagSetTag) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetObjectTaggingResponseTaggingTagSetTag) GoString() string {
@@ -5949,7 +5837,7 @@ type DeleteBucketLifecycleRequest struct {
 }
 
 func (s DeleteBucketLifecycleRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s DeleteBucketLifecycleRequest) GoString() string {
@@ -5966,7 +5854,7 @@ type DeleteBucketLifecycleResponse struct {
 }
 
 func (s DeleteBucketLifecycleResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s DeleteBucketLifecycleResponse) GoString() string {
@@ -5983,7 +5871,7 @@ type DeleteBucketLoggingRequest struct {
 }
 
 func (s DeleteBucketLoggingRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s DeleteBucketLoggingRequest) GoString() string {
@@ -6000,7 +5888,7 @@ type DeleteBucketLoggingResponse struct {
 }
 
 func (s DeleteBucketLoggingResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s DeleteBucketLoggingResponse) GoString() string {
@@ -6017,7 +5905,7 @@ type DeleteBucketWebsiteRequest struct {
 }
 
 func (s DeleteBucketWebsiteRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s DeleteBucketWebsiteRequest) GoString() string {
@@ -6034,7 +5922,7 @@ type DeleteBucketWebsiteResponse struct {
 }
 
 func (s DeleteBucketWebsiteResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s DeleteBucketWebsiteResponse) GoString() string {
@@ -6052,7 +5940,7 @@ type GetSymlinkRequest struct {
 }
 
 func (s GetSymlinkRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetSymlinkRequest) GoString() string {
@@ -6075,7 +5963,7 @@ type GetSymlinkResponse struct {
 }
 
 func (s GetSymlinkResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetSymlinkResponse) GoString() string {
@@ -6097,7 +5985,7 @@ type GetBucketLifecycleRequest struct {
 }
 
 func (s GetBucketLifecycleRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketLifecycleRequest) GoString() string {
@@ -6115,7 +6003,7 @@ type GetBucketLifecycleResponse struct {
 }
 
 func (s GetBucketLifecycleResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketLifecycleResponse) GoString() string {
@@ -6137,7 +6025,7 @@ type GetBucketLifecycleResponseLifecycleConfiguration struct {
 }
 
 func (s GetBucketLifecycleResponseLifecycleConfiguration) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketLifecycleResponseLifecycleConfiguration) GoString() string {
@@ -6160,7 +6048,7 @@ type GetBucketLifecycleResponseLifecycleConfigurationRule struct {
 }
 
 func (s GetBucketLifecycleResponseLifecycleConfigurationRule) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketLifecycleResponseLifecycleConfigurationRule) GoString() string {
@@ -6208,7 +6096,7 @@ type GetBucketLifecycleResponseLifecycleConfigurationRuleExpiration struct {
 }
 
 func (s GetBucketLifecycleResponseLifecycleConfigurationRuleExpiration) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketLifecycleResponseLifecycleConfigurationRuleExpiration) GoString() string {
@@ -6231,7 +6119,7 @@ type GetBucketLifecycleResponseLifecycleConfigurationRuleTransition struct {
 }
 
 func (s GetBucketLifecycleResponseLifecycleConfigurationRuleTransition) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketLifecycleResponseLifecycleConfigurationRuleTransition) GoString() string {
@@ -6254,7 +6142,7 @@ type GetBucketLifecycleResponseLifecycleConfigurationRuleAbortMultipartUpload st
 }
 
 func (s GetBucketLifecycleResponseLifecycleConfigurationRuleAbortMultipartUpload) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketLifecycleResponseLifecycleConfigurationRuleAbortMultipartUpload) GoString() string {
@@ -6277,7 +6165,7 @@ type GetBucketLifecycleResponseLifecycleConfigurationRuleTag struct {
 }
 
 func (s GetBucketLifecycleResponseLifecycleConfigurationRuleTag) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketLifecycleResponseLifecycleConfigurationRuleTag) GoString() string {
@@ -6301,7 +6189,7 @@ type PutSymlinkRequest struct {
 }
 
 func (s PutSymlinkRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutSymlinkRequest) GoString() string {
@@ -6329,7 +6217,7 @@ type PutSymlinkRequestHeader struct {
 }
 
 func (s PutSymlinkRequestHeader) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutSymlinkRequestHeader) GoString() string {
@@ -6351,7 +6239,7 @@ type PutSymlinkResponse struct {
 }
 
 func (s PutSymlinkResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutSymlinkResponse) GoString() string {
@@ -6368,7 +6256,7 @@ type GetBucketRefererRequest struct {
 }
 
 func (s GetBucketRefererRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketRefererRequest) GoString() string {
@@ -6386,7 +6274,7 @@ type GetBucketRefererResponse struct {
 }
 
 func (s GetBucketRefererResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketRefererResponse) GoString() string {
@@ -6409,7 +6297,7 @@ type GetBucketRefererResponseRefererConfiguration struct {
 }
 
 func (s GetBucketRefererResponseRefererConfiguration) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketRefererResponseRefererConfiguration) GoString() string {
@@ -6431,7 +6319,7 @@ type GetBucketRefererResponseRefererConfigurationRefererList struct {
 }
 
 func (s GetBucketRefererResponseRefererConfigurationRefererList) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketRefererResponseRefererConfigurationRefererList) GoString() string {
@@ -6448,7 +6336,7 @@ type CallbackRequest struct {
 }
 
 func (s CallbackRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s CallbackRequest) GoString() string {
@@ -6465,7 +6353,7 @@ type CallbackResponse struct {
 }
 
 func (s CallbackResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s CallbackResponse) GoString() string {
@@ -6482,7 +6370,7 @@ type GetBucketLoggingRequest struct {
 }
 
 func (s GetBucketLoggingRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketLoggingRequest) GoString() string {
@@ -6500,7 +6388,7 @@ type GetBucketLoggingResponse struct {
 }
 
 func (s GetBucketLoggingResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketLoggingResponse) GoString() string {
@@ -6522,7 +6410,7 @@ type GetBucketLoggingResponseBucketLoggingStatus struct {
 }
 
 func (s GetBucketLoggingResponseBucketLoggingStatus) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketLoggingResponseBucketLoggingStatus) GoString() string {
@@ -6540,7 +6428,7 @@ type GetBucketLoggingResponseBucketLoggingStatusLoggingEnabled struct {
 }
 
 func (s GetBucketLoggingResponseBucketLoggingStatusLoggingEnabled) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketLoggingResponseBucketLoggingStatusLoggingEnabled) GoString() string {
@@ -6564,7 +6452,7 @@ type PutObjectAclRequest struct {
 }
 
 func (s PutObjectAclRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutObjectAclRequest) GoString() string {
@@ -6591,7 +6479,7 @@ type PutObjectAclRequestHeader struct {
 }
 
 func (s PutObjectAclRequestHeader) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutObjectAclRequestHeader) GoString() string {
@@ -6608,7 +6496,7 @@ type PutObjectAclResponse struct {
 }
 
 func (s PutObjectAclResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutObjectAclResponse) GoString() string {
@@ -6625,7 +6513,7 @@ type GetBucketInfoRequest struct {
 }
 
 func (s GetBucketInfoRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketInfoRequest) GoString() string {
@@ -6643,7 +6531,7 @@ type GetBucketInfoResponse struct {
 }
 
 func (s GetBucketInfoResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketInfoResponse) GoString() string {
@@ -6665,7 +6553,7 @@ type GetBucketInfoResponseBucketInfo struct {
 }
 
 func (s GetBucketInfoResponseBucketInfo) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketInfoResponseBucketInfo) GoString() string {
@@ -6691,7 +6579,7 @@ type GetBucketInfoResponseBucketInfoBucket struct {
 }
 
 func (s GetBucketInfoResponseBucketInfoBucket) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketInfoResponseBucketInfoBucket) GoString() string {
@@ -6754,7 +6642,7 @@ type GetBucketInfoResponseBucketInfoBucketOwner struct {
 }
 
 func (s GetBucketInfoResponseBucketInfoBucketOwner) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketInfoResponseBucketInfoBucketOwner) GoString() string {
@@ -6776,7 +6664,7 @@ type GetBucketInfoResponseBucketInfoBucketAccessControlList struct {
 }
 
 func (s GetBucketInfoResponseBucketInfoBucketAccessControlList) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetBucketInfoResponseBucketInfoBucketAccessControlList) GoString() string {
@@ -6795,7 +6683,7 @@ type PutLiveChannelStatusRequest struct {
 }
 
 func (s PutLiveChannelStatusRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutLiveChannelStatusRequest) GoString() string {
@@ -6822,7 +6710,7 @@ type PutLiveChannelStatusRequestFilter struct {
 }
 
 func (s PutLiveChannelStatusRequestFilter) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutLiveChannelStatusRequestFilter) GoString() string {
@@ -6839,7 +6727,7 @@ type PutLiveChannelStatusResponse struct {
 }
 
 func (s PutLiveChannelStatusResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutLiveChannelStatusResponse) GoString() string {
@@ -6859,7 +6747,7 @@ type InitiateMultipartUploadRequest struct {
 }
 
 func (s InitiateMultipartUploadRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s InitiateMultipartUploadRequest) GoString() string {
@@ -6891,7 +6779,7 @@ type InitiateMultipartUploadRequestFilter struct {
 }
 
 func (s InitiateMultipartUploadRequestFilter) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s InitiateMultipartUploadRequestFilter) GoString() string {
@@ -6916,7 +6804,7 @@ type InitiateMultipartUploadRequestHeader struct {
 }
 
 func (s InitiateMultipartUploadRequestHeader) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s InitiateMultipartUploadRequestHeader) GoString() string {
@@ -6974,7 +6862,7 @@ type InitiateMultipartUploadResponse struct {
 }
 
 func (s InitiateMultipartUploadResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s InitiateMultipartUploadResponse) GoString() string {
@@ -6998,7 +6886,7 @@ type InitiateMultipartUploadResponseInitiateMultipartUploadResult struct {
 }
 
 func (s InitiateMultipartUploadResponseInitiateMultipartUploadResult) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s InitiateMultipartUploadResponseInitiateMultipartUploadResult) GoString() string {
@@ -7027,7 +6915,7 @@ type OptionObjectRequest struct {
 }
 
 func (s OptionObjectRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s OptionObjectRequest) GoString() string {
@@ -7056,7 +6944,7 @@ type OptionObjectRequestHeader struct {
 }
 
 func (s OptionObjectRequestHeader) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s OptionObjectRequestHeader) GoString() string {
@@ -7088,7 +6976,7 @@ type OptionObjectResponse struct {
 }
 
 func (s OptionObjectResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s OptionObjectResponse) GoString() string {
@@ -7133,7 +7021,7 @@ type PostVodPlaylistRequest struct {
 }
 
 func (s PostVodPlaylistRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PostVodPlaylistRequest) GoString() string {
@@ -7166,7 +7054,7 @@ type PostVodPlaylistRequestFilter struct {
 }
 
 func (s PostVodPlaylistRequestFilter) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PostVodPlaylistRequestFilter) GoString() string {
@@ -7188,7 +7076,7 @@ type PostVodPlaylistResponse struct {
 }
 
 func (s PostVodPlaylistResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PostVodPlaylistResponse) GoString() string {
@@ -7206,7 +7094,7 @@ type PostObjectRequest struct {
 }
 
 func (s PostObjectRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PostObjectRequest) GoString() string {
@@ -7224,16 +7112,17 @@ func (s *PostObjectRequest) SetHeader(v *PostObjectRequestHeader) *PostObjectReq
 }
 
 type PostObjectRequestHeader struct {
-	AccessKeyId         *string                      `json:"OSSAccessKeyId" xml:"OSSAccessKeyId" require:"true"`
-	Policy              *string                      `json:"policy" xml:"policy" require:"true"`
-	Signature           *string                      `json:"Signature" xml:"Signature" require:"true"`
-	SuccessActionStatus *string                      `json:"success_action_status" xml:"success_action_status"`
-	File                *PostObjectRequestHeaderFile `json:"file" xml:"file" require:"true" type:"Struct"`
-	Key                 *string                      `json:"key" xml:"key" require:"true"`
+	AccessKeyId         *string             `json:"OSSAccessKeyId" xml:"OSSAccessKeyId" require:"true"`
+	Policy              *string             `json:"policy" xml:"policy" require:"true"`
+	Signature           *string             `json:"Signature" xml:"Signature" require:"true"`
+	SuccessActionStatus *string             `json:"success_action_status" xml:"success_action_status"`
+	File                *fileform.FileField `json:"file" xml:"file" require:"true"`
+	Key                 *string             `json:"key" xml:"key" require:"true"`
+	UserMeta            map[string]string   `json:"UserMeta" xml:"UserMeta"`
 }
 
 func (s PostObjectRequestHeader) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PostObjectRequestHeader) GoString() string {
@@ -7260,7 +7149,7 @@ func (s *PostObjectRequestHeader) SetSuccessActionStatus(v string) *PostObjectRe
 	return s
 }
 
-func (s *PostObjectRequestHeader) SetFile(v *PostObjectRequestHeaderFile) *PostObjectRequestHeader {
+func (s *PostObjectRequestHeader) SetFile(v *fileform.FileField) *PostObjectRequestHeader {
 	s.File = v
 	return s
 }
@@ -7270,32 +7159,8 @@ func (s *PostObjectRequestHeader) SetKey(v string) *PostObjectRequestHeader {
 	return s
 }
 
-type PostObjectRequestHeaderFile struct {
-	FileName    *string   `json:"filename" xml:"filename" require:"true"`
-	Content     io.Reader `json:"content" xml:"content" require:"true"`
-	ContentType *string   `json:"content-type" xml:"content-type" require:"true"`
-}
-
-func (s PostObjectRequestHeaderFile) String() string {
-	return service.Prettify(s)
-}
-
-func (s PostObjectRequestHeaderFile) GoString() string {
-	return s.String()
-}
-
-func (s *PostObjectRequestHeaderFile) SetFileName(v string) *PostObjectRequestHeaderFile {
-	s.FileName = &v
-	return s
-}
-
-func (s *PostObjectRequestHeaderFile) SetContent(v io.Reader) *PostObjectRequestHeaderFile {
-	s.Content = v
-	return s
-}
-
-func (s *PostObjectRequestHeaderFile) SetContentType(v string) *PostObjectRequestHeaderFile {
-	s.ContentType = &v
+func (s *PostObjectRequestHeader) SetUserMeta(v map[string]string) *PostObjectRequestHeader {
+	s.UserMeta = v
 	return s
 }
 
@@ -7304,7 +7169,7 @@ type PostObjectResponse struct {
 }
 
 func (s PostObjectResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PostObjectResponse) GoString() string {
@@ -7323,7 +7188,7 @@ type PostObjectResponsePostResponse struct {
 }
 
 func (s PostObjectResponsePostResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PostObjectResponsePostResponse) GoString() string {
@@ -7352,7 +7217,7 @@ type HeadObjectRequest struct {
 }
 
 func (s HeadObjectRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s HeadObjectRequest) GoString() string {
@@ -7382,7 +7247,7 @@ type HeadObjectRequestHeader struct {
 }
 
 func (s HeadObjectRequestHeader) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s HeadObjectRequestHeader) GoString() string {
@@ -7433,7 +7298,7 @@ type HeadObjectResponse struct {
 }
 
 func (s HeadObjectResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s HeadObjectResponse) GoString() string {
@@ -7546,7 +7411,7 @@ type DeleteObjectTaggingRequest struct {
 }
 
 func (s DeleteObjectTaggingRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s DeleteObjectTaggingRequest) GoString() string {
@@ -7568,7 +7433,7 @@ type DeleteObjectTaggingResponse struct {
 }
 
 func (s DeleteObjectTaggingResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s DeleteObjectTaggingResponse) GoString() string {
@@ -7586,7 +7451,7 @@ type RestoreObjectRequest struct {
 }
 
 func (s RestoreObjectRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s RestoreObjectRequest) GoString() string {
@@ -7608,7 +7473,7 @@ type RestoreObjectResponse struct {
 }
 
 func (s RestoreObjectResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s RestoreObjectResponse) GoString() string {
@@ -7626,7 +7491,7 @@ type GetObjectAclRequest struct {
 }
 
 func (s GetObjectAclRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetObjectAclRequest) GoString() string {
@@ -7649,7 +7514,7 @@ type GetObjectAclResponse struct {
 }
 
 func (s GetObjectAclResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetObjectAclResponse) GoString() string {
@@ -7672,7 +7537,7 @@ type GetObjectAclResponseAccessControlPolicy struct {
 }
 
 func (s GetObjectAclResponseAccessControlPolicy) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetObjectAclResponseAccessControlPolicy) GoString() string {
@@ -7695,7 +7560,7 @@ type GetObjectAclResponseAccessControlPolicyOwner struct {
 }
 
 func (s GetObjectAclResponseAccessControlPolicyOwner) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetObjectAclResponseAccessControlPolicyOwner) GoString() string {
@@ -7717,7 +7582,7 @@ type GetObjectAclResponseAccessControlPolicyAccessControlList struct {
 }
 
 func (s GetObjectAclResponseAccessControlPolicyAccessControlList) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s GetObjectAclResponseAccessControlPolicyAccessControlList) GoString() string {
@@ -7735,7 +7600,7 @@ type PutBucketAclRequest struct {
 }
 
 func (s PutBucketAclRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketAclRequest) GoString() string {
@@ -7757,7 +7622,7 @@ type PutBucketAclRequestHeader struct {
 }
 
 func (s PutBucketAclRequestHeader) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketAclRequestHeader) GoString() string {
@@ -7774,7 +7639,7 @@ type PutBucketAclResponse struct {
 }
 
 func (s PutBucketAclResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutBucketAclResponse) GoString() string {
@@ -7791,7 +7656,7 @@ type DeleteBucketRequest struct {
 }
 
 func (s DeleteBucketRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s DeleteBucketRequest) GoString() string {
@@ -7808,7 +7673,7 @@ type DeleteBucketResponse struct {
 }
 
 func (s DeleteBucketResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s DeleteBucketResponse) GoString() string {
@@ -7829,7 +7694,7 @@ type PutObjectRequest struct {
 }
 
 func (s PutObjectRequest) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutObjectRequest) GoString() string {
@@ -7879,7 +7744,7 @@ type PutObjectRequestHeader struct {
 }
 
 func (s PutObjectRequestHeader) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutObjectRequestHeader) GoString() string {
@@ -7964,7 +7829,7 @@ type PutObjectResponse struct {
 }
 
 func (s PutObjectResponse) String() string {
-	return service.Prettify(s)
+	return tea.Prettify(s)
 }
 
 func (s PutObjectResponse) GoString() string {
@@ -7992,25 +7857,87 @@ func (s *PutObjectResponse) SetBucketVersion(v string) *PutObjectResponse {
 }
 
 type Client struct {
-	service.BaseClient
+	Endpoint         string
+	RegionId         string
+	HostModel        string
+	Protocol         string
+	ReadTimeout      int
+	ConnectTimeout   int
+	SignatureVersion string
+	AddtionalHeaders []string
+	LocalAddr        string
+	HttpProxy        string
+	HttpsProxy       string
+	NoProxy          string
+	UserAgent        string
+	Socks5Proxy      string
+	IsEnableCrc      bool
+	IsEnableMD5      bool
+	Socks5NetWork    string
+	MaxIdleConns     int
+	Credential       credential.Credential
 }
 
 func NewClient(config *Config) (*Client, error) {
-	client := &Client{}
-	input := make(map[string]interface{})
-	byt, _ := json.Marshal(config)
-	err := json.Unmarshal(byt, &input)
-	if err != nil {
-		return nil, err
-	}
-	err = client.InitClient(input)
-	if err != nil {
-		return nil, err
-	}
-	return client, nil
+	client := new(Client)
+	err := client.init(config)
+	return client, err
 }
 
-func (client *Client) PutBucketLifecycle(request *PutBucketLifecycleRequest, runtime *RuntimeObject) (_result *PutBucketLifecycleResponse, _err error) {
+func (client *Client) init(config *Config) (_err error) {
+	if util.IsUnset(tea.ToMap(config)) {
+		_err = tea.NewSDKError(map[string]interface{}{
+			"name":    "ParameterMissing",
+			"message": "'config' can not be unset",
+		})
+		return _err
+	}
+
+	if util.Empty(tea.StringValue(config.Type)) {
+		config.Type = tea.String("access_key")
+	}
+
+	credentialConfig := &credential.Config{
+		AccessKeyId:     config.AccessKeyId,
+		Type:            config.Type,
+		AccessKeySecret: config.AccessKeySecret,
+		SecurityToken:   config.SecurityToken,
+	}
+	client.Credential, _err = credential.NewCredential(credentialConfig)
+	if _err != nil {
+		return _err
+	}
+
+	if util.IsUnset(tea.BoolValue(config.IsEnableMD5)) {
+		config.IsEnableMD5 = tea.Bool(false)
+	}
+
+	if util.IsUnset(tea.BoolValue(config.IsEnableCrc)) {
+		config.IsEnableCrc = tea.Bool(false)
+	}
+
+	client.Endpoint = tea.StringValue(config.Endpoint)
+	client.Protocol = tea.StringValue(config.Protocol)
+	client.RegionId = tea.StringValue(config.RegionId)
+	client.UserAgent = tea.StringValue(config.UserAgent)
+	client.ReadTimeout = tea.IntValue(config.ReadTimeout)
+	client.ConnectTimeout = tea.IntValue(config.ConnectTimeout)
+	client.LocalAddr = tea.StringValue(config.LocalAddr)
+	client.HttpProxy = tea.StringValue(config.HttpProxy)
+	client.HttpsProxy = tea.StringValue(config.HttpsProxy)
+	client.NoProxy = tea.StringValue(config.NoProxy)
+	client.Socks5Proxy = tea.StringValue(config.Socks5Proxy)
+	client.Socks5NetWork = tea.StringValue(config.Socks5NetWork)
+	client.MaxIdleConns = tea.IntValue(config.MaxIdleConns)
+	client.SignatureVersion = tea.StringValue(config.SignatureVersion)
+	client.AddtionalHeaders = tea.StringSliceValue(config.AddtionalHeaders)
+	client.HostModel = tea.StringValue(config.HostModel)
+	client.IsEnableMD5 = tea.BoolValue(config.IsEnableMD5)
+	client.IsEnableCrc = tea.BoolValue(config.IsEnableCrc)
+	return nil
+}
+
+func (client *Client) PutBucketLifecycle(request *PutBucketLifecycleRequest, runtime *ossutil.RuntimeOptions) (_result *PutBucketLifecycleResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -8021,26 +7948,24 @@ func (client *Client) PutBucketLifecycle(request *PutBucketLifecycleRequest, run
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &PutBucketLifecycleResponse{}
@@ -8054,43 +7979,49 @@ func (client *Client) PutBucketLifecycle(request *PutBucketLifecycleRequest, run
 
 		_resp, _err = func() (*PutBucketLifecycleResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
 				return nil, _err
 			}
 
-			reqBody := client.ToXML(tea.ToMap(request.Body))
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
+			}
+
+			reqBody := xml.ToXML(tea.ToMap(request.Body))
 			request_.Protocol = client.Protocol
 			request_.Method = "PUT"
 			request_.Pathname = "/?lifecycle"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
 			request_.Body = tea.ToReader(reqBody)
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -8115,7 +8046,7 @@ func (client *Client) PutBucketLifecycle(request *PutBucketLifecycleRequest, run
 	return _resp, _err
 }
 
-func (client *Client) DeleteMultipleObjects(request *DeleteMultipleObjectsRequest, runtime *RuntimeObject) (_result *DeleteMultipleObjectsResponse, _err error) {
+func (client *Client) DeleteMultipleObjects(request *DeleteMultipleObjectsRequest, runtime *ossutil.RuntimeOptions) (_result *DeleteMultipleObjectsResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -8126,26 +8057,24 @@ func (client *Client) DeleteMultipleObjects(request *DeleteMultipleObjectsReques
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &DeleteMultipleObjectsResponse{}
@@ -8159,49 +8088,55 @@ func (client *Client) DeleteMultipleObjects(request *DeleteMultipleObjectsReques
 
 		_resp, _err = func() (*DeleteMultipleObjectsResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
 				return nil, _err
 			}
 
-			reqBody := client.ToXML(tea.ToMap(request.Body))
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
+			}
+
+			reqBody := xml.ToXML(tea.ToMap(request.Body))
 			request_.Protocol = client.Protocol
 			request_.Method = "POST"
 			request_.Pathname = "/?delete"
 			request_.Headers = tea.Merge(map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
-			}, client.ToHeader(tea.ToMap(request.Header)))
-			if !client.Empty(token) {
+			}, util.StringifyMapValue(tea.ToMap(request.Header)))
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
 			request_.Body = tea.ToReader(reqBody)
-			if client.NotNull(tea.ToMap(request.Header)) && !client.Empty(tea.StringValue(request.Header.ContentMD5)) {
+			if util.IsUnset(tea.ToMap(request.Header)) && !util.Empty(tea.StringValue(request.Header.ContentMD5)) {
 				request_.Headers["content-md5"] = tea.StringValue(request.Header.ContentMD5)
 			} else {
-				request_.Headers["content-md5"] = client.GetContentMD5(reqBody)
+				request_.Headers["content-md5"] = ossutil.GetContentMD5(reqBody, client.IsEnableMD5)
 			}
 
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -8214,12 +8149,12 @@ func (client *Client) DeleteMultipleObjects(request *DeleteMultipleObjectsReques
 				return nil, _err
 			}
 
-			bodyStr, _err = client.ReadAsString(response_)
+			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
 				return nil, _err
 			}
 
-			respMap = client.ParseXml(bodyStr, new(DeleteMultipleObjectsResponse))
+			respMap = xml.ParseXml(bodyStr, new(DeleteMultipleObjectsResponse))
 			_result = &DeleteMultipleObjectsResponse{}
 			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"DeleteResult": respMap["DeleteResult"],
@@ -8234,7 +8169,7 @@ func (client *Client) DeleteMultipleObjects(request *DeleteMultipleObjectsReques
 	return _resp, _err
 }
 
-func (client *Client) PutBucketReferer(request *PutBucketRefererRequest, runtime *RuntimeObject) (_result *PutBucketRefererResponse, _err error) {
+func (client *Client) PutBucketReferer(request *PutBucketRefererRequest, runtime *ossutil.RuntimeOptions) (_result *PutBucketRefererResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -8245,26 +8180,24 @@ func (client *Client) PutBucketReferer(request *PutBucketRefererRequest, runtime
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &PutBucketRefererResponse{}
@@ -8278,43 +8211,49 @@ func (client *Client) PutBucketReferer(request *PutBucketRefererRequest, runtime
 
 		_resp, _err = func() (*PutBucketRefererResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
 				return nil, _err
 			}
 
-			reqBody := client.ToXML(tea.ToMap(request.Body))
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
+			}
+
+			reqBody := xml.ToXML(tea.ToMap(request.Body))
 			request_.Protocol = client.Protocol
 			request_.Method = "PUT"
 			request_.Pathname = "/?referer"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
 			request_.Body = tea.ToReader(reqBody)
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -8339,7 +8278,7 @@ func (client *Client) PutBucketReferer(request *PutBucketRefererRequest, runtime
 	return _resp, _err
 }
 
-func (client *Client) PutBucketWebsite(request *PutBucketWebsiteRequest, runtime *RuntimeObject) (_result *PutBucketWebsiteResponse, _err error) {
+func (client *Client) PutBucketWebsite(request *PutBucketWebsiteRequest, runtime *ossutil.RuntimeOptions) (_result *PutBucketWebsiteResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -8350,26 +8289,24 @@ func (client *Client) PutBucketWebsite(request *PutBucketWebsiteRequest, runtime
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &PutBucketWebsiteResponse{}
@@ -8383,43 +8320,49 @@ func (client *Client) PutBucketWebsite(request *PutBucketWebsiteRequest, runtime
 
 		_resp, _err = func() (*PutBucketWebsiteResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
 				return nil, _err
 			}
 
-			reqBody := client.ToXML(tea.ToMap(request.Body))
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
+			}
+
+			reqBody := xml.ToXML(tea.ToMap(request.Body))
 			request_.Protocol = client.Protocol
 			request_.Method = "PUT"
 			request_.Pathname = "/?website"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
 			request_.Body = tea.ToReader(reqBody)
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -8444,7 +8387,7 @@ func (client *Client) PutBucketWebsite(request *PutBucketWebsiteRequest, runtime
 	return _resp, _err
 }
 
-func (client *Client) CompleteMultipartUpload(request *CompleteMultipartUploadRequest, runtime *RuntimeObject) (_result *CompleteMultipartUploadResponse, _err error) {
+func (client *Client) CompleteMultipartUpload(request *CompleteMultipartUploadRequest, runtime *ossutil.RuntimeOptions) (_result *CompleteMultipartUploadResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -8455,26 +8398,24 @@ func (client *Client) CompleteMultipartUpload(request *CompleteMultipartUploadRe
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &CompleteMultipartUploadResponse{}
@@ -8488,44 +8429,50 @@ func (client *Client) CompleteMultipartUpload(request *CompleteMultipartUploadRe
 
 		_resp, _err = func() (*CompleteMultipartUploadResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
 				return nil, _err
 			}
 
-			reqBody := client.ToXML(tea.ToMap(request.Body))
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
+			}
+
+			reqBody := xml.ToXML(tea.ToMap(request.Body))
 			request_.Protocol = client.Protocol
 			request_.Method = "POST"
 			request_.Pathname = "/" + tea.StringValue(request.ObjectName)
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
+			request_.Query = util.StringifyMapValue(tea.ToMap(request.Filter))
 			request_.Body = tea.ToReader(reqBody)
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -8538,12 +8485,12 @@ func (client *Client) CompleteMultipartUpload(request *CompleteMultipartUploadRe
 				return nil, _err
 			}
 
-			bodyStr, _err = client.ReadAsString(response_)
+			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
 				return nil, _err
 			}
 
-			respMap = client.ParseXml(bodyStr, new(CompleteMultipartUploadResponse))
+			respMap = xml.ParseXml(bodyStr, new(CompleteMultipartUploadResponse))
 			_result = &CompleteMultipartUploadResponse{}
 			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"CompleteMultipartUploadResult": respMap["CompleteMultipartUploadResult"],
@@ -8558,7 +8505,7 @@ func (client *Client) CompleteMultipartUpload(request *CompleteMultipartUploadRe
 	return _resp, _err
 }
 
-func (client *Client) PutBucketLogging(request *PutBucketLoggingRequest, runtime *RuntimeObject) (_result *PutBucketLoggingResponse, _err error) {
+func (client *Client) PutBucketLogging(request *PutBucketLoggingRequest, runtime *ossutil.RuntimeOptions) (_result *PutBucketLoggingResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -8569,26 +8516,24 @@ func (client *Client) PutBucketLogging(request *PutBucketLoggingRequest, runtime
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &PutBucketLoggingResponse{}
@@ -8602,43 +8547,49 @@ func (client *Client) PutBucketLogging(request *PutBucketLoggingRequest, runtime
 
 		_resp, _err = func() (*PutBucketLoggingResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
 				return nil, _err
 			}
 
-			reqBody := client.ToXML(tea.ToMap(request.Body))
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
+			}
+
+			reqBody := xml.ToXML(tea.ToMap(request.Body))
 			request_.Protocol = client.Protocol
 			request_.Method = "PUT"
 			request_.Pathname = "/?logging"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
 			request_.Body = tea.ToReader(reqBody)
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -8663,7 +8614,7 @@ func (client *Client) PutBucketLogging(request *PutBucketLoggingRequest, runtime
 	return _resp, _err
 }
 
-func (client *Client) PutBucketRequestPayment(request *PutBucketRequestPaymentRequest, runtime *RuntimeObject) (_result *PutBucketRequestPaymentResponse, _err error) {
+func (client *Client) PutBucketRequestPayment(request *PutBucketRequestPaymentRequest, runtime *ossutil.RuntimeOptions) (_result *PutBucketRequestPaymentResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -8674,26 +8625,24 @@ func (client *Client) PutBucketRequestPayment(request *PutBucketRequestPaymentRe
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &PutBucketRequestPaymentResponse{}
@@ -8707,43 +8656,49 @@ func (client *Client) PutBucketRequestPayment(request *PutBucketRequestPaymentRe
 
 		_resp, _err = func() (*PutBucketRequestPaymentResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
 				return nil, _err
 			}
 
-			reqBody := client.ToXML(tea.ToMap(request.Body))
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
+			}
+
+			reqBody := xml.ToXML(tea.ToMap(request.Body))
 			request_.Protocol = client.Protocol
 			request_.Method = "PUT"
 			request_.Pathname = "/?requestPayment"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
 			request_.Body = tea.ToReader(reqBody)
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -8768,7 +8723,7 @@ func (client *Client) PutBucketRequestPayment(request *PutBucketRequestPaymentRe
 	return _resp, _err
 }
 
-func (client *Client) PutBucketEncryption(request *PutBucketEncryptionRequest, runtime *RuntimeObject) (_result *PutBucketEncryptionResponse, _err error) {
+func (client *Client) PutBucketEncryption(request *PutBucketEncryptionRequest, runtime *ossutil.RuntimeOptions) (_result *PutBucketEncryptionResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -8779,26 +8734,24 @@ func (client *Client) PutBucketEncryption(request *PutBucketEncryptionRequest, r
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &PutBucketEncryptionResponse{}
@@ -8812,43 +8765,49 @@ func (client *Client) PutBucketEncryption(request *PutBucketEncryptionRequest, r
 
 		_resp, _err = func() (*PutBucketEncryptionResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
 				return nil, _err
 			}
 
-			reqBody := client.ToXML(tea.ToMap(request.Body))
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
+			}
+
+			reqBody := xml.ToXML(tea.ToMap(request.Body))
 			request_.Protocol = client.Protocol
 			request_.Method = "PUT"
 			request_.Pathname = "/?encryption"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
 			request_.Body = tea.ToReader(reqBody)
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -8873,7 +8832,7 @@ func (client *Client) PutBucketEncryption(request *PutBucketEncryptionRequest, r
 	return _resp, _err
 }
 
-func (client *Client) PutLiveChannel(request *PutLiveChannelRequest, runtime *RuntimeObject) (_result *PutLiveChannelResponse, _err error) {
+func (client *Client) PutLiveChannel(request *PutLiveChannelRequest, runtime *ossutil.RuntimeOptions) (_result *PutLiveChannelResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -8884,26 +8843,24 @@ func (client *Client) PutLiveChannel(request *PutLiveChannelRequest, runtime *Ru
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &PutLiveChannelResponse{}
@@ -8917,43 +8874,49 @@ func (client *Client) PutLiveChannel(request *PutLiveChannelRequest, runtime *Ru
 
 		_resp, _err = func() (*PutLiveChannelResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
 				return nil, _err
 			}
 
-			reqBody := client.ToXML(tea.ToMap(request.Body))
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
+			}
+
+			reqBody := xml.ToXML(tea.ToMap(request.Body))
 			request_.Protocol = client.Protocol
 			request_.Method = "PUT"
 			request_.Pathname = "/" + tea.StringValue(request.ChannelName) + "?live"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
 			request_.Body = tea.ToReader(reqBody)
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -8966,12 +8929,12 @@ func (client *Client) PutLiveChannel(request *PutLiveChannelRequest, runtime *Ru
 				return nil, _err
 			}
 
-			bodyStr, _err = client.ReadAsString(response_)
+			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
 				return nil, _err
 			}
 
-			respMap = client.ParseXml(bodyStr, new(PutLiveChannelResponse))
+			respMap = xml.ParseXml(bodyStr, new(PutLiveChannelResponse))
 			_result = &PutLiveChannelResponse{}
 			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"CreateLiveChannelResult": respMap["CreateLiveChannelResult"],
@@ -8986,7 +8949,7 @@ func (client *Client) PutLiveChannel(request *PutLiveChannelRequest, runtime *Ru
 	return _resp, _err
 }
 
-func (client *Client) PutBucketTags(request *PutBucketTagsRequest, runtime *RuntimeObject) (_result *PutBucketTagsResponse, _err error) {
+func (client *Client) PutBucketTags(request *PutBucketTagsRequest, runtime *ossutil.RuntimeOptions) (_result *PutBucketTagsResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -8997,26 +8960,24 @@ func (client *Client) PutBucketTags(request *PutBucketTagsRequest, runtime *Runt
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &PutBucketTagsResponse{}
@@ -9030,43 +8991,49 @@ func (client *Client) PutBucketTags(request *PutBucketTagsRequest, runtime *Runt
 
 		_resp, _err = func() (*PutBucketTagsResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
 				return nil, _err
 			}
 
-			reqBody := client.ToXML(tea.ToMap(request.Body))
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
+			}
+
+			reqBody := xml.ToXML(tea.ToMap(request.Body))
 			request_.Protocol = client.Protocol
 			request_.Method = "PUT"
 			request_.Pathname = "/?tagging"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
 			request_.Body = tea.ToReader(reqBody)
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -9091,7 +9058,7 @@ func (client *Client) PutBucketTags(request *PutBucketTagsRequest, runtime *Runt
 	return _resp, _err
 }
 
-func (client *Client) PutObjectTagging(request *PutObjectTaggingRequest, runtime *RuntimeObject) (_result *PutObjectTaggingResponse, _err error) {
+func (client *Client) PutObjectTagging(request *PutObjectTaggingRequest, runtime *ossutil.RuntimeOptions) (_result *PutObjectTaggingResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -9102,26 +9069,24 @@ func (client *Client) PutObjectTagging(request *PutObjectTaggingRequest, runtime
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &PutObjectTaggingResponse{}
@@ -9135,43 +9100,49 @@ func (client *Client) PutObjectTagging(request *PutObjectTaggingRequest, runtime
 
 		_resp, _err = func() (*PutObjectTaggingResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
 				return nil, _err
 			}
 
-			reqBody := client.ToXML(tea.ToMap(request.Body))
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
+			}
+
+			reqBody := xml.ToXML(tea.ToMap(request.Body))
 			request_.Protocol = client.Protocol
 			request_.Method = "PUT"
 			request_.Pathname = "/" + tea.StringValue(request.ObjectName) + "?tagging"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
 			request_.Body = tea.ToReader(reqBody)
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -9196,7 +9167,7 @@ func (client *Client) PutObjectTagging(request *PutObjectTaggingRequest, runtime
 	return _resp, _err
 }
 
-func (client *Client) SelectObject(request *SelectObjectRequest, runtime *RuntimeObject) (_result *SelectObjectResponse, _err error) {
+func (client *Client) SelectObject(request *SelectObjectRequest, runtime *ossutil.RuntimeOptions) (_result *SelectObjectResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -9207,26 +9178,24 @@ func (client *Client) SelectObject(request *SelectObjectRequest, runtime *Runtim
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &SelectObjectResponse{}
@@ -9240,44 +9209,50 @@ func (client *Client) SelectObject(request *SelectObjectRequest, runtime *Runtim
 
 		_resp, _err = func() (*SelectObjectResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
 				return nil, _err
 			}
 
-			reqBody := client.ToXML(tea.ToMap(request.Body))
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
+			}
+
+			reqBody := xml.ToXML(tea.ToMap(request.Body))
 			request_.Protocol = client.Protocol
 			request_.Method = "POST"
 			request_.Pathname = "/" + tea.StringValue(request.ObjectName)
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
+			request_.Query = util.StringifyMapValue(tea.ToMap(request.Filter))
 			request_.Body = tea.ToReader(reqBody)
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -9302,7 +9277,7 @@ func (client *Client) SelectObject(request *SelectObjectRequest, runtime *Runtim
 	return _resp, _err
 }
 
-func (client *Client) PutBucketCORS(request *PutBucketCORSRequest, runtime *RuntimeObject) (_result *PutBucketCORSResponse, _err error) {
+func (client *Client) PutBucketCORS(request *PutBucketCORSRequest, runtime *ossutil.RuntimeOptions) (_result *PutBucketCORSResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -9313,26 +9288,24 @@ func (client *Client) PutBucketCORS(request *PutBucketCORSRequest, runtime *Runt
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &PutBucketCORSResponse{}
@@ -9346,43 +9319,49 @@ func (client *Client) PutBucketCORS(request *PutBucketCORSRequest, runtime *Runt
 
 		_resp, _err = func() (*PutBucketCORSResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
 				return nil, _err
 			}
 
-			reqBody := client.ToXML(tea.ToMap(request.Body))
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
+			}
+
+			reqBody := xml.ToXML(tea.ToMap(request.Body))
 			request_.Protocol = client.Protocol
 			request_.Method = "PUT"
 			request_.Pathname = "/?cors"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
 			request_.Body = tea.ToReader(reqBody)
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -9407,7 +9386,7 @@ func (client *Client) PutBucketCORS(request *PutBucketCORSRequest, runtime *Runt
 	return _resp, _err
 }
 
-func (client *Client) PutBucket(request *PutBucketRequest, runtime *RuntimeObject) (_result *PutBucketResponse, _err error) {
+func (client *Client) PutBucket(request *PutBucketRequest, runtime *ossutil.RuntimeOptions) (_result *PutBucketResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -9418,26 +9397,24 @@ func (client *Client) PutBucket(request *PutBucketRequest, runtime *RuntimeObjec
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &PutBucketResponse{}
@@ -9451,43 +9428,49 @@ func (client *Client) PutBucket(request *PutBucketRequest, runtime *RuntimeObjec
 
 		_resp, _err = func() (*PutBucketResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
 				return nil, _err
 			}
 
-			reqBody := client.ToXML(tea.ToMap(request.Body))
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
+			if _err != nil {
+				return nil, _err
+			}
+
+			reqBody := xml.ToXML(tea.ToMap(request.Body))
 			request_.Protocol = client.Protocol
 			request_.Method = "PUT"
 			request_.Pathname = "/"
 			request_.Headers = tea.Merge(map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
-			}, client.ToHeader(tea.ToMap(request.Header)))
-			if !client.Empty(token) {
+			}, util.StringifyMapValue(tea.ToMap(request.Header)))
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
 			request_.Body = tea.ToReader(reqBody)
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -9512,7 +9495,7 @@ func (client *Client) PutBucket(request *PutBucketRequest, runtime *RuntimeObjec
 	return _resp, _err
 }
 
-func (client *Client) ListMultipartUploads(request *ListMultipartUploadsRequest, runtime *RuntimeObject) (_result *ListMultipartUploadsResponse, _err error) {
+func (client *Client) ListMultipartUploads(request *ListMultipartUploadsRequest, runtime *ossutil.RuntimeOptions) (_result *ListMultipartUploadsResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -9523,26 +9506,24 @@ func (client *Client) ListMultipartUploads(request *ListMultipartUploadsRequest,
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &ListMultipartUploadsResponse{}
@@ -9556,7 +9537,17 @@ func (client *Client) ListMultipartUploads(request *ListMultipartUploadsRequest,
 
 		_resp, _err = func() (*ListMultipartUploadsResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -9565,33 +9556,29 @@ func (client *Client) ListMultipartUploads(request *ListMultipartUploadsRequest,
 			request_.Method = "GET"
 			request_.Pathname = "/?uploads"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Query = util.StringifyMapValue(tea.ToMap(request.Filter))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -9604,12 +9591,12 @@ func (client *Client) ListMultipartUploads(request *ListMultipartUploadsRequest,
 				return nil, _err
 			}
 
-			bodyStr, _err = client.ReadAsString(response_)
+			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
 				return nil, _err
 			}
 
-			respMap = client.ParseXml(bodyStr, new(ListMultipartUploadsResponse))
+			respMap = xml.ParseXml(bodyStr, new(ListMultipartUploadsResponse))
 			_result = &ListMultipartUploadsResponse{}
 			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"ListMultipartUploadsResult": respMap["ListMultipartUploadsResult"],
@@ -9624,7 +9611,7 @@ func (client *Client) ListMultipartUploads(request *ListMultipartUploadsRequest,
 	return _resp, _err
 }
 
-func (client *Client) GetBucketRequestPayment(request *GetBucketRequestPaymentRequest, runtime *RuntimeObject) (_result *GetBucketRequestPaymentResponse, _err error) {
+func (client *Client) GetBucketRequestPayment(request *GetBucketRequestPaymentRequest, runtime *ossutil.RuntimeOptions) (_result *GetBucketRequestPaymentResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -9635,26 +9622,24 @@ func (client *Client) GetBucketRequestPayment(request *GetBucketRequestPaymentRe
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &GetBucketRequestPaymentResponse{}
@@ -9668,7 +9653,17 @@ func (client *Client) GetBucketRequestPayment(request *GetBucketRequestPaymentRe
 
 		_resp, _err = func() (*GetBucketRequestPaymentResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -9677,32 +9672,28 @@ func (client *Client) GetBucketRequestPayment(request *GetBucketRequestPaymentRe
 			request_.Method = "GET"
 			request_.Pathname = "/?requestPayment"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -9715,12 +9706,12 @@ func (client *Client) GetBucketRequestPayment(request *GetBucketRequestPaymentRe
 				return nil, _err
 			}
 
-			bodyStr, _err = client.ReadAsString(response_)
+			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
 				return nil, _err
 			}
 
-			respMap = client.ParseXml(bodyStr, new(GetBucketRequestPaymentResponse))
+			respMap = xml.ParseXml(bodyStr, new(GetBucketRequestPaymentResponse))
 			_result = &GetBucketRequestPaymentResponse{}
 			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"RequestPaymentConfiguration": respMap["RequestPaymentConfiguration"],
@@ -9735,7 +9726,7 @@ func (client *Client) GetBucketRequestPayment(request *GetBucketRequestPaymentRe
 	return _resp, _err
 }
 
-func (client *Client) GetBucketEncryption(request *GetBucketEncryptionRequest, runtime *RuntimeObject) (_result *GetBucketEncryptionResponse, _err error) {
+func (client *Client) GetBucketEncryption(request *GetBucketEncryptionRequest, runtime *ossutil.RuntimeOptions) (_result *GetBucketEncryptionResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -9746,26 +9737,24 @@ func (client *Client) GetBucketEncryption(request *GetBucketEncryptionRequest, r
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &GetBucketEncryptionResponse{}
@@ -9779,7 +9768,17 @@ func (client *Client) GetBucketEncryption(request *GetBucketEncryptionRequest, r
 
 		_resp, _err = func() (*GetBucketEncryptionResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -9788,32 +9787,28 @@ func (client *Client) GetBucketEncryption(request *GetBucketEncryptionRequest, r
 			request_.Method = "GET"
 			request_.Pathname = "/?encryption"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -9826,12 +9821,12 @@ func (client *Client) GetBucketEncryption(request *GetBucketEncryptionRequest, r
 				return nil, _err
 			}
 
-			bodyStr, _err = client.ReadAsString(response_)
+			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
 				return nil, _err
 			}
 
-			respMap = client.ParseXml(bodyStr, new(GetBucketEncryptionResponse))
+			respMap = xml.ParseXml(bodyStr, new(GetBucketEncryptionResponse))
 			_result = &GetBucketEncryptionResponse{}
 			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"ServerSideEncryptionRule": respMap["ServerSideEncryptionRule"],
@@ -9846,7 +9841,7 @@ func (client *Client) GetBucketEncryption(request *GetBucketEncryptionRequest, r
 	return _resp, _err
 }
 
-func (client *Client) GetBucketTags(request *GetBucketTagsRequest, runtime *RuntimeObject) (_result *GetBucketTagsResponse, _err error) {
+func (client *Client) GetBucketTags(request *GetBucketTagsRequest, runtime *ossutil.RuntimeOptions) (_result *GetBucketTagsResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -9857,26 +9852,24 @@ func (client *Client) GetBucketTags(request *GetBucketTagsRequest, runtime *Runt
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &GetBucketTagsResponse{}
@@ -9890,7 +9883,17 @@ func (client *Client) GetBucketTags(request *GetBucketTagsRequest, runtime *Runt
 
 		_resp, _err = func() (*GetBucketTagsResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -9899,32 +9902,28 @@ func (client *Client) GetBucketTags(request *GetBucketTagsRequest, runtime *Runt
 			request_.Method = "GET"
 			request_.Pathname = "/?tagging"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -9937,12 +9936,12 @@ func (client *Client) GetBucketTags(request *GetBucketTagsRequest, runtime *Runt
 				return nil, _err
 			}
 
-			bodyStr, _err = client.ReadAsString(response_)
+			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
 				return nil, _err
 			}
 
-			respMap = client.ParseXml(bodyStr, new(GetBucketTagsResponse))
+			respMap = xml.ParseXml(bodyStr, new(GetBucketTagsResponse))
 			_result = &GetBucketTagsResponse{}
 			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"Tagging": respMap["Tagging"],
@@ -9957,7 +9956,7 @@ func (client *Client) GetBucketTags(request *GetBucketTagsRequest, runtime *Runt
 	return _resp, _err
 }
 
-func (client *Client) GetService(request *GetServiceRequest, runtime *RuntimeObject) (_result *GetServiceResponse, _err error) {
+func (client *Client) GetService(request *GetServiceRequest, runtime *ossutil.RuntimeOptions) (_result *GetServiceResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -9968,26 +9967,24 @@ func (client *Client) GetService(request *GetServiceRequest, runtime *RuntimeObj
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &GetServiceResponse{}
@@ -10001,7 +9998,17 @@ func (client *Client) GetService(request *GetServiceRequest, runtime *RuntimeObj
 
 		_resp, _err = func() (*GetServiceResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -10010,33 +10017,29 @@ func (client *Client) GetService(request *GetServiceRequest, runtime *RuntimeObj
 			request_.Method = "GET"
 			request_.Pathname = "/"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(""),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost("", client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
-			request_.Headers["authorization"], _err = client.GetSignature(request_, "")
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Query = util.StringifyMapValue(tea.ToMap(request.Filter))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, "", accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -10049,12 +10052,12 @@ func (client *Client) GetService(request *GetServiceRequest, runtime *RuntimeObj
 				return nil, _err
 			}
 
-			bodyStr, _err = client.ReadAsString(response_)
+			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
 				return nil, _err
 			}
 
-			respMap = client.ParseXml(bodyStr, new(GetServiceResponse))
+			respMap = xml.ParseXml(bodyStr, new(GetServiceResponse))
 			_result = &GetServiceResponse{}
 			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"ListAllMyBucketsResult": respMap["ListAllMyBucketsResult"],
@@ -10069,7 +10072,7 @@ func (client *Client) GetService(request *GetServiceRequest, runtime *RuntimeObj
 	return _resp, _err
 }
 
-func (client *Client) DeleteBucketEncryption(request *DeleteBucketEncryptionRequest, runtime *RuntimeObject) (_result *DeleteBucketEncryptionResponse, _err error) {
+func (client *Client) DeleteBucketEncryption(request *DeleteBucketEncryptionRequest, runtime *ossutil.RuntimeOptions) (_result *DeleteBucketEncryptionResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -10080,26 +10083,24 @@ func (client *Client) DeleteBucketEncryption(request *DeleteBucketEncryptionRequ
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &DeleteBucketEncryptionResponse{}
@@ -10113,7 +10114,17 @@ func (client *Client) DeleteBucketEncryption(request *DeleteBucketEncryptionRequ
 
 		_resp, _err = func() (*DeleteBucketEncryptionResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -10122,32 +10133,28 @@ func (client *Client) DeleteBucketEncryption(request *DeleteBucketEncryptionRequ
 			request_.Method = "DELETE"
 			request_.Pathname = "/?encryption"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -10172,7 +10179,7 @@ func (client *Client) DeleteBucketEncryption(request *DeleteBucketEncryptionRequ
 	return _resp, _err
 }
 
-func (client *Client) DeleteBucketTags(request *DeleteBucketTagsRequest, runtime *RuntimeObject) (_result *DeleteBucketTagsResponse, _err error) {
+func (client *Client) DeleteBucketTags(request *DeleteBucketTagsRequest, runtime *ossutil.RuntimeOptions) (_result *DeleteBucketTagsResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -10183,26 +10190,24 @@ func (client *Client) DeleteBucketTags(request *DeleteBucketTagsRequest, runtime
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &DeleteBucketTagsResponse{}
@@ -10216,7 +10221,17 @@ func (client *Client) DeleteBucketTags(request *DeleteBucketTagsRequest, runtime
 
 		_resp, _err = func() (*DeleteBucketTagsResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -10225,33 +10240,29 @@ func (client *Client) DeleteBucketTags(request *DeleteBucketTagsRequest, runtime
 			request_.Method = "DELETE"
 			request_.Pathname = "/"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Query = util.StringifyMapValue(tea.ToMap(request.Filter))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -10276,7 +10287,7 @@ func (client *Client) DeleteBucketTags(request *DeleteBucketTagsRequest, runtime
 	return _resp, _err
 }
 
-func (client *Client) GetBucketWebsite(request *GetBucketWebsiteRequest, runtime *RuntimeObject) (_result *GetBucketWebsiteResponse, _err error) {
+func (client *Client) GetBucketWebsite(request *GetBucketWebsiteRequest, runtime *ossutil.RuntimeOptions) (_result *GetBucketWebsiteResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -10287,26 +10298,24 @@ func (client *Client) GetBucketWebsite(request *GetBucketWebsiteRequest, runtime
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &GetBucketWebsiteResponse{}
@@ -10320,7 +10329,17 @@ func (client *Client) GetBucketWebsite(request *GetBucketWebsiteRequest, runtime
 
 		_resp, _err = func() (*GetBucketWebsiteResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -10329,32 +10348,28 @@ func (client *Client) GetBucketWebsite(request *GetBucketWebsiteRequest, runtime
 			request_.Method = "GET"
 			request_.Pathname = "/?website"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -10367,12 +10382,12 @@ func (client *Client) GetBucketWebsite(request *GetBucketWebsiteRequest, runtime
 				return nil, _err
 			}
 
-			bodyStr, _err = client.ReadAsString(response_)
+			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
 				return nil, _err
 			}
 
-			respMap = client.ParseXml(bodyStr, new(GetBucketWebsiteResponse))
+			respMap = xml.ParseXml(bodyStr, new(GetBucketWebsiteResponse))
 			_result = &GetBucketWebsiteResponse{}
 			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"WebsiteConfiguration": respMap["WebsiteConfiguration"],
@@ -10387,7 +10402,7 @@ func (client *Client) GetBucketWebsite(request *GetBucketWebsiteRequest, runtime
 	return _resp, _err
 }
 
-func (client *Client) DeleteLiveChannel(request *DeleteLiveChannelRequest, runtime *RuntimeObject) (_result *DeleteLiveChannelResponse, _err error) {
+func (client *Client) DeleteLiveChannel(request *DeleteLiveChannelRequest, runtime *ossutil.RuntimeOptions) (_result *DeleteLiveChannelResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -10398,26 +10413,24 @@ func (client *Client) DeleteLiveChannel(request *DeleteLiveChannelRequest, runti
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &DeleteLiveChannelResponse{}
@@ -10431,7 +10444,17 @@ func (client *Client) DeleteLiveChannel(request *DeleteLiveChannelRequest, runti
 
 		_resp, _err = func() (*DeleteLiveChannelResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -10440,32 +10463,28 @@ func (client *Client) DeleteLiveChannel(request *DeleteLiveChannelRequest, runti
 			request_.Method = "DELETE"
 			request_.Pathname = "/" + tea.StringValue(request.ChannelName) + "?live"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -10490,7 +10509,7 @@ func (client *Client) DeleteLiveChannel(request *DeleteLiveChannelRequest, runti
 	return _resp, _err
 }
 
-func (client *Client) GetBucketLocation(request *GetBucketLocationRequest, runtime *RuntimeObject) (_result *GetBucketLocationResponse, _err error) {
+func (client *Client) GetBucketLocation(request *GetBucketLocationRequest, runtime *ossutil.RuntimeOptions) (_result *GetBucketLocationResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -10501,26 +10520,24 @@ func (client *Client) GetBucketLocation(request *GetBucketLocationRequest, runti
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &GetBucketLocationResponse{}
@@ -10534,7 +10551,17 @@ func (client *Client) GetBucketLocation(request *GetBucketLocationRequest, runti
 
 		_resp, _err = func() (*GetBucketLocationResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -10543,32 +10570,28 @@ func (client *Client) GetBucketLocation(request *GetBucketLocationRequest, runti
 			request_.Method = "GET"
 			request_.Pathname = "/?location"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -10581,12 +10604,12 @@ func (client *Client) GetBucketLocation(request *GetBucketLocationRequest, runti
 				return nil, _err
 			}
 
-			bodyStr, _err = client.ReadAsString(response_)
+			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
 				return nil, _err
 			}
 
-			respMap = client.ParseXml(bodyStr, new(GetBucketLocationResponse))
+			respMap = xml.ParseXml(bodyStr, new(GetBucketLocationResponse))
 			_result = &GetBucketLocationResponse{}
 			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"LocationConstraint": respMap["LocationConstraint"],
@@ -10601,7 +10624,7 @@ func (client *Client) GetBucketLocation(request *GetBucketLocationRequest, runti
 	return _resp, _err
 }
 
-func (client *Client) ListLiveChannel(request *ListLiveChannelRequest, runtime *RuntimeObject) (_result *ListLiveChannelResponse, _err error) {
+func (client *Client) ListLiveChannel(request *ListLiveChannelRequest, runtime *ossutil.RuntimeOptions) (_result *ListLiveChannelResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -10612,26 +10635,24 @@ func (client *Client) ListLiveChannel(request *ListLiveChannelRequest, runtime *
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &ListLiveChannelResponse{}
@@ -10645,7 +10666,17 @@ func (client *Client) ListLiveChannel(request *ListLiveChannelRequest, runtime *
 
 		_resp, _err = func() (*ListLiveChannelResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -10654,33 +10685,29 @@ func (client *Client) ListLiveChannel(request *ListLiveChannelRequest, runtime *
 			request_.Method = "GET"
 			request_.Pathname = "/?live"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Query = util.StringifyMapValue(tea.ToMap(request.Filter))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -10693,12 +10720,12 @@ func (client *Client) ListLiveChannel(request *ListLiveChannelRequest, runtime *
 				return nil, _err
 			}
 
-			bodyStr, _err = client.ReadAsString(response_)
+			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
 				return nil, _err
 			}
 
-			respMap = client.ParseXml(bodyStr, new(ListLiveChannelResponse))
+			respMap = xml.ParseXml(bodyStr, new(ListLiveChannelResponse))
 			_result = &ListLiveChannelResponse{}
 			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"ListLiveChannelResult": respMap["ListLiveChannelResult"],
@@ -10713,7 +10740,7 @@ func (client *Client) ListLiveChannel(request *ListLiveChannelRequest, runtime *
 	return _resp, _err
 }
 
-func (client *Client) GetObjectMeta(request *GetObjectMetaRequest, runtime *RuntimeObject) (_result *GetObjectMetaResponse, _err error) {
+func (client *Client) GetObjectMeta(request *GetObjectMetaRequest, runtime *ossutil.RuntimeOptions) (_result *GetObjectMetaResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -10724,26 +10751,24 @@ func (client *Client) GetObjectMeta(request *GetObjectMetaRequest, runtime *Runt
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &GetObjectMetaResponse{}
@@ -10757,7 +10782,17 @@ func (client *Client) GetObjectMeta(request *GetObjectMetaRequest, runtime *Runt
 
 		_resp, _err = func() (*GetObjectMetaResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -10766,32 +10801,28 @@ func (client *Client) GetObjectMeta(request *GetObjectMetaRequest, runtime *Runt
 			request_.Method = "HEAD"
 			request_.Pathname = "/" + tea.StringValue(request.ObjectName) + "?objectMeta"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -10816,7 +10847,7 @@ func (client *Client) GetObjectMeta(request *GetObjectMetaRequest, runtime *Runt
 	return _resp, _err
 }
 
-func (client *Client) GetBucketAcl(request *GetBucketAclRequest, runtime *RuntimeObject) (_result *GetBucketAclResponse, _err error) {
+func (client *Client) GetBucketAcl(request *GetBucketAclRequest, runtime *ossutil.RuntimeOptions) (_result *GetBucketAclResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -10827,26 +10858,24 @@ func (client *Client) GetBucketAcl(request *GetBucketAclRequest, runtime *Runtim
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &GetBucketAclResponse{}
@@ -10860,7 +10889,17 @@ func (client *Client) GetBucketAcl(request *GetBucketAclRequest, runtime *Runtim
 
 		_resp, _err = func() (*GetBucketAclResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -10869,32 +10908,28 @@ func (client *Client) GetBucketAcl(request *GetBucketAclRequest, runtime *Runtim
 			request_.Method = "GET"
 			request_.Pathname = "/?acl"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -10907,12 +10942,12 @@ func (client *Client) GetBucketAcl(request *GetBucketAclRequest, runtime *Runtim
 				return nil, _err
 			}
 
-			bodyStr, _err = client.ReadAsString(response_)
+			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
 				return nil, _err
 			}
 
-			respMap = client.ParseXml(bodyStr, new(GetBucketAclResponse))
+			respMap = xml.ParseXml(bodyStr, new(GetBucketAclResponse))
 			_result = &GetBucketAclResponse{}
 			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"AccessControlPolicy": respMap["AccessControlPolicy"],
@@ -10927,7 +10962,7 @@ func (client *Client) GetBucketAcl(request *GetBucketAclRequest, runtime *Runtim
 	return _resp, _err
 }
 
-func (client *Client) ListParts(request *ListPartsRequest, runtime *RuntimeObject) (_result *ListPartsResponse, _err error) {
+func (client *Client) ListParts(request *ListPartsRequest, runtime *ossutil.RuntimeOptions) (_result *ListPartsResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -10938,26 +10973,24 @@ func (client *Client) ListParts(request *ListPartsRequest, runtime *RuntimeObjec
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &ListPartsResponse{}
@@ -10971,7 +11004,17 @@ func (client *Client) ListParts(request *ListPartsRequest, runtime *RuntimeObjec
 
 		_resp, _err = func() (*ListPartsResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -10980,33 +11023,29 @@ func (client *Client) ListParts(request *ListPartsRequest, runtime *RuntimeObjec
 			request_.Method = "GET"
 			request_.Pathname = "/" + tea.StringValue(request.ObjectName)
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Query = util.StringifyMapValue(tea.ToMap(request.Filter))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -11019,12 +11058,12 @@ func (client *Client) ListParts(request *ListPartsRequest, runtime *RuntimeObjec
 				return nil, _err
 			}
 
-			bodyStr, _err = client.ReadAsString(response_)
+			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
 				return nil, _err
 			}
 
-			respMap = client.ParseXml(bodyStr, new(ListPartsResponse))
+			respMap = xml.ParseXml(bodyStr, new(ListPartsResponse))
 			_result = &ListPartsResponse{}
 			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"ListPartsResult": respMap["ListPartsResult"],
@@ -11039,7 +11078,7 @@ func (client *Client) ListParts(request *ListPartsRequest, runtime *RuntimeObjec
 	return _resp, _err
 }
 
-func (client *Client) GetLiveChannelHistory(request *GetLiveChannelHistoryRequest, runtime *RuntimeObject) (_result *GetLiveChannelHistoryResponse, _err error) {
+func (client *Client) GetLiveChannelHistory(request *GetLiveChannelHistoryRequest, runtime *ossutil.RuntimeOptions) (_result *GetLiveChannelHistoryResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -11050,26 +11089,24 @@ func (client *Client) GetLiveChannelHistory(request *GetLiveChannelHistoryReques
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &GetLiveChannelHistoryResponse{}
@@ -11083,7 +11120,17 @@ func (client *Client) GetLiveChannelHistory(request *GetLiveChannelHistoryReques
 
 		_resp, _err = func() (*GetLiveChannelHistoryResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -11092,33 +11139,29 @@ func (client *Client) GetLiveChannelHistory(request *GetLiveChannelHistoryReques
 			request_.Method = "GET"
 			request_.Pathname = "/" + tea.StringValue(request.ChannelName) + "?live"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Query = util.StringifyMapValue(tea.ToMap(request.Filter))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -11131,12 +11174,12 @@ func (client *Client) GetLiveChannelHistory(request *GetLiveChannelHistoryReques
 				return nil, _err
 			}
 
-			bodyStr, _err = client.ReadAsString(response_)
+			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
 				return nil, _err
 			}
 
-			respMap = client.ParseXml(bodyStr, new(GetLiveChannelHistoryResponse))
+			respMap = xml.ParseXml(bodyStr, new(GetLiveChannelHistoryResponse))
 			_result = &GetLiveChannelHistoryResponse{}
 			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"LiveChannelHistory": respMap["LiveChannelHistory"],
@@ -11151,7 +11194,7 @@ func (client *Client) GetLiveChannelHistory(request *GetLiveChannelHistoryReques
 	return _resp, _err
 }
 
-func (client *Client) GetBucket(request *GetBucketRequest, runtime *RuntimeObject) (_result *GetBucketResponse, _err error) {
+func (client *Client) GetBucket(request *GetBucketRequest, runtime *ossutil.RuntimeOptions) (_result *GetBucketResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -11162,26 +11205,24 @@ func (client *Client) GetBucket(request *GetBucketRequest, runtime *RuntimeObjec
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &GetBucketResponse{}
@@ -11195,7 +11236,17 @@ func (client *Client) GetBucket(request *GetBucketRequest, runtime *RuntimeObjec
 
 		_resp, _err = func() (*GetBucketResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -11204,33 +11255,29 @@ func (client *Client) GetBucket(request *GetBucketRequest, runtime *RuntimeObjec
 			request_.Method = "GET"
 			request_.Pathname = "/"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Query = util.StringifyMapValue(tea.ToMap(request.Filter))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -11243,12 +11290,12 @@ func (client *Client) GetBucket(request *GetBucketRequest, runtime *RuntimeObjec
 				return nil, _err
 			}
 
-			bodyStr, _err = client.ReadAsString(response_)
+			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
 				return nil, _err
 			}
 
-			respMap = client.ParseXml(bodyStr, new(GetBucketResponse))
+			respMap = xml.ParseXml(bodyStr, new(GetBucketResponse))
 			_result = &GetBucketResponse{}
 			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"ListBucketResult": respMap["ListBucketResult"],
@@ -11263,7 +11310,7 @@ func (client *Client) GetBucket(request *GetBucketRequest, runtime *RuntimeObjec
 	return _resp, _err
 }
 
-func (client *Client) GetLiveChannelInfo(request *GetLiveChannelInfoRequest, runtime *RuntimeObject) (_result *GetLiveChannelInfoResponse, _err error) {
+func (client *Client) GetLiveChannelInfo(request *GetLiveChannelInfoRequest, runtime *ossutil.RuntimeOptions) (_result *GetLiveChannelInfoResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -11274,26 +11321,24 @@ func (client *Client) GetLiveChannelInfo(request *GetLiveChannelInfoRequest, run
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &GetLiveChannelInfoResponse{}
@@ -11307,7 +11352,17 @@ func (client *Client) GetLiveChannelInfo(request *GetLiveChannelInfoRequest, run
 
 		_resp, _err = func() (*GetLiveChannelInfoResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -11316,32 +11371,28 @@ func (client *Client) GetLiveChannelInfo(request *GetLiveChannelInfoRequest, run
 			request_.Method = "GET"
 			request_.Pathname = "/" + tea.StringValue(request.ChannelName) + "?live"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -11354,12 +11405,12 @@ func (client *Client) GetLiveChannelInfo(request *GetLiveChannelInfoRequest, run
 				return nil, _err
 			}
 
-			bodyStr, _err = client.ReadAsString(response_)
+			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
 				return nil, _err
 			}
 
-			respMap = client.ParseXml(bodyStr, new(GetLiveChannelInfoResponse))
+			respMap = xml.ParseXml(bodyStr, new(GetLiveChannelInfoResponse))
 			_result = &GetLiveChannelInfoResponse{}
 			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"LiveChannelConfiguration": respMap["LiveChannelConfiguration"],
@@ -11374,7 +11425,7 @@ func (client *Client) GetLiveChannelInfo(request *GetLiveChannelInfoRequest, run
 	return _resp, _err
 }
 
-func (client *Client) GetLiveChannelStat(request *GetLiveChannelStatRequest, runtime *RuntimeObject) (_result *GetLiveChannelStatResponse, _err error) {
+func (client *Client) GetLiveChannelStat(request *GetLiveChannelStatRequest, runtime *ossutil.RuntimeOptions) (_result *GetLiveChannelStatResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -11385,26 +11436,24 @@ func (client *Client) GetLiveChannelStat(request *GetLiveChannelStatRequest, run
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &GetLiveChannelStatResponse{}
@@ -11418,7 +11467,17 @@ func (client *Client) GetLiveChannelStat(request *GetLiveChannelStatRequest, run
 
 		_resp, _err = func() (*GetLiveChannelStatResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -11427,33 +11486,29 @@ func (client *Client) GetLiveChannelStat(request *GetLiveChannelStatRequest, run
 			request_.Method = "GET"
 			request_.Pathname = "/" + tea.StringValue(request.ChannelName) + "?live"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Query = util.StringifyMapValue(tea.ToMap(request.Filter))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -11466,12 +11521,12 @@ func (client *Client) GetLiveChannelStat(request *GetLiveChannelStatRequest, run
 				return nil, _err
 			}
 
-			bodyStr, _err = client.ReadAsString(response_)
+			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
 				return nil, _err
 			}
 
-			respMap = client.ParseXml(bodyStr, new(GetLiveChannelStatResponse))
+			respMap = xml.ParseXml(bodyStr, new(GetLiveChannelStatResponse))
 			_result = &GetLiveChannelStatResponse{}
 			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"LiveChannelStat": respMap["LiveChannelStat"],
@@ -11486,7 +11541,7 @@ func (client *Client) GetLiveChannelStat(request *GetLiveChannelStatRequest, run
 	return _resp, _err
 }
 
-func (client *Client) DeleteObject(request *DeleteObjectRequest, runtime *RuntimeObject) (_result *DeleteObjectResponse, _err error) {
+func (client *Client) DeleteObject(request *DeleteObjectRequest, runtime *ossutil.RuntimeOptions) (_result *DeleteObjectResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -11497,26 +11552,24 @@ func (client *Client) DeleteObject(request *DeleteObjectRequest, runtime *Runtim
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &DeleteObjectResponse{}
@@ -11530,7 +11583,17 @@ func (client *Client) DeleteObject(request *DeleteObjectRequest, runtime *Runtim
 
 		_resp, _err = func() (*DeleteObjectResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -11539,32 +11602,28 @@ func (client *Client) DeleteObject(request *DeleteObjectRequest, runtime *Runtim
 			request_.Method = "DELETE"
 			request_.Pathname = "/" + tea.StringValue(request.ObjectName)
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -11589,7 +11648,7 @@ func (client *Client) DeleteObject(request *DeleteObjectRequest, runtime *Runtim
 	return _resp, _err
 }
 
-func (client *Client) AbortMultipartUpload(request *AbortMultipartUploadRequest, runtime *RuntimeObject) (_result *AbortMultipartUploadResponse, _err error) {
+func (client *Client) AbortMultipartUpload(request *AbortMultipartUploadRequest, runtime *ossutil.RuntimeOptions) (_result *AbortMultipartUploadResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -11600,26 +11659,24 @@ func (client *Client) AbortMultipartUpload(request *AbortMultipartUploadRequest,
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &AbortMultipartUploadResponse{}
@@ -11633,7 +11690,17 @@ func (client *Client) AbortMultipartUpload(request *AbortMultipartUploadRequest,
 
 		_resp, _err = func() (*AbortMultipartUploadResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -11642,33 +11709,29 @@ func (client *Client) AbortMultipartUpload(request *AbortMultipartUploadRequest,
 			request_.Method = "DELETE"
 			request_.Pathname = "/" + tea.StringValue(request.ObjectName)
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Query = util.StringifyMapValue(tea.ToMap(request.Filter))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -11693,7 +11756,7 @@ func (client *Client) AbortMultipartUpload(request *AbortMultipartUploadRequest,
 	return _resp, _err
 }
 
-func (client *Client) AppendObject(request *AppendObjectRequest, runtime *RuntimeObject) (_result *AppendObjectResponse, _err error) {
+func (client *Client) AppendObject(request *AppendObjectRequest, runtime *ossutil.RuntimeOptions) (_result *AppendObjectResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -11704,26 +11767,24 @@ func (client *Client) AppendObject(request *AppendObjectRequest, runtime *Runtim
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &AppendObjectResponse{}
@@ -11738,7 +11799,17 @@ func (client *Client) AppendObject(request *AppendObjectRequest, runtime *Runtim
 		_resp, _err = func() (*AppendObjectResponse, error) {
 			request_ := tea.NewRequest()
 			ctx := make(map[string]string)
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -11747,41 +11818,37 @@ func (client *Client) AppendObject(request *AppendObjectRequest, runtime *Runtim
 			request_.Method = "POST"
 			request_.Pathname = "/" + tea.StringValue(request.ObjectName) + "?append"
 			request_.Headers = tea.Merge(map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
-			}, client.ToHeader(tea.ToMap(request.Header)),
-				client.ParseMeta(request.UserMeta, "x-oss-meta-"))
-			if !client.Empty(token) {
+			}, util.StringifyMapValue(tea.ToMap(request.Header)),
+				ossutil.ParseMeta(request.UserMeta, "x-oss-meta-"))
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
-			request_.Body = client.Inject(request.Body, ctx)
-			if client.NotNull(tea.ToMap(request.Header)) && !client.Empty(tea.StringValue(request.Header.ContentType)) {
+			request_.Query = util.StringifyMapValue(tea.ToMap(request.Filter))
+			request_.Body = ossutil.Inject(request.Body, ctx)
+			if util.IsUnset(tea.ToMap(request.Header)) && !util.Empty(tea.StringValue(request.Header.ContentType)) {
 				request_.Headers["content-type"] = tea.StringValue(request.Header.ContentType)
 			} else {
-				request_.Headers["content-type"] = client.GetContentType(tea.StringValue(request.ObjectName))
+				request_.Headers["content-type"] = ossutil.GetContentType(tea.StringValue(request.ObjectName))
 			}
 
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -11794,7 +11861,7 @@ func (client *Client) AppendObject(request *AppendObjectRequest, runtime *Runtim
 				return nil, _err
 			}
 
-			if client.IsEnableCrc && !client.Equal(ctx["crc"], response_.Headers["x-oss-hash-crc64ecma"]) {
+			if client.IsEnableCrc && !util.EqualString(ctx["crc"], response_.Headers["x-oss-hash-crc64ecma"]) {
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code": "CrcNotMatched",
 					"data": map[string]string{
@@ -11805,7 +11872,7 @@ func (client *Client) AppendObject(request *AppendObjectRequest, runtime *Runtim
 				return nil, _err
 			}
 
-			if client.IsEnableMD5 && !client.Equal(ctx["md5"], response_.Headers["content-md5"]) {
+			if client.IsEnableMD5 && !util.EqualString(ctx["md5"], response_.Headers["content-md5"]) {
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code": "MD5NotMatched",
 					"data": map[string]string{
@@ -11828,7 +11895,7 @@ func (client *Client) AppendObject(request *AppendObjectRequest, runtime *Runtim
 	return _resp, _err
 }
 
-func (client *Client) UploadPartCopy(request *UploadPartCopyRequest, runtime *RuntimeObject) (_result *UploadPartCopyResponse, _err error) {
+func (client *Client) UploadPartCopy(request *UploadPartCopyRequest, runtime *ossutil.RuntimeOptions) (_result *UploadPartCopyResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -11839,26 +11906,24 @@ func (client *Client) UploadPartCopy(request *UploadPartCopyRequest, runtime *Ru
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &UploadPartCopyResponse{}
@@ -11872,7 +11937,17 @@ func (client *Client) UploadPartCopy(request *UploadPartCopyRequest, runtime *Ru
 
 		_resp, _err = func() (*UploadPartCopyResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -11881,33 +11956,29 @@ func (client *Client) UploadPartCopy(request *UploadPartCopyRequest, runtime *Ru
 			request_.Method = "PUT"
 			request_.Pathname = "/" + tea.StringValue(request.ObjectName)
 			request_.Headers = tea.Merge(map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
-			}, client.ToHeader(tea.ToMap(request.Header)))
-			if !client.Empty(token) {
+			}, util.StringifyMapValue(tea.ToMap(request.Header)))
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Query = util.StringifyMapValue(tea.ToMap(request.Filter))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -11920,12 +11991,12 @@ func (client *Client) UploadPartCopy(request *UploadPartCopyRequest, runtime *Ru
 				return nil, _err
 			}
 
-			bodyStr, _err = client.ReadAsString(response_)
+			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
 				return nil, _err
 			}
 
-			respMap = client.ParseXml(bodyStr, new(UploadPartCopyResponse))
+			respMap = xml.ParseXml(bodyStr, new(UploadPartCopyResponse))
 			_result = &UploadPartCopyResponse{}
 			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"CopyPartResult": respMap["CopyPartResult"],
@@ -11940,7 +12011,7 @@ func (client *Client) UploadPartCopy(request *UploadPartCopyRequest, runtime *Ru
 	return _resp, _err
 }
 
-func (client *Client) GetVodPlaylist(request *GetVodPlaylistRequest, runtime *RuntimeObject) (_result *GetVodPlaylistResponse, _err error) {
+func (client *Client) GetVodPlaylist(request *GetVodPlaylistRequest, runtime *ossutil.RuntimeOptions) (_result *GetVodPlaylistResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -11951,26 +12022,24 @@ func (client *Client) GetVodPlaylist(request *GetVodPlaylistRequest, runtime *Ru
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &GetVodPlaylistResponse{}
@@ -11984,7 +12053,17 @@ func (client *Client) GetVodPlaylist(request *GetVodPlaylistRequest, runtime *Ru
 
 		_resp, _err = func() (*GetVodPlaylistResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -11993,33 +12072,29 @@ func (client *Client) GetVodPlaylist(request *GetVodPlaylistRequest, runtime *Ru
 			request_.Method = "GET"
 			request_.Pathname = "/" + tea.StringValue(request.ChannelName) + "?vod"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Query = util.StringifyMapValue(tea.ToMap(request.Filter))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -12044,7 +12119,7 @@ func (client *Client) GetVodPlaylist(request *GetVodPlaylistRequest, runtime *Ru
 	return _resp, _err
 }
 
-func (client *Client) DeleteBucketCORS(request *DeleteBucketCORSRequest, runtime *RuntimeObject) (_result *DeleteBucketCORSResponse, _err error) {
+func (client *Client) DeleteBucketCORS(request *DeleteBucketCORSRequest, runtime *ossutil.RuntimeOptions) (_result *DeleteBucketCORSResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -12055,26 +12130,24 @@ func (client *Client) DeleteBucketCORS(request *DeleteBucketCORSRequest, runtime
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &DeleteBucketCORSResponse{}
@@ -12088,7 +12161,17 @@ func (client *Client) DeleteBucketCORS(request *DeleteBucketCORSRequest, runtime
 
 		_resp, _err = func() (*DeleteBucketCORSResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -12097,32 +12180,28 @@ func (client *Client) DeleteBucketCORS(request *DeleteBucketCORSRequest, runtime
 			request_.Method = "DELETE"
 			request_.Pathname = "/?cors"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -12147,7 +12226,7 @@ func (client *Client) DeleteBucketCORS(request *DeleteBucketCORSRequest, runtime
 	return _resp, _err
 }
 
-func (client *Client) GetObject(request *GetObjectRequest, runtime *RuntimeObject) (_result *GetObjectResponse, _err error) {
+func (client *Client) GetObject(request *GetObjectRequest, runtime *ossutil.RuntimeOptions) (_result *GetObjectResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -12158,26 +12237,24 @@ func (client *Client) GetObject(request *GetObjectRequest, runtime *RuntimeObjec
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &GetObjectResponse{}
@@ -12191,7 +12268,17 @@ func (client *Client) GetObject(request *GetObjectRequest, runtime *RuntimeObjec
 
 		_resp, _err = func() (*GetObjectResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -12200,32 +12287,28 @@ func (client *Client) GetObject(request *GetObjectRequest, runtime *RuntimeObjec
 			request_.Method = "GET"
 			request_.Pathname = "/" + tea.StringValue(request.ObjectName)
 			request_.Headers = tea.Merge(map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
-			}, client.ToHeader(tea.ToMap(request.Header)))
-			if !client.Empty(token) {
+			}, util.StringifyMapValue(tea.ToMap(request.Header)))
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -12239,7 +12322,7 @@ func (client *Client) GetObject(request *GetObjectRequest, runtime *RuntimeObjec
 			}
 
 			_result = &GetObjectResponse{}
-			_result.Body = client.ReadAsStream(response_)
+			_result.Body = response_.Body
 			_err = tea.Convert(response_.Headers, &_result)
 			return _result, _err
 		}()
@@ -12251,7 +12334,7 @@ func (client *Client) GetObject(request *GetObjectRequest, runtime *RuntimeObjec
 	return _resp, _err
 }
 
-func (client *Client) UploadPart(request *UploadPartRequest, runtime *RuntimeObject) (_result *UploadPartResponse, _err error) {
+func (client *Client) UploadPart(request *UploadPartRequest, runtime *ossutil.RuntimeOptions) (_result *UploadPartResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -12262,26 +12345,24 @@ func (client *Client) UploadPart(request *UploadPartRequest, runtime *RuntimeObj
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &UploadPartResponse{}
@@ -12296,7 +12377,17 @@ func (client *Client) UploadPart(request *UploadPartRequest, runtime *RuntimeObj
 		_resp, _err = func() (*UploadPartResponse, error) {
 			request_ := tea.NewRequest()
 			ctx := make(map[string]string)
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -12305,34 +12396,30 @@ func (client *Client) UploadPart(request *UploadPartRequest, runtime *RuntimeObj
 			request_.Method = "PUT"
 			request_.Pathname = "/" + tea.StringValue(request.ObjectName)
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
-			request_.Body = client.Inject(request.Body, ctx)
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Query = util.StringifyMapValue(tea.ToMap(request.Filter))
+			request_.Body = ossutil.Inject(request.Body, ctx)
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -12345,7 +12432,7 @@ func (client *Client) UploadPart(request *UploadPartRequest, runtime *RuntimeObj
 				return nil, _err
 			}
 
-			if client.IsEnableCrc && !client.Equal(ctx["crc"], response_.Headers["x-oss-hash-crc64ecma"]) {
+			if client.IsEnableCrc && !util.EqualString(ctx["crc"], response_.Headers["x-oss-hash-crc64ecma"]) {
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code": "CrcNotMatched",
 					"data": map[string]string{
@@ -12356,7 +12443,7 @@ func (client *Client) UploadPart(request *UploadPartRequest, runtime *RuntimeObj
 				return nil, _err
 			}
 
-			if client.IsEnableMD5 && !client.Equal(ctx["md5"], response_.Headers["content-md5"]) {
+			if client.IsEnableMD5 && !util.EqualString(ctx["md5"], response_.Headers["content-md5"]) {
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code": "MD5NotMatched",
 					"data": map[string]string{
@@ -12379,7 +12466,7 @@ func (client *Client) UploadPart(request *UploadPartRequest, runtime *RuntimeObj
 	return _resp, _err
 }
 
-func (client *Client) GetBucketCORS(request *GetBucketCORSRequest, runtime *RuntimeObject) (_result *GetBucketCORSResponse, _err error) {
+func (client *Client) GetBucketCORS(request *GetBucketCORSRequest, runtime *ossutil.RuntimeOptions) (_result *GetBucketCORSResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -12390,26 +12477,24 @@ func (client *Client) GetBucketCORS(request *GetBucketCORSRequest, runtime *Runt
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &GetBucketCORSResponse{}
@@ -12423,7 +12508,17 @@ func (client *Client) GetBucketCORS(request *GetBucketCORSRequest, runtime *Runt
 
 		_resp, _err = func() (*GetBucketCORSResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -12432,32 +12527,28 @@ func (client *Client) GetBucketCORS(request *GetBucketCORSRequest, runtime *Runt
 			request_.Method = "GET"
 			request_.Pathname = "/?cors"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -12470,12 +12561,12 @@ func (client *Client) GetBucketCORS(request *GetBucketCORSRequest, runtime *Runt
 				return nil, _err
 			}
 
-			bodyStr, _err = client.ReadAsString(response_)
+			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
 				return nil, _err
 			}
 
-			respMap = client.ParseXml(bodyStr, new(GetBucketCORSResponse))
+			respMap = xml.ParseXml(bodyStr, new(GetBucketCORSResponse))
 			_result = &GetBucketCORSResponse{}
 			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"CORSConfiguration": respMap["CORSConfiguration"],
@@ -12490,7 +12581,7 @@ func (client *Client) GetBucketCORS(request *GetBucketCORSRequest, runtime *Runt
 	return _resp, _err
 }
 
-func (client *Client) CopyObject(request *CopyObjectRequest, runtime *RuntimeObject) (_result *CopyObjectResponse, _err error) {
+func (client *Client) CopyObject(request *CopyObjectRequest, runtime *ossutil.RuntimeOptions) (_result *CopyObjectResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -12501,26 +12592,24 @@ func (client *Client) CopyObject(request *CopyObjectRequest, runtime *RuntimeObj
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &CopyObjectResponse{}
@@ -12534,7 +12623,17 @@ func (client *Client) CopyObject(request *CopyObjectRequest, runtime *RuntimeObj
 
 		_resp, _err = func() (*CopyObjectResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -12543,33 +12642,29 @@ func (client *Client) CopyObject(request *CopyObjectRequest, runtime *RuntimeObj
 			request_.Method = "PUT"
 			request_.Pathname = "/" + tea.StringValue(request.DestObjectName)
 			request_.Headers = tea.Merge(map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
-			}, client.ToHeader(tea.ToMap(request.Header)))
-			if !client.Empty(token) {
+			}, util.StringifyMapValue(tea.ToMap(request.Header)))
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["x-oss-copy-source"] = client.Encode(request_.Headers["x-oss-copy-source"], "UrlEncode")
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["x-oss-copy-source"] = ossutil.Encode(request_.Headers["x-oss-copy-source"], "UrlEncode")
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -12582,12 +12677,12 @@ func (client *Client) CopyObject(request *CopyObjectRequest, runtime *RuntimeObj
 				return nil, _err
 			}
 
-			bodyStr, _err = client.ReadAsString(response_)
+			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
 				return nil, _err
 			}
 
-			respMap = client.ParseXml(bodyStr, new(CopyObjectResponse))
+			respMap = xml.ParseXml(bodyStr, new(CopyObjectResponse))
 			_result = &CopyObjectResponse{}
 			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"CopyObjectResult": respMap["CopyObjectResult"],
@@ -12602,7 +12697,7 @@ func (client *Client) CopyObject(request *CopyObjectRequest, runtime *RuntimeObj
 	return _resp, _err
 }
 
-func (client *Client) GetObjectTagging(request *GetObjectTaggingRequest, runtime *RuntimeObject) (_result *GetObjectTaggingResponse, _err error) {
+func (client *Client) GetObjectTagging(request *GetObjectTaggingRequest, runtime *ossutil.RuntimeOptions) (_result *GetObjectTaggingResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -12613,26 +12708,24 @@ func (client *Client) GetObjectTagging(request *GetObjectTaggingRequest, runtime
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &GetObjectTaggingResponse{}
@@ -12646,7 +12739,17 @@ func (client *Client) GetObjectTagging(request *GetObjectTaggingRequest, runtime
 
 		_resp, _err = func() (*GetObjectTaggingResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -12655,32 +12758,28 @@ func (client *Client) GetObjectTagging(request *GetObjectTaggingRequest, runtime
 			request_.Method = "GET"
 			request_.Pathname = "/" + tea.StringValue(request.ObjectName) + "?tagging"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -12693,12 +12792,12 @@ func (client *Client) GetObjectTagging(request *GetObjectTaggingRequest, runtime
 				return nil, _err
 			}
 
-			bodyStr, _err = client.ReadAsString(response_)
+			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
 				return nil, _err
 			}
 
-			respMap = client.ParseXml(bodyStr, new(GetObjectTaggingResponse))
+			respMap = xml.ParseXml(bodyStr, new(GetObjectTaggingResponse))
 			_result = &GetObjectTaggingResponse{}
 			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"Tagging": respMap["Tagging"],
@@ -12713,7 +12812,7 @@ func (client *Client) GetObjectTagging(request *GetObjectTaggingRequest, runtime
 	return _resp, _err
 }
 
-func (client *Client) DeleteBucketLifecycle(request *DeleteBucketLifecycleRequest, runtime *RuntimeObject) (_result *DeleteBucketLifecycleResponse, _err error) {
+func (client *Client) DeleteBucketLifecycle(request *DeleteBucketLifecycleRequest, runtime *ossutil.RuntimeOptions) (_result *DeleteBucketLifecycleResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -12724,26 +12823,24 @@ func (client *Client) DeleteBucketLifecycle(request *DeleteBucketLifecycleReques
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &DeleteBucketLifecycleResponse{}
@@ -12757,7 +12854,17 @@ func (client *Client) DeleteBucketLifecycle(request *DeleteBucketLifecycleReques
 
 		_resp, _err = func() (*DeleteBucketLifecycleResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -12766,32 +12873,28 @@ func (client *Client) DeleteBucketLifecycle(request *DeleteBucketLifecycleReques
 			request_.Method = "DELETE"
 			request_.Pathname = "/?lifecycle"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -12816,7 +12919,7 @@ func (client *Client) DeleteBucketLifecycle(request *DeleteBucketLifecycleReques
 	return _resp, _err
 }
 
-func (client *Client) DeleteBucketLogging(request *DeleteBucketLoggingRequest, runtime *RuntimeObject) (_result *DeleteBucketLoggingResponse, _err error) {
+func (client *Client) DeleteBucketLogging(request *DeleteBucketLoggingRequest, runtime *ossutil.RuntimeOptions) (_result *DeleteBucketLoggingResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -12827,26 +12930,24 @@ func (client *Client) DeleteBucketLogging(request *DeleteBucketLoggingRequest, r
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &DeleteBucketLoggingResponse{}
@@ -12860,7 +12961,17 @@ func (client *Client) DeleteBucketLogging(request *DeleteBucketLoggingRequest, r
 
 		_resp, _err = func() (*DeleteBucketLoggingResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -12869,32 +12980,28 @@ func (client *Client) DeleteBucketLogging(request *DeleteBucketLoggingRequest, r
 			request_.Method = "DELETE"
 			request_.Pathname = "/?logging"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -12919,7 +13026,7 @@ func (client *Client) DeleteBucketLogging(request *DeleteBucketLoggingRequest, r
 	return _resp, _err
 }
 
-func (client *Client) DeleteBucketWebsite(request *DeleteBucketWebsiteRequest, runtime *RuntimeObject) (_result *DeleteBucketWebsiteResponse, _err error) {
+func (client *Client) DeleteBucketWebsite(request *DeleteBucketWebsiteRequest, runtime *ossutil.RuntimeOptions) (_result *DeleteBucketWebsiteResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -12930,26 +13037,24 @@ func (client *Client) DeleteBucketWebsite(request *DeleteBucketWebsiteRequest, r
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &DeleteBucketWebsiteResponse{}
@@ -12963,7 +13068,17 @@ func (client *Client) DeleteBucketWebsite(request *DeleteBucketWebsiteRequest, r
 
 		_resp, _err = func() (*DeleteBucketWebsiteResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -12972,32 +13087,28 @@ func (client *Client) DeleteBucketWebsite(request *DeleteBucketWebsiteRequest, r
 			request_.Method = "DELETE"
 			request_.Pathname = "/?website"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -13022,7 +13133,7 @@ func (client *Client) DeleteBucketWebsite(request *DeleteBucketWebsiteRequest, r
 	return _resp, _err
 }
 
-func (client *Client) GetSymlink(request *GetSymlinkRequest, runtime *RuntimeObject) (_result *GetSymlinkResponse, _err error) {
+func (client *Client) GetSymlink(request *GetSymlinkRequest, runtime *ossutil.RuntimeOptions) (_result *GetSymlinkResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -13033,26 +13144,24 @@ func (client *Client) GetSymlink(request *GetSymlinkRequest, runtime *RuntimeObj
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &GetSymlinkResponse{}
@@ -13066,7 +13175,17 @@ func (client *Client) GetSymlink(request *GetSymlinkRequest, runtime *RuntimeObj
 
 		_resp, _err = func() (*GetSymlinkResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -13075,32 +13194,28 @@ func (client *Client) GetSymlink(request *GetSymlinkRequest, runtime *RuntimeObj
 			request_.Method = "GET"
 			request_.Pathname = "/" + tea.StringValue(request.ObjectName) + "?symlink"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -13125,7 +13240,7 @@ func (client *Client) GetSymlink(request *GetSymlinkRequest, runtime *RuntimeObj
 	return _resp, _err
 }
 
-func (client *Client) GetBucketLifecycle(request *GetBucketLifecycleRequest, runtime *RuntimeObject) (_result *GetBucketLifecycleResponse, _err error) {
+func (client *Client) GetBucketLifecycle(request *GetBucketLifecycleRequest, runtime *ossutil.RuntimeOptions) (_result *GetBucketLifecycleResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -13136,26 +13251,24 @@ func (client *Client) GetBucketLifecycle(request *GetBucketLifecycleRequest, run
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &GetBucketLifecycleResponse{}
@@ -13169,7 +13282,17 @@ func (client *Client) GetBucketLifecycle(request *GetBucketLifecycleRequest, run
 
 		_resp, _err = func() (*GetBucketLifecycleResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -13178,32 +13301,28 @@ func (client *Client) GetBucketLifecycle(request *GetBucketLifecycleRequest, run
 			request_.Method = "GET"
 			request_.Pathname = "/?lifecycle"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -13216,12 +13335,12 @@ func (client *Client) GetBucketLifecycle(request *GetBucketLifecycleRequest, run
 				return nil, _err
 			}
 
-			bodyStr, _err = client.ReadAsString(response_)
+			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
 				return nil, _err
 			}
 
-			respMap = client.ParseXml(bodyStr, new(GetBucketLifecycleResponse))
+			respMap = xml.ParseXml(bodyStr, new(GetBucketLifecycleResponse))
 			_result = &GetBucketLifecycleResponse{}
 			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"LifecycleConfiguration": respMap["LifecycleConfiguration"],
@@ -13236,7 +13355,7 @@ func (client *Client) GetBucketLifecycle(request *GetBucketLifecycleRequest, run
 	return _resp, _err
 }
 
-func (client *Client) PutSymlink(request *PutSymlinkRequest, runtime *RuntimeObject) (_result *PutSymlinkResponse, _err error) {
+func (client *Client) PutSymlink(request *PutSymlinkRequest, runtime *ossutil.RuntimeOptions) (_result *PutSymlinkResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -13247,26 +13366,24 @@ func (client *Client) PutSymlink(request *PutSymlinkRequest, runtime *RuntimeObj
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &PutSymlinkResponse{}
@@ -13280,7 +13397,17 @@ func (client *Client) PutSymlink(request *PutSymlinkRequest, runtime *RuntimeObj
 
 		_resp, _err = func() (*PutSymlinkResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -13289,32 +13416,28 @@ func (client *Client) PutSymlink(request *PutSymlinkRequest, runtime *RuntimeObj
 			request_.Method = "PUT"
 			request_.Pathname = "/" + tea.StringValue(request.ObjectName) + "?symlink"
 			request_.Headers = tea.Merge(map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
-			}, client.ToHeader(tea.ToMap(request.Header)))
-			if !client.Empty(token) {
+			}, util.StringifyMapValue(tea.ToMap(request.Header)))
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -13339,7 +13462,7 @@ func (client *Client) PutSymlink(request *PutSymlinkRequest, runtime *RuntimeObj
 	return _resp, _err
 }
 
-func (client *Client) GetBucketReferer(request *GetBucketRefererRequest, runtime *RuntimeObject) (_result *GetBucketRefererResponse, _err error) {
+func (client *Client) GetBucketReferer(request *GetBucketRefererRequest, runtime *ossutil.RuntimeOptions) (_result *GetBucketRefererResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -13350,26 +13473,24 @@ func (client *Client) GetBucketReferer(request *GetBucketRefererRequest, runtime
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &GetBucketRefererResponse{}
@@ -13383,7 +13504,17 @@ func (client *Client) GetBucketReferer(request *GetBucketRefererRequest, runtime
 
 		_resp, _err = func() (*GetBucketRefererResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -13392,32 +13523,28 @@ func (client *Client) GetBucketReferer(request *GetBucketRefererRequest, runtime
 			request_.Method = "GET"
 			request_.Pathname = "/?referer"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -13430,12 +13557,12 @@ func (client *Client) GetBucketReferer(request *GetBucketRefererRequest, runtime
 				return nil, _err
 			}
 
-			bodyStr, _err = client.ReadAsString(response_)
+			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
 				return nil, _err
 			}
 
-			respMap = client.ParseXml(bodyStr, new(GetBucketRefererResponse))
+			respMap = xml.ParseXml(bodyStr, new(GetBucketRefererResponse))
 			_result = &GetBucketRefererResponse{}
 			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"RefererConfiguration": respMap["RefererConfiguration"],
@@ -13450,7 +13577,7 @@ func (client *Client) GetBucketReferer(request *GetBucketRefererRequest, runtime
 	return _resp, _err
 }
 
-func (client *Client) Callback(request *CallbackRequest, runtime *RuntimeObject) (_result *CallbackResponse, _err error) {
+func (client *Client) Callback(request *CallbackRequest, runtime *ossutil.RuntimeOptions) (_result *CallbackResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -13461,26 +13588,24 @@ func (client *Client) Callback(request *CallbackRequest, runtime *RuntimeObject)
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &CallbackResponse{}
@@ -13494,7 +13619,17 @@ func (client *Client) Callback(request *CallbackRequest, runtime *RuntimeObject)
 
 		_resp, _err = func() (*CallbackResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -13503,32 +13638,28 @@ func (client *Client) Callback(request *CallbackRequest, runtime *RuntimeObject)
 			request_.Method = "GET"
 			request_.Pathname = "/"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -13553,7 +13684,7 @@ func (client *Client) Callback(request *CallbackRequest, runtime *RuntimeObject)
 	return _resp, _err
 }
 
-func (client *Client) GetBucketLogging(request *GetBucketLoggingRequest, runtime *RuntimeObject) (_result *GetBucketLoggingResponse, _err error) {
+func (client *Client) GetBucketLogging(request *GetBucketLoggingRequest, runtime *ossutil.RuntimeOptions) (_result *GetBucketLoggingResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -13564,26 +13695,24 @@ func (client *Client) GetBucketLogging(request *GetBucketLoggingRequest, runtime
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &GetBucketLoggingResponse{}
@@ -13597,7 +13726,17 @@ func (client *Client) GetBucketLogging(request *GetBucketLoggingRequest, runtime
 
 		_resp, _err = func() (*GetBucketLoggingResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -13606,32 +13745,28 @@ func (client *Client) GetBucketLogging(request *GetBucketLoggingRequest, runtime
 			request_.Method = "GET"
 			request_.Pathname = "/?logging"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -13644,12 +13779,12 @@ func (client *Client) GetBucketLogging(request *GetBucketLoggingRequest, runtime
 				return nil, _err
 			}
 
-			bodyStr, _err = client.ReadAsString(response_)
+			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
 				return nil, _err
 			}
 
-			respMap = client.ParseXml(bodyStr, new(GetBucketLoggingResponse))
+			respMap = xml.ParseXml(bodyStr, new(GetBucketLoggingResponse))
 			_result = &GetBucketLoggingResponse{}
 			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"BucketLoggingStatus": respMap["BucketLoggingStatus"],
@@ -13664,7 +13799,7 @@ func (client *Client) GetBucketLogging(request *GetBucketLoggingRequest, runtime
 	return _resp, _err
 }
 
-func (client *Client) PutObjectAcl(request *PutObjectAclRequest, runtime *RuntimeObject) (_result *PutObjectAclResponse, _err error) {
+func (client *Client) PutObjectAcl(request *PutObjectAclRequest, runtime *ossutil.RuntimeOptions) (_result *PutObjectAclResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -13675,26 +13810,24 @@ func (client *Client) PutObjectAcl(request *PutObjectAclRequest, runtime *Runtim
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &PutObjectAclResponse{}
@@ -13708,7 +13841,17 @@ func (client *Client) PutObjectAcl(request *PutObjectAclRequest, runtime *Runtim
 
 		_resp, _err = func() (*PutObjectAclResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -13717,32 +13860,28 @@ func (client *Client) PutObjectAcl(request *PutObjectAclRequest, runtime *Runtim
 			request_.Method = "PUT"
 			request_.Pathname = "/" + tea.StringValue(request.ObjectName) + "?acl"
 			request_.Headers = tea.Merge(map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
-			}, client.ToHeader(tea.ToMap(request.Header)))
-			if !client.Empty(token) {
+			}, util.StringifyMapValue(tea.ToMap(request.Header)))
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -13767,7 +13906,7 @@ func (client *Client) PutObjectAcl(request *PutObjectAclRequest, runtime *Runtim
 	return _resp, _err
 }
 
-func (client *Client) GetBucketInfo(request *GetBucketInfoRequest, runtime *RuntimeObject) (_result *GetBucketInfoResponse, _err error) {
+func (client *Client) GetBucketInfo(request *GetBucketInfoRequest, runtime *ossutil.RuntimeOptions) (_result *GetBucketInfoResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -13778,26 +13917,24 @@ func (client *Client) GetBucketInfo(request *GetBucketInfoRequest, runtime *Runt
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &GetBucketInfoResponse{}
@@ -13811,7 +13948,17 @@ func (client *Client) GetBucketInfo(request *GetBucketInfoRequest, runtime *Runt
 
 		_resp, _err = func() (*GetBucketInfoResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -13820,32 +13967,28 @@ func (client *Client) GetBucketInfo(request *GetBucketInfoRequest, runtime *Runt
 			request_.Method = "GET"
 			request_.Pathname = "/?bucketInfo"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -13858,12 +14001,12 @@ func (client *Client) GetBucketInfo(request *GetBucketInfoRequest, runtime *Runt
 				return nil, _err
 			}
 
-			bodyStr, _err = client.ReadAsString(response_)
+			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
 				return nil, _err
 			}
 
-			respMap = client.ParseXml(bodyStr, new(GetBucketInfoResponse))
+			respMap = xml.ParseXml(bodyStr, new(GetBucketInfoResponse))
 			_result = &GetBucketInfoResponse{}
 			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"BucketInfo": respMap["BucketInfo"],
@@ -13878,7 +14021,7 @@ func (client *Client) GetBucketInfo(request *GetBucketInfoRequest, runtime *Runt
 	return _resp, _err
 }
 
-func (client *Client) PutLiveChannelStatus(request *PutLiveChannelStatusRequest, runtime *RuntimeObject) (_result *PutLiveChannelStatusResponse, _err error) {
+func (client *Client) PutLiveChannelStatus(request *PutLiveChannelStatusRequest, runtime *ossutil.RuntimeOptions) (_result *PutLiveChannelStatusResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -13889,26 +14032,24 @@ func (client *Client) PutLiveChannelStatus(request *PutLiveChannelStatusRequest,
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &PutLiveChannelStatusResponse{}
@@ -13922,7 +14063,17 @@ func (client *Client) PutLiveChannelStatus(request *PutLiveChannelStatusRequest,
 
 		_resp, _err = func() (*PutLiveChannelStatusResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -13931,33 +14082,29 @@ func (client *Client) PutLiveChannelStatus(request *PutLiveChannelStatusRequest,
 			request_.Method = "PUT"
 			request_.Pathname = "/" + tea.StringValue(request.ChannelName) + "?live"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Query = util.StringifyMapValue(tea.ToMap(request.Filter))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -13982,7 +14129,7 @@ func (client *Client) PutLiveChannelStatus(request *PutLiveChannelStatusRequest,
 	return _resp, _err
 }
 
-func (client *Client) InitiateMultipartUpload(request *InitiateMultipartUploadRequest, runtime *RuntimeObject) (_result *InitiateMultipartUploadResponse, _err error) {
+func (client *Client) InitiateMultipartUpload(request *InitiateMultipartUploadRequest, runtime *ossutil.RuntimeOptions) (_result *InitiateMultipartUploadResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -13993,26 +14140,24 @@ func (client *Client) InitiateMultipartUpload(request *InitiateMultipartUploadRe
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &InitiateMultipartUploadResponse{}
@@ -14026,7 +14171,17 @@ func (client *Client) InitiateMultipartUpload(request *InitiateMultipartUploadRe
 
 		_resp, _err = func() (*InitiateMultipartUploadResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -14035,39 +14190,35 @@ func (client *Client) InitiateMultipartUpload(request *InitiateMultipartUploadRe
 			request_.Method = "POST"
 			request_.Pathname = "/" + tea.StringValue(request.ObjectName) + "?uploads"
 			request_.Headers = tea.Merge(map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
-			}, client.ToHeader(tea.ToMap(request.Header)))
-			if !client.Empty(token) {
+			}, util.StringifyMapValue(tea.ToMap(request.Header)))
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
-			if client.NotNull(tea.ToMap(request.Header)) && !client.Empty(tea.StringValue(request.Header.ContentType)) {
+			request_.Query = util.StringifyMapValue(tea.ToMap(request.Filter))
+			if util.IsUnset(tea.ToMap(request.Header)) && !util.Empty(tea.StringValue(request.Header.ContentType)) {
 				request_.Headers["content-type"] = tea.StringValue(request.Header.ContentType)
 			} else {
-				request_.Headers["content-type"] = client.GetContentType(tea.StringValue(request.ObjectName))
+				request_.Headers["content-type"] = ossutil.GetContentType(tea.StringValue(request.ObjectName))
 			}
 
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -14080,12 +14231,12 @@ func (client *Client) InitiateMultipartUpload(request *InitiateMultipartUploadRe
 				return nil, _err
 			}
 
-			bodyStr, _err = client.ReadAsString(response_)
+			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
 				return nil, _err
 			}
 
-			respMap = client.ParseXml(bodyStr, new(InitiateMultipartUploadResponse))
+			respMap = xml.ParseXml(bodyStr, new(InitiateMultipartUploadResponse))
 			_result = &InitiateMultipartUploadResponse{}
 			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"InitiateMultipartUploadResult": respMap["InitiateMultipartUploadResult"],
@@ -14100,7 +14251,7 @@ func (client *Client) InitiateMultipartUpload(request *InitiateMultipartUploadRe
 	return _resp, _err
 }
 
-func (client *Client) OptionObject(request *OptionObjectRequest, runtime *RuntimeObject) (_result *OptionObjectResponse, _err error) {
+func (client *Client) OptionObject(request *OptionObjectRequest, runtime *ossutil.RuntimeOptions) (_result *OptionObjectResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -14111,26 +14262,24 @@ func (client *Client) OptionObject(request *OptionObjectRequest, runtime *Runtim
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &OptionObjectResponse{}
@@ -14144,7 +14293,17 @@ func (client *Client) OptionObject(request *OptionObjectRequest, runtime *Runtim
 
 		_resp, _err = func() (*OptionObjectResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -14153,32 +14312,28 @@ func (client *Client) OptionObject(request *OptionObjectRequest, runtime *Runtim
 			request_.Method = "OPTIONS"
 			request_.Pathname = "/" + tea.StringValue(request.ObjectName)
 			request_.Headers = tea.Merge(map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
-			}, client.ToHeader(tea.ToMap(request.Header)))
-			if !client.Empty(token) {
+			}, util.StringifyMapValue(tea.ToMap(request.Header)))
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -14203,7 +14358,7 @@ func (client *Client) OptionObject(request *OptionObjectRequest, runtime *Runtim
 	return _resp, _err
 }
 
-func (client *Client) PostVodPlaylist(request *PostVodPlaylistRequest, runtime *RuntimeObject) (_result *PostVodPlaylistResponse, _err error) {
+func (client *Client) PostVodPlaylist(request *PostVodPlaylistRequest, runtime *ossutil.RuntimeOptions) (_result *PostVodPlaylistResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -14214,26 +14369,24 @@ func (client *Client) PostVodPlaylist(request *PostVodPlaylistRequest, runtime *
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &PostVodPlaylistResponse{}
@@ -14247,7 +14400,17 @@ func (client *Client) PostVodPlaylist(request *PostVodPlaylistRequest, runtime *
 
 		_resp, _err = func() (*PostVodPlaylistResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -14256,33 +14419,29 @@ func (client *Client) PostVodPlaylist(request *PostVodPlaylistRequest, runtime *
 			request_.Method = "POST"
 			request_.Pathname = "/" + tea.StringValue(request.ChannelName) + "/" + tea.StringValue(request.PlaylistName) + "?vod"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Query = client.ToQuery(tea.ToMap(request.Filter))
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Query = util.StringifyMapValue(tea.ToMap(request.Filter))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -14307,7 +14466,7 @@ func (client *Client) PostVodPlaylist(request *PostVodPlaylistRequest, runtime *
 	return _resp, _err
 }
 
-func (client *Client) PostObject(request *PostObjectRequest, runtime *common.RuntimeObject) (_result *PostObjectResponse, _err error) {
+func (client *Client) PostObject(request *PostObjectRequest, runtime *ossutil.RuntimeOptions) (_result *PostObjectResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -14318,19 +14477,19 @@ func (client *Client) PostObject(request *PostObjectRequest, runtime *common.Run
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    common.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": common.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"httpProxy":      common.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     common.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        common.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"maxIdleConns":   common.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":    tea.BoolValue(runtime.Autoretry),
-			"max-attempts": common.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"max-attempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": common.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": common.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
 	}
@@ -14346,28 +14505,37 @@ func (client *Client) PostObject(request *PostObjectRequest, runtime *common.Run
 
 		_resp, _err = func() (*PostObjectResponse, error) {
 			request_ := tea.NewRequest()
-			boundary := common.GetBoundary()
+			boundary := fileform.GetBoundary()
 			request_.Protocol = client.Protocol
 			request_.Method = "POST"
 			request_.Pathname = "/"
 			request_.Headers = map[string]string{
-				"host": client.GetHost(tea.StringValue(request.BucketName)),
-				"date": common.GetDate(),
+				"host":       ossutil.GetHost("", client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			request_.Headers["content-type"] = "multipart/form-data; boundary=" + tea.ToString(boundary)
-			request_.Body = common.ToForm(tea.ToMap(request.Header), request.Header.File.Content, boundary)
+			form := tea.ToMap(map[string]interface{}{
+				"OSSAccessKeyId":        tea.StringValue(request.Header.AccessKeyId),
+				"policy":                tea.StringValue(request.Header.Policy),
+				"Signature":             tea.StringValue(request.Header.Signature),
+				"key":                   tea.StringValue(request.Header.Key),
+				"success_action_status": tea.StringValue(request.Header.SuccessActionStatus),
+				"file":                  request.Header.File,
+			}, ossutil.ToMeta(request.Header.UserMeta, "x-oss-meta-"))
+			request_.Body = fileform.ToFileForm(form, boundary)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
-			bodyStr, _err := common.ReadAsString(response_.Body)
+			bodyStr, _err := util.ReadAsString(response_.Body)
 			if _err != nil {
 				return nil, _err
 			}
 
-			if common.IsFail(response_) {
-				respMap = common.GetErrMessage(bodyStr)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -14380,7 +14548,7 @@ func (client *Client) PostObject(request *PostObjectRequest, runtime *common.Run
 				return nil, _err
 			}
 
-			respMap = common.ParseXml(bodyStr, new(PostObjectResponse))
+			respMap = xml.ParseXml(bodyStr, new(PostObjectResponse))
 			_result = &PostObjectResponse{}
 			_err = tea.Convert(respMap, &_result)
 			return _result, _err
@@ -14393,7 +14561,7 @@ func (client *Client) PostObject(request *PostObjectRequest, runtime *common.Run
 	return _resp, _err
 }
 
-func (client *Client) HeadObject(request *HeadObjectRequest, runtime *RuntimeObject) (_result *HeadObjectResponse, _err error) {
+func (client *Client) HeadObject(request *HeadObjectRequest, runtime *ossutil.RuntimeOptions) (_result *HeadObjectResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -14404,26 +14572,24 @@ func (client *Client) HeadObject(request *HeadObjectRequest, runtime *RuntimeObj
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &HeadObjectResponse{}
@@ -14437,7 +14603,17 @@ func (client *Client) HeadObject(request *HeadObjectRequest, runtime *RuntimeObj
 
 		_resp, _err = func() (*HeadObjectResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -14446,32 +14622,28 @@ func (client *Client) HeadObject(request *HeadObjectRequest, runtime *RuntimeObj
 			request_.Method = "HEAD"
 			request_.Pathname = "/" + tea.StringValue(request.ObjectName)
 			request_.Headers = tea.Merge(map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
-			}, client.ToHeader(tea.ToMap(request.Header)))
-			if !client.Empty(token) {
+			}, util.StringifyMapValue(tea.ToMap(request.Header)))
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -14486,7 +14658,7 @@ func (client *Client) HeadObject(request *HeadObjectRequest, runtime *RuntimeObj
 
 			_result = &HeadObjectResponse{}
 			_err = tea.Convert(tea.ToMap(map[string]interface{}{
-				"usermeta": client.ToMeta(response_.Headers, "x-oss-meta-"),
+				"usermeta": ossutil.ToMeta(response_.Headers, "x-oss-meta-"),
 			}, response_.Headers), &_result)
 			return _result, _err
 		}()
@@ -14498,7 +14670,7 @@ func (client *Client) HeadObject(request *HeadObjectRequest, runtime *RuntimeObj
 	return _resp, _err
 }
 
-func (client *Client) DeleteObjectTagging(request *DeleteObjectTaggingRequest, runtime *RuntimeObject) (_result *DeleteObjectTaggingResponse, _err error) {
+func (client *Client) DeleteObjectTagging(request *DeleteObjectTaggingRequest, runtime *ossutil.RuntimeOptions) (_result *DeleteObjectTaggingResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -14509,26 +14681,24 @@ func (client *Client) DeleteObjectTagging(request *DeleteObjectTaggingRequest, r
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &DeleteObjectTaggingResponse{}
@@ -14542,7 +14712,17 @@ func (client *Client) DeleteObjectTagging(request *DeleteObjectTaggingRequest, r
 
 		_resp, _err = func() (*DeleteObjectTaggingResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -14551,32 +14731,28 @@ func (client *Client) DeleteObjectTagging(request *DeleteObjectTaggingRequest, r
 			request_.Method = "DELETE"
 			request_.Pathname = "/" + tea.StringValue(request.ObjectName) + "?tagging"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -14601,7 +14777,7 @@ func (client *Client) DeleteObjectTagging(request *DeleteObjectTaggingRequest, r
 	return _resp, _err
 }
 
-func (client *Client) RestoreObject(request *RestoreObjectRequest, runtime *RuntimeObject) (_result *RestoreObjectResponse, _err error) {
+func (client *Client) RestoreObject(request *RestoreObjectRequest, runtime *ossutil.RuntimeOptions) (_result *RestoreObjectResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -14612,26 +14788,24 @@ func (client *Client) RestoreObject(request *RestoreObjectRequest, runtime *Runt
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &RestoreObjectResponse{}
@@ -14645,7 +14819,17 @@ func (client *Client) RestoreObject(request *RestoreObjectRequest, runtime *Runt
 
 		_resp, _err = func() (*RestoreObjectResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -14654,32 +14838,28 @@ func (client *Client) RestoreObject(request *RestoreObjectRequest, runtime *Runt
 			request_.Method = "POST"
 			request_.Pathname = "/" + tea.StringValue(request.ObjectName) + "?restore"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -14704,7 +14884,7 @@ func (client *Client) RestoreObject(request *RestoreObjectRequest, runtime *Runt
 	return _resp, _err
 }
 
-func (client *Client) GetObjectAcl(request *GetObjectAclRequest, runtime *RuntimeObject) (_result *GetObjectAclResponse, _err error) {
+func (client *Client) GetObjectAcl(request *GetObjectAclRequest, runtime *ossutil.RuntimeOptions) (_result *GetObjectAclResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -14715,26 +14895,24 @@ func (client *Client) GetObjectAcl(request *GetObjectAclRequest, runtime *Runtim
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &GetObjectAclResponse{}
@@ -14748,7 +14926,17 @@ func (client *Client) GetObjectAcl(request *GetObjectAclRequest, runtime *Runtim
 
 		_resp, _err = func() (*GetObjectAclResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -14757,32 +14945,28 @@ func (client *Client) GetObjectAcl(request *GetObjectAclRequest, runtime *Runtim
 			request_.Method = "GET"
 			request_.Pathname = "/" + tea.StringValue(request.ObjectName) + "?acl"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -14795,12 +14979,12 @@ func (client *Client) GetObjectAcl(request *GetObjectAclRequest, runtime *Runtim
 				return nil, _err
 			}
 
-			bodyStr, _err = client.ReadAsString(response_)
+			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
 				return nil, _err
 			}
 
-			respMap = client.ParseXml(bodyStr, new(GetObjectAclResponse))
+			respMap = xml.ParseXml(bodyStr, new(GetObjectAclResponse))
 			_result = &GetObjectAclResponse{}
 			_err = tea.Convert(tea.ToMap(map[string]interface{}{
 				"AccessControlPolicy": respMap["AccessControlPolicy"],
@@ -14815,7 +14999,7 @@ func (client *Client) GetObjectAcl(request *GetObjectAclRequest, runtime *Runtim
 	return _resp, _err
 }
 
-func (client *Client) PutBucketAcl(request *PutBucketAclRequest, runtime *RuntimeObject) (_result *PutBucketAclResponse, _err error) {
+func (client *Client) PutBucketAcl(request *PutBucketAclRequest, runtime *ossutil.RuntimeOptions) (_result *PutBucketAclResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -14826,26 +15010,24 @@ func (client *Client) PutBucketAcl(request *PutBucketAclRequest, runtime *Runtim
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &PutBucketAclResponse{}
@@ -14859,7 +15041,17 @@ func (client *Client) PutBucketAcl(request *PutBucketAclRequest, runtime *Runtim
 
 		_resp, _err = func() (*PutBucketAclResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -14868,32 +15060,28 @@ func (client *Client) PutBucketAcl(request *PutBucketAclRequest, runtime *Runtim
 			request_.Method = "PUT"
 			request_.Pathname = "/?acl"
 			request_.Headers = tea.Merge(map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
-			}, client.ToHeader(tea.ToMap(request.Header)))
-			if !client.Empty(token) {
+			}, util.StringifyMapValue(tea.ToMap(request.Header)))
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -14918,7 +15106,7 @@ func (client *Client) PutBucketAcl(request *PutBucketAclRequest, runtime *Runtim
 	return _resp, _err
 }
 
-func (client *Client) DeleteBucket(request *DeleteBucketRequest, runtime *RuntimeObject) (_result *DeleteBucketResponse, _err error) {
+func (client *Client) DeleteBucket(request *DeleteBucketRequest, runtime *ossutil.RuntimeOptions) (_result *DeleteBucketResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -14929,26 +15117,24 @@ func (client *Client) DeleteBucket(request *DeleteBucketRequest, runtime *Runtim
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &DeleteBucketResponse{}
@@ -14962,7 +15148,17 @@ func (client *Client) DeleteBucket(request *DeleteBucketRequest, runtime *Runtim
 
 		_resp, _err = func() (*DeleteBucketResponse, error) {
 			request_ := tea.NewRequest()
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -14971,32 +15167,28 @@ func (client *Client) DeleteBucket(request *DeleteBucketRequest, runtime *Runtim
 			request_.Method = "DELETE"
 			request_.Pathname = "/"
 			request_.Headers = map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
-			if !client.Empty(token) {
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -15021,7 +15213,7 @@ func (client *Client) DeleteBucket(request *DeleteBucketRequest, runtime *Runtim
 	return _resp, _err
 }
 
-func (client *Client) PutObject(request *PutObjectRequest, runtime *RuntimeObject) (_result *PutObjectResponse, _err error) {
+func (client *Client) PutObject(request *PutObjectRequest, runtime *ossutil.RuntimeOptions) (_result *PutObjectResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
 		return nil, _err
@@ -15032,26 +15224,24 @@ func (client *Client) PutObject(request *PutObjectRequest, runtime *RuntimeObjec
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
-		"readTimeout":    client.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
-		"connectTimeout": client.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
-		"localAddr":      client.Default(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
-		"httpProxy":      client.Default(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
-		"httpsProxy":     client.Default(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
-		"noProxy":        client.Default(tea.StringValue(runtime.NoProxy), client.NoProxy),
-		"socks5Proxy":    client.Default(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
-		"socks5NetWork":  client.Default(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
-		"maxIdleConns":   client.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
+		"readTimeout":    util.DefaultNumber(tea.IntValue(runtime.ReadTimeout), client.ReadTimeout),
+		"connectTimeout": util.DefaultNumber(tea.IntValue(runtime.ConnectTimeout), client.ConnectTimeout),
+		"localAddr":      util.DefaultString(tea.StringValue(runtime.LocalAddr), client.LocalAddr),
+		"httpProxy":      util.DefaultString(tea.StringValue(runtime.HttpProxy), client.HttpProxy),
+		"httpsProxy":     util.DefaultString(tea.StringValue(runtime.HttpsProxy), client.HttpsProxy),
+		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
+		"socks5Proxy":    util.DefaultString(tea.StringValue(runtime.Socks5Proxy), client.Socks5Proxy),
+		"socks5NetWork":  util.DefaultString(tea.StringValue(runtime.Socks5NetWork), client.Socks5NetWork),
+		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
 			"retryable":   tea.BoolValue(runtime.Autoretry),
-			"maxAttempts": client.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
-			"policy": client.Default(tea.StringValue(runtime.BackoffPolicy), "no"),
-			"period": client.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
+			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
+			"period": util.DefaultNumber(tea.IntValue(runtime.BackoffPeriod), 1),
 		},
 		"ignoreSSL": tea.BoolValue(runtime.IgnoreSSL),
-		"logger":    client.Logger,
-		"listener":  runtime.Listener,
 	}
 
 	_resp := &PutObjectResponse{}
@@ -15066,7 +15256,17 @@ func (client *Client) PutObject(request *PutObjectRequest, runtime *RuntimeObjec
 		_resp, _err = func() (*PutObjectResponse, error) {
 			request_ := tea.NewRequest()
 			ctx := make(map[string]string)
-			token, _err := client.GetSecurityToken()
+			accessKeyId, _err := client.Credential.GetAccessKeyId()
+			if _err != nil {
+				return nil, _err
+			}
+
+			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
+			if _err != nil {
+				return nil, _err
+			}
+
+			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
 				return nil, _err
 			}
@@ -15075,40 +15275,36 @@ func (client *Client) PutObject(request *PutObjectRequest, runtime *RuntimeObjec
 			request_.Method = "PUT"
 			request_.Pathname = "/" + tea.StringValue(request.ObjectName)
 			request_.Headers = tea.Merge(map[string]string{
-				"host":       client.GetHost(tea.StringValue(request.BucketName)),
-				"date":       client.GetDate(),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
-			}, client.ToHeader(tea.ToMap(request.Header)),
-				client.ParseMeta(request.UserMeta, "x-oss-meta-"))
-			if !client.Empty(token) {
+			}, util.StringifyMapValue(tea.ToMap(request.Header)),
+				ossutil.ParseMeta(request.UserMeta, "x-oss-meta-"))
+			if !util.Empty(token) {
 				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Body = client.Inject(request.Body, ctx)
-			if client.NotNull(tea.ToMap(request.Header)) && !client.Empty(tea.StringValue(request.Header.ContentType)) {
+			request_.Body = ossutil.Inject(request.Body, ctx)
+			if util.IsUnset(tea.ToMap(request.Header)) && !util.Empty(tea.StringValue(request.Header.ContentType)) {
 				request_.Headers["content-type"] = tea.StringValue(request.Header.ContentType)
 			} else {
-				request_.Headers["content-type"] = client.GetContentType(tea.StringValue(request.ObjectName))
+				request_.Headers["content-type"] = ossutil.GetContentType(tea.StringValue(request.ObjectName))
 			}
 
-			request_.Headers["authorization"], _err = client.GetSignature(request_, tea.StringValue(request.BucketName))
-			if _err != nil {
-				return nil, _err
-			}
-
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.StringValue(request.BucketName), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
 				return nil, _err
 			}
 			respMap := make(map[string]interface{})
 			bodyStr := ""
-			if client.IsFail(response_) {
-				bodyStr, _err = client.ReadAsString(response_)
+			if util.Is4xx(response_.StatusCode) || util.Is5xx(response_.StatusCode) {
+				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
 					return nil, _err
 				}
 
-				respMap = client.GetErrMessage(bodyStr)
+				respMap = ossutil.GetErrMessage(bodyStr)
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code":    respMap["Code"],
 					"message": respMap["Message"],
@@ -15121,7 +15317,7 @@ func (client *Client) PutObject(request *PutObjectRequest, runtime *RuntimeObjec
 				return nil, _err
 			}
 
-			if client.IsEnableCrc && !client.Equal(ctx["crc"], response_.Headers["x-oss-hash-crc64ecma"]) {
+			if client.IsEnableCrc && !util.EqualString(ctx["crc"], response_.Headers["x-oss-hash-crc64ecma"]) {
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code": "CrcNotMatched",
 					"data": map[string]string{
@@ -15132,7 +15328,7 @@ func (client *Client) PutObject(request *PutObjectRequest, runtime *RuntimeObjec
 				return nil, _err
 			}
 
-			if client.IsEnableMD5 && !client.Equal(ctx["md5"], response_.Headers["content-md5"]) {
+			if client.IsEnableMD5 && !util.EqualString(ctx["md5"], response_.Headers["content-md5"]) {
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code": "MD5NotMatched",
 					"data": map[string]string{
@@ -15155,57 +15351,46 @@ func (client *Client) PutObject(request *PutObjectRequest, runtime *RuntimeObjec
 	return _resp, _err
 }
 
-func (client *Client) GetHost(bucketName string) (_result string) {
-	if client.Empty(client.RegionId) {
-		client.RegionId = "cn-hangzhou"
-	}
-
-	if client.Empty(client.Endpoint) {
-		client.Endpoint = "oss-" + tea.ToString(client.RegionId) + ".aliyuncs.com"
-	}
-
-	if client.Empty(bucketName) {
-		return client.Endpoint
-	}
-
-	host := ""
-	if client.Equal(client.HostModel, "ip") {
-		host = tea.ToString(client.Endpoint) + "/" + tea.ToString(bucketName)
-	} else if client.Equal(client.HostModel, "cname") {
-		host = client.Endpoint
-	} else {
-		host = tea.ToString(bucketName) + "." + tea.ToString(client.Endpoint)
-	}
-
-	return host
+func (client *Client) SetUserAgent(userAgent string) {
+	client.UserAgent = userAgent
 }
 
-func (client *Client) GetSignature(request *tea.Request, bucketName string) (_result string, _err error) {
-	accessKeyId, _err := client.GetAccessKeyID()
-	if _err != nil {
-		return "", _err
-	}
+func (client *Client) AppendUserAgent(userAgent string) {
+	client.UserAgent = tea.ToString(client.UserAgent) + " " + tea.ToString(userAgent)
+}
 
-	accessKeySecret, _err := client.GetAccessKeySecret()
-	if _err != nil {
-		return "", _err
-	}
+func (client *Client) GetUserAgent() (_result string) {
+	userAgent := util.GetUserAgent(client.UserAgent)
+	_result = userAgent
+	return _result
+}
 
-	if client.Equal(client.SignatureVersion, "V2") {
-		if client.IfListEmpty(client.AddtionalHeaders) {
-			_result = ""
-			_result = "OSS2 AccessKeyId:" + tea.ToString(accessKeyId) + ",Signature:" + tea.ToString(client.GetSignatureV2(request, bucketName, accessKeySecret, client.AddtionalHeaders))
-			return _result, nil
-		} else {
-			_result = ""
-			_result = "OSS2 AccessKeyId:" + tea.ToString(accessKeyId) + ",AdditionalHeaders:" + tea.ToString(client.ListToString(client.AddtionalHeaders, ";")) + ",Signature:" + tea.ToString(client.GetSignatureV2(request, bucketName, accessKeySecret, client.AddtionalHeaders))
-			return _result, nil
-		}
-
-	} else {
+func (client *Client) GetAccessKeyId() (_result string, _err error) {
+	if util.IsUnset(client.Credential) {
 		_result = ""
-		_result = "OSS " + tea.ToString(accessKeyId) + ":" + tea.ToString(client.GetSignatureV1(request, bucketName, accessKeySecret))
-		return _result, nil
+		return _result, _err
 	}
 
+	accessKeyId, _err := client.Credential.GetAccessKeyId()
+	if _err != nil {
+		return "", _err
+	}
+
+	_result = accessKeyId
+	return _result, _err
+}
+
+func (client *Client) GetAccessKeySecret() (_result string, _err error) {
+	if util.IsUnset(client.Credential) {
+		_result = ""
+		return _result, _err
+	}
+
+	secret, _err := client.Credential.GetAccessKeySecret()
+	if _err != nil {
+		return "", _err
+	}
+
+	_result = secret
+	return _result, _err
 }
