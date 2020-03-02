@@ -19,7 +19,7 @@ public class GetBucketRefererResponse extends TeaModel {
 
     public static class GetBucketRefererResponseRefererConfigurationRefererList extends TeaModel {
         @NameInMap("Referer")
-        public String[] referer;
+        public java.util.List<String> referer;
 
         public static GetBucketRefererResponseRefererConfigurationRefererList build(java.util.Map<String, ?> map) throws Exception {
             GetBucketRefererResponseRefererConfigurationRefererList self = new GetBucketRefererResponseRefererConfigurationRefererList();
@@ -30,7 +30,7 @@ public class GetBucketRefererResponse extends TeaModel {
 
     public static class GetBucketRefererResponseRefererConfiguration extends TeaModel {
         @NameInMap("AllowEmptyReferer")
-        public boolean allowEmptyReferer;
+        public Boolean allowEmptyReferer;
 
         @NameInMap("RefererList")
         @Validation(required = true)

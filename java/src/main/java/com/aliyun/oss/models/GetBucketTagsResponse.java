@@ -33,7 +33,7 @@ public class GetBucketTagsResponse extends TeaModel {
 
     public static class GetBucketTagsResponseTaggingTagSet extends TeaModel {
         @NameInMap("Tag")
-        public GetBucketTagsResponseTaggingTagSetTag[] tag;
+        public java.util.List<GetBucketTagsResponseTaggingTagSetTag> tag;
 
         public static GetBucketTagsResponseTaggingTagSet build(java.util.Map<String, ?> map) throws Exception {
             GetBucketTagsResponseTaggingTagSet self = new GetBucketTagsResponseTaggingTagSet();

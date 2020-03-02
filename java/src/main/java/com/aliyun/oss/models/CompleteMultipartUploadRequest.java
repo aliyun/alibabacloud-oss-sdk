@@ -55,7 +55,7 @@ public class CompleteMultipartUploadRequest extends TeaModel {
 
     public static class CompleteMultipartUploadRequestBodyCompleteMultipartUpload extends TeaModel {
         @NameInMap("Part")
-        public CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart[] part;
+        public java.util.List<CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart> part;
 
         public static CompleteMultipartUploadRequestBodyCompleteMultipartUpload build(java.util.Map<String, ?> map) throws Exception {
             CompleteMultipartUploadRequestBodyCompleteMultipartUpload self = new CompleteMultipartUploadRequestBodyCompleteMultipartUpload();

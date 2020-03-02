@@ -59,7 +59,7 @@ public class GetServiceResponse extends TeaModel {
 
     public static class GetServiceResponseListAllMyBucketsResultBuckets extends TeaModel {
         @NameInMap("Bucket")
-        public GetServiceResponseListAllMyBucketsResultBucketsBucket[] bucket;
+        public java.util.List<GetServiceResponseListAllMyBucketsResultBucketsBucket> bucket;
 
         public static GetServiceResponseListAllMyBucketsResultBuckets build(java.util.Map<String, ?> map) throws Exception {
             GetServiceResponseListAllMyBucketsResultBuckets self = new GetServiceResponseListAllMyBucketsResultBuckets();

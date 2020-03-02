@@ -30,7 +30,7 @@ public class GetBucketCORSResponse extends TeaModel {
 
     public static class GetBucketCORSResponseCORSConfiguration extends TeaModel {
         @NameInMap("CORSRule")
-        public GetBucketCORSResponseCORSConfigurationCORSRule[] cORSRule;
+        public java.util.List<GetBucketCORSResponseCORSConfigurationCORSRule> cORSRule;
 
         public static GetBucketCORSResponseCORSConfiguration build(java.util.Map<String, ?> map) throws Exception {
             GetBucketCORSResponseCORSConfiguration self = new GetBucketCORSResponseCORSConfiguration();

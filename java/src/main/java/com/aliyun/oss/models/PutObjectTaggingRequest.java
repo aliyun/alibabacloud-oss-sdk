@@ -36,7 +36,7 @@ public class PutObjectTaggingRequest extends TeaModel {
 
     public static class PutObjectTaggingRequestBodyTaggingTagSet extends TeaModel {
         @NameInMap("Tag")
-        public PutObjectTaggingRequestBodyTaggingTagSetTag[] tag;
+        public java.util.List<PutObjectTaggingRequestBodyTaggingTagSetTag> tag;
 
         public static PutObjectTaggingRequestBodyTaggingTagSet build(java.util.Map<String, ?> map) throws Exception {
             PutObjectTaggingRequestBodyTaggingTagSet self = new PutObjectTaggingRequestBodyTaggingTagSet();

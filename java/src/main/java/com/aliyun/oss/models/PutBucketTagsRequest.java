@@ -32,7 +32,7 @@ public class PutBucketTagsRequest extends TeaModel {
 
     public static class PutBucketTagsRequestBodyTaggingTagSet extends TeaModel {
         @NameInMap("Tag")
-        public PutBucketTagsRequestBodyTaggingTagSetTag[] tag;
+        public java.util.List<PutBucketTagsRequestBodyTaggingTagSetTag> tag;
 
         public static PutBucketTagsRequestBodyTaggingTagSet build(java.util.Map<String, ?> map) throws Exception {
             PutBucketTagsRequestBodyTaggingTagSet self = new PutBucketTagsRequestBodyTaggingTagSet();

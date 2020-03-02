@@ -63,7 +63,7 @@ public class ListPartsResponse extends TeaModel {
         public String isTruncated;
 
         @NameInMap("Part")
-        public ListPartsResponseListPartsResultPart[] part;
+        public java.util.List<ListPartsResponseListPartsResultPart> part;
 
         public static ListPartsResponseListPartsResult build(java.util.Map<String, ?> map) throws Exception {
             ListPartsResponseListPartsResult self = new ListPartsResponseListPartsResult();
