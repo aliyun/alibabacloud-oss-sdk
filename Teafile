@@ -3,30 +3,28 @@
 	"name": "OSS",
 	"version": "1.0.0",
 	"main": "./oss.tea",
-	"releases": {
-		"go": "github.com/aliyun/alibabacloud-oss-sdk/golang/client:v1.0.1",
-		"java": "com.aliyun:oss-client:1.1.2",
-		"csharp":"AlibabaCloud.SDK.OSS.Client:0.0.3",
-		"ts": "@alicloud/oss-client:1.1.0"
-	},
-	"java": {
-		"package": "com.aliyun.oss",
-		"baseClient": "com.aliyun.oss.baseclient.BaseClient"
-	},
-	"csharp": {
-		"namespace": "AlibabaCloud.OSS",
-		"baseClient": "AlibabaCloud.OSS:BaseClient"
-	},
 	"go": {
-		"baseClient": "github.com/aliyun/alibabacloud-oss-sdk/baseclient/go",
 		"package": [
 			"io"
 		]
 	},
-	"typescript": {
-		"baseClient": "@alicloud/oss-baseclient"
+	"releases": {
+		"go": "github.com/aliyun/alibabacloud-oss-sdk/golang/client:v1.0.1",
+		"java": "com.aliyun:oss-client:1.1.2",
+		"csharp": "AlibabaCloud.SDK.OSS.Client:0.0.3",
+		"ts": "@alicloud/oss-client:1.1.0"
+	},
+	"java": {
+		"package": "com.aliyun.oss"
+	},
+	"csharp": {
+		"namespace": "AlibabaCloud.OSS"
 	},
 	"libraries": {
-		"Common": "alibabacloud:Common:*"
+		"Util": "alibabacloud:Util:*",
+		"XML": "alibabacloud:XML:*",
+		"OSSUtil": "alibabacloud:OSSUtil:*",
+		"FileForm": "alibabacloud:FileForm:*",
+		"Credential": "alibabacloud:Credential:*"
 	}
 }

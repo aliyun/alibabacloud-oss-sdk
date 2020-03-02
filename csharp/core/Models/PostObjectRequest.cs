@@ -31,24 +31,13 @@ namespace AlibabaCloud.OSS.Models
             public string SuccessActionStatus { get; set; }
             [NameInMap("file")]
             [Validation(Required=true)]
-            public PostObjectRequestHeaderFile File { get; set; }
-            public class PostObjectRequestHeaderFile : TeaModel {
-                [NameInMap("filename")]
-                [Validation(Required=true)]
-                public string FileName { get; set; }
-
-                [NameInMap("content")]
-                [Validation(Required=true)]
-                public Stream Content { get; set; }
-
-                [NameInMap("content-type")]
-                [Validation(Required=true)]
-                public string ContentType { get; set; }
-
-            }
+            public AlibabaCloud.SDK.TeaFileform.Models.FileField File { get; set; }
             [NameInMap("key")]
             [Validation(Required=true)]
             public string Key { get; set; }
+            [NameInMap("UserMeta")]
+            [Validation(Required=false)]
+            public Dictionary<string, string> UserMeta { get; set; }
         };
 
     }

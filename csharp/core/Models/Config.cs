@@ -9,92 +9,92 @@ using Tea;
 namespace AlibabaCloud.OSS.Models
 {
     public class Config : TeaModel {
-        [NameInMap("accessKeyId")]
-        [Validation(Required=false)]
-        public string AccessKeyId { get; set; }
-
-        [NameInMap("accessKeySecret")]
-        [Validation(Required=false)]
-        public string AccessKeySecret { get; set; }
-
         [NameInMap("type")]
-        [Validation(Required=true)]
+        [Validation(Required=false)]
         public string Type { get; set; }
 
         [NameInMap("securityToken")]
-        [Validation(Required=true)]
+        [Validation(Required=false)]
         public string SecurityToken { get; set; }
 
-        [NameInMap("endpoint")]
+        [NameInMap("accessKeyId")]
         [Validation(Required=true)]
+        public string AccessKeyId { get; set; }
+
+        [NameInMap("accessKeySecret")]
+        [Validation(Required=true)]
+        public string AccessKeySecret { get; set; }
+
+        [NameInMap("endpoint")]
+        [Validation(Required=false)]
         public string Endpoint { get; set; }
 
         [NameInMap("protocol")]
-        [Validation(Required=true)]
+        [Validation(Required=false)]
         public string Protocol { get; set; }
 
         [NameInMap("regionId")]
-        [Validation(Required=true)]
+        [Validation(Required=false)]
         public string RegionId { get; set; }
 
         [NameInMap("userAgent")]
-        [Validation(Required=true)]
+        [Validation(Required=false)]
         public string UserAgent { get; set; }
 
         [NameInMap("hostModel")]
-        [Validation(Required=true)]
+        [Validation(Required=false)]
         public string HostModel { get; set; }
 
         [NameInMap("signatureVersion")]
-        [Validation(Required=true)]
+        [Validation(Required=false)]
         public string SignatureVersion { get; set; }
 
         [NameInMap("isEnableMD5")]
-        [Validation(Required=true)]
+        [Validation(Required=false)]
         public bool? IsEnableMD5 { get; set; }
 
         [NameInMap("isEnableCrc")]
-        [Validation(Required=true)]
+        [Validation(Required=false)]
         public bool? IsEnableCrc { get; set; }
 
         [NameInMap("readTimeout")]
-        [Validation(Required=true)]
+        [Validation(Required=false)]
         public int? ReadTimeout { get; set; }
 
         [NameInMap("connectTimeout")]
-        [Validation(Required=true)]
+        [Validation(Required=false)]
         public int? ConnectTimeout { get; set; }
 
         [NameInMap("localAddr")]
-        [Validation(Required=true)]
+        [Validation(Required=false)]
         public string LocalAddr { get; set; }
 
         [NameInMap("httpProxy")]
-        [Validation(Required=true)]
+        [Validation(Required=false)]
         public string HttpProxy { get; set; }
 
         [NameInMap("httpsProxy")]
-        [Validation(Required=true)]
+        [Validation(Required=false)]
         public string HttpsProxy { get; set; }
 
         [NameInMap("noProxy")]
-        [Validation(Required=true)]
+        [Validation(Required=false)]
         public string NoProxy { get; set; }
 
         [NameInMap("socks5Proxy")]
-        [Validation(Required=true)]
+        [Validation(Required=false)]
         public string Socks5Proxy { get; set; }
 
         [NameInMap("socks5NetWork")]
-        [Validation(Required=true)]
+        [Validation(Required=false)]
         public string Socks5NetWork { get; set; }
 
         [NameInMap("maxIdleConns")]
-        [Validation(Required=true)]
+        [Validation(Required=false)]
         public int? MaxIdleConns { get; set; }
 
         [NameInMap("addtionalHeaders")]
-        [Validation(Required=true)]
+        [Validation(Required=false)]
         public List<string> AddtionalHeaders { get; set; }
 
     }

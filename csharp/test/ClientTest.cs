@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using AlibabaCloud.OSS;
 using AlibabaCloud.OSS.Models;
-
+using AlibabaCloud.OSSUtil.Models;
 using Aliyun.Credentials.Utils;
 
 using Xunit;
@@ -17,7 +17,7 @@ namespace test
     public class ClientTest
     {
         Config config;
-        RuntimeObject runtime;
+        RuntimeOptions runtime;
         Client client;
         string bucketName = "sdk-oss-test";
         //string objectName = "obj_Csharp";
@@ -37,9 +37,8 @@ namespace test
                 SignatureVersion = "V2"
             };
 
-            runtime = new RuntimeObject
+            runtime = new RuntimeOptions
             {
-                Md5Threshold = 1000,
                 MaxIdleConns = 3
             };
             client = new Client(config);
