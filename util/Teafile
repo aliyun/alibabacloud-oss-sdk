@@ -14,5 +14,8 @@
 	},
 	"csharp": {
 		"namespace":"AlibabaCloud.OSSUtil"
+	},
+	"java": {
+	    "package" : "com.aliyun.ossutil"
 	}
 }
