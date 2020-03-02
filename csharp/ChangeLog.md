@@ -1,3 +1,6 @@
+### 2020-03-02 Version 0.0.4
+* Supported parser2.0
+
 ### 2020-02-13 Version 0.0.3
 * ReCodegen code
 
