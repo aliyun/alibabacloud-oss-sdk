@@ -97,9 +97,9 @@ namespace AlibabaCloud.OSSUtil
             return type;
         }
 
-        public static string GetContentMD5(string str, bool isEnableMD5)
+        public static string GetContentMD5(string str, bool? isEnableMD5)
         {
-            if (!isEnableMD5)
+            if (isEnableMD5 == false)
             {
                 return string.Empty;
             }
@@ -374,7 +374,7 @@ namespace AlibabaCloud.OSSUtil
             return signedStr;
         }
 
-        internal static string UriEncode(string rawStr, bool encodeSlash)
+        internal static string UriEncode(string rawStr, bool? encodeSlash)
         {
             string res = string.Empty;
             foreach (char ch in rawStr)
@@ -386,7 +386,7 @@ namespace AlibabaCloud.OSSUtil
                 }
                 else if (ch == '/')
                 {
-                    if (encodeSlash)
+                    if (encodeSlash == true)
                     {
                         res += "%2F";
                     }
