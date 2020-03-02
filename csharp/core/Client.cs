@@ -8,46 +8,108 @@ using System.Threading.Tasks;
 
 using Tea;
 
-using AlibabaCloud.OSS;
 using AlibabaCloud.OSS.Models;
 
 namespace AlibabaCloud.OSS
 {
-    public class Client : BaseClient
+    public class Client 
     {
+        private string _endpoint;
+        private string _regionId;
+        private string _hostModel;
+        private string _protocol;
+        private int? _readTimeout;
+        private int? _connectTimeout;
+        private string _signatureVersion;
+        private List<string> _addtionalHeaders;
+        private string _localAddr;
+        private string _httpProxy;
+        private string _httpsProxy;
+        private string _noProxy;
+        private string _userAgent;
+        private string _socks5Proxy;
+        private bool? _isEnableCrc;
+        private bool? _isEnableMD5;
+        private string _socks5NetWork;
+        private int? _maxIdleConns;
+        private Aliyun.Credentials.Client _credential;
 
-        public Client(Config config): base(config.ToMap())
-        { }
+        public Client(Config config)
+        {
+            if (AlibabaCloud.TeaUtil.Common.IsUnset(config.ToMap()))
+            {
+                throw new TeaException(new Dictionary<string, string>
+                {
+                    {"name", "ParameterMissing"},
+                    {"message", "'config' can not be unset"},
+                });
+            }
+            if (AlibabaCloud.TeaUtil.Common.Empty(config.Type))
+            {
+                config.Type = "access_key";
+            }
+            Aliyun.Credentials.Models.Config credentialConfig = new Aliyun.Credentials.Models.Config
+            {
+                AccessKeyId = config.AccessKeyId,
+                Type = config.Type,
+                AccessKeySecret = config.AccessKeySecret,
+                SecurityToken = config.SecurityToken,
+            };
+            this._credential = new Aliyun.Credentials.Client(credentialConfig);
+            if (AlibabaCloud.TeaUtil.Common.IsUnset(config.IsEnableMD5))
+            {
+                config.IsEnableMD5 = false;
+            }
+            if (AlibabaCloud.TeaUtil.Common.IsUnset(config.IsEnableCrc))
+            {
+                config.IsEnableCrc = false;
+            }
+            this._endpoint = config.Endpoint;
+            this._protocol = config.Protocol;
+            this._regionId = config.RegionId;
+            this._userAgent = config.UserAgent;
+            this._readTimeout = config.ReadTimeout;
+            this._connectTimeout = config.ConnectTimeout;
+            this._localAddr = config.LocalAddr;
+            this._httpProxy = config.HttpProxy;
+            this._httpsProxy = config.HttpsProxy;
+            this._noProxy = config.NoProxy;
+            this._socks5Proxy = config.Socks5Proxy;
+            this._socks5NetWork = config.Socks5NetWork;
+            this._maxIdleConns = config.MaxIdleConns;
+            this._signatureVersion = config.SignatureVersion;
+            this._addtionalHeaders = config.AddtionalHeaders;
+            this._hostModel = config.HostModel;
+            this._isEnableMD5 = config.IsEnableMD5;
+            this._isEnableCrc = config.IsEnableCrc;
+        }
 
-        public PutBucketLifecycleResponse PutBucketLifecycle(PutBucketLifecycleRequest request, RuntimeObject runtime)
+        public PutBucketLifecycleResponse PutBucketLifecycle(PutBucketLifecycleRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -68,37 +130,39 @@ namespace AlibabaCloud.OSS
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
-                    string reqBody = _toXML(request.Body.ToMap());
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
+                    string reqBody = AlibabaCloud.TeaXML.Client.ToXML(request.Body.ToMap());
                     request_.Protocol = _protocol;
                     request_.Method = "PUT";
                     request_.Pathname = "/?lifecycle";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
                     request_.Body = TeaCore.BytesReadable(reqBody);
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -125,35 +189,32 @@ namespace AlibabaCloud.OSS
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<PutBucketLifecycleResponse> PutBucketLifecycleAsync(PutBucketLifecycleRequest request, RuntimeObject runtime)
+        public async Task<PutBucketLifecycleResponse> PutBucketLifecycleAsync(PutBucketLifecycleRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -174,37 +235,39 @@ namespace AlibabaCloud.OSS
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
-                    string reqBody = _toXML(request.Body.ToMap());
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
+                    string reqBody = AlibabaCloud.TeaXML.Client.ToXML(request.Body.ToMap());
                     request_.Protocol = _protocol;
                     request_.Method = "PUT";
                     request_.Pathname = "/?lifecycle";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
                     request_.Body = TeaCore.BytesReadable(reqBody);
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -231,35 +294,32 @@ namespace AlibabaCloud.OSS
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public DeleteMultipleObjectsResponse DeleteMultipleObjects(DeleteMultipleObjectsRequest request, RuntimeObject runtime)
+        public DeleteMultipleObjectsResponse DeleteMultipleObjects(DeleteMultipleObjectsRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -280,8 +340,10 @@ namespace AlibabaCloud.OSS
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
-                    string reqBody = _toXML(request.Body.ToMap());
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
+                    string reqBody = AlibabaCloud.TeaXML.Client.ToXML(request.Body.ToMap());
                     request_.Protocol = _protocol;
                     request_.Method = "POST";
                     request_.Pathname = "/?delete";
@@ -289,40 +351,40 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, string>()
                         {
-                            {"host", GetHost(request.BucketName)},
-                            {"date", _getDate()},
-                            {"user-agent", _getUserAgent()},
+                            {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                            {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                            {"user-agent", GetUserAgent()},
                         },
-                        _toHeader(request.Header.ToMap())
+                        AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Header.ToMap())
                     );
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
                     request_.Body = TeaCore.BytesReadable(reqBody);
-                    if (_notNull(request.Header.ToMap()) && !_empty(request.Header.ContentMD5))
+                    if (AlibabaCloud.TeaUtil.Common.IsUnset(request.Header.ToMap()) && !AlibabaCloud.TeaUtil.Common.Empty(request.Header.ContentMD5))
                     {
                         request_.Headers["content-md5"] = request.Header.ContentMD5;
                     }
-else
+                    else
                     {
-                        request_.Headers["content-md5"] = _getContentMD5(reqBody);
+                        request_.Headers["content-md5"] = AlibabaCloud.OSSUtil.Common.GetContentMD5(reqBody, _isEnableMD5.Value);
                     }
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -330,8 +392,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(DeleteMultipleObjectsResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(DeleteMultipleObjectsResponse));
                     return TeaModel.ToObject<DeleteMultipleObjectsResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -355,35 +417,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<DeleteMultipleObjectsResponse> DeleteMultipleObjectsAsync(DeleteMultipleObjectsRequest request, RuntimeObject runtime)
+        public async Task<DeleteMultipleObjectsResponse> DeleteMultipleObjectsAsync(DeleteMultipleObjectsRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -404,8 +463,10 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
-                    string reqBody = _toXML(request.Body.ToMap());
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
+                    string reqBody = AlibabaCloud.TeaXML.Client.ToXML(request.Body.ToMap());
                     request_.Protocol = _protocol;
                     request_.Method = "POST";
                     request_.Pathname = "/?delete";
@@ -413,40 +474,40 @@ else
                     (
                         new Dictionary<string, string>()
                         {
-                            {"host", GetHost(request.BucketName)},
-                            {"date", _getDate()},
-                            {"user-agent", _getUserAgent()},
+                            {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                            {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                            {"user-agent", GetUserAgent()},
                         },
-                        _toHeader(request.Header.ToMap())
+                        AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Header.ToMap())
                     );
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
                     request_.Body = TeaCore.BytesReadable(reqBody);
-                    if (_notNull(request.Header.ToMap()) && !_empty(request.Header.ContentMD5))
+                    if (AlibabaCloud.TeaUtil.Common.IsUnset(request.Header.ToMap()) && !AlibabaCloud.TeaUtil.Common.Empty(request.Header.ContentMD5))
                     {
                         request_.Headers["content-md5"] = request.Header.ContentMD5;
                     }
-else
+                    else
                     {
-                        request_.Headers["content-md5"] = _getContentMD5(reqBody);
+                        request_.Headers["content-md5"] = AlibabaCloud.OSSUtil.Common.GetContentMD5(reqBody, _isEnableMD5.Value);
                     }
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -454,8 +515,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(DeleteMultipleObjectsResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(DeleteMultipleObjectsResponse));
                     return TeaModel.ToObject<DeleteMultipleObjectsResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -479,35 +540,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public PutBucketRefererResponse PutBucketReferer(PutBucketRefererRequest request, RuntimeObject runtime)
+        public PutBucketRefererResponse PutBucketReferer(PutBucketRefererRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -528,37 +586,39 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
-                    string reqBody = _toXML(request.Body.ToMap());
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
+                    string reqBody = AlibabaCloud.TeaXML.Client.ToXML(request.Body.ToMap());
                     request_.Protocol = _protocol;
                     request_.Method = "PUT";
                     request_.Pathname = "/?referer";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
                     request_.Body = TeaCore.BytesReadable(reqBody);
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -585,35 +645,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<PutBucketRefererResponse> PutBucketRefererAsync(PutBucketRefererRequest request, RuntimeObject runtime)
+        public async Task<PutBucketRefererResponse> PutBucketRefererAsync(PutBucketRefererRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -634,37 +691,39 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
-                    string reqBody = _toXML(request.Body.ToMap());
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
+                    string reqBody = AlibabaCloud.TeaXML.Client.ToXML(request.Body.ToMap());
                     request_.Protocol = _protocol;
                     request_.Method = "PUT";
                     request_.Pathname = "/?referer";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
                     request_.Body = TeaCore.BytesReadable(reqBody);
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -691,35 +750,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public PutBucketWebsiteResponse PutBucketWebsite(PutBucketWebsiteRequest request, RuntimeObject runtime)
+        public PutBucketWebsiteResponse PutBucketWebsite(PutBucketWebsiteRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -740,37 +796,39 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
-                    string reqBody = _toXML(request.Body.ToMap());
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
+                    string reqBody = AlibabaCloud.TeaXML.Client.ToXML(request.Body.ToMap());
                     request_.Protocol = _protocol;
                     request_.Method = "PUT";
                     request_.Pathname = "/?website";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
                     request_.Body = TeaCore.BytesReadable(reqBody);
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -797,35 +855,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<PutBucketWebsiteResponse> PutBucketWebsiteAsync(PutBucketWebsiteRequest request, RuntimeObject runtime)
+        public async Task<PutBucketWebsiteResponse> PutBucketWebsiteAsync(PutBucketWebsiteRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -846,37 +901,39 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
-                    string reqBody = _toXML(request.Body.ToMap());
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
+                    string reqBody = AlibabaCloud.TeaXML.Client.ToXML(request.Body.ToMap());
                     request_.Protocol = _protocol;
                     request_.Method = "PUT";
                     request_.Pathname = "/?website";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
                     request_.Body = TeaCore.BytesReadable(reqBody);
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -903,35 +960,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public CompleteMultipartUploadResponse CompleteMultipartUpload(CompleteMultipartUploadRequest request, RuntimeObject runtime)
+        public CompleteMultipartUploadResponse CompleteMultipartUpload(CompleteMultipartUploadRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -952,38 +1006,40 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
-                    string reqBody = _toXML(request.Body.ToMap());
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
+                    string reqBody = AlibabaCloud.TeaXML.Client.ToXML(request.Body.ToMap());
                     request_.Protocol = _protocol;
                     request_.Method = "POST";
                     request_.Pathname = "/" + request.ObjectName;
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Query = _toQuery(request.Filter.ToMap());
+                    request_.Query = AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Filter.ToMap());
                     request_.Body = TeaCore.BytesReadable(reqBody);
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -991,8 +1047,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(CompleteMultipartUploadResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(CompleteMultipartUploadResponse));
                     return TeaModel.ToObject<CompleteMultipartUploadResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -1016,35 +1072,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<CompleteMultipartUploadResponse> CompleteMultipartUploadAsync(CompleteMultipartUploadRequest request, RuntimeObject runtime)
+        public async Task<CompleteMultipartUploadResponse> CompleteMultipartUploadAsync(CompleteMultipartUploadRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -1065,38 +1118,40 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
-                    string reqBody = _toXML(request.Body.ToMap());
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
+                    string reqBody = AlibabaCloud.TeaXML.Client.ToXML(request.Body.ToMap());
                     request_.Protocol = _protocol;
                     request_.Method = "POST";
                     request_.Pathname = "/" + request.ObjectName;
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Query = _toQuery(request.Filter.ToMap());
+                    request_.Query = AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Filter.ToMap());
                     request_.Body = TeaCore.BytesReadable(reqBody);
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -1104,8 +1159,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(CompleteMultipartUploadResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(CompleteMultipartUploadResponse));
                     return TeaModel.ToObject<CompleteMultipartUploadResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -1129,35 +1184,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public PutBucketLoggingResponse PutBucketLogging(PutBucketLoggingRequest request, RuntimeObject runtime)
+        public PutBucketLoggingResponse PutBucketLogging(PutBucketLoggingRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -1178,37 +1230,39 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
-                    string reqBody = _toXML(request.Body.ToMap());
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
+                    string reqBody = AlibabaCloud.TeaXML.Client.ToXML(request.Body.ToMap());
                     request_.Protocol = _protocol;
                     request_.Method = "PUT";
                     request_.Pathname = "/?logging";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
                     request_.Body = TeaCore.BytesReadable(reqBody);
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -1235,35 +1289,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<PutBucketLoggingResponse> PutBucketLoggingAsync(PutBucketLoggingRequest request, RuntimeObject runtime)
+        public async Task<PutBucketLoggingResponse> PutBucketLoggingAsync(PutBucketLoggingRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -1284,37 +1335,39 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
-                    string reqBody = _toXML(request.Body.ToMap());
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
+                    string reqBody = AlibabaCloud.TeaXML.Client.ToXML(request.Body.ToMap());
                     request_.Protocol = _protocol;
                     request_.Method = "PUT";
                     request_.Pathname = "/?logging";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
                     request_.Body = TeaCore.BytesReadable(reqBody);
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -1341,35 +1394,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public PutBucketRequestPaymentResponse PutBucketRequestPayment(PutBucketRequestPaymentRequest request, RuntimeObject runtime)
+        public PutBucketRequestPaymentResponse PutBucketRequestPayment(PutBucketRequestPaymentRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -1390,37 +1440,39 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
-                    string reqBody = _toXML(request.Body.ToMap());
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
+                    string reqBody = AlibabaCloud.TeaXML.Client.ToXML(request.Body.ToMap());
                     request_.Protocol = _protocol;
                     request_.Method = "PUT";
                     request_.Pathname = "/?requestPayment";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
                     request_.Body = TeaCore.BytesReadable(reqBody);
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -1447,35 +1499,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<PutBucketRequestPaymentResponse> PutBucketRequestPaymentAsync(PutBucketRequestPaymentRequest request, RuntimeObject runtime)
+        public async Task<PutBucketRequestPaymentResponse> PutBucketRequestPaymentAsync(PutBucketRequestPaymentRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -1496,37 +1545,39 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
-                    string reqBody = _toXML(request.Body.ToMap());
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
+                    string reqBody = AlibabaCloud.TeaXML.Client.ToXML(request.Body.ToMap());
                     request_.Protocol = _protocol;
                     request_.Method = "PUT";
                     request_.Pathname = "/?requestPayment";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
                     request_.Body = TeaCore.BytesReadable(reqBody);
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -1553,35 +1604,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public PutBucketEncryptionResponse PutBucketEncryption(PutBucketEncryptionRequest request, RuntimeObject runtime)
+        public PutBucketEncryptionResponse PutBucketEncryption(PutBucketEncryptionRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -1602,37 +1650,39 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
-                    string reqBody = _toXML(request.Body.ToMap());
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
+                    string reqBody = AlibabaCloud.TeaXML.Client.ToXML(request.Body.ToMap());
                     request_.Protocol = _protocol;
                     request_.Method = "PUT";
                     request_.Pathname = "/?encryption";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
                     request_.Body = TeaCore.BytesReadable(reqBody);
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -1659,35 +1709,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<PutBucketEncryptionResponse> PutBucketEncryptionAsync(PutBucketEncryptionRequest request, RuntimeObject runtime)
+        public async Task<PutBucketEncryptionResponse> PutBucketEncryptionAsync(PutBucketEncryptionRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -1708,37 +1755,39 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
-                    string reqBody = _toXML(request.Body.ToMap());
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
+                    string reqBody = AlibabaCloud.TeaXML.Client.ToXML(request.Body.ToMap());
                     request_.Protocol = _protocol;
                     request_.Method = "PUT";
                     request_.Pathname = "/?encryption";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
                     request_.Body = TeaCore.BytesReadable(reqBody);
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -1765,35 +1814,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public PutLiveChannelResponse PutLiveChannel(PutLiveChannelRequest request, RuntimeObject runtime)
+        public PutLiveChannelResponse PutLiveChannel(PutLiveChannelRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -1814,37 +1860,39 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
-                    string reqBody = _toXML(request.Body.ToMap());
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
+                    string reqBody = AlibabaCloud.TeaXML.Client.ToXML(request.Body.ToMap());
                     request_.Protocol = _protocol;
                     request_.Method = "PUT";
                     request_.Pathname = "/" + request.ChannelName + "?live";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
                     request_.Body = TeaCore.BytesReadable(reqBody);
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -1852,8 +1900,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(PutLiveChannelResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(PutLiveChannelResponse));
                     return TeaModel.ToObject<PutLiveChannelResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -1877,35 +1925,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<PutLiveChannelResponse> PutLiveChannelAsync(PutLiveChannelRequest request, RuntimeObject runtime)
+        public async Task<PutLiveChannelResponse> PutLiveChannelAsync(PutLiveChannelRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -1926,37 +1971,39 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
-                    string reqBody = _toXML(request.Body.ToMap());
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
+                    string reqBody = AlibabaCloud.TeaXML.Client.ToXML(request.Body.ToMap());
                     request_.Protocol = _protocol;
                     request_.Method = "PUT";
                     request_.Pathname = "/" + request.ChannelName + "?live";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
                     request_.Body = TeaCore.BytesReadable(reqBody);
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -1964,8 +2011,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(PutLiveChannelResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(PutLiveChannelResponse));
                     return TeaModel.ToObject<PutLiveChannelResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -1989,35 +2036,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public PutBucketTagsResponse PutBucketTags(PutBucketTagsRequest request, RuntimeObject runtime)
+        public PutBucketTagsResponse PutBucketTags(PutBucketTagsRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -2038,37 +2082,39 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
-                    string reqBody = _toXML(request.Body.ToMap());
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
+                    string reqBody = AlibabaCloud.TeaXML.Client.ToXML(request.Body.ToMap());
                     request_.Protocol = _protocol;
                     request_.Method = "PUT";
                     request_.Pathname = "/?tagging";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
                     request_.Body = TeaCore.BytesReadable(reqBody);
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -2095,35 +2141,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<PutBucketTagsResponse> PutBucketTagsAsync(PutBucketTagsRequest request, RuntimeObject runtime)
+        public async Task<PutBucketTagsResponse> PutBucketTagsAsync(PutBucketTagsRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -2144,37 +2187,39 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
-                    string reqBody = _toXML(request.Body.ToMap());
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
+                    string reqBody = AlibabaCloud.TeaXML.Client.ToXML(request.Body.ToMap());
                     request_.Protocol = _protocol;
                     request_.Method = "PUT";
                     request_.Pathname = "/?tagging";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
                     request_.Body = TeaCore.BytesReadable(reqBody);
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -2201,35 +2246,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public PutObjectTaggingResponse PutObjectTagging(PutObjectTaggingRequest request, RuntimeObject runtime)
+        public PutObjectTaggingResponse PutObjectTagging(PutObjectTaggingRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -2250,37 +2292,39 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
-                    string reqBody = _toXML(request.Body.ToMap());
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
+                    string reqBody = AlibabaCloud.TeaXML.Client.ToXML(request.Body.ToMap());
                     request_.Protocol = _protocol;
                     request_.Method = "PUT";
                     request_.Pathname = "/" + request.ObjectName + "?tagging";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
                     request_.Body = TeaCore.BytesReadable(reqBody);
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -2307,35 +2351,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<PutObjectTaggingResponse> PutObjectTaggingAsync(PutObjectTaggingRequest request, RuntimeObject runtime)
+        public async Task<PutObjectTaggingResponse> PutObjectTaggingAsync(PutObjectTaggingRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -2356,37 +2397,39 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
-                    string reqBody = _toXML(request.Body.ToMap());
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
+                    string reqBody = AlibabaCloud.TeaXML.Client.ToXML(request.Body.ToMap());
                     request_.Protocol = _protocol;
                     request_.Method = "PUT";
                     request_.Pathname = "/" + request.ObjectName + "?tagging";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
                     request_.Body = TeaCore.BytesReadable(reqBody);
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -2413,35 +2456,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public SelectObjectResponse SelectObject(SelectObjectRequest request, RuntimeObject runtime)
+        public SelectObjectResponse SelectObject(SelectObjectRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -2462,38 +2502,40 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
-                    string reqBody = _toXML(request.Body.ToMap());
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
+                    string reqBody = AlibabaCloud.TeaXML.Client.ToXML(request.Body.ToMap());
                     request_.Protocol = _protocol;
                     request_.Method = "POST";
                     request_.Pathname = "/" + request.ObjectName;
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Query = _toQuery(request.Filter.ToMap());
+                    request_.Query = AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Filter.ToMap());
                     request_.Body = TeaCore.BytesReadable(reqBody);
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -2520,35 +2562,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<SelectObjectResponse> SelectObjectAsync(SelectObjectRequest request, RuntimeObject runtime)
+        public async Task<SelectObjectResponse> SelectObjectAsync(SelectObjectRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -2569,38 +2608,40 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
-                    string reqBody = _toXML(request.Body.ToMap());
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
+                    string reqBody = AlibabaCloud.TeaXML.Client.ToXML(request.Body.ToMap());
                     request_.Protocol = _protocol;
                     request_.Method = "POST";
                     request_.Pathname = "/" + request.ObjectName;
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Query = _toQuery(request.Filter.ToMap());
+                    request_.Query = AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Filter.ToMap());
                     request_.Body = TeaCore.BytesReadable(reqBody);
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -2627,35 +2668,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public PutBucketCORSResponse PutBucketCORS(PutBucketCORSRequest request, RuntimeObject runtime)
+        public PutBucketCORSResponse PutBucketCORS(PutBucketCORSRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -2676,37 +2714,39 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
-                    string reqBody = _toXML(request.Body.ToMap());
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
+                    string reqBody = AlibabaCloud.TeaXML.Client.ToXML(request.Body.ToMap());
                     request_.Protocol = _protocol;
                     request_.Method = "PUT";
                     request_.Pathname = "/?cors";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
                     request_.Body = TeaCore.BytesReadable(reqBody);
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -2733,35 +2773,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<PutBucketCORSResponse> PutBucketCORSAsync(PutBucketCORSRequest request, RuntimeObject runtime)
+        public async Task<PutBucketCORSResponse> PutBucketCORSAsync(PutBucketCORSRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -2782,37 +2819,39 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
-                    string reqBody = _toXML(request.Body.ToMap());
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
+                    string reqBody = AlibabaCloud.TeaXML.Client.ToXML(request.Body.ToMap());
                     request_.Protocol = _protocol;
                     request_.Method = "PUT";
                     request_.Pathname = "/?cors";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
                     request_.Body = TeaCore.BytesReadable(reqBody);
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -2839,35 +2878,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public PutBucketResponse PutBucket(PutBucketRequest request, RuntimeObject runtime)
+        public PutBucketResponse PutBucket(PutBucketRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -2888,8 +2924,10 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
-                    string reqBody = _toXML(request.Body.ToMap());
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
+                    string reqBody = AlibabaCloud.TeaXML.Client.ToXML(request.Body.ToMap());
                     request_.Protocol = _protocol;
                     request_.Method = "PUT";
                     request_.Pathname = "/";
@@ -2897,32 +2935,32 @@ else
                     (
                         new Dictionary<string, string>()
                         {
-                            {"host", GetHost(request.BucketName)},
-                            {"date", _getDate()},
-                            {"user-agent", _getUserAgent()},
+                            {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                            {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                            {"user-agent", GetUserAgent()},
                         },
-                        _toHeader(request.Header.ToMap())
+                        AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Header.ToMap())
                     );
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
                     request_.Body = TeaCore.BytesReadable(reqBody);
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -2949,35 +2987,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<PutBucketResponse> PutBucketAsync(PutBucketRequest request, RuntimeObject runtime)
+        public async Task<PutBucketResponse> PutBucketAsync(PutBucketRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -2998,8 +3033,10 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
-                    string reqBody = _toXML(request.Body.ToMap());
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
+                    string reqBody = AlibabaCloud.TeaXML.Client.ToXML(request.Body.ToMap());
                     request_.Protocol = _protocol;
                     request_.Method = "PUT";
                     request_.Pathname = "/";
@@ -3007,32 +3044,32 @@ else
                     (
                         new Dictionary<string, string>()
                         {
-                            {"host", GetHost(request.BucketName)},
-                            {"date", _getDate()},
-                            {"user-agent", _getUserAgent()},
+                            {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                            {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                            {"user-agent", GetUserAgent()},
                         },
-                        _toHeader(request.Header.ToMap())
+                        AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Header.ToMap())
                     );
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
                     request_.Body = TeaCore.BytesReadable(reqBody);
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -3059,35 +3096,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public ListMultipartUploadsResponse ListMultipartUploads(ListMultipartUploadsRequest request, RuntimeObject runtime)
+        public ListMultipartUploadsResponse ListMultipartUploads(ListMultipartUploadsRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -3108,36 +3142,38 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/?uploads";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Query = _toQuery(request.Filter.ToMap());
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Query = AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Filter.ToMap());
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -3145,8 +3181,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(ListMultipartUploadsResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(ListMultipartUploadsResponse));
                     return TeaModel.ToObject<ListMultipartUploadsResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -3170,35 +3206,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<ListMultipartUploadsResponse> ListMultipartUploadsAsync(ListMultipartUploadsRequest request, RuntimeObject runtime)
+        public async Task<ListMultipartUploadsResponse> ListMultipartUploadsAsync(ListMultipartUploadsRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -3219,36 +3252,38 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/?uploads";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Query = _toQuery(request.Filter.ToMap());
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Query = AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Filter.ToMap());
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -3256,8 +3291,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(ListMultipartUploadsResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(ListMultipartUploadsResponse));
                     return TeaModel.ToObject<ListMultipartUploadsResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -3281,35 +3316,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public GetBucketRequestPaymentResponse GetBucketRequestPayment(GetBucketRequestPaymentRequest request, RuntimeObject runtime)
+        public GetBucketRequestPaymentResponse GetBucketRequestPayment(GetBucketRequestPaymentRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -3330,35 +3362,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/?requestPayment";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -3366,8 +3400,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(GetBucketRequestPaymentResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(GetBucketRequestPaymentResponse));
                     return TeaModel.ToObject<GetBucketRequestPaymentResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -3391,35 +3425,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<GetBucketRequestPaymentResponse> GetBucketRequestPaymentAsync(GetBucketRequestPaymentRequest request, RuntimeObject runtime)
+        public async Task<GetBucketRequestPaymentResponse> GetBucketRequestPaymentAsync(GetBucketRequestPaymentRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -3440,35 +3471,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/?requestPayment";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -3476,8 +3509,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(GetBucketRequestPaymentResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(GetBucketRequestPaymentResponse));
                     return TeaModel.ToObject<GetBucketRequestPaymentResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -3501,35 +3534,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public GetBucketEncryptionResponse GetBucketEncryption(GetBucketEncryptionRequest request, RuntimeObject runtime)
+        public GetBucketEncryptionResponse GetBucketEncryption(GetBucketEncryptionRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -3550,35 +3580,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/?encryption";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -3586,8 +3618,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(GetBucketEncryptionResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(GetBucketEncryptionResponse));
                     return TeaModel.ToObject<GetBucketEncryptionResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -3611,35 +3643,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<GetBucketEncryptionResponse> GetBucketEncryptionAsync(GetBucketEncryptionRequest request, RuntimeObject runtime)
+        public async Task<GetBucketEncryptionResponse> GetBucketEncryptionAsync(GetBucketEncryptionRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -3660,35 +3689,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/?encryption";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -3696,8 +3727,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(GetBucketEncryptionResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(GetBucketEncryptionResponse));
                     return TeaModel.ToObject<GetBucketEncryptionResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -3721,35 +3752,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public GetBucketTagsResponse GetBucketTags(GetBucketTagsRequest request, RuntimeObject runtime)
+        public GetBucketTagsResponse GetBucketTags(GetBucketTagsRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -3770,35 +3798,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/?tagging";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -3806,8 +3836,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(GetBucketTagsResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(GetBucketTagsResponse));
                     return TeaModel.ToObject<GetBucketTagsResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -3831,35 +3861,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<GetBucketTagsResponse> GetBucketTagsAsync(GetBucketTagsRequest request, RuntimeObject runtime)
+        public async Task<GetBucketTagsResponse> GetBucketTagsAsync(GetBucketTagsRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -3880,35 +3907,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/?tagging";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -3916,8 +3945,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(GetBucketTagsResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(GetBucketTagsResponse));
                     return TeaModel.ToObject<GetBucketTagsResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -3941,35 +3970,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public GetServiceResponse GetService(GetServiceRequest request, RuntimeObject runtime)
+        public GetServiceResponse GetService(GetServiceRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -3990,36 +4016,38 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost("")},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost("", _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Query = _toQuery(request.Filter.ToMap());
-                    request_.Headers["authorization"] = GetSignature(request_, "");
+                    request_.Query = AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Filter.ToMap());
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, "", accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -4027,8 +4055,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(GetServiceResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(GetServiceResponse));
                     return TeaModel.ToObject<GetServiceResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -4052,35 +4080,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<GetServiceResponse> GetServiceAsync(GetServiceRequest request, RuntimeObject runtime)
+        public async Task<GetServiceResponse> GetServiceAsync(GetServiceRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -4101,36 +4126,38 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost("")},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost("", _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Query = _toQuery(request.Filter.ToMap());
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, "");
+                    request_.Query = AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Filter.ToMap());
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, "", accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -4138,8 +4165,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(GetServiceResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(GetServiceResponse));
                     return TeaModel.ToObject<GetServiceResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -4163,35 +4190,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public DeleteBucketEncryptionResponse DeleteBucketEncryption(DeleteBucketEncryptionRequest request, RuntimeObject runtime)
+        public DeleteBucketEncryptionResponse DeleteBucketEncryption(DeleteBucketEncryptionRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -4212,35 +4236,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "DELETE";
                     request_.Pathname = "/?encryption";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -4267,35 +4293,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<DeleteBucketEncryptionResponse> DeleteBucketEncryptionAsync(DeleteBucketEncryptionRequest request, RuntimeObject runtime)
+        public async Task<DeleteBucketEncryptionResponse> DeleteBucketEncryptionAsync(DeleteBucketEncryptionRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -4316,35 +4339,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "DELETE";
                     request_.Pathname = "/?encryption";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -4371,35 +4396,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public DeleteBucketTagsResponse DeleteBucketTags(DeleteBucketTagsRequest request, RuntimeObject runtime)
+        public DeleteBucketTagsResponse DeleteBucketTags(DeleteBucketTagsRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -4420,36 +4442,38 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "DELETE";
                     request_.Pathname = "/";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Query = _toQuery(request.Filter.ToMap());
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Query = AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Filter.ToMap());
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -4476,35 +4500,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<DeleteBucketTagsResponse> DeleteBucketTagsAsync(DeleteBucketTagsRequest request, RuntimeObject runtime)
+        public async Task<DeleteBucketTagsResponse> DeleteBucketTagsAsync(DeleteBucketTagsRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -4525,36 +4546,38 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "DELETE";
                     request_.Pathname = "/";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Query = _toQuery(request.Filter.ToMap());
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Query = AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Filter.ToMap());
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -4581,35 +4604,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public GetBucketWebsiteResponse GetBucketWebsite(GetBucketWebsiteRequest request, RuntimeObject runtime)
+        public GetBucketWebsiteResponse GetBucketWebsite(GetBucketWebsiteRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -4630,35 +4650,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/?website";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -4666,8 +4688,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(GetBucketWebsiteResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(GetBucketWebsiteResponse));
                     return TeaModel.ToObject<GetBucketWebsiteResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -4691,35 +4713,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<GetBucketWebsiteResponse> GetBucketWebsiteAsync(GetBucketWebsiteRequest request, RuntimeObject runtime)
+        public async Task<GetBucketWebsiteResponse> GetBucketWebsiteAsync(GetBucketWebsiteRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -4740,35 +4759,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/?website";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -4776,8 +4797,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(GetBucketWebsiteResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(GetBucketWebsiteResponse));
                     return TeaModel.ToObject<GetBucketWebsiteResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -4801,35 +4822,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public DeleteLiveChannelResponse DeleteLiveChannel(DeleteLiveChannelRequest request, RuntimeObject runtime)
+        public DeleteLiveChannelResponse DeleteLiveChannel(DeleteLiveChannelRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -4850,35 +4868,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "DELETE";
                     request_.Pathname = "/" + request.ChannelName + "?live";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -4905,35 +4925,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<DeleteLiveChannelResponse> DeleteLiveChannelAsync(DeleteLiveChannelRequest request, RuntimeObject runtime)
+        public async Task<DeleteLiveChannelResponse> DeleteLiveChannelAsync(DeleteLiveChannelRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -4954,35 +4971,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "DELETE";
                     request_.Pathname = "/" + request.ChannelName + "?live";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -5009,35 +5028,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public GetBucketLocationResponse GetBucketLocation(GetBucketLocationRequest request, RuntimeObject runtime)
+        public GetBucketLocationResponse GetBucketLocation(GetBucketLocationRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -5058,35 +5074,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/?location";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -5094,8 +5112,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(GetBucketLocationResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(GetBucketLocationResponse));
                     return TeaModel.ToObject<GetBucketLocationResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -5119,35 +5137,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<GetBucketLocationResponse> GetBucketLocationAsync(GetBucketLocationRequest request, RuntimeObject runtime)
+        public async Task<GetBucketLocationResponse> GetBucketLocationAsync(GetBucketLocationRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -5168,35 +5183,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/?location";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -5204,8 +5221,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(GetBucketLocationResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(GetBucketLocationResponse));
                     return TeaModel.ToObject<GetBucketLocationResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -5229,35 +5246,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public ListLiveChannelResponse ListLiveChannel(ListLiveChannelRequest request, RuntimeObject runtime)
+        public ListLiveChannelResponse ListLiveChannel(ListLiveChannelRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -5278,36 +5292,38 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/?live";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Query = _toQuery(request.Filter.ToMap());
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Query = AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Filter.ToMap());
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -5315,8 +5331,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(ListLiveChannelResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(ListLiveChannelResponse));
                     return TeaModel.ToObject<ListLiveChannelResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -5340,35 +5356,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<ListLiveChannelResponse> ListLiveChannelAsync(ListLiveChannelRequest request, RuntimeObject runtime)
+        public async Task<ListLiveChannelResponse> ListLiveChannelAsync(ListLiveChannelRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -5389,36 +5402,38 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/?live";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Query = _toQuery(request.Filter.ToMap());
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Query = AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Filter.ToMap());
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -5426,8 +5441,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(ListLiveChannelResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(ListLiveChannelResponse));
                     return TeaModel.ToObject<ListLiveChannelResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -5451,35 +5466,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public GetObjectMetaResponse GetObjectMeta(GetObjectMetaRequest request, RuntimeObject runtime)
+        public GetObjectMetaResponse GetObjectMeta(GetObjectMetaRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -5500,35 +5512,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "HEAD";
                     request_.Pathname = "/" + request.ObjectName + "?objectMeta";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -5555,35 +5569,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<GetObjectMetaResponse> GetObjectMetaAsync(GetObjectMetaRequest request, RuntimeObject runtime)
+        public async Task<GetObjectMetaResponse> GetObjectMetaAsync(GetObjectMetaRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -5604,35 +5615,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "HEAD";
                     request_.Pathname = "/" + request.ObjectName + "?objectMeta";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -5659,35 +5672,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public GetBucketAclResponse GetBucketAcl(GetBucketAclRequest request, RuntimeObject runtime)
+        public GetBucketAclResponse GetBucketAcl(GetBucketAclRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -5708,35 +5718,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/?acl";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -5744,8 +5756,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(GetBucketAclResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(GetBucketAclResponse));
                     return TeaModel.ToObject<GetBucketAclResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -5769,35 +5781,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<GetBucketAclResponse> GetBucketAclAsync(GetBucketAclRequest request, RuntimeObject runtime)
+        public async Task<GetBucketAclResponse> GetBucketAclAsync(GetBucketAclRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -5818,35 +5827,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/?acl";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -5854,8 +5865,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(GetBucketAclResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(GetBucketAclResponse));
                     return TeaModel.ToObject<GetBucketAclResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -5879,35 +5890,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public ListPartsResponse ListParts(ListPartsRequest request, RuntimeObject runtime)
+        public ListPartsResponse ListParts(ListPartsRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -5928,36 +5936,38 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/" + request.ObjectName;
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Query = _toQuery(request.Filter.ToMap());
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Query = AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Filter.ToMap());
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -5965,8 +5975,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(ListPartsResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(ListPartsResponse));
                     return TeaModel.ToObject<ListPartsResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -5990,35 +6000,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<ListPartsResponse> ListPartsAsync(ListPartsRequest request, RuntimeObject runtime)
+        public async Task<ListPartsResponse> ListPartsAsync(ListPartsRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -6039,36 +6046,38 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/" + request.ObjectName;
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Query = _toQuery(request.Filter.ToMap());
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Query = AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Filter.ToMap());
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -6076,8 +6085,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(ListPartsResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(ListPartsResponse));
                     return TeaModel.ToObject<ListPartsResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -6101,35 +6110,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public GetLiveChannelHistoryResponse GetLiveChannelHistory(GetLiveChannelHistoryRequest request, RuntimeObject runtime)
+        public GetLiveChannelHistoryResponse GetLiveChannelHistory(GetLiveChannelHistoryRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -6150,36 +6156,38 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/" + request.ChannelName + "?live";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Query = _toQuery(request.Filter.ToMap());
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Query = AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Filter.ToMap());
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -6187,8 +6195,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(GetLiveChannelHistoryResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(GetLiveChannelHistoryResponse));
                     return TeaModel.ToObject<GetLiveChannelHistoryResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -6212,35 +6220,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<GetLiveChannelHistoryResponse> GetLiveChannelHistoryAsync(GetLiveChannelHistoryRequest request, RuntimeObject runtime)
+        public async Task<GetLiveChannelHistoryResponse> GetLiveChannelHistoryAsync(GetLiveChannelHistoryRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -6261,36 +6266,38 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/" + request.ChannelName + "?live";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Query = _toQuery(request.Filter.ToMap());
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Query = AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Filter.ToMap());
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -6298,8 +6305,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(GetLiveChannelHistoryResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(GetLiveChannelHistoryResponse));
                     return TeaModel.ToObject<GetLiveChannelHistoryResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -6323,35 +6330,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public GetBucketResponse GetBucket(GetBucketRequest request, RuntimeObject runtime)
+        public GetBucketResponse GetBucket(GetBucketRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -6372,36 +6376,38 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Query = _toQuery(request.Filter.ToMap());
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Query = AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Filter.ToMap());
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -6409,8 +6415,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(GetBucketResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(GetBucketResponse));
                     return TeaModel.ToObject<GetBucketResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -6434,35 +6440,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<GetBucketResponse> GetBucketAsync(GetBucketRequest request, RuntimeObject runtime)
+        public async Task<GetBucketResponse> GetBucketAsync(GetBucketRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -6483,36 +6486,38 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Query = _toQuery(request.Filter.ToMap());
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Query = AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Filter.ToMap());
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -6520,8 +6525,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(GetBucketResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(GetBucketResponse));
                     return TeaModel.ToObject<GetBucketResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -6545,35 +6550,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public GetLiveChannelInfoResponse GetLiveChannelInfo(GetLiveChannelInfoRequest request, RuntimeObject runtime)
+        public GetLiveChannelInfoResponse GetLiveChannelInfo(GetLiveChannelInfoRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -6594,35 +6596,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/" + request.ChannelName + "?live";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -6630,8 +6634,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(GetLiveChannelInfoResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(GetLiveChannelInfoResponse));
                     return TeaModel.ToObject<GetLiveChannelInfoResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -6655,35 +6659,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<GetLiveChannelInfoResponse> GetLiveChannelInfoAsync(GetLiveChannelInfoRequest request, RuntimeObject runtime)
+        public async Task<GetLiveChannelInfoResponse> GetLiveChannelInfoAsync(GetLiveChannelInfoRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -6704,35 +6705,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/" + request.ChannelName + "?live";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -6740,8 +6743,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(GetLiveChannelInfoResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(GetLiveChannelInfoResponse));
                     return TeaModel.ToObject<GetLiveChannelInfoResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -6765,35 +6768,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public GetLiveChannelStatResponse GetLiveChannelStat(GetLiveChannelStatRequest request, RuntimeObject runtime)
+        public GetLiveChannelStatResponse GetLiveChannelStat(GetLiveChannelStatRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -6814,36 +6814,38 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/" + request.ChannelName + "?live";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Query = _toQuery(request.Filter.ToMap());
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Query = AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Filter.ToMap());
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -6851,8 +6853,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(GetLiveChannelStatResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(GetLiveChannelStatResponse));
                     return TeaModel.ToObject<GetLiveChannelStatResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -6876,35 +6878,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<GetLiveChannelStatResponse> GetLiveChannelStatAsync(GetLiveChannelStatRequest request, RuntimeObject runtime)
+        public async Task<GetLiveChannelStatResponse> GetLiveChannelStatAsync(GetLiveChannelStatRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -6925,36 +6924,38 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/" + request.ChannelName + "?live";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Query = _toQuery(request.Filter.ToMap());
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Query = AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Filter.ToMap());
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -6962,8 +6963,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(GetLiveChannelStatResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(GetLiveChannelStatResponse));
                     return TeaModel.ToObject<GetLiveChannelStatResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -6987,35 +6988,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public DeleteObjectResponse DeleteObject(DeleteObjectRequest request, RuntimeObject runtime)
+        public DeleteObjectResponse DeleteObject(DeleteObjectRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -7036,35 +7034,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "DELETE";
                     request_.Pathname = "/" + request.ObjectName;
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -7091,35 +7091,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<DeleteObjectResponse> DeleteObjectAsync(DeleteObjectRequest request, RuntimeObject runtime)
+        public async Task<DeleteObjectResponse> DeleteObjectAsync(DeleteObjectRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -7140,35 +7137,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "DELETE";
                     request_.Pathname = "/" + request.ObjectName;
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -7195,35 +7194,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public AbortMultipartUploadResponse AbortMultipartUpload(AbortMultipartUploadRequest request, RuntimeObject runtime)
+        public AbortMultipartUploadResponse AbortMultipartUpload(AbortMultipartUploadRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -7244,36 +7240,38 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "DELETE";
                     request_.Pathname = "/" + request.ObjectName;
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Query = _toQuery(request.Filter.ToMap());
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Query = AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Filter.ToMap());
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -7300,35 +7298,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<AbortMultipartUploadResponse> AbortMultipartUploadAsync(AbortMultipartUploadRequest request, RuntimeObject runtime)
+        public async Task<AbortMultipartUploadResponse> AbortMultipartUploadAsync(AbortMultipartUploadRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -7349,36 +7344,38 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "DELETE";
                     request_.Pathname = "/" + request.ObjectName;
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Query = _toQuery(request.Filter.ToMap());
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Query = AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Filter.ToMap());
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -7405,35 +7402,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public AppendObjectResponse AppendObject(AppendObjectRequest request, RuntimeObject runtime)
+        public AppendObjectResponse AppendObject(AppendObjectRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -7455,7 +7449,9 @@ else
                 {
                     TeaRequest request_ = new TeaRequest();
                     Dictionary<string, string> ctx = new Dictionary<string, string>(){};
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "POST";
                     request_.Pathname = "/" + request.ObjectName + "?append";
@@ -7463,42 +7459,42 @@ else
                     (
                         new Dictionary<string, string>()
                         {
-                            {"host", GetHost(request.BucketName)},
-                            {"date", _getDate()},
-                            {"user-agent", _getUserAgent()},
+                            {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                            {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                            {"user-agent", GetUserAgent()},
                         },
-                        _toHeader(request.Header.ToMap()),
-                        _parseMeta(request.UserMeta, "x-oss-meta-")
+                        AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Header.ToMap()),
+                        AlibabaCloud.OSSUtil.Common.ParseMeta(request.UserMeta, "x-oss-meta-")
                     );
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Query = _toQuery(request.Filter.ToMap());
-                    request_.Body = _inject(request.Body, ctx);
-                    if (_notNull(request.Header.ToMap()) && !_empty(request.Header.ContentType))
+                    request_.Query = AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Filter.ToMap());
+                    request_.Body = AlibabaCloud.OSSUtil.Common.Inject(request.Body, ctx);
+                    if (AlibabaCloud.TeaUtil.Common.IsUnset(request.Header.ToMap()) && !AlibabaCloud.TeaUtil.Common.Empty(request.Header.ContentType))
                     {
                         request_.Headers["content-type"] = request.Header.ContentType;
                     }
-else
+                    else
                     {
-                        request_.Headers["content-type"] = _getContentType(request.ObjectName);
+                        request_.Headers["content-type"] = AlibabaCloud.OSSUtil.Common.GetContentType(request.ObjectName);
                     }
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -7506,24 +7502,24 @@ else
                             }},
                         });
                     }
-                    if (_isEnableCrc && !_equal(ctx["crc"], response_.Headers["x-oss-hash-crc64ecma"]))
+                    if (_isEnableCrc.Value && !AlibabaCloud.TeaUtil.Common.EqualString(ctx["crc"], response_.Headers["x-oss-hash-crc64ecma"]))
                     {
-                        throw new TeaException(new Dictionary<string, object>()
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", "CrcNotMatched"},
-                            {"data", new Dictionary<string, string>()
+                            {"data", new Dictionary<string, string>
                             {
                                 {"clientCrc", ctx["crc"]},
                                 {"serverCrc", response_.Headers["x-oss-hash-crc64ecma"]},
                             }},
                         });
                     }
-                    if (_isEnableMD5 && !_equal(ctx["md5"], response_.Headers["content-md5"]))
+                    if (_isEnableMD5.Value && !AlibabaCloud.TeaUtil.Common.EqualString(ctx["md5"], response_.Headers["content-md5"]))
                     {
-                        throw new TeaException(new Dictionary<string, object>()
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", "MD5NotMatched"},
-                            {"data", new Dictionary<string, string>()
+                            {"data", new Dictionary<string, string>
                             {
                                 {"clientMD5", ctx["md5"]},
                                 {"serverMD5", response_.Headers["content-md5"]},
@@ -7549,35 +7545,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<AppendObjectResponse> AppendObjectAsync(AppendObjectRequest request, RuntimeObject runtime)
+        public async Task<AppendObjectResponse> AppendObjectAsync(AppendObjectRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -7599,7 +7592,9 @@ else
                 {
                     TeaRequest request_ = new TeaRequest();
                     Dictionary<string, string> ctx = new Dictionary<string, string>(){};
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "POST";
                     request_.Pathname = "/" + request.ObjectName + "?append";
@@ -7607,42 +7602,42 @@ else
                     (
                         new Dictionary<string, string>()
                         {
-                            {"host", GetHost(request.BucketName)},
-                            {"date", _getDate()},
-                            {"user-agent", _getUserAgent()},
+                            {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                            {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                            {"user-agent", GetUserAgent()},
                         },
-                        _toHeader(request.Header.ToMap()),
-                        _parseMeta(request.UserMeta, "x-oss-meta-")
+                        AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Header.ToMap()),
+                        AlibabaCloud.OSSUtil.Common.ParseMeta(request.UserMeta, "x-oss-meta-")
                     );
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Query = _toQuery(request.Filter.ToMap());
-                    request_.Body = _inject(request.Body, ctx);
-                    if (_notNull(request.Header.ToMap()) && !_empty(request.Header.ContentType))
+                    request_.Query = AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Filter.ToMap());
+                    request_.Body = AlibabaCloud.OSSUtil.Common.Inject(request.Body, ctx);
+                    if (AlibabaCloud.TeaUtil.Common.IsUnset(request.Header.ToMap()) && !AlibabaCloud.TeaUtil.Common.Empty(request.Header.ContentType))
                     {
                         request_.Headers["content-type"] = request.Header.ContentType;
                     }
-else
+                    else
                     {
-                        request_.Headers["content-type"] = _getContentType(request.ObjectName);
+                        request_.Headers["content-type"] = AlibabaCloud.OSSUtil.Common.GetContentType(request.ObjectName);
                     }
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -7650,24 +7645,24 @@ else
                             }},
                         });
                     }
-                    if (_isEnableCrc && !_equal(ctx["crc"], response_.Headers["x-oss-hash-crc64ecma"]))
+                    if (_isEnableCrc.Value && !AlibabaCloud.TeaUtil.Common.EqualString(ctx["crc"], response_.Headers["x-oss-hash-crc64ecma"]))
                     {
-                        throw new TeaException(new Dictionary<string, object>()
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", "CrcNotMatched"},
-                            {"data", new Dictionary<string, string>()
+                            {"data", new Dictionary<string, string>
                             {
                                 {"clientCrc", ctx["crc"]},
                                 {"serverCrc", response_.Headers["x-oss-hash-crc64ecma"]},
                             }},
                         });
                     }
-                    if (_isEnableMD5 && !_equal(ctx["md5"], response_.Headers["content-md5"]))
+                    if (_isEnableMD5.Value && !AlibabaCloud.TeaUtil.Common.EqualString(ctx["md5"], response_.Headers["content-md5"]))
                     {
-                        throw new TeaException(new Dictionary<string, object>()
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", "MD5NotMatched"},
-                            {"data", new Dictionary<string, string>()
+                            {"data", new Dictionary<string, string>
                             {
                                 {"clientMD5", ctx["md5"]},
                                 {"serverMD5", response_.Headers["content-md5"]},
@@ -7693,35 +7688,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public UploadPartCopyResponse UploadPartCopy(UploadPartCopyRequest request, RuntimeObject runtime)
+        public UploadPartCopyResponse UploadPartCopy(UploadPartCopyRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -7742,7 +7734,9 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "PUT";
                     request_.Pathname = "/" + request.ObjectName;
@@ -7750,32 +7744,32 @@ else
                     (
                         new Dictionary<string, string>()
                         {
-                            {"host", GetHost(request.BucketName)},
-                            {"date", _getDate()},
-                            {"user-agent", _getUserAgent()},
+                            {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                            {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                            {"user-agent", GetUserAgent()},
                         },
-                        _toHeader(request.Header.ToMap())
+                        AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Header.ToMap())
                     );
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Query = _toQuery(request.Filter.ToMap());
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Query = AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Filter.ToMap());
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -7783,8 +7777,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(UploadPartCopyResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(UploadPartCopyResponse));
                     return TeaModel.ToObject<UploadPartCopyResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -7808,35 +7802,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<UploadPartCopyResponse> UploadPartCopyAsync(UploadPartCopyRequest request, RuntimeObject runtime)
+        public async Task<UploadPartCopyResponse> UploadPartCopyAsync(UploadPartCopyRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -7857,7 +7848,9 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "PUT";
                     request_.Pathname = "/" + request.ObjectName;
@@ -7865,32 +7858,32 @@ else
                     (
                         new Dictionary<string, string>()
                         {
-                            {"host", GetHost(request.BucketName)},
-                            {"date", _getDate()},
-                            {"user-agent", _getUserAgent()},
+                            {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                            {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                            {"user-agent", GetUserAgent()},
                         },
-                        _toHeader(request.Header.ToMap())
+                        AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Header.ToMap())
                     );
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Query = _toQuery(request.Filter.ToMap());
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Query = AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Filter.ToMap());
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -7898,8 +7891,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(UploadPartCopyResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(UploadPartCopyResponse));
                     return TeaModel.ToObject<UploadPartCopyResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -7923,35 +7916,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public GetVodPlaylistResponse GetVodPlaylist(GetVodPlaylistRequest request, RuntimeObject runtime)
+        public GetVodPlaylistResponse GetVodPlaylist(GetVodPlaylistRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -7972,36 +7962,38 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/" + request.ChannelName + "?vod";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Query = _toQuery(request.Filter.ToMap());
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Query = AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Filter.ToMap());
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -8028,35 +8020,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<GetVodPlaylistResponse> GetVodPlaylistAsync(GetVodPlaylistRequest request, RuntimeObject runtime)
+        public async Task<GetVodPlaylistResponse> GetVodPlaylistAsync(GetVodPlaylistRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -8077,36 +8066,38 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/" + request.ChannelName + "?vod";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Query = _toQuery(request.Filter.ToMap());
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Query = AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Filter.ToMap());
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -8133,35 +8124,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public DeleteBucketCORSResponse DeleteBucketCORS(DeleteBucketCORSRequest request, RuntimeObject runtime)
+        public DeleteBucketCORSResponse DeleteBucketCORS(DeleteBucketCORSRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -8182,35 +8170,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "DELETE";
                     request_.Pathname = "/?cors";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -8237,35 +8227,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<DeleteBucketCORSResponse> DeleteBucketCORSAsync(DeleteBucketCORSRequest request, RuntimeObject runtime)
+        public async Task<DeleteBucketCORSResponse> DeleteBucketCORSAsync(DeleteBucketCORSRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -8286,35 +8273,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "DELETE";
                     request_.Pathname = "/?cors";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -8341,35 +8330,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public GetObjectResponse GetObject(GetObjectRequest request, RuntimeObject runtime)
+        public GetObjectResponse GetObject(GetObjectRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -8390,7 +8376,9 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/" + request.ObjectName;
@@ -8398,31 +8386,31 @@ else
                     (
                         new Dictionary<string, string>()
                         {
-                            {"host", GetHost(request.BucketName)},
-                            {"date", _getDate()},
-                            {"user-agent", _getUserAgent()},
+                            {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                            {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                            {"user-agent", GetUserAgent()},
                         },
-                        _toHeader(request.Header.ToMap())
+                        AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Header.ToMap())
                     );
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -8434,7 +8422,7 @@ else
                     (
                         new Dictionary<string, object>()
                         {
-                            {"body", _readAsStream(response_)},
+                            {"body", response_.Body},
                         },
                         response_.Headers
                     ));
@@ -8453,35 +8441,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<GetObjectResponse> GetObjectAsync(GetObjectRequest request, RuntimeObject runtime)
+        public async Task<GetObjectResponse> GetObjectAsync(GetObjectRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -8502,7 +8487,9 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/" + request.ObjectName;
@@ -8510,31 +8497,31 @@ else
                     (
                         new Dictionary<string, string>()
                         {
-                            {"host", GetHost(request.BucketName)},
-                            {"date", _getDate()},
-                            {"user-agent", _getUserAgent()},
+                            {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                            {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                            {"user-agent", GetUserAgent()},
                         },
-                        _toHeader(request.Header.ToMap())
+                        AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Header.ToMap())
                     );
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -8546,7 +8533,7 @@ else
                     (
                         new Dictionary<string, object>()
                         {
-                            {"body", _readAsStream(response_)},
+                            {"body", response_.Body},
                         },
                         response_.Headers
                     ));
@@ -8565,35 +8552,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public UploadPartResponse UploadPart(UploadPartRequest request, RuntimeObject runtime)
+        public UploadPartResponse UploadPart(UploadPartRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -8615,37 +8599,39 @@ else
                 {
                     TeaRequest request_ = new TeaRequest();
                     Dictionary<string, string> ctx = new Dictionary<string, string>(){};
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "PUT";
                     request_.Pathname = "/" + request.ObjectName;
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Query = _toQuery(request.Filter.ToMap());
-                    request_.Body = _inject(request.Body, ctx);
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Query = AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Filter.ToMap());
+                    request_.Body = AlibabaCloud.OSSUtil.Common.Inject(request.Body, ctx);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -8653,24 +8639,24 @@ else
                             }},
                         });
                     }
-                    if (_isEnableCrc && !_equal(ctx["crc"], response_.Headers["x-oss-hash-crc64ecma"]))
+                    if (_isEnableCrc.Value && !AlibabaCloud.TeaUtil.Common.EqualString(ctx["crc"], response_.Headers["x-oss-hash-crc64ecma"]))
                     {
-                        throw new TeaException(new Dictionary<string, object>()
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", "CrcNotMatched"},
-                            {"data", new Dictionary<string, string>()
+                            {"data", new Dictionary<string, string>
                             {
                                 {"clientCrc", ctx["crc"]},
                                 {"serverCrc", response_.Headers["x-oss-hash-crc64ecma"]},
                             }},
                         });
                     }
-                    if (_isEnableMD5 && !_equal(ctx["md5"], response_.Headers["content-md5"]))
+                    if (_isEnableMD5.Value && !AlibabaCloud.TeaUtil.Common.EqualString(ctx["md5"], response_.Headers["content-md5"]))
                     {
-                        throw new TeaException(new Dictionary<string, object>()
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", "MD5NotMatched"},
-                            {"data", new Dictionary<string, string>()
+                            {"data", new Dictionary<string, string>
                             {
                                 {"clientMD5", ctx["md5"]},
                                 {"serverMD5", response_.Headers["content-md5"]},
@@ -8696,35 +8682,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<UploadPartResponse> UploadPartAsync(UploadPartRequest request, RuntimeObject runtime)
+        public async Task<UploadPartResponse> UploadPartAsync(UploadPartRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -8746,37 +8729,39 @@ else
                 {
                     TeaRequest request_ = new TeaRequest();
                     Dictionary<string, string> ctx = new Dictionary<string, string>(){};
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "PUT";
                     request_.Pathname = "/" + request.ObjectName;
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Query = _toQuery(request.Filter.ToMap());
-                    request_.Body = _inject(request.Body, ctx);
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Query = AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Filter.ToMap());
+                    request_.Body = AlibabaCloud.OSSUtil.Common.Inject(request.Body, ctx);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -8784,24 +8769,24 @@ else
                             }},
                         });
                     }
-                    if (_isEnableCrc && !_equal(ctx["crc"], response_.Headers["x-oss-hash-crc64ecma"]))
+                    if (_isEnableCrc.Value && !AlibabaCloud.TeaUtil.Common.EqualString(ctx["crc"], response_.Headers["x-oss-hash-crc64ecma"]))
                     {
-                        throw new TeaException(new Dictionary<string, object>()
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", "CrcNotMatched"},
-                            {"data", new Dictionary<string, string>()
+                            {"data", new Dictionary<string, string>
                             {
                                 {"clientCrc", ctx["crc"]},
                                 {"serverCrc", response_.Headers["x-oss-hash-crc64ecma"]},
                             }},
                         });
                     }
-                    if (_isEnableMD5 && !_equal(ctx["md5"], response_.Headers["content-md5"]))
+                    if (_isEnableMD5.Value && !AlibabaCloud.TeaUtil.Common.EqualString(ctx["md5"], response_.Headers["content-md5"]))
                     {
-                        throw new TeaException(new Dictionary<string, object>()
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", "MD5NotMatched"},
-                            {"data", new Dictionary<string, string>()
+                            {"data", new Dictionary<string, string>
                             {
                                 {"clientMD5", ctx["md5"]},
                                 {"serverMD5", response_.Headers["content-md5"]},
@@ -8827,35 +8812,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public GetBucketCORSResponse GetBucketCORS(GetBucketCORSRequest request, RuntimeObject runtime)
+        public GetBucketCORSResponse GetBucketCORS(GetBucketCORSRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -8876,35 +8858,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/?cors";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -8912,8 +8896,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(GetBucketCORSResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(GetBucketCORSResponse));
                     return TeaModel.ToObject<GetBucketCORSResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -8937,35 +8921,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<GetBucketCORSResponse> GetBucketCORSAsync(GetBucketCORSRequest request, RuntimeObject runtime)
+        public async Task<GetBucketCORSResponse> GetBucketCORSAsync(GetBucketCORSRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -8986,35 +8967,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/?cors";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -9022,8 +9005,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(GetBucketCORSResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(GetBucketCORSResponse));
                     return TeaModel.ToObject<GetBucketCORSResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -9047,35 +9030,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public CopyObjectResponse CopyObject(CopyObjectRequest request, RuntimeObject runtime)
+        public CopyObjectResponse CopyObject(CopyObjectRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -9096,7 +9076,9 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "PUT";
                     request_.Pathname = "/" + request.DestObjectName;
@@ -9104,32 +9086,32 @@ else
                     (
                         new Dictionary<string, string>()
                         {
-                            {"host", GetHost(request.BucketName)},
-                            {"date", _getDate()},
-                            {"user-agent", _getUserAgent()},
+                            {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                            {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                            {"user-agent", GetUserAgent()},
                         },
-                        _toHeader(request.Header.ToMap())
+                        AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Header.ToMap())
                     );
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["x-oss-copy-source"] = _encode(request_.Headers["x-oss-copy-source"], "UrlEncode");
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["x-oss-copy-source"] = AlibabaCloud.OSSUtil.Common.Encode(request_.Headers["x-oss-copy-source"], "UrlEncode");
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -9137,8 +9119,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(CopyObjectResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(CopyObjectResponse));
                     return TeaModel.ToObject<CopyObjectResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -9162,35 +9144,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<CopyObjectResponse> CopyObjectAsync(CopyObjectRequest request, RuntimeObject runtime)
+        public async Task<CopyObjectResponse> CopyObjectAsync(CopyObjectRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -9211,7 +9190,9 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "PUT";
                     request_.Pathname = "/" + request.DestObjectName;
@@ -9219,32 +9200,32 @@ else
                     (
                         new Dictionary<string, string>()
                         {
-                            {"host", GetHost(request.BucketName)},
-                            {"date", _getDate()},
-                            {"user-agent", _getUserAgent()},
+                            {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                            {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                            {"user-agent", GetUserAgent()},
                         },
-                        _toHeader(request.Header.ToMap())
+                        AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Header.ToMap())
                     );
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["x-oss-copy-source"] = _encode(request_.Headers["x-oss-copy-source"], "UrlEncode");
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["x-oss-copy-source"] = AlibabaCloud.OSSUtil.Common.Encode(request_.Headers["x-oss-copy-source"], "UrlEncode");
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -9252,8 +9233,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(CopyObjectResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(CopyObjectResponse));
                     return TeaModel.ToObject<CopyObjectResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -9277,35 +9258,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public GetObjectTaggingResponse GetObjectTagging(GetObjectTaggingRequest request, RuntimeObject runtime)
+        public GetObjectTaggingResponse GetObjectTagging(GetObjectTaggingRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -9326,35 +9304,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/" + request.ObjectName + "?tagging";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -9362,8 +9342,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(GetObjectTaggingResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(GetObjectTaggingResponse));
                     return TeaModel.ToObject<GetObjectTaggingResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -9387,35 +9367,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<GetObjectTaggingResponse> GetObjectTaggingAsync(GetObjectTaggingRequest request, RuntimeObject runtime)
+        public async Task<GetObjectTaggingResponse> GetObjectTaggingAsync(GetObjectTaggingRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -9436,35 +9413,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/" + request.ObjectName + "?tagging";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -9472,8 +9451,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(GetObjectTaggingResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(GetObjectTaggingResponse));
                     return TeaModel.ToObject<GetObjectTaggingResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -9497,35 +9476,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public DeleteBucketLifecycleResponse DeleteBucketLifecycle(DeleteBucketLifecycleRequest request, RuntimeObject runtime)
+        public DeleteBucketLifecycleResponse DeleteBucketLifecycle(DeleteBucketLifecycleRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -9546,35 +9522,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "DELETE";
                     request_.Pathname = "/?lifecycle";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -9601,35 +9579,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<DeleteBucketLifecycleResponse> DeleteBucketLifecycleAsync(DeleteBucketLifecycleRequest request, RuntimeObject runtime)
+        public async Task<DeleteBucketLifecycleResponse> DeleteBucketLifecycleAsync(DeleteBucketLifecycleRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -9650,35 +9625,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "DELETE";
                     request_.Pathname = "/?lifecycle";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -9705,35 +9682,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public DeleteBucketLoggingResponse DeleteBucketLogging(DeleteBucketLoggingRequest request, RuntimeObject runtime)
+        public DeleteBucketLoggingResponse DeleteBucketLogging(DeleteBucketLoggingRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -9754,35 +9728,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "DELETE";
                     request_.Pathname = "/?logging";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -9809,35 +9785,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<DeleteBucketLoggingResponse> DeleteBucketLoggingAsync(DeleteBucketLoggingRequest request, RuntimeObject runtime)
+        public async Task<DeleteBucketLoggingResponse> DeleteBucketLoggingAsync(DeleteBucketLoggingRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -9858,35 +9831,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "DELETE";
                     request_.Pathname = "/?logging";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -9913,35 +9888,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public DeleteBucketWebsiteResponse DeleteBucketWebsite(DeleteBucketWebsiteRequest request, RuntimeObject runtime)
+        public DeleteBucketWebsiteResponse DeleteBucketWebsite(DeleteBucketWebsiteRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -9962,35 +9934,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "DELETE";
                     request_.Pathname = "/?website";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -10017,35 +9991,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<DeleteBucketWebsiteResponse> DeleteBucketWebsiteAsync(DeleteBucketWebsiteRequest request, RuntimeObject runtime)
+        public async Task<DeleteBucketWebsiteResponse> DeleteBucketWebsiteAsync(DeleteBucketWebsiteRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -10066,35 +10037,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "DELETE";
                     request_.Pathname = "/?website";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -10121,35 +10094,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public GetSymlinkResponse GetSymlink(GetSymlinkRequest request, RuntimeObject runtime)
+        public GetSymlinkResponse GetSymlink(GetSymlinkRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -10170,35 +10140,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/" + request.ObjectName + "?symlink";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -10225,35 +10197,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<GetSymlinkResponse> GetSymlinkAsync(GetSymlinkRequest request, RuntimeObject runtime)
+        public async Task<GetSymlinkResponse> GetSymlinkAsync(GetSymlinkRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -10274,35 +10243,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/" + request.ObjectName + "?symlink";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -10329,35 +10300,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public GetBucketLifecycleResponse GetBucketLifecycle(GetBucketLifecycleRequest request, RuntimeObject runtime)
+        public GetBucketLifecycleResponse GetBucketLifecycle(GetBucketLifecycleRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -10378,35 +10346,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/?lifecycle";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -10414,8 +10384,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(GetBucketLifecycleResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(GetBucketLifecycleResponse));
                     return TeaModel.ToObject<GetBucketLifecycleResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -10439,35 +10409,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<GetBucketLifecycleResponse> GetBucketLifecycleAsync(GetBucketLifecycleRequest request, RuntimeObject runtime)
+        public async Task<GetBucketLifecycleResponse> GetBucketLifecycleAsync(GetBucketLifecycleRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -10488,35 +10455,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/?lifecycle";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -10524,8 +10493,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(GetBucketLifecycleResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(GetBucketLifecycleResponse));
                     return TeaModel.ToObject<GetBucketLifecycleResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -10549,35 +10518,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public PutSymlinkResponse PutSymlink(PutSymlinkRequest request, RuntimeObject runtime)
+        public PutSymlinkResponse PutSymlink(PutSymlinkRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -10598,7 +10564,9 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "PUT";
                     request_.Pathname = "/" + request.ObjectName + "?symlink";
@@ -10606,31 +10574,31 @@ else
                     (
                         new Dictionary<string, string>()
                         {
-                            {"host", GetHost(request.BucketName)},
-                            {"date", _getDate()},
-                            {"user-agent", _getUserAgent()},
+                            {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                            {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                            {"user-agent", GetUserAgent()},
                         },
-                        _toHeader(request.Header.ToMap())
+                        AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Header.ToMap())
                     );
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -10657,35 +10625,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<PutSymlinkResponse> PutSymlinkAsync(PutSymlinkRequest request, RuntimeObject runtime)
+        public async Task<PutSymlinkResponse> PutSymlinkAsync(PutSymlinkRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -10706,7 +10671,9 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "PUT";
                     request_.Pathname = "/" + request.ObjectName + "?symlink";
@@ -10714,31 +10681,31 @@ else
                     (
                         new Dictionary<string, string>()
                         {
-                            {"host", GetHost(request.BucketName)},
-                            {"date", _getDate()},
-                            {"user-agent", _getUserAgent()},
+                            {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                            {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                            {"user-agent", GetUserAgent()},
                         },
-                        _toHeader(request.Header.ToMap())
+                        AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Header.ToMap())
                     );
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -10765,35 +10732,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public GetBucketRefererResponse GetBucketReferer(GetBucketRefererRequest request, RuntimeObject runtime)
+        public GetBucketRefererResponse GetBucketReferer(GetBucketRefererRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -10814,35 +10778,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/?referer";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -10850,8 +10816,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(GetBucketRefererResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(GetBucketRefererResponse));
                     return TeaModel.ToObject<GetBucketRefererResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -10875,35 +10841,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<GetBucketRefererResponse> GetBucketRefererAsync(GetBucketRefererRequest request, RuntimeObject runtime)
+        public async Task<GetBucketRefererResponse> GetBucketRefererAsync(GetBucketRefererRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -10924,35 +10887,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/?referer";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -10960,8 +10925,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(GetBucketRefererResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(GetBucketRefererResponse));
                     return TeaModel.ToObject<GetBucketRefererResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -10985,35 +10950,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public CallbackResponse Callback(CallbackRequest request, RuntimeObject runtime)
+        public CallbackResponse Callback(CallbackRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -11034,35 +10996,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -11089,35 +11053,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<CallbackResponse> CallbackAsync(CallbackRequest request, RuntimeObject runtime)
+        public async Task<CallbackResponse> CallbackAsync(CallbackRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -11138,35 +11099,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -11193,35 +11156,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public GetBucketLoggingResponse GetBucketLogging(GetBucketLoggingRequest request, RuntimeObject runtime)
+        public GetBucketLoggingResponse GetBucketLogging(GetBucketLoggingRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -11242,35 +11202,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/?logging";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -11278,8 +11240,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(GetBucketLoggingResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(GetBucketLoggingResponse));
                     return TeaModel.ToObject<GetBucketLoggingResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -11303,35 +11265,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<GetBucketLoggingResponse> GetBucketLoggingAsync(GetBucketLoggingRequest request, RuntimeObject runtime)
+        public async Task<GetBucketLoggingResponse> GetBucketLoggingAsync(GetBucketLoggingRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -11352,35 +11311,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/?logging";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -11388,8 +11349,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(GetBucketLoggingResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(GetBucketLoggingResponse));
                     return TeaModel.ToObject<GetBucketLoggingResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -11413,35 +11374,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public PutObjectAclResponse PutObjectAcl(PutObjectAclRequest request, RuntimeObject runtime)
+        public PutObjectAclResponse PutObjectAcl(PutObjectAclRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -11462,7 +11420,9 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "PUT";
                     request_.Pathname = "/" + request.ObjectName + "?acl";
@@ -11470,31 +11430,31 @@ else
                     (
                         new Dictionary<string, string>()
                         {
-                            {"host", GetHost(request.BucketName)},
-                            {"date", _getDate()},
-                            {"user-agent", _getUserAgent()},
+                            {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                            {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                            {"user-agent", GetUserAgent()},
                         },
-                        _toHeader(request.Header.ToMap())
+                        AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Header.ToMap())
                     );
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -11521,35 +11481,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<PutObjectAclResponse> PutObjectAclAsync(PutObjectAclRequest request, RuntimeObject runtime)
+        public async Task<PutObjectAclResponse> PutObjectAclAsync(PutObjectAclRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -11570,7 +11527,9 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "PUT";
                     request_.Pathname = "/" + request.ObjectName + "?acl";
@@ -11578,31 +11537,31 @@ else
                     (
                         new Dictionary<string, string>()
                         {
-                            {"host", GetHost(request.BucketName)},
-                            {"date", _getDate()},
-                            {"user-agent", _getUserAgent()},
+                            {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                            {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                            {"user-agent", GetUserAgent()},
                         },
-                        _toHeader(request.Header.ToMap())
+                        AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Header.ToMap())
                     );
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -11629,35 +11588,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public GetBucketInfoResponse GetBucketInfo(GetBucketInfoRequest request, RuntimeObject runtime)
+        public GetBucketInfoResponse GetBucketInfo(GetBucketInfoRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -11678,35 +11634,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/?bucketInfo";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -11714,8 +11672,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(GetBucketInfoResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(GetBucketInfoResponse));
                     return TeaModel.ToObject<GetBucketInfoResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -11739,35 +11697,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<GetBucketInfoResponse> GetBucketInfoAsync(GetBucketInfoRequest request, RuntimeObject runtime)
+        public async Task<GetBucketInfoResponse> GetBucketInfoAsync(GetBucketInfoRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -11788,35 +11743,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/?bucketInfo";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -11824,8 +11781,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(GetBucketInfoResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(GetBucketInfoResponse));
                     return TeaModel.ToObject<GetBucketInfoResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -11849,35 +11806,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public PutLiveChannelStatusResponse PutLiveChannelStatus(PutLiveChannelStatusRequest request, RuntimeObject runtime)
+        public PutLiveChannelStatusResponse PutLiveChannelStatus(PutLiveChannelStatusRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -11898,36 +11852,38 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "PUT";
                     request_.Pathname = "/" + request.ChannelName + "?live";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Query = _toQuery(request.Filter.ToMap());
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Query = AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Filter.ToMap());
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -11954,35 +11910,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<PutLiveChannelStatusResponse> PutLiveChannelStatusAsync(PutLiveChannelStatusRequest request, RuntimeObject runtime)
+        public async Task<PutLiveChannelStatusResponse> PutLiveChannelStatusAsync(PutLiveChannelStatusRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -12003,36 +11956,38 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "PUT";
                     request_.Pathname = "/" + request.ChannelName + "?live";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Query = _toQuery(request.Filter.ToMap());
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Query = AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Filter.ToMap());
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -12059,35 +12014,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public InitiateMultipartUploadResponse InitiateMultipartUpload(InitiateMultipartUploadRequest request, RuntimeObject runtime)
+        public InitiateMultipartUploadResponse InitiateMultipartUpload(InitiateMultipartUploadRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -12108,7 +12060,9 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "POST";
                     request_.Pathname = "/" + request.ObjectName + "?uploads";
@@ -12116,40 +12070,40 @@ else
                     (
                         new Dictionary<string, string>()
                         {
-                            {"host", GetHost(request.BucketName)},
-                            {"date", _getDate()},
-                            {"user-agent", _getUserAgent()},
+                            {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                            {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                            {"user-agent", GetUserAgent()},
                         },
-                        _toHeader(request.Header.ToMap())
+                        AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Header.ToMap())
                     );
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Query = _toQuery(request.Filter.ToMap());
-                    if (_notNull(request.Header.ToMap()) && !_empty(request.Header.ContentType))
+                    request_.Query = AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Filter.ToMap());
+                    if (AlibabaCloud.TeaUtil.Common.IsUnset(request.Header.ToMap()) && !AlibabaCloud.TeaUtil.Common.Empty(request.Header.ContentType))
                     {
                         request_.Headers["content-type"] = request.Header.ContentType;
                     }
-else
+                    else
                     {
-                        request_.Headers["content-type"] = _getContentType(request.ObjectName);
+                        request_.Headers["content-type"] = AlibabaCloud.OSSUtil.Common.GetContentType(request.ObjectName);
                     }
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -12157,8 +12111,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(InitiateMultipartUploadResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(InitiateMultipartUploadResponse));
                     return TeaModel.ToObject<InitiateMultipartUploadResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -12182,35 +12136,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<InitiateMultipartUploadResponse> InitiateMultipartUploadAsync(InitiateMultipartUploadRequest request, RuntimeObject runtime)
+        public async Task<InitiateMultipartUploadResponse> InitiateMultipartUploadAsync(InitiateMultipartUploadRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -12231,7 +12182,9 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "POST";
                     request_.Pathname = "/" + request.ObjectName + "?uploads";
@@ -12239,40 +12192,40 @@ else
                     (
                         new Dictionary<string, string>()
                         {
-                            {"host", GetHost(request.BucketName)},
-                            {"date", _getDate()},
-                            {"user-agent", _getUserAgent()},
+                            {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                            {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                            {"user-agent", GetUserAgent()},
                         },
-                        _toHeader(request.Header.ToMap())
+                        AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Header.ToMap())
                     );
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Query = _toQuery(request.Filter.ToMap());
-                    if (_notNull(request.Header.ToMap()) && !_empty(request.Header.ContentType))
+                    request_.Query = AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Filter.ToMap());
+                    if (AlibabaCloud.TeaUtil.Common.IsUnset(request.Header.ToMap()) && !AlibabaCloud.TeaUtil.Common.Empty(request.Header.ContentType))
                     {
                         request_.Headers["content-type"] = request.Header.ContentType;
                     }
-else
+                    else
                     {
-                        request_.Headers["content-type"] = _getContentType(request.ObjectName);
+                        request_.Headers["content-type"] = AlibabaCloud.OSSUtil.Common.GetContentType(request.ObjectName);
                     }
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -12280,8 +12233,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(InitiateMultipartUploadResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(InitiateMultipartUploadResponse));
                     return TeaModel.ToObject<InitiateMultipartUploadResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -12305,35 +12258,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public OptionObjectResponse OptionObject(OptionObjectRequest request, RuntimeObject runtime)
+        public OptionObjectResponse OptionObject(OptionObjectRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -12354,7 +12304,9 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "OPTIONS";
                     request_.Pathname = "/" + request.ObjectName;
@@ -12362,31 +12314,31 @@ else
                     (
                         new Dictionary<string, string>()
                         {
-                            {"host", GetHost(request.BucketName)},
-                            {"date", _getDate()},
-                            {"user-agent", _getUserAgent()},
+                            {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                            {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                            {"user-agent", GetUserAgent()},
                         },
-                        _toHeader(request.Header.ToMap())
+                        AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Header.ToMap())
                     );
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -12413,35 +12365,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<OptionObjectResponse> OptionObjectAsync(OptionObjectRequest request, RuntimeObject runtime)
+        public async Task<OptionObjectResponse> OptionObjectAsync(OptionObjectRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -12462,7 +12411,9 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "OPTIONS";
                     request_.Pathname = "/" + request.ObjectName;
@@ -12470,31 +12421,31 @@ else
                     (
                         new Dictionary<string, string>()
                         {
-                            {"host", GetHost(request.BucketName)},
-                            {"date", _getDate()},
-                            {"user-agent", _getUserAgent()},
+                            {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                            {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                            {"user-agent", GetUserAgent()},
                         },
-                        _toHeader(request.Header.ToMap())
+                        AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Header.ToMap())
                     );
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -12521,35 +12472,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public PostVodPlaylistResponse PostVodPlaylist(PostVodPlaylistRequest request, RuntimeObject runtime)
+        public PostVodPlaylistResponse PostVodPlaylist(PostVodPlaylistRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -12570,36 +12518,38 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "POST";
                     request_.Pathname = "/" + request.ChannelName + "/" + request.PlaylistName + "?vod";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Query = _toQuery(request.Filter.ToMap());
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Query = AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Filter.ToMap());
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -12626,35 +12576,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<PostVodPlaylistResponse> PostVodPlaylistAsync(PostVodPlaylistRequest request, RuntimeObject runtime)
+        public async Task<PostVodPlaylistResponse> PostVodPlaylistAsync(PostVodPlaylistRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -12675,36 +12622,38 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "POST";
                     request_.Pathname = "/" + request.ChannelName + "/" + request.PlaylistName + "?vod";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Query = _toQuery(request.Filter.ToMap());
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Query = AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Filter.ToMap());
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -12731,27 +12680,27 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public PostObjectResponse PostObject(PostObjectRequest request, AlibabaCloud.Commons.Models.RuntimeObject runtime)
+        public PostObjectResponse PostObject(PostObjectRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", AlibabaCloud.Commons.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", AlibabaCloud.Commons.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"httpProxy", AlibabaCloud.Commons.Common.Default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", AlibabaCloud.Commons.Common.Default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", AlibabaCloud.Commons.Common.Default(runtime.NoProxy, _noProxy)},
-                {"maxIdleConns", AlibabaCloud.Commons.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"max-attempts", AlibabaCloud.Commons.Common.DefaultNumber(runtime.MaxAttempts, 3)},
+                    {"max-attempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", AlibabaCloud.Commons.Common.Default(runtime.BackoffPolicy, "no")},
-                    {"period", AlibabaCloud.Commons.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
             };
@@ -12774,30 +12723,44 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string boundary = AlibabaCloud.Commons.Common.GetBoundary();
+                    string boundary = AlibabaCloud.SDK.TeaFileform.Client.GetBoundary();
                     request_.Protocol = _protocol;
                     request_.Method = "POST";
                     request_.Pathname = "/";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", AlibabaCloud.Commons.Common.GetDate()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost("", _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
                     request_.Headers["content-type"] = "multipart/form-data; boundary=" + boundary;
-                    request_.Body = AlibabaCloud.Commons.Common.ToForm(request.Header.ToMap(), request.Header.File.Content, boundary);
+                    Dictionary<string, object> form = TeaConverter.merge<object>
+                    (
+                        new Dictionary<string, object>()
+                        {
+                            {"OSSAccessKeyId", request.Header.AccessKeyId},
+                            {"policy", request.Header.Policy},
+                            {"Signature", request.Header.Signature},
+                            {"key", request.Header.Key},
+                            {"success_action_status", request.Header.SuccessActionStatus},
+                            {"file", request.Header.File},
+                        },
+                        AlibabaCloud.OSSUtil.Common.ToMeta(request.Header.UserMeta, "x-oss-meta-")
+                    );
+                    request_.Body = AlibabaCloud.SDK.TeaFileform.Client.ToFileForm(form, boundary);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
-                    string bodyStr = AlibabaCloud.Commons.Common.ReadAsString(response_.Body);
-                    if (AlibabaCloud.Commons.Common.IsFail(response_))
+                    string bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        respMap = AlibabaCloud.Commons.Common.GetErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -12805,7 +12768,7 @@ else
                             }},
                         });
                     }
-                    respMap = AlibabaCloud.Commons.Common.ParseXml(bodyStr, typeof(PostObjectResponse));
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(PostObjectResponse));
                     return TeaModel.ToObject<PostObjectResponse>(TeaConverter.merge<object>
                     (
                         respMap
@@ -12825,27 +12788,27 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<PostObjectResponse> PostObjectAsync(PostObjectRequest request, AlibabaCloud.Commons.Models.RuntimeObject runtime)
+        public async Task<PostObjectResponse> PostObjectAsync(PostObjectRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", AlibabaCloud.Commons.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", AlibabaCloud.Commons.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"httpProxy", AlibabaCloud.Commons.Common.Default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", AlibabaCloud.Commons.Common.Default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", AlibabaCloud.Commons.Common.Default(runtime.NoProxy, _noProxy)},
-                {"maxIdleConns", AlibabaCloud.Commons.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"max-attempts", AlibabaCloud.Commons.Common.DefaultNumber(runtime.MaxAttempts, 3)},
+                    {"max-attempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", AlibabaCloud.Commons.Common.Default(runtime.BackoffPolicy, "no")},
-                    {"period", AlibabaCloud.Commons.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
             };
@@ -12868,30 +12831,44 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string boundary = AlibabaCloud.Commons.Common.GetBoundary();
+                    string boundary = AlibabaCloud.SDK.TeaFileform.Client.GetBoundary();
                     request_.Protocol = _protocol;
                     request_.Method = "POST";
                     request_.Pathname = "/";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", AlibabaCloud.Commons.Common.GetDate()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost("", _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
                     request_.Headers["content-type"] = "multipart/form-data; boundary=" + boundary;
-                    request_.Body = AlibabaCloud.Commons.Common.ToForm(request.Header.ToMap(), request.Header.File.Content, boundary);
+                    Dictionary<string, object> form = TeaConverter.merge<object>
+                    (
+                        new Dictionary<string, object>()
+                        {
+                            {"OSSAccessKeyId", request.Header.AccessKeyId},
+                            {"policy", request.Header.Policy},
+                            {"Signature", request.Header.Signature},
+                            {"key", request.Header.Key},
+                            {"success_action_status", request.Header.SuccessActionStatus},
+                            {"file", request.Header.File},
+                        },
+                        AlibabaCloud.OSSUtil.Common.ToMeta(request.Header.UserMeta, "x-oss-meta-")
+                    );
+                    request_.Body = AlibabaCloud.SDK.TeaFileform.Client.ToFileForm(form, boundary);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
-                    string bodyStr = AlibabaCloud.Commons.Common.ReadAsString(response_.Body);
-                    if (AlibabaCloud.Commons.Common.IsFail(response_))
+                    string bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        respMap = AlibabaCloud.Commons.Common.GetErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -12899,7 +12876,7 @@ else
                             }},
                         });
                     }
-                    respMap = AlibabaCloud.Commons.Common.ParseXml(bodyStr, typeof(PostObjectResponse));
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(PostObjectResponse));
                     return TeaModel.ToObject<PostObjectResponse>(TeaConverter.merge<object>
                     (
                         respMap
@@ -12919,35 +12896,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public HeadObjectResponse HeadObject(HeadObjectRequest request, RuntimeObject runtime)
+        public HeadObjectResponse HeadObject(HeadObjectRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -12968,7 +12942,9 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "HEAD";
                     request_.Pathname = "/" + request.ObjectName;
@@ -12976,31 +12952,31 @@ else
                     (
                         new Dictionary<string, string>()
                         {
-                            {"host", GetHost(request.BucketName)},
-                            {"date", _getDate()},
-                            {"user-agent", _getUserAgent()},
+                            {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                            {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                            {"user-agent", GetUserAgent()},
                         },
-                        _toHeader(request.Header.ToMap())
+                        AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Header.ToMap())
                     );
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -13012,7 +12988,7 @@ else
                     (
                         new Dictionary<string, object>()
                         {
-                            {"usermeta", _toMeta(response_.Headers, "x-oss-meta-")},
+                            {"usermeta", AlibabaCloud.OSSUtil.Common.ToMeta(response_.Headers, "x-oss-meta-")},
                         },
                         response_.Headers
                     ));
@@ -13031,35 +13007,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<HeadObjectResponse> HeadObjectAsync(HeadObjectRequest request, RuntimeObject runtime)
+        public async Task<HeadObjectResponse> HeadObjectAsync(HeadObjectRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -13080,7 +13053,9 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "HEAD";
                     request_.Pathname = "/" + request.ObjectName;
@@ -13088,31 +13063,31 @@ else
                     (
                         new Dictionary<string, string>()
                         {
-                            {"host", GetHost(request.BucketName)},
-                            {"date", _getDate()},
-                            {"user-agent", _getUserAgent()},
+                            {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                            {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                            {"user-agent", GetUserAgent()},
                         },
-                        _toHeader(request.Header.ToMap())
+                        AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Header.ToMap())
                     );
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -13124,7 +13099,7 @@ else
                     (
                         new Dictionary<string, object>()
                         {
-                            {"usermeta", _toMeta(response_.Headers, "x-oss-meta-")},
+                            {"usermeta", AlibabaCloud.OSSUtil.Common.ToMeta(response_.Headers, "x-oss-meta-")},
                         },
                         response_.Headers
                     ));
@@ -13143,35 +13118,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public DeleteObjectTaggingResponse DeleteObjectTagging(DeleteObjectTaggingRequest request, RuntimeObject runtime)
+        public DeleteObjectTaggingResponse DeleteObjectTagging(DeleteObjectTaggingRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -13192,35 +13164,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "DELETE";
                     request_.Pathname = "/" + request.ObjectName + "?tagging";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -13247,35 +13221,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<DeleteObjectTaggingResponse> DeleteObjectTaggingAsync(DeleteObjectTaggingRequest request, RuntimeObject runtime)
+        public async Task<DeleteObjectTaggingResponse> DeleteObjectTaggingAsync(DeleteObjectTaggingRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -13296,35 +13267,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "DELETE";
                     request_.Pathname = "/" + request.ObjectName + "?tagging";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -13351,35 +13324,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public RestoreObjectResponse RestoreObject(RestoreObjectRequest request, RuntimeObject runtime)
+        public RestoreObjectResponse RestoreObject(RestoreObjectRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -13400,35 +13370,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "POST";
                     request_.Pathname = "/" + request.ObjectName + "?restore";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -13455,35 +13427,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<RestoreObjectResponse> RestoreObjectAsync(RestoreObjectRequest request, RuntimeObject runtime)
+        public async Task<RestoreObjectResponse> RestoreObjectAsync(RestoreObjectRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -13504,35 +13473,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "POST";
                     request_.Pathname = "/" + request.ObjectName + "?restore";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -13559,35 +13530,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public GetObjectAclResponse GetObjectAcl(GetObjectAclRequest request, RuntimeObject runtime)
+        public GetObjectAclResponse GetObjectAcl(GetObjectAclRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -13608,35 +13576,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/" + request.ObjectName + "?acl";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -13644,8 +13614,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(GetObjectAclResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(GetObjectAclResponse));
                     return TeaModel.ToObject<GetObjectAclResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -13669,35 +13639,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<GetObjectAclResponse> GetObjectAclAsync(GetObjectAclRequest request, RuntimeObject runtime)
+        public async Task<GetObjectAclResponse> GetObjectAclAsync(GetObjectAclRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -13718,35 +13685,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "GET";
                     request_.Pathname = "/" + request.ObjectName + "?acl";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -13754,8 +13723,8 @@ else
                             }},
                         });
                     }
-                    bodyStr = _readAsString(response_);
-                    respMap = _parseXml(bodyStr, typeof(GetObjectAclResponse));
+                    bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                    respMap = AlibabaCloud.TeaXML.Client.ParseXml(bodyStr, typeof(GetObjectAclResponse));
                     return TeaModel.ToObject<GetObjectAclResponse>(TeaConverter.merge<object>
                     (
                         new Dictionary<string, object>()
@@ -13779,35 +13748,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public PutBucketAclResponse PutBucketAcl(PutBucketAclRequest request, RuntimeObject runtime)
+        public PutBucketAclResponse PutBucketAcl(PutBucketAclRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -13828,7 +13794,9 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "PUT";
                     request_.Pathname = "/?acl";
@@ -13836,31 +13804,31 @@ else
                     (
                         new Dictionary<string, string>()
                         {
-                            {"host", GetHost(request.BucketName)},
-                            {"date", _getDate()},
-                            {"user-agent", _getUserAgent()},
+                            {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                            {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                            {"user-agent", GetUserAgent()},
                         },
-                        _toHeader(request.Header.ToMap())
+                        AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Header.ToMap())
                     );
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -13887,35 +13855,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<PutBucketAclResponse> PutBucketAclAsync(PutBucketAclRequest request, RuntimeObject runtime)
+        public async Task<PutBucketAclResponse> PutBucketAclAsync(PutBucketAclRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -13936,7 +13901,9 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "PUT";
                     request_.Pathname = "/?acl";
@@ -13944,31 +13911,31 @@ else
                     (
                         new Dictionary<string, string>()
                         {
-                            {"host", GetHost(request.BucketName)},
-                            {"date", _getDate()},
-                            {"user-agent", _getUserAgent()},
+                            {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                            {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                            {"user-agent", GetUserAgent()},
                         },
-                        _toHeader(request.Header.ToMap())
+                        AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Header.ToMap())
                     );
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -13995,35 +13962,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public DeleteBucketResponse DeleteBucket(DeleteBucketRequest request, RuntimeObject runtime)
+        public DeleteBucketResponse DeleteBucket(DeleteBucketRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -14044,35 +14008,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "DELETE";
                     request_.Pathname = "/";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -14099,35 +14065,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<DeleteBucketResponse> DeleteBucketAsync(DeleteBucketRequest request, RuntimeObject runtime)
+        public async Task<DeleteBucketResponse> DeleteBucketAsync(DeleteBucketRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -14148,35 +14111,37 @@ else
                 try
                 {
                     TeaRequest request_ = new TeaRequest();
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "DELETE";
                     request_.Pathname = "/";
-                    request_.Headers = new Dictionary<string, string>()
+                    request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", GetHost(request.BucketName)},
-                        {"date", _getDate()},
-                        {"user-agent", _getUserAgent()},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                        {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                        {"user-agent", GetUserAgent()},
                     };
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -14203,35 +14168,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public PutObjectResponse PutObject(PutObjectRequest request, RuntimeObject runtime)
+        public PutObjectResponse PutObject(PutObjectRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -14253,7 +14215,9 @@ else
                 {
                     TeaRequest request_ = new TeaRequest();
                     Dictionary<string, string> ctx = new Dictionary<string, string>(){};
-                    string token = _getSecurityToken();
+                    string accessKeyId = this._credential.GetAccessKeyId();
+                    string accessKeySecret = this._credential.GetAccessKeySecret();
+                    string token = this._credential.GetSecurityToken();
                     request_.Protocol = _protocol;
                     request_.Method = "PUT";
                     request_.Pathname = "/" + request.ObjectName;
@@ -14261,41 +14225,41 @@ else
                     (
                         new Dictionary<string, string>()
                         {
-                            {"host", GetHost(request.BucketName)},
-                            {"date", _getDate()},
-                            {"user-agent", _getUserAgent()},
+                            {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                            {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                            {"user-agent", GetUserAgent()},
                         },
-                        _toHeader(request.Header.ToMap()),
-                        _parseMeta(request.UserMeta, "x-oss-meta-")
+                        AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Header.ToMap()),
+                        AlibabaCloud.OSSUtil.Common.ParseMeta(request.UserMeta, "x-oss-meta-")
                     );
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Body = _inject(request.Body, ctx);
-                    if (_notNull(request.Header.ToMap()) && !_empty(request.Header.ContentType))
+                    request_.Body = AlibabaCloud.OSSUtil.Common.Inject(request.Body, ctx);
+                    if (AlibabaCloud.TeaUtil.Common.IsUnset(request.Header.ToMap()) && !AlibabaCloud.TeaUtil.Common.Empty(request.Header.ContentType))
                     {
                         request_.Headers["content-type"] = request.Header.ContentType;
                     }
-else
+                    else
                     {
-                        request_.Headers["content-type"] = _getContentType(request.ObjectName);
+                        request_.Headers["content-type"] = AlibabaCloud.OSSUtil.Common.GetContentType(request.ObjectName);
                     }
-                    request_.Headers["authorization"] = GetSignature(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -14303,24 +14267,24 @@ else
                             }},
                         });
                     }
-                    if (_isEnableCrc && !_equal(ctx["crc"], response_.Headers["x-oss-hash-crc64ecma"]))
+                    if (_isEnableCrc.Value && !AlibabaCloud.TeaUtil.Common.EqualString(ctx["crc"], response_.Headers["x-oss-hash-crc64ecma"]))
                     {
-                        throw new TeaException(new Dictionary<string, object>()
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", "CrcNotMatched"},
-                            {"data", new Dictionary<string, string>()
+                            {"data", new Dictionary<string, string>
                             {
                                 {"clientCrc", ctx["crc"]},
                                 {"serverCrc", response_.Headers["x-oss-hash-crc64ecma"]},
                             }},
                         });
                     }
-                    if (_isEnableMD5 && !_equal(ctx["md5"], response_.Headers["content-md5"]))
+                    if (_isEnableMD5.Value && !AlibabaCloud.TeaUtil.Common.EqualString(ctx["md5"], response_.Headers["content-md5"]))
                     {
-                        throw new TeaException(new Dictionary<string, object>()
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", "MD5NotMatched"},
-                            {"data", new Dictionary<string, string>()
+                            {"data", new Dictionary<string, string>
                             {
                                 {"clientMD5", ctx["md5"]},
                                 {"serverMD5", response_.Headers["content-md5"]},
@@ -14346,35 +14310,32 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public async Task<PutObjectResponse> PutObjectAsync(PutObjectRequest request, RuntimeObject runtime)
+        public async Task<PutObjectResponse> PutObjectAsync(PutObjectRequest request, AlibabaCloud.OSSUtil.Models.RuntimeOptions runtime)
         {
             request.Validate();
-            runtime.Validate();
-            Dictionary<string, object> runtime_ = new Dictionary<string, object>()
+            Dictionary<string, object> runtime_ = new Dictionary<string, object>
             {
                 {"timeouted", "retry"},
-                {"readTimeout", _defaultNumber(runtime.ReadTimeout, _readTimeout)},
-                {"connectTimeout", _defaultNumber(runtime.ConnectTimeout, _connectTimeout)},
-                {"localAddr", _default(runtime.LocalAddr, _localAddr)},
-                {"httpProxy", _default(runtime.HttpProxy, _httpProxy)},
-                {"httpsProxy", _default(runtime.HttpsProxy, _httpsProxy)},
-                {"noProxy", _default(runtime.NoProxy, _noProxy)},
-                {"socks5Proxy", _default(runtime.Socks5Proxy, _socks5Proxy)},
-                {"socks5NetWork", _default(runtime.Socks5NetWork, _socks5NetWork)},
-                {"maxIdleConns", _defaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
-                {"retry", new Dictionary<string, object>()
+                {"readTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ReadTimeout, _readTimeout)},
+                {"connectTimeout", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.ConnectTimeout, _connectTimeout)},
+                {"localAddr", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.LocalAddr, _localAddr)},
+                {"httpProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpProxy, _httpProxy)},
+                {"httpsProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.HttpsProxy, _httpsProxy)},
+                {"noProxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.NoProxy, _noProxy)},
+                {"socks5Proxy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5Proxy, _socks5Proxy)},
+                {"socks5NetWork", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.Socks5NetWork, _socks5NetWork)},
+                {"maxIdleConns", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxIdleConns, _maxIdleConns)},
+                {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"maxAttempts", _defaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
-                {"backoff", new Dictionary<string, object>()
+                {"backoff", new Dictionary<string, object>
                 {
-                    {"policy", _default(runtime.BackoffPolicy, "no")},
-                    {"period", _defaultNumber(runtime.BackoffPeriod, 1)},
+                    {"policy", AlibabaCloud.TeaUtil.Common.DefaultString(runtime.BackoffPolicy, "no")},
+                    {"period", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.BackoffPeriod, 1)},
                 }},
                 {"ignoreSSL", runtime.IgnoreSSL},
-                {"logger", _logger},
-                {"listener", runtime.Listener},
             };
 
             TeaRequest _lastRequest = null;
@@ -14396,7 +14357,9 @@ else
                 {
                     TeaRequest request_ = new TeaRequest();
                     Dictionary<string, string> ctx = new Dictionary<string, string>(){};
-                    string token = _getSecurityToken();
+                    string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+                    string accessKeySecret = await this._credential.GetAccessKeySecretAsync();
+                    string token = await this._credential.GetSecurityTokenAsync();
                     request_.Protocol = _protocol;
                     request_.Method = "PUT";
                     request_.Pathname = "/" + request.ObjectName;
@@ -14404,41 +14367,41 @@ else
                     (
                         new Dictionary<string, string>()
                         {
-                            {"host", GetHost(request.BucketName)},
-                            {"date", _getDate()},
-                            {"user-agent", _getUserAgent()},
+                            {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
+                            {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
+                            {"user-agent", GetUserAgent()},
                         },
-                        _toHeader(request.Header.ToMap()),
-                        _parseMeta(request.UserMeta, "x-oss-meta-")
+                        AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Header.ToMap()),
+                        AlibabaCloud.OSSUtil.Common.ParseMeta(request.UserMeta, "x-oss-meta-")
                     );
-                    if (!_empty(token))
+                    if (!AlibabaCloud.TeaUtil.Common.Empty(token))
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Body = _inject(request.Body, ctx);
-                    if (_notNull(request.Header.ToMap()) && !_empty(request.Header.ContentType))
+                    request_.Body = AlibabaCloud.OSSUtil.Common.Inject(request.Body, ctx);
+                    if (AlibabaCloud.TeaUtil.Common.IsUnset(request.Header.ToMap()) && !AlibabaCloud.TeaUtil.Common.Empty(request.Header.ContentType))
                     {
                         request_.Headers["content-type"] = request.Header.ContentType;
                     }
-else
+                    else
                     {
-                        request_.Headers["content-type"] = _getContentType(request.ObjectName);
+                        request_.Headers["content-type"] = AlibabaCloud.OSSUtil.Common.GetContentType(request.ObjectName);
                     }
-                    request_.Headers["authorization"] = await GetSignatureAsync(request_, request.BucketName);
+                    request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
 
                     Dictionary<string, object> respMap = null;
                     string bodyStr = null;
-                    if (_isFail(response_))
+                    if (AlibabaCloud.TeaUtil.Common.Is4xx(response_.StatusCode) || AlibabaCloud.TeaUtil.Common.Is5xx(response_.StatusCode))
                     {
-                        bodyStr = _readAsString(response_);
-                        respMap = _getErrMessage(bodyStr);
-                        throw new TeaException(new Dictionary<string, object>()
+                        bodyStr = AlibabaCloud.TeaUtil.Common.ReadAsString(response_.Body);
+                        respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", respMap["Code"]},
                             {"message", respMap["Message"]},
-                            {"data", new Dictionary<string, object>()
+                            {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
                                 {"requestId", respMap["RequestId"]},
@@ -14446,24 +14409,24 @@ else
                             }},
                         });
                     }
-                    if (_isEnableCrc && !_equal(ctx["crc"], response_.Headers["x-oss-hash-crc64ecma"]))
+                    if (_isEnableCrc.Value && !AlibabaCloud.TeaUtil.Common.EqualString(ctx["crc"], response_.Headers["x-oss-hash-crc64ecma"]))
                     {
-                        throw new TeaException(new Dictionary<string, object>()
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", "CrcNotMatched"},
-                            {"data", new Dictionary<string, string>()
+                            {"data", new Dictionary<string, string>
                             {
                                 {"clientCrc", ctx["crc"]},
                                 {"serverCrc", response_.Headers["x-oss-hash-crc64ecma"]},
                             }},
                         });
                     }
-                    if (_isEnableMD5 && !_equal(ctx["md5"], response_.Headers["content-md5"]))
+                    if (_isEnableMD5.Value && !AlibabaCloud.TeaUtil.Common.EqualString(ctx["md5"], response_.Headers["content-md5"]))
                     {
-                        throw new TeaException(new Dictionary<string, object>()
+                        throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", "MD5NotMatched"},
-                            {"data", new Dictionary<string, string>()
+                            {"data", new Dictionary<string, string>
                             {
                                 {"clientMD5", ctx["md5"]},
                                 {"serverMD5", response_.Headers["content-md5"]},
@@ -14489,76 +14452,60 @@ else
             throw new TeaUnretryableException(_lastRequest, _lastException);
         }
 
-        public string GetHost(string bucketName)
+        public void SetUserAgent(string userAgent)
         {
-            if (_empty(_regionId))
-            {
-                this._regionId = "cn-hangzhou";
-            }
-            if (_empty(_endpoint))
-            {
-                this._endpoint = "oss-" + _regionId + ".aliyuncs.com";
-            }
-            if (_empty(bucketName))
-            {
-                return _endpoint;
-            }
-            string host = null;
-            if (_equal(_hostModel, "ip"))
-            {
-                host = _endpoint + "/" + bucketName;
-            }
-            else if (_equal(_hostModel, "cname"))
-            {
-                host = _endpoint;
-            }
-            else
-            {
-                host = bucketName + "." + _endpoint;
-            }
-            return host;
+            this._userAgent = userAgent;
         }
 
-        public string GetSignature(TeaRequest request, string bucketName)
+        public void AppendUserAgent(string userAgent)
         {
-            string accessKeyId = _getAccessKeyID();
-            string accessKeySecret = _getAccessKeySecret();
-            if (_equal(_signatureVersion, "V2"))
-            {
-                if (_ifListEmpty(_addtionalHeaders))
-                {
-                    return "OSS2 AccessKeyId:" + accessKeyId + ",Signature:" + _getSignatureV2(request, bucketName, accessKeySecret, _addtionalHeaders);
-                }
-                else
-                {
-                    return "OSS2 AccessKeyId:" + accessKeyId + ",AdditionalHeaders:" + _listToString(_addtionalHeaders, ";") + ",Signature:" + _getSignatureV2(request, bucketName, accessKeySecret, _addtionalHeaders);
-                }
-            }
-            else
-            {
-                return "OSS " + accessKeyId + ":" + _getSignatureV1(request, bucketName, accessKeySecret);
-            }
+            this._userAgent = _userAgent + " " + userAgent;
         }
 
-        public async Task<string> GetSignatureAsync(TeaRequest request, string bucketName)
+        public string GetUserAgent()
         {
-            string accessKeyId = _getAccessKeyID();
-            string accessKeySecret = _getAccessKeySecret();
-            if (_equal(_signatureVersion, "V2"))
+            string userAgent = AlibabaCloud.TeaUtil.Common.GetUserAgent(_userAgent);
+            return userAgent;
+        }
+
+        public string GetAccessKeyId()
+        {
+            if (AlibabaCloud.TeaUtil.Common.IsUnset(_credential))
             {
-                if (_ifListEmpty(_addtionalHeaders))
-                {
-                    return "OSS2 AccessKeyId:" + accessKeyId + ",Signature:" + _getSignatureV2(request, bucketName, accessKeySecret, _addtionalHeaders);
-                }
-                else
-                {
-                    return "OSS2 AccessKeyId:" + accessKeyId + ",AdditionalHeaders:" + _listToString(_addtionalHeaders, ";") + ",Signature:" + _getSignatureV2(request, bucketName, accessKeySecret, _addtionalHeaders);
-                }
+                return "";
             }
-            else
+            string accessKeyId = this._credential.GetAccessKeyId();
+            return accessKeyId;
+        }
+
+        public async Task<string> GetAccessKeyIdAsync()
+        {
+            if (AlibabaCloud.TeaUtil.Common.IsUnset(_credential))
             {
-                return "OSS " + accessKeyId + ":" + _getSignatureV1(request, bucketName, accessKeySecret);
+                return "";
             }
+            string accessKeyId = await this._credential.GetAccessKeyIdAsync();
+            return accessKeyId;
+        }
+
+        public string GetAccessKeySecret()
+        {
+            if (AlibabaCloud.TeaUtil.Common.IsUnset(_credential))
+            {
+                return "";
+            }
+            string secret = this._credential.GetAccessKeySecret();
+            return secret;
+        }
+
+        public async Task<string> GetAccessKeySecretAsync()
+        {
+            if (AlibabaCloud.TeaUtil.Common.IsUnset(_credential))
+            {
+                return "";
+            }
+            string secret = await this._credential.GetAccessKeySecretAsync();
+            return secret;
         }
 
     }
