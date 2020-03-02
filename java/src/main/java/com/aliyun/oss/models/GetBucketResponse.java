@@ -84,7 +84,7 @@ public class GetBucketResponse extends TeaModel {
         public String commonPrefixes;
 
         @NameInMap("Contents")
-        public GetBucketResponseListBucketResultContents[] contents;
+        public java.util.List<GetBucketResponseListBucketResultContents> contents;
 
         public static GetBucketResponseListBucketResult build(java.util.Map<String, ?> map) throws Exception {
             GetBucketResponseListBucketResult self = new GetBucketResponseListBucketResult();

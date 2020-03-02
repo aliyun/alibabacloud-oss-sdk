@@ -18,7 +18,7 @@ public class PutBucketRefererRequest extends TeaModel {
 
     public static class PutBucketRefererRequestBodyRefererConfigurationRefererList extends TeaModel {
         @NameInMap("Referer")
-        public String[] referer;
+        public java.util.List<String> referer;
 
         public static PutBucketRefererRequestBodyRefererConfigurationRefererList build(java.util.Map<String, ?> map) throws Exception {
             PutBucketRefererRequestBodyRefererConfigurationRefererList self = new PutBucketRefererRequestBodyRefererConfigurationRefererList();
@@ -32,7 +32,7 @@ public class PutBucketRefererRequest extends TeaModel {
         public PutBucketRefererRequestBodyRefererConfigurationRefererList refererList;
 
         @NameInMap("AllowEmptyReferer")
-        public boolean allowEmptyReferer;
+        public Boolean allowEmptyReferer;
 
         public static PutBucketRefererRequestBodyRefererConfiguration build(java.util.Map<String, ?> map) throws Exception {
             PutBucketRefererRequestBodyRefererConfiguration self = new PutBucketRefererRequestBodyRefererConfiguration();

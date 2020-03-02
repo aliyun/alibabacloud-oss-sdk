@@ -17,26 +17,6 @@ public class PostObjectRequest extends TeaModel {
         return TeaModel.build(map, self);
     }
 
-    public static class PostObjectRequestHeaderFile extends TeaModel {
-        @NameInMap("filename")
-        @Validation(required = true)
-        public String fileName;
-
-        @NameInMap("content")
-        @Validation(required = true)
-        public java.io.InputStream content;
-
-        @NameInMap("content-type")
-        @Validation(required = true)
-        public String contentType;
-
-        public static PostObjectRequestHeaderFile build(java.util.Map<String, ?> map) throws Exception {
-            PostObjectRequestHeaderFile self = new PostObjectRequestHeaderFile();
-            return TeaModel.build(map, self);
-        }
-
-    }
-
     public static class PostObjectRequestHeader extends TeaModel {
         @NameInMap("OSSAccessKeyId")
         @Validation(required = true)
@@ -55,11 +35,14 @@ public class PostObjectRequest extends TeaModel {
 
         @NameInMap("file")
         @Validation(required = true)
-        public PostObjectRequestHeaderFile file;
+        public com.aliyun.fileform.models.FileField file;
 
         @NameInMap("key")
         @Validation(required = true)
         public String key;
+
+        @NameInMap("UserMeta")
+        public java.util.Map<String, String> userMeta;
 
         public static PostObjectRequestHeader build(java.util.Map<String, ?> map) throws Exception {
             PostObjectRequestHeader self = new PostObjectRequestHeader();

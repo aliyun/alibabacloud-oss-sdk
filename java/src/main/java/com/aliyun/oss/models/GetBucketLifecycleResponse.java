@@ -108,7 +108,7 @@ public class GetBucketLifecycleResponse extends TeaModel {
 
     public static class GetBucketLifecycleResponseLifecycleConfiguration extends TeaModel {
         @NameInMap("Rule")
-        public GetBucketLifecycleResponseLifecycleConfigurationRule[] rule;
+        public java.util.List<GetBucketLifecycleResponseLifecycleConfigurationRule> rule;
 
         public static GetBucketLifecycleResponseLifecycleConfiguration build(java.util.Map<String, ?> map) throws Exception {
             GetBucketLifecycleResponseLifecycleConfiguration self = new GetBucketLifecycleResponseLifecycleConfiguration();

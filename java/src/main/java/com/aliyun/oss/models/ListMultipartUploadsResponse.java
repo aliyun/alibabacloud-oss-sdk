@@ -63,7 +63,7 @@ public class ListMultipartUploadsResponse extends TeaModel {
         public String isTruncated;
 
         @NameInMap("Upload")
-        public ListMultipartUploadsResponseListMultipartUploadsResultUpload[] upload;
+        public java.util.List<ListMultipartUploadsResponseListMultipartUploadsResultUpload> upload;
 
         public static ListMultipartUploadsResponseListMultipartUploadsResult build(java.util.Map<String, ?> map) throws Exception {
             ListMultipartUploadsResponseListMultipartUploadsResult self = new ListMultipartUploadsResponseListMultipartUploadsResult();

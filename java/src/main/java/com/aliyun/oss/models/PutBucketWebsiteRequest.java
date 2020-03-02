@@ -88,7 +88,7 @@ public class PutBucketWebsiteRequest extends TeaModel {
         public PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet set;
 
         @NameInMap("PassAll")
-        public boolean passAll;
+        public Boolean passAll;
 
         @NameInMap("Pass")
         public String pass;
@@ -111,19 +111,19 @@ public class PutBucketWebsiteRequest extends TeaModel {
         public String redirectType;
 
         @NameInMap("PassQueryString")
-        public boolean passQueryString;
+        public Boolean passQueryString;
 
         @NameInMap("MirrorURL")
         public String mirrorURL;
 
         @NameInMap("MirrorPassQueryString")
-        public boolean mirrorPassQueryString;
+        public Boolean mirrorPassQueryString;
 
         @NameInMap("MirrorFollowRedirect")
-        public boolean mirrorFollowRedirect;
+        public Boolean mirrorFollowRedirect;
 
         @NameInMap("MirrorCheckMd5")
-        public boolean mirrorCheckMd5;
+        public Boolean mirrorCheckMd5;
 
         @NameInMap("Protocol")
         public String protocol;
@@ -166,7 +166,7 @@ public class PutBucketWebsiteRequest extends TeaModel {
 
     public static class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules extends TeaModel {
         @NameInMap("RoutingRule")
-        public PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule[] routingRule;
+        public java.util.List<PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule> routingRule;
 
         public static PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules build(java.util.Map<String, ?> map) throws Exception {
             PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules self = new PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules();

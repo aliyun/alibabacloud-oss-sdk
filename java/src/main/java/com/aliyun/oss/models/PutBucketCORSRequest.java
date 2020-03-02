@@ -18,16 +18,16 @@ public class PutBucketCORSRequest extends TeaModel {
 
     public static class PutBucketCORSRequestBodyCORSConfigurationCORSRule extends TeaModel {
         @NameInMap("AllowedOrigin")
-        public String[] allowedOrigin;
+        public java.util.List<String> allowedOrigin;
 
         @NameInMap("AllowedMethod")
-        public String[] allowedMethod;
+        public java.util.List<String> allowedMethod;
 
         @NameInMap("AllowedHeader")
-        public String[] allowedHeader;
+        public java.util.List<String> allowedHeader;
 
         @NameInMap("ExposeHeader")
-        public String[] exposeHeader;
+        public java.util.List<String> exposeHeader;
 
         @NameInMap("MaxAgeSeconds")
         public String maxAgeSeconds;
@@ -41,7 +41,7 @@ public class PutBucketCORSRequest extends TeaModel {
 
     public static class PutBucketCORSRequestBodyCORSConfiguration extends TeaModel {
         @NameInMap("CORSRule")
-        public PutBucketCORSRequestBodyCORSConfigurationCORSRule[] cORSRule;
+        public java.util.List<PutBucketCORSRequestBodyCORSConfigurationCORSRule> cORSRule;
 
         public static PutBucketCORSRequestBodyCORSConfiguration build(java.util.Map<String, ?> map) throws Exception {
             PutBucketCORSRequestBodyCORSConfiguration self = new PutBucketCORSRequestBodyCORSConfiguration();

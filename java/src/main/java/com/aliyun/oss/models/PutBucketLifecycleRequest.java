@@ -103,7 +103,7 @@ public class PutBucketLifecycleRequest extends TeaModel {
 
     public static class PutBucketLifecycleRequestBodyLifecycleConfiguration extends TeaModel {
         @NameInMap("Rule")
-        public PutBucketLifecycleRequestBodyLifecycleConfigurationRule[] rule;
+        public java.util.List<PutBucketLifecycleRequestBodyLifecycleConfigurationRule> rule;
 
         public static PutBucketLifecycleRequestBodyLifecycleConfiguration build(java.util.Map<String, ?> map) throws Exception {
             PutBucketLifecycleRequestBodyLifecycleConfiguration self = new PutBucketLifecycleRequestBodyLifecycleConfiguration();

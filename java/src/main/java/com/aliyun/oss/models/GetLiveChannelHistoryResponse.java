@@ -36,7 +36,7 @@ public class GetLiveChannelHistoryResponse extends TeaModel {
 
     public static class GetLiveChannelHistoryResponseLiveChannelHistory extends TeaModel {
         @NameInMap("LiveRecord")
-        public GetLiveChannelHistoryResponseLiveChannelHistoryLiveRecord[] liveRecord;
+        public java.util.List<GetLiveChannelHistoryResponseLiveChannelHistoryLiveRecord> liveRecord;
 
         public static GetLiveChannelHistoryResponseLiveChannelHistory build(java.util.Map<String, ?> map) throws Exception {
             GetLiveChannelHistoryResponseLiveChannelHistory self = new GetLiveChannelHistoryResponseLiveChannelHistory();

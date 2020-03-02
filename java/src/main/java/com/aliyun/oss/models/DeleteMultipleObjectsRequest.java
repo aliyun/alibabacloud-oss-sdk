@@ -33,7 +33,7 @@ public class DeleteMultipleObjectsRequest extends TeaModel {
 
     public static class DeleteMultipleObjectsRequestBodyDelete extends TeaModel {
         @NameInMap("Object")
-        public DeleteMultipleObjectsRequestBodyDeleteObject[] object;
+        public java.util.List<DeleteMultipleObjectsRequestBodyDeleteObject> object;
 
         @NameInMap("Quiet")
         public String quiet;

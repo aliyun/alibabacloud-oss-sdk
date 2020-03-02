@@ -36,7 +36,7 @@ public class DeleteMultipleObjectsResponse extends TeaModel {
         public String encodingType;
 
         @NameInMap("Deleted")
-        public DeleteMultipleObjectsResponseDeleteResultDeleted[] deleted;
+        public java.util.List<DeleteMultipleObjectsResponseDeleteResultDeleted> deleted;
 
         public static DeleteMultipleObjectsResponseDeleteResult build(java.util.Map<String, ?> map) throws Exception {
             DeleteMultipleObjectsResponseDeleteResult self = new DeleteMultipleObjectsResponseDeleteResult();

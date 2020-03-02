@@ -87,7 +87,7 @@ public class GetBucketWebsiteResponse extends TeaModel {
 
     public static class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders extends TeaModel {
         @NameInMap("PassAll")
-        public boolean passAll;
+        public Boolean passAll;
 
         @NameInMap("Pass")
         public String pass;
@@ -111,19 +111,19 @@ public class GetBucketWebsiteResponse extends TeaModel {
         public String redirectType;
 
         @NameInMap("PassQueryString")
-        public boolean passQueryString;
+        public Boolean passQueryString;
 
         @NameInMap("MirrorURL")
         public String mirrorURL;
 
         @NameInMap("MirrorPassQueryString")
-        public boolean mirrorPassQueryString;
+        public Boolean mirrorPassQueryString;
 
         @NameInMap("MirrorFollowRedirect")
-        public boolean mirrorFollowRedirect;
+        public Boolean mirrorFollowRedirect;
 
         @NameInMap("MirrorCheckMd5")
-        public boolean mirrorCheckMd5;
+        public Boolean mirrorCheckMd5;
 
         @NameInMap("Protocol")
         public String protocol;
@@ -172,7 +172,7 @@ public class GetBucketWebsiteResponse extends TeaModel {
 
     public static class GetBucketWebsiteResponseWebsiteConfigurationRoutingRules extends TeaModel {
         @NameInMap("RoutingRule")
-        public GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule[] routingRule;
+        public java.util.List<GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule> routingRule;
 
         public static GetBucketWebsiteResponseWebsiteConfigurationRoutingRules build(java.util.Map<String, ?> map) throws Exception {
             GetBucketWebsiteResponseWebsiteConfigurationRoutingRules self = new GetBucketWebsiteResponseWebsiteConfigurationRoutingRules();
