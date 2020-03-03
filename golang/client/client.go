@@ -14484,8 +14484,8 @@ func (client *Client) PostObject(request *PostObjectRequest, runtime *ossutil.Ru
 		"noProxy":        util.DefaultString(tea.StringValue(runtime.NoProxy), client.NoProxy),
 		"maxIdleConns":   util.DefaultNumber(tea.IntValue(runtime.MaxIdleConns), client.MaxIdleConns),
 		"retry": map[string]interface{}{
-			"retryable":    tea.BoolValue(runtime.Autoretry),
-			"max-attempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
+			"retryable":   tea.BoolValue(runtime.Autoretry),
+			"maxAttempts": util.DefaultNumber(tea.IntValue(runtime.MaxAttempts), 3),
 		},
 		"backoff": map[string]interface{}{
 			"policy": util.DefaultString(tea.StringValue(runtime.BackoffPolicy), "no"),
