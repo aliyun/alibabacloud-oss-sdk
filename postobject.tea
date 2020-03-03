@@ -147,7 +147,7 @@ api postObject(request: PostObjectRequest, runtime: OSSUtil.RuntimeOptions): Pos
   maxIdleConns = Util.defaultNumber(runtime.maxIdleConns, @maxIdleConns),
   retry = {
     retryable = runtime.autoretry,
-    max-attempts = Util.defaultNumber(runtime.maxAttempts, 3)
+    maxAttempts = Util.defaultNumber(runtime.maxAttempts, 3)
   },
   backoff = {
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),

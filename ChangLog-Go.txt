@@ -1,5 +1,8 @@
+2020-03-03 Version: v1.1.1
+- Modify maxAttempts.
+
 2020-03-02 Version: v1.1.0
-- Modify .
+- Modify Oss.
 
 2020-02-13 Version: v1.0.1
 - Modify PostObject.
