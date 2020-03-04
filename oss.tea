@@ -4822,7 +4822,7 @@ api postObject(request: PostObjectRequest, runtime: OSSUtil.RuntimeOptions): Pos
   __request.method = 'POST';
   __request.pathname = `/`;
   __request.headers = {
-    host = OSSUtil.getHost('', @regionId, @endpoint, @hostModel),
+    host = OSSUtil.getHost(request.bucketName, @regionId, @endpoint, @hostModel),
     date = Util.getDateUTCString(),
     user-agent = getUserAgent(),
   };
