@@ -12,7 +12,7 @@
 		"go": "github.com/aliyun/alibabacloud-oss-sdk/golang/client:v1.1.1",
 		"java": "com.aliyun:oss-client:1.1.2",
 		"csharp": "AlibabaCloud.SDK.OSS.Client:0.0.5",
-		"ts": "@alicloud/oss-client:1.1.0"
+		"ts": "@alicloud/oss-client:^1.1.2"
 	},
 	"java": {
 		"package": "com.aliyun.oss"
