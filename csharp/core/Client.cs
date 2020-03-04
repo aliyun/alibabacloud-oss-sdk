@@ -12695,7 +12695,7 @@ namespace AlibabaCloud.OSS
                 {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"max-attempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
                 {"backoff", new Dictionary<string, object>
                 {
@@ -12729,7 +12729,7 @@ namespace AlibabaCloud.OSS
                     request_.Pathname = "/";
                     request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", AlibabaCloud.OSSUtil.Common.GetHost("", _regionId, _endpoint, _hostModel)},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
                         {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
                         {"user-agent", GetUserAgent()},
                     };
@@ -12803,7 +12803,7 @@ namespace AlibabaCloud.OSS
                 {"retry", new Dictionary<string, object>
                 {
                     {"retryable", runtime.Autoretry},
-                    {"max-attempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
+                    {"maxAttempts", AlibabaCloud.TeaUtil.Common.DefaultNumber(runtime.MaxAttempts, 3)},
                 }},
                 {"backoff", new Dictionary<string, object>
                 {
@@ -12837,7 +12837,7 @@ namespace AlibabaCloud.OSS
                     request_.Pathname = "/";
                     request_.Headers = new Dictionary<string, string>
                     {
-                        {"host", AlibabaCloud.OSSUtil.Common.GetHost("", _regionId, _endpoint, _hostModel)},
+                        {"host", AlibabaCloud.OSSUtil.Common.GetHost(request.BucketName, _regionId, _endpoint, _hostModel)},
                         {"date", AlibabaCloud.TeaUtil.Common.GetDateUTCString()},
                         {"user-agent", GetUserAgent()},
                     };
