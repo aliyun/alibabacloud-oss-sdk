@@ -14510,7 +14510,7 @@ func (client *Client) PostObject(request *PostObjectRequest, runtime *ossutil.Ru
 			request_.Method = "POST"
 			request_.Pathname = "/"
 			request_.Headers = map[string]string{
-				"host":       ossutil.GetHost("", client.RegionId, client.Endpoint, client.HostModel),
+				"host":       ossutil.GetHost(tea.StringValue(request.BucketName), client.RegionId, client.Endpoint, client.HostModel),
 				"date":       util.GetDateUTCString(),
 				"user-agent": client.GetUserAgent(),
 			}
