@@ -7,7 +7,7 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <PackageReleaseNotes></PackageReleaseNotes>
     <AssemblyName>AlibabaCloud.SDK.OSS.Client</AssemblyName>
-    <Version>0.0.4</Version>
+    <Version>0.0.5</Version>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <LangVersion>5</LangVersion>
   </PropertyGroup>
@@ -37,7 +37,7 @@
 
   <ItemGroup>
     <PackageReference Include="AlibabaCloud.OSSUtil" Version="0.0.2" />
-    <PackageReference Include="AlibabaCloud.SDK.Common" Version="0.2.1" />
+    <PackageReference Include="AlibabaCloud.SDK.Common" Version="0.2.2" />
     <PackageReference Include="AlibabaCloud.SDK.TeaFileform" Version="0.0.1" />
     <PackageReference Include="AlibabaCloud.TeaUtil" Version="0.0.4" />
     <PackageReference Include="AlibabaCloud.TeaXML" Version="0.0.1" />
