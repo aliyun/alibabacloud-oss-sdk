@@ -5345,7 +5345,7 @@ public class Client {
             new TeaPair("maxIdleConns", com.aliyun.teautil.Common.defaultNumber(runtime.maxIdleConns, _maxIdleConns)),
             new TeaPair("retry", TeaConverter.buildMap(
                 new TeaPair("retryable", runtime.autoretry),
-                new TeaPair("max-attempts", com.aliyun.teautil.Common.defaultNumber(runtime.maxAttempts, 3))
+                new TeaPair("maxAttempts", com.aliyun.teautil.Common.defaultNumber(runtime.maxAttempts, 3))
             )),
             new TeaPair("backoff", TeaConverter.buildMap(
                 new TeaPair("policy", com.aliyun.teautil.Common.defaultString(runtime.backoffPolicy, "no")),
@@ -5372,7 +5372,7 @@ public class Client {
                 request_.method = "POST";
                 request_.pathname = "/";
                 request_.headers = TeaConverter.buildMap(
-                    new TeaPair("host", com.aliyun.ossutil.Client.getHost("", _regionId, _endpoint, _hostModel)),
+                    new TeaPair("host", com.aliyun.ossutil.Client.getHost(request.bucketName, _regionId, _endpoint, _hostModel)),
                     new TeaPair("date", com.aliyun.teautil.Common.getDateUTCString()),
                     new TeaPair("user-agent", this.getUserAgent())
                 );
