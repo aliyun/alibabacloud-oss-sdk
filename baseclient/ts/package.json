@@ -1,6 +1,6 @@
 {
   "name": "@alicloud/oss-baseclient",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "",
   "main": "dist/baseclient.js",
   "scripts": {
@@ -10,7 +10,7 @@
     "prepublishOnly": "tsc"
   },
   "author": "Jackson Tian",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "dependencies": {
     "@alicloud/credentials": "^1.0.0",
     "@alicloud/tea-typescript": "^1.5.0",
