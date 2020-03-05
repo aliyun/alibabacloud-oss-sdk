@@ -12,8 +12,14 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
+    "@alicloud/credentials": "^2.1.0",
     "@alicloud/oss-baseclient": "^1.1.0",
-    "@alicloud/tea-typescript": "^1.2.0"
+    "@alicloud/oss-util": "^0.0.2",
+    "@alicloud/rpc-util": "^0.0.1",
+    "@alicloud/tea-fileform": "^1.0.0",
+    "@alicloud/tea-typescript": "^1.2.0",
+    "@alicloud/tea-util": "^1.2.3",
+    "@alicloud/tea-xml": "^0.0.1"
   },
   "devDependencies": {
     "@types/mocha": "^5.2.7",
