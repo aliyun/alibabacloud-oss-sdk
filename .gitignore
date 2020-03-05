@@ -12,10 +12,10 @@ php/composer.lock
 .idea
 obj/
 csharp/bin/Debug/
-ts/dist/*
-ts/*.js
-ts/.nyc_output/
-ts/coverage/
+**/ts/dist/*
+**/ts/*.js
+**/ts/.nyc_output/
+**/ts/coverage/
 baseclient/java/target/*
 baseclient/java/*.iml
 baseclient/ts/dist/

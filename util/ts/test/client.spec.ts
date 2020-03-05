@@ -211,7 +211,7 @@ describe('client', function () {
     req.query = {
       location: 'hangzhou',
     };
-    let sign = client.getSignature(req, 'sdk-oss-test', 'accessKeySecret', 'v1');
+    let sign = client.getSignature(req, 'sdk-oss-test', 'accessKeyId', 'accessKeySecret', 'v1');
     assert.strictEqual(sign, '6CXQEydyX4SlqhgI3WK8NZwuSNs=');
 
     let req_2 = new $tea.Request();
@@ -224,7 +224,7 @@ describe('client', function () {
       key2: undefined,
     };
     req_2.pathname = '/?putObject';
-    let sign_2 = client.getSignature(req_2, 'sdk-oss-test', 'accessKeySecret', 'v2', ['test']);
+    let sign_2 = client.getSignature(req_2, 'sdk-oss-test', 'accessKeyId' , 'accessKeySecret', 'v2', ['test']);
     assert.strictEqual(sign_2, '3TKXBGVJwa6szBjUDsy453upQ40BN5198kLeZ9ZgET0=');
   });
 

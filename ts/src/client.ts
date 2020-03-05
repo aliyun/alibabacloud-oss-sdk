@@ -1,107 +1,41 @@
 // This file is auto-generated, don't edit it
-import Common, {
-  RuntimeObject
-} from "@alicloud/rpc-util";
+import Util from '@alicloud/tea-util';
+import OSSUtil, * as $OSSUtil from '@alicloud/oss-util';
+import XML from '@alicloud/tea-xml';
+import Credential, * as $Credential from '@alicloud/credentials';
+import FileForm, * as $FileForm from '@alicloud/tea-fileform';
 import { Readable } from 'stream';
 import * as $tea from '@alicloud/tea-typescript';
-import BaseClient from '@alicloud/oss-baseclient';
 
-export class RuntimeObject extends $tea.Model {
-  autoretry?: boolean;
-  ignoreSSL?: boolean;
-  maxAttempts?: number;
-  backoffPolicy?: string;
-  backoffPeriod?: number;
+export class Config extends $tea.Model {
+  type?: string;
+  securityToken?: string;
+  accessKeyId: string;
+  accessKeySecret: string;
+  endpoint?: string;
+  protocol?: string;
+  regionId?: string;
+  userAgent?: string;
+  hostModel?: string;
+  signatureVersion?: string;
+  isEnableMD5?: boolean;
+  isEnableCrc?: boolean;
   readTimeout?: number;
   connectTimeout?: number;
   localAddr?: string;
   httpProxy?: string;
   httpsProxy?: string;
   noProxy?: string;
-  maxIdleConns?: number;
   socks5Proxy?: string;
   socks5NetWork?: string;
-  md5Threshold?: number;
-  uploadLimitSpeed?: number;
-  listener?: any;
+  maxIdleConns?: number;
+  addtionalHeaders?: string[];
   static names(): { [key: string]: string } {
     return {
-      autoretry: 'autoretry',
-      ignoreSSL: 'ignoreSSL',
-      maxAttempts: 'maxAttempts',
-      backoffPolicy: 'backoffPolicy',
-      backoffPeriod: 'backoffPeriod',
-      readTimeout: 'readTimeout',
-      connectTimeout: 'connectTimeout',
-      localAddr: 'localAddr',
-      httpProxy: 'httpProxy',
-      httpsProxy: 'httpsProxy',
-      noProxy: 'noProxy',
-      maxIdleConns: 'maxIdleConns',
-      socks5Proxy: 'socks5Proxy',
-      socks5NetWork: 'socks5NetWork',
-      md5Threshold: 'MD5Threshold',
-      uploadLimitSpeed: 'uploadLimitSpeed',
-      listener: 'listener',
-    };
-  }
-
-  static types(): { [key: string]: any } {
-    return {
-      autoretry: 'boolean',
-      ignoreSSL: 'boolean',
-      maxAttempts: 'number',
-      backoffPolicy: 'string',
-      backoffPeriod: 'number',
-      readTimeout: 'number',
-      connectTimeout: 'number',
-      localAddr: 'string',
-      httpProxy: 'string',
-      httpsProxy: 'string',
-      noProxy: 'string',
-      maxIdleConns: 'number',
-      socks5Proxy: 'string',
-      socks5NetWork: 'string',
-      md5Threshold: 'number',
-      uploadLimitSpeed: 'number',
-      listener: 'any',
-    };
-  }
-
-  constructor(map?: { [key: string]: any }) {
-    super(map);
-  }
-}
-
-export class Config extends $tea.Model {
-  accessKeyId?: string;
-  accessKeySecret?: string;
-  type: string;
-  securityToken: string;
-  endpoint: string;
-  protocol: string;
-  regionId: string;
-  userAgent: string;
-  hostModel: string;
-  signatureVersion: string;
-  isEnableMD5: boolean;
-  isEnableCrc: boolean;
-  readTimeout: number;
-  connectTimeout: number;
-  localAddr: string;
-  httpProxy: string;
-  httpsProxy: string;
-  noProxy: string;
-  socks5Proxy: string;
-  socks5NetWork: string;
-  maxIdleConns: number;
-  addtionalHeaders: string[];
-  static names(): { [key: string]: string } {
-    return {
-      accessKeyId: 'accessKeyId',
-      accessKeySecret: 'accessKeySecret',
       type: 'type',
       securityToken: 'securityToken',
+      accessKeyId: 'accessKeyId',
+      accessKeySecret: 'accessKeySecret',
       endpoint: 'endpoint',
       protocol: 'protocol',
       regionId: 'regionId',
@@ -125,10 +59,10 @@ export class Config extends $tea.Model {
 
   static types(): { [key: string]: any } {
     return {
-      accessKeyId: 'string',
-      accessKeySecret: 'string',
       type: 'string',
       securityToken: 'string',
+      accessKeyId: 'string',
+      accessKeySecret: 'string',
       endpoint: 'string',
       protocol: 'string',
       regionId: 'string',
@@ -1643,7 +1577,7 @@ export class AppendObjectRequest extends $tea.Model {
     return {
       bucketName: 'string',
       objectName: 'string',
-      userMeta: 'map',
+      userMeta: { 'type': 'map', 'keyType': 'string', 'valueType': 'string' },
       body: 'Readable',
       filter: AppendObjectRequestFilter,
       header: AppendObjectRequestHeader,
@@ -2813,7 +2747,7 @@ export class HeadObjectResponse extends $tea.Model {
   static types(): { [key: string]: any } {
     return {
       requestId: 'string',
-      userMeta: 'map',
+      userMeta: { 'type': 'map', 'keyType': 'string', 'valueType': 'string' },
       serverSideEncryption: 'string',
       serverSideEncryptionKeyId: 'string',
       storageClass: 'string',
@@ -3065,7 +2999,7 @@ export class PutObjectRequest extends $tea.Model {
     return {
       bucketName: 'string',
       objectName: 'string',
-      userMeta: 'map',
+      userMeta: { 'type': 'map', 'keyType': 'string', 'valueType': 'string' },
       body: 'Readable',
       header: PutObjectRequestHeader,
     };
@@ -3121,10 +3055,9 @@ export class PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration e
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition extends $tea.Model {
@@ -3144,10 +3077,9 @@ export class PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition e
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUpload extends $tea.Model {
@@ -3167,10 +3099,9 @@ export class PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipa
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag extends $tea.Model {
@@ -3190,10 +3121,9 @@ export class PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag extends 
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutBucketLifecycleRequestBodyLifecycleConfigurationRule extends $tea.Model {
@@ -3228,10 +3158,9 @@ export class PutBucketLifecycleRequestBodyLifecycleConfigurationRule extends $te
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutBucketLifecycleRequestBodyLifecycleConfiguration extends $tea.Model {
@@ -3248,10 +3177,9 @@ export class PutBucketLifecycleRequestBodyLifecycleConfiguration extends $tea.Mo
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutBucketLifecycleRequestBody extends $tea.Model {
@@ -3268,10 +3196,9 @@ export class PutBucketLifecycleRequestBody extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class DeleteMultipleObjectsRequestBodyDeleteObject extends $tea.Model {
@@ -3288,10 +3215,9 @@ export class DeleteMultipleObjectsRequestBodyDeleteObject extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class DeleteMultipleObjectsRequestBodyDelete extends $tea.Model {
@@ -3311,10 +3237,9 @@ export class DeleteMultipleObjectsRequestBodyDelete extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class DeleteMultipleObjectsRequestBody extends $tea.Model {
@@ -3331,10 +3256,9 @@ export class DeleteMultipleObjectsRequestBody extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class DeleteMultipleObjectsRequestHeader extends $tea.Model {
@@ -3357,10 +3281,9 @@ export class DeleteMultipleObjectsRequestHeader extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class DeleteMultipleObjectsResponseDeleteResultDeleted extends $tea.Model {
@@ -3377,10 +3300,9 @@ export class DeleteMultipleObjectsResponseDeleteResultDeleted extends $tea.Model
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class DeleteMultipleObjectsResponseDeleteResult extends $tea.Model {
@@ -3403,10 +3325,9 @@ export class DeleteMultipleObjectsResponseDeleteResult extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutBucketRefererRequestBodyRefererConfigurationRefererList extends $tea.Model {
@@ -3423,10 +3344,9 @@ export class PutBucketRefererRequestBodyRefererConfigurationRefererList extends 
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutBucketRefererRequestBodyRefererConfiguration extends $tea.Model {
@@ -3446,10 +3366,9 @@ export class PutBucketRefererRequestBodyRefererConfiguration extends $tea.Model 
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutBucketRefererRequestBody extends $tea.Model {
@@ -3466,10 +3385,9 @@ export class PutBucketRefererRequestBody extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument extends $tea.Model {
@@ -3486,10 +3404,9 @@ export class PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument extend
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument extends $tea.Model {
@@ -3506,10 +3423,9 @@ export class PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument extend
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader extends $tea.Model {
@@ -3529,10 +3445,9 @@ export class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingR
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCondition extends $tea.Model {
@@ -3555,10 +3470,9 @@ export class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingR
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet extends $tea.Model {
@@ -3578,10 +3492,9 @@ export class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingR
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders extends $tea.Model {
@@ -3607,10 +3520,9 @@ export class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingR
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect extends $tea.Model {
@@ -3660,10 +3572,9 @@ export class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingR
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule extends $tea.Model {
@@ -3686,10 +3597,9 @@ export class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingR
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules extends $tea.Model {
@@ -3706,10 +3616,9 @@ export class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules extends
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutBucketWebsiteRequestBodyWebsiteConfiguration extends $tea.Model {
@@ -3732,10 +3641,9 @@ export class PutBucketWebsiteRequestBodyWebsiteConfiguration extends $tea.Model 
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutBucketWebsiteRequestBody extends $tea.Model {
@@ -3752,10 +3660,9 @@ export class PutBucketWebsiteRequestBody extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class CompleteMultipartUploadRequestFilter extends $tea.Model {
@@ -3775,10 +3682,9 @@ export class CompleteMultipartUploadRequestFilter extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart extends $tea.Model {
@@ -3798,10 +3704,9 @@ export class CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart exten
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class CompleteMultipartUploadRequestBodyCompleteMultipartUpload extends $tea.Model {
@@ -3818,10 +3723,9 @@ export class CompleteMultipartUploadRequestBodyCompleteMultipartUpload extends $
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class CompleteMultipartUploadRequestBody extends $tea.Model {
@@ -3838,10 +3742,9 @@ export class CompleteMultipartUploadRequestBody extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class CompleteMultipartUploadResponseCompleteMultipartUploadResult extends $tea.Model {
@@ -3870,10 +3773,9 @@ export class CompleteMultipartUploadResponseCompleteMultipartUploadResult extend
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutBucketLoggingRequestBodyBucketLoggingStatusLoggingEnabled extends $tea.Model {
@@ -3893,10 +3795,9 @@ export class PutBucketLoggingRequestBodyBucketLoggingStatusLoggingEnabled extend
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutBucketLoggingRequestBodyBucketLoggingStatus extends $tea.Model {
@@ -3913,10 +3814,9 @@ export class PutBucketLoggingRequestBodyBucketLoggingStatus extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutBucketLoggingRequestBody extends $tea.Model {
@@ -3933,10 +3833,9 @@ export class PutBucketLoggingRequestBody extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutBucketRequestPaymentRequestBodyRequestPaymentConfiguration extends $tea.Model {
@@ -3953,10 +3852,9 @@ export class PutBucketRequestPaymentRequestBodyRequestPaymentConfiguration exten
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutBucketRequestPaymentRequestBody extends $tea.Model {
@@ -3973,10 +3871,9 @@ export class PutBucketRequestPaymentRequestBody extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutBucketEncryptionRequestBodyServerSideEncryptionRuleApplyServerSideEncryptionByDefault extends $tea.Model {
@@ -3996,10 +3893,9 @@ export class PutBucketEncryptionRequestBodyServerSideEncryptionRuleApplyServerSi
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutBucketEncryptionRequestBodyServerSideEncryptionRule extends $tea.Model {
@@ -4016,10 +3912,9 @@ export class PutBucketEncryptionRequestBodyServerSideEncryptionRule extends $tea
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutBucketEncryptionRequestBody extends $tea.Model {
@@ -4036,10 +3931,9 @@ export class PutBucketEncryptionRequestBody extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutLiveChannelRequestBodyLiveChannelConfigurationTarget extends $tea.Model {
@@ -4065,10 +3959,9 @@ export class PutLiveChannelRequestBodyLiveChannelConfigurationTarget extends $te
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot extends $tea.Model {
@@ -4094,10 +3987,9 @@ export class PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot extends $
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutLiveChannelRequestBodyLiveChannelConfiguration extends $tea.Model {
@@ -4123,10 +4015,9 @@ export class PutLiveChannelRequestBodyLiveChannelConfiguration extends $tea.Mode
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutLiveChannelRequestBody extends $tea.Model {
@@ -4143,10 +4034,9 @@ export class PutLiveChannelRequestBody extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutLiveChannelResponseCreateLiveChannelResultPublishUrls extends $tea.Model {
@@ -4163,10 +4053,9 @@ export class PutLiveChannelResponseCreateLiveChannelResultPublishUrls extends $t
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutLiveChannelResponseCreateLiveChannelResultPlayUrls extends $tea.Model {
@@ -4183,10 +4072,9 @@ export class PutLiveChannelResponseCreateLiveChannelResultPlayUrls extends $tea.
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutLiveChannelResponseCreateLiveChannelResult extends $tea.Model {
@@ -4206,10 +4094,9 @@ export class PutLiveChannelResponseCreateLiveChannelResult extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutBucketTagsRequestBodyTaggingTagSetTag extends $tea.Model {
@@ -4229,10 +4116,9 @@ export class PutBucketTagsRequestBodyTaggingTagSetTag extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutBucketTagsRequestBodyTaggingTagSet extends $tea.Model {
@@ -4249,10 +4135,9 @@ export class PutBucketTagsRequestBodyTaggingTagSet extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutBucketTagsRequestBodyTagging extends $tea.Model {
@@ -4269,10 +4154,9 @@ export class PutBucketTagsRequestBodyTagging extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutBucketTagsRequestBody extends $tea.Model {
@@ -4289,10 +4173,9 @@ export class PutBucketTagsRequestBody extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutObjectTaggingRequestBodyTaggingTagSetTag extends $tea.Model {
@@ -4312,10 +4195,9 @@ export class PutObjectTaggingRequestBodyTaggingTagSetTag extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutObjectTaggingRequestBodyTaggingTagSet extends $tea.Model {
@@ -4332,10 +4214,9 @@ export class PutObjectTaggingRequestBodyTaggingTagSet extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutObjectTaggingRequestBodyTagging extends $tea.Model {
@@ -4352,10 +4233,9 @@ export class PutObjectTaggingRequestBodyTagging extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutObjectTaggingRequestBody extends $tea.Model {
@@ -4372,10 +4252,9 @@ export class PutObjectTaggingRequestBody extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class SelectObjectRequestFilter extends $tea.Model {
@@ -4392,10 +4271,9 @@ export class SelectObjectRequestFilter extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class SelectObjectRequestBodySelectRequestInputSerializationCSV extends $tea.Model {
@@ -4427,10 +4305,9 @@ export class SelectObjectRequestBodySelectRequestInputSerializationCSV extends $
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class SelectObjectRequestBodySelectRequestInputSerialization extends $tea.Model {
@@ -4450,10 +4327,9 @@ export class SelectObjectRequestBodySelectRequestInputSerialization extends $tea
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class SelectObjectRequestBodySelectRequestOutputSerializationCSV extends $tea.Model {
@@ -4473,10 +4349,9 @@ export class SelectObjectRequestBodySelectRequestOutputSerializationCSV extends 
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class SelectObjectRequestBodySelectRequestOutputSerialization extends $tea.Model {
@@ -4505,10 +4380,9 @@ export class SelectObjectRequestBodySelectRequestOutputSerialization extends $te
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class SelectObjectRequestBodySelectRequestOptions extends $tea.Model {
@@ -4528,10 +4402,9 @@ export class SelectObjectRequestBodySelectRequestOptions extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class SelectObjectRequestBodySelectRequest extends $tea.Model {
@@ -4557,10 +4430,9 @@ export class SelectObjectRequestBodySelectRequest extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class SelectObjectRequestBody extends $tea.Model {
@@ -4577,10 +4449,9 @@ export class SelectObjectRequestBody extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutBucketCORSRequestBodyCORSConfigurationCORSRule extends $tea.Model {
@@ -4609,10 +4480,9 @@ export class PutBucketCORSRequestBodyCORSConfigurationCORSRule extends $tea.Mode
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutBucketCORSRequestBodyCORSConfiguration extends $tea.Model {
@@ -4629,10 +4499,9 @@ export class PutBucketCORSRequestBodyCORSConfiguration extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutBucketCORSRequestBody extends $tea.Model {
@@ -4649,10 +4518,9 @@ export class PutBucketCORSRequestBody extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutBucketRequestBodyCreateBucketConfiguration extends $tea.Model {
@@ -4672,10 +4540,9 @@ export class PutBucketRequestBodyCreateBucketConfiguration extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutBucketRequestBody extends $tea.Model {
@@ -4692,10 +4559,9 @@ export class PutBucketRequestBody extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutBucketRequestHeader extends $tea.Model {
@@ -4712,10 +4578,9 @@ export class PutBucketRequestHeader extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class ListMultipartUploadsRequestFilter extends $tea.Model {
@@ -4747,10 +4612,9 @@ export class ListMultipartUploadsRequestFilter extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class ListMultipartUploadsResponseListMultipartUploadsResultUpload extends $tea.Model {
@@ -4773,10 +4637,9 @@ export class ListMultipartUploadsResponseListMultipartUploadsResultUpload extend
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class ListMultipartUploadsResponseListMultipartUploadsResult extends $tea.Model {
@@ -4820,10 +4683,9 @@ export class ListMultipartUploadsResponseListMultipartUploadsResult extends $tea
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetBucketRequestPaymentResponseRequestPaymentConfiguration extends $tea.Model {
@@ -4840,10 +4702,9 @@ export class GetBucketRequestPaymentResponseRequestPaymentConfiguration extends 
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetBucketEncryptionResponseServerSideEncryptionRuleApplyServerSideEncryptionByDefault extends $tea.Model {
@@ -4863,10 +4724,9 @@ export class GetBucketEncryptionResponseServerSideEncryptionRuleApplyServerSideE
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetBucketEncryptionResponseServerSideEncryptionRule extends $tea.Model {
@@ -4883,10 +4743,9 @@ export class GetBucketEncryptionResponseServerSideEncryptionRule extends $tea.Mo
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetBucketTagsResponseTaggingTagSetTag extends $tea.Model {
@@ -4906,10 +4765,9 @@ export class GetBucketTagsResponseTaggingTagSetTag extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetBucketTagsResponseTaggingTagSet extends $tea.Model {
@@ -4926,10 +4784,9 @@ export class GetBucketTagsResponseTaggingTagSet extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetBucketTagsResponseTagging extends $tea.Model {
@@ -4946,10 +4803,9 @@ export class GetBucketTagsResponseTagging extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetServiceRequestFilter extends $tea.Model {
@@ -4972,10 +4828,9 @@ export class GetServiceRequestFilter extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetServiceResponseListAllMyBucketsResultOwner extends $tea.Model {
@@ -4995,10 +4850,9 @@ export class GetServiceResponseListAllMyBucketsResultOwner extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetServiceResponseListAllMyBucketsResultBucketsBucket extends $tea.Model {
@@ -5030,10 +4884,9 @@ export class GetServiceResponseListAllMyBucketsResultBucketsBucket extends $tea.
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetServiceResponseListAllMyBucketsResultBuckets extends $tea.Model {
@@ -5050,10 +4903,9 @@ export class GetServiceResponseListAllMyBucketsResultBuckets extends $tea.Model 
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetServiceResponseListAllMyBucketsResult extends $tea.Model {
@@ -5088,10 +4940,9 @@ export class GetServiceResponseListAllMyBucketsResult extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class DeleteBucketTagsRequestFilter extends $tea.Model {
@@ -5108,10 +4959,9 @@ export class DeleteBucketTagsRequestFilter extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetBucketWebsiteResponseWebsiteConfigurationIndexDocument extends $tea.Model {
@@ -5128,10 +4978,9 @@ export class GetBucketWebsiteResponseWebsiteConfigurationIndexDocument extends $
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetBucketWebsiteResponseWebsiteConfigurationErrorDocument extends $tea.Model {
@@ -5148,10 +4997,9 @@ export class GetBucketWebsiteResponseWebsiteConfigurationErrorDocument extends $
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader extends $tea.Model {
@@ -5171,10 +5019,9 @@ export class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleCondition extends $tea.Model {
@@ -5197,10 +5044,9 @@ export class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet extends $tea.Model {
@@ -5220,10 +5066,9 @@ export class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders extends $tea.Model {
@@ -5249,10 +5094,9 @@ export class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect extends $tea.Model {
@@ -5302,10 +5146,9 @@ export class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule extends $tea.Model {
@@ -5328,10 +5171,9 @@ export class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetBucketWebsiteResponseWebsiteConfigurationRoutingRules extends $tea.Model {
@@ -5348,10 +5190,9 @@ export class GetBucketWebsiteResponseWebsiteConfigurationRoutingRules extends $t
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetBucketWebsiteResponseWebsiteConfiguration extends $tea.Model {
@@ -5374,10 +5215,9 @@ export class GetBucketWebsiteResponseWebsiteConfiguration extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class ListLiveChannelRequestFilter extends $tea.Model {
@@ -5400,10 +5240,9 @@ export class ListLiveChannelRequestFilter extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class ListLiveChannelResponseListLiveChannelResultLiveChannelPublishUrls extends $tea.Model {
@@ -5420,10 +5259,9 @@ export class ListLiveChannelResponseListLiveChannelResultLiveChannelPublishUrls 
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class ListLiveChannelResponseListLiveChannelResultLiveChannelPlayUrls extends $tea.Model {
@@ -5440,10 +5278,9 @@ export class ListLiveChannelResponseListLiveChannelResultLiveChannelPlayUrls ext
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class ListLiveChannelResponseListLiveChannelResultLiveChannel extends $tea.Model {
@@ -5475,10 +5312,9 @@ export class ListLiveChannelResponseListLiveChannelResultLiveChannel extends $te
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class ListLiveChannelResponseListLiveChannelResult extends $tea.Model {
@@ -5510,10 +5346,9 @@ export class ListLiveChannelResponseListLiveChannelResult extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetBucketAclResponseAccessControlPolicyOwner extends $tea.Model {
@@ -5533,10 +5368,9 @@ export class GetBucketAclResponseAccessControlPolicyOwner extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetBucketAclResponseAccessControlPolicyAccessControlList extends $tea.Model {
@@ -5553,10 +5387,9 @@ export class GetBucketAclResponseAccessControlPolicyAccessControlList extends $t
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetBucketAclResponseAccessControlPolicy extends $tea.Model {
@@ -5576,10 +5409,9 @@ export class GetBucketAclResponseAccessControlPolicy extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class ListPartsRequestFilter extends $tea.Model {
@@ -5605,10 +5437,9 @@ export class ListPartsRequestFilter extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class ListPartsResponseListPartsResultPart extends $tea.Model {
@@ -5634,10 +5465,9 @@ export class ListPartsResponseListPartsResultPart extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class ListPartsResponseListPartsResult extends $tea.Model {
@@ -5678,10 +5508,9 @@ export class ListPartsResponseListPartsResult extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetLiveChannelHistoryRequestFilter extends $tea.Model {
@@ -5698,10 +5527,9 @@ export class GetLiveChannelHistoryRequestFilter extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetLiveChannelHistoryResponseLiveChannelHistoryLiveRecord extends $tea.Model {
@@ -5724,10 +5552,9 @@ export class GetLiveChannelHistoryResponseLiveChannelHistoryLiveRecord extends $
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetLiveChannelHistoryResponseLiveChannelHistory extends $tea.Model {
@@ -5744,10 +5571,9 @@ export class GetLiveChannelHistoryResponseLiveChannelHistory extends $tea.Model 
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetBucketRequestFilter extends $tea.Model {
@@ -5776,10 +5602,9 @@ export class GetBucketRequestFilter extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetBucketResponseListBucketResultContentsOwner extends $tea.Model {
@@ -5799,10 +5624,9 @@ export class GetBucketResponseListBucketResultContentsOwner extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetBucketResponseListBucketResultContents extends $tea.Model {
@@ -5834,10 +5658,9 @@ export class GetBucketResponseListBucketResultContents extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetBucketResponseListBucketResult extends $tea.Model {
@@ -5878,10 +5701,9 @@ export class GetBucketResponseListBucketResult extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetLiveChannelInfoResponseLiveChannelConfigurationTarget extends $tea.Model {
@@ -5907,10 +5729,9 @@ export class GetLiveChannelInfoResponseLiveChannelConfigurationTarget extends $t
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetLiveChannelInfoResponseLiveChannelConfiguration extends $tea.Model {
@@ -5933,10 +5754,9 @@ export class GetLiveChannelInfoResponseLiveChannelConfiguration extends $tea.Mod
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetLiveChannelStatRequestFilter extends $tea.Model {
@@ -5953,10 +5773,9 @@ export class GetLiveChannelStatRequestFilter extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetLiveChannelStatResponseLiveChannelStatVideo extends $tea.Model {
@@ -5985,10 +5804,9 @@ export class GetLiveChannelStatResponseLiveChannelStatVideo extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetLiveChannelStatResponseLiveChannelStatAudio extends $tea.Model {
@@ -6011,10 +5829,9 @@ export class GetLiveChannelStatResponseLiveChannelStatAudio extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetLiveChannelStatResponseLiveChannelStat extends $tea.Model {
@@ -6043,10 +5860,9 @@ export class GetLiveChannelStatResponseLiveChannelStat extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class AbortMultipartUploadRequestFilter extends $tea.Model {
@@ -6063,10 +5879,9 @@ export class AbortMultipartUploadRequestFilter extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class AppendObjectRequestFilter extends $tea.Model {
@@ -6083,10 +5898,9 @@ export class AppendObjectRequestFilter extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class AppendObjectRequestHeader extends $tea.Model {
@@ -6127,10 +5941,9 @@ export class AppendObjectRequestHeader extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class UploadPartCopyRequestFilter extends $tea.Model {
@@ -6150,10 +5963,9 @@ export class UploadPartCopyRequestFilter extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class UploadPartCopyRequestHeader extends $tea.Model {
@@ -6185,10 +5997,9 @@ export class UploadPartCopyRequestHeader extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class UploadPartCopyResponseCopyPartResult extends $tea.Model {
@@ -6208,10 +6019,9 @@ export class UploadPartCopyResponseCopyPartResult extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetVodPlaylistRequestFilter extends $tea.Model {
@@ -6231,10 +6041,9 @@ export class GetVodPlaylistRequestFilter extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetObjectRequestHeader extends $tea.Model {
@@ -6284,10 +6093,9 @@ export class GetObjectRequestHeader extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class UploadPartRequestFilter extends $tea.Model {
@@ -6307,10 +6115,9 @@ export class UploadPartRequestFilter extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetBucketCORSResponseCORSConfigurationCORSRule extends $tea.Model {
@@ -6327,10 +6134,9 @@ export class GetBucketCORSResponseCORSConfigurationCORSRule extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetBucketCORSResponseCORSConfiguration extends $tea.Model {
@@ -6347,10 +6153,9 @@ export class GetBucketCORSResponseCORSConfiguration extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class CopyObjectRequestHeader extends $tea.Model {
@@ -6400,10 +6205,9 @@ export class CopyObjectRequestHeader extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class CopyObjectResponseCopyObjectResult extends $tea.Model {
@@ -6423,10 +6227,9 @@ export class CopyObjectResponseCopyObjectResult extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetObjectTaggingResponseTaggingTagSetTag extends $tea.Model {
@@ -6446,10 +6249,9 @@ export class GetObjectTaggingResponseTaggingTagSetTag extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetObjectTaggingResponseTaggingTagSet extends $tea.Model {
@@ -6466,10 +6268,9 @@ export class GetObjectTaggingResponseTaggingTagSet extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetObjectTaggingResponseTagging extends $tea.Model {
@@ -6486,10 +6287,9 @@ export class GetObjectTaggingResponseTagging extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetBucketLifecycleResponseLifecycleConfigurationRuleExpiration extends $tea.Model {
@@ -6509,10 +6309,9 @@ export class GetBucketLifecycleResponseLifecycleConfigurationRuleExpiration exte
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetBucketLifecycleResponseLifecycleConfigurationRuleTransition extends $tea.Model {
@@ -6532,10 +6331,9 @@ export class GetBucketLifecycleResponseLifecycleConfigurationRuleTransition exte
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetBucketLifecycleResponseLifecycleConfigurationRuleAbortMultipartUpload extends $tea.Model {
@@ -6555,10 +6353,9 @@ export class GetBucketLifecycleResponseLifecycleConfigurationRuleAbortMultipartU
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetBucketLifecycleResponseLifecycleConfigurationRuleTag extends $tea.Model {
@@ -6578,10 +6375,9 @@ export class GetBucketLifecycleResponseLifecycleConfigurationRuleTag extends $te
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetBucketLifecycleResponseLifecycleConfigurationRule extends $tea.Model {
@@ -6616,10 +6412,9 @@ export class GetBucketLifecycleResponseLifecycleConfigurationRule extends $tea.M
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetBucketLifecycleResponseLifecycleConfiguration extends $tea.Model {
@@ -6636,10 +6431,9 @@ export class GetBucketLifecycleResponseLifecycleConfiguration extends $tea.Model
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutSymlinkRequestHeader extends $tea.Model {
@@ -6659,10 +6453,9 @@ export class PutSymlinkRequestHeader extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetBucketRefererResponseRefererConfigurationRefererList extends $tea.Model {
@@ -6679,10 +6472,9 @@ export class GetBucketRefererResponseRefererConfigurationRefererList extends $te
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetBucketRefererResponseRefererConfiguration extends $tea.Model {
@@ -6702,10 +6494,9 @@ export class GetBucketRefererResponseRefererConfiguration extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetBucketLoggingResponseBucketLoggingStatusLoggingEnabled extends $tea.Model {
@@ -6725,10 +6516,9 @@ export class GetBucketLoggingResponseBucketLoggingStatusLoggingEnabled extends $
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetBucketLoggingResponseBucketLoggingStatus extends $tea.Model {
@@ -6745,10 +6535,9 @@ export class GetBucketLoggingResponseBucketLoggingStatus extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutObjectAclRequestHeader extends $tea.Model {
@@ -6765,10 +6554,9 @@ export class PutObjectAclRequestHeader extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetBucketInfoResponseBucketInfoBucketOwner extends $tea.Model {
@@ -6788,10 +6576,9 @@ export class GetBucketInfoResponseBucketInfoBucketOwner extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetBucketInfoResponseBucketInfoBucketAccessControlList extends $tea.Model {
@@ -6808,10 +6595,9 @@ export class GetBucketInfoResponseBucketInfoBucketAccessControlList extends $tea
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetBucketInfoResponseBucketInfoBucket extends $tea.Model {
@@ -6855,10 +6641,9 @@ export class GetBucketInfoResponseBucketInfoBucket extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetBucketInfoResponseBucketInfo extends $tea.Model {
@@ -6875,10 +6660,9 @@ export class GetBucketInfoResponseBucketInfo extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutLiveChannelStatusRequestFilter extends $tea.Model {
@@ -6895,10 +6679,9 @@ export class PutLiveChannelStatusRequestFilter extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class InitiateMultipartUploadRequestFilter extends $tea.Model {
@@ -6915,10 +6698,9 @@ export class InitiateMultipartUploadRequestFilter extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class InitiateMultipartUploadRequestHeader extends $tea.Model {
@@ -6959,10 +6741,9 @@ export class InitiateMultipartUploadRequestHeader extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class InitiateMultipartUploadResponseInitiateMultipartUploadResult extends $tea.Model {
@@ -6985,10 +6766,9 @@ export class InitiateMultipartUploadResponseInitiateMultipartUploadResult extend
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class OptionObjectRequestHeader extends $tea.Model {
@@ -7011,10 +6791,9 @@ export class OptionObjectRequestHeader extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PostVodPlaylistRequestFilter extends $tea.Model {
@@ -7034,36 +6813,9 @@ export class PostVodPlaylistRequestFilter extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
-}
-
-export class PostObjectRequestHeaderFile extends $tea.Model {
-  fileName: string;
-  content: Readable;
-  contentType: string;
-  static names(): { [key: string]: string } {
-    return {
-      fileName: 'filename',
-      content: 'content',
-      contentType: 'content-type',
-    };
-  }
-
-  static types(): { [key: string]: any } {
-    return {
-      fileName: 'string',
-      content: 'Readable',
-      contentType: 'string',
-    };
-  }
-
-  constructor(map: { [key: string]: any }) {
-    super(map);
-  }
-
 }
 
 export class PostObjectRequestHeader extends $tea.Model {
@@ -7071,8 +6823,9 @@ export class PostObjectRequestHeader extends $tea.Model {
   policy: string;
   signature: string;
   successActionStatus?: string;
-  file: PostObjectRequestHeaderFile;
+  file: $FileForm.FileField;
   key: string;
+  userMeta?: { [key: string]: string };
   static names(): { [key: string]: string } {
     return {
       accessKeyId: 'OSSAccessKeyId',
@@ -7081,6 +6834,7 @@ export class PostObjectRequestHeader extends $tea.Model {
       successActionStatus: 'success_action_status',
       file: 'file',
       key: 'key',
+      userMeta: 'UserMeta',
     };
   }
 
@@ -7090,15 +6844,15 @@ export class PostObjectRequestHeader extends $tea.Model {
       policy: 'string',
       signature: 'string',
       successActionStatus: 'string',
-      file: PostObjectRequestHeaderFile,
+      file: $FileForm.FileField,
       key: 'string',
+      userMeta: { 'type': 'map', 'keyType': 'string', 'valueType': 'string' },
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PostObjectResponsePostResponse extends $tea.Model {
@@ -7121,10 +6875,9 @@ export class PostObjectResponsePostResponse extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class HeadObjectRequestHeader extends $tea.Model {
@@ -7150,10 +6903,9 @@ export class HeadObjectRequestHeader extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetObjectAclResponseAccessControlPolicyOwner extends $tea.Model {
@@ -7173,10 +6925,9 @@ export class GetObjectAclResponseAccessControlPolicyOwner extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetObjectAclResponseAccessControlPolicyAccessControlList extends $tea.Model {
@@ -7193,10 +6944,9 @@ export class GetObjectAclResponseAccessControlPolicyAccessControlList extends $t
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class GetObjectAclResponseAccessControlPolicy extends $tea.Model {
@@ -7216,10 +6966,9 @@ export class GetObjectAclResponseAccessControlPolicy extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutBucketAclRequestHeader extends $tea.Model {
@@ -7236,10 +6985,9 @@ export class PutBucketAclRequestHeader extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 export class PutObjectRequestHeader extends $tea.Model {
@@ -7295,41 +7043,101 @@ export class PutObjectRequestHeader extends $tea.Model {
     };
   }
 
-  constructor(map: { [key: string]: any }) {
+  constructor(map?: { [key: string]: any }) {
     super(map);
   }
-
 }
 
 
-export default class Client extends BaseClient {
+export default class Client {
+  _endpoint: string;
+  _regionId: string;
+  _hostModel: string;
+  _protocol: string;
+  _readTimeout: number;
+  _connectTimeout: number;
+  _signatureVersion: string;
+  _addtionalHeaders: string[];
+  _localAddr: string;
+  _httpProxy: string;
+  _httpsProxy: string;
+  _noProxy: string;
+  _userAgent: string;
+  _socks5Proxy: string;
+  _isEnableCrc: boolean;
+  _isEnableMD5: boolean;
+  _socks5NetWork: string;
+  _maxIdleConns: number;
+  _credential: Credential;
+
   constructor(config: Config) {
-    super($tea.toMap(config));
+    if (Util.isUnset($tea.toMap(config))) {
+      throw $tea.newError({
+        name: "ParameterMissing",
+        message: "'config' can not be unset",
+      });
+    }
+
+    if (Util.empty(config.type)) {
+      config.type = "access_key";
+    }
+
+    let credentialConfig = new $Credential.Config({
+      accessKeyId: config.accessKeyId,
+      type: config.type,
+      accessKeySecret: config.accessKeySecret,
+      securityToken: config.securityToken,
+    });
+    this._credential = new Credential(credentialConfig);
+    if (Util.isUnset(config.isEnableMD5)) {
+      config.isEnableMD5 = false;
+    }
+
+    if (Util.isUnset(config.isEnableCrc)) {
+      config.isEnableCrc = false;
+    }
+
+    this._endpoint = config.endpoint;
+    this._protocol = config.protocol;
+    this._regionId = config.regionId;
+    this._userAgent = config.userAgent;
+    this._readTimeout = config.readTimeout;
+    this._connectTimeout = config.connectTimeout;
+    this._localAddr = config.localAddr;
+    this._httpProxy = config.httpProxy;
+    this._httpsProxy = config.httpsProxy;
+    this._noProxy = config.noProxy;
+    this._socks5Proxy = config.socks5Proxy;
+    this._socks5NetWork = config.socks5NetWork;
+    this._maxIdleConns = config.maxIdleConns;
+    this._signatureVersion = config.signatureVersion;
+    this._addtionalHeaders = config.addtionalHeaders;
+    this._hostModel = config.hostModel;
+    this._isEnableMD5 = config.isEnableMD5;
+    this._isEnableCrc = config.isEnableCrc;
   }
 
-  async putBucketLifecycle(request: PutBucketLifecycleRequest, runtime: RuntimeObject): Promise<PutBucketLifecycleResponse> {
+  async putBucketLifecycle(request: PutBucketLifecycleRequest, runtime: $OSSUtil.RuntimeOptions): Promise<PutBucketLifecycleResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -7346,29 +7154,32 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
-        let reqBody = this._toXML($tea.toMap(request.body));
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
+        let reqBody = XML.toXML($tea.toMap(request.body));
         request_.protocol = this._protocol;
         request_.method = "PUT";
         request_.pathname = `/?lifecycle`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
+
         request_.body = new $tea.BytesReadable(reqBody);
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -7394,29 +7205,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async deleteMultipleObjects(request: DeleteMultipleObjectsRequest, runtime: RuntimeObject): Promise<DeleteMultipleObjectsResponse> {
+  async deleteMultipleObjects(request: DeleteMultipleObjectsRequest, runtime: $OSSUtil.RuntimeOptions): Promise<DeleteMultipleObjectsResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -7433,35 +7242,39 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
-        let reqBody = this._toXML($tea.toMap(request.body));
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
+        let reqBody = XML.toXML($tea.toMap(request.body));
         request_.protocol = this._protocol;
         request_.method = "POST";
         request_.pathname = `/?delete`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
-          ...this._toHeader($tea.toMap(request.header)),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
+          ...Util.stringifyMapValue($tea.toMap(request.header)),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
+
         request_.body = new $tea.BytesReadable(reqBody);
-        if (this._notNull($tea.toMap(request.header)) && !this._empty(request.header.contentMD5)) {
+        if (Util.isUnset($tea.toMap(request.header)) && !Util.empty(request.header.contentMD5)) {
           request_.headers["content-md5"] = request.header.contentMD5;
         } else {
-          request_.headers["content-md5"] = this._getContentMD5(reqBody);
+          request_.headers["content-md5"] = OSSUtil.getContentMD5(reqBody, this._isEnableMD5);
         }
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -7473,8 +7286,8 @@ export default class Client extends BaseClient {
           });
         }
 
-        bodyStr = await this._readAsString(response_);
-        respMap = this._parseXml(bodyStr, DeleteMultipleObjectsResponse);
+        bodyStr = await Util.readAsString(response_.body);
+        respMap = XML.parseXml(bodyStr, DeleteMultipleObjectsResponse);
         return $tea.cast<DeleteMultipleObjectsResponse>({
           DeleteResult: respMap["DeleteResult"],
           ...response_.headers,
@@ -7490,29 +7303,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async putBucketReferer(request: PutBucketRefererRequest, runtime: RuntimeObject): Promise<PutBucketRefererResponse> {
+  async putBucketReferer(request: PutBucketRefererRequest, runtime: $OSSUtil.RuntimeOptions): Promise<PutBucketRefererResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -7529,29 +7340,32 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
-        let reqBody = this._toXML($tea.toMap(request.body));
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
+        let reqBody = XML.toXML($tea.toMap(request.body));
         request_.protocol = this._protocol;
         request_.method = "PUT";
         request_.pathname = `/?referer`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
+
         request_.body = new $tea.BytesReadable(reqBody);
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -7577,29 +7391,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async putBucketWebsite(request: PutBucketWebsiteRequest, runtime: RuntimeObject): Promise<PutBucketWebsiteResponse> {
+  async putBucketWebsite(request: PutBucketWebsiteRequest, runtime: $OSSUtil.RuntimeOptions): Promise<PutBucketWebsiteResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -7616,29 +7428,32 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
-        let reqBody = this._toXML($tea.toMap(request.body));
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
+        let reqBody = XML.toXML($tea.toMap(request.body));
         request_.protocol = this._protocol;
         request_.method = "PUT";
         request_.pathname = `/?website`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
+
         request_.body = new $tea.BytesReadable(reqBody);
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -7664,29 +7479,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async completeMultipartUpload(request: CompleteMultipartUploadRequest, runtime: RuntimeObject): Promise<CompleteMultipartUploadResponse> {
+  async completeMultipartUpload(request: CompleteMultipartUploadRequest, runtime: $OSSUtil.RuntimeOptions): Promise<CompleteMultipartUploadResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -7703,30 +7516,33 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
-        let reqBody = this._toXML($tea.toMap(request.body));
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
+        let reqBody = XML.toXML($tea.toMap(request.body));
         request_.protocol = this._protocol;
         request_.method = "POST";
         request_.pathname = `/${request.objectName}`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.query = this._toQuery($tea.toMap(request.filter));
+
+        request_.query = Util.stringifyMapValue($tea.toMap(request.filter));
         request_.body = new $tea.BytesReadable(reqBody);
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -7738,8 +7554,8 @@ export default class Client extends BaseClient {
           });
         }
 
-        bodyStr = await this._readAsString(response_);
-        respMap = this._parseXml(bodyStr, CompleteMultipartUploadResponse);
+        bodyStr = await Util.readAsString(response_.body);
+        respMap = XML.parseXml(bodyStr, CompleteMultipartUploadResponse);
         return $tea.cast<CompleteMultipartUploadResponse>({
           CompleteMultipartUploadResult: respMap["CompleteMultipartUploadResult"],
           ...response_.headers,
@@ -7755,29 +7571,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async putBucketLogging(request: PutBucketLoggingRequest, runtime: RuntimeObject): Promise<PutBucketLoggingResponse> {
+  async putBucketLogging(request: PutBucketLoggingRequest, runtime: $OSSUtil.RuntimeOptions): Promise<PutBucketLoggingResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -7794,29 +7608,32 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
-        let reqBody = this._toXML($tea.toMap(request.body));
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
+        let reqBody = XML.toXML($tea.toMap(request.body));
         request_.protocol = this._protocol;
         request_.method = "PUT";
         request_.pathname = `/?logging`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
+
         request_.body = new $tea.BytesReadable(reqBody);
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -7842,29 +7659,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async putBucketRequestPayment(request: PutBucketRequestPaymentRequest, runtime: RuntimeObject): Promise<PutBucketRequestPaymentResponse> {
+  async putBucketRequestPayment(request: PutBucketRequestPaymentRequest, runtime: $OSSUtil.RuntimeOptions): Promise<PutBucketRequestPaymentResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -7881,29 +7696,32 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
-        let reqBody = this._toXML($tea.toMap(request.body));
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
+        let reqBody = XML.toXML($tea.toMap(request.body));
         request_.protocol = this._protocol;
         request_.method = "PUT";
         request_.pathname = `/?requestPayment`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
+
         request_.body = new $tea.BytesReadable(reqBody);
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -7929,29 +7747,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async putBucketEncryption(request: PutBucketEncryptionRequest, runtime: RuntimeObject): Promise<PutBucketEncryptionResponse> {
+  async putBucketEncryption(request: PutBucketEncryptionRequest, runtime: $OSSUtil.RuntimeOptions): Promise<PutBucketEncryptionResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -7968,29 +7784,32 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
-        let reqBody = this._toXML($tea.toMap(request.body));
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
+        let reqBody = XML.toXML($tea.toMap(request.body));
         request_.protocol = this._protocol;
         request_.method = "PUT";
         request_.pathname = `/?encryption`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
+
         request_.body = new $tea.BytesReadable(reqBody);
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -8016,29 +7835,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async putLiveChannel(request: PutLiveChannelRequest, runtime: RuntimeObject): Promise<PutLiveChannelResponse> {
+  async putLiveChannel(request: PutLiveChannelRequest, runtime: $OSSUtil.RuntimeOptions): Promise<PutLiveChannelResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -8055,29 +7872,32 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
-        let reqBody = this._toXML($tea.toMap(request.body));
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
+        let reqBody = XML.toXML($tea.toMap(request.body));
         request_.protocol = this._protocol;
         request_.method = "PUT";
         request_.pathname = `/${request.channelName}?live`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
+
         request_.body = new $tea.BytesReadable(reqBody);
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -8089,8 +7909,8 @@ export default class Client extends BaseClient {
           });
         }
 
-        bodyStr = await this._readAsString(response_);
-        respMap = this._parseXml(bodyStr, PutLiveChannelResponse);
+        bodyStr = await Util.readAsString(response_.body);
+        respMap = XML.parseXml(bodyStr, PutLiveChannelResponse);
         return $tea.cast<PutLiveChannelResponse>({
           CreateLiveChannelResult: respMap["CreateLiveChannelResult"],
           ...response_.headers,
@@ -8106,29 +7926,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async putBucketTags(request: PutBucketTagsRequest, runtime: RuntimeObject): Promise<PutBucketTagsResponse> {
+  async putBucketTags(request: PutBucketTagsRequest, runtime: $OSSUtil.RuntimeOptions): Promise<PutBucketTagsResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -8145,29 +7963,32 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
-        let reqBody = this._toXML($tea.toMap(request.body));
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
+        let reqBody = XML.toXML($tea.toMap(request.body));
         request_.protocol = this._protocol;
         request_.method = "PUT";
         request_.pathname = `/?tagging`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
+
         request_.body = new $tea.BytesReadable(reqBody);
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -8193,29 +8014,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async putObjectTagging(request: PutObjectTaggingRequest, runtime: RuntimeObject): Promise<PutObjectTaggingResponse> {
+  async putObjectTagging(request: PutObjectTaggingRequest, runtime: $OSSUtil.RuntimeOptions): Promise<PutObjectTaggingResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -8232,29 +8051,32 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
-        let reqBody = this._toXML($tea.toMap(request.body));
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
+        let reqBody = XML.toXML($tea.toMap(request.body));
         request_.protocol = this._protocol;
         request_.method = "PUT";
         request_.pathname = `/${request.objectName}?tagging`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
+
         request_.body = new $tea.BytesReadable(reqBody);
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -8280,29 +8102,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async selectObject(request: SelectObjectRequest, runtime: RuntimeObject): Promise<SelectObjectResponse> {
+  async selectObject(request: SelectObjectRequest, runtime: $OSSUtil.RuntimeOptions): Promise<SelectObjectResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -8319,30 +8139,33 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
-        let reqBody = this._toXML($tea.toMap(request.body));
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
+        let reqBody = XML.toXML($tea.toMap(request.body));
         request_.protocol = this._protocol;
         request_.method = "POST";
         request_.pathname = `/${request.objectName}`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.query = this._toQuery($tea.toMap(request.filter));
+
+        request_.query = Util.stringifyMapValue($tea.toMap(request.filter));
         request_.body = new $tea.BytesReadable(reqBody);
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -8368,29 +8191,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async putBucketCORS(request: PutBucketCORSRequest, runtime: RuntimeObject): Promise<PutBucketCORSResponse> {
+  async putBucketCORS(request: PutBucketCORSRequest, runtime: $OSSUtil.RuntimeOptions): Promise<PutBucketCORSResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -8407,29 +8228,32 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
-        let reqBody = this._toXML($tea.toMap(request.body));
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
+        let reqBody = XML.toXML($tea.toMap(request.body));
         request_.protocol = this._protocol;
         request_.method = "PUT";
         request_.pathname = `/?cors`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
+
         request_.body = new $tea.BytesReadable(reqBody);
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -8455,29 +8279,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async putBucket(request: PutBucketRequest, runtime: RuntimeObject): Promise<PutBucketResponse> {
+  async putBucket(request: PutBucketRequest, runtime: $OSSUtil.RuntimeOptions): Promise<PutBucketResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -8494,30 +8316,33 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
-        let reqBody = this._toXML($tea.toMap(request.body));
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
+        let reqBody = XML.toXML($tea.toMap(request.body));
         request_.protocol = this._protocol;
         request_.method = "PUT";
         request_.pathname = `/`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
-          ...this._toHeader($tea.toMap(request.header)),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
+          ...Util.stringifyMapValue($tea.toMap(request.header)),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
+
         request_.body = new $tea.BytesReadable(reqBody);
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -8543,29 +8368,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async listMultipartUploads(request: ListMultipartUploadsRequest, runtime: RuntimeObject): Promise<ListMultipartUploadsResponse> {
+  async listMultipartUploads(request: ListMultipartUploadsRequest, runtime: $OSSUtil.RuntimeOptions): Promise<ListMultipartUploadsResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -8582,28 +8405,31 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/?uploads`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.query = this._toQuery($tea.toMap(request.filter));
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.query = Util.stringifyMapValue($tea.toMap(request.filter));
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -8615,8 +8441,8 @@ export default class Client extends BaseClient {
           });
         }
 
-        bodyStr = await this._readAsString(response_);
-        respMap = this._parseXml(bodyStr, ListMultipartUploadsResponse);
+        bodyStr = await Util.readAsString(response_.body);
+        respMap = XML.parseXml(bodyStr, ListMultipartUploadsResponse);
         return $tea.cast<ListMultipartUploadsResponse>({
           ListMultipartUploadsResult: respMap["ListMultipartUploadsResult"],
           ...response_.headers,
@@ -8632,29 +8458,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async getBucketRequestPayment(request: GetBucketRequestPaymentRequest, runtime: RuntimeObject): Promise<GetBucketRequestPaymentResponse> {
+  async getBucketRequestPayment(request: GetBucketRequestPaymentRequest, runtime: $OSSUtil.RuntimeOptions): Promise<GetBucketRequestPaymentResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -8671,27 +8495,30 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/?requestPayment`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -8703,8 +8530,8 @@ export default class Client extends BaseClient {
           });
         }
 
-        bodyStr = await this._readAsString(response_);
-        respMap = this._parseXml(bodyStr, GetBucketRequestPaymentResponse);
+        bodyStr = await Util.readAsString(response_.body);
+        respMap = XML.parseXml(bodyStr, GetBucketRequestPaymentResponse);
         return $tea.cast<GetBucketRequestPaymentResponse>({
           RequestPaymentConfiguration: respMap["RequestPaymentConfiguration"],
           ...response_.headers,
@@ -8720,29 +8547,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async getBucketEncryption(request: GetBucketEncryptionRequest, runtime: RuntimeObject): Promise<GetBucketEncryptionResponse> {
+  async getBucketEncryption(request: GetBucketEncryptionRequest, runtime: $OSSUtil.RuntimeOptions): Promise<GetBucketEncryptionResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -8759,27 +8584,30 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/?encryption`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -8791,8 +8619,8 @@ export default class Client extends BaseClient {
           });
         }
 
-        bodyStr = await this._readAsString(response_);
-        respMap = this._parseXml(bodyStr, GetBucketEncryptionResponse);
+        bodyStr = await Util.readAsString(response_.body);
+        respMap = XML.parseXml(bodyStr, GetBucketEncryptionResponse);
         return $tea.cast<GetBucketEncryptionResponse>({
           ServerSideEncryptionRule: respMap["ServerSideEncryptionRule"],
           ...response_.headers,
@@ -8808,29 +8636,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async getBucketTags(request: GetBucketTagsRequest, runtime: RuntimeObject): Promise<GetBucketTagsResponse> {
+  async getBucketTags(request: GetBucketTagsRequest, runtime: $OSSUtil.RuntimeOptions): Promise<GetBucketTagsResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -8847,27 +8673,30 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/?tagging`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -8879,8 +8708,8 @@ export default class Client extends BaseClient {
           });
         }
 
-        bodyStr = await this._readAsString(response_);
-        respMap = this._parseXml(bodyStr, GetBucketTagsResponse);
+        bodyStr = await Util.readAsString(response_.body);
+        respMap = XML.parseXml(bodyStr, GetBucketTagsResponse);
         return $tea.cast<GetBucketTagsResponse>({
           Tagging: respMap["Tagging"],
           ...response_.headers,
@@ -8896,29 +8725,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async getService(request: GetServiceRequest, runtime: RuntimeObject): Promise<GetServiceResponse> {
+  async getService(request: GetServiceRequest, runtime: $OSSUtil.RuntimeOptions): Promise<GetServiceResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -8935,28 +8762,31 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/`;
         request_.headers = {
-          host: this.getHost(""),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost("", this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.query = this._toQuery($tea.toMap(request.filter));
-        request_.headers["authorization"] = await this.getSignature(request_, "");
+
+        request_.query = Util.stringifyMapValue($tea.toMap(request.filter));
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, "", accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -8968,8 +8798,8 @@ export default class Client extends BaseClient {
           });
         }
 
-        bodyStr = await this._readAsString(response_);
-        respMap = this._parseXml(bodyStr, GetServiceResponse);
+        bodyStr = await Util.readAsString(response_.body);
+        respMap = XML.parseXml(bodyStr, GetServiceResponse);
         return $tea.cast<GetServiceResponse>({
           ListAllMyBucketsResult: respMap["ListAllMyBucketsResult"],
           ...response_.headers,
@@ -8985,29 +8815,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async deleteBucketEncryption(request: DeleteBucketEncryptionRequest, runtime: RuntimeObject): Promise<DeleteBucketEncryptionResponse> {
+  async deleteBucketEncryption(request: DeleteBucketEncryptionRequest, runtime: $OSSUtil.RuntimeOptions): Promise<DeleteBucketEncryptionResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -9024,27 +8852,30 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "DELETE";
         request_.pathname = `/?encryption`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -9070,29 +8901,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async deleteBucketTags(request: DeleteBucketTagsRequest, runtime: RuntimeObject): Promise<DeleteBucketTagsResponse> {
+  async deleteBucketTags(request: DeleteBucketTagsRequest, runtime: $OSSUtil.RuntimeOptions): Promise<DeleteBucketTagsResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -9109,28 +8938,31 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "DELETE";
         request_.pathname = `/`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.query = this._toQuery($tea.toMap(request.filter));
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.query = Util.stringifyMapValue($tea.toMap(request.filter));
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -9156,29 +8988,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async getBucketWebsite(request: GetBucketWebsiteRequest, runtime: RuntimeObject): Promise<GetBucketWebsiteResponse> {
+  async getBucketWebsite(request: GetBucketWebsiteRequest, runtime: $OSSUtil.RuntimeOptions): Promise<GetBucketWebsiteResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -9195,27 +9025,30 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/?website`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -9227,8 +9060,8 @@ export default class Client extends BaseClient {
           });
         }
 
-        bodyStr = await this._readAsString(response_);
-        respMap = this._parseXml(bodyStr, GetBucketWebsiteResponse);
+        bodyStr = await Util.readAsString(response_.body);
+        respMap = XML.parseXml(bodyStr, GetBucketWebsiteResponse);
         return $tea.cast<GetBucketWebsiteResponse>({
           WebsiteConfiguration: respMap["WebsiteConfiguration"],
           ...response_.headers,
@@ -9244,29 +9077,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async deleteLiveChannel(request: DeleteLiveChannelRequest, runtime: RuntimeObject): Promise<DeleteLiveChannelResponse> {
+  async deleteLiveChannel(request: DeleteLiveChannelRequest, runtime: $OSSUtil.RuntimeOptions): Promise<DeleteLiveChannelResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -9283,27 +9114,30 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "DELETE";
         request_.pathname = `/${request.channelName}?live`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -9329,29 +9163,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async getBucketLocation(request: GetBucketLocationRequest, runtime: RuntimeObject): Promise<GetBucketLocationResponse> {
+  async getBucketLocation(request: GetBucketLocationRequest, runtime: $OSSUtil.RuntimeOptions): Promise<GetBucketLocationResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -9368,27 +9200,30 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/?location`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -9400,8 +9235,8 @@ export default class Client extends BaseClient {
           });
         }
 
-        bodyStr = await this._readAsString(response_);
-        respMap = this._parseXml(bodyStr, GetBucketLocationResponse);
+        bodyStr = await Util.readAsString(response_.body);
+        respMap = XML.parseXml(bodyStr, GetBucketLocationResponse);
         return $tea.cast<GetBucketLocationResponse>({
           LocationConstraint: respMap["LocationConstraint"],
           ...response_.headers,
@@ -9417,29 +9252,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async listLiveChannel(request: ListLiveChannelRequest, runtime: RuntimeObject): Promise<ListLiveChannelResponse> {
+  async listLiveChannel(request: ListLiveChannelRequest, runtime: $OSSUtil.RuntimeOptions): Promise<ListLiveChannelResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -9456,28 +9289,31 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/?live`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.query = this._toQuery($tea.toMap(request.filter));
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.query = Util.stringifyMapValue($tea.toMap(request.filter));
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -9489,8 +9325,8 @@ export default class Client extends BaseClient {
           });
         }
 
-        bodyStr = await this._readAsString(response_);
-        respMap = this._parseXml(bodyStr, ListLiveChannelResponse);
+        bodyStr = await Util.readAsString(response_.body);
+        respMap = XML.parseXml(bodyStr, ListLiveChannelResponse);
         return $tea.cast<ListLiveChannelResponse>({
           ListLiveChannelResult: respMap["ListLiveChannelResult"],
           ...response_.headers,
@@ -9506,29 +9342,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async getObjectMeta(request: GetObjectMetaRequest, runtime: RuntimeObject): Promise<GetObjectMetaResponse> {
+  async getObjectMeta(request: GetObjectMetaRequest, runtime: $OSSUtil.RuntimeOptions): Promise<GetObjectMetaResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -9545,27 +9379,30 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "HEAD";
         request_.pathname = `/${request.objectName}?objectMeta`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -9591,29 +9428,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async getBucketAcl(request: GetBucketAclRequest, runtime: RuntimeObject): Promise<GetBucketAclResponse> {
+  async getBucketAcl(request: GetBucketAclRequest, runtime: $OSSUtil.RuntimeOptions): Promise<GetBucketAclResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -9630,27 +9465,30 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/?acl`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -9662,8 +9500,8 @@ export default class Client extends BaseClient {
           });
         }
 
-        bodyStr = await this._readAsString(response_);
-        respMap = this._parseXml(bodyStr, GetBucketAclResponse);
+        bodyStr = await Util.readAsString(response_.body);
+        respMap = XML.parseXml(bodyStr, GetBucketAclResponse);
         return $tea.cast<GetBucketAclResponse>({
           AccessControlPolicy: respMap["AccessControlPolicy"],
           ...response_.headers,
@@ -9679,29 +9517,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async listParts(request: ListPartsRequest, runtime: RuntimeObject): Promise<ListPartsResponse> {
+  async listParts(request: ListPartsRequest, runtime: $OSSUtil.RuntimeOptions): Promise<ListPartsResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -9718,28 +9554,31 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/${request.objectName}`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.query = this._toQuery($tea.toMap(request.filter));
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.query = Util.stringifyMapValue($tea.toMap(request.filter));
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -9751,8 +9590,8 @@ export default class Client extends BaseClient {
           });
         }
 
-        bodyStr = await this._readAsString(response_);
-        respMap = this._parseXml(bodyStr, ListPartsResponse);
+        bodyStr = await Util.readAsString(response_.body);
+        respMap = XML.parseXml(bodyStr, ListPartsResponse);
         return $tea.cast<ListPartsResponse>({
           ListPartsResult: respMap["ListPartsResult"],
           ...response_.headers,
@@ -9768,29 +9607,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async getLiveChannelHistory(request: GetLiveChannelHistoryRequest, runtime: RuntimeObject): Promise<GetLiveChannelHistoryResponse> {
+  async getLiveChannelHistory(request: GetLiveChannelHistoryRequest, runtime: $OSSUtil.RuntimeOptions): Promise<GetLiveChannelHistoryResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -9807,28 +9644,31 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/${request.channelName}?live`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.query = this._toQuery($tea.toMap(request.filter));
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.query = Util.stringifyMapValue($tea.toMap(request.filter));
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -9840,8 +9680,8 @@ export default class Client extends BaseClient {
           });
         }
 
-        bodyStr = await this._readAsString(response_);
-        respMap = this._parseXml(bodyStr, GetLiveChannelHistoryResponse);
+        bodyStr = await Util.readAsString(response_.body);
+        respMap = XML.parseXml(bodyStr, GetLiveChannelHistoryResponse);
         return $tea.cast<GetLiveChannelHistoryResponse>({
           LiveChannelHistory: respMap["LiveChannelHistory"],
           ...response_.headers,
@@ -9857,29 +9697,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async getBucket(request: GetBucketRequest, runtime: RuntimeObject): Promise<GetBucketResponse> {
+  async getBucket(request: GetBucketRequest, runtime: $OSSUtil.RuntimeOptions): Promise<GetBucketResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -9896,28 +9734,31 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.query = this._toQuery($tea.toMap(request.filter));
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.query = Util.stringifyMapValue($tea.toMap(request.filter));
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -9929,8 +9770,8 @@ export default class Client extends BaseClient {
           });
         }
 
-        bodyStr = await this._readAsString(response_);
-        respMap = this._parseXml(bodyStr, GetBucketResponse);
+        bodyStr = await Util.readAsString(response_.body);
+        respMap = XML.parseXml(bodyStr, GetBucketResponse);
         return $tea.cast<GetBucketResponse>({
           ListBucketResult: respMap["ListBucketResult"],
           ...response_.headers,
@@ -9946,29 +9787,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async getLiveChannelInfo(request: GetLiveChannelInfoRequest, runtime: RuntimeObject): Promise<GetLiveChannelInfoResponse> {
+  async getLiveChannelInfo(request: GetLiveChannelInfoRequest, runtime: $OSSUtil.RuntimeOptions): Promise<GetLiveChannelInfoResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -9985,27 +9824,30 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/${request.channelName}?live`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -10017,8 +9859,8 @@ export default class Client extends BaseClient {
           });
         }
 
-        bodyStr = await this._readAsString(response_);
-        respMap = this._parseXml(bodyStr, GetLiveChannelInfoResponse);
+        bodyStr = await Util.readAsString(response_.body);
+        respMap = XML.parseXml(bodyStr, GetLiveChannelInfoResponse);
         return $tea.cast<GetLiveChannelInfoResponse>({
           LiveChannelConfiguration: respMap["LiveChannelConfiguration"],
           ...response_.headers,
@@ -10034,29 +9876,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async getLiveChannelStat(request: GetLiveChannelStatRequest, runtime: RuntimeObject): Promise<GetLiveChannelStatResponse> {
+  async getLiveChannelStat(request: GetLiveChannelStatRequest, runtime: $OSSUtil.RuntimeOptions): Promise<GetLiveChannelStatResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -10073,28 +9913,31 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/${request.channelName}?live`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.query = this._toQuery($tea.toMap(request.filter));
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.query = Util.stringifyMapValue($tea.toMap(request.filter));
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -10106,8 +9949,8 @@ export default class Client extends BaseClient {
           });
         }
 
-        bodyStr = await this._readAsString(response_);
-        respMap = this._parseXml(bodyStr, GetLiveChannelStatResponse);
+        bodyStr = await Util.readAsString(response_.body);
+        respMap = XML.parseXml(bodyStr, GetLiveChannelStatResponse);
         return $tea.cast<GetLiveChannelStatResponse>({
           LiveChannelStat: respMap["LiveChannelStat"],
           ...response_.headers,
@@ -10123,29 +9966,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async deleteObject(request: DeleteObjectRequest, runtime: RuntimeObject): Promise<DeleteObjectResponse> {
+  async deleteObject(request: DeleteObjectRequest, runtime: $OSSUtil.RuntimeOptions): Promise<DeleteObjectResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -10162,27 +10003,30 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "DELETE";
         request_.pathname = `/${request.objectName}`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -10208,29 +10052,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async abortMultipartUpload(request: AbortMultipartUploadRequest, runtime: RuntimeObject): Promise<AbortMultipartUploadResponse> {
+  async abortMultipartUpload(request: AbortMultipartUploadRequest, runtime: $OSSUtil.RuntimeOptions): Promise<AbortMultipartUploadResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -10247,28 +10089,31 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "DELETE";
         request_.pathname = `/${request.objectName}`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.query = this._toQuery($tea.toMap(request.filter));
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.query = Util.stringifyMapValue($tea.toMap(request.filter));
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -10294,29 +10139,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async appendObject(request: AppendObjectRequest, runtime: RuntimeObject): Promise<AppendObjectResponse> {
+  async appendObject(request: AppendObjectRequest, runtime: $OSSUtil.RuntimeOptions): Promise<AppendObjectResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -10334,36 +10177,40 @@ export default class Client extends BaseClient {
       try {
         let request_ = new $tea.Request();
         let ctx : {[key: string ]: string} = { };
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "POST";
         request_.pathname = `/${request.objectName}?append`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
-          ...this._toHeader($tea.toMap(request.header)),
-          ...this._parseMeta(request.userMeta, "x-oss-meta-"),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
+          ...Util.stringifyMapValue($tea.toMap(request.header)),
+          ...OSSUtil.parseMeta(request.userMeta, "x-oss-meta-"),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.query = this._toQuery($tea.toMap(request.filter));
-        request_.body = this._inject(request.body, ctx);
-        if (this._notNull($tea.toMap(request.header)) && !this._empty(request.header.contentType)) {
+
+        request_.query = Util.stringifyMapValue($tea.toMap(request.filter));
+        request_.body = OSSUtil.inject(request.body, ctx);
+        if (Util.isUnset($tea.toMap(request.header)) && !Util.empty(request.header.contentType)) {
           request_.headers["content-type"] = request.header.contentType;
         } else {
-          request_.headers["content-type"] = this._getContentType(request.objectName);
+          request_.headers["content-type"] = OSSUtil.getContentType(request.objectName);
         }
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -10375,7 +10222,7 @@ export default class Client extends BaseClient {
           });
         }
 
-        if (this._isEnableCrc && !this._equal(ctx["crc"], response_.headers["x-oss-hash-crc64ecma"])) {
+        if (this._isEnableCrc && !Util.equalString(ctx["crc"], response_.headers["x-oss-hash-crc64ecma"])) {
           throw $tea.newError({
             code: "CrcNotMatched",
             data: {
@@ -10385,7 +10232,7 @@ export default class Client extends BaseClient {
           });
         }
 
-        if (this._isEnableMD5 && !this._equal(ctx["md5"], response_.headers["content-md5"])) {
+        if (this._isEnableMD5 && !Util.equalString(ctx["md5"], response_.headers["content-md5"])) {
           throw $tea.newError({
             code: "MD5NotMatched",
             data: {
@@ -10409,29 +10256,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async uploadPartCopy(request: UploadPartCopyRequest, runtime: RuntimeObject): Promise<UploadPartCopyResponse> {
+  async uploadPartCopy(request: UploadPartCopyRequest, runtime: $OSSUtil.RuntimeOptions): Promise<UploadPartCopyResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -10448,29 +10293,32 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "PUT";
         request_.pathname = `/${request.objectName}`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
-          ...this._toHeader($tea.toMap(request.header)),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
+          ...Util.stringifyMapValue($tea.toMap(request.header)),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.query = this._toQuery($tea.toMap(request.filter));
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.query = Util.stringifyMapValue($tea.toMap(request.filter));
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -10482,8 +10330,8 @@ export default class Client extends BaseClient {
           });
         }
 
-        bodyStr = await this._readAsString(response_);
-        respMap = this._parseXml(bodyStr, UploadPartCopyResponse);
+        bodyStr = await Util.readAsString(response_.body);
+        respMap = XML.parseXml(bodyStr, UploadPartCopyResponse);
         return $tea.cast<UploadPartCopyResponse>({
           CopyPartResult: respMap["CopyPartResult"],
           ...response_.headers,
@@ -10499,29 +10347,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async getVodPlaylist(request: GetVodPlaylistRequest, runtime: RuntimeObject): Promise<GetVodPlaylistResponse> {
+  async getVodPlaylist(request: GetVodPlaylistRequest, runtime: $OSSUtil.RuntimeOptions): Promise<GetVodPlaylistResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -10538,28 +10384,31 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/${request.channelName}?vod`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.query = this._toQuery($tea.toMap(request.filter));
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.query = Util.stringifyMapValue($tea.toMap(request.filter));
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -10585,29 +10434,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async deleteBucketCORS(request: DeleteBucketCORSRequest, runtime: RuntimeObject): Promise<DeleteBucketCORSResponse> {
+  async deleteBucketCORS(request: DeleteBucketCORSRequest, runtime: $OSSUtil.RuntimeOptions): Promise<DeleteBucketCORSResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -10624,27 +10471,30 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "DELETE";
         request_.pathname = `/?cors`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -10670,29 +10520,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async getObject(request: GetObjectRequest, runtime: RuntimeObject): Promise<GetObjectResponse> {
+  async getObject(request: GetObjectRequest, runtime: $OSSUtil.RuntimeOptions): Promise<GetObjectResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -10709,28 +10557,31 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/${request.objectName}`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
-          ...this._toHeader($tea.toMap(request.header)),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
+          ...Util.stringifyMapValue($tea.toMap(request.header)),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -10743,7 +10594,7 @@ export default class Client extends BaseClient {
         }
 
         return $tea.cast<GetObjectResponse>({
-          body: this._readAsStream(response_),
+          body: response_.body,
           ...response_.headers,
         }, new GetObjectResponse({}));
       } catch (ex) {
@@ -10757,29 +10608,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async uploadPart(request: UploadPartRequest, runtime: RuntimeObject): Promise<UploadPartResponse> {
+  async uploadPart(request: UploadPartRequest, runtime: $OSSUtil.RuntimeOptions): Promise<UploadPartResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -10797,29 +10646,32 @@ export default class Client extends BaseClient {
       try {
         let request_ = new $tea.Request();
         let ctx : {[key: string ]: string} = { };
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "PUT";
         request_.pathname = `/${request.objectName}`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.query = this._toQuery($tea.toMap(request.filter));
-        request_.body = this._inject(request.body, ctx);
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.query = Util.stringifyMapValue($tea.toMap(request.filter));
+        request_.body = OSSUtil.inject(request.body, ctx);
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -10831,7 +10683,7 @@ export default class Client extends BaseClient {
           });
         }
 
-        if (this._isEnableCrc && !this._equal(ctx["crc"], response_.headers["x-oss-hash-crc64ecma"])) {
+        if (this._isEnableCrc && !Util.equalString(ctx["crc"], response_.headers["x-oss-hash-crc64ecma"])) {
           throw $tea.newError({
             code: "CrcNotMatched",
             data: {
@@ -10841,7 +10693,7 @@ export default class Client extends BaseClient {
           });
         }
 
-        if (this._isEnableMD5 && !this._equal(ctx["md5"], response_.headers["content-md5"])) {
+        if (this._isEnableMD5 && !Util.equalString(ctx["md5"], response_.headers["content-md5"])) {
           throw $tea.newError({
             code: "MD5NotMatched",
             data: {
@@ -10865,29 +10717,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async getBucketCORS(request: GetBucketCORSRequest, runtime: RuntimeObject): Promise<GetBucketCORSResponse> {
+  async getBucketCORS(request: GetBucketCORSRequest, runtime: $OSSUtil.RuntimeOptions): Promise<GetBucketCORSResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -10904,27 +10754,30 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/?cors`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -10936,8 +10789,8 @@ export default class Client extends BaseClient {
           });
         }
 
-        bodyStr = await this._readAsString(response_);
-        respMap = this._parseXml(bodyStr, GetBucketCORSResponse);
+        bodyStr = await Util.readAsString(response_.body);
+        respMap = XML.parseXml(bodyStr, GetBucketCORSResponse);
         return $tea.cast<GetBucketCORSResponse>({
           CORSConfiguration: respMap["CORSConfiguration"],
           ...response_.headers,
@@ -10953,29 +10806,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async copyObject(request: CopyObjectRequest, runtime: RuntimeObject): Promise<CopyObjectResponse> {
+  async copyObject(request: CopyObjectRequest, runtime: $OSSUtil.RuntimeOptions): Promise<CopyObjectResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -10992,29 +10843,32 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "PUT";
         request_.pathname = `/${request.destObjectName}`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
-          ...this._toHeader($tea.toMap(request.header)),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
+          ...Util.stringifyMapValue($tea.toMap(request.header)),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["x-oss-copy-source"] = this._encode(request_.headers["x-oss-copy-source"], "UrlEncode");
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.headers["x-oss-copy-source"] = OSSUtil.encode(request_.headers["x-oss-copy-source"], "UrlEncode");
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -11026,8 +10880,8 @@ export default class Client extends BaseClient {
           });
         }
 
-        bodyStr = await this._readAsString(response_);
-        respMap = this._parseXml(bodyStr, CopyObjectResponse);
+        bodyStr = await Util.readAsString(response_.body);
+        respMap = XML.parseXml(bodyStr, CopyObjectResponse);
         return $tea.cast<CopyObjectResponse>({
           CopyObjectResult: respMap["CopyObjectResult"],
           ...response_.headers,
@@ -11043,29 +10897,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async getObjectTagging(request: GetObjectTaggingRequest, runtime: RuntimeObject): Promise<GetObjectTaggingResponse> {
+  async getObjectTagging(request: GetObjectTaggingRequest, runtime: $OSSUtil.RuntimeOptions): Promise<GetObjectTaggingResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -11082,27 +10934,30 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/${request.objectName}?tagging`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -11114,8 +10969,8 @@ export default class Client extends BaseClient {
           });
         }
 
-        bodyStr = await this._readAsString(response_);
-        respMap = this._parseXml(bodyStr, GetObjectTaggingResponse);
+        bodyStr = await Util.readAsString(response_.body);
+        respMap = XML.parseXml(bodyStr, GetObjectTaggingResponse);
         return $tea.cast<GetObjectTaggingResponse>({
           Tagging: respMap["Tagging"],
           ...response_.headers,
@@ -11131,29 +10986,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async deleteBucketLifecycle(request: DeleteBucketLifecycleRequest, runtime: RuntimeObject): Promise<DeleteBucketLifecycleResponse> {
+  async deleteBucketLifecycle(request: DeleteBucketLifecycleRequest, runtime: $OSSUtil.RuntimeOptions): Promise<DeleteBucketLifecycleResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -11170,27 +11023,30 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "DELETE";
         request_.pathname = `/?lifecycle`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -11216,29 +11072,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async deleteBucketLogging(request: DeleteBucketLoggingRequest, runtime: RuntimeObject): Promise<DeleteBucketLoggingResponse> {
+  async deleteBucketLogging(request: DeleteBucketLoggingRequest, runtime: $OSSUtil.RuntimeOptions): Promise<DeleteBucketLoggingResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -11255,27 +11109,30 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "DELETE";
         request_.pathname = `/?logging`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -11301,29 +11158,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async deleteBucketWebsite(request: DeleteBucketWebsiteRequest, runtime: RuntimeObject): Promise<DeleteBucketWebsiteResponse> {
+  async deleteBucketWebsite(request: DeleteBucketWebsiteRequest, runtime: $OSSUtil.RuntimeOptions): Promise<DeleteBucketWebsiteResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -11340,27 +11195,30 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "DELETE";
         request_.pathname = `/?website`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -11386,29 +11244,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async getSymlink(request: GetSymlinkRequest, runtime: RuntimeObject): Promise<GetSymlinkResponse> {
+  async getSymlink(request: GetSymlinkRequest, runtime: $OSSUtil.RuntimeOptions): Promise<GetSymlinkResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -11425,27 +11281,30 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/${request.objectName}?symlink`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -11471,29 +11330,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async getBucketLifecycle(request: GetBucketLifecycleRequest, runtime: RuntimeObject): Promise<GetBucketLifecycleResponse> {
+  async getBucketLifecycle(request: GetBucketLifecycleRequest, runtime: $OSSUtil.RuntimeOptions): Promise<GetBucketLifecycleResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -11510,27 +11367,30 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/?lifecycle`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -11542,8 +11402,8 @@ export default class Client extends BaseClient {
           });
         }
 
-        bodyStr = await this._readAsString(response_);
-        respMap = this._parseXml(bodyStr, GetBucketLifecycleResponse);
+        bodyStr = await Util.readAsString(response_.body);
+        respMap = XML.parseXml(bodyStr, GetBucketLifecycleResponse);
         return $tea.cast<GetBucketLifecycleResponse>({
           LifecycleConfiguration: respMap["LifecycleConfiguration"],
           ...response_.headers,
@@ -11559,29 +11419,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async putSymlink(request: PutSymlinkRequest, runtime: RuntimeObject): Promise<PutSymlinkResponse> {
+  async putSymlink(request: PutSymlinkRequest, runtime: $OSSUtil.RuntimeOptions): Promise<PutSymlinkResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -11598,28 +11456,31 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "PUT";
         request_.pathname = `/${request.objectName}?symlink`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
-          ...this._toHeader($tea.toMap(request.header)),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
+          ...Util.stringifyMapValue($tea.toMap(request.header)),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -11645,29 +11506,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async getBucketReferer(request: GetBucketRefererRequest, runtime: RuntimeObject): Promise<GetBucketRefererResponse> {
+  async getBucketReferer(request: GetBucketRefererRequest, runtime: $OSSUtil.RuntimeOptions): Promise<GetBucketRefererResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -11684,27 +11543,30 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/?referer`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -11716,8 +11578,8 @@ export default class Client extends BaseClient {
           });
         }
 
-        bodyStr = await this._readAsString(response_);
-        respMap = this._parseXml(bodyStr, GetBucketRefererResponse);
+        bodyStr = await Util.readAsString(response_.body);
+        respMap = XML.parseXml(bodyStr, GetBucketRefererResponse);
         return $tea.cast<GetBucketRefererResponse>({
           RefererConfiguration: respMap["RefererConfiguration"],
           ...response_.headers,
@@ -11733,29 +11595,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async callback(request: CallbackRequest, runtime: RuntimeObject): Promise<CallbackResponse> {
+  async callback(request: CallbackRequest, runtime: $OSSUtil.RuntimeOptions): Promise<CallbackResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -11772,27 +11632,30 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -11818,29 +11681,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async getBucketLogging(request: GetBucketLoggingRequest, runtime: RuntimeObject): Promise<GetBucketLoggingResponse> {
+  async getBucketLogging(request: GetBucketLoggingRequest, runtime: $OSSUtil.RuntimeOptions): Promise<GetBucketLoggingResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -11857,27 +11718,30 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/?logging`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -11889,8 +11753,8 @@ export default class Client extends BaseClient {
           });
         }
 
-        bodyStr = await this._readAsString(response_);
-        respMap = this._parseXml(bodyStr, GetBucketLoggingResponse);
+        bodyStr = await Util.readAsString(response_.body);
+        respMap = XML.parseXml(bodyStr, GetBucketLoggingResponse);
         return $tea.cast<GetBucketLoggingResponse>({
           BucketLoggingStatus: respMap["BucketLoggingStatus"],
           ...response_.headers,
@@ -11906,29 +11770,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async putObjectAcl(request: PutObjectAclRequest, runtime: RuntimeObject): Promise<PutObjectAclResponse> {
+  async putObjectAcl(request: PutObjectAclRequest, runtime: $OSSUtil.RuntimeOptions): Promise<PutObjectAclResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -11945,28 +11807,31 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "PUT";
         request_.pathname = `/${request.objectName}?acl`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
-          ...this._toHeader($tea.toMap(request.header)),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
+          ...Util.stringifyMapValue($tea.toMap(request.header)),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -11992,29 +11857,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async getBucketInfo(request: GetBucketInfoRequest, runtime: RuntimeObject): Promise<GetBucketInfoResponse> {
+  async getBucketInfo(request: GetBucketInfoRequest, runtime: $OSSUtil.RuntimeOptions): Promise<GetBucketInfoResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -12031,27 +11894,30 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/?bucketInfo`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -12063,8 +11929,8 @@ export default class Client extends BaseClient {
           });
         }
 
-        bodyStr = await this._readAsString(response_);
-        respMap = this._parseXml(bodyStr, GetBucketInfoResponse);
+        bodyStr = await Util.readAsString(response_.body);
+        respMap = XML.parseXml(bodyStr, GetBucketInfoResponse);
         return $tea.cast<GetBucketInfoResponse>({
           BucketInfo: respMap["BucketInfo"],
           ...response_.headers,
@@ -12080,29 +11946,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async putLiveChannelStatus(request: PutLiveChannelStatusRequest, runtime: RuntimeObject): Promise<PutLiveChannelStatusResponse> {
+  async putLiveChannelStatus(request: PutLiveChannelStatusRequest, runtime: $OSSUtil.RuntimeOptions): Promise<PutLiveChannelStatusResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -12119,28 +11983,31 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "PUT";
         request_.pathname = `/${request.channelName}?live`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.query = this._toQuery($tea.toMap(request.filter));
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.query = Util.stringifyMapValue($tea.toMap(request.filter));
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -12166,29 +12033,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async initiateMultipartUpload(request: InitiateMultipartUploadRequest, runtime: RuntimeObject): Promise<InitiateMultipartUploadResponse> {
+  async initiateMultipartUpload(request: InitiateMultipartUploadRequest, runtime: $OSSUtil.RuntimeOptions): Promise<InitiateMultipartUploadResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -12205,34 +12070,38 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "POST";
         request_.pathname = `/${request.objectName}?uploads`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
-          ...this._toHeader($tea.toMap(request.header)),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
+          ...Util.stringifyMapValue($tea.toMap(request.header)),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.query = this._toQuery($tea.toMap(request.filter));
-        if (this._notNull($tea.toMap(request.header)) && !this._empty(request.header.contentType)) {
+
+        request_.query = Util.stringifyMapValue($tea.toMap(request.filter));
+        if (Util.isUnset($tea.toMap(request.header)) && !Util.empty(request.header.contentType)) {
           request_.headers["content-type"] = request.header.contentType;
         } else {
-          request_.headers["content-type"] = this._getContentType(request.objectName);
+          request_.headers["content-type"] = OSSUtil.getContentType(request.objectName);
         }
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -12244,8 +12113,8 @@ export default class Client extends BaseClient {
           });
         }
 
-        bodyStr = await this._readAsString(response_);
-        respMap = this._parseXml(bodyStr, InitiateMultipartUploadResponse);
+        bodyStr = await Util.readAsString(response_.body);
+        respMap = XML.parseXml(bodyStr, InitiateMultipartUploadResponse);
         return $tea.cast<InitiateMultipartUploadResponse>({
           InitiateMultipartUploadResult: respMap["InitiateMultipartUploadResult"],
           ...response_.headers,
@@ -12261,29 +12130,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async optionObject(request: OptionObjectRequest, runtime: RuntimeObject): Promise<OptionObjectResponse> {
+  async optionObject(request: OptionObjectRequest, runtime: $OSSUtil.RuntimeOptions): Promise<OptionObjectResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -12300,28 +12167,31 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "OPTIONS";
         request_.pathname = `/${request.objectName}`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
-          ...this._toHeader($tea.toMap(request.header)),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
+          ...Util.stringifyMapValue($tea.toMap(request.header)),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -12347,29 +12217,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async postVodPlaylist(request: PostVodPlaylistRequest, runtime: RuntimeObject): Promise<PostVodPlaylistResponse> {
+  async postVodPlaylist(request: PostVodPlaylistRequest, runtime: $OSSUtil.RuntimeOptions): Promise<PostVodPlaylistResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -12386,28 +12254,31 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "POST";
         request_.pathname = `/${request.channelName}/${request.playlistName}?vod`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.query = this._toQuery($tea.toMap(request.filter));
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.query = Util.stringifyMapValue($tea.toMap(request.filter));
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -12433,22 +12304,22 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async postObject(request: PostObjectRequest, runtime: RuntimeObject): Promise<PostObjectResponse> {
+  async postObject(request: PostObjectRequest, runtime: $OSSUtil.RuntimeOptions): Promise<PostObjectResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: await Common.defaultNumber((runtime.readTimeout, this._readTimeout),
-      connectTimeout: await Common.defaultNumber((runtime.connectTimeout, this._connectTimeout),
-      httpProxy: await Common.default((runtime.httpProxy, this._httpProxy),
-      httpsProxy: await Common.default((runtime.httpsProxy, this._httpsProxy),
-      noProxy: await Common.default((runtime.noProxy, this._noProxy),
-      maxIdleConns: await Common.defaultNumber((runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        'max-attempts': await Common.defaultNumber((runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: await Common.default((runtime.backoffPolicy, "no"),
-        period: await Common.defaultNumber((runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
     }
@@ -12467,23 +12338,33 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let boundary = await Common.getBoundary(();
+        let boundary = FileForm.getBoundary();
         request_.protocol = this._protocol;
         request_.method = "POST";
         request_.pathname = `/`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: await Common.getDate((),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
         request_.headers["content-type"] = `multipart/form-data; boundary=${boundary}`;
-        request_.body = await Common.toForm(($tea.toMap(request.header), request.header.file.content, boundary);
+        let form = {
+          OSSAccessKeyId: request.header.accessKeyId,
+          policy: request.header.policy,
+          Signature: request.header.signature,
+          key: request.header.key,
+          success_action_status: request.header.successActionStatus,
+          file: request.header.file,
+          ...OSSUtil.toMeta(request.header.userMeta, "x-oss-meta-"),
+        };
+        request_.body = FileForm.toFileForm(form, boundary);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
-        let bodyStr = await Common.readAsString((response_.body);
-        if (await Common.isFail((response_)) {
-          respMap = await Common.getErrMessage((bodyStr);
+        let bodyStr = await Util.readAsString(response_.body);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -12495,7 +12376,7 @@ export default class Client extends BaseClient {
           });
         }
 
-        respMap = await Common.parseXml((bodyStr, PostObjectResponse);
+        respMap = XML.parseXml(bodyStr, PostObjectResponse);
         return $tea.cast<PostObjectResponse>({
           ...respMap,
         }, new PostObjectResponse({}));
@@ -12510,29 +12391,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async headObject(request: HeadObjectRequest, runtime: RuntimeObject): Promise<HeadObjectResponse> {
+  async headObject(request: HeadObjectRequest, runtime: $OSSUtil.RuntimeOptions): Promise<HeadObjectResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -12549,28 +12428,31 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "HEAD";
         request_.pathname = `/${request.objectName}`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
-          ...this._toHeader($tea.toMap(request.header)),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
+          ...Util.stringifyMapValue($tea.toMap(request.header)),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -12583,7 +12465,7 @@ export default class Client extends BaseClient {
         }
 
         return $tea.cast<HeadObjectResponse>({
-          usermeta: this._toMeta(response_.headers, "x-oss-meta-"),
+          usermeta: OSSUtil.toMeta(response_.headers, "x-oss-meta-"),
           ...response_.headers,
         }, new HeadObjectResponse({}));
       } catch (ex) {
@@ -12597,29 +12479,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async deleteObjectTagging(request: DeleteObjectTaggingRequest, runtime: RuntimeObject): Promise<DeleteObjectTaggingResponse> {
+  async deleteObjectTagging(request: DeleteObjectTaggingRequest, runtime: $OSSUtil.RuntimeOptions): Promise<DeleteObjectTaggingResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -12636,27 +12516,30 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "DELETE";
         request_.pathname = `/${request.objectName}?tagging`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -12682,29 +12565,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async restoreObject(request: RestoreObjectRequest, runtime: RuntimeObject): Promise<RestoreObjectResponse> {
+  async restoreObject(request: RestoreObjectRequest, runtime: $OSSUtil.RuntimeOptions): Promise<RestoreObjectResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -12721,27 +12602,30 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "POST";
         request_.pathname = `/${request.objectName}?restore`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -12767,29 +12651,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async getObjectAcl(request: GetObjectAclRequest, runtime: RuntimeObject): Promise<GetObjectAclResponse> {
+  async getObjectAcl(request: GetObjectAclRequest, runtime: $OSSUtil.RuntimeOptions): Promise<GetObjectAclResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -12806,27 +12688,30 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "GET";
         request_.pathname = `/${request.objectName}?acl`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -12838,8 +12723,8 @@ export default class Client extends BaseClient {
           });
         }
 
-        bodyStr = await this._readAsString(response_);
-        respMap = this._parseXml(bodyStr, GetObjectAclResponse);
+        bodyStr = await Util.readAsString(response_.body);
+        respMap = XML.parseXml(bodyStr, GetObjectAclResponse);
         return $tea.cast<GetObjectAclResponse>({
           AccessControlPolicy: respMap["AccessControlPolicy"],
           ...response_.headers,
@@ -12855,29 +12740,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async putBucketAcl(request: PutBucketAclRequest, runtime: RuntimeObject): Promise<PutBucketAclResponse> {
+  async putBucketAcl(request: PutBucketAclRequest, runtime: $OSSUtil.RuntimeOptions): Promise<PutBucketAclResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -12894,28 +12777,31 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "PUT";
         request_.pathname = `/?acl`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
-          ...this._toHeader($tea.toMap(request.header)),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
+          ...Util.stringifyMapValue($tea.toMap(request.header)),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -12941,29 +12827,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async deleteBucket(request: DeleteBucketRequest, runtime: RuntimeObject): Promise<DeleteBucketResponse> {
+  async deleteBucket(request: DeleteBucketRequest, runtime: $OSSUtil.RuntimeOptions): Promise<DeleteBucketResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -12980,27 +12864,30 @@ export default class Client extends BaseClient {
       _retryTimes = _retryTimes + 1;
       try {
         let request_ = new $tea.Request();
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "DELETE";
         request_.pathname = `/`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -13026,29 +12913,27 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  async putObject(request: PutObjectRequest, runtime: RuntimeObject): Promise<PutObjectResponse> {
+  async putObject(request: PutObjectRequest, runtime: $OSSUtil.RuntimeOptions): Promise<PutObjectResponse> {
     let _runtime: { [key: string]: any } = {
       timeouted: "retry",
-      readTimeout: this._defaultNumber(runtime.readTimeout, this._readTimeout),
-      connectTimeout: this._defaultNumber(runtime.connectTimeout, this._connectTimeout),
-      localAddr: this._default(runtime.localAddr, this._localAddr),
-      httpProxy: this._default(runtime.httpProxy, this._httpProxy),
-      httpsProxy: this._default(runtime.httpsProxy, this._httpsProxy),
-      noProxy: this._default(runtime.noProxy, this._noProxy),
-      socks5Proxy: this._default(runtime.socks5Proxy, this._socks5Proxy),
-      socks5NetWork: this._default(runtime.socks5NetWork, this._socks5NetWork),
-      maxIdleConns: this._defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
+      readTimeout: Util.defaultNumber(runtime.readTimeout, this._readTimeout),
+      connectTimeout: Util.defaultNumber(runtime.connectTimeout, this._connectTimeout),
+      localAddr: Util.defaultString(runtime.localAddr, this._localAddr),
+      httpProxy: Util.defaultString(runtime.httpProxy, this._httpProxy),
+      httpsProxy: Util.defaultString(runtime.httpsProxy, this._httpsProxy),
+      noProxy: Util.defaultString(runtime.noProxy, this._noProxy),
+      socks5Proxy: Util.defaultString(runtime.socks5Proxy, this._socks5Proxy),
+      socks5NetWork: Util.defaultString(runtime.socks5NetWork, this._socks5NetWork),
+      maxIdleConns: Util.defaultNumber(runtime.maxIdleConns, this._maxIdleConns),
       retry: {
         retryable: runtime.autoretry,
-        maxAttempts: this._defaultNumber(runtime.maxAttempts, 3),
+        maxAttempts: Util.defaultNumber(runtime.maxAttempts, 3),
       },
       backoff: {
-        policy: this._default(runtime.backoffPolicy, "no"),
-        period: this._defaultNumber(runtime.backoffPeriod, 1),
+        policy: Util.defaultString(runtime.backoffPolicy, "no"),
+        period: Util.defaultNumber(runtime.backoffPeriod, 1),
       },
       ignoreSSL: runtime.ignoreSSL,
-      logger: this._logger,
-      listener: runtime.listener,
     }
 
     let _lastRequest = null;
@@ -13066,35 +12951,39 @@ export default class Client extends BaseClient {
       try {
         let request_ = new $tea.Request();
         let ctx : {[key: string ]: string} = { };
-        let token = await this._getSecurityToken();
+        let accessKeyId = await this._credential.getAccessKeyId();
+        let accessKeySecret = await this._credential.getAccessKeySecret();
+        let token = await this._credential.getSecurityToken();
         request_.protocol = this._protocol;
         request_.method = "PUT";
         request_.pathname = `/${request.objectName}`;
         request_.headers = {
-          host: this.getHost(request.bucketName),
-          date: this._getDate(),
-          'user-agent': this._getUserAgent(),
-          ...this._toHeader($tea.toMap(request.header)),
-          ...this._parseMeta(request.userMeta, "x-oss-meta-"),
+          host: OSSUtil.getHost(request.bucketName, this._regionId, this._endpoint, this._hostModel),
+          date: Util.getDateUTCString(),
+          'user-agent': this.getUserAgent(),
+          ...Util.stringifyMapValue($tea.toMap(request.header)),
+          ...OSSUtil.parseMeta(request.userMeta, "x-oss-meta-"),
         };
-        if (!this._empty(token)) {
+        if (!Util.empty(token)) {
           request_.headers["x-oss-security-token"] = token;
         }
-        request_.body = this._inject(request.body, ctx);
-        if (this._notNull($tea.toMap(request.header)) && !this._empty(request.header.contentType)) {
+
+        request_.body = OSSUtil.inject(request.body, ctx);
+        if (Util.isUnset($tea.toMap(request.header)) && !Util.empty(request.header.contentType)) {
           request_.headers["content-type"] = request.header.contentType;
         } else {
-          request_.headers["content-type"] = this._getContentType(request.objectName);
+          request_.headers["content-type"] = OSSUtil.getContentType(request.objectName);
         }
-        request_.headers["authorization"] = await this.getSignature(request_, request.bucketName);
+
+        request_.headers["authorization"] = OSSUtil.getSignature(request_, request.bucketName, accessKeyId, accessKeySecret, this._signatureVersion, this._addtionalHeaders);
         _lastRequest = request_;
         let response_ = await $tea.doAction(request_, _runtime);
 
         let respMap : {[key: string]: any} = null;
         let bodyStr : string = null;
-        if (this._isFail(response_)) {
-          bodyStr = await this._readAsString(response_);
-          respMap = this._getErrMessage(bodyStr);
+        if (Util.is4xx(response_.statusCode) || Util.is5xx(response_.statusCode)) {
+          bodyStr = await Util.readAsString(response_.body);
+          respMap = OSSUtil.getErrMessage(bodyStr);
           throw $tea.newError({
             code: respMap["Code"],
             message: respMap["Message"],
@@ -13106,7 +12995,7 @@ export default class Client extends BaseClient {
           });
         }
 
-        if (this._isEnableCrc && !this._equal(ctx["crc"], response_.headers["x-oss-hash-crc64ecma"])) {
+        if (this._isEnableCrc && !Util.equalString(ctx["crc"], response_.headers["x-oss-hash-crc64ecma"])) {
           throw $tea.newError({
             code: "CrcNotMatched",
             data: {
@@ -13116,7 +13005,7 @@ export default class Client extends BaseClient {
           });
         }
 
-        if (this._isEnableMD5 && !this._equal(ctx["md5"], response_.headers["content-md5"])) {
+        if (this._isEnableMD5 && !Util.equalString(ctx["md5"], response_.headers["content-md5"])) {
           throw $tea.newError({
             code: "MD5NotMatched",
             data: {
@@ -13140,45 +13029,35 @@ export default class Client extends BaseClient {
     throw $tea.newUnretryableError(_lastRequest);
   }
 
-  getHost(bucketName: string): string {
-    if (this._empty(this._regionId)) {
-      this._regionId = `cn-hangzhou`;
-    }
-
-    if (this._empty(this._endpoint)) {
-      this._endpoint = `oss-${this._regionId}.aliyuncs.com`;
-    }
-
-    if (this._empty(bucketName)) {
-      return this._endpoint;
-    }
-
-    let host : string = null;
-    if (this._equal(this._hostModel, "ip")) {
-      host = `${this._endpoint}/${bucketName}`;
-    } else if (this._equal(this._hostModel, "cname")) {
-      host = this._endpoint;
-    } else {
-      host = `${bucketName}.${this._endpoint}`;
-    }
-
-    return host;
+  setUserAgent(userAgent: string): void {
+    this._userAgent = userAgent;
   }
 
-  async getSignature(request: $tea.Request, bucketName: string): Promise<string> {
-    let accessKeyId = await this._getAccessKeyID();
-    let accessKeySecret = await this._getAccessKeySecret();
-    if (this._equal(this._signatureVersion, "V2")) {
-      if (this._ifListEmpty(this._addtionalHeaders)) {
-        return `OSS2 AccessKeyId:${accessKeyId},Signature:${this._getSignatureV2(request, bucketName, accessKeySecret, this._addtionalHeaders)}`;
-      } else {
-        return `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${this._listToString(this._addtionalHeaders, ";")},Signature:${this._getSignatureV2(request, bucketName, accessKeySecret, this._addtionalHeaders)}`;
-      }
+  appendUserAgent(userAgent: string): void {
+    this._userAgent = `${this._userAgent} ${userAgent}`;
+  }
 
-    } else {
-      return `OSS ${accessKeyId}:${this._getSignatureV1(request, bucketName, accessKeySecret)}`;
+  getUserAgent(): string {
+    let userAgent = Util.getUserAgent(this._userAgent);
+    return userAgent;
+  }
+
+  async getAccessKeyId(): Promise<string> {
+    if (Util.isUnset(this._credential)) {
+      return "";
     }
 
+    let accessKeyId = await this._credential.getAccessKeyId();
+    return accessKeyId;
+  }
+
+  async getAccessKeySecret(): Promise<string> {
+    if (Util.isUnset(this._credential)) {
+      return "";
+    }
+
+    let secret = await this._credential.getAccessKeySecret();
+    return secret;
   }
 
 }

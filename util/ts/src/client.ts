@@ -215,14 +215,20 @@ export default class Client {
     return body;
   }
 
-  static getSignature(request: $tea.Request, bucketName: string, accessKeySecret: string, signatureVersion: string, addtionalHeaders?: string[]): string {
-    let result;
+  static getSignature(request: $tea.Request, bucketName: string, accessKeyId: string, accessKeySecret: string, signatureVersion: string, addtionalHeaders?: string[]): string {
+    let signature;
     if (signatureVersion.toUpperCase() === 'V2') {
-      result = getSignatureV2(request, bucketName, accessKeySecret, addtionalHeaders);
+      let result = getSignatureV2(request, bucketName, accessKeySecret, addtionalHeaders);
+      if (addtionalHeaders && addtionalHeaders.length > 0) {
+        signature = `OSS2 AccessKeyId:${accessKeyId},AdditionalHeaders:${addtionalHeaders.join(';')},Signature:${result.signature}`;
+      } else {
+        signature = `OSS2 AccessKeyId:${accessKeyId},Signature:${result.signature}`;
+      }
     } else {
-      result = getSignatureV1(request, bucketName, accessKeySecret);
+      let result = getSignatureV1(request, bucketName, accessKeySecret);
+      signature = `OSS ${accessKeyId}:${result.signature}`;
     }
-    return result.signature;
+    return signature;
   }
 
   static decode(val: string, decodeType: string): string {
