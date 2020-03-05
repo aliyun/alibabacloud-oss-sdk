@@ -5,8 +5,9 @@
 	"main": "./util.tea",
 	"releases": {
 		"go": "github.com/aliyun/alibabacloud-oss-sdk/util/golang/service:v0.0.1",
-		"csharp":"AlibabaCloud.OSSUtil:0.0.1",
-		"ts":"@alicloud/oss-util:0.0.1"
+		"csharp": "AlibabaCloud.OSSUtil:0.0.1",
+		"ts": "@alicloud/oss-util:0.0.1",
+		"java": "com.aliyun:oss-util:0.0.2"
 	},
 	"go": {
 		"package": [
@@ -14,9 +15,9 @@
 		]
 	},
 	"csharp": {
-		"namespace":"AlibabaCloud.OSSUtil"
+		"namespace": "AlibabaCloud.OSSUtil"
 	},
 	"java": {
-	    "package" : "com.aliyun.ossutil"
+		"package": "com.aliyun.ossutil"
 	}
 }

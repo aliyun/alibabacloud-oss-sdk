@@ -480,6 +480,9 @@ public class Client {
 
     public static java.util.Map<String, String> toMeta(java.util.Map<String, ?> val, String prefix) throws Exception {
         Map<String, String> result = new HashMap<>();
+        if (null == val) {
+            return result;
+        }
         for (Map.Entry<String, ?> entry : val.entrySet()) {
             if (entry.getKey().contains(prefix)) {
                 result.put(entry.getKey(), String.valueOf(entry.getValue()));
