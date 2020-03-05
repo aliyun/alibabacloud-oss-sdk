@@ -11,7 +11,7 @@
 	"releases": {
 		"go": "github.com/aliyun/alibabacloud-oss-sdk/golang/client:v1.1.1",
 		"java": "com.aliyun:oss-client:2.0.0",
-		"csharp": "AlibabaCloud.SDK.OSS.Client:0.0.5",
+		"csharp": "AlibabaCloud.SDK.OSS.Client:1.0.1",
 		"ts": "@alicloud/oss-client:^1.1.2"
 	},
 	"java": {
