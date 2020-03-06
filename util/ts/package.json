@@ -1,6 +1,6 @@
 {
   "name": "@alicloud/oss-util",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "",
   "main": "dist/client.js",
   "scripts": {
