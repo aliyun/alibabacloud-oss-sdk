@@ -215,7 +215,7 @@ export default class Client {
     return body;
   }
 
-  static getSignature(request: $tea.Request, bucketName: string, accessKeyId: string, accessKeySecret: string, signatureVersion: string, addtionalHeaders?: string[]): string {
+  static getSignature(request: $tea.Request, bucketName: string, accessKeyId: string, accessKeySecret: string, signatureVersion: string = 'V2', addtionalHeaders?: string[]): string {
     let signature;
     if (signatureVersion.toUpperCase() === 'V2') {
       let result = getSignatureV2(request, bucketName, accessKeySecret, addtionalHeaders);

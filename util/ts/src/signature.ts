@@ -25,13 +25,13 @@ export function getSignatureV1(request: $tea.Request, bucketName: string, access
     resource += bucketName;
   }
   resource += request.pathname;
-  for (const [key, value] of Object.entries(request.query)) {
+  for (const [key, value] of Object.entries(request.query || {})) {
     if (~signKeyList.indexOf(key) && value) {
       resource += '&' + key + '=' + value;
     }
   }
   let headerKeys = [];
-  for (let [key, value] of Object.entries(request.headers)) {
+  for (let [key, value] of Object.entries(request.headers || {})) {
     const lowerKey = key.toLocaleLowerCase();
     if (lowerKey.startsWith('x-oss-')) {
       headerKeys.push(key);
@@ -59,7 +59,7 @@ export function getSignatureV1(request: $tea.Request, bucketName: string, access
   }
 };
 
-export function getSignatureV2(request: $tea.Request, bucketName: string, accessKeySecret: string, addtionalHeaders: string[]): {
+export function getSignatureV2(request: $tea.Request, bucketName: string, accessKeySecret: string, addtionalHeaders: string[] = []): {
   string2sign: string,
   signature: string
 } {
@@ -68,7 +68,7 @@ export function getSignatureV2(request: $tea.Request, bucketName: string, access
   if (bucketName) {
     pathname += '/' + bucketName + request.pathname;
   }
-  let queryKeys = Object.keys(request.query);
+  let queryKeys = Object.keys(request.query || {});
   const [major, minor] = pathname.split('?');
   resource = encodeURIComponent(major);
   if (minor) {
@@ -93,7 +93,7 @@ export function getSignatureV2(request: $tea.Request, bucketName: string, access
     addtionalHeaderMap.set(header.toLocaleLowerCase(), 1);
   })
   let headerKeys = [];
-  for (let [key] of Object.entries(request.headers)) {
+  for (let [key] of Object.entries(request.headers || {})) {
     const lowerKey = key.toLocaleLowerCase();
     if (addtionalHeaderMap.get(lowerKey)) {
       headerKeys.push(key);

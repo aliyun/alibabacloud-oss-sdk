@@ -8,10 +8,11 @@ import Client, {
     GetBucketRefererRequest,
     Config, 
     GetBucketRequest, 
-    RuntimeObject, 
     PutObjectRequest, 
     PutObjectRequestHeader, 
-    GetObjectRequest } from "../src/client";
+    GetObjectRequest
+} from "../src/client";
+import OSSUtil, { RuntimeOptions } from '@alicloud/oss-util';
 import 'mocha';
 import assert from 'assert';
 import { Readable } from "stream";
@@ -50,49 +51,19 @@ export class BytesReadable extends Readable {
 const BUCKET_NAME = "sdk-oss-test";
 
 describe('OSS Client', function () {
-    describe('getHost', function () {
-        it('should ok', async function () {
-            let config = new Config({
-                accessKeyId: 'fake accesskey id',
-                accessKeySecret: 'fake accesskey secret',
-            });
-            let client = new Client(config);
-            assert.strictEqual(client.getHost(BUCKET_NAME), 'sdk-oss-test.oss-cn-hangzhou.aliyuncs.com');
-            assert.strictEqual(client.getHost(undefined), 'oss-cn-hangzhou.aliyuncs.com');
-        });
-
-        it('ip mode should ok', async function () {
-            let config = new Config({
-                accessKeyId: 'fake accesskey id',
-                accessKeySecret: 'fake accesskey secret',
-            });
-            config.hostModel = 'ip';
-            let client = new Client(config);
-            assert.strictEqual(client.getHost('sdk-oss-test'), 'oss-cn-hangzhou.aliyuncs.com/sdk-oss-test');
-        });
-
-        it('cname mode should ok', async function () {
-            let config = new Config({
-                accessKeyId: 'fake accesskey id',
-                accessKeySecret: 'fake accesskey secret',
-            });
-            config.hostModel = 'cname';
-            let client = new Client(config);
-            assert.strictEqual(client.getHost('sdk-oss-test'), 'oss-cn-hangzhou.aliyuncs.com');
-        });
-    });
 
     describe('Bucket', function () {
         let config = new Config({
             accessKeyId: process.env.ACCESS_KEY_ID,
             accessKeySecret: process.env.ACCESS_KEY_SECRET,
+            signatureVersion: 'v2',
         });
         let client = new Client(config);
 
         it('getBucketInfo should ok', async function () {
             let request = new GetBucketRequest({});
             request.bucketName = BUCKET_NAME;
-            let runtime = new RuntimeObject({});
+            let runtime = new RuntimeOptions({});
             let response = await client.getBucket(request, runtime);
             assert.strictEqual(response.requestId.length, 24);
             assert.ok(response.listBucketResult);
@@ -113,7 +84,7 @@ describe('OSS Client', function () {
                 bucketName: BUCKET_NAME,
                 body
             });
-            let runtime = new RuntimeObject({});
+            let runtime = new RuntimeOptions({});
             let response = await client.putBucketReferer(request, runtime);
             assert.strictEqual(response.requestId.length, 24);
         });
@@ -122,7 +93,7 @@ describe('OSS Client', function () {
             let request = new GetBucketRefererRequest({
                 bucketName: BUCKET_NAME
             });
-            let runtime = new RuntimeObject({});
+            let runtime = new RuntimeOptions({});
             let response = await client.getBucketReferer(request, runtime);
             assert.strictEqual(response.requestId.length, 24);
             assert.ok(response.refererConfiguration.allowEmptyReferer);
@@ -133,6 +104,7 @@ describe('OSS Client', function () {
         let config = new Config({
             accessKeyId: process.env.ACCESS_KEY_ID,
             accessKeySecret: process.env.ACCESS_KEY_SECRET,
+            signatureVersion: 'v2',
         });
         let client = new Client(config);
 
@@ -149,7 +121,7 @@ describe('OSS Client', function () {
             request.objectName = objectName;
             let content = "just for test";
             request.body = new BytesReadable(content);
-            let runtime = new RuntimeObject({});
+            let runtime = new RuntimeOptions({});
             let response = await client.putObject(request, runtime);
             assert.strictEqual(response.requestId.length, 24);
             let getObjectRequest = new GetObjectRequest({});
