@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+
 using AlibabaCloud.OSSUtil.Utils;
+
 using Xunit;
 
 namespace tests.Utils
 {
-   public class Crc64Test
+    public class Crc64Test
     {
         [Fact]
         public void TestCrcCore()

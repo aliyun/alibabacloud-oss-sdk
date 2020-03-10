@@ -19,5 +19,8 @@
 	},
 	"java": {
 		"package": "com.aliyun.ossutil"
+	},
+	"php": {
+		"package": "AlibabaCloud.Tea.OSSUtils"
 	}
 }

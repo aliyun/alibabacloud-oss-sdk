@@ -48,7 +48,7 @@
         {
             if (_table == null)
             {
-                lock (_lock)
+                lock(_lock)
                 {
                     if (_table == null)
                     {

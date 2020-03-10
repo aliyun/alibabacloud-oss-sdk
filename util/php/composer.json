@@ -1,0 +1,47 @@
+{
+    "name": "alibabacloud/tea-oss-utils",
+    "description": "Aliyun Tea OSS Utils Library for PHP",
+    "type": "library",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Alibaba Cloud SDK",
+            "email": "sdk-team@alibabacloud.com"
+        }
+    ],
+    "require": {
+        "php": ">5.5",
+        "alibabacloud/tea": "^3.0",
+        "ocramius/package-versions": "^1.5",
+        "ralouphie/mimey": "^2.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.8.35|^5.4.3",
+        "symfony/var-dumper": "^5.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "AlibabaCloud\\Tea\\OSSUtils\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "AlibabaCloud\\Tea\\OSSUtils\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "fixer": "php-cs-fixer fix ./",
+        "test": [
+            "@clearCache",
+            "phpunit --colors=always"
+        ],
+        "clearCache": "rm -rf cache/*"
+    },
+    "config": {
+        "sort-packages": true,
+        "preferred-install": "dist",
+        "optimize-autoloader": true
+    },
+    "prefer-stable": true,
+    "minimum-stability": "dev"
+}
