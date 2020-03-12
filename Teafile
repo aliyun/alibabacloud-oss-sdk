@@ -20,6 +20,9 @@
 	"csharp": {
 		"namespace": "AlibabaCloud.OSS"
 	},
+	"php": {
+		"package": "AlibabaCloud.SDK.OSS"
+	},
 	"libraries": {
 		"Util": "alibabacloud:Util:*",
 		"XML": "alibabacloud:XML:*",
