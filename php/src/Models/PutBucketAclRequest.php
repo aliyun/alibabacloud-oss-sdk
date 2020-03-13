@@ -11,8 +11,8 @@ use AlibabaCloud\SDK\OSS\Models\PutBucketAclRequest\header;
 class PutBucketAclRequest extends Model{
     protected $_name = [];
 
-    public $BucketName;
+    public $bucketName;
 
-    public $Header;
+    public $header;
 
 }

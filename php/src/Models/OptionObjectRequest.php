@@ -11,10 +11,10 @@ use AlibabaCloud\SDK\OSS\Models\OptionObjectRequest\header;
 class OptionObjectRequest extends Model{
     protected $_name = [];
 
-    public $BucketName;
+    public $bucketName;
 
-    public $ObjectName;
+    public $objectName;
 
-    public $Header;
+    public $header;
 
 }

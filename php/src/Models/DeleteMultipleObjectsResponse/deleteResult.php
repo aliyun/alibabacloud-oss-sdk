@@ -9,10 +9,10 @@ use AlibabaCloud\Tea\Model;
 class deleteResult extends Model{
     protected $_name = [];
 
-    public $Quiet;
+    public $quiet;
 
-    public $EncodingType;
+    public $encodingType;
 
-    public $Deleted;
+    public $deleted;
 
 }

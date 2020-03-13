@@ -9,8 +9,8 @@ use AlibabaCloud\Tea\Model;
 class DeleteLiveChannelRequest extends Model{
     protected $_name = [];
 
-    public $BucketName;
+    public $bucketName;
 
-    public $ChannelName;
+    public $channelName;
 
 }

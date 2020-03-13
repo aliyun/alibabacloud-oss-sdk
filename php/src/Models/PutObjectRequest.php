@@ -11,14 +11,14 @@ use AlibabaCloud\SDK\OSS\Models\PutObjectRequest\header;
 class PutObjectRequest extends Model{
     protected $_name = [];
 
-    public $BucketName;
+    public $bucketName;
 
-    public $ObjectName;
+    public $objectName;
 
-    public $UserMeta;
+    public $userMeta;
 
     public $body;
 
-    public $Header;
+    public $header;
 
 }

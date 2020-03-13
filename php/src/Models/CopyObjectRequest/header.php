@@ -9,28 +9,28 @@ use AlibabaCloud\Tea\Model;
 class header extends Model{
     protected $_name = [];
 
-    public $xosscopysource;
+    public $copySource;
 
-    public $xosscopysourceifmatch;
+    public $copySourceIfMatch;
 
-    public $xosscopysourceifnonematch;
+    public $copySourceIfNoneMatch;
 
-    public $xosscopysourceifunmodifiedsince;
+    public $copySourceIfUnmodifiedSince;
 
-    public $xosscopysourceifmodifiedsince;
+    public $copySourceIfModifiedSince;
 
-    public $xossmetadatadirective;
+    public $metadataDirective;
 
-    public $xossserversideencryption;
+    public $serverSideEncryption;
 
-    public $xossserversideencryptionkeyid;
+    public $serverSideEncryptionKeyId;
 
-    public $xossobjectacl;
+    public $objectAcl;
 
-    public $xossstorageclass;
+    public $storageClass;
 
-    public $xosstagging;
+    public $tagging;
 
-    public $xosstaggingdirective;
+    public $taggingDirective;
 
 }

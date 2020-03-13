@@ -9,6 +9,6 @@ use AlibabaCloud\Tea\Model;
 class filter extends Model{
     protected $_name = [];
 
-    public $xossprocess;
+    public $porcess;
 
 }

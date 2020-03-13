@@ -11,6 +11,6 @@ use AlibabaCloud\SDK\OSS\Models\body\completeMultipartUpload;
 class body extends Model{
     protected $_name = [];
 
-    public $CompleteMultipartUpload;
+    public $completeMultipartUpload;
 
 }

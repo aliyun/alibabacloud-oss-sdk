@@ -12,8 +12,8 @@ use AlibabaCloud\SDK\OSS\Models\PutBucketLifecycleRequest\PutBucketLifecycleRequ
 class PutBucketLifecycleRequest extends Model{
     protected $_name = [];
 
-    public $BucketName;
+    public $bucketName;
 
-    public $Body;
+    public $body;
 
 }

@@ -12,8 +12,8 @@ use AlibabaCloud\SDK\OSS\Models\GetBucketEncryptionResponse\GetBucketEncryptionR
 class GetBucketEncryptionResponse extends Model{
     protected $_name = [];
 
-    public $xossrequestid;
+    public $requestId;
 
-    public $ServerSideEncryptionRule;
+    public $serverSideEncryptionRule;
 
 }

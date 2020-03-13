@@ -12,8 +12,8 @@ use AlibabaCloud\SDK\OSS\Models\PutBucketRequestPaymentRequest\PutBucketRequestP
 class PutBucketRequestPaymentRequest extends Model{
     protected $_name = [];
 
-    public $BucketName;
+    public $bucketName;
 
-    public $Body;
+    public $body;
 
 }

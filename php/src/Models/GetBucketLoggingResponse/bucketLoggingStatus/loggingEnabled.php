@@ -9,8 +9,8 @@ use AlibabaCloud\Tea\Model;
 class loggingEnabled extends Model{
     protected $_name = [];
 
-    public $TargetBucket;
+    public $targetBucket;
 
-    public $TargetPrefix;
+    public $targetPrefix;
 
 }

@@ -9,8 +9,8 @@ use AlibabaCloud\Tea\Model;
 class includeHeader extends Model{
     protected $_name = [];
 
-    public $Key;
+    public $key;
 
-    public $Equals;
+    public $equals;
 
 }

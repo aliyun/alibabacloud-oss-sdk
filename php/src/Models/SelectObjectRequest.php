@@ -18,12 +18,12 @@ use AlibabaCloud\SDK\OSS\Models\SelectObjectRequest\SelectObjectRequest\body\Sel
 class SelectObjectRequest extends Model{
     protected $_name = [];
 
-    public $BucketName;
+    public $bucketName;
 
-    public $ObjectName;
+    public $objectName;
 
-    public $Filter;
+    public $filter;
 
-    public $Body;
+    public $body;
 
 }

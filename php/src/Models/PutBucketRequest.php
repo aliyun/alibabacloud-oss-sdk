@@ -13,10 +13,10 @@ use AlibabaCloud\SDK\OSS\Models\PutBucketRequest\header;
 class PutBucketRequest extends Model{
     protected $_name = [];
 
-    public $BucketName;
+    public $bucketName;
 
-    public $Body;
+    public $body;
 
-    public $Header;
+    public $header;
 
 }

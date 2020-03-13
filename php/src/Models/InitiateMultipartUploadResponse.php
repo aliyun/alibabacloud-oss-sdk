@@ -11,8 +11,8 @@ use AlibabaCloud\SDK\OSS\Models\InitiateMultipartUploadResponse\initiateMultipar
 class InitiateMultipartUploadResponse extends Model{
     protected $_name = [];
 
-    public $xossrequestid;
+    public $requestId;
 
-    public $InitiateMultipartUploadResult;
+    public $initiateMultipartUploadResult;
 
 }

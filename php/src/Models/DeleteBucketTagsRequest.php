@@ -11,8 +11,8 @@ use AlibabaCloud\SDK\OSS\Models\DeleteBucketTagsRequest\filter;
 class DeleteBucketTagsRequest extends Model{
     protected $_name = [];
 
-    public $BucketName;
+    public $bucketName;
 
-    public $Filter;
+    public $filter;
 
 }

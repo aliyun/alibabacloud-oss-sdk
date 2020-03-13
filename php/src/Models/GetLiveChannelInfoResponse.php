@@ -12,8 +12,8 @@ use AlibabaCloud\SDK\OSS\Models\GetLiveChannelInfoResponse\GetLiveChannelInfoRes
 class GetLiveChannelInfoResponse extends Model{
     protected $_name = [];
 
-    public $xossrequestid;
+    public $requestId;
 
-    public $LiveChannelConfiguration;
+    public $liveChannelConfiguration;
 
 }

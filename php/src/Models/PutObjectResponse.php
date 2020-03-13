@@ -9,12 +9,12 @@ use AlibabaCloud\Tea\Model;
 class PutObjectResponse extends Model{
     protected $_name = [];
 
-    public $xossrequestid;
+    public $requestId;
 
-    public $xosshashcrc64ecma;
+    public $hashCrc64ecma;
 
-    public $xossservertime;
+    public $serverTime;
 
-    public $xossbucketversion;
+    public $bucketVersion;
 
 }

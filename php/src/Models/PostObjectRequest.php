@@ -11,7 +11,7 @@ use AlibabaCloud\SDK\OSS\Models\PostObjectRequest\header;
 class PostObjectRequest extends Model{
     protected $_name = [];
 
-    public $BucketName;
+    public $bucketName;
 
     public $header;
 

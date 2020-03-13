@@ -13,8 +13,8 @@ use AlibabaCloud\SDK\OSS\Models\PutBucketRefererRequest\PutBucketRefererRequest\
 class PutBucketRefererRequest extends Model{
     protected $_name = [];
 
-    public $BucketName;
+    public $bucketName;
 
-    public $Body;
+    public $body;
 
 }

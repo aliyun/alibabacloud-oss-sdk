@@ -13,8 +13,8 @@ use AlibabaCloud\SDK\OSS\Models\GetServiceResponse\GetServiceResponse\listAllMyB
 class GetServiceResponse extends Model{
     protected $_name = [];
 
-    public $xossrequestid;
+    public $requestId;
 
-    public $ListAllMyBucketsResult;
+    public $listAllMyBucketsResult;
 
 }

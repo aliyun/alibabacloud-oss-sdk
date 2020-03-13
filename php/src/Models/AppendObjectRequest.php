@@ -12,16 +12,16 @@ use AlibabaCloud\SDK\OSS\Models\AppendObjectRequest\header;
 class AppendObjectRequest extends Model{
     protected $_name = [];
 
-    public $BucketName;
+    public $bucketName;
 
-    public $ObjectName;
+    public $objectName;
 
-    public $UserMeta;
+    public $userMeta;
 
     public $body;
 
-    public $Filter;
+    public $filter;
 
-    public $Header;
+    public $header;
 
 }

@@ -11,10 +11,10 @@ use AlibabaCloud\SDK\OSS\Models\GetLiveChannelHistoryRequest\filter;
 class GetLiveChannelHistoryRequest extends Model{
     protected $_name = [];
 
-    public $BucketName;
+    public $bucketName;
 
-    public $ChannelName;
+    public $channelName;
 
-    public $Filter;
+    public $filter;
 
 }

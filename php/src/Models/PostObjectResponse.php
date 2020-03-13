@@ -11,6 +11,6 @@ use AlibabaCloud\SDK\OSS\Models\PostObjectResponse\postResponse;
 class PostObjectResponse extends Model{
     protected $_name = [];
 
-    public $PostResponse;
+    public $postResponse;
 
 }

@@ -12,8 +12,8 @@ use AlibabaCloud\SDK\OSS\Models\PutBucketCORSRequest\PutBucketCORSRequest\body\c
 class PutBucketCORSRequest extends Model{
     protected $_name = [];
 
-    public $BucketName;
+    public $bucketName;
 
-    public $Body;
+    public $body;
 
 }

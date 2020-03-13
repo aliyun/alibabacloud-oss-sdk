@@ -9,8 +9,8 @@ use AlibabaCloud\Tea\Model;
 class expiration extends Model{
     protected $_name = [];
 
-    public $Days;
+    public $days;
 
-    public $CreatedBeforeDate;
+    public $createdBeforeDate;
 
 }

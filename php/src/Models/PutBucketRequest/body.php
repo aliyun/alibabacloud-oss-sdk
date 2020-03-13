@@ -11,6 +11,6 @@ use AlibabaCloud\SDK\OSS\Models\body\createBucketConfiguration;
 class body extends Model{
     protected $_name = [];
 
-    public $CreateBucketConfiguration;
+    public $createBucketConfiguration;
 
 }

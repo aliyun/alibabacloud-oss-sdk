@@ -9,10 +9,10 @@ use AlibabaCloud\Tea\Model;
 class audio extends Model{
     protected $_name = [];
 
-    public $Bandwidth;
+    public $bandwidth;
 
-    public $SampleRate;
+    public $sampleRate;
 
-    public $Codec;
+    public $codec;
 
 }

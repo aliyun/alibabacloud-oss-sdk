@@ -11,8 +11,8 @@ use AlibabaCloud\SDK\OSS\Models\GetLiveChannelHistoryResponse\liveChannelHistory
 class GetLiveChannelHistoryResponse extends Model{
     protected $_name = [];
 
-    public $xossrequestid;
+    public $requestId;
 
-    public $LiveChannelHistory;
+    public $liveChannelHistory;
 
 }

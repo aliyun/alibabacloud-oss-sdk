@@ -11,14 +11,14 @@ use AlibabaCloud\SDK\OSS\Models\outputSerialization\cSV;
 class outputSerialization extends Model{
     protected $_name = [];
 
-    public $CSV;
+    public $cSV;
 
-    public $KeepAllColumns;
+    public $keepAllColumns;
 
-    public $OutputRawData;
+    public $outputRawData;
 
-    public $EnablePayloadCrc;
+    public $enablePayloadCrc;
 
-    public $OutputHeader;
+    public $outputHeader;
 
 }

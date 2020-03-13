@@ -16,6 +16,6 @@ use AlibabaCloud\SDK\OSS\Models\body\body\selectRequest\options;
 class body extends Model{
     protected $_name = [];
 
-    public $SelectRequest;
+    public $selectRequest;
 
 }

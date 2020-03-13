@@ -9,6 +9,6 @@ use AlibabaCloud\Tea\Model;
 class lifecycleConfiguration extends Model{
     protected $_name = [];
 
-    public $Rule;
+    public $rule;
 
 }

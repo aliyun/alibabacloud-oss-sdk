@@ -9,6 +9,6 @@ use AlibabaCloud\Tea\Model;
 class GetBucketInfoRequest extends Model{
     protected $_name = [];
 
-    public $BucketName;
+    public $bucketName;
 
 }

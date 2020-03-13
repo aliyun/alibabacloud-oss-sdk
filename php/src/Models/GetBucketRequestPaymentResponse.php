@@ -11,8 +11,8 @@ use AlibabaCloud\SDK\OSS\Models\GetBucketRequestPaymentResponse\requestPaymentCo
 class GetBucketRequestPaymentResponse extends Model{
     protected $_name = [];
 
-    public $xossrequestid;
+    public $requestId;
 
-    public $RequestPaymentConfiguration;
+    public $requestPaymentConfiguration;
 
 }

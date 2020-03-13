@@ -13,8 +13,8 @@ use AlibabaCloud\SDK\OSS\Models\GetObjectAclResponse\GetObjectAclResponse\access
 class GetObjectAclResponse extends Model{
     protected $_name = [];
 
-    public $xossrequestid;
+    public $requestId;
 
-    public $AccessControlPolicy;
+    public $accessControlPolicy;
 
 }

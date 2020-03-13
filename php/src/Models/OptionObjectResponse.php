@@ -9,16 +9,16 @@ use AlibabaCloud\Tea\Model;
 class OptionObjectResponse extends Model{
     protected $_name = [];
 
-    public $xossrequestid;
+    public $requestId;
 
-    public $accesscontrolalloworigin;
+    public $accessControlAllowOrigin;
 
-    public $accesscontrolallowmethods;
+    public $accessControlAllowMethods;
 
-    public $accesscontrolallowheaders;
+    public $accessControlAllowHeaders;
 
-    public $accesscontrolexposeheaders;
+    public $accessControlExposeHeaders;
 
-    public $accesscontrolmaxage;
+    public $accessControlMaxAge;
 
 }

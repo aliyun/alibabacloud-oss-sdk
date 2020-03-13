@@ -11,8 +11,8 @@ use AlibabaCloud\SDK\OSS\Models\ListPartsResponse\listPartsResult;
 class ListPartsResponse extends Model{
     protected $_name = [];
 
-    public $xossrequestid;
+    public $requestId;
 
-    public $ListPartsResult;
+    public $listPartsResult;
 
 }

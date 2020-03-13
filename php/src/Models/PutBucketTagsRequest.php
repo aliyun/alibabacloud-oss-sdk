@@ -13,8 +13,8 @@ use AlibabaCloud\SDK\OSS\Models\PutBucketTagsRequest\PutBucketTagsRequest\body\P
 class PutBucketTagsRequest extends Model{
     protected $_name = [];
 
-    public $BucketName;
+    public $bucketName;
 
-    public $Body;
+    public $body;
 
 }

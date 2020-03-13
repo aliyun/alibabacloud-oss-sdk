@@ -11,12 +11,12 @@ use AlibabaCloud\SDK\OSS\Models\mirrorHeaders\set;
 class mirrorHeaders extends Model{
     protected $_name = [];
 
-    public $Set;
+    public $set;
 
-    public $PassAll;
+    public $passAll;
 
-    public $Pass;
+    public $pass;
 
-    public $Remove;
+    public $remove;
 
 }

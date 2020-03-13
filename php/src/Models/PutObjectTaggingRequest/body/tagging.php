@@ -11,6 +11,6 @@ use AlibabaCloud\SDK\OSS\Models\tagging\tagSet;
 class tagging extends Model{
     protected $_name = [];
 
-    public $TagSet;
+    public $tagSet;
 
 }

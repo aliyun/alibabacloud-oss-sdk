@@ -9,8 +9,8 @@ use AlibabaCloud\Tea\Model;
 class header extends Model{
     protected $_name = [];
 
-    public $xosssymlinktarget;
+    public $symlinkTarget;
 
-    public $xossstorageclass;
+    public $storageClass;
 
 }

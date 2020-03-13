@@ -9,8 +9,8 @@ use AlibabaCloud\Tea\Model;
 class cSV extends Model{
     protected $_name = [];
 
-    public $RecordDelimiter;
+    public $recordDelimiter;
 
-    public $FieldDelimiter;
+    public $fieldDelimiter;
 
 }

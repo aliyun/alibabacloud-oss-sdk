@@ -11,8 +11,8 @@ use AlibabaCloud\SDK\OSS\Models\refererConfiguration\refererList;
 class refererConfiguration extends Model{
     protected $_name = [];
 
-    public $AllowEmptyReferer;
+    public $allowEmptyReferer;
 
-    public $RefererList;
+    public $refererList;
 
 }

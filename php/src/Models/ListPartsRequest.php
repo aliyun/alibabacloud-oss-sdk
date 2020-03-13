@@ -11,10 +11,10 @@ use AlibabaCloud\SDK\OSS\Models\ListPartsRequest\filter;
 class ListPartsRequest extends Model{
     protected $_name = [];
 
-    public $BucketName;
+    public $bucketName;
 
-    public $ObjectName;
+    public $objectName;
 
-    public $Filter;
+    public $filter;
 
 }

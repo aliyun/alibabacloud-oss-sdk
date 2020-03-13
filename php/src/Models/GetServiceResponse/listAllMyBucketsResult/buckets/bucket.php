@@ -9,16 +9,16 @@ use AlibabaCloud\Tea\Model;
 class bucket extends Model{
     protected $_name = [];
 
-    public $Name;
+    public $name;
 
-    public $CreateDate;
+    public $createDate;
 
-    public $Location;
+    public $location;
 
-    public $ExtranetEndpoint;
+    public $extranetEndpoint;
 
-    public $IntranetEndpoint;
+    public $intranetEndpoint;
 
-    public $StorageClass;
+    public $storageClass;
 
 }

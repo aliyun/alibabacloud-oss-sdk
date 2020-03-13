@@ -12,6 +12,6 @@ use AlibabaCloud\SDK\OSS\Models\body\body\serverSideEncryptionRule\applyServerSi
 class body extends Model{
     protected $_name = [];
 
-    public $ServerSideEncryptionRule;
+    public $serverSideEncryptionRule;
 
 }

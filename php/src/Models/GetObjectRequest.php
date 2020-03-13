@@ -11,10 +11,10 @@ use AlibabaCloud\SDK\OSS\Models\GetObjectRequest\header;
 class GetObjectRequest extends Model{
     protected $_name = [];
 
-    public $BucketName;
+    public $bucketName;
 
-    public $ObjectName;
+    public $objectName;
 
-    public $Header;
+    public $header;
 
 }

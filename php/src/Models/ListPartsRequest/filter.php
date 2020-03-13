@@ -11,10 +11,10 @@ class filter extends Model{
 
     public $uploadId;
 
-    public $maxparts;
+    public $maxParts;
 
-    public $partnumbermarker;
+    public $partNumberMarker;
 
-    public $Encodingtype;
+    public $encodingType;
 
 }

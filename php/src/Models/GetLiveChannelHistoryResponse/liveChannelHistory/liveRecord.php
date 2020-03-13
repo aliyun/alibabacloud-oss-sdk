@@ -9,10 +9,10 @@ use AlibabaCloud\Tea\Model;
 class liveRecord extends Model{
     protected $_name = [];
 
-    public $StartTime;
+    public $startTime;
 
-    public $EndTime;
+    public $endTime;
 
-    public $RemoteAddr;
+    public $remoteAddr;
 
 }

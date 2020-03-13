@@ -9,6 +9,6 @@ use AlibabaCloud\Tea\Model;
 class PutBucketWebsiteResponse extends Model{
     protected $_name = [];
 
-    public $xossrequestid;
+    public $requestId;
 
 }

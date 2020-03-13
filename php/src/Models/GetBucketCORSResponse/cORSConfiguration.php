@@ -9,6 +9,6 @@ use AlibabaCloud\Tea\Model;
 class cORSConfiguration extends Model{
     protected $_name = [];
 
-    public $CORSRule;
+    public $cORSRule;
 
 }

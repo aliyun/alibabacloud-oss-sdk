@@ -9,6 +9,6 @@ use AlibabaCloud\Tea\Model;
 class CallbackResponse extends Model{
     protected $_name = [];
 
-    public $xossrequestid;
+    public $requestId;
 
 }

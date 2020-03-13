@@ -9,10 +9,10 @@ use AlibabaCloud\Tea\Model;
 class postResponse extends Model{
     protected $_name = [];
 
-    public $Bucket;
+    public $bucket;
 
-    public $ETag;
+    public $eTag;
 
-    public $Location;
+    public $location;
 
 }

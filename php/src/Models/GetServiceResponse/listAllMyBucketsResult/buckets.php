@@ -9,6 +9,6 @@ use AlibabaCloud\Tea\Model;
 class buckets extends Model{
     protected $_name = [];
 
-    public $Bucket;
+    public $bucket;
 
 }

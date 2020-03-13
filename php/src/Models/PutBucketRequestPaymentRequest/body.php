@@ -11,6 +11,6 @@ use AlibabaCloud\SDK\OSS\Models\body\requestPaymentConfiguration;
 class body extends Model{
     protected $_name = [];
 
-    public $RequestPaymentConfiguration;
+    public $requestPaymentConfiguration;
 
 }

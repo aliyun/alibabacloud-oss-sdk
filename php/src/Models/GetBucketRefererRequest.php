@@ -9,6 +9,6 @@ use AlibabaCloud\Tea\Model;
 class GetBucketRefererRequest extends Model{
     protected $_name = [];
 
-    public $BucketName;
+    public $bucketName;
 
 }

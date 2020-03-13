@@ -9,6 +9,6 @@ use AlibabaCloud\Tea\Model;
 class tagSet extends Model{
     protected $_name = [];
 
-    public $Tag;
+    public $tag;
 
 }

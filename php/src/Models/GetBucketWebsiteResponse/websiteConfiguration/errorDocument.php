@@ -9,6 +9,6 @@ use AlibabaCloud\Tea\Model;
 class errorDocument extends Model{
     protected $_name = [];
 
-    public $Key;
+    public $key;
 
 }

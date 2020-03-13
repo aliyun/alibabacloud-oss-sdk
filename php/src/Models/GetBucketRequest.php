@@ -11,8 +11,8 @@ use AlibabaCloud\SDK\OSS\Models\GetBucketRequest\filter;
 class GetBucketRequest extends Model{
     protected $_name = [];
 
-    public $BucketName;
+    public $bucketName;
 
-    public $Filter;
+    public $filter;
 
 }

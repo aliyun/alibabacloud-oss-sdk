@@ -9,8 +9,8 @@ use AlibabaCloud\Tea\Model;
 class RestoreObjectRequest extends Model{
     protected $_name = [];
 
-    public $BucketName;
+    public $bucketName;
 
-    public $ObjectName;
+    public $objectName;
 
 }

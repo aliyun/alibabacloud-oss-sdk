@@ -11,12 +11,12 @@ use AlibabaCloud\SDK\OSS\Models\UploadPartRequest\filter;
 class UploadPartRequest extends Model{
     protected $_name = [];
 
-    public $BucketName;
+    public $bucketName;
 
-    public $ObjectName;
+    public $objectName;
 
     public $body;
 
-    public $Filter;
+    public $filter;
 
 }

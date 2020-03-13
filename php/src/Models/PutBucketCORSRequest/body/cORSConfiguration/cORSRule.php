@@ -9,14 +9,14 @@ use AlibabaCloud\Tea\Model;
 class cORSRule extends Model{
     protected $_name = [];
 
-    public $AllowedOrigin;
+    public $allowedOrigin;
 
-    public $AllowedMethod;
+    public $allowedMethod;
 
-    public $AllowedHeader;
+    public $allowedHeader;
 
-    public $ExposeHeader;
+    public $exposeHeader;
 
-    public $MaxAgeSeconds;
+    public $maxAgeSeconds;
 
 }

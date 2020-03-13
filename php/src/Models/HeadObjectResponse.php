@@ -9,44 +9,44 @@ use AlibabaCloud\Tea\Model;
 class HeadObjectResponse extends Model{
     protected $_name = [];
 
-    public $xossrequestid;
+    public $requestId;
 
-    public $usermeta;
+    public $userMeta;
 
-    public $xossserversideencryption;
+    public $serverSideEncryption;
 
-    public $xossserversideencryptionkeyid;
+    public $serverSideEncryptionKeyId;
 
-    public $xossstorageclass;
+    public $storageClass;
 
-    public $xossobjecttype;
+    public $objectType;
 
-    public $xossnextappendposition;
+    public $nextAppendPosition;
 
-    public $xosshashcrc64ecma;
+    public $hashCrc64ecma;
 
-    public $xossexpiration;
+    public $expiration;
 
-    public $xossrestore;
+    public $restore;
 
-    public $xossprocessstatus;
+    public $processStatus;
 
-    public $xossrequestcharged;
+    public $requestCharged;
 
-    public $contentmd5;
+    public $contentMd5;
 
-    public $lastmodified;
+    public $lastModified;
 
-    public $accesscontrolalloworigin;
+    public $accessControlAllowOrigin;
 
-    public $accesscontrolallowmethods;
+    public $accessControlAllowMethods;
 
-    public $accesscontrolmaxage;
+    public $accessControlMaxAge;
 
-    public $accesscontrolallowheaders;
+    public $accessControlAllowHeaders;
 
-    public $accesscontrolexposeheaders;
+    public $accessControlExposeHeaders;
 
-    public $xosstaggingcount;
+    public $taggingCount;
 
 }

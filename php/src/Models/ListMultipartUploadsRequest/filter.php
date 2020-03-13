@@ -11,14 +11,14 @@ class filter extends Model{
 
     public $delimiter;
 
-    public $maxuploads;
+    public $maxUploads;
 
-    public $keymarker;
+    public $keyMarker;
 
     public $prefix;
 
-    public $uploadidmarker;
+    public $uploadIdMarker;
 
-    public $encodingtype;
+    public $encodingType;
 
 }

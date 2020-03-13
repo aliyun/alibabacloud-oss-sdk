@@ -12,14 +12,14 @@ use AlibabaCloud\SDK\OSS\Models\liveChannelStat\audio;
 class liveChannelStat extends Model{
     protected $_name = [];
 
-    public $Status;
+    public $status;
 
-    public $ConnectedTime;
+    public $connectedTime;
 
-    public $RemoteAddr;
+    public $remoteAddr;
 
-    public $Video;
+    public $video;
 
-    public $Audio;
+    public $audio;
 
 }

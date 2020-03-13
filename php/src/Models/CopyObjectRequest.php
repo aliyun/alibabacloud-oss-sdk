@@ -11,10 +11,10 @@ use AlibabaCloud\SDK\OSS\Models\CopyObjectRequest\header;
 class CopyObjectRequest extends Model{
     protected $_name = [];
 
-    public $BucketName;
+    public $bucketName;
 
-    public $DestObjectName;
+    public $destObjectName;
 
-    public $Header;
+    public $header;
 
 }

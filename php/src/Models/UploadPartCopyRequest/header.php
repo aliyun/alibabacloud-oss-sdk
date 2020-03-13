@@ -9,16 +9,16 @@ use AlibabaCloud\Tea\Model;
 class header extends Model{
     protected $_name = [];
 
-    public $xosscopysource;
+    public $copySource;
 
-    public $xosscopysourcerange;
+    public $copySourceRange;
 
-    public $xosscopysourceifmatch;
+    public $copySourceIfMatch;
 
-    public $xosscopysourceifnonematch;
+    public $copySourceIfNoneMatch;
 
-    public $xosscopysourceifunmodifiedsince;
+    public $copySourceIfUnmodifiedSince;
 
-    public $xosscopysourceifmodifiedsince;
+    public $copySourceIfModifiedSince;
 
 }

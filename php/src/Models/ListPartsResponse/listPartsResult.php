@@ -9,22 +9,22 @@ use AlibabaCloud\Tea\Model;
 class listPartsResult extends Model{
     protected $_name = [];
 
-    public $Bucket;
+    public $bucket;
 
-    public $EncodingType;
+    public $encodingType;
 
-    public $Key;
+    public $key;
 
-    public $UploadId;
+    public $uploadId;
 
-    public $PartNumberMarker;
+    public $partNumberMarker;
 
-    public $NextPartNumberMarker;
+    public $nextPartNumberMarker;
 
-    public $MaxParts;
+    public $maxParts;
 
-    public $IsTruncated;
+    public $isTruncated;
 
-    public $Part;
+    public $part;
 
 }

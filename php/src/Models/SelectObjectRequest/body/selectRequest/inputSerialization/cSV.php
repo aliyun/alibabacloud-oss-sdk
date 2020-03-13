@@ -9,16 +9,16 @@ use AlibabaCloud\Tea\Model;
 class cSV extends Model{
     protected $_name = [];
 
-    public $FileHeaderInfo;
+    public $fileHeaderInfo;
 
-    public $RecordDelimiter;
+    public $recordDelimiter;
 
-    public $FieldDelimiter;
+    public $fieldDelimiter;
 
-    public $QuoteCharacter;
+    public $quoteCharacter;
 
-    public $CommentCharacter;
+    public $commentCharacter;
 
-    public $Range;
+    public $range;
 
 }

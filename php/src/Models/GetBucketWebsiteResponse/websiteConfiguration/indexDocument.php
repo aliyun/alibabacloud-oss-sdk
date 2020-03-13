@@ -9,6 +9,6 @@ use AlibabaCloud\Tea\Model;
 class indexDocument extends Model{
     protected $_name = [];
 
-    public $Suffix;
+    public $suffix;
 
 }

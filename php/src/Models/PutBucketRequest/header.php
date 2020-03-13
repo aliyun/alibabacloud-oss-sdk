@@ -9,6 +9,6 @@ use AlibabaCloud\Tea\Model;
 class header extends Model{
     protected $_name = [];
 
-    public $xossacl;
+    public $acl;
 
 }

@@ -9,12 +9,12 @@ use AlibabaCloud\Tea\Model;
 class header extends Model{
     protected $_name = [];
 
-    public $IfModifiedSince;
+    public $ifModifiedSince;
 
-    public $IfUnmodifiedSince;
+    public $ifUnmodifiedSince;
 
-    public $IfMatch;
+    public $ifMatch;
 
-    public $IfNoneMatch;
+    public $ifNoneMatch;
 
 }

@@ -9,8 +9,8 @@ use AlibabaCloud\Tea\Model;
 class GetSymlinkResponse extends Model{
     protected $_name = [];
 
-    public $xossrequestid;
+    public $requestId;
 
-    public $xosssymlinktarget;
+    public $symlinkTarget;
 
 }

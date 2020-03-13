@@ -11,6 +11,6 @@ use AlibabaCloud\SDK\OSS\Models\body\cORSConfiguration;
 class body extends Model{
     protected $_name = [];
 
-    public $CORSConfiguration;
+    public $cORSConfiguration;
 
 }
