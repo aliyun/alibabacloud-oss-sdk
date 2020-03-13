@@ -9,10 +9,10 @@ use AlibabaCloud\Tea\Model;
 class header extends Model{
     protected $_name = [];
 
-    public $Origin;
+    public $origin;
 
-    public $AccessControlRequestMethod;
+    public $accessControlRequestMethod;
 
-    public $AccessControlRequestHeaders;
+    public $accessControlRequestHeaders;
 
 }

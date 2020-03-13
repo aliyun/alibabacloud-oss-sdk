@@ -11,8 +11,8 @@ use AlibabaCloud\SDK\OSS\Models\GetBucketCORSResponse\cORSConfiguration;
 class GetBucketCORSResponse extends Model{
     protected $_name = [];
 
-    public $xossrequestid;
+    public $requestId;
 
-    public $CORSConfiguration;
+    public $cORSConfiguration;
 
 }

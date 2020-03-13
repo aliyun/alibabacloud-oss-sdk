@@ -11,8 +11,8 @@ use AlibabaCloud\SDK\OSS\Models\GetBucketResponse\listBucketResult;
 class GetBucketResponse extends Model{
     protected $_name = [];
 
-    public $xossrequestid;
+    public $requestId;
 
-    public $ListBucketResult;
+    public $listBucketResult;
 
 }

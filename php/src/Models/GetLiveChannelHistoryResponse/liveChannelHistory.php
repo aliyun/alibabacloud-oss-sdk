@@ -9,6 +9,6 @@ use AlibabaCloud\Tea\Model;
 class liveChannelHistory extends Model{
     protected $_name = [];
 
-    public $LiveRecord;
+    public $liveRecord;
 
 }

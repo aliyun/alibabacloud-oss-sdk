@@ -9,18 +9,18 @@ use AlibabaCloud\Tea\Model;
 class header extends Model{
     protected $_name = [];
 
-    public $OSSAccessKeyId;
+    public $accessKeyId;
 
     public $policy;
 
-    public $Signature;
+    public $signature;
 
-    public $success_action_status;
+    public $successActionStatus;
 
     public $file;
 
     public $key;
 
-    public $UserMeta;
+    public $userMeta;
 
 }

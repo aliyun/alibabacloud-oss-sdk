@@ -9,22 +9,22 @@ use AlibabaCloud\Tea\Model;
 class listBucketResult extends Model{
     protected $_name = [];
 
-    public $Name;
+    public $name;
 
-    public $Prefix;
+    public $prefix;
 
-    public $Marker;
+    public $marker;
 
-    public $MaxKeys;
+    public $maxKeys;
 
-    public $Delimiter;
+    public $delimiter;
 
-    public $IsTruncated;
+    public $isTruncated;
 
-    public $EncodingType;
+    public $encodingType;
 
-    public $CommonPrefixes;
+    public $commonPrefixes;
 
-    public $Contents;
+    public $contents;
 
 }

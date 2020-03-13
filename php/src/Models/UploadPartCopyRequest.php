@@ -12,12 +12,12 @@ use AlibabaCloud\SDK\OSS\Models\UploadPartCopyRequest\header;
 class UploadPartCopyRequest extends Model{
     protected $_name = [];
 
-    public $BucketName;
+    public $bucketName;
 
-    public $ObjectName;
+    public $objectName;
 
-    public $Filter;
+    public $filter;
 
-    public $Header;
+    public $header;
 
 }

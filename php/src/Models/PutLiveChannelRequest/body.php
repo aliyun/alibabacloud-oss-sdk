@@ -13,6 +13,6 @@ use AlibabaCloud\SDK\OSS\Models\body\body\liveChannelConfiguration\snapshot;
 class body extends Model{
     protected $_name = [];
 
-    public $LiveChannelConfiguration;
+    public $liveChannelConfiguration;
 
 }

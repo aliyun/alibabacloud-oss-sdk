@@ -11,8 +11,8 @@ use AlibabaCloud\SDK\OSS\Models\ListMultipartUploadsResponse\listMultipartUpload
 class ListMultipartUploadsResponse extends Model{
     protected $_name = [];
 
-    public $xossrequestid;
+    public $requestId;
 
-    public $ListMultipartUploadsResult;
+    public $listMultipartUploadsResult;
 
 }

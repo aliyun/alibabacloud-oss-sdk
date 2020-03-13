@@ -9,8 +9,8 @@ use AlibabaCloud\Tea\Model;
 class options extends Model{
     protected $_name = [];
 
-    public $SkipPartialDataRecord;
+    public $skipPartialDataRecord;
 
-    public $MaxSkippedRecordsAllowed;
+    public $maxSkippedRecordsAllowed;
 
 }

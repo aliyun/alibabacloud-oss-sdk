@@ -14,18 +14,18 @@ use AlibabaCloud\SDK\OSS\Models\rule\tag;
 class rule extends Model{
     protected $_name = [];
 
-    public $Expiration;
+    public $expiration;
 
-    public $Transition;
+    public $transition;
 
-    public $AbortMultipartUpload;
+    public $abortMultipartUpload;
 
-    public $Tag;
+    public $tag;
 
-    public $ID;
+    public $iD;
 
-    public $Prefix;
+    public $prefix;
 
-    public $Status;
+    public $status;
 
 }

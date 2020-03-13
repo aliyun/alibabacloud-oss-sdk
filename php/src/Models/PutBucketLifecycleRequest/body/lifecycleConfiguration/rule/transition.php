@@ -9,8 +9,8 @@ use AlibabaCloud\Tea\Model;
 class transition extends Model{
     protected $_name = [];
 
-    public $Days;
+    public $days;
 
-    public $StorageClass;
+    public $storageClass;
 
 }

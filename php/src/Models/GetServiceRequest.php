@@ -11,6 +11,6 @@ use AlibabaCloud\SDK\OSS\Models\GetServiceRequest\filter;
 class GetServiceRequest extends Model{
     protected $_name = [];
 
-    public $Filter;
+    public $filter;
 
 }

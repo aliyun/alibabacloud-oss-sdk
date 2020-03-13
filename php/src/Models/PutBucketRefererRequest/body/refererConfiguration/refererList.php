@@ -9,6 +9,6 @@ use AlibabaCloud\Tea\Model;
 class refererList extends Model{
     protected $_name = [];
 
-    public $Referer;
+    public $referer;
 
 }

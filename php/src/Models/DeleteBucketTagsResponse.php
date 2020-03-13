@@ -9,6 +9,6 @@ use AlibabaCloud\Tea\Model;
 class DeleteBucketTagsResponse extends Model{
     protected $_name = [];
 
-    public $xossrequestid;
+    public $requestId;
 
 }

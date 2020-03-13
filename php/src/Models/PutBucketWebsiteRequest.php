@@ -15,8 +15,8 @@ use AlibabaCloud\SDK\OSS\Models\PutBucketWebsiteRequest\PutBucketWebsiteRequest\
 class PutBucketWebsiteRequest extends Model{
     protected $_name = [];
 
-    public $BucketName;
+    public $bucketName;
 
-    public $Body;
+    public $body;
 
 }

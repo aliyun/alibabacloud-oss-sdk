@@ -11,8 +11,8 @@ use AlibabaCloud\SDK\OSS\Models\CopyObjectResponse\copyObjectResult;
 class CopyObjectResponse extends Model{
     protected $_name = [];
 
-    public $xossrequestid;
+    public $requestId;
 
-    public $CopyObjectResult;
+    public $copyObjectResult;
 
 }

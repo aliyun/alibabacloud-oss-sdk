@@ -9,6 +9,6 @@ use AlibabaCloud\Tea\Model;
 class DeleteLiveChannelResponse extends Model{
     protected $_name = [];
 
-    public $xossrequestid;
+    public $requestId;
 
 }

@@ -12,8 +12,8 @@ use AlibabaCloud\SDK\OSS\Models\createLiveChannelResult\playUrls;
 class createLiveChannelResult extends Model{
     protected $_name = [];
 
-    public $PublishUrls;
+    public $publishUrls;
 
-    public $PlayUrls;
+    public $playUrls;
 
 }

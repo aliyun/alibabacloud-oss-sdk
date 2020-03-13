@@ -9,15 +9,15 @@ use AlibabaCloud\Tea\Model;
 class GetObjectResponse extends Model{
     protected $_name = [];
 
-    public $xossrequestid;
+    public $requestId;
 
-    public $xossobjecttype;
+    public $objectType;
 
-    public $xossserversideencryption;
+    public $serverSideEncryption;
 
-    public $xosstaggingcount;
+    public $taggingCount;
 
-    public $xossrestore;
+    public $restore;
 
     public $body;
 

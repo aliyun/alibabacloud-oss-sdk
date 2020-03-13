@@ -9,10 +9,10 @@ use AlibabaCloud\Tea\Model;
 class AppendObjectResponse extends Model{
     protected $_name = [];
 
-    public $xossrequestid;
+    public $requestId;
 
-    public $xossnextappendposition;
+    public $nextAppendPosition;
 
-    public $xosshashcrc64ecma;
+    public $hashCrc64ecma;
 
 }

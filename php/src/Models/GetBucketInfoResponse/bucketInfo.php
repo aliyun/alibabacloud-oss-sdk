@@ -13,6 +13,6 @@ use AlibabaCloud\SDK\OSS\Models\bucketInfo\bucketInfo\bucket\accessControlList;
 class bucketInfo extends Model{
     protected $_name = [];
 
-    public $Bucket;
+    public $bucket;
 
 }

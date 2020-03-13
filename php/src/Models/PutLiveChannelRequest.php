@@ -14,10 +14,10 @@ use AlibabaCloud\SDK\OSS\Models\PutLiveChannelRequest\PutLiveChannelRequest\body
 class PutLiveChannelRequest extends Model{
     protected $_name = [];
 
-    public $BucketName;
+    public $bucketName;
 
-    public $ChannelName;
+    public $channelName;
 
-    public $Body;
+    public $body;
 
 }

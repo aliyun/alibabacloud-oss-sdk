@@ -11,6 +11,6 @@ use AlibabaCloud\SDK\OSS\Models\body\lifecycleConfiguration;
 class body extends Model{
     protected $_name = [];
 
-    public $LifecycleConfiguration;
+    public $lifecycleConfiguration;
 
 }

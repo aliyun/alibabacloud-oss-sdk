@@ -12,6 +12,6 @@ use AlibabaCloud\SDK\OSS\Models\body\body\refererConfiguration\refererList;
 class body extends Model{
     protected $_name = [];
 
-    public $RefererConfiguration;
+    public $refererConfiguration;
 
 }

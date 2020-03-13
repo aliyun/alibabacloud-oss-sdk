@@ -11,8 +11,8 @@ use AlibabaCloud\SDK\OSS\Models\inputSerialization\cSV;
 class inputSerialization extends Model{
     protected $_name = [];
 
-    public $CSV;
+    public $cSV;
 
-    public $CompressionType;
+    public $compressionType;
 
 }

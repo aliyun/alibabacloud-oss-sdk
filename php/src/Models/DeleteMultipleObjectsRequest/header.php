@@ -9,10 +9,10 @@ use AlibabaCloud\Tea\Model;
 class header extends Model{
     protected $_name = [];
 
-    public $Encodingtype;
+    public $encodingType;
 
-    public $ContentLength;
+    public $contentLength;
 
-    public $ContentMD5;
+    public $contentMD5;
 
 }

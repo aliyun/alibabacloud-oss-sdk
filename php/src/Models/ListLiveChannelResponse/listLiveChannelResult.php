@@ -13,16 +13,16 @@ use AlibabaCloud\SDK\OSS\Models\listLiveChannelResult\listLiveChannelResult\live
 class listLiveChannelResult extends Model{
     protected $_name = [];
 
-    public $Prefix;
+    public $prefix;
 
-    public $Marker;
+    public $marker;
 
-    public $MaxKeys;
+    public $maxKeys;
 
-    public $IsTruncated;
+    public $isTruncated;
 
-    public $NextMarker;
+    public $nextMarker;
 
-    public $LiveChannel;
+    public $liveChannel;
 
 }

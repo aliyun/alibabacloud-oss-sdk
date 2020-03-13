@@ -13,12 +13,12 @@ use AlibabaCloud\SDK\OSS\Models\CompleteMultipartUploadRequest\CompleteMultipart
 class CompleteMultipartUploadRequest extends Model{
     protected $_name = [];
 
-    public $BucketName;
+    public $bucketName;
 
-    public $ObjectName;
+    public $objectName;
 
-    public $Filter;
+    public $filter;
 
-    public $Body;
+    public $body;
 
 }

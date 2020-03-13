@@ -11,8 +11,8 @@ use AlibabaCloud\SDK\OSS\Models\CompleteMultipartUploadResponse\completeMultipar
 class CompleteMultipartUploadResponse extends Model{
     protected $_name = [];
 
-    public $xossrequestid;
+    public $requestId;
 
-    public $CompleteMultipartUploadResult;
+    public $completeMultipartUploadResult;
 
 }

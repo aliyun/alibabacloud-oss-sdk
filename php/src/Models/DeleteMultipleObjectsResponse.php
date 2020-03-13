@@ -11,8 +11,8 @@ use AlibabaCloud\SDK\OSS\Models\DeleteMultipleObjectsResponse\deleteResult;
 class DeleteMultipleObjectsResponse extends Model{
     protected $_name = [];
 
-    public $xossrequestid;
+    public $requestId;
 
-    public $DeleteResult;
+    public $deleteResult;
 
 }

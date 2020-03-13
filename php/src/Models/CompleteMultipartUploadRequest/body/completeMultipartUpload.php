@@ -9,6 +9,6 @@ use AlibabaCloud\Tea\Model;
 class completeMultipartUpload extends Model{
     protected $_name = [];
 
-    public $Part;
+    public $part;
 
 }

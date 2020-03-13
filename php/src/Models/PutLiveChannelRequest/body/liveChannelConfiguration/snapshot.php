@@ -9,12 +9,12 @@ use AlibabaCloud\Tea\Model;
 class snapshot extends Model{
     protected $_name = [];
 
-    public $RoleName;
+    public $roleName;
 
-    public $DestBucket;
+    public $destBucket;
 
-    public $NotifyTopic;
+    public $notifyTopic;
 
-    public $Interval;
+    public $interval;
 
 }

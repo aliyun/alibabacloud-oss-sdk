@@ -11,6 +11,6 @@ class filter extends Model{
 
     public $uploadId;
 
-    public $Encodingtype;
+    public $encodingType;
 
 }

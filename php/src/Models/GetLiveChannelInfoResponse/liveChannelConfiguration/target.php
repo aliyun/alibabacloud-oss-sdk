@@ -9,12 +9,12 @@ use AlibabaCloud\Tea\Model;
 class target extends Model{
     protected $_name = [];
 
-    public $Type;
+    public $type;
 
-    public $FragDuration;
+    public $fragDuration;
 
-    public $FragCount;
+    public $fragCount;
 
-    public $PlaylistName;
+    public $playlistName;
 
 }

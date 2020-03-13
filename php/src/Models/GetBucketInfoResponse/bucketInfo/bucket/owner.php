@@ -9,8 +9,8 @@ use AlibabaCloud\Tea\Model;
 class owner extends Model{
     protected $_name = [];
 
-    public $ID;
+    public $iD;
 
-    public $DisplayName;
+    public $displayName;
 
 }

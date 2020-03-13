@@ -12,8 +12,8 @@ use AlibabaCloud\SDK\OSS\Models\GetBucketTagsResponse\GetBucketTagsResponse\tagg
 class GetBucketTagsResponse extends Model{
     protected $_name = [];
 
-    public $xossrequestid;
+    public $requestId;
 
-    public $Tagging;
+    public $tagging;
 
 }

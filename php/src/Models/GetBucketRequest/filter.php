@@ -13,10 +13,10 @@ class filter extends Model{
 
     public $marker;
 
-    public $maxkeys;
+    public $maxKeys;
 
     public $prefix;
 
-    public $encodingtype;
+    public $encodingType;
 
 }

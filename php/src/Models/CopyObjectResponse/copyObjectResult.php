@@ -9,8 +9,8 @@ use AlibabaCloud\Tea\Model;
 class copyObjectResult extends Model{
     protected $_name = [];
 
-    public $LastModified;
+    public $lastModified;
 
-    public $ETag;
+    public $eTag;
 
 }

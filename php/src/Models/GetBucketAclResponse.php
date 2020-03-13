@@ -13,8 +13,8 @@ use AlibabaCloud\SDK\OSS\Models\GetBucketAclResponse\GetBucketAclResponse\access
 class GetBucketAclResponse extends Model{
     protected $_name = [];
 
-    public $xossrequestid;
+    public $requestId;
 
-    public $AccessControlPolicy;
+    public $accessControlPolicy;
 
 }

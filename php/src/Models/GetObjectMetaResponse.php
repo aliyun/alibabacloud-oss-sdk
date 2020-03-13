@@ -9,12 +9,12 @@ use AlibabaCloud\Tea\Model;
 class GetObjectMetaResponse extends Model{
     protected $_name = [];
 
-    public $xossrequestid;
+    public $requestId;
 
-    public $etag;
+    public $eTag;
 
-    public $contentlength;
+    public $contentLength;
 
-    public $lastmodified;
+    public $lastModified;
 
 }

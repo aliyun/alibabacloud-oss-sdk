@@ -11,16 +11,16 @@ use AlibabaCloud\SDK\OSS\Models\contents\owner;
 class contents extends Model{
     protected $_name = [];
 
-    public $Key;
+    public $key;
 
-    public $ETag;
+    public $eTag;
 
-    public $LastModified;
+    public $lastModified;
 
-    public $Size;
+    public $size;
 
-    public $StorageClass;
+    public $storageClass;
 
-    public $Owner;
+    public $owner;
 
 }

@@ -9,6 +9,6 @@ use AlibabaCloud\Tea\Model;
 class deleted extends Model{
     protected $_name = [];
 
-    public $Key;
+    public $key;
 
 }

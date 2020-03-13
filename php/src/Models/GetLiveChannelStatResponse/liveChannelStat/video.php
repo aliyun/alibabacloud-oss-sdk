@@ -9,14 +9,14 @@ use AlibabaCloud\Tea\Model;
 class video extends Model{
     protected $_name = [];
 
-    public $Width;
+    public $width;
 
-    public $Height;
+    public $height;
 
-    public $FrameRate;
+    public $frameRate;
 
-    public $Bandwidth;
+    public $bandwidth;
 
-    public $Codec;
+    public $codec;
 
 }

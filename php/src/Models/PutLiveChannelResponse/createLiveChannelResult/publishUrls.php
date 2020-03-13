@@ -9,6 +9,6 @@ use AlibabaCloud\Tea\Model;
 class publishUrls extends Model{
     protected $_name = [];
 
-    public $Url;
+    public $url;
 
 }

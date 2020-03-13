@@ -9,6 +9,6 @@ use AlibabaCloud\Tea\Model;
 class cORSRule extends Model{
     protected $_name = [];
 
-    public $MaxAgeSeconds;
+    public $maxAgeSeconds;
 
 }

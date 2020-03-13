@@ -11,10 +11,10 @@ use AlibabaCloud\SDK\OSS\Models\condition\includeHeader;
 class condition extends Model{
     protected $_name = [];
 
-    public $KeyPrefixEquals;
+    public $keyPrefixEquals;
 
-    public $HttpErrorCodeReturnedEquals;
+    public $httpErrorCodeReturnedEquals;
 
-    public $IncludeHeader;
+    public $includeHeader;
 
 }

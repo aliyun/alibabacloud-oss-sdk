@@ -15,12 +15,12 @@ use AlibabaCloud\SDK\OSS\Models\selectRequest\options;
 class selectRequest extends Model{
     protected $_name = [];
 
-    public $InputSerialization;
+    public $inputSerialization;
 
-    public $OutputSerialization;
+    public $outputSerialization;
 
-    public $Options;
+    public $options;
 
-    public $Expression;
+    public $expression;
 
 }

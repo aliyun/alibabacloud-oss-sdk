@@ -14,8 +14,8 @@ use AlibabaCloud\SDK\OSS\Models\GetBucketInfoResponse\GetBucketInfoResponse\buck
 class GetBucketInfoResponse extends Model{
     protected $_name = [];
 
-    public $xossrequestid;
+    public $requestId;
 
-    public $BucketInfo;
+    public $bucketInfo;
 
 }

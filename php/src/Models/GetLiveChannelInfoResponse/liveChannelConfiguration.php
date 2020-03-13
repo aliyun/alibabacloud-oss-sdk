@@ -11,10 +11,10 @@ use AlibabaCloud\SDK\OSS\Models\liveChannelConfiguration\target;
 class liveChannelConfiguration extends Model{
     protected $_name = [];
 
-    public $Description;
+    public $description;
 
-    public $Status;
+    public $status;
 
-    public $Target;
+    public $target;
 
 }

@@ -12,6 +12,6 @@ use AlibabaCloud\SDK\OSS\Models\body\body\bucketLoggingStatus\loggingEnabled;
 class body extends Model{
     protected $_name = [];
 
-    public $BucketLoggingStatus;
+    public $bucketLoggingStatus;
 
 }

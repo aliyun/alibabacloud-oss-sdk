@@ -9,14 +9,14 @@ use AlibabaCloud\Tea\Model;
 class completeMultipartUploadResult extends Model{
     protected $_name = [];
 
-    public $Bucket;
+    public $bucket;
 
-    public $ETag;
+    public $eTag;
 
-    public $Location;
+    public $location;
 
-    public $Key;
+    public $key;
 
-    public $EncodingType;
+    public $encodingType;
 
 }

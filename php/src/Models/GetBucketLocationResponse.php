@@ -9,8 +9,8 @@ use AlibabaCloud\Tea\Model;
 class GetBucketLocationResponse extends Model{
     protected $_name = [];
 
-    public $xossrequestid;
+    public $requestId;
 
-    public $LocationConstraint;
+    public $locationConstraint;
 
 }

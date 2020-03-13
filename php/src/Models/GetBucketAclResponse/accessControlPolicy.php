@@ -12,8 +12,8 @@ use AlibabaCloud\SDK\OSS\Models\accessControlPolicy\accessControlList;
 class accessControlPolicy extends Model{
     protected $_name = [];
 
-    public $Owner;
+    public $owner;
 
-    public $AccessControlList;
+    public $accessControlList;
 
 }

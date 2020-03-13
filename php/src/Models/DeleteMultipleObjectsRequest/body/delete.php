@@ -9,8 +9,8 @@ use AlibabaCloud\Tea\Model;
 class delete extends Model{
     protected $_name = [];
 
-    public $Object;
+    public $object;
 
-    public $Quiet;
+    public $quiet;
 
 }

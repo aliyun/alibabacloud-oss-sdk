@@ -13,10 +13,10 @@ use AlibabaCloud\SDK\OSS\Models\PutObjectTaggingRequest\PutObjectTaggingRequest\
 class PutObjectTaggingRequest extends Model{
     protected $_name = [];
 
-    public $BucketName;
+    public $bucketName;
 
-    public $ObjectName;
+    public $objectName;
 
-    public $Body;
+    public $body;
 
 }

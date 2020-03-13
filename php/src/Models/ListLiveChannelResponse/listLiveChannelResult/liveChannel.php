@@ -12,16 +12,16 @@ use AlibabaCloud\SDK\OSS\Models\liveChannel\playUrls;
 class liveChannel extends Model{
     protected $_name = [];
 
-    public $Name;
+    public $name;
 
-    public $Description;
+    public $description;
 
-    public $Status;
+    public $status;
 
-    public $LastModified;
+    public $lastModified;
 
-    public $PublishUrls;
+    public $publishUrls;
 
-    public $PlayUrls;
+    public $playUrls;
 
 }

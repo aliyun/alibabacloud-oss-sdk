@@ -9,6 +9,6 @@ use AlibabaCloud\Tea\Model;
 class object extends Model{
     protected $_name = [];
 
-    public $Key;
+    public $key;
 
 }

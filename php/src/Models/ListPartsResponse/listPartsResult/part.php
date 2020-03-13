@@ -9,12 +9,12 @@ use AlibabaCloud\Tea\Model;
 class part extends Model{
     protected $_name = [];
 
-    public $PartNumber;
+    public $partNumber;
 
-    public $LastModified;
+    public $lastModified;
 
-    public $ETag;
+    public $eTag;
 
-    public $Size;
+    public $size;
 
 }

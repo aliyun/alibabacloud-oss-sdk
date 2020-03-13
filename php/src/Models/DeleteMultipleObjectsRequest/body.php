@@ -11,6 +11,6 @@ use AlibabaCloud\SDK\OSS\Models\body\delete;
 class body extends Model{
     protected $_name = [];
 
-    public $Delete;
+    public $delete;
 
 }

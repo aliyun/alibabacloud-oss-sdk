@@ -12,18 +12,18 @@ use AlibabaCloud\SDK\OSS\Models\listAllMyBucketsResult\buckets;
 class listAllMyBucketsResult extends Model{
     protected $_name = [];
 
-    public $Prefix;
+    public $prefix;
 
-    public $Marker;
+    public $marker;
 
-    public $MaxKeys;
+    public $maxKeys;
 
-    public $IsTruncated;
+    public $isTruncated;
 
-    public $NextMarker;
+    public $nextMarker;
 
-    public $Owner;
+    public $owner;
 
-    public $Buckets;
+    public $buckets;
 
 }

@@ -12,8 +12,8 @@ use AlibabaCloud\SDK\OSS\Models\GetBucketRefererResponse\GetBucketRefererRespons
 class GetBucketRefererResponse extends Model{
     protected $_name = [];
 
-    public $xossrequestid;
+    public $requestId;
 
-    public $RefererConfiguration;
+    public $refererConfiguration;
 
 }

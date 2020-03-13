@@ -12,24 +12,24 @@ use AlibabaCloud\SDK\OSS\Models\bucket\accessControlList;
 class bucket extends Model{
     protected $_name = [];
 
-    public $CreationDate;
+    public $creationDate;
 
-    public $ExtranetEndpoint;
+    public $extranetEndpoint;
 
-    public $IntranetEndpoint;
+    public $intranetEndpoint;
 
-    public $Location;
+    public $location;
 
-    public $Name;
+    public $name;
 
-    public $DataRedundancyType;
+    public $dataRedundancyType;
 
-    public $StorageClass;
+    public $storageClass;
 
-    public $Comment;
+    public $comment;
 
-    public $Owner;
+    public $owner;
 
-    public $AccessControlList;
+    public $accessControlList;
 
 }

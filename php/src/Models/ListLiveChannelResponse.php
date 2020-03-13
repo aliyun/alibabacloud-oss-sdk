@@ -14,8 +14,8 @@ use AlibabaCloud\SDK\OSS\Models\ListLiveChannelResponse\ListLiveChannelResponse\
 class ListLiveChannelResponse extends Model{
     protected $_name = [];
 
-    public $xossrequestid;
+    public $requestId;
 
-    public $ListLiveChannelResult;
+    public $listLiveChannelResult;
 
 }

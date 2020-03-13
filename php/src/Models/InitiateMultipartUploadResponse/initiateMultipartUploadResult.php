@@ -9,10 +9,10 @@ use AlibabaCloud\Tea\Model;
 class initiateMultipartUploadResult extends Model{
     protected $_name = [];
 
-    public $Bucket;
+    public $bucket;
 
-    public $Key;
+    public $key;
 
-    public $UploadId;
+    public $uploadId;
 
 }

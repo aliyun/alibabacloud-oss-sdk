@@ -13,8 +13,8 @@ use AlibabaCloud\SDK\OSS\Models\GetLiveChannelStatResponse\GetLiveChannelStatRes
 class GetLiveChannelStatResponse extends Model{
     protected $_name = [];
 
-    public $xossrequestid;
+    public $requestId;
 
-    public $LiveChannelStat;
+    public $liveChannelStat;
 
 }

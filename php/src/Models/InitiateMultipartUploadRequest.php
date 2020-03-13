@@ -12,12 +12,12 @@ use AlibabaCloud\SDK\OSS\Models\InitiateMultipartUploadRequest\header;
 class InitiateMultipartUploadRequest extends Model{
     protected $_name = [];
 
-    public $BucketName;
+    public $bucketName;
 
-    public $ObjectName;
+    public $objectName;
 
-    public $Filter;
+    public $filter;
 
-    public $Header;
+    public $header;
 
 }

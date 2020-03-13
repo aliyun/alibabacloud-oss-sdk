@@ -9,10 +9,10 @@ use AlibabaCloud\Tea\Model;
 class upload extends Model{
     protected $_name = [];
 
-    public $Key;
+    public $key;
 
-    public $UploadId;
+    public $uploadId;
 
-    public $Initiated;
+    public $initiated;
 
 }

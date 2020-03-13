@@ -11,8 +11,8 @@ use AlibabaCloud\SDK\OSS\Models\GetBucketLifecycleResponse\lifecycleConfiguratio
 class GetBucketLifecycleResponse extends Model{
     protected $_name = [];
 
-    public $xossrequestid;
+    public $requestId;
 
-    public $LifecycleConfiguration;
+    public $lifecycleConfiguration;
 
 }

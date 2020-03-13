@@ -9,28 +9,28 @@ use AlibabaCloud\Tea\Model;
 class header extends Model{
     protected $_name = [];
 
-    public $responsecontenttype;
+    public $responseContentType;
 
-    public $responsecontentlanguage;
+    public $responseContentLanguage;
 
-    public $responseexpires;
+    public $responseExpires;
 
-    public $responsecachecontrol;
+    public $responseCacheControl;
 
-    public $responsecontentdisposition;
+    public $responseContentDisposition;
 
-    public $responsecontentencoding;
+    public $responseContentEncoding;
 
-    public $Range;
+    public $range;
 
-    public $IfModifiedSince;
+    public $ifModifiedSince;
 
-    public $IfUnmodifiedSince;
+    public $ifUnmodifiedSince;
 
-    public $IfMatch;
+    public $ifMatch;
 
-    public $IfNoneMatch;
+    public $ifNoneMatch;
 
-    public $AcceptEncoding;
+    public $acceptEncoding;
 
 }

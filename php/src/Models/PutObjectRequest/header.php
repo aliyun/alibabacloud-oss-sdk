@@ -9,32 +9,32 @@ use AlibabaCloud\Tea\Model;
 class header extends Model{
     protected $_name = [];
 
-    public $Authorization;
+    public $authorization;
 
-    public $CacheControl;
+    public $cacheControl;
 
-    public $ContentDisposition;
+    public $contentDisposition;
 
-    public $ContentEncoding;
+    public $contentEncoding;
 
-    public $ContentMD5;
+    public $contentMD5;
 
-    public $ContentLength;
+    public $contentLength;
 
-    public $CETag;
+    public $eTag;
 
-    public $Expires;
+    public $expires;
 
-    public $xossserversideencryption;
+    public $serverSideEncryption;
 
-    public $xossserversideencryptionkeyid;
+    public $serverSideEncryptionKeyId;
 
-    public $xossobjectacl;
+    public $objectAcl;
 
-    public $xossstorageclass;
+    public $storageClass;
 
-    public $xosstagging;
+    public $tagging;
 
-    public $contenttype;
+    public $contentType;
 
 }

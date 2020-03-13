@@ -13,10 +13,10 @@ use AlibabaCloud\SDK\OSS\Models\DeleteMultipleObjectsRequest\header;
 class DeleteMultipleObjectsRequest extends Model{
     protected $_name = [];
 
-    public $BucketName;
+    public $bucketName;
 
-    public $Body;
+    public $body;
 
-    public $Header;
+    public $header;
 
 }

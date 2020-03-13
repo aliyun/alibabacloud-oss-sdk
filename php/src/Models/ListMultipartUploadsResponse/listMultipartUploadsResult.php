@@ -9,24 +9,24 @@ use AlibabaCloud\Tea\Model;
 class listMultipartUploadsResult extends Model{
     protected $_name = [];
 
-    public $Bucket;
+    public $bucket;
 
-    public $EncodingType;
+    public $encodingType;
 
-    public $KeyMarker;
+    public $keyMarker;
 
-    public $UploadIdMarker;
+    public $uploadIdMarker;
 
-    public $NextKeyMarker;
+    public $nextKeyMarker;
 
-    public $NextUploadIdMarker;
+    public $nextUploadIdMarker;
 
-    public $Delimiter;
+    public $delimiter;
 
-    public $MaxUploads;
+    public $maxUploads;
 
-    public $IsTruncated;
+    public $isTruncated;
 
-    public $Upload;
+    public $upload;
 
 }

@@ -11,12 +11,12 @@ use AlibabaCloud\SDK\OSS\Models\PostVodPlaylistRequest\filter;
 class PostVodPlaylistRequest extends Model{
     protected $_name = [];
 
-    public $BucketName;
+    public $bucketName;
 
-    public $ChannelName;
+    public $channelName;
 
-    public $PlaylistName;
+    public $playlistName;
 
-    public $Filter;
+    public $filter;
 
 }

@@ -14,8 +14,8 @@ use AlibabaCloud\SDK\OSS\Models\GetBucketWebsiteResponse\GetBucketWebsiteRespons
 class GetBucketWebsiteResponse extends Model{
     protected $_name = [];
 
-    public $xossrequestid;
+    public $requestId;
 
-    public $WebsiteConfiguration;
+    public $websiteConfiguration;
 
 }

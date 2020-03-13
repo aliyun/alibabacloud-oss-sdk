@@ -13,8 +13,8 @@ use AlibabaCloud\SDK\OSS\Models\PutLiveChannelResponse\PutLiveChannelResponse\cr
 class PutLiveChannelResponse extends Model{
     protected $_name = [];
 
-    public $xossrequestid;
+    public $requestId;
 
-    public $CreateLiveChannelResult;
+    public $createLiveChannelResult;
 
 }

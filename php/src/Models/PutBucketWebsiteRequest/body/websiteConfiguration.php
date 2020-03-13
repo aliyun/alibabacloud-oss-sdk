@@ -13,10 +13,10 @@ use AlibabaCloud\SDK\OSS\Models\websiteConfiguration\routingRules;
 class websiteConfiguration extends Model{
     protected $_name = [];
 
-    public $IndexDocument;
+    public $indexDocument;
 
-    public $ErrorDocument;
+    public $errorDocument;
 
-    public $RoutingRules;
+    public $routingRules;
 
 }

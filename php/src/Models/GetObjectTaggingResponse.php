@@ -12,8 +12,8 @@ use AlibabaCloud\SDK\OSS\Models\GetObjectTaggingResponse\GetObjectTaggingRespons
 class GetObjectTaggingResponse extends Model{
     protected $_name = [];
 
-    public $xossrequestid;
+    public $requestId;
 
-    public $Tagging;
+    public $tagging;
 
 }

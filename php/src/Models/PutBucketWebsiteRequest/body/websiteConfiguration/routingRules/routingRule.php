@@ -15,10 +15,10 @@ use AlibabaCloud\SDK\OSS\Models\routingRule\routingRule\redirect\routingRule\rou
 class routingRule extends Model{
     protected $_name = [];
 
-    public $Condition;
+    public $condition;
 
-    public $Redirect;
+    public $redirect;
 
-    public $RuleNumber;
+    public $ruleNumber;
 
 }

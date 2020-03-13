@@ -12,28 +12,28 @@ use AlibabaCloud\SDK\OSS\Models\redirect\redirect\mirrorHeaders\set;
 class redirect extends Model{
     protected $_name = [];
 
-    public $MirrorHeaders;
+    public $mirrorHeaders;
 
-    public $RedirectType;
+    public $redirectType;
 
-    public $PassQueryString;
+    public $passQueryString;
 
-    public $MirrorURL;
+    public $mirrorURL;
 
-    public $MirrorPassQueryString;
+    public $mirrorPassQueryString;
 
-    public $MirrorFollowRedirect;
+    public $mirrorFollowRedirect;
 
-    public $MirrorCheckMd5;
+    public $mirrorCheckMd5;
 
-    public $Protocol;
+    public $protocol;
 
-    public $HostName;
+    public $hostName;
 
-    public $HttpRedirectCode;
+    public $httpRedirectCode;
 
-    public $ReplaceKeyPrefixWith;
+    public $replaceKeyPrefixWith;
 
-    public $ReplaceKeyWith;
+    public $replaceKeyWith;
 
 }

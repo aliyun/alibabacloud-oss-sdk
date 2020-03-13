@@ -12,8 +12,8 @@ use AlibabaCloud\SDK\OSS\Models\GetBucketLoggingResponse\GetBucketLoggingRespons
 class GetBucketLoggingResponse extends Model{
     protected $_name = [];
 
-    public $xossrequestid;
+    public $requestId;
 
-    public $BucketLoggingStatus;
+    public $bucketLoggingStatus;
 
 }

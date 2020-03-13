@@ -13,6 +13,6 @@ class filter extends Model{
 
     public $marker;
 
-    public $maxkeys;
+    public $maxKeys;
 
 }

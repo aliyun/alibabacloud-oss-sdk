@@ -9,8 +9,8 @@ use AlibabaCloud\Tea\Model;
 class createBucketConfiguration extends Model{
     protected $_name = [];
 
-    public $StorageClass;
+    public $storageClass;
 
-    public $DataRedundancyType;
+    public $dataRedundancyType;
 
 }

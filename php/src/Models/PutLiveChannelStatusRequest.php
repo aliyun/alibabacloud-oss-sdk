@@ -11,10 +11,10 @@ use AlibabaCloud\SDK\OSS\Models\PutLiveChannelStatusRequest\filter;
 class PutLiveChannelStatusRequest extends Model{
     protected $_name = [];
 
-    public $BucketName;
+    public $bucketName;
 
-    public $ChannelName;
+    public $channelName;
 
-    public $Filter;
+    public $filter;
 
 }
