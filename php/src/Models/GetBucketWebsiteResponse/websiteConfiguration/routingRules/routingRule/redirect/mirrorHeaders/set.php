@@ -6,10 +6,11 @@ namespace AlibabaCloud\SDK\OSS\Models\GetBucketWebsiteResponse\websiteConfigurat
 
 use AlibabaCloud\Tea\Model;
 
-class set extends Model
-{
+class set extends Model{
+    protected $_name = [];
+
     public $key;
 
     public $value;
-    protected $_name = [];
+
 }

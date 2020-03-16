@@ -6,8 +6,9 @@ namespace AlibabaCloud\SDK\OSS\Models\PutBucketCORSRequest\body\cORSConfiguratio
 
 use AlibabaCloud\Tea\Model;
 
-class cORSRule extends Model
-{
+class cORSRule extends Model{
+    protected $_name = [];
+
     public $allowedOrigin;
 
     public $allowedMethod;
@@ -17,5 +18,5 @@ class cORSRule extends Model
     public $exposeHeader;
 
     public $maxAgeSeconds;
-    protected $_name = [];
+
 }

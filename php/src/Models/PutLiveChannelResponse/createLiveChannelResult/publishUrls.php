@@ -6,8 +6,9 @@ namespace AlibabaCloud\SDK\OSS\Models\PutLiveChannelResponse\createLiveChannelRe
 
 use AlibabaCloud\Tea\Model;
 
-class publishUrls extends Model
-{
-    public $url;
+class publishUrls extends Model{
     protected $_name = [];
+
+    public $url;
+
 }

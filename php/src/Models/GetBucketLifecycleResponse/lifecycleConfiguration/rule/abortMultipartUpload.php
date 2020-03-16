@@ -6,10 +6,11 @@ namespace AlibabaCloud\SDK\OSS\Models\GetBucketLifecycleResponse\lifecycleConfig
 
 use AlibabaCloud\Tea\Model;
 
-class abortMultipartUpload extends Model
-{
+class abortMultipartUpload extends Model{
+    protected $_name = [];
+
     public $days;
 
     public $createdBeforeDate;
-    protected $_name = [];
+
 }

@@ -6,12 +6,19 @@ namespace AlibabaCloud\SDK\OSS\Models\GetBucketWebsiteResponse\websiteConfigurat
 
 use AlibabaCloud\Tea\Model;
 
-class routingRule extends Model
-{
+use AlibabaCloud\SDK\OSS\Models\routingRule\condition;
+use AlibabaCloud\SDK\OSS\Models\routingRule\condition\includeHeader;
+use AlibabaCloud\SDK\OSS\Models\routingRule\redirect;
+use AlibabaCloud\SDK\OSS\Models\routingRule\redirect\mirrorHeaders;
+use AlibabaCloud\SDK\OSS\Models\routingRule\redirect\mirrorHeaders\set;
+
+class routingRule extends Model{
+    protected $_name = [];
+
     public $ruleNumber;
 
     public $condition;
 
     public $redirect;
-    protected $_name = [];
+
 }

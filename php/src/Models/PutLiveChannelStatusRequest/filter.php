@@ -6,8 +6,9 @@ namespace AlibabaCloud\SDK\OSS\Models\PutLiveChannelStatusRequest;
 
 use AlibabaCloud\Tea\Model;
 
-class filter extends Model
-{
-    public $status;
+class filter extends Model{
     protected $_name = [];
+
+    public $status;
+
 }

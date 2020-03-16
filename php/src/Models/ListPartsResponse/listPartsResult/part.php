@@ -6,8 +6,9 @@ namespace AlibabaCloud\SDK\OSS\Models\ListPartsResponse\listPartsResult;
 
 use AlibabaCloud\Tea\Model;
 
-class part extends Model
-{
+class part extends Model{
+    protected $_name = [];
+
     public $partNumber;
 
     public $lastModified;
@@ -15,5 +16,5 @@ class part extends Model
     public $eTag;
 
     public $size;
-    protected $_name = [];
+
 }

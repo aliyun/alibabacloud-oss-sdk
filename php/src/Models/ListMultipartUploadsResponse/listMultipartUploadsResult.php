@@ -6,8 +6,9 @@ namespace AlibabaCloud\SDK\OSS\Models\ListMultipartUploadsResponse;
 
 use AlibabaCloud\Tea\Model;
 
-class listMultipartUploadsResult extends Model
-{
+class listMultipartUploadsResult extends Model{
+    protected $_name = [];
+
     public $bucket;
 
     public $encodingType;
@@ -27,5 +28,5 @@ class listMultipartUploadsResult extends Model
     public $isTruncated;
 
     public $upload;
-    protected $_name = [];
+
 }

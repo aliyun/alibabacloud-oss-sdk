@@ -6,8 +6,9 @@ namespace AlibabaCloud\SDK\OSS\Models\GetLiveChannelHistoryResponse;
 
 use AlibabaCloud\Tea\Model;
 
-class liveChannelHistory extends Model
-{
-    public $liveRecord;
+class liveChannelHistory extends Model{
     protected $_name = [];
+
+    public $liveRecord;
+
 }

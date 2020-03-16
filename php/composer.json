@@ -12,10 +12,10 @@
     "require": {
         "php": ">5.5",
         "alibabacloud/credentials": "^1.1",
-        "alibabacloud/tea-fileform": "^0.1.0",
-        "alibabacloud/tea-oss-utils": "^0.1.0",
-        "alibabacloud/tea-utils": "^0.1.0",
-        "alibabacloud/tea-xml": "^0.2.0"
+        "alibabacloud/tea-fileform": "dev-master",
+        "alibabacloud/tea-oss-utils": "dev-master",
+        "alibabacloud/tea-utils": "dev-master",
+        "alibabacloud/tea-xml": "dev-master"
     },
     "require-dev": {
         "phpunit/phpunit": "^4.8.35|^5.4.3",

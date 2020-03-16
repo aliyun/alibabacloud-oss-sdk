@@ -6,8 +6,9 @@ namespace AlibabaCloud\SDK\OSS\Models\GetBucketRequest;
 
 use AlibabaCloud\Tea\Model;
 
-class filter extends Model
-{
+class filter extends Model{
+    protected $_name = [];
+
     public $delimiter;
 
     public $marker;
@@ -17,5 +18,5 @@ class filter extends Model
     public $prefix;
 
     public $encodingType;
-    protected $_name = [];
+
 }

@@ -6,8 +6,9 @@ namespace AlibabaCloud\SDK\OSS\Models\GetServiceResponse\listAllMyBucketsResult;
 
 use AlibabaCloud\Tea\Model;
 
-class buckets extends Model
-{
-    public $bucket;
+class buckets extends Model{
     protected $_name = [];
+
+    public $bucket;
+
 }

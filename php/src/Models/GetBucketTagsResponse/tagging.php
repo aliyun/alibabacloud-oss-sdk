@@ -6,8 +6,11 @@ namespace AlibabaCloud\SDK\OSS\Models\GetBucketTagsResponse;
 
 use AlibabaCloud\Tea\Model;
 
-class tagging extends Model
-{
-    public $tagSet;
+use AlibabaCloud\SDK\OSS\Models\tagging\tagSet;
+
+class tagging extends Model{
     protected $_name = [];
+
+    public $tagSet;
+
 }

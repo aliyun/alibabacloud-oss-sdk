@@ -6,8 +6,11 @@ namespace AlibabaCloud\SDK\OSS\Models;
 
 use AlibabaCloud\Tea\Model;
 
-class PostObjectResponse extends Model
-{
-    public $postResponse;
+use AlibabaCloud\SDK\OSS\Models\PostObjectResponse\postResponse;
+
+class PostObjectResponse extends Model{
     protected $_name = [];
+
+    public $postResponse;
+
 }

@@ -6,8 +6,13 @@ namespace AlibabaCloud\SDK\OSS\Models\PutLiveChannelRequest;
 
 use AlibabaCloud\Tea\Model;
 
-class body extends Model
-{
-    public $liveChannelConfiguration;
+use AlibabaCloud\SDK\OSS\Models\body\liveChannelConfiguration;
+use AlibabaCloud\SDK\OSS\Models\body\liveChannelConfiguration\target;
+use AlibabaCloud\SDK\OSS\Models\body\liveChannelConfiguration\snapshot;
+
+class body extends Model{
     protected $_name = [];
+
+    public $liveChannelConfiguration;
+
 }

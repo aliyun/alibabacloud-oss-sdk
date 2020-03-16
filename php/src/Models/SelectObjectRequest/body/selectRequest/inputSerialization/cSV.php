@@ -6,8 +6,9 @@ namespace AlibabaCloud\SDK\OSS\Models\SelectObjectRequest\body\selectRequest\inp
 
 use AlibabaCloud\Tea\Model;
 
-class cSV extends Model
-{
+class cSV extends Model{
+    protected $_name = [];
+
     public $fileHeaderInfo;
 
     public $recordDelimiter;
@@ -19,5 +20,5 @@ class cSV extends Model
     public $commentCharacter;
 
     public $range;
-    protected $_name = [];
+
 }

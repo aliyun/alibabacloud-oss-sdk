@@ -6,10 +6,14 @@ namespace AlibabaCloud\SDK\OSS\Models;
 
 use AlibabaCloud\Tea\Model;
 
-class PutBucketCORSRequest extends Model
-{
+use AlibabaCloud\SDK\OSS\Models\PutBucketCORSRequest\body;
+use AlibabaCloud\SDK\OSS\Models\PutBucketCORSRequest\body\cORSConfiguration;
+
+class PutBucketCORSRequest extends Model{
+    protected $_name = [];
+
     public $bucketName;
 
     public $body;
-    protected $_name = [];
+
 }

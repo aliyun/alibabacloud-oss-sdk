@@ -6,8 +6,9 @@ namespace AlibabaCloud\SDK\OSS\Models\ListLiveChannelResponse\listLiveChannelRes
 
 use AlibabaCloud\Tea\Model;
 
-class publishUrls extends Model
-{
-    public $url;
+class publishUrls extends Model{
     protected $_name = [];
+
+    public $url;
+
 }

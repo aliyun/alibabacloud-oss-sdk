@@ -6,12 +6,13 @@ namespace AlibabaCloud\SDK\OSS\Models\OptionObjectRequest;
 
 use AlibabaCloud\Tea\Model;
 
-class header extends Model
-{
+class header extends Model{
+    protected $_name = [];
+
     public $origin;
 
     public $accessControlRequestMethod;
 
     public $accessControlRequestHeaders;
-    protected $_name = [];
+
 }

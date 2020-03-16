@@ -6,8 +6,9 @@ namespace AlibabaCloud\SDK\OSS\Models\CopyObjectRequest;
 
 use AlibabaCloud\Tea\Model;
 
-class header extends Model
-{
+class header extends Model{
+    protected $_name = [];
+
     public $copySource;
 
     public $copySourceIfMatch;
@@ -31,5 +32,5 @@ class header extends Model
     public $tagging;
 
     public $taggingDirective;
-    protected $_name = [];
+
 }

@@ -6,8 +6,9 @@ namespace AlibabaCloud\SDK\OSS\Models\PutLiveChannelRequest\body\liveChannelConf
 
 use AlibabaCloud\Tea\Model;
 
-class target extends Model
-{
+class target extends Model{
+    protected $_name = [];
+
     public $type;
 
     public $fragDuration;
@@ -15,5 +16,5 @@ class target extends Model
     public $fragCount;
 
     public $playlistName;
-    protected $_name = [];
+
 }

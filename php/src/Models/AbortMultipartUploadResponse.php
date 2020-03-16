@@ -6,8 +6,9 @@ namespace AlibabaCloud\SDK\OSS\Models;
 
 use AlibabaCloud\Tea\Model;
 
-class AbortMultipartUploadResponse extends Model
-{
-    public $requestId;
+class AbortMultipartUploadResponse extends Model{
     protected $_name = [];
+
+    public $requestId;
+
 }

@@ -6,10 +6,14 @@ namespace AlibabaCloud\SDK\OSS\Models\GetObjectAclResponse;
 
 use AlibabaCloud\Tea\Model;
 
-class accessControlPolicy extends Model
-{
+use AlibabaCloud\SDK\OSS\Models\accessControlPolicy\owner;
+use AlibabaCloud\SDK\OSS\Models\accessControlPolicy\accessControlList;
+
+class accessControlPolicy extends Model{
+    protected $_name = [];
+
     public $owner;
 
     public $accessControlList;
-    protected $_name = [];
+
 }

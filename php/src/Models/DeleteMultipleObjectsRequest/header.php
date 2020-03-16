@@ -6,12 +6,13 @@ namespace AlibabaCloud\SDK\OSS\Models\DeleteMultipleObjectsRequest;
 
 use AlibabaCloud\Tea\Model;
 
-class header extends Model
-{
+class header extends Model{
+    protected $_name = [];
+
     public $encodingType;
 
     public $contentLength;
 
     public $contentMD5;
-    protected $_name = [];
+
 }

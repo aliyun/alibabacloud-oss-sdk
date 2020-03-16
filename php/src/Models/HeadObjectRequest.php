@@ -6,12 +6,15 @@ namespace AlibabaCloud\SDK\OSS\Models;
 
 use AlibabaCloud\Tea\Model;
 
-class HeadObjectRequest extends Model
-{
+use AlibabaCloud\SDK\OSS\Models\HeadObjectRequest\header;
+
+class HeadObjectRequest extends Model{
+    protected $_name = [];
+
     public $bucketName;
 
     public $objectName;
 
     public $header;
-    protected $_name = [];
+
 }

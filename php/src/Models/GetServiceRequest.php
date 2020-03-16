@@ -6,8 +6,11 @@ namespace AlibabaCloud\SDK\OSS\Models;
 
 use AlibabaCloud\Tea\Model;
 
-class GetServiceRequest extends Model
-{
-    public $filter;
+use AlibabaCloud\SDK\OSS\Models\GetServiceRequest\filter;
+
+class GetServiceRequest extends Model{
     protected $_name = [];
+
+    public $filter;
+
 }

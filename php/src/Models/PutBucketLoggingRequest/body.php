@@ -6,8 +6,12 @@ namespace AlibabaCloud\SDK\OSS\Models\PutBucketLoggingRequest;
 
 use AlibabaCloud\Tea\Model;
 
-class body extends Model
-{
-    public $bucketLoggingStatus;
+use AlibabaCloud\SDK\OSS\Models\body\bucketLoggingStatus;
+use AlibabaCloud\SDK\OSS\Models\body\bucketLoggingStatus\loggingEnabled;
+
+class body extends Model{
     protected $_name = [];
+
+    public $bucketLoggingStatus;
+
 }

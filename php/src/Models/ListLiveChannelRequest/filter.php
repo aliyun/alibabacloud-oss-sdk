@@ -6,12 +6,13 @@ namespace AlibabaCloud\SDK\OSS\Models\ListLiveChannelRequest;
 
 use AlibabaCloud\Tea\Model;
 
-class filter extends Model
-{
+class filter extends Model{
+    protected $_name = [];
+
     public $marker;
 
     public $maxKeys;
 
     public $prefix;
-    protected $_name = [];
+
 }

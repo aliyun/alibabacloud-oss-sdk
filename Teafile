@@ -21,7 +21,16 @@
 		"namespace": "AlibabaCloud.OSS"
 	},
 	"php": {
-		"package": "AlibabaCloud.SDK.OSS"
+		"package": "AlibabaCloud.SDK.OSS",
+		"client": {
+			"filename": "OSS",
+			"include": [
+				"AlibabaCloud\\Tea\\Tea",
+				"AlibabaCloud\\Tea\\Request",
+				"AlibabaCloud\\Tea\\Exception\\TeaError",
+				"AlibabaCloud\\Tea\\Exception\\TeaUnableRetryError"
+			]
+		}
 	},
 	"libraries": {
 		"Util": "alibabacloud:Util:*",

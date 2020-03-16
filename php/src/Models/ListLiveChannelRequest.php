@@ -6,10 +6,13 @@ namespace AlibabaCloud\SDK\OSS\Models;
 
 use AlibabaCloud\Tea\Model;
 
-class ListLiveChannelRequest extends Model
-{
+use AlibabaCloud\SDK\OSS\Models\ListLiveChannelRequest\filter;
+
+class ListLiveChannelRequest extends Model{
+    protected $_name = [];
+
     public $bucketName;
 
     public $filter;
-    protected $_name = [];
+
 }

@@ -6,10 +6,13 @@ namespace AlibabaCloud\SDK\OSS\Models\GetBucketRefererResponse;
 
 use AlibabaCloud\Tea\Model;
 
-class refererConfiguration extends Model
-{
+use AlibabaCloud\SDK\OSS\Models\refererConfiguration\refererList;
+
+class refererConfiguration extends Model{
+    protected $_name = [];
+
     public $allowEmptyReferer;
 
     public $refererList;
-    protected $_name = [];
+
 }

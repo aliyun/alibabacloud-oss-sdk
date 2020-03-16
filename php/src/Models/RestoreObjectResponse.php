@@ -6,8 +6,9 @@ namespace AlibabaCloud\SDK\OSS\Models;
 
 use AlibabaCloud\Tea\Model;
 
-class RestoreObjectResponse extends Model
-{
-    public $requestId;
+class RestoreObjectResponse extends Model{
     protected $_name = [];
+
+    public $requestId;
+
 }

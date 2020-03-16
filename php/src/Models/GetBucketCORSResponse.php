@@ -6,10 +6,13 @@ namespace AlibabaCloud\SDK\OSS\Models;
 
 use AlibabaCloud\Tea\Model;
 
-class GetBucketCORSResponse extends Model
-{
+use AlibabaCloud\SDK\OSS\Models\GetBucketCORSResponse\cORSConfiguration;
+
+class GetBucketCORSResponse extends Model{
+    protected $_name = [];
+
     public $requestId;
 
     public $cORSConfiguration;
-    protected $_name = [];
+
 }

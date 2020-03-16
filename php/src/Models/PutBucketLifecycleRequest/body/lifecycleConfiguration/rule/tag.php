@@ -6,10 +6,11 @@ namespace AlibabaCloud\SDK\OSS\Models\PutBucketLifecycleRequest\body\lifecycleCo
 
 use AlibabaCloud\Tea\Model;
 
-class tag extends Model
-{
+class tag extends Model{
+    protected $_name = [];
+
     public $key;
 
     public $value;
-    protected $_name = [];
+
 }

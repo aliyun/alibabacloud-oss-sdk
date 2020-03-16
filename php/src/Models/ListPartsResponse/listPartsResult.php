@@ -6,8 +6,9 @@ namespace AlibabaCloud\SDK\OSS\Models\ListPartsResponse;
 
 use AlibabaCloud\Tea\Model;
 
-class listPartsResult extends Model
-{
+class listPartsResult extends Model{
+    protected $_name = [];
+
     public $bucket;
 
     public $encodingType;
@@ -25,5 +26,5 @@ class listPartsResult extends Model
     public $isTruncated;
 
     public $part;
-    protected $_name = [];
+
 }
