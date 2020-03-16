@@ -6,13 +6,10 @@ namespace AlibabaCloud\SDK\OSS\Models;
 
 use AlibabaCloud\Tea\Model;
 
-use AlibabaCloud\SDK\OSS\Models\GetBucketLifecycleResponse\lifecycleConfiguration;
-
-class GetBucketLifecycleResponse extends Model{
-    protected $_name = [];
-
+class GetBucketLifecycleResponse extends Model
+{
     public $requestId;
 
     public $lifecycleConfiguration;
-
+    protected $_name = [];
 }

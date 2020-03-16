@@ -6,9 +6,8 @@ namespace AlibabaCloud\SDK\OSS\Models;
 
 use AlibabaCloud\Tea\Model;
 
-class DeleteBucketLoggingRequest extends Model{
-    protected $_name = [];
-
+class DeleteBucketLoggingRequest extends Model
+{
     public $bucketName;
-
+    protected $_name = [];
 }

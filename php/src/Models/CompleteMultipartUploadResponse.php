@@ -6,13 +6,10 @@ namespace AlibabaCloud\SDK\OSS\Models;
 
 use AlibabaCloud\Tea\Model;
 
-use AlibabaCloud\SDK\OSS\Models\CompleteMultipartUploadResponse\completeMultipartUploadResult;
-
-class CompleteMultipartUploadResponse extends Model{
-    protected $_name = [];
-
+class CompleteMultipartUploadResponse extends Model
+{
     public $requestId;
 
     public $completeMultipartUploadResult;
-
+    protected $_name = [];
 }

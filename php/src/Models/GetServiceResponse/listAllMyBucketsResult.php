@@ -6,12 +6,8 @@ namespace AlibabaCloud\SDK\OSS\Models\GetServiceResponse;
 
 use AlibabaCloud\Tea\Model;
 
-use AlibabaCloud\SDK\OSS\Models\listAllMyBucketsResult\owner;
-use AlibabaCloud\SDK\OSS\Models\listAllMyBucketsResult\buckets;
-
-class listAllMyBucketsResult extends Model{
-    protected $_name = [];
-
+class listAllMyBucketsResult extends Model
+{
     public $prefix;
 
     public $marker;
@@ -25,5 +21,5 @@ class listAllMyBucketsResult extends Model{
     public $owner;
 
     public $buckets;
-
+    protected $_name = [];
 }

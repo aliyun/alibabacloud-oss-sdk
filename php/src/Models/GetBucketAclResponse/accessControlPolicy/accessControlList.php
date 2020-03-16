@@ -6,9 +6,8 @@ namespace AlibabaCloud\SDK\OSS\Models\GetBucketAclResponse\accessControlPolicy;
 
 use AlibabaCloud\Tea\Model;
 
-class accessControlList extends Model{
-    protected $_name = [];
-
+class accessControlList extends Model
+{
     public $grant;
-
+    protected $_name = [];
 }

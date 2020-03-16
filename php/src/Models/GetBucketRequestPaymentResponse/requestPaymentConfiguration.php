@@ -6,9 +6,8 @@ namespace AlibabaCloud\SDK\OSS\Models\GetBucketRequestPaymentResponse;
 
 use AlibabaCloud\Tea\Model;
 
-class requestPaymentConfiguration extends Model{
-    protected $_name = [];
-
+class requestPaymentConfiguration extends Model
+{
     public $payer;
-
+    protected $_name = [];
 }

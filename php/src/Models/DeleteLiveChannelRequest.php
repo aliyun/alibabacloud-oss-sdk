@@ -6,11 +6,10 @@ namespace AlibabaCloud\SDK\OSS\Models;
 
 use AlibabaCloud\Tea\Model;
 
-class DeleteLiveChannelRequest extends Model{
-    protected $_name = [];
-
+class DeleteLiveChannelRequest extends Model
+{
     public $bucketName;
 
     public $channelName;
-
+    protected $_name = [];
 }

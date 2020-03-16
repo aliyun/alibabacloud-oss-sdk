@@ -6,14 +6,10 @@ namespace AlibabaCloud\SDK\OSS\Models;
 
 use AlibabaCloud\Tea\Model;
 
-use AlibabaCloud\SDK\OSS\Models\PutBucketRequestPaymentRequest\body;
-use AlibabaCloud\SDK\OSS\Models\PutBucketRequestPaymentRequest\PutBucketRequestPaymentRequest\body\requestPaymentConfiguration;
-
-class PutBucketRequestPaymentRequest extends Model{
-    protected $_name = [];
-
+class PutBucketRequestPaymentRequest extends Model
+{
     public $bucketName;
 
     public $body;
-
+    protected $_name = [];
 }

@@ -6,9 +6,8 @@ namespace AlibabaCloud\SDK\OSS\Models\PutLiveChannelRequest\body\liveChannelConf
 
 use AlibabaCloud\Tea\Model;
 
-class snapshot extends Model{
-    protected $_name = [];
-
+class snapshot extends Model
+{
     public $roleName;
 
     public $destBucket;
@@ -16,5 +15,5 @@ class snapshot extends Model{
     public $notifyTopic;
 
     public $interval;
-
+    protected $_name = [];
 }

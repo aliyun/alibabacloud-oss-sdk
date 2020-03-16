@@ -6,11 +6,8 @@ namespace AlibabaCloud\SDK\OSS\Models;
 
 use AlibabaCloud\Tea\Model;
 
-use AlibabaCloud\SDK\OSS\Models\UploadPartRequest\filter;
-
-class UploadPartRequest extends Model{
-    protected $_name = [];
-
+class UploadPartRequest extends Model
+{
     public $bucketName;
 
     public $objectName;
@@ -18,5 +15,5 @@ class UploadPartRequest extends Model{
     public $body;
 
     public $filter;
-
+    protected $_name = [];
 }

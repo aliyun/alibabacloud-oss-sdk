@@ -6,9 +6,8 @@ namespace AlibabaCloud\SDK\OSS\Models\GetBucketWebsiteResponse\websiteConfigurat
 
 use AlibabaCloud\Tea\Model;
 
-class routingRules extends Model{
-    protected $_name = [];
-
+class routingRules extends Model
+{
     public $routingRule;
-
+    protected $_name = [];
 }

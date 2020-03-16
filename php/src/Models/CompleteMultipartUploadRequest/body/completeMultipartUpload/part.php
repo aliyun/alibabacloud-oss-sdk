@@ -6,11 +6,10 @@ namespace AlibabaCloud\SDK\OSS\Models\CompleteMultipartUploadRequest\body\comple
 
 use AlibabaCloud\Tea\Model;
 
-class part extends Model{
-    protected $_name = [];
-
+class part extends Model
+{
     public $partNumber;
 
     public $eTag;
-
+    protected $_name = [];
 }

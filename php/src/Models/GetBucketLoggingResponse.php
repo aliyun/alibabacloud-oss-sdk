@@ -6,14 +6,10 @@ namespace AlibabaCloud\SDK\OSS\Models;
 
 use AlibabaCloud\Tea\Model;
 
-use AlibabaCloud\SDK\OSS\Models\GetBucketLoggingResponse\bucketLoggingStatus;
-use AlibabaCloud\SDK\OSS\Models\GetBucketLoggingResponse\GetBucketLoggingResponse\bucketLoggingStatus\loggingEnabled;
-
-class GetBucketLoggingResponse extends Model{
-    protected $_name = [];
-
+class GetBucketLoggingResponse extends Model
+{
     public $requestId;
 
     public $bucketLoggingStatus;
-
+    protected $_name = [];
 }

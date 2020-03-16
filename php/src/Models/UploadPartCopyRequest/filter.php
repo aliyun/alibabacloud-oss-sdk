@@ -6,11 +6,10 @@ namespace AlibabaCloud\SDK\OSS\Models\UploadPartCopyRequest;
 
 use AlibabaCloud\Tea\Model;
 
-class filter extends Model{
-    protected $_name = [];
-
+class filter extends Model
+{
     public $partNumber;
 
     public $uploadId;
-
+    protected $_name = [];
 }

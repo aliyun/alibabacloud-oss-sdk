@@ -6,11 +6,10 @@ namespace AlibabaCloud\SDK\OSS\Models\GetObjectAclResponse\accessControlPolicy;
 
 use AlibabaCloud\Tea\Model;
 
-class owner extends Model{
-    protected $_name = [];
-
+class owner extends Model
+{
     public $iD;
 
     public $displayName;
-
+    protected $_name = [];
 }

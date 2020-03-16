@@ -6,11 +6,8 @@ namespace AlibabaCloud\SDK\OSS\Models\GetBucketWebsiteResponse\websiteConfigurat
 
 use AlibabaCloud\Tea\Model;
 
-use AlibabaCloud\SDK\OSS\Models\mirrorHeaders\set;
-
-class mirrorHeaders extends Model{
-    protected $_name = [];
-
+class mirrorHeaders extends Model
+{
     public $passAll;
 
     public $pass;
@@ -18,5 +15,5 @@ class mirrorHeaders extends Model{
     public $remove;
 
     public $set;
-
+    protected $_name = [];
 }

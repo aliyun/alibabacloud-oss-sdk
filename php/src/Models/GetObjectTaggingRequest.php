@@ -6,11 +6,10 @@ namespace AlibabaCloud\SDK\OSS\Models;
 
 use AlibabaCloud\Tea\Model;
 
-class GetObjectTaggingRequest extends Model{
-    protected $_name = [];
-
+class GetObjectTaggingRequest extends Model
+{
     public $bucketName;
 
     public $objectName;
-
+    protected $_name = [];
 }
