@@ -6,11 +6,10 @@ namespace AlibabaCloud\SDK\OSS\Models\GetBucketWebsiteResponse\websiteConfigurat
 
 use AlibabaCloud\Tea\Model;
 
-class includeHeader extends Model{
-    protected $_name = [];
-
+class includeHeader extends Model
+{
     public $key;
 
     public $equals;
-
+    protected $_name = [];
 }

@@ -6,9 +6,8 @@ namespace AlibabaCloud\SDK\OSS\Models;
 
 use AlibabaCloud\Tea\Model;
 
-class PutBucketResponse extends Model{
-    protected $_name = [];
-
+class PutBucketResponse extends Model
+{
     public $requestId;
-
+    protected $_name = [];
 }

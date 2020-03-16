@@ -6,9 +6,8 @@ namespace AlibabaCloud\SDK\OSS\Models\AppendObjectRequest;
 
 use AlibabaCloud\Tea\Model;
 
-class header extends Model{
-    protected $_name = [];
-
+class header extends Model
+{
     public $cacheControl;
 
     public $contentDisposition;
@@ -26,5 +25,5 @@ class header extends Model{
     public $storageClass;
 
     public $contentType;
-
+    protected $_name = [];
 }

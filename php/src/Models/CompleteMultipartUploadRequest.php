@@ -6,13 +6,8 @@ namespace AlibabaCloud\SDK\OSS\Models;
 
 use AlibabaCloud\Tea\Model;
 
-use AlibabaCloud\SDK\OSS\Models\CompleteMultipartUploadRequest\filter;
-use AlibabaCloud\SDK\OSS\Models\CompleteMultipartUploadRequest\body;
-use AlibabaCloud\SDK\OSS\Models\CompleteMultipartUploadRequest\CompleteMultipartUploadRequest\body\completeMultipartUpload;
-
-class CompleteMultipartUploadRequest extends Model{
-    protected $_name = [];
-
+class CompleteMultipartUploadRequest extends Model
+{
     public $bucketName;
 
     public $objectName;
@@ -20,5 +15,5 @@ class CompleteMultipartUploadRequest extends Model{
     public $filter;
 
     public $body;
-
+    protected $_name = [];
 }

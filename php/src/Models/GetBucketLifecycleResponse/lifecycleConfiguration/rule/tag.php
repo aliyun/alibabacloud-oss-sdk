@@ -6,11 +6,10 @@ namespace AlibabaCloud\SDK\OSS\Models\GetBucketLifecycleResponse\lifecycleConfig
 
 use AlibabaCloud\Tea\Model;
 
-class tag extends Model{
-    protected $_name = [];
-
+class tag extends Model
+{
     public $key;
 
     public $value;
-
+    protected $_name = [];
 }

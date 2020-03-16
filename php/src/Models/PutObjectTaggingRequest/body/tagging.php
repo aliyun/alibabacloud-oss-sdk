@@ -6,11 +6,8 @@ namespace AlibabaCloud\SDK\OSS\Models\PutObjectTaggingRequest\body;
 
 use AlibabaCloud\Tea\Model;
 
-use AlibabaCloud\SDK\OSS\Models\tagging\tagSet;
-
-class tagging extends Model{
-    protected $_name = [];
-
+class tagging extends Model
+{
     public $tagSet;
-
+    protected $_name = [];
 }

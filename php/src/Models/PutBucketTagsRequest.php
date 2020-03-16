@@ -6,15 +6,10 @@ namespace AlibabaCloud\SDK\OSS\Models;
 
 use AlibabaCloud\Tea\Model;
 
-use AlibabaCloud\SDK\OSS\Models\PutBucketTagsRequest\body;
-use AlibabaCloud\SDK\OSS\Models\PutBucketTagsRequest\PutBucketTagsRequest\body\tagging;
-use AlibabaCloud\SDK\OSS\Models\PutBucketTagsRequest\PutBucketTagsRequest\body\PutBucketTagsRequest\PutBucketTagsRequest\body\tagging\tagSet;
-
-class PutBucketTagsRequest extends Model{
-    protected $_name = [];
-
+class PutBucketTagsRequest extends Model
+{
     public $bucketName;
 
     public $body;
-
+    protected $_name = [];
 }

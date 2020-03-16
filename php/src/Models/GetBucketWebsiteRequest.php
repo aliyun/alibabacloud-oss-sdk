@@ -6,9 +6,8 @@ namespace AlibabaCloud\SDK\OSS\Models;
 
 use AlibabaCloud\Tea\Model;
 
-class GetBucketWebsiteRequest extends Model{
-    protected $_name = [];
-
+class GetBucketWebsiteRequest extends Model
+{
     public $bucketName;
-
+    protected $_name = [];
 }

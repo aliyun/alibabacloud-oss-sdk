@@ -6,9 +6,8 @@ namespace AlibabaCloud\SDK\OSS\Models\GetServiceResponse\listAllMyBucketsResult\
 
 use AlibabaCloud\Tea\Model;
 
-class bucket extends Model{
-    protected $_name = [];
-
+class bucket extends Model
+{
     public $name;
 
     public $createDate;
@@ -20,5 +19,5 @@ class bucket extends Model{
     public $intranetEndpoint;
 
     public $storageClass;
-
+    protected $_name = [];
 }

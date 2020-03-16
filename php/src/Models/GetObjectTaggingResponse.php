@@ -6,14 +6,10 @@ namespace AlibabaCloud\SDK\OSS\Models;
 
 use AlibabaCloud\Tea\Model;
 
-use AlibabaCloud\SDK\OSS\Models\GetObjectTaggingResponse\tagging;
-use AlibabaCloud\SDK\OSS\Models\GetObjectTaggingResponse\GetObjectTaggingResponse\tagging\tagSet;
-
-class GetObjectTaggingResponse extends Model{
-    protected $_name = [];
-
+class GetObjectTaggingResponse extends Model
+{
     public $requestId;
 
     public $tagging;
-
+    protected $_name = [];
 }

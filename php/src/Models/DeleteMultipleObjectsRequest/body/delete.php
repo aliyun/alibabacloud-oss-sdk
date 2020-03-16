@@ -6,11 +6,10 @@ namespace AlibabaCloud\SDK\OSS\Models\DeleteMultipleObjectsRequest\body;
 
 use AlibabaCloud\Tea\Model;
 
-class delete extends Model{
-    protected $_name = [];
-
+class delete extends Model
+{
     public $object;
 
     public $quiet;
-
+    protected $_name = [];
 }

@@ -6,11 +6,8 @@ namespace AlibabaCloud\SDK\OSS\Models\GetBucketEncryptionResponse;
 
 use AlibabaCloud\Tea\Model;
 
-use AlibabaCloud\SDK\OSS\Models\serverSideEncryptionRule\applyServerSideEncryptionByDefault;
-
-class serverSideEncryptionRule extends Model{
-    protected $_name = [];
-
+class serverSideEncryptionRule extends Model
+{
     public $applyServerSideEncryptionByDefault;
-
+    protected $_name = [];
 }

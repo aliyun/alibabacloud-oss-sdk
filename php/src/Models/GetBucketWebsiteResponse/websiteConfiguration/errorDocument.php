@@ -6,9 +6,8 @@ namespace AlibabaCloud\SDK\OSS\Models\GetBucketWebsiteResponse\websiteConfigurat
 
 use AlibabaCloud\Tea\Model;
 
-class errorDocument extends Model{
-    protected $_name = [];
-
+class errorDocument extends Model
+{
     public $key;
-
+    protected $_name = [];
 }

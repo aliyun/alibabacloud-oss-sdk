@@ -6,11 +6,10 @@ namespace AlibabaCloud\SDK\OSS\Models\PutBucketLifecycleRequest\body\lifecycleCo
 
 use AlibabaCloud\Tea\Model;
 
-class transition extends Model{
-    protected $_name = [];
-
+class transition extends Model
+{
     public $days;
 
     public $storageClass;
-
+    protected $_name = [];
 }

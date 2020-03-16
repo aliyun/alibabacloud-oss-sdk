@@ -6,13 +6,10 @@ namespace AlibabaCloud\SDK\OSS\Models;
 
 use AlibabaCloud\Tea\Model;
 
-use AlibabaCloud\SDK\OSS\Models\DeleteBucketTagsRequest\filter;
-
-class DeleteBucketTagsRequest extends Model{
-    protected $_name = [];
-
+class DeleteBucketTagsRequest extends Model
+{
     public $bucketName;
 
     public $filter;
-
+    protected $_name = [];
 }

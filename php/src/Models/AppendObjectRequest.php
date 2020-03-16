@@ -6,12 +6,8 @@ namespace AlibabaCloud\SDK\OSS\Models;
 
 use AlibabaCloud\Tea\Model;
 
-use AlibabaCloud\SDK\OSS\Models\AppendObjectRequest\filter;
-use AlibabaCloud\SDK\OSS\Models\AppendObjectRequest\header;
-
-class AppendObjectRequest extends Model{
-    protected $_name = [];
-
+class AppendObjectRequest extends Model
+{
     public $bucketName;
 
     public $objectName;
@@ -23,5 +19,5 @@ class AppendObjectRequest extends Model{
     public $filter;
 
     public $header;
-
+    protected $_name = [];
 }

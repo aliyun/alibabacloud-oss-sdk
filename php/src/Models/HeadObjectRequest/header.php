@@ -6,9 +6,8 @@ namespace AlibabaCloud\SDK\OSS\Models\HeadObjectRequest;
 
 use AlibabaCloud\Tea\Model;
 
-class header extends Model{
-    protected $_name = [];
-
+class header extends Model
+{
     public $ifModifiedSince;
 
     public $ifUnmodifiedSince;
@@ -16,5 +15,5 @@ class header extends Model{
     public $ifMatch;
 
     public $ifNoneMatch;
-
+    protected $_name = [];
 }

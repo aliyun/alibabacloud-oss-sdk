@@ -6,13 +6,12 @@ namespace AlibabaCloud\SDK\OSS\Models;
 
 use AlibabaCloud\Tea\Model;
 
-class AppendObjectResponse extends Model{
-    protected $_name = [];
-
+class AppendObjectResponse extends Model
+{
     public $requestId;
 
     public $nextAppendPosition;
 
     public $hashCrc64ecma;
-
+    protected $_name = [];
 }

@@ -6,13 +6,10 @@ namespace AlibabaCloud\SDK\OSS\Models;
 
 use AlibabaCloud\Tea\Model;
 
-use AlibabaCloud\SDK\OSS\Models\ListPartsResponse\listPartsResult;
-
-class ListPartsResponse extends Model{
-    protected $_name = [];
-
+class ListPartsResponse extends Model
+{
     public $requestId;
 
     public $listPartsResult;
-
+    protected $_name = [];
 }

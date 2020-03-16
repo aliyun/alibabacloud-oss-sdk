@@ -6,9 +6,8 @@ namespace AlibabaCloud\SDK\OSS\Models\SelectObjectRequest;
 
 use AlibabaCloud\Tea\Model;
 
-class filter extends Model{
-    protected $_name = [];
-
+class filter extends Model
+{
     public $porcess;
-
+    protected $_name = [];
 }

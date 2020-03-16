@@ -6,11 +6,8 @@ namespace AlibabaCloud\SDK\OSS\Models\PutBucketWebsiteRequest\body\websiteConfig
 
 use AlibabaCloud\Tea\Model;
 
-use AlibabaCloud\SDK\OSS\Models\mirrorHeaders\set;
-
-class mirrorHeaders extends Model{
-    protected $_name = [];
-
+class mirrorHeaders extends Model
+{
     public $set;
 
     public $passAll;
@@ -18,5 +15,5 @@ class mirrorHeaders extends Model{
     public $pass;
 
     public $remove;
-
+    protected $_name = [];
 }
