@@ -6,8 +6,13 @@ namespace AlibabaCloud\SDK\OSS\Models\GetBucketInfoResponse;
 
 use AlibabaCloud\Tea\Model;
 
-class bucketInfo extends Model
-{
-    public $bucket;
+use AlibabaCloud\SDK\OSS\Models\bucketInfo\bucket;
+use AlibabaCloud\SDK\OSS\Models\bucketInfo\bucket\owner;
+use AlibabaCloud\SDK\OSS\Models\bucketInfo\bucket\accessControlList;
+
+class bucketInfo extends Model{
     protected $_name = [];
+
+    public $bucket;
+
 }

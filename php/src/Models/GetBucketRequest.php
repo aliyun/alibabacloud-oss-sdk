@@ -6,10 +6,13 @@ namespace AlibabaCloud\SDK\OSS\Models;
 
 use AlibabaCloud\Tea\Model;
 
-class GetBucketRequest extends Model
-{
+use AlibabaCloud\SDK\OSS\Models\GetBucketRequest\filter;
+
+class GetBucketRequest extends Model{
+    protected $_name = [];
+
     public $bucketName;
 
     public $filter;
-    protected $_name = [];
+
 }

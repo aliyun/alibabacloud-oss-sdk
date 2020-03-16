@@ -6,8 +6,9 @@ namespace AlibabaCloud\SDK\OSS\Models\InitiateMultipartUploadRequest;
 
 use AlibabaCloud\Tea\Model;
 
-class filter extends Model
-{
-    public $encodingType;
+class filter extends Model{
     protected $_name = [];
+
+    public $encodingType;
+
 }

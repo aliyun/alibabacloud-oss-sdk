@@ -6,8 +6,9 @@ namespace AlibabaCloud\SDK\OSS\Models\AppendObjectRequest;
 
 use AlibabaCloud\Tea\Model;
 
-class filter extends Model
-{
-    public $position;
+class filter extends Model{
     protected $_name = [];
+
+    public $position;
+
 }

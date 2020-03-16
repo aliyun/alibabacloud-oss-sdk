@@ -6,12 +6,15 @@ namespace AlibabaCloud\SDK\OSS\Models\PutBucketWebsiteRequest\body\websiteConfig
 
 use AlibabaCloud\Tea\Model;
 
-class condition extends Model
-{
+use AlibabaCloud\SDK\OSS\Models\condition\includeHeader;
+
+class condition extends Model{
+    protected $_name = [];
+
     public $includeHeader;
 
     public $keyPrefixEquals;
 
     public $httpErrorCodeReturnedEquals;
-    protected $_name = [];
+
 }

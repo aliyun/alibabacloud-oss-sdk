@@ -6,8 +6,12 @@ namespace AlibabaCloud\SDK\OSS\Models\PutBucketWebsiteRequest\body\websiteConfig
 
 use AlibabaCloud\Tea\Model;
 
-class redirect extends Model
-{
+use AlibabaCloud\SDK\OSS\Models\redirect\mirrorHeaders;
+use AlibabaCloud\SDK\OSS\Models\redirect\mirrorHeaders\set;
+
+class redirect extends Model{
+    protected $_name = [];
+
     public $mirrorHeaders;
 
     public $redirectType;
@@ -31,5 +35,5 @@ class redirect extends Model
     public $replaceKeyPrefixWith;
 
     public $replaceKeyWith;
-    protected $_name = [];
+
 }

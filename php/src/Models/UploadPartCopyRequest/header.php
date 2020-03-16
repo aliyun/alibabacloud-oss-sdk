@@ -6,8 +6,9 @@ namespace AlibabaCloud\SDK\OSS\Models\UploadPartCopyRequest;
 
 use AlibabaCloud\Tea\Model;
 
-class header extends Model
-{
+class header extends Model{
+    protected $_name = [];
+
     public $copySource;
 
     public $copySourceRange;
@@ -19,5 +20,5 @@ class header extends Model
     public $copySourceIfUnmodifiedSince;
 
     public $copySourceIfModifiedSince;
-    protected $_name = [];
+
 }

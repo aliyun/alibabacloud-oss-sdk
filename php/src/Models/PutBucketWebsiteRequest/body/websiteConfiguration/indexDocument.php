@@ -6,8 +6,9 @@ namespace AlibabaCloud\SDK\OSS\Models\PutBucketWebsiteRequest\body\websiteConfig
 
 use AlibabaCloud\Tea\Model;
 
-class indexDocument extends Model
-{
-    public $suffix;
+class indexDocument extends Model{
     protected $_name = [];
+
+    public $suffix;
+
 }

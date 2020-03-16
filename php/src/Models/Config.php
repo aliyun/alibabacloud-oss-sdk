@@ -6,8 +6,9 @@ namespace AlibabaCloud\SDK\OSS\Models;
 
 use AlibabaCloud\Tea\Model;
 
-class Config extends Model
-{
+class Config extends Model{
+    protected $_name = [];
+
     public $type;
 
     public $securityToken;
@@ -51,5 +52,5 @@ class Config extends Model
     public $maxIdleConns;
 
     public $addtionalHeaders;
-    protected $_name = [];
+
 }

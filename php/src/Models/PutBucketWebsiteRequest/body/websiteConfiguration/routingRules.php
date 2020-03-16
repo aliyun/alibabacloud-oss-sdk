@@ -6,8 +6,9 @@ namespace AlibabaCloud\SDK\OSS\Models\PutBucketWebsiteRequest\body\websiteConfig
 
 use AlibabaCloud\Tea\Model;
 
-class routingRules extends Model
-{
-    public $routingRule;
+class routingRules extends Model{
     protected $_name = [];
+
+    public $routingRule;
+
 }

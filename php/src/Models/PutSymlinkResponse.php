@@ -6,8 +6,9 @@ namespace AlibabaCloud\SDK\OSS\Models;
 
 use AlibabaCloud\Tea\Model;
 
-class PutSymlinkResponse extends Model
-{
-    public $requestId;
+class PutSymlinkResponse extends Model{
     protected $_name = [];
+
+    public $requestId;
+
 }

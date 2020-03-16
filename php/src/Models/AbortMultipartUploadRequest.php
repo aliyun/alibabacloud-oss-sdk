@@ -6,12 +6,15 @@ namespace AlibabaCloud\SDK\OSS\Models;
 
 use AlibabaCloud\Tea\Model;
 
-class AbortMultipartUploadRequest extends Model
-{
+use AlibabaCloud\SDK\OSS\Models\AbortMultipartUploadRequest\filter;
+
+class AbortMultipartUploadRequest extends Model{
+    protected $_name = [];
+
     public $bucketName;
 
     public $objectName;
 
     public $filter;
-    protected $_name = [];
+
 }

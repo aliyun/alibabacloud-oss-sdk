@@ -6,8 +6,9 @@ namespace AlibabaCloud\SDK\OSS\Models\GetObjectRequest;
 
 use AlibabaCloud\Tea\Model;
 
-class header extends Model
-{
+class header extends Model{
+    protected $_name = [];
+
     public $responseContentType;
 
     public $responseContentLanguage;
@@ -31,5 +32,5 @@ class header extends Model
     public $ifNoneMatch;
 
     public $acceptEncoding;
-    protected $_name = [];
+
 }

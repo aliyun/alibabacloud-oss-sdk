@@ -6,10 +6,11 @@ namespace AlibabaCloud\SDK\OSS\Models\PutBucketLifecycleRequest\body\lifecycleCo
 
 use AlibabaCloud\Tea\Model;
 
-class expiration extends Model
-{
+class expiration extends Model{
+    protected $_name = [];
+
     public $days;
 
     public $createdBeforeDate;
-    protected $_name = [];
+
 }

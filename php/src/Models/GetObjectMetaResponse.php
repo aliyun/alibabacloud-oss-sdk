@@ -6,8 +6,9 @@ namespace AlibabaCloud\SDK\OSS\Models;
 
 use AlibabaCloud\Tea\Model;
 
-class GetObjectMetaResponse extends Model
-{
+class GetObjectMetaResponse extends Model{
+    protected $_name = [];
+
     public $requestId;
 
     public $eTag;
@@ -15,5 +16,5 @@ class GetObjectMetaResponse extends Model
     public $contentLength;
 
     public $lastModified;
-    protected $_name = [];
+
 }

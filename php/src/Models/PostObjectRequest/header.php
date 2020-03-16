@@ -6,8 +6,9 @@ namespace AlibabaCloud\SDK\OSS\Models\PostObjectRequest;
 
 use AlibabaCloud\Tea\Model;
 
-class header extends Model
-{
+class header extends Model{
+    protected $_name = [];
+
     public $accessKeyId;
 
     public $policy;
@@ -21,5 +22,5 @@ class header extends Model
     public $key;
 
     public $userMeta;
-    protected $_name = [];
+
 }

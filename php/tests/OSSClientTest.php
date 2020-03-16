@@ -2,10 +2,11 @@
 
 namespace AlibabaCloud\SDK\OSS\Tests;
 
-use AlibabaCloud\SDK\OSS\Client;
+use AlibabaCloud\SDK\OSS\OSS as Client;
 use AlibabaCloud\SDK\OSS\Models\Config;
 use AlibabaCloud\SDK\OSS\Models\PutBucketLifecycleRequest;
 use AlibabaCloud\Tea\OSSUtils\OSSUtils\RuntimeOptions;
+use AlibabaCloud\Tea\Exception\TeaUnableRetryError;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -26,7 +27,7 @@ class OSSClientTest extends TestCase
         $config->securityToken    = $this->getEnv('SECURITY_TOKEN');
         $config->signatureVersion = 'V2';
 
-        $runtime->maxIdleConns = 3;
+        $runtime->maxIdleConns = 1;
 
         $client     = new Client($config);
         $bucketName = 'sdk-oss-test';
@@ -46,11 +47,8 @@ class OSSClientTest extends TestCase
         $body->lifecycleConfiguration = $configuration;
         $request->body                = $body;
 
-        $response = $client->putBucketLifecycle($request, $runtime);
-
-        $this->assertTrue(isset($response['x-oss-request-id']));
-        $this->assertTrue(isset($response['x-oss-request-id'][0]));
-        $this->assertEquals(24, \strlen($response['x-oss-request-id'][0]));
+        $this->expectException(TeaUnableRetryError::class);
+        $client->putBucketLifecycle($request, $runtime);
     }
 
     public function getEnv($name, $default = '')

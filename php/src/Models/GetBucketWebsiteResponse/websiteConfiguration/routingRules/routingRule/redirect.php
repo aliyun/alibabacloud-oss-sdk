@@ -6,8 +6,12 @@ namespace AlibabaCloud\SDK\OSS\Models\GetBucketWebsiteResponse\websiteConfigurat
 
 use AlibabaCloud\Tea\Model;
 
-class redirect extends Model
-{
+use AlibabaCloud\SDK\OSS\Models\redirect\mirrorHeaders;
+use AlibabaCloud\SDK\OSS\Models\redirect\mirrorHeaders\set;
+
+class redirect extends Model{
+    protected $_name = [];
+
     public $redirectType;
 
     public $passQueryString;
@@ -31,5 +35,5 @@ class redirect extends Model
     public $replaceKeyWith;
 
     public $mirrorHeaders;
-    protected $_name = [];
+
 }

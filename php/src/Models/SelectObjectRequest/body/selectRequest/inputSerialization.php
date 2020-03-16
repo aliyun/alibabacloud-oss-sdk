@@ -6,10 +6,13 @@ namespace AlibabaCloud\SDK\OSS\Models\SelectObjectRequest\body\selectRequest;
 
 use AlibabaCloud\Tea\Model;
 
-class inputSerialization extends Model
-{
+use AlibabaCloud\SDK\OSS\Models\inputSerialization\cSV;
+
+class inputSerialization extends Model{
+    protected $_name = [];
+
     public $cSV;
 
     public $compressionType;
-    protected $_name = [];
+
 }

@@ -6,12 +6,15 @@ namespace AlibabaCloud\SDK\OSS\Models;
 
 use AlibabaCloud\Tea\Model;
 
-class GetVodPlaylistRequest extends Model
-{
+use AlibabaCloud\SDK\OSS\Models\GetVodPlaylistRequest\filter;
+
+class GetVodPlaylistRequest extends Model{
+    protected $_name = [];
+
     public $bucketName;
 
     public $channelName;
 
     public $filter;
-    protected $_name = [];
+
 }

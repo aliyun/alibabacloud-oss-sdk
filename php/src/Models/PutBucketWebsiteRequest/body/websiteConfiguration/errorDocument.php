@@ -6,8 +6,9 @@ namespace AlibabaCloud\SDK\OSS\Models\PutBucketWebsiteRequest\body\websiteConfig
 
 use AlibabaCloud\Tea\Model;
 
-class errorDocument extends Model
-{
-    public $key;
+class errorDocument extends Model{
     protected $_name = [];
+
+    public $key;
+
 }

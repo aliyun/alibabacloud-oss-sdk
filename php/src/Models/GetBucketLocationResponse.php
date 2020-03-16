@@ -6,10 +6,11 @@ namespace AlibabaCloud\SDK\OSS\Models;
 
 use AlibabaCloud\Tea\Model;
 
-class GetBucketLocationResponse extends Model
-{
+class GetBucketLocationResponse extends Model{
+    protected $_name = [];
+
     public $requestId;
 
     public $locationConstraint;
-    protected $_name = [];
+
 }

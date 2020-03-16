@@ -6,10 +6,11 @@ namespace AlibabaCloud\SDK\OSS\Models\GetBucketLifecycleResponse\lifecycleConfig
 
 use AlibabaCloud\Tea\Model;
 
-class transition extends Model
-{
+class transition extends Model{
+    protected $_name = [];
+
     public $days;
 
     public $storageClass;
-    protected $_name = [];
+
 }

@@ -6,8 +6,9 @@ namespace AlibabaCloud\SDK\OSS\Models;
 
 use AlibabaCloud\Tea\Model;
 
-class HeadObjectResponse extends Model
-{
+class HeadObjectResponse extends Model{
+    protected $_name = [];
+
     public $requestId;
 
     public $userMeta;
@@ -47,5 +48,5 @@ class HeadObjectResponse extends Model
     public $accessControlExposeHeaders;
 
     public $taggingCount;
-    protected $_name = [];
+
 }

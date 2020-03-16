@@ -6,8 +6,9 @@ namespace AlibabaCloud\SDK\OSS\Models\ListMultipartUploadsRequest;
 
 use AlibabaCloud\Tea\Model;
 
-class filter extends Model
-{
+class filter extends Model{
+    protected $_name = [];
+
     public $delimiter;
 
     public $maxUploads;
@@ -19,5 +20,5 @@ class filter extends Model
     public $uploadIdMarker;
 
     public $encodingType;
-    protected $_name = [];
+
 }

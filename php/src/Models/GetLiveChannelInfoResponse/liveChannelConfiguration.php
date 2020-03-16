@@ -6,12 +6,15 @@ namespace AlibabaCloud\SDK\OSS\Models\GetLiveChannelInfoResponse;
 
 use AlibabaCloud\Tea\Model;
 
-class liveChannelConfiguration extends Model
-{
+use AlibabaCloud\SDK\OSS\Models\liveChannelConfiguration\target;
+
+class liveChannelConfiguration extends Model{
+    protected $_name = [];
+
     public $description;
 
     public $status;
 
     public $target;
-    protected $_name = [];
+
 }

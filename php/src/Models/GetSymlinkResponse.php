@@ -6,10 +6,11 @@ namespace AlibabaCloud\SDK\OSS\Models;
 
 use AlibabaCloud\Tea\Model;
 
-class GetSymlinkResponse extends Model
-{
+class GetSymlinkResponse extends Model{
+    protected $_name = [];
+
     public $requestId;
 
     public $symlinkTarget;
-    protected $_name = [];
+
 }

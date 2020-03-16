@@ -6,10 +6,11 @@ namespace AlibabaCloud\SDK\OSS\Models\PutBucketRequest\body;
 
 use AlibabaCloud\Tea\Model;
 
-class createBucketConfiguration extends Model
-{
+class createBucketConfiguration extends Model{
+    protected $_name = [];
+
     public $storageClass;
 
     public $dataRedundancyType;
-    protected $_name = [];
+
 }

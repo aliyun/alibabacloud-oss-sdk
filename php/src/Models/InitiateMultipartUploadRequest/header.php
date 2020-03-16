@@ -6,8 +6,9 @@ namespace AlibabaCloud\SDK\OSS\Models\InitiateMultipartUploadRequest;
 
 use AlibabaCloud\Tea\Model;
 
-class header extends Model
-{
+class header extends Model{
+    protected $_name = [];
+
     public $cacheControl;
 
     public $contentDisposition;
@@ -25,5 +26,5 @@ class header extends Model
     public $tagging;
 
     public $contentType;
-    protected $_name = [];
+
 }

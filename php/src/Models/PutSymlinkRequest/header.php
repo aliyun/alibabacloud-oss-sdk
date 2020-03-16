@@ -6,10 +6,11 @@ namespace AlibabaCloud\SDK\OSS\Models\PutSymlinkRequest;
 
 use AlibabaCloud\Tea\Model;
 
-class header extends Model
-{
+class header extends Model{
+    protected $_name = [];
+
     public $symlinkTarget;
 
     public $storageClass;
-    protected $_name = [];
+
 }

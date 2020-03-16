@@ -6,10 +6,15 @@ namespace AlibabaCloud\SDK\OSS\Models;
 
 use AlibabaCloud\Tea\Model;
 
-class GetLiveChannelStatResponse extends Model
-{
+use AlibabaCloud\SDK\OSS\Models\GetLiveChannelStatResponse\liveChannelStat;
+use AlibabaCloud\SDK\OSS\Models\GetLiveChannelStatResponse\liveChannelStat\video;
+use AlibabaCloud\SDK\OSS\Models\GetLiveChannelStatResponse\liveChannelStat\audio;
+
+class GetLiveChannelStatResponse extends Model{
+    protected $_name = [];
+
     public $requestId;
 
     public $liveChannelStat;
-    protected $_name = [];
+
 }

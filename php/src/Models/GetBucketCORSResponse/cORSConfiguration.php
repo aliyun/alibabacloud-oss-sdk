@@ -6,8 +6,9 @@ namespace AlibabaCloud\SDK\OSS\Models\GetBucketCORSResponse;
 
 use AlibabaCloud\Tea\Model;
 
-class cORSConfiguration extends Model
-{
-    public $cORSRule;
+class cORSConfiguration extends Model{
     protected $_name = [];
+
+    public $cORSRule;
+
 }

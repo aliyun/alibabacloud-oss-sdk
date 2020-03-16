@@ -6,12 +6,13 @@ namespace AlibabaCloud\SDK\OSS\Models\DeleteMultipleObjectsResponse;
 
 use AlibabaCloud\Tea\Model;
 
-class deleteResult extends Model
-{
+class deleteResult extends Model{
+    protected $_name = [];
+
     public $quiet;
 
     public $encodingType;
 
     public $deleted;
-    protected $_name = [];
+
 }

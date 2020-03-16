@@ -6,8 +6,13 @@ namespace AlibabaCloud\SDK\OSS\Models\ListLiveChannelResponse;
 
 use AlibabaCloud\Tea\Model;
 
-class listLiveChannelResult extends Model
-{
+use AlibabaCloud\SDK\OSS\Models\listLiveChannelResult\liveChannel;
+use AlibabaCloud\SDK\OSS\Models\listLiveChannelResult\liveChannel\publishUrls;
+use AlibabaCloud\SDK\OSS\Models\listLiveChannelResult\liveChannel\playUrls;
+
+class listLiveChannelResult extends Model{
+    protected $_name = [];
+
     public $prefix;
 
     public $marker;
@@ -19,5 +24,5 @@ class listLiveChannelResult extends Model
     public $nextMarker;
 
     public $liveChannel;
-    protected $_name = [];
+
 }
