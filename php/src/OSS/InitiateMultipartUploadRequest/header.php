@@ -1,0 +1,30 @@
+<?php
+
+// This file is auto-generated, don't edit it. Thanks.
+
+namespace AlibabaCloud\SDK\OSS\OSS\InitiateMultipartUploadRequest;
+
+use AlibabaCloud\Tea\Model;
+
+class header extends Model{
+    protected $_name = [];
+
+    public $cacheControl;
+
+    public $contentDisposition;
+
+    public $contentEncoding;
+
+    public $expires;
+
+    public $serverSideEncryption;
+
+    public $serverSideEncryptionKeyId;
+
+    public $storageClass;
+
+    public $tagging;
+
+    public $contentType;
+
+}
