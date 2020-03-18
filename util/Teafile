@@ -1,13 +1,14 @@
 {
 	"scope": "alibabacloud",
 	"name": "OSSUtil",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"main": "./util.tea",
 	"releases": {
 		"go": "github.com/aliyun/alibabacloud-oss-sdk/util/golang/service:v0.0.1",
 		"csharp": "AlibabaCloud.OSSUtil:0.0.1",
 		"ts": "@alicloud/oss-util:0.0.1",
-		"java": "com.aliyun:oss-util:0.0.2"
+		"java": "com.aliyun:oss-util:0.0.2",
+		"php": "alibabacloud/tea-oss-utils:^0.2.0"
 	},
 	"go": {
 		"package": [
@@ -21,6 +22,7 @@
 		"package": "com.aliyun.ossutil"
 	},
 	"php": {
-		"package": "AlibabaCloud.Tea.OSSUtils"
+		"package": "AlibabaCloud.Tea.OSSUtils",
+		"clientName": "OSSUtils"
 	}
 }
