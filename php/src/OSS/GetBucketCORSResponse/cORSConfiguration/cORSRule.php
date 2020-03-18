@@ -6,9 +6,8 @@ namespace AlibabaCloud\SDK\OSS\OSS\GetBucketCORSResponse\cORSConfiguration;
 
 use AlibabaCloud\Tea\Model;
 
-class cORSRule extends Model{
-    protected $_name = [];
-
+class cORSRule extends Model
+{
     public $maxAgeSeconds;
-
+    protected $_name = [];
 }

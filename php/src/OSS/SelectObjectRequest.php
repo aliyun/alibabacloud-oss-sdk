@@ -6,18 +6,8 @@ namespace AlibabaCloud\SDK\OSS\OSS;
 
 use AlibabaCloud\Tea\Model;
 
-use AlibabaCloud\SDK\OSS\OSS\SelectObjectRequest\filter;
-use AlibabaCloud\SDK\OSS\OSS\SelectObjectRequest\body;
-use AlibabaCloud\SDK\OSS\OSS\SelectObjectRequest\body\selectRequest;
-use AlibabaCloud\SDK\OSS\OSS\SelectObjectRequest\body\selectRequest\inputSerialization;
-use AlibabaCloud\SDK\OSS\OSS\SelectObjectRequest\body\selectRequest\inputSerialization\cSV;
-use AlibabaCloud\SDK\OSS\OSS\SelectObjectRequest\body\selectRequest\outputSerialization;
-use AlibabaCloud\SDK\OSS\OSS\SelectObjectRequest\body\selectRequest\outputSerialization\cSV;
-use AlibabaCloud\SDK\OSS\OSS\SelectObjectRequest\body\selectRequest\options;
-
-class SelectObjectRequest extends Model{
-    protected $_name = [];
-
+class SelectObjectRequest extends Model
+{
     public $bucketName;
 
     public $objectName;
@@ -25,5 +15,5 @@ class SelectObjectRequest extends Model{
     public $filter;
 
     public $body;
-
+    protected $_name = [];
 }

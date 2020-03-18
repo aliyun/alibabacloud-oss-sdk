@@ -6,11 +6,10 @@ namespace AlibabaCloud\SDK\OSS\OSS\PutBucketWebsiteRequest\body\websiteConfigura
 
 use AlibabaCloud\Tea\Model;
 
-class set extends Model{
-    protected $_name = [];
-
+class set extends Model
+{
     public $key;
 
     public $value;
-
+    protected $_name = [];
 }

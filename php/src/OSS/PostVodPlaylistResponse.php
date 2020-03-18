@@ -6,9 +6,8 @@ namespace AlibabaCloud\SDK\OSS\OSS;
 
 use AlibabaCloud\Tea\Model;
 
-class PostVodPlaylistResponse extends Model{
-    protected $_name = [];
-
+class PostVodPlaylistResponse extends Model
+{
     public $requestId;
-
+    protected $_name = [];
 }

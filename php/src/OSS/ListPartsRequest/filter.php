@@ -6,9 +6,8 @@ namespace AlibabaCloud\SDK\OSS\OSS\ListPartsRequest;
 
 use AlibabaCloud\Tea\Model;
 
-class filter extends Model{
-    protected $_name = [];
-
+class filter extends Model
+{
     public $uploadId;
 
     public $maxParts;
@@ -16,5 +15,5 @@ class filter extends Model{
     public $partNumberMarker;
 
     public $encodingType;
-
+    protected $_name = [];
 }

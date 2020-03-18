@@ -6,15 +6,12 @@ namespace AlibabaCloud\SDK\OSS\OSS;
 
 use AlibabaCloud\Tea\Model;
 
-use AlibabaCloud\SDK\OSS\OSS\PutObjectAclRequest\header;
-
-class PutObjectAclRequest extends Model{
-    protected $_name = [];
-
+class PutObjectAclRequest extends Model
+{
     public $bucketName;
 
     public $objectName;
 
     public $header;
-
+    protected $_name = [];
 }

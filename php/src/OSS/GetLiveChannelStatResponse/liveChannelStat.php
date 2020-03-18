@@ -6,12 +6,8 @@ namespace AlibabaCloud\SDK\OSS\OSS\GetLiveChannelStatResponse;
 
 use AlibabaCloud\Tea\Model;
 
-use AlibabaCloud\SDK\OSS\OSS\liveChannelStat\video;
-use AlibabaCloud\SDK\OSS\OSS\liveChannelStat\audio;
-
-class liveChannelStat extends Model{
-    protected $_name = [];
-
+class liveChannelStat extends Model
+{
     public $status;
 
     public $connectedTime;
@@ -21,5 +17,5 @@ class liveChannelStat extends Model{
     public $video;
 
     public $audio;
-
+    protected $_name = [];
 }

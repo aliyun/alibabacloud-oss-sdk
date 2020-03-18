@@ -6,11 +6,8 @@ namespace AlibabaCloud\SDK\OSS\OSS\SelectObjectRequest\body\selectRequest;
 
 use AlibabaCloud\Tea\Model;
 
-use AlibabaCloud\SDK\OSS\OSS\outputSerialization\cSV;
-
-class outputSerialization extends Model{
-    protected $_name = [];
-
+class outputSerialization extends Model
+{
     public $cSV;
 
     public $keepAllColumns;
@@ -20,5 +17,5 @@ class outputSerialization extends Model{
     public $enablePayloadCrc;
 
     public $outputHeader;
-
+    protected $_name = [];
 }

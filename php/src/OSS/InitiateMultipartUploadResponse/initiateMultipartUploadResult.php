@@ -6,13 +6,12 @@ namespace AlibabaCloud\SDK\OSS\OSS\InitiateMultipartUploadResponse;
 
 use AlibabaCloud\Tea\Model;
 
-class initiateMultipartUploadResult extends Model{
-    protected $_name = [];
-
+class initiateMultipartUploadResult extends Model
+{
     public $bucket;
 
     public $key;
 
     public $uploadId;
-
+    protected $_name = [];
 }

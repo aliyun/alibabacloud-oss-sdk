@@ -6,15 +6,12 @@ namespace AlibabaCloud\SDK\OSS\OSS;
 
 use AlibabaCloud\Tea\Model;
 
-use AlibabaCloud\SDK\OSS\OSS\CopyObjectRequest\header;
-
-class CopyObjectRequest extends Model{
-    protected $_name = [];
-
+class CopyObjectRequest extends Model
+{
     public $bucketName;
 
     public $destObjectName;
 
     public $header;
-
+    protected $_name = [];
 }

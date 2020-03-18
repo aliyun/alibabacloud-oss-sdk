@@ -6,9 +6,8 @@ namespace AlibabaCloud\SDK\OSS\OSS;
 
 use AlibabaCloud\Tea\Model;
 
-class PutLiveChannelStatusResponse extends Model{
-    protected $_name = [];
-
+class PutLiveChannelStatusResponse extends Model
+{
     public $requestId;
-
+    protected $_name = [];
 }

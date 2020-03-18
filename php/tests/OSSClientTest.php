@@ -3,10 +3,10 @@
 namespace AlibabaCloud\SDK\OSS\Tests;
 
 use AlibabaCloud\SDK\OSS\OSS as Client;
-use AlibabaCloud\SDK\OSS\Models\Config;
-use AlibabaCloud\SDK\OSS\Models\PutBucketLifecycleRequest;
-use AlibabaCloud\Tea\OSSUtils\OSSUtils\RuntimeOptions;
+use AlibabaCloud\SDK\OSS\OSS\Config;
+use AlibabaCloud\SDK\OSS\OSS\PutBucketLifecycleRequest;
 use AlibabaCloud\Tea\Exception\TeaUnableRetryError;
+use AlibabaCloud\Tea\OSSUtils\OSSUtils\RuntimeOptions;
 use PHPUnit\Framework\TestCase;
 
 /**

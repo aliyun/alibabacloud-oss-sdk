@@ -6,17 +6,12 @@ namespace AlibabaCloud\SDK\OSS\OSS;
 
 use AlibabaCloud\Tea\Model;
 
-use AlibabaCloud\SDK\OSS\OSS\DeleteMultipleObjectsRequest\body;
-use AlibabaCloud\SDK\OSS\OSS\DeleteMultipleObjectsRequest\body\delete;
-use AlibabaCloud\SDK\OSS\OSS\DeleteMultipleObjectsRequest\header;
-
-class DeleteMultipleObjectsRequest extends Model{
-    protected $_name = [];
-
+class DeleteMultipleObjectsRequest extends Model
+{
     public $bucketName;
 
     public $body;
 
     public $header;
-
+    protected $_name = [];
 }

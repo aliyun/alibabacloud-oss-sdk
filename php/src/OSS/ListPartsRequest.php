@@ -6,15 +6,12 @@ namespace AlibabaCloud\SDK\OSS\OSS;
 
 use AlibabaCloud\Tea\Model;
 
-use AlibabaCloud\SDK\OSS\OSS\ListPartsRequest\filter;
-
-class ListPartsRequest extends Model{
-    protected $_name = [];
-
+class ListPartsRequest extends Model
+{
     public $bucketName;
 
     public $objectName;
 
     public $filter;
-
+    protected $_name = [];
 }

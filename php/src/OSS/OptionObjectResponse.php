@@ -6,9 +6,8 @@ namespace AlibabaCloud\SDK\OSS\OSS;
 
 use AlibabaCloud\Tea\Model;
 
-class OptionObjectResponse extends Model{
-    protected $_name = [];
-
+class OptionObjectResponse extends Model
+{
     public $requestId;
 
     public $accessControlAllowOrigin;
@@ -20,5 +19,5 @@ class OptionObjectResponse extends Model{
     public $accessControlExposeHeaders;
 
     public $accessControlMaxAge;
-
+    protected $_name = [];
 }

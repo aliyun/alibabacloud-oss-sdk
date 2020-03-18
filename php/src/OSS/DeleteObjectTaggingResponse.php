@@ -6,9 +6,8 @@ namespace AlibabaCloud\SDK\OSS\OSS;
 
 use AlibabaCloud\Tea\Model;
 
-class DeleteObjectTaggingResponse extends Model{
-    protected $_name = [];
-
+class DeleteObjectTaggingResponse extends Model
+{
     public $requestId;
-
+    protected $_name = [];
 }

@@ -6,11 +6,10 @@ namespace AlibabaCloud\SDK\OSS\OSS\SelectObjectRequest\body\selectRequest\output
 
 use AlibabaCloud\Tea\Model;
 
-class cSV extends Model{
-    protected $_name = [];
-
+class cSV extends Model
+{
     public $recordDelimiter;
 
     public $fieldDelimiter;
-
+    protected $_name = [];
 }
