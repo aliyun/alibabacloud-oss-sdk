@@ -1,7 +1,7 @@
 {
 	"scope": "alibabacloud",
 	"name": "OSS",
-	"version": "1.0.6",
+	"version": "1.0.7",
 	"main": "./oss.tea",
 	"go": {
 		"package": [
@@ -12,7 +12,8 @@
 		"go": "github.com/aliyun/alibabacloud-oss-sdk/golang/client:v1.1.1",
 		"java": "com.aliyun:oss-client:2.0.0",
 		"csharp": "AlibabaCloud.SDK.OSS.Client:1.0.1",
-		"ts": "@alicloud/oss-client:^1.1.2"
+		"ts": "@alicloud/oss-client:^1.1.2",
+		"php": "alibabacloud/tea-oss-sdk:^0.1.0"
 	},
 	"java": {
 		"package": "com.aliyun.oss"
@@ -22,15 +23,7 @@
 	},
 	"php": {
 		"package": "AlibabaCloud.SDK.OSS",
-		"client": {
-			"filename": "OSS",
-			"include": [
-				"AlibabaCloud\\Tea\\Tea",
-				"AlibabaCloud\\Tea\\Request",
-				"AlibabaCloud\\Tea\\Exception\\TeaError",
-				"AlibabaCloud\\Tea\\Exception\\TeaUnableRetryError"
-			]
-		}
+		"clientName": "OSS"
 	},
 	"libraries": {
 		"Util": "alibabacloud:Util:*",
