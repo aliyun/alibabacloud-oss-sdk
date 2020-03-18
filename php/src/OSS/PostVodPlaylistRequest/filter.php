@@ -6,11 +6,10 @@ namespace AlibabaCloud\SDK\OSS\OSS\PostVodPlaylistRequest;
 
 use AlibabaCloud\Tea\Model;
 
-class filter extends Model{
-    protected $_name = [];
-
+class filter extends Model
+{
     public $endTime;
 
     public $startTime;
-
+    protected $_name = [];
 }

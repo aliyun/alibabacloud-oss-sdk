@@ -6,12 +6,8 @@ namespace AlibabaCloud\SDK\OSS\OSS;
 
 use AlibabaCloud\Tea\Model;
 
-use AlibabaCloud\SDK\OSS\OSS\UploadPartCopyRequest\filter;
-use AlibabaCloud\SDK\OSS\OSS\UploadPartCopyRequest\header;
-
-class UploadPartCopyRequest extends Model{
-    protected $_name = [];
-
+class UploadPartCopyRequest extends Model
+{
     public $bucketName;
 
     public $objectName;
@@ -19,5 +15,5 @@ class UploadPartCopyRequest extends Model{
     public $filter;
 
     public $header;
-
+    protected $_name = [];
 }

@@ -6,13 +6,12 @@ namespace AlibabaCloud\SDK\OSS\OSS\GetLiveChannelStatResponse\liveChannelStat;
 
 use AlibabaCloud\Tea\Model;
 
-class audio extends Model{
-    protected $_name = [];
-
+class audio extends Model
+{
     public $bandwidth;
 
     public $sampleRate;
 
     public $codec;
-
+    protected $_name = [];
 }

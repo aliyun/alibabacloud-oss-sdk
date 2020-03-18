@@ -6,9 +6,8 @@ namespace AlibabaCloud\SDK\OSS\OSS\GetBucketResponse;
 
 use AlibabaCloud\Tea\Model;
 
-class listBucketResult extends Model{
-    protected $_name = [];
-
+class listBucketResult extends Model
+{
     public $name;
 
     public $prefix;
@@ -26,5 +25,5 @@ class listBucketResult extends Model{
     public $commonPrefixes;
 
     public $contents;
-
+    protected $_name = [];
 }

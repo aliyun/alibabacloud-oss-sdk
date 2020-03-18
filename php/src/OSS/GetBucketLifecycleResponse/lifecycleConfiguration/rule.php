@@ -6,14 +6,8 @@ namespace AlibabaCloud\SDK\OSS\OSS\GetBucketLifecycleResponse\lifecycleConfigura
 
 use AlibabaCloud\Tea\Model;
 
-use AlibabaCloud\SDK\OSS\OSS\rule\expiration;
-use AlibabaCloud\SDK\OSS\OSS\rule\transition;
-use AlibabaCloud\SDK\OSS\OSS\rule\abortMultipartUpload;
-use AlibabaCloud\SDK\OSS\OSS\rule\tag;
-
-class rule extends Model{
-    protected $_name = [];
-
+class rule extends Model
+{
     public $iD;
 
     public $prefix;
@@ -27,5 +21,5 @@ class rule extends Model{
     public $abortMultipartUpload;
 
     public $tag;
-
+    protected $_name = [];
 }

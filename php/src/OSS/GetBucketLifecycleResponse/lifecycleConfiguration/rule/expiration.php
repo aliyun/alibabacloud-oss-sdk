@@ -6,11 +6,10 @@ namespace AlibabaCloud\SDK\OSS\OSS\GetBucketLifecycleResponse\lifecycleConfigura
 
 use AlibabaCloud\Tea\Model;
 
-class expiration extends Model{
-    protected $_name = [];
-
+class expiration extends Model
+{
     public $days;
 
     public $createdBeforeDate;
-
+    protected $_name = [];
 }

@@ -6,13 +6,10 @@ namespace AlibabaCloud\SDK\OSS\OSS;
 
 use AlibabaCloud\Tea\Model;
 
-use AlibabaCloud\SDK\OSS\OSS\PostObjectRequest\header;
-
-class PostObjectRequest extends Model{
-    protected $_name = [];
-
+class PostObjectRequest extends Model
+{
     public $bucketName;
 
     public $header;
-
+    protected $_name = [];
 }

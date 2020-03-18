@@ -6,11 +6,10 @@ namespace AlibabaCloud\SDK\OSS\OSS\SelectObjectRequest\body\selectRequest;
 
 use AlibabaCloud\Tea\Model;
 
-class options extends Model{
-    protected $_name = [];
-
+class options extends Model
+{
     public $skipPartialDataRecord;
 
     public $maxSkippedRecordsAllowed;
-
+    protected $_name = [];
 }

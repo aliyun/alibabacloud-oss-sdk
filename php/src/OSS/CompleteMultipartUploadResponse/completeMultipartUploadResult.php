@@ -6,9 +6,8 @@ namespace AlibabaCloud\SDK\OSS\OSS\CompleteMultipartUploadResponse;
 
 use AlibabaCloud\Tea\Model;
 
-class completeMultipartUploadResult extends Model{
-    protected $_name = [];
-
+class completeMultipartUploadResult extends Model
+{
     public $bucket;
 
     public $eTag;
@@ -18,5 +17,5 @@ class completeMultipartUploadResult extends Model{
     public $key;
 
     public $encodingType;
-
+    protected $_name = [];
 }

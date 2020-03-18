@@ -6,14 +6,8 @@ namespace AlibabaCloud\SDK\OSS\OSS\PutBucketLifecycleRequest\body\lifecycleConfi
 
 use AlibabaCloud\Tea\Model;
 
-use AlibabaCloud\SDK\OSS\OSS\rule\expiration;
-use AlibabaCloud\SDK\OSS\OSS\rule\transition;
-use AlibabaCloud\SDK\OSS\OSS\rule\abortMultipartUpload;
-use AlibabaCloud\SDK\OSS\OSS\rule\tag;
-
-class rule extends Model{
-    protected $_name = [];
-
+class rule extends Model
+{
     public $expiration;
 
     public $transition;
@@ -27,5 +21,5 @@ class rule extends Model{
     public $prefix;
 
     public $status;
-
+    protected $_name = [];
 }

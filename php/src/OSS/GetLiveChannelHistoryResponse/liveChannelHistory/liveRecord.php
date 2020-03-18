@@ -6,13 +6,12 @@ namespace AlibabaCloud\SDK\OSS\OSS\GetLiveChannelHistoryResponse\liveChannelHist
 
 use AlibabaCloud\Tea\Model;
 
-class liveRecord extends Model{
-    protected $_name = [];
-
+class liveRecord extends Model
+{
     public $startTime;
 
     public $endTime;
 
     public $remoteAddr;
-
+    protected $_name = [];
 }

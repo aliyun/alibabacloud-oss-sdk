@@ -6,11 +6,10 @@ namespace AlibabaCloud\SDK\OSS\OSS;
 
 use AlibabaCloud\Tea\Model;
 
-class RestoreObjectRequest extends Model{
-    protected $_name = [];
-
+class RestoreObjectRequest extends Model
+{
     public $bucketName;
 
     public $objectName;
-
+    protected $_name = [];
 }

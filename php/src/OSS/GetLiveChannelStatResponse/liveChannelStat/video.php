@@ -6,9 +6,8 @@ namespace AlibabaCloud\SDK\OSS\OSS\GetLiveChannelStatResponse\liveChannelStat;
 
 use AlibabaCloud\Tea\Model;
 
-class video extends Model{
-    protected $_name = [];
-
+class video extends Model
+{
     public $width;
 
     public $height;
@@ -18,5 +17,5 @@ class video extends Model{
     public $bandwidth;
 
     public $codec;
-
+    protected $_name = [];
 }

@@ -6,11 +6,10 @@ namespace AlibabaCloud\SDK\OSS\OSS\PutBucketEncryptionRequest\body\serverSideEnc
 
 use AlibabaCloud\Tea\Model;
 
-class applyServerSideEncryptionByDefault extends Model{
-    protected $_name = [];
-
+class applyServerSideEncryptionByDefault extends Model
+{
     public $sSEAlgorithm;
 
     public $kMSMasterKeyID;
-
+    protected $_name = [];
 }

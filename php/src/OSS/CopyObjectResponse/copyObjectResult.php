@@ -6,11 +6,10 @@ namespace AlibabaCloud\SDK\OSS\OSS\CopyObjectResponse;
 
 use AlibabaCloud\Tea\Model;
 
-class copyObjectResult extends Model{
-    protected $_name = [];
-
+class copyObjectResult extends Model
+{
     public $lastModified;
 
     public $eTag;
-
+    protected $_name = [];
 }

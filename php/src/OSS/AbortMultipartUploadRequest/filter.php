@@ -6,9 +6,8 @@ namespace AlibabaCloud\SDK\OSS\OSS\AbortMultipartUploadRequest;
 
 use AlibabaCloud\Tea\Model;
 
-class filter extends Model{
-    protected $_name = [];
-
+class filter extends Model
+{
     public $uploadId;
-
+    protected $_name = [];
 }

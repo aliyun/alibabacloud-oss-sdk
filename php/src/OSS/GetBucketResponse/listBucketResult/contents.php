@@ -6,11 +6,8 @@ namespace AlibabaCloud\SDK\OSS\OSS\GetBucketResponse\listBucketResult;
 
 use AlibabaCloud\Tea\Model;
 
-use AlibabaCloud\SDK\OSS\OSS\contents\owner;
-
-class contents extends Model{
-    protected $_name = [];
-
+class contents extends Model
+{
     public $key;
 
     public $eTag;
@@ -22,5 +19,5 @@ class contents extends Model{
     public $storageClass;
 
     public $owner;
-
+    protected $_name = [];
 }

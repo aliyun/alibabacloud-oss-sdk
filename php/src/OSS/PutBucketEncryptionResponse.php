@@ -6,9 +6,8 @@ namespace AlibabaCloud\SDK\OSS\OSS;
 
 use AlibabaCloud\Tea\Model;
 
-class PutBucketEncryptionResponse extends Model{
-    protected $_name = [];
-
+class PutBucketEncryptionResponse extends Model
+{
     public $requestId;
-
+    protected $_name = [];
 }
