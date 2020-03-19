@@ -330,12 +330,14 @@ class OSS
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'POST';
                 $_request->pathname = '/?delete';
-                $_request->headers  = [
-                    'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
-                    'date'       => Utils::getDateUTCString(),
-                    'user-agent' => $this->getUserAgent(),
-                    Utils::stringifyMapValue($request->header),
-                ];
+                $_request->headers  = array_merge(
+                    [
+                        'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
+                        'date'       => Utils::getDateUTCString(),
+                        'user-agent' => $this->getUserAgent(),
+                    ],
+                    Utils::stringifyMapValue($request->header)
+                );
                 if (!Utils::_empty($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
@@ -1415,12 +1417,14 @@ class OSS
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'PUT';
                 $_request->pathname = '/';
-                $_request->headers  = [
-                    'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
-                    'date'       => Utils::getDateUTCString(),
-                    'user-agent' => $this->getUserAgent(),
-                    Utils::stringifyMapValue($request->header),
-                ];
+                $_request->headers  = array_merge(
+                    [
+                        'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
+                        'date'       => Utils::getDateUTCString(),
+                        'user-agent' => $this->getUserAgent(),
+                    ],
+                    Utils::stringifyMapValue($request->header)
+                );
                 if (!Utils::_empty($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
@@ -3331,13 +3335,15 @@ class OSS
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'POST';
                 $_request->pathname = '/' . $request->objectName . '?append';
-                $_request->headers  = [
-                    'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
-                    'date'       => Utils::getDateUTCString(),
-                    'user-agent' => $this->getUserAgent(),
+                $_request->headers  = array_merge(
+                    [
+                        'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
+                        'date'       => Utils::getDateUTCString(),
+                        'user-agent' => $this->getUserAgent(),
+                    ],
                     Utils::stringifyMapValue($request->header),
-                    OSSUtils::parseMeta($request->userMeta, 'x-oss-meta-'),
-                ];
+                    OSSUtils::parseMeta($request->userMeta, 'x-oss-meta-')
+                );
                 if (!Utils::_empty($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
@@ -3444,12 +3450,14 @@ class OSS
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'PUT';
                 $_request->pathname = '/' . $request->objectName . '';
-                $_request->headers  = [
-                    'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
-                    'date'       => Utils::getDateUTCString(),
-                    'user-agent' => $this->getUserAgent(),
-                    Utils::stringifyMapValue($request->header),
-                ];
+                $_request->headers  = array_merge(
+                    [
+                        'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
+                        'date'       => Utils::getDateUTCString(),
+                        'user-agent' => $this->getUserAgent(),
+                    ],
+                    Utils::stringifyMapValue($request->header)
+                );
                 if (!Utils::_empty($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
@@ -3712,12 +3720,14 @@ class OSS
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'GET';
                 $_request->pathname = '/' . $request->objectName . '';
-                $_request->headers  = [
-                    'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
-                    'date'       => Utils::getDateUTCString(),
-                    'user-agent' => $this->getUserAgent(),
-                    Utils::stringifyMapValue($request->header),
-                ];
+                $_request->headers  = array_merge(
+                    [
+                        'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
+                        'date'       => Utils::getDateUTCString(),
+                        'user-agent' => $this->getUserAgent(),
+                    ],
+                    Utils::stringifyMapValue($request->header)
+                );
                 if (!Utils::_empty($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
@@ -4004,12 +4014,14 @@ class OSS
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'PUT';
                 $_request->pathname = '/' . $request->destObjectName . '';
-                $_request->headers  = [
-                    'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
-                    'date'       => Utils::getDateUTCString(),
-                    'user-agent' => $this->getUserAgent(),
-                    Utils::stringifyMapValue($request->header),
-                ];
+                $_request->headers  = array_merge(
+                    [
+                        'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
+                        'date'       => Utils::getDateUTCString(),
+                        'user-agent' => $this->getUserAgent(),
+                    ],
+                    Utils::stringifyMapValue($request->header)
+                );
                 if (!Utils::_empty($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
@@ -4629,12 +4641,14 @@ class OSS
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'PUT';
                 $_request->pathname = '/' . $request->objectName . '?symlink';
-                $_request->headers  = [
-                    'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
-                    'date'       => Utils::getDateUTCString(),
-                    'user-agent' => $this->getUserAgent(),
-                    Utils::stringifyMapValue($request->header),
-                ];
+                $_request->headers  = array_merge(
+                    [
+                        'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
+                        'date'       => Utils::getDateUTCString(),
+                        'user-agent' => $this->getUserAgent(),
+                    ],
+                    Utils::stringifyMapValue($request->header)
+                );
                 if (!Utils::_empty($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
@@ -4988,12 +5002,14 @@ class OSS
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'PUT';
                 $_request->pathname = '/' . $request->objectName . '?acl';
-                $_request->headers  = [
-                    'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
-                    'date'       => Utils::getDateUTCString(),
-                    'user-agent' => $this->getUserAgent(),
-                    Utils::stringifyMapValue($request->header),
-                ];
+                $_request->headers  = array_merge(
+                    [
+                        'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
+                        'date'       => Utils::getDateUTCString(),
+                        'user-agent' => $this->getUserAgent(),
+                    ],
+                    Utils::stringifyMapValue($request->header)
+                );
                 if (!Utils::_empty($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
@@ -5255,12 +5271,14 @@ class OSS
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'POST';
                 $_request->pathname = '/' . $request->objectName . '?uploads';
-                $_request->headers  = [
-                    'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
-                    'date'       => Utils::getDateUTCString(),
-                    'user-agent' => $this->getUserAgent(),
-                    Utils::stringifyMapValue($request->header),
-                ];
+                $_request->headers  = array_merge(
+                    [
+                        'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
+                        'date'       => Utils::getDateUTCString(),
+                        'user-agent' => $this->getUserAgent(),
+                    ],
+                    Utils::stringifyMapValue($request->header)
+                );
                 if (!Utils::_empty($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
@@ -5355,12 +5373,14 @@ class OSS
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'OPTIONS';
                 $_request->pathname = '/' . $request->objectName . '';
-                $_request->headers  = [
-                    'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
-                    'date'       => Utils::getDateUTCString(),
-                    'user-agent' => $this->getUserAgent(),
-                    Utils::stringifyMapValue($request->header),
-                ];
+                $_request->headers  = array_merge(
+                    [
+                        'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
+                        'date'       => Utils::getDateUTCString(),
+                        'user-agent' => $this->getUserAgent(),
+                    ],
+                    Utils::stringifyMapValue($request->header)
+                );
                 if (!Utils::_empty($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
@@ -5530,15 +5550,17 @@ class OSS
                     'user-agent' => $this->getUserAgent(),
                 ];
                 $_request->headers['content-type'] = 'multipart/form-data; boundary=' . $boundary . '';
-                $form                              = [
-                    'OSSAccessKeyId'        => $request->header->accessKeyId,
-                    'policy'                => $request->header->policy,
-                    'Signature'             => $request->header->signature,
-                    'key'                   => $request->header->key,
-                    'success_action_status' => $request->header->successActionStatus,
-                    'file'                  => $request->header->file,
-                    OSSUtils::toMeta($request->header->userMeta, 'x-oss-meta-'),
-                ];
+                $form                              = array_merge(
+                    [
+                        'OSSAccessKeyId'        => $request->header->accessKeyId,
+                        'policy'                => $request->header->policy,
+                        'Signature'             => $request->header->signature,
+                        'key'                   => $request->header->key,
+                        'success_action_status' => $request->header->successActionStatus,
+                        'file'                  => $request->header->file,
+                    ],
+                    OSSUtils::toMeta($request->header->userMeta, 'x-oss-meta-')
+                );
                 $_request->body = FileForm::toFileForm($form, $boundary);
                 $_lastRequest   = $_request;
                 $_response      = Tea::send($_request, $_runtime);
@@ -5617,12 +5639,14 @@ class OSS
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'HEAD';
                 $_request->pathname = '/' . $request->objectName . '';
-                $_request->headers  = [
-                    'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
-                    'date'       => Utils::getDateUTCString(),
-                    'user-agent' => $this->getUserAgent(),
-                    Utils::stringifyMapValue($request->header),
-                ];
+                $_request->headers  = array_merge(
+                    [
+                        'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
+                        'date'       => Utils::getDateUTCString(),
+                        'user-agent' => $this->getUserAgent(),
+                    ],
+                    Utils::stringifyMapValue($request->header)
+                );
                 if (!Utils::_empty($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
@@ -5974,12 +5998,14 @@ class OSS
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'PUT';
                 $_request->pathname = '/?acl';
-                $_request->headers  = [
-                    'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
-                    'date'       => Utils::getDateUTCString(),
-                    'user-agent' => $this->getUserAgent(),
-                    Utils::stringifyMapValue($request->header),
-                ];
+                $_request->headers  = array_merge(
+                    [
+                        'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
+                        'date'       => Utils::getDateUTCString(),
+                        'user-agent' => $this->getUserAgent(),
+                    ],
+                    Utils::stringifyMapValue($request->header)
+                );
                 if (!Utils::_empty($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
@@ -6148,13 +6174,15 @@ class OSS
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'PUT';
                 $_request->pathname = '/' . $request->objectName . '';
-                $_request->headers  = [
-                    'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
-                    'date'       => Utils::getDateUTCString(),
-                    'user-agent' => $this->getUserAgent(),
+                $_request->headers  = array_merge(
+                    [
+                        'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
+                        'date'       => Utils::getDateUTCString(),
+                        'user-agent' => $this->getUserAgent(),
+                    ],
                     Utils::stringifyMapValue($request->header),
-                    OSSUtils::parseMeta($request->userMeta, 'x-oss-meta-'),
-                ];
+                    OSSUtils::parseMeta($request->userMeta, 'x-oss-meta-')
+                );
                 if (!Utils::_empty($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
