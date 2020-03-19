@@ -2,7 +2,7 @@
 
 ![](https://aliyunsdk-pages.alicdn.com/icons/AlibabaCloud.svg)
 
-## Aliyun Tea OSS Utils Library for PHP
+## Alibaba Cloud Tea OSS Utils Library for PHP
 
 ## 安装
 

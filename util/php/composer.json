@@ -1,6 +1,6 @@
 {
     "name": "alibabacloud/tea-oss-utils",
-    "description": "Aliyun Tea OSS Utils Library for PHP",
+    "description": "Alibaba Cloud Tea OSS Utils Library for PHP",
     "type": "library",
     "license": "Apache-2.0",
     "authors": [
