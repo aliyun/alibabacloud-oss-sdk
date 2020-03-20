@@ -314,13 +314,12 @@ class OSS
                     ]);
                 }
 
-                return array_merge(
-                    [
-                    ],
+                return Tea::merge(
+                    [],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -382,7 +381,7 @@ class OSS
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'POST';
                 $_request->pathname = '/?delete';
-                $_request->headers  = array_merge(
+                $_request->headers  = Tea::merge(
                     [
                         'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
                         'date'       => Utils::getDateUTCString(),
@@ -421,14 +420,14 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, DeleteMultipleObjectsResponse::class);
 
-                return array_merge(
+                return Tea::merge(
                     [
                         'DeleteResult' => $respMap['DeleteResult'],
                     ],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -519,13 +518,12 @@ class OSS
                     ]);
                 }
 
-                return array_merge(
-                    [
-                    ],
+                return Tea::merge(
+                    [],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -616,13 +614,12 @@ class OSS
                     ]);
                 }
 
-                return array_merge(
-                    [
-                    ],
+                return Tea::merge(
+                    [],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -716,14 +713,14 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, CompleteMultipartUploadResponse::class);
 
-                return array_merge(
+                return Tea::merge(
                     [
                         'CompleteMultipartUploadResult' => $respMap['CompleteMultipartUploadResult'],
                     ],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -814,13 +811,12 @@ class OSS
                     ]);
                 }
 
-                return array_merge(
-                    [
-                    ],
+                return Tea::merge(
+                    [],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -911,13 +907,12 @@ class OSS
                     ]);
                 }
 
-                return array_merge(
-                    [
-                    ],
+                return Tea::merge(
+                    [],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -1008,13 +1003,12 @@ class OSS
                     ]);
                 }
 
-                return array_merge(
-                    [
-                    ],
+                return Tea::merge(
+                    [],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -1107,14 +1101,14 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, PutLiveChannelResponse::class);
 
-                return array_merge(
+                return Tea::merge(
                     [
                         'CreateLiveChannelResult' => $respMap['CreateLiveChannelResult'],
                     ],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -1205,13 +1199,12 @@ class OSS
                     ]);
                 }
 
-                return array_merge(
-                    [
-                    ],
+                return Tea::merge(
+                    [],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -1302,13 +1295,12 @@ class OSS
                     ]);
                 }
 
-                return array_merge(
-                    [
-                    ],
+                return Tea::merge(
+                    [],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -1400,13 +1392,12 @@ class OSS
                     ]);
                 }
 
-                return array_merge(
-                    [
-                    ],
+                return Tea::merge(
+                    [],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -1497,13 +1488,12 @@ class OSS
                     ]);
                 }
 
-                return array_merge(
-                    [
-                    ],
+                return Tea::merge(
+                    [],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -1565,7 +1555,7 @@ class OSS
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'PUT';
                 $_request->pathname = '/';
-                $_request->headers  = array_merge(
+                $_request->headers  = Tea::merge(
                     [
                         'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
                         'date'       => Utils::getDateUTCString(),
@@ -1597,13 +1587,12 @@ class OSS
                     ]);
                 }
 
-                return array_merge(
-                    [
-                    ],
+                return Tea::merge(
+                    [],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -1695,14 +1684,14 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, ListMultipartUploadsResponse::class);
 
-                return array_merge(
+                return Tea::merge(
                     [
                         'ListMultipartUploadsResult' => $respMap['ListMultipartUploadsResult'],
                     ],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -1793,14 +1782,14 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, GetBucketRequestPaymentResponse::class);
 
-                return array_merge(
+                return Tea::merge(
                     [
                         'RequestPaymentConfiguration' => $respMap['RequestPaymentConfiguration'],
                     ],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -1891,14 +1880,14 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, GetBucketEncryptionResponse::class);
 
-                return array_merge(
+                return Tea::merge(
                     [
                         'ServerSideEncryptionRule' => $respMap['ServerSideEncryptionRule'],
                     ],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -1989,14 +1978,14 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, GetBucketTagsResponse::class);
 
-                return array_merge(
+                return Tea::merge(
                     [
                         'Tagging' => $respMap['Tagging'],
                     ],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -2088,14 +2077,14 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, GetServiceResponse::class);
 
-                return array_merge(
+                return Tea::merge(
                     [
                         'ListAllMyBucketsResult' => $respMap['ListAllMyBucketsResult'],
                     ],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -2184,13 +2173,12 @@ class OSS
                     ]);
                 }
 
-                return array_merge(
-                    [
-                    ],
+                return Tea::merge(
+                    [],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -2280,13 +2268,12 @@ class OSS
                     ]);
                 }
 
-                return array_merge(
-                    [
-                    ],
+                return Tea::merge(
+                    [],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -2377,14 +2364,14 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, GetBucketWebsiteResponse::class);
 
-                return array_merge(
+                return Tea::merge(
                     [
                         'WebsiteConfiguration' => $respMap['WebsiteConfiguration'],
                     ],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -2473,13 +2460,12 @@ class OSS
                     ]);
                 }
 
-                return array_merge(
-                    [
-                    ],
+                return Tea::merge(
+                    [],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -2570,14 +2556,14 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, GetBucketLocationResponse::class);
 
-                return array_merge(
+                return Tea::merge(
                     [
                         'LocationConstraint' => $respMap['LocationConstraint'],
                     ],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -2669,14 +2655,14 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, ListLiveChannelResponse::class);
 
-                return array_merge(
+                return Tea::merge(
                     [
                         'ListLiveChannelResult' => $respMap['ListLiveChannelResult'],
                     ],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -2765,13 +2751,12 @@ class OSS
                     ]);
                 }
 
-                return array_merge(
-                    [
-                    ],
+                return Tea::merge(
+                    [],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -2862,14 +2847,14 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, GetBucketAclResponse::class);
 
-                return array_merge(
+                return Tea::merge(
                     [
                         'AccessControlPolicy' => $respMap['AccessControlPolicy'],
                     ],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -2961,14 +2946,14 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, ListPartsResponse::class);
 
-                return array_merge(
+                return Tea::merge(
                     [
                         'ListPartsResult' => $respMap['ListPartsResult'],
                     ],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -3060,14 +3045,14 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, GetLiveChannelHistoryResponse::class);
 
-                return array_merge(
+                return Tea::merge(
                     [
                         'LiveChannelHistory' => $respMap['LiveChannelHistory'],
                     ],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -3159,14 +3144,14 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, GetBucketResponse::class);
 
-                return array_merge(
+                return Tea::merge(
                     [
                         'ListBucketResult' => $respMap['ListBucketResult'],
                     ],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -3257,14 +3242,14 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, GetLiveChannelInfoResponse::class);
 
-                return array_merge(
+                return Tea::merge(
                     [
                         'LiveChannelConfiguration' => $respMap['LiveChannelConfiguration'],
                     ],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -3356,14 +3341,14 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, GetLiveChannelStatResponse::class);
 
-                return array_merge(
+                return Tea::merge(
                     [
                         'LiveChannelStat' => $respMap['LiveChannelStat'],
                     ],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -3452,13 +3437,12 @@ class OSS
                     ]);
                 }
 
-                return array_merge(
-                    [
-                    ],
+                return Tea::merge(
+                    [],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -3548,13 +3532,12 @@ class OSS
                     ]);
                 }
 
-                return array_merge(
-                    [
-                    ],
+                return Tea::merge(
+                    [],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -3616,7 +3599,7 @@ class OSS
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'POST';
                 $_request->pathname = '/' . $request->objectName . '?append';
-                $_request->headers  = array_merge(
+                $_request->headers  = Tea::merge(
                     [
                         'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
                         'date'       => Utils::getDateUTCString(),
@@ -3673,13 +3656,12 @@ class OSS
                     ]);
                 }
 
-                return array_merge(
-                    [
-                    ],
+                return Tea::merge(
+                    [],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -3740,7 +3722,7 @@ class OSS
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'PUT';
                 $_request->pathname = '/' . $request->objectName . '';
-                $_request->headers  = array_merge(
+                $_request->headers  = Tea::merge(
                     [
                         'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
                         'date'       => Utils::getDateUTCString(),
@@ -3774,14 +3756,14 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, UploadPartCopyResponse::class);
 
-                return array_merge(
+                return Tea::merge(
                     [
                         'CopyPartResult' => $respMap['CopyPartResult'],
                     ],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -3871,13 +3853,12 @@ class OSS
                     ]);
                 }
 
-                return array_merge(
-                    [
-                    ],
+                return Tea::merge(
+                    [],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -3966,13 +3947,12 @@ class OSS
                     ]);
                 }
 
-                return array_merge(
-                    [
-                    ],
+                return Tea::merge(
+                    [],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -4033,7 +4013,7 @@ class OSS
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'GET';
                 $_request->pathname = '/' . $request->objectName . '';
-                $_request->headers  = array_merge(
+                $_request->headers  = Tea::merge(
                     [
                         'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
                         'date'       => Utils::getDateUTCString(),
@@ -4064,14 +4044,14 @@ class OSS
                     ]);
                 }
 
-                return array_merge(
+                return Tea::merge(
                     [
                         'body' => $_response->body,
                     ],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -4181,13 +4161,12 @@ class OSS
                     ]);
                 }
 
-                return array_merge(
-                    [
-                    ],
+                return Tea::merge(
+                    [],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -4278,14 +4257,14 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, GetBucketCORSResponse::class);
 
-                return array_merge(
+                return Tea::merge(
                     [
                         'CORSConfiguration' => $respMap['CORSConfiguration'],
                     ],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -4346,7 +4325,7 @@ class OSS
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'PUT';
                 $_request->pathname = '/' . $request->destObjectName . '';
-                $_request->headers  = array_merge(
+                $_request->headers  = Tea::merge(
                     [
                         'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
                         'date'       => Utils::getDateUTCString(),
@@ -4380,14 +4359,14 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, CopyObjectResponse::class);
 
-                return array_merge(
+                return Tea::merge(
                     [
                         'CopyObjectResult' => $respMap['CopyObjectResult'],
                     ],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -4478,14 +4457,14 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, GetObjectTaggingResponse::class);
 
-                return array_merge(
+                return Tea::merge(
                     [
                         'Tagging' => $respMap['Tagging'],
                     ],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -4574,13 +4553,12 @@ class OSS
                     ]);
                 }
 
-                return array_merge(
-                    [
-                    ],
+                return Tea::merge(
+                    [],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -4669,13 +4647,12 @@ class OSS
                     ]);
                 }
 
-                return array_merge(
-                    [
-                    ],
+                return Tea::merge(
+                    [],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -4764,13 +4741,12 @@ class OSS
                     ]);
                 }
 
-                return array_merge(
-                    [
-                    ],
+                return Tea::merge(
+                    [],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -4859,13 +4835,12 @@ class OSS
                     ]);
                 }
 
-                return array_merge(
-                    [
-                    ],
+                return Tea::merge(
+                    [],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -4956,14 +4931,14 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, GetBucketLifecycleResponse::class);
 
-                return array_merge(
+                return Tea::merge(
                     [
                         'LifecycleConfiguration' => $respMap['LifecycleConfiguration'],
                     ],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -5024,7 +4999,7 @@ class OSS
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'PUT';
                 $_request->pathname = '/' . $request->objectName . '?symlink';
-                $_request->headers  = array_merge(
+                $_request->headers  = Tea::merge(
                     [
                         'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
                         'date'       => Utils::getDateUTCString(),
@@ -5055,13 +5030,12 @@ class OSS
                     ]);
                 }
 
-                return array_merge(
-                    [
-                    ],
+                return Tea::merge(
+                    [],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -5152,14 +5126,14 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, GetBucketRefererResponse::class);
 
-                return array_merge(
+                return Tea::merge(
                     [
                         'RefererConfiguration' => $respMap['RefererConfiguration'],
                     ],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -5248,13 +5222,12 @@ class OSS
                     ]);
                 }
 
-                return array_merge(
-                    [
-                    ],
+                return Tea::merge(
+                    [],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -5345,14 +5318,14 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, GetBucketLoggingResponse::class);
 
-                return array_merge(
+                return Tea::merge(
                     [
                         'BucketLoggingStatus' => $respMap['BucketLoggingStatus'],
                     ],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -5413,7 +5386,7 @@ class OSS
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'PUT';
                 $_request->pathname = '/' . $request->objectName . '?acl';
-                $_request->headers  = array_merge(
+                $_request->headers  = Tea::merge(
                     [
                         'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
                         'date'       => Utils::getDateUTCString(),
@@ -5444,13 +5417,12 @@ class OSS
                     ]);
                 }
 
-                return array_merge(
-                    [
-                    ],
+                return Tea::merge(
+                    [],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -5541,14 +5513,14 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, GetBucketInfoResponse::class);
 
-                return array_merge(
+                return Tea::merge(
                     [
                         'BucketInfo' => $respMap['BucketInfo'],
                     ],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -5638,13 +5610,12 @@ class OSS
                     ]);
                 }
 
-                return array_merge(
-                    [
-                    ],
+                return Tea::merge(
+                    [],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -5705,7 +5676,7 @@ class OSS
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'POST';
                 $_request->pathname = '/' . $request->objectName . '?uploads';
-                $_request->headers  = array_merge(
+                $_request->headers  = Tea::merge(
                     [
                         'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
                         'date'       => Utils::getDateUTCString(),
@@ -5744,14 +5715,14 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, InitiateMultipartUploadResponse::class);
 
-                return array_merge(
+                return Tea::merge(
                     [
                         'InitiateMultipartUploadResult' => $respMap['InitiateMultipartUploadResult'],
                     ],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -5812,7 +5783,7 @@ class OSS
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'OPTIONS';
                 $_request->pathname = '/' . $request->objectName . '';
-                $_request->headers  = array_merge(
+                $_request->headers  = Tea::merge(
                     [
                         'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
                         'date'       => Utils::getDateUTCString(),
@@ -5843,13 +5814,12 @@ class OSS
                     ]);
                 }
 
-                return array_merge(
-                    [
-                    ],
+                return Tea::merge(
+                    [],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -5939,13 +5909,12 @@ class OSS
                     ]);
                 }
 
-                return array_merge(
-                    [
-                    ],
+                return Tea::merge(
+                    [],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -6007,7 +5976,7 @@ class OSS
                     'user-agent' => $this->getUserAgent(),
                 ];
                 $_request->headers['content-type'] = 'multipart/form-data; boundary=' . $boundary . '';
-                $form                              = array_merge(
+                $form                              = Tea::merge(
                     [
                         'OSSAccessKeyId'        => $request->header->accessKeyId,
                         'policy'                => $request->header->policy,
@@ -6038,13 +6007,12 @@ class OSS
                 }
                 $respMap = XML::parseXml($bodyStr, PostObjectResponse::class);
 
-                return array_merge(
-                    [
-                    ],
+                return Tea::merge(
+                    [],
                     $respMap
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -6105,7 +6073,7 @@ class OSS
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'HEAD';
                 $_request->pathname = '/' . $request->objectName . '';
-                $_request->headers  = array_merge(
+                $_request->headers  = Tea::merge(
                     [
                         'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
                         'date'       => Utils::getDateUTCString(),
@@ -6136,14 +6104,14 @@ class OSS
                     ]);
                 }
 
-                return array_merge(
+                return Tea::merge(
                     [
                         'usermeta' => OSSUtils::toMeta($_response->headers, 'x-oss-meta-'),
                     ],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -6232,13 +6200,12 @@ class OSS
                     ]);
                 }
 
-                return array_merge(
-                    [
-                    ],
+                return Tea::merge(
+                    [],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -6327,13 +6294,12 @@ class OSS
                     ]);
                 }
 
-                return array_merge(
-                    [
-                    ],
+                return Tea::merge(
+                    [],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -6424,14 +6390,14 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, GetObjectAclResponse::class);
 
-                return array_merge(
+                return Tea::merge(
                     [
                         'AccessControlPolicy' => $respMap['AccessControlPolicy'],
                     ],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -6492,7 +6458,7 @@ class OSS
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'PUT';
                 $_request->pathname = '/?acl';
-                $_request->headers  = array_merge(
+                $_request->headers  = Tea::merge(
                     [
                         'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
                         'date'       => Utils::getDateUTCString(),
@@ -6523,13 +6489,12 @@ class OSS
                     ]);
                 }
 
-                return array_merge(
-                    [
-                    ],
+                return Tea::merge(
+                    [],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -6618,13 +6583,12 @@ class OSS
                     ]);
                 }
 
-                return array_merge(
-                    [
-                    ],
+                return Tea::merge(
+                    [],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 
@@ -6686,7 +6650,7 @@ class OSS
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'PUT';
                 $_request->pathname = '/' . $request->objectName . '';
-                $_request->headers  = array_merge(
+                $_request->headers  = Tea::merge(
                     [
                         'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
                         'date'       => Utils::getDateUTCString(),
@@ -6742,13 +6706,12 @@ class OSS
                     ]);
                 }
 
-                return array_merge(
-                    [
-                    ],
+                return Tea::merge(
+                    [],
                     $_response->headers
                 );
             } catch (\Exception $e) {
-                if (Tea::isRetryable($e)) {
+                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
                     continue;
                 }
 

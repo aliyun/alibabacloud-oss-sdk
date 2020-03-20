@@ -5,7 +5,7 @@ namespace AlibabaCloud\SDK\OSS\Tests;
 use AlibabaCloud\SDK\OSS\OSS as Client;
 use AlibabaCloud\SDK\OSS\OSS\Config;
 use AlibabaCloud\SDK\OSS\OSS\PutBucketLifecycleRequest;
-use AlibabaCloud\Tea\Exception\TeaUnableRetryError;
+use AlibabaCloud\Tea\Exception\TeaError;
 use AlibabaCloud\Tea\OSSUtils\OSSUtils\RuntimeOptions;
 use PHPUnit\Framework\TestCase;
 
@@ -47,7 +47,7 @@ class OSSClientTest extends TestCase
         $body->lifecycleConfiguration = $configuration;
         $request->body                = $body;
 
-        $this->expectException(TeaUnableRetryError::class);
+        $this->expectException(TeaError::class);
         $client->putBucketLifecycle($request, $runtime);
     }
 
