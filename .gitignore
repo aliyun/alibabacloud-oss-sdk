@@ -29,3 +29,4 @@ libraries/
 **/csharp/**/bin/
 **/csharp/**/obj/
 **/csharp/**/.vs/
+test*.sh
