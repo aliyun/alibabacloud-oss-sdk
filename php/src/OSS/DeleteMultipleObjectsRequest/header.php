@@ -13,5 +13,9 @@ class header extends Model
     public $contentLength;
 
     public $contentMD5;
-    protected $_name = [];
+    protected $_name = [
+        'encodingType'  => 'Encoding-type',
+        'contentLength' => 'Content-Length',
+        'contentMD5'    => 'Content-MD5',
+    ];
 }

@@ -31,5 +31,18 @@ class header extends Model
     public $tagging;
 
     public $taggingDirective;
-    protected $_name = [];
+    protected $_name = [
+        'copySource'                  => 'x-oss-copy-source',
+        'copySourceIfMatch'           => 'x-oss-copy-source-if-match',
+        'copySourceIfNoneMatch'       => 'x-oss-copy-source-if-none-match',
+        'copySourceIfUnmodifiedSince' => 'x-oss-copy-source-if-unmodified-since',
+        'copySourceIfModifiedSince'   => 'x-oss-copy-source-if-modified-since',
+        'metadataDirective'           => 'x-oss-metadata-directive',
+        'serverSideEncryption'        => 'x-oss-server-side-encryption',
+        'serverSideEncryptionKeyId'   => 'x-oss-server-side-encryption-key-id',
+        'objectAcl'                   => 'x-oss-object-acl',
+        'storageClass'                => 'x-oss-storage-class',
+        'tagging'                     => 'x-oss-tagging',
+        'taggingDirective'            => 'x-oss-tagging-directive',
+    ];
 }

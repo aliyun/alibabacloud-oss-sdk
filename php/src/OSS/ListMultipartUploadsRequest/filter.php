@@ -19,5 +19,12 @@ class filter extends Model
     public $uploadIdMarker;
 
     public $encodingType;
-    protected $_name = [];
+    protected $_name = [
+        'delimiter'      => 'delimiter',
+        'maxUploads'     => 'max-uploads',
+        'keyMarker'      => 'key-marker',
+        'prefix'         => 'prefix',
+        'uploadIdMarker' => 'upload-id-marker',
+        'encodingType'   => 'encoding-type',
+    ];
 }

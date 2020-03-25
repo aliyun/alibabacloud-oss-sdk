@@ -21,5 +21,13 @@ class rule extends Model
     public $abortMultipartUpload;
 
     public $tag;
-    protected $_name = [];
+    protected $_name = [
+        'iD'                   => 'ID',
+        'prefix'               => 'Prefix',
+        'status'               => 'Status',
+        'expiration'           => 'Expiration',
+        'transition'           => 'Transition',
+        'abortMultipartUpload' => 'AbortMultipartUpload',
+        'tag'                  => 'Tag',
+    ];
 }

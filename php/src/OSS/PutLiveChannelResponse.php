@@ -11,5 +11,8 @@ class PutLiveChannelResponse extends Model
     public $requestId;
 
     public $createLiveChannelResult;
-    protected $_name = [];
+    protected $_name = [
+        'requestId'               => 'x-oss-request-id',
+        'createLiveChannelResult' => 'CreateLiveChannelResult',
+    ];
 }

@@ -17,5 +17,11 @@ class cORSRule extends Model
     public $exposeHeader;
 
     public $maxAgeSeconds;
-    protected $_name = [];
+    protected $_name = [
+        'allowedOrigin' => 'AllowedOrigin',
+        'allowedMethod' => 'AllowedMethod',
+        'allowedHeader' => 'AllowedHeader',
+        'exposeHeader'  => 'ExposeHeader',
+        'maxAgeSeconds' => 'MaxAgeSeconds',
+    ];
 }

@@ -11,5 +11,8 @@ class PostObjectRequest extends Model
     public $bucketName;
 
     public $header;
-    protected $_name = [];
+    protected $_name = [
+        'bucketName' => 'BucketName',
+        'header'     => 'header',
+    ];
 }

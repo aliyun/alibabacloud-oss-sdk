@@ -9,5 +9,7 @@ use AlibabaCloud\Tea\Model;
 class PostObjectResponse extends Model
 {
     public $postResponse;
-    protected $_name = [];
+    protected $_name = [
+        'postResponse' => 'PostResponse',
+    ];
 }

@@ -15,5 +15,10 @@ class header extends Model
     public $ifMatch;
 
     public $ifNoneMatch;
-    protected $_name = [];
+    protected $_name = [
+        'ifModifiedSince'   => 'If-Modified-Since',
+        'ifUnmodifiedSince' => 'If-Unmodified-Since',
+        'ifMatch'           => 'If-Match',
+        'ifNoneMatch'       => 'If-None-Match',
+    ];
 }

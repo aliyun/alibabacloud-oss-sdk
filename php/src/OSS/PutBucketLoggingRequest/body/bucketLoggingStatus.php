@@ -9,5 +9,7 @@ use AlibabaCloud\Tea\Model;
 class bucketLoggingStatus extends Model
 {
     public $loggingEnabled;
-    protected $_name = [];
+    protected $_name = [
+        'loggingEnabled' => 'LoggingEnabled',
+    ];
 }

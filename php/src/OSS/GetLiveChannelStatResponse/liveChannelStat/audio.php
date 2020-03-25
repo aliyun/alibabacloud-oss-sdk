@@ -13,5 +13,9 @@ class audio extends Model
     public $sampleRate;
 
     public $codec;
-    protected $_name = [];
+    protected $_name = [
+        'bandwidth'  => 'Bandwidth',
+        'sampleRate' => 'SampleRate',
+        'codec'      => 'Codec',
+    ];
 }

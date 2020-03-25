@@ -13,5 +13,9 @@ class DeleteMultipleObjectsRequest extends Model
     public $body;
 
     public $header;
-    protected $_name = [];
+    protected $_name = [
+        'bucketName' => 'BucketName',
+        'body'       => 'Body',
+        'header'     => 'Header',
+    ];
 }

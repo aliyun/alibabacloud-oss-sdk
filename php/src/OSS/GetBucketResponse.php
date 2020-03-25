@@ -11,5 +11,8 @@ class GetBucketResponse extends Model
     public $requestId;
 
     public $listBucketResult;
-    protected $_name = [];
+    protected $_name = [
+        'requestId'        => 'x-oss-request-id',
+        'listBucketResult' => 'ListBucketResult',
+    ];
 }

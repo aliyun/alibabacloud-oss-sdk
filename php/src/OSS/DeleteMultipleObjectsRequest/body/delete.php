@@ -11,5 +11,8 @@ class delete extends Model
     public $object;
 
     public $quiet;
-    protected $_name = [];
+    protected $_name = [
+        'object' => 'Object',
+        'quiet'  => 'Quiet',
+    ];
 }

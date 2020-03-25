@@ -13,5 +13,9 @@ class liveRecord extends Model
     public $endTime;
 
     public $remoteAddr;
-    protected $_name = [];
+    protected $_name = [
+        'startTime'  => 'StartTime',
+        'endTime'    => 'EndTime',
+        'remoteAddr' => 'RemoteAddr',
+    ];
 }

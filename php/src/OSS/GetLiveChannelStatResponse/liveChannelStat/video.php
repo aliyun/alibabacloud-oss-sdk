@@ -17,5 +17,11 @@ class video extends Model
     public $bandwidth;
 
     public $codec;
-    protected $_name = [];
+    protected $_name = [
+        'width'     => 'Width',
+        'height'    => 'Height',
+        'frameRate' => 'FrameRate',
+        'bandwidth' => 'Bandwidth',
+        'codec'     => 'Codec',
+    ];
 }

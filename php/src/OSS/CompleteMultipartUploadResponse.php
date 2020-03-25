@@ -11,5 +11,8 @@ class CompleteMultipartUploadResponse extends Model
     public $requestId;
 
     public $completeMultipartUploadResult;
-    protected $_name = [];
+    protected $_name = [
+        'requestId'                     => 'x-oss-request-id',
+        'completeMultipartUploadResult' => 'CompleteMultipartUploadResult',
+    ];
 }

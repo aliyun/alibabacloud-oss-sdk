@@ -13,5 +13,9 @@ class PutLiveChannelRequest extends Model
     public $channelName;
 
     public $body;
-    protected $_name = [];
+    protected $_name = [
+        'bucketName'  => 'BucketName',
+        'channelName' => 'ChannelName',
+        'body'        => 'Body',
+    ];
 }

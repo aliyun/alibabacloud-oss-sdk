@@ -9,5 +9,7 @@ use AlibabaCloud\Tea\Model;
 class filter extends Model
 {
     public $position;
-    protected $_name = [];
+    protected $_name = [
+        'position' => 'position',
+    ];
 }

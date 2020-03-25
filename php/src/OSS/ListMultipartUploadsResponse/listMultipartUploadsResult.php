@@ -27,5 +27,16 @@ class listMultipartUploadsResult extends Model
     public $isTruncated;
 
     public $upload;
-    protected $_name = [];
+    protected $_name = [
+        'bucket'             => 'Bucket',
+        'encodingType'       => 'EncodingType',
+        'keyMarker'          => 'KeyMarker',
+        'uploadIdMarker'     => 'UploadIdMarker',
+        'nextKeyMarker'      => 'NextKeyMarker',
+        'nextUploadIdMarker' => 'NextUploadIdMarker',
+        'delimiter'          => 'Delimiter',
+        'maxUploads'         => 'MaxUploads',
+        'isTruncated'        => 'IsTruncated',
+        'upload'             => 'Upload',
+    ];
 }

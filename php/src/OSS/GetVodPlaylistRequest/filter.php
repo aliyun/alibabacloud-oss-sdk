@@ -11,5 +11,8 @@ class filter extends Model
     public $endTime;
 
     public $startTime;
-    protected $_name = [];
+    protected $_name = [
+        'endTime'   => 'endTime',
+        'startTime' => 'startTime',
+    ];
 }

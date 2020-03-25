@@ -11,5 +11,8 @@ class GetSymlinkResponse extends Model
     public $requestId;
 
     public $symlinkTarget;
-    protected $_name = [];
+    protected $_name = [
+        'requestId'     => 'x-oss-request-id',
+        'symlinkTarget' => 'x-oss-symlink-target',
+    ];
 }

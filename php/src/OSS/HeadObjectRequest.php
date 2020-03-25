@@ -13,5 +13,9 @@ class HeadObjectRequest extends Model
     public $objectName;
 
     public $header;
-    protected $_name = [];
+    protected $_name = [
+        'bucketName' => 'BucketName',
+        'objectName' => 'ObjectName',
+        'header'     => 'Header',
+    ];
 }

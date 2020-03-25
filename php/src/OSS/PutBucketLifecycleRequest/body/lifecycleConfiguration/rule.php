@@ -21,5 +21,13 @@ class rule extends Model
     public $prefix;
 
     public $status;
-    protected $_name = [];
+    protected $_name = [
+        'expiration'           => 'Expiration',
+        'transition'           => 'Transition',
+        'abortMultipartUpload' => 'AbortMultipartUpload',
+        'tag'                  => 'Tag',
+        'iD'                   => 'ID',
+        'prefix'               => 'Prefix',
+        'status'               => 'Status',
+    ];
 }

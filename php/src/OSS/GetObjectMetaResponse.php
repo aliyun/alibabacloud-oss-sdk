@@ -15,5 +15,10 @@ class GetObjectMetaResponse extends Model
     public $contentLength;
 
     public $lastModified;
-    protected $_name = [];
+    protected $_name = [
+        'requestId'     => 'x-oss-request-id',
+        'eTag'          => 'etag',
+        'contentLength' => 'content-length',
+        'lastModified'  => 'last-modified',
+    ];
 }

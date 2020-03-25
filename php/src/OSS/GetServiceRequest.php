@@ -9,5 +9,7 @@ use AlibabaCloud\Tea\Model;
 class GetServiceRequest extends Model
 {
     public $filter;
-    protected $_name = [];
+    protected $_name = [
+        'filter' => 'Filter',
+    ];
 }

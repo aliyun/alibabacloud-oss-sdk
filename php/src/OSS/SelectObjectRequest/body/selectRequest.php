@@ -15,5 +15,10 @@ class selectRequest extends Model
     public $options;
 
     public $expression;
-    protected $_name = [];
+    protected $_name = [
+        'inputSerialization'  => 'InputSerialization',
+        'outputSerialization' => 'OutputSerialization',
+        'options'             => 'Options',
+        'expression'          => 'Expression',
+    ];
 }

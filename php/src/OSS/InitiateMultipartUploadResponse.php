@@ -11,5 +11,8 @@ class InitiateMultipartUploadResponse extends Model
     public $requestId;
 
     public $initiateMultipartUploadResult;
-    protected $_name = [];
+    protected $_name = [
+        'requestId'                     => 'x-oss-request-id',
+        'initiateMultipartUploadResult' => 'InitiateMultipartUploadResult',
+    ];
 }

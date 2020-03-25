@@ -11,5 +11,8 @@ class ListPartsResponse extends Model
     public $requestId;
 
     public $listPartsResult;
-    protected $_name = [];
+    protected $_name = [
+        'requestId'       => 'x-oss-request-id',
+        'listPartsResult' => 'ListPartsResult',
+    ];
 }

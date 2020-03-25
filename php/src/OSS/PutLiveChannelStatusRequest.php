@@ -13,5 +13,9 @@ class PutLiveChannelStatusRequest extends Model
     public $channelName;
 
     public $filter;
-    protected $_name = [];
+    protected $_name = [
+        'bucketName'  => 'BucketName',
+        'channelName' => 'ChannelName',
+        'filter'      => 'Filter',
+    ];
 }

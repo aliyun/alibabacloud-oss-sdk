@@ -9,5 +9,7 @@ use AlibabaCloud\Tea\Model;
 class filter extends Model
 {
     public $porcess;
-    protected $_name = [];
+    protected $_name = [
+        'porcess' => 'x-oss-process',
+    ];
 }

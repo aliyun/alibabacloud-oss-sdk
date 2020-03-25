@@ -17,5 +17,11 @@ class PutObjectRequest extends Model
     public $body;
 
     public $header;
-    protected $_name = [];
+    protected $_name = [
+        'bucketName' => 'BucketName',
+        'objectName' => 'ObjectName',
+        'userMeta'   => 'UserMeta',
+        'body'       => 'body',
+        'header'     => 'Header',
+    ];
 }

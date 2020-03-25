@@ -11,5 +11,8 @@ class GetBucketLifecycleResponse extends Model
     public $requestId;
 
     public $lifecycleConfiguration;
-    protected $_name = [];
+    protected $_name = [
+        'requestId'              => 'x-oss-request-id',
+        'lifecycleConfiguration' => 'LifecycleConfiguration',
+    ];
 }

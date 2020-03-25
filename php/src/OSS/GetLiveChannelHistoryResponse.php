@@ -11,5 +11,8 @@ class GetLiveChannelHistoryResponse extends Model
     public $requestId;
 
     public $liveChannelHistory;
-    protected $_name = [];
+    protected $_name = [
+        'requestId'          => 'x-oss-request-id',
+        'liveChannelHistory' => 'LiveChannelHistory',
+    ];
 }

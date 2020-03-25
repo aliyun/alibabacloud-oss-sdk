@@ -11,5 +11,8 @@ class UploadPartCopyResponse extends Model
     public $requestId;
 
     public $copyPartResult;
-    protected $_name = [];
+    protected $_name = [
+        'requestId'      => 'x-oss-request-id',
+        'copyPartResult' => 'CopyPartResult',
+    ];
 }

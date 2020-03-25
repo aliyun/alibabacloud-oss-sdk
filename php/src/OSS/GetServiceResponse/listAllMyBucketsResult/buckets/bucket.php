@@ -19,5 +19,12 @@ class bucket extends Model
     public $intranetEndpoint;
 
     public $storageClass;
-    protected $_name = [];
+    protected $_name = [
+        'name'             => 'Name',
+        'createDate'       => 'CreateDate',
+        'location'         => 'Location',
+        'extranetEndpoint' => 'ExtranetEndpoint',
+        'intranetEndpoint' => 'IntranetEndpoint',
+        'storageClass'     => 'StorageClass',
+    ];
 }

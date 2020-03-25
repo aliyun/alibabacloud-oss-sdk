@@ -11,5 +11,8 @@ class applyServerSideEncryptionByDefault extends Model
     public $sSEAlgorithm;
 
     public $kMSMasterKeyID;
-    protected $_name = [];
+    protected $_name = [
+        'sSEAlgorithm'   => 'SSEAlgorithm',
+        'kMSMasterKeyID' => 'KMSMasterKeyID',
+    ];
 }

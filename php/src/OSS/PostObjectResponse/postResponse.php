@@ -13,5 +13,9 @@ class postResponse extends Model
     public $eTag;
 
     public $location;
-    protected $_name = [];
+    protected $_name = [
+        'bucket'   => 'Bucket',
+        'eTag'     => 'ETag',
+        'location' => 'Location',
+    ];
 }

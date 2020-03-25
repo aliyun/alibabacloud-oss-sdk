@@ -9,5 +9,7 @@ use AlibabaCloud\Tea\Model;
 class body extends Model
 {
     public $completeMultipartUpload;
-    protected $_name = [];
+    protected $_name = [
+        'completeMultipartUpload' => 'CompleteMultipartUpload',
+    ];
 }

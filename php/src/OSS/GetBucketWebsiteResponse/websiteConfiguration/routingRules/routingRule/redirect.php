@@ -31,5 +31,18 @@ class redirect extends Model
     public $replaceKeyWith;
 
     public $mirrorHeaders;
-    protected $_name = [];
+    protected $_name = [
+        'redirectType'          => 'RedirectType',
+        'passQueryString'       => 'PassQueryString',
+        'mirrorURL'             => 'MirrorURL',
+        'mirrorPassQueryString' => 'MirrorPassQueryString',
+        'mirrorFollowRedirect'  => 'MirrorFollowRedirect',
+        'mirrorCheckMd5'        => 'MirrorCheckMd5',
+        'protocol'              => 'Protocol',
+        'hostName'              => 'HostName',
+        'httpRedirectCode'      => 'HttpRedirectCode',
+        'replaceKeyPrefixWith'  => 'ReplaceKeyPrefixWith',
+        'replaceKeyWith'        => 'ReplaceKeyWith',
+        'mirrorHeaders'         => 'MirrorHeaders',
+    ];
 }

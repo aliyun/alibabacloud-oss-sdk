@@ -11,5 +11,8 @@ class GetBucketRequest extends Model
     public $bucketName;
 
     public $filter;
-    protected $_name = [];
+    protected $_name = [
+        'bucketName' => 'BucketName',
+        'filter'     => 'Filter',
+    ];
 }

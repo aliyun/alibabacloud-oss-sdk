@@ -11,5 +11,8 @@ class copyObjectResult extends Model
     public $lastModified;
 
     public $eTag;
-    protected $_name = [];
+    protected $_name = [
+        'lastModified' => 'LastModified',
+        'eTag'         => 'ETag',
+    ];
 }

@@ -9,5 +9,7 @@ use AlibabaCloud\Tea\Model;
 class cORSRule extends Model
 {
     public $maxAgeSeconds;
-    protected $_name = [];
+    protected $_name = [
+        'maxAgeSeconds' => 'MaxAgeSeconds',
+    ];
 }

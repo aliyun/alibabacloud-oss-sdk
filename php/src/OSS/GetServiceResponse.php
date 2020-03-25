@@ -11,5 +11,8 @@ class GetServiceResponse extends Model
     public $requestId;
 
     public $listAllMyBucketsResult;
-    protected $_name = [];
+    protected $_name = [
+        'requestId'              => 'x-oss-request-id',
+        'listAllMyBucketsResult' => 'ListAllMyBucketsResult',
+    ];
 }

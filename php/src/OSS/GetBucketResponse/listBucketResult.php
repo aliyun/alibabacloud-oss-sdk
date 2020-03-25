@@ -25,5 +25,15 @@ class listBucketResult extends Model
     public $commonPrefixes;
 
     public $contents;
-    protected $_name = [];
+    protected $_name = [
+        'name'           => 'Name',
+        'prefix'         => 'Prefix',
+        'marker'         => 'Marker',
+        'maxKeys'        => 'MaxKeys',
+        'delimiter'      => 'Delimiter',
+        'isTruncated'    => 'IsTruncated',
+        'encodingType'   => 'EncodingType',
+        'commonPrefixes' => 'CommonPrefixes',
+        'contents'       => 'Contents',
+    ];
 }

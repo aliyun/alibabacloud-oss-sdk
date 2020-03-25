@@ -11,5 +11,8 @@ class expiration extends Model
     public $days;
 
     public $createdBeforeDate;
-    protected $_name = [];
+    protected $_name = [
+        'days'              => 'Days',
+        'createdBeforeDate' => 'CreatedBeforeDate',
+    ];
 }

@@ -13,5 +13,9 @@ class deleteResult extends Model
     public $encodingType;
 
     public $deleted;
-    protected $_name = [];
+    protected $_name = [
+        'quiet'        => 'Quiet',
+        'encodingType' => 'EncodingType',
+        'deleted'      => 'Deleted',
+    ];
 }

@@ -11,5 +11,8 @@ class GetBucketRequestPaymentResponse extends Model
     public $requestId;
 
     public $requestPaymentConfiguration;
-    protected $_name = [];
+    protected $_name = [
+        'requestId'                   => 'x-oss-request-id',
+        'requestPaymentConfiguration' => 'RequestPaymentConfiguration',
+    ];
 }

@@ -11,5 +11,8 @@ class PutBucketEncryptionRequest extends Model
     public $bucketName;
 
     public $body;
-    protected $_name = [];
+    protected $_name = [
+        'bucketName' => 'BucketName',
+        'body'       => 'Body',
+    ];
 }

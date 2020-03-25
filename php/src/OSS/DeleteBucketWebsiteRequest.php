@@ -9,5 +9,7 @@ use AlibabaCloud\Tea\Model;
 class DeleteBucketWebsiteRequest extends Model
 {
     public $bucketName;
-    protected $_name = [];
+    protected $_name = [
+        'bucketName' => 'BucketName',
+    ];
 }

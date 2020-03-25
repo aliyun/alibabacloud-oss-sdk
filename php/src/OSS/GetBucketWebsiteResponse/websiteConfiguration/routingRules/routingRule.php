@@ -13,5 +13,9 @@ class routingRule extends Model
     public $condition;
 
     public $redirect;
-    protected $_name = [];
+    protected $_name = [
+        'ruleNumber' => 'RuleNumber',
+        'condition'  => 'Condition',
+        'redirect'   => 'Redirect',
+    ];
 }

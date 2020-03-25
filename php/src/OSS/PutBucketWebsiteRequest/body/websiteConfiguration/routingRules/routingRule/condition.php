@@ -13,5 +13,9 @@ class condition extends Model
     public $keyPrefixEquals;
 
     public $httpErrorCodeReturnedEquals;
-    protected $_name = [];
+    protected $_name = [
+        'includeHeader'               => 'IncludeHeader',
+        'keyPrefixEquals'             => 'KeyPrefixEquals',
+        'httpErrorCodeReturnedEquals' => 'HttpErrorCodeReturnedEquals',
+    ];
 }

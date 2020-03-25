@@ -17,5 +17,11 @@ class filter extends Model
     public $prefix;
 
     public $encodingType;
-    protected $_name = [];
+    protected $_name = [
+        'delimiter'    => 'delimiter',
+        'marker'       => 'marker',
+        'maxKeys'      => 'max-keys',
+        'prefix'       => 'prefix',
+        'encodingType' => 'encoding-type',
+    ];
 }

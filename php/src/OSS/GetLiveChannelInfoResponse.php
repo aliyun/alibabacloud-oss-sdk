@@ -11,5 +11,8 @@ class GetLiveChannelInfoResponse extends Model
     public $requestId;
 
     public $liveChannelConfiguration;
-    protected $_name = [];
+    protected $_name = [
+        'requestId'                => 'x-oss-request-id',
+        'liveChannelConfiguration' => 'LiveChannelConfiguration',
+    ];
 }

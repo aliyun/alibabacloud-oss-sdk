@@ -11,5 +11,8 @@ class includeHeader extends Model
     public $key;
 
     public $equals;
-    protected $_name = [];
+    protected $_name = [
+        'key'    => 'Key',
+        'equals' => 'Equals',
+    ];
 }

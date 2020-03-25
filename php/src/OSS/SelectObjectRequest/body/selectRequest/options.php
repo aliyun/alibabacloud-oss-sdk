@@ -11,5 +11,8 @@ class options extends Model
     public $skipPartialDataRecord;
 
     public $maxSkippedRecordsAllowed;
-    protected $_name = [];
+    protected $_name = [
+        'skipPartialDataRecord'    => 'SkipPartialDataRecord',
+        'maxSkippedRecordsAllowed' => 'MaxSkippedRecordsAllowed',
+    ];
 }

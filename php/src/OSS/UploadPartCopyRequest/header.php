@@ -19,5 +19,12 @@ class header extends Model
     public $copySourceIfUnmodifiedSince;
 
     public $copySourceIfModifiedSince;
-    protected $_name = [];
+    protected $_name = [
+        'copySource'                  => 'x-oss-copy-source',
+        'copySourceRange'             => 'x-oss-copy-source-range',
+        'copySourceIfMatch'           => 'x-oss-copy-source-if-match',
+        'copySourceIfNoneMatch'       => 'x-oss-copy-source-if-none-match',
+        'copySourceIfUnmodifiedSince' => 'x-oss-copy-source-if-unmodified-since',
+        'copySourceIfModifiedSince'   => 'x-oss-copy-source-if-modified-since',
+    ];
 }

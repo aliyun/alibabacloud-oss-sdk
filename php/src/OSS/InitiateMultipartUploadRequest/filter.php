@@ -9,5 +9,7 @@ use AlibabaCloud\Tea\Model;
 class filter extends Model
 {
     public $encodingType;
-    protected $_name = [];
+    protected $_name = [
+        'encodingType' => 'encoding-type',
+    ];
 }

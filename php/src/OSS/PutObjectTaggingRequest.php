@@ -13,5 +13,9 @@ class PutObjectTaggingRequest extends Model
     public $objectName;
 
     public $body;
-    protected $_name = [];
+    protected $_name = [
+        'bucketName' => 'BucketName',
+        'objectName' => 'ObjectName',
+        'body'       => 'Body',
+    ];
 }

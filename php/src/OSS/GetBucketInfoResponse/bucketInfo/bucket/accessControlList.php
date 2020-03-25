@@ -9,5 +9,7 @@ use AlibabaCloud\Tea\Model;
 class accessControlList extends Model
 {
     public $grant;
-    protected $_name = [];
+    protected $_name = [
+        'grant' => 'Grant',
+    ];
 }

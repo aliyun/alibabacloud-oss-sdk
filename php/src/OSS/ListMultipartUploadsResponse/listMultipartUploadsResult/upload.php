@@ -13,5 +13,9 @@ class upload extends Model
     public $uploadId;
 
     public $initiated;
-    protected $_name = [];
+    protected $_name = [
+        'key'       => 'Key',
+        'uploadId'  => 'UploadId',
+        'initiated' => 'Initiated',
+    ];
 }

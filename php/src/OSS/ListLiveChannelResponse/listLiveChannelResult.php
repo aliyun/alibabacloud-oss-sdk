@@ -19,5 +19,12 @@ class listLiveChannelResult extends Model
     public $nextMarker;
 
     public $liveChannel;
-    protected $_name = [];
+    protected $_name = [
+        'prefix'      => 'Prefix',
+        'marker'      => 'Marker',
+        'maxKeys'     => 'MaxKeys',
+        'isTruncated' => 'IsTruncated',
+        'nextMarker'  => 'NextMarker',
+        'liveChannel' => 'LiveChannel',
+    ];
 }

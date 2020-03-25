@@ -15,5 +15,10 @@ class PutObjectResponse extends Model
     public $serverTime;
 
     public $bucketVersion;
-    protected $_name = [];
+    protected $_name = [
+        'requestId'     => 'x-oss-request-id',
+        'hashCrc64ecma' => 'x-oss-hash-crc64ecma',
+        'serverTime'    => 'x-oss-server-time',
+        'bucketVersion' => 'x-oss-bucket-version',
+    ];
 }

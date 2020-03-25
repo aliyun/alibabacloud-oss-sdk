@@ -9,5 +9,7 @@ use AlibabaCloud\Tea\Model;
 class routingRules extends Model
 {
     public $routingRule;
-    protected $_name = [];
+    protected $_name = [
+        'routingRule' => 'RoutingRule',
+    ];
 }

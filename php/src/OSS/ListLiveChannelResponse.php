@@ -11,5 +11,8 @@ class ListLiveChannelResponse extends Model
     public $requestId;
 
     public $listLiveChannelResult;
-    protected $_name = [];
+    protected $_name = [
+        'requestId'             => 'x-oss-request-id',
+        'listLiveChannelResult' => 'ListLiveChannelResult',
+    ];
 }
