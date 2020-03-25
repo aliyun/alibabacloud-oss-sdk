@@ -17,5 +17,11 @@ class completeMultipartUploadResult extends Model
     public $key;
 
     public $encodingType;
-    protected $_name = [];
+    protected $_name = [
+        'bucket'       => 'Bucket',
+        'eTag'         => 'ETag',
+        'location'     => 'Location',
+        'key'          => 'Key',
+        'encodingType' => 'EncodingType',
+    ];
 }

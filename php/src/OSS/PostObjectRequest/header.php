@@ -21,5 +21,12 @@ class header extends Model
     public $key;
 
     public $userMeta;
-    protected $_name = [];
+    protected $_name = [
+        'accessKeyId'         => 'OSSAccessKeyId',
+        'policy'              => 'policy',
+        'signature'           => 'Signature',
+        'successActionStatus' => 'success_action_status',
+        'key'                 => 'key',
+        'userMeta'            => 'UserMeta',
+    ];
 }

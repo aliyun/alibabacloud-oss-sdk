@@ -11,5 +11,8 @@ class GetBucketWebsiteResponse extends Model
     public $requestId;
 
     public $websiteConfiguration;
-    protected $_name = [];
+    protected $_name = [
+        'requestId'            => 'x-oss-request-id',
+        'websiteConfiguration' => 'WebsiteConfiguration',
+    ];
 }

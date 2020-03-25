@@ -11,5 +11,8 @@ class CopyObjectResponse extends Model
     public $requestId;
 
     public $copyObjectResult;
-    protected $_name = [];
+    protected $_name = [
+        'requestId'        => 'x-oss-request-id',
+        'copyObjectResult' => 'CopyObjectResult',
+    ];
 }

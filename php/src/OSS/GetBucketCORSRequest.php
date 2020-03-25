@@ -9,5 +9,7 @@ use AlibabaCloud\Tea\Model;
 class GetBucketCORSRequest extends Model
 {
     public $bucketName;
-    protected $_name = [];
+    protected $_name = [
+        'bucketName' => 'BucketName',
+    ];
 }

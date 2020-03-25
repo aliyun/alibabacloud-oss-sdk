@@ -9,5 +9,7 @@ use AlibabaCloud\Tea\Model;
 class header extends Model
 {
     public $acl;
-    protected $_name = [];
+    protected $_name = [
+        'acl' => 'x-oss-acl',
+    ];
 }

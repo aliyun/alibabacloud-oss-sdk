@@ -9,5 +9,7 @@ use AlibabaCloud\Tea\Model;
 class serverSideEncryptionRule extends Model
 {
     public $applyServerSideEncryptionByDefault;
-    protected $_name = [];
+    protected $_name = [
+        'applyServerSideEncryptionByDefault' => 'ApplyServerSideEncryptionByDefault',
+    ];
 }

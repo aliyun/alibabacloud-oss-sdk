@@ -11,5 +11,8 @@ class DeleteLiveChannelRequest extends Model
     public $bucketName;
 
     public $channelName;
-    protected $_name = [];
+    protected $_name = [
+        'bucketName'  => 'BucketName',
+        'channelName' => 'ChannelName',
+    ];
 }

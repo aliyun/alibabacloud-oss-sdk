@@ -9,5 +9,7 @@ use AlibabaCloud\Tea\Model;
 class PutBucketRequestPaymentResponse extends Model
 {
     public $requestId;
-    protected $_name = [];
+    protected $_name = [
+        'requestId' => 'x-oss-request-id',
+    ];
 }

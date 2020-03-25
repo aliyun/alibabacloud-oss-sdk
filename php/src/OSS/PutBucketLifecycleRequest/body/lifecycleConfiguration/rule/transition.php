@@ -11,5 +11,8 @@ class transition extends Model
     public $days;
 
     public $storageClass;
-    protected $_name = [];
+    protected $_name = [
+        'days'         => 'Days',
+        'storageClass' => 'StorageClass',
+    ];
 }

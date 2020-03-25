@@ -11,5 +11,8 @@ class inputSerialization extends Model
     public $cSV;
 
     public $compressionType;
-    protected $_name = [];
+    protected $_name = [
+        'cSV'             => 'CSV',
+        'compressionType' => 'CompressionType',
+    ];
 }

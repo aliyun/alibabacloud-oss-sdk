@@ -25,5 +25,15 @@ class header extends Model
     public $tagging;
 
     public $contentType;
-    protected $_name = [];
+    protected $_name = [
+        'cacheControl'              => 'Cache-Control',
+        'contentDisposition'        => 'Content-Disposition',
+        'contentEncoding'           => 'Content-Encoding',
+        'expires'                   => 'Expires',
+        'serverSideEncryption'      => 'x-oss-server-side-encryption',
+        'serverSideEncryptionKeyId' => 'x-oss-server-side-encryption-key-id',
+        'storageClass'              => 'x-oss-storage-class',
+        'tagging'                   => 'x-oss-tagging',
+        'contentType'               => 'content-type',
+    ];
 }

@@ -11,5 +11,8 @@ class createBucketConfiguration extends Model
     public $storageClass;
 
     public $dataRedundancyType;
-    protected $_name = [];
+    protected $_name = [
+        'storageClass'       => 'StorageClass',
+        'dataRedundancyType' => 'DataRedundancyType',
+    ];
 }

@@ -19,5 +19,12 @@ class GetObjectResponse extends Model
     public $restore;
 
     public $body;
-    protected $_name = [];
+    protected $_name = [
+        'requestId'            => 'x-oss-request-id',
+        'objectType'           => 'x-oss-object-type',
+        'serverSideEncryption' => 'x-oss-server-side-encryption',
+        'taggingCount'         => 'x-oss-tagging-count',
+        'restore'              => 'x-oss-restore',
+        'body'                 => 'body',
+    ];
 }

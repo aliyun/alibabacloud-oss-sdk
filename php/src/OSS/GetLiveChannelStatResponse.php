@@ -11,5 +11,8 @@ class GetLiveChannelStatResponse extends Model
     public $requestId;
 
     public $liveChannelStat;
-    protected $_name = [];
+    protected $_name = [
+        'requestId'       => 'x-oss-request-id',
+        'liveChannelStat' => 'LiveChannelStat',
+    ];
 }

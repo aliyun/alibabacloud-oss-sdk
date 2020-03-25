@@ -11,5 +11,8 @@ class GetBucketEncryptionResponse extends Model
     public $requestId;
 
     public $serverSideEncryptionRule;
-    protected $_name = [];
+    protected $_name = [
+        'requestId'                => 'x-oss-request-id',
+        'serverSideEncryptionRule' => 'ServerSideEncryptionRule',
+    ];
 }

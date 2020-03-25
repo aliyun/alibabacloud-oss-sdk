@@ -13,5 +13,9 @@ class CopyObjectRequest extends Model
     public $destObjectName;
 
     public $header;
-    protected $_name = [];
+    protected $_name = [
+        'bucketName'     => 'BucketName',
+        'destObjectName' => 'DestObjectName',
+        'header'         => 'Header',
+    ];
 }

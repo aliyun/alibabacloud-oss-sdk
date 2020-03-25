@@ -15,5 +15,10 @@ class target extends Model
     public $fragCount;
 
     public $playlistName;
-    protected $_name = [];
+    protected $_name = [
+        'type'         => 'Type',
+        'fragDuration' => 'FragDuration',
+        'fragCount'    => 'FragCount',
+        'playlistName' => 'PlaylistName',
+    ];
 }

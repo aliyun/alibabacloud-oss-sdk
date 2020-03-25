@@ -11,5 +11,8 @@ class owner extends Model
     public $iD;
 
     public $displayName;
-    protected $_name = [];
+    protected $_name = [
+        'iD'          => 'ID',
+        'displayName' => 'DisplayName',
+    ];
 }

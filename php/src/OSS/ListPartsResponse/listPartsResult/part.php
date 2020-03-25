@@ -15,5 +15,10 @@ class part extends Model
     public $eTag;
 
     public $size;
-    protected $_name = [];
+    protected $_name = [
+        'partNumber'   => 'PartNumber',
+        'lastModified' => 'LastModified',
+        'eTag'         => 'ETag',
+        'size'         => 'Size',
+    ];
 }

@@ -11,5 +11,8 @@ class header extends Model
     public $symlinkTarget;
 
     public $storageClass;
-    protected $_name = [];
+    protected $_name = [
+        'symlinkTarget' => 'x-oss-symlink-target',
+        'storageClass'  => 'x-oss-storage-class',
+    ];
 }

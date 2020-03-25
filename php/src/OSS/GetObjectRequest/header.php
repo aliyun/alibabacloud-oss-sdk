@@ -31,5 +31,18 @@ class header extends Model
     public $ifNoneMatch;
 
     public $acceptEncoding;
-    protected $_name = [];
+    protected $_name = [
+        'responseContentType'        => 'response-content-type',
+        'responseContentLanguage'    => 'response-content-language',
+        'responseExpires'            => 'response-expires',
+        'responseCacheControl'       => 'response-cache-control',
+        'responseContentDisposition' => 'response-content-disposition',
+        'responseContentEncoding'    => 'response-content-encoding',
+        'range'                      => 'Range',
+        'ifModifiedSince'            => 'If-Modified-Since',
+        'ifUnmodifiedSince'          => 'If-Unmodified-Since',
+        'ifMatch'                    => 'If-Match',
+        'ifNoneMatch'                => 'If-None-Match',
+        'acceptEncoding'             => 'Accept-Encoding',
+    ];
 }

@@ -11,5 +11,8 @@ class GetBucketRefererResponse extends Model
     public $requestId;
 
     public $refererConfiguration;
-    protected $_name = [];
+    protected $_name = [
+        'requestId'            => 'x-oss-request-id',
+        'refererConfiguration' => 'RefererConfiguration',
+    ];
 }

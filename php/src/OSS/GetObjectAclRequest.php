@@ -11,5 +11,8 @@ class GetObjectAclRequest extends Model
     public $bucketName;
 
     public $objectName;
-    protected $_name = [];
+    protected $_name = [
+        'bucketName' => 'BucketName',
+        'objectName' => 'ObjectName',
+    ];
 }

@@ -19,5 +19,12 @@ class OptionObjectResponse extends Model
     public $accessControlExposeHeaders;
 
     public $accessControlMaxAge;
-    protected $_name = [];
+    protected $_name = [
+        'requestId'                  => 'x-oss-request-id',
+        'accessControlAllowOrigin'   => 'access-control-allow-origin',
+        'accessControlAllowMethods'  => 'access-control-allow-methods',
+        'accessControlAllowHeaders'  => 'access-control-allow-headers',
+        'accessControlExposeHeaders' => 'access-control-expose-headers',
+        'accessControlMaxAge'        => 'access-control-max-age',
+    ];
 }

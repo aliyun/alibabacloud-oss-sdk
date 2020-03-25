@@ -17,5 +17,11 @@ class liveChannelStat extends Model
     public $video;
 
     public $audio;
-    protected $_name = [];
+    protected $_name = [
+        'status'        => 'Status',
+        'connectedTime' => 'ConnectedTime',
+        'remoteAddr'    => 'RemoteAddr',
+        'video'         => 'Video',
+        'audio'         => 'Audio',
+    ];
 }

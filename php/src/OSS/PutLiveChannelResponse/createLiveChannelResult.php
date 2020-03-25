@@ -11,5 +11,8 @@ class createLiveChannelResult extends Model
     public $publishUrls;
 
     public $playUrls;
-    protected $_name = [];
+    protected $_name = [
+        'publishUrls' => 'PublishUrls',
+        'playUrls'    => 'PlayUrls',
+    ];
 }

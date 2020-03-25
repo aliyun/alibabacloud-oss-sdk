@@ -17,5 +17,11 @@ class outputSerialization extends Model
     public $enablePayloadCrc;
 
     public $outputHeader;
-    protected $_name = [];
+    protected $_name = [
+        'cSV'              => 'CSV',
+        'keepAllColumns'   => 'KeepAllColumns',
+        'outputRawData'    => 'OutputRawData',
+        'enablePayloadCrc' => 'EnablePayloadCrc',
+        'outputHeader'     => 'OutputHeader',
+    ];
 }

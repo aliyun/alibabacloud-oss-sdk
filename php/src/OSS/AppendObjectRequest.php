@@ -19,5 +19,12 @@ class AppendObjectRequest extends Model
     public $filter;
 
     public $header;
-    protected $_name = [];
+    protected $_name = [
+        'bucketName' => 'BucketName',
+        'objectName' => 'ObjectName',
+        'userMeta'   => 'UserMeta',
+        'body'       => 'body',
+        'filter'     => 'Filter',
+        'header'     => 'Header',
+    ];
 }

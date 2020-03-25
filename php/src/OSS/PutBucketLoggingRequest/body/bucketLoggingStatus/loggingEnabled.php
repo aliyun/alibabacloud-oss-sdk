@@ -11,5 +11,8 @@ class loggingEnabled extends Model
     public $targetBucket;
 
     public $targetPrefix;
-    protected $_name = [];
+    protected $_name = [
+        'targetBucket' => 'TargetBucket',
+        'targetPrefix' => 'TargetPrefix',
+    ];
 }

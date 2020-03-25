@@ -11,5 +11,8 @@ class DeleteMultipleObjectsResponse extends Model
     public $requestId;
 
     public $deleteResult;
-    protected $_name = [];
+    protected $_name = [
+        'requestId'    => 'x-oss-request-id',
+        'deleteResult' => 'DeleteResult',
+    ];
 }

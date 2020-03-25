@@ -19,5 +19,12 @@ class liveChannel extends Model
     public $publishUrls;
 
     public $playUrls;
-    protected $_name = [];
+    protected $_name = [
+        'name'         => 'Name',
+        'description'  => 'Description',
+        'status'       => 'Status',
+        'lastModified' => 'LastModified',
+        'publishUrls'  => 'PublishUrls',
+        'playUrls'     => 'PlayUrls',
+    ];
 }

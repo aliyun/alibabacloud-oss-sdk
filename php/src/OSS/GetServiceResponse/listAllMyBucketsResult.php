@@ -21,5 +21,13 @@ class listAllMyBucketsResult extends Model
     public $owner;
 
     public $buckets;
-    protected $_name = [];
+    protected $_name = [
+        'prefix'      => 'Prefix',
+        'marker'      => 'Marker',
+        'maxKeys'     => 'MaxKeys',
+        'isTruncated' => 'IsTruncated',
+        'nextMarker'  => 'NextMarker',
+        'owner'       => 'Owner',
+        'buckets'     => 'Buckets',
+    ];
 }

@@ -11,5 +11,8 @@ class refererConfiguration extends Model
     public $allowEmptyReferer;
 
     public $refererList;
-    protected $_name = [];
+    protected $_name = [
+        'allowEmptyReferer' => 'AllowEmptyReferer',
+        'refererList'       => 'RefererList',
+    ];
 }

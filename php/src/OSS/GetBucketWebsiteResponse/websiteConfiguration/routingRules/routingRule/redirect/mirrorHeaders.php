@@ -15,5 +15,10 @@ class mirrorHeaders extends Model
     public $remove;
 
     public $set;
-    protected $_name = [];
+    protected $_name = [
+        'passAll' => 'PassAll',
+        'pass'    => 'Pass',
+        'remove'  => 'Remove',
+        'set'     => 'Set',
+    ];
 }

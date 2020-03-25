@@ -11,5 +11,8 @@ class set extends Model
     public $key;
 
     public $value;
-    protected $_name = [];
+    protected $_name = [
+        'key'   => 'Key',
+        'value' => 'Value',
+    ];
 }

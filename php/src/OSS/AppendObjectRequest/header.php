@@ -25,5 +25,15 @@ class header extends Model
     public $storageClass;
 
     public $contentType;
-    protected $_name = [];
+    protected $_name = [
+        'cacheControl'         => 'Cache-Control',
+        'contentDisposition'   => 'Content-Disposition',
+        'contentEncoding'      => 'Content-Encoding',
+        'contentMD5'           => 'Content-MD5',
+        'expires'              => 'Expires',
+        'serverSideEncryption' => 'x-oss-server-side-encryption',
+        'objectAcl'            => 'x-oss-object-acl',
+        'storageClass'         => 'x-oss-storage-class',
+        'contentType'          => 'content-type',
+    ];
 }

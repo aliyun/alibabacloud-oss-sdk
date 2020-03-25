@@ -15,5 +15,10 @@ class InitiateMultipartUploadRequest extends Model
     public $filter;
 
     public $header;
-    protected $_name = [];
+    protected $_name = [
+        'bucketName' => 'BucketName',
+        'objectName' => 'ObjectName',
+        'filter'     => 'Filter',
+        'header'     => 'Header',
+    ];
 }

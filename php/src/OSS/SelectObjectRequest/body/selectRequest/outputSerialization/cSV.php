@@ -11,5 +11,8 @@ class cSV extends Model
     public $recordDelimiter;
 
     public $fieldDelimiter;
-    protected $_name = [];
+    protected $_name = [
+        'recordDelimiter' => 'RecordDelimiter',
+        'fieldDelimiter'  => 'FieldDelimiter',
+    ];
 }

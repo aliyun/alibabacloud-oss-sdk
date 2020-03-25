@@ -13,5 +13,9 @@ class liveChannelConfiguration extends Model
     public $status;
 
     public $target;
-    protected $_name = [];
+    protected $_name = [
+        'description' => 'Description',
+        'status'      => 'Status',
+        'target'      => 'Target',
+    ];
 }

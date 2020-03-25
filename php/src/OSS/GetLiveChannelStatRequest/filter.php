@@ -9,5 +9,7 @@ use AlibabaCloud\Tea\Model;
 class filter extends Model
 {
     public $comp;
-    protected $_name = [];
+    protected $_name = [
+        'comp' => 'comp',
+    ];
 }

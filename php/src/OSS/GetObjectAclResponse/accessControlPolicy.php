@@ -11,5 +11,8 @@ class accessControlPolicy extends Model
     public $owner;
 
     public $accessControlList;
-    protected $_name = [];
+    protected $_name = [
+        'owner'             => 'Owner',
+        'accessControlList' => 'AccessControlList',
+    ];
 }

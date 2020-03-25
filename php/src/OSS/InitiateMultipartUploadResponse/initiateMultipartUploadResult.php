@@ -13,5 +13,9 @@ class initiateMultipartUploadResult extends Model
     public $key;
 
     public $uploadId;
-    protected $_name = [];
+    protected $_name = [
+        'bucket'   => 'Bucket',
+        'key'      => 'Key',
+        'uploadId' => 'UploadId',
+    ];
 }

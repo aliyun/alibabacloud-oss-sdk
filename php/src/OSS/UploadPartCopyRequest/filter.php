@@ -11,5 +11,8 @@ class filter extends Model
     public $partNumber;
 
     public $uploadId;
-    protected $_name = [];
+    protected $_name = [
+        'partNumber' => 'partNumber',
+        'uploadId'   => 'uploadId',
+    ];
 }

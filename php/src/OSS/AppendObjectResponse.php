@@ -13,5 +13,9 @@ class AppendObjectResponse extends Model
     public $nextAppendPosition;
 
     public $hashCrc64ecma;
-    protected $_name = [];
+    protected $_name = [
+        'requestId'          => 'x-oss-request-id',
+        'nextAppendPosition' => 'x-oss-next-append-position',
+        'hashCrc64ecma'      => 'x-oss-hash-crc64ecma',
+    ];
 }

@@ -11,5 +11,8 @@ class GetBucketInfoResponse extends Model
     public $requestId;
 
     public $bucketInfo;
-    protected $_name = [];
+    protected $_name = [
+        'requestId'  => 'x-oss-request-id',
+        'bucketInfo' => 'BucketInfo',
+    ];
 }

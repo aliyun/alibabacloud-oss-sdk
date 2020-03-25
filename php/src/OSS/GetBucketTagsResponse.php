@@ -11,5 +11,8 @@ class GetBucketTagsResponse extends Model
     public $requestId;
 
     public $tagging;
-    protected $_name = [];
+    protected $_name = [
+        'requestId' => 'x-oss-request-id',
+        'tagging'   => 'Tagging',
+    ];
 }

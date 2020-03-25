@@ -9,5 +9,7 @@ use AlibabaCloud\Tea\Model;
 class refererList extends Model
 {
     public $referer;
-    protected $_name = [];
+    protected $_name = [
+        'referer' => 'Referer',
+    ];
 }

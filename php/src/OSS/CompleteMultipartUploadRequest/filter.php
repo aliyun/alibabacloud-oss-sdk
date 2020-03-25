@@ -11,5 +11,8 @@ class filter extends Model
     public $uploadId;
 
     public $encodingType;
-    protected $_name = [];
+    protected $_name = [
+        'uploadId'     => 'uploadId',
+        'encodingType' => 'Encoding-type',
+    ];
 }

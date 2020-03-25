@@ -13,5 +13,9 @@ class header extends Model
     public $accessControlRequestMethod;
 
     public $accessControlRequestHeaders;
-    protected $_name = [];
+    protected $_name = [
+        'origin'                      => 'Origin',
+        'accessControlRequestMethod'  => 'Access-Control-Request-Method',
+        'accessControlRequestHeaders' => 'Access-Control-Request-Headers',
+    ];
 }

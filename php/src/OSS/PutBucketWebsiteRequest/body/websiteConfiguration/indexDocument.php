@@ -9,5 +9,7 @@ use AlibabaCloud\Tea\Model;
 class indexDocument extends Model
 {
     public $suffix;
-    protected $_name = [];
+    protected $_name = [
+        'suffix' => 'Suffix',
+    ];
 }

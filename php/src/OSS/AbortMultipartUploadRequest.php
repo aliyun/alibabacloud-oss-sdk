@@ -13,5 +13,9 @@ class AbortMultipartUploadRequest extends Model
     public $objectName;
 
     public $filter;
-    protected $_name = [];
+    protected $_name = [
+        'bucketName' => 'BucketName',
+        'objectName' => 'ObjectName',
+        'filter'     => 'Filter',
+    ];
 }

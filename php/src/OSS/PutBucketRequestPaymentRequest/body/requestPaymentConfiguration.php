@@ -9,5 +9,7 @@ use AlibabaCloud\Tea\Model;
 class requestPaymentConfiguration extends Model
 {
     public $payer;
-    protected $_name = [];
+    protected $_name = [
+        'payer' => 'Payer',
+    ];
 }

@@ -19,5 +19,12 @@ class contents extends Model
     public $storageClass;
 
     public $owner;
-    protected $_name = [];
+    protected $_name = [
+        'key'          => 'Key',
+        'eTag'         => 'ETag',
+        'lastModified' => 'LastModified',
+        'size'         => 'Size',
+        'storageClass' => 'StorageClass',
+        'owner'        => 'Owner',
+    ];
 }

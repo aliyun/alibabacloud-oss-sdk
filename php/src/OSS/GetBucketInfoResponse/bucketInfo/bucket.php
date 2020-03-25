@@ -27,5 +27,16 @@ class bucket extends Model
     public $owner;
 
     public $accessControlList;
-    protected $_name = [];
+    protected $_name = [
+        'creationDate'       => 'CreationDate',
+        'extranetEndpoint'   => 'ExtranetEndpoint',
+        'intranetEndpoint'   => 'IntranetEndpoint',
+        'location'           => 'Location',
+        'name'               => 'Name',
+        'dataRedundancyType' => 'DataRedundancyType',
+        'storageClass'       => 'StorageClass',
+        'comment'            => 'Comment',
+        'owner'              => 'Owner',
+        'accessControlList'  => 'AccessControlList',
+    ];
 }

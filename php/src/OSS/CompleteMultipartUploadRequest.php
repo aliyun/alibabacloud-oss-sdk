@@ -15,5 +15,10 @@ class CompleteMultipartUploadRequest extends Model
     public $filter;
 
     public $body;
-    protected $_name = [];
+    protected $_name = [
+        'bucketName' => 'BucketName',
+        'objectName' => 'ObjectName',
+        'filter'     => 'Filter',
+        'body'       => 'Body',
+    ];
 }

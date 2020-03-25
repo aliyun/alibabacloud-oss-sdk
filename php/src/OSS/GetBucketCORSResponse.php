@@ -11,5 +11,8 @@ class GetBucketCORSResponse extends Model
     public $requestId;
 
     public $cORSConfiguration;
-    protected $_name = [];
+    protected $_name = [
+        'requestId'         => 'x-oss-request-id',
+        'cORSConfiguration' => 'CORSConfiguration',
+    ];
 }

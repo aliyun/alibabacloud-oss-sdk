@@ -15,5 +15,10 @@ class filter extends Model
     public $partNumberMarker;
 
     public $encodingType;
-    protected $_name = [];
+    protected $_name = [
+        'uploadId'         => 'uploadId',
+        'maxParts'         => 'max-parts',
+        'partNumberMarker' => 'part-number-marker',
+        'encodingType'     => 'Encoding-type',
+    ];
 }

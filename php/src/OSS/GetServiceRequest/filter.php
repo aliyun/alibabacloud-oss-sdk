@@ -13,5 +13,9 @@ class filter extends Model
     public $marker;
 
     public $maxKeys;
-    protected $_name = [];
+    protected $_name = [
+        'prefix'  => 'prefix',
+        'marker'  => 'marker',
+        'maxKeys' => 'max-keys',
+    ];
 }

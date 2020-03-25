@@ -19,5 +19,12 @@ class cSV extends Model
     public $commentCharacter;
 
     public $range;
-    protected $_name = [];
+    protected $_name = [
+        'fileHeaderInfo'   => 'FileHeaderInfo',
+        'recordDelimiter'  => 'RecordDelimiter',
+        'fieldDelimiter'   => 'FieldDelimiter',
+        'quoteCharacter'   => 'QuoteCharacter',
+        'commentCharacter' => 'CommentCharacter',
+        'range'            => 'Range',
+    ];
 }

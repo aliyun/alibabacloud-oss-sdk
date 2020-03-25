@@ -15,5 +15,10 @@ class snapshot extends Model
     public $notifyTopic;
 
     public $interval;
-    protected $_name = [];
+    protected $_name = [
+        'roleName'    => 'RoleName',
+        'destBucket'  => 'DestBucket',
+        'notifyTopic' => 'NotifyTopic',
+        'interval'    => 'Interval',
+    ];
 }

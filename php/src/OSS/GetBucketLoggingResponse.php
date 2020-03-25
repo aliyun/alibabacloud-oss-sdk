@@ -11,5 +11,8 @@ class GetBucketLoggingResponse extends Model
     public $requestId;
 
     public $bucketLoggingStatus;
-    protected $_name = [];
+    protected $_name = [
+        'requestId'           => 'x-oss-request-id',
+        'bucketLoggingStatus' => 'BucketLoggingStatus',
+    ];
 }

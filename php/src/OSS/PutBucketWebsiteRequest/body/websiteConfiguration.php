@@ -13,5 +13,9 @@ class websiteConfiguration extends Model
     public $errorDocument;
 
     public $routingRules;
-    protected $_name = [];
+    protected $_name = [
+        'indexDocument' => 'IndexDocument',
+        'errorDocument' => 'ErrorDocument',
+        'routingRules'  => 'RoutingRules',
+    ];
 }

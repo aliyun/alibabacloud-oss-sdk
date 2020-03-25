@@ -25,5 +25,15 @@ class listPartsResult extends Model
     public $isTruncated;
 
     public $part;
-    protected $_name = [];
+    protected $_name = [
+        'bucket'               => 'Bucket',
+        'encodingType'         => 'EncodingType',
+        'key'                  => 'Key',
+        'uploadId'             => 'UploadId',
+        'partNumberMarker'     => 'PartNumberMarker',
+        'nextPartNumberMarker' => 'NextPartNumberMarker',
+        'maxParts'             => 'MaxParts',
+        'isTruncated'          => 'IsTruncated',
+        'part'                 => 'Part',
+    ];
 }

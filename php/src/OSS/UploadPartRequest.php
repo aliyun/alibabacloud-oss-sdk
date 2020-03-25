@@ -15,5 +15,10 @@ class UploadPartRequest extends Model
     public $body;
 
     public $filter;
-    protected $_name = [];
+    protected $_name = [
+        'bucketName' => 'BucketName',
+        'objectName' => 'ObjectName',
+        'body'       => 'body',
+        'filter'     => 'Filter',
+    ];
 }

@@ -1,7 +1,7 @@
 {
 	"scope": "alibabacloud",
 	"name": "OSS",
-	"version": "1.0.8",
+	"version": "1.0.9",
 	"main": "./oss.tea",
 	"go": {
 		"package": [
@@ -13,7 +13,7 @@
 		"java": "com.aliyun:oss-client:2.0.0",
 		"csharp": "AlibabaCloud.SDK.OSS.Client:1.0.1",
 		"ts": "@alicloud/oss-client:^1.1.2",
-		"php": "alibabacloud/tea-oss-sdk:^0.2.1"
+		"php": "alibabacloud/tea-oss-sdk:^0.2.2"
 	},
 	"java": {
 		"package": "com.aliyun.oss"
@@ -23,7 +23,12 @@
 	},
 	"php": {
 		"package": "AlibabaCloud.SDK.OSS",
-		"clientName": "OSS"
+		"clientName": "OSS",
+		"packageInfo": {
+			"name": "alibabacloud/tea-oss-sdk",
+			"desc": "Aliyun Tea OSS SDK Library for PHP",
+			"github": "https://github.com/aliyun/alibabacloud-oss-sdk"
+		}
 	},
 	"libraries": {
 		"Util": "alibabacloud:Util:*",

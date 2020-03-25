@@ -15,5 +15,10 @@ class PostVodPlaylistRequest extends Model
     public $playlistName;
 
     public $filter;
-    protected $_name = [];
+    protected $_name = [
+        'bucketName'   => 'BucketName',
+        'channelName'  => 'ChannelName',
+        'playlistName' => 'PlaylistName',
+        'filter'       => 'Filter',
+    ];
 }

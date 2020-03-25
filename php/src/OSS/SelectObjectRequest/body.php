@@ -9,5 +9,7 @@ use AlibabaCloud\Tea\Model;
 class body extends Model
 {
     public $selectRequest;
-    protected $_name = [];
+    protected $_name = [
+        'selectRequest' => 'SelectRequest',
+    ];
 }
