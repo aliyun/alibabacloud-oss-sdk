@@ -515,7 +515,7 @@ func getSignatureV1(request *tea.Request, bucketName, accessKeySecret string) st
 		resource = "/" + bucketName
 	}
 	resource = resource + request.Pathname
-	if !strings.Contains(resource, "?") {
+	if !strings.Contains(resource, "?") && len(request.Query) > 0 {
 		resource += "?"
 	}
 	for key, value := range request.Query {
