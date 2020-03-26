@@ -4,7 +4,6 @@ namespace AlibabaCloud\Tea\OSSUtils;
 
 use Adbar\Dot;
 use AlibabaCloud\Tea\Request;
-use PackageVersions\Versions;
 
 class OSSUtils
 {
@@ -250,11 +249,7 @@ class OSSUtils
     {
         if (empty(self::$defaultUserAgent)) {
             self::$defaultUserAgent = 'Alibaba Cloud (' . PHP_OS . ') ';
-            $versions               = Versions::VERSIONS;
-            if (isset($versions['alibabacloud/tea'])) {
-                $tmp                    = explode('@', $versions['alibabacloud/tea']);
-                self::$defaultUserAgent .= 'TeaCore/' . $tmp[0] . ' ';
-            }
+            self::$defaultUserAgent .= 'TeaCore/3';
         }
 
         return self::$defaultUserAgent;
