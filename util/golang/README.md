@@ -20,7 +20,7 @@ $ go mod tidy
 Detailed changes for each release are documented in the [release notes](./ChangeLog.txt).
 
 ## References
-* [Latest Release](https://github.com/aliyun/alibabacloud-oss-sdk/tree/master/util/golang)
+* [Latest Release](https://github.com/aliyun/alibabacloud-oss-sdk)
 
 ## License
 [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0)
