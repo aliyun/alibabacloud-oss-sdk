@@ -21,7 +21,7 @@
 每个版本的详细更改记录在[发行说明](./ChangeLog.txt)中。
 
 ## 相关
-* [最新源码](https://github.com/aliyun/alibabacloud-oss-sdk/tree/master/baseclient/go)
+* [最新源码](https://github.com/aliyun/alibabacloud-oss-sdk/)
 
 ## 许可证
 [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0)
