@@ -5,8 +5,8 @@ import (
 	"os"
 	"testing"
 
+	ossutil "github.com/alibabacloud-go/tea-oss-utils/service"
 	"github.com/alibabacloud-go/tea/utils"
-	ossutil "github.com/aliyun/alibabacloud-oss-sdk/util/golang/service"
 )
 
 var config = new(Config).SetAccessKeyId(os.Getenv("ACCESS_KEY_ID")).
