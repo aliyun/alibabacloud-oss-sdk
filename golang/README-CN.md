@@ -10,8 +10,8 @@
 ## 安装
 
 你可以使用 `go mod` 来管理你的依赖，
-```go
-  go mod tidy
+```sh
+$ go get github.com/alibabacloud-go/tea-oss-sdk
 ```
 
 ## 示例
@@ -21,7 +21,7 @@ package main
 import (
   "fmt"
 
-  ossClient "github.com/aliyun/alibabacloud-oss-sdk/golang/client"
+  ossClient "github.com/alibabacloud-go/tea-oss-sdk/client"
 )
 
 func main(){
