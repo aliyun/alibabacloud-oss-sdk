@@ -10,7 +10,7 @@ English | [简体中文](README-CN.md)
 If you use `go mod` to manage your dependence, you can use the following command:
 
 ```sh
-$ go mod tidy
+$ go get github.com/alibabacloud-go/tea-oss-sdk
 ```
 
 ## Demo
@@ -20,7 +20,7 @@ package main
 import (
   "fmt"
 
-  ossClient "github.com/aliyun/alibabacloud-oss-sdk/golang/client"
+  ossClient "github.com/alibabacloud-go/tea-oss-sdk/client"
 )
 
 func main(){
