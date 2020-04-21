@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	ossutil "github.com/alibabacloud-go/tea-oss-utils/service"
+	"github.com/alibabacloud-go/tea/tea"
 	"github.com/alibabacloud-go/tea/utils"
 )
 
@@ -20,7 +21,7 @@ var client *Client
 
 func init() {
 	client, _ = NewClient(config)
-	client.SignatureVersion = "V2"
+	client.SignatureVersion = tea.String("V2")
 }
 
 func Test_PutBucketReferer(t *testing.T) {
@@ -45,8 +46,8 @@ func Test_GetBucketReferer(t *testing.T) {
 }
 
 func Test_PutObject(t *testing.T) {
-	client.IsEnableMD5 = true
-	client.IsEnableCrc = true
+	client.IsEnableMD5 = tea.Bool(true)
+	client.IsEnableCrc = tea.Bool(true)
 	obj := bytes.NewReader([]byte("value"))
 	setting := &PutObjectRequest{}
 	header := &PutObjectRequestHeader{}
