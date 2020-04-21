@@ -424,7 +424,7 @@ func getSignedStrV1(req *tea.Request, canonicalizedResource, accessKeySecret str
 	contentType := req.Headers["content-type"]
 	contentMd5 := req.Headers["content-md5"]
 
-	signStr := req.Method + "\n" + contentMd5 + "\n" + contentType + "\n" + date + "\n" + canonicalizedOSSHeaders + canonicalizedResource
+	signStr := tea.StringValue(req.Method) + "\n" + contentMd5 + "\n" + contentType + "\n" + date + "\n" + canonicalizedOSSHeaders + canonicalizedResource
 	h := hmac.New(func() hash.Hash { return sha1.New() }, []byte(accessKeySecret))
 	io.WriteString(h, signStr)
 	signedStr := base64.StdEncoding.EncodeToString(h.Sum(nil))
@@ -460,7 +460,7 @@ func getSignedStrV2(req *tea.Request, canonicalizedResource, accessKeySecret str
 	date := req.Headers["date"]
 	contentType := req.Headers["content-type"]
 	contentMd5 := req.Headers["content-md5"]
-	signStr := req.Method + "\n" + contentMd5 + "\n" + contentType + "\n" + date + "\n" + canonicalizedOSSHeaders + strings.Join(additionalHeaders, ";") + "\n" + canonicalizedResource
+	signStr := tea.StringValue(req.Method) + "\n" + contentMd5 + "\n" + contentType + "\n" + date + "\n" + canonicalizedOSSHeaders + strings.Join(additionalHeaders, ";") + "\n" + canonicalizedResource
 	h := hmac.New(func() hash.Hash { return sha256.New() }, []byte(accessKeySecret))
 	io.WriteString(h, signStr)
 	signedStr := base64.StdEncoding.EncodeToString(h.Sum(nil))
@@ -514,7 +514,7 @@ func getSignatureV1(request *tea.Request, bucketName, accessKeySecret string) st
 	if bucketName != "" {
 		resource = "/" + bucketName
 	}
-	resource = resource + request.Pathname
+	resource = resource + tea.StringValue(request.Pathname)
 	if !strings.Contains(resource, "?") && len(request.Query) > 0 {
 		resource += "?"
 	}
@@ -534,9 +534,9 @@ func getSignatureV1(request *tea.Request, bucketName, accessKeySecret string) st
 
 func getSignatureV2(request *tea.Request, bucketName, accessKeySecret string, additionalHeaders []string) string {
 	resource := ""
-	pathName := request.Pathname
+	pathName := tea.StringValue(request.Pathname)
 	if bucketName != "" {
-		pathName = "/" + bucketName + request.Pathname
+		pathName = "/" + bucketName + tea.StringValue(request.Pathname)
 	}
 
 	strs := strings.Split(pathName, "?")
