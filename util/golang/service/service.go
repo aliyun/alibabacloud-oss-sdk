@@ -131,22 +131,22 @@ type ServiceError struct {
 	HostId    string `json:"HostId" xml:"HostId"`
 }
 
-func GetSignature(request *tea.Request, bucketName, accessKeyId, accessKeySecret, signatureVersion string, addtionalHeaders []string) string {
+func GetSignature(request *tea.Request, bucketName, accessKeyId, accessKeySecret, signatureVersion *string, addtionalHeaders []*string) *string {
 	sign := ""
-	if strings.ToUpper(signatureVersion) == "V2" {
+	if strings.ToUpper(tea.StringValue(signatureVersion)) == "V2" {
 		if len(addtionalHeaders) == 0 {
-			sign = "OSS2 AccessKeyId:" + accessKeyId + ",Signature:" +
-				getSignatureV2(request, bucketName, accessKeySecret, addtionalHeaders)
-			return sign
+			sign = "OSS2 AccessKeyId:" + tea.StringValue(accessKeyId) + ",Signature:" +
+				getSignatureV2(request, tea.StringValue(bucketName), tea.StringValue(accessKeySecret), tea.StringSliceValue(addtionalHeaders))
+			return tea.String(sign)
 		} else {
-			sign = "OSS2 AccessKeyId:" + accessKeyId + ",AdditionalHeaders:" + listToString(addtionalHeaders, ";") +
-				",Signature:" + getSignatureV2(request, bucketName, accessKeySecret, addtionalHeaders)
-			return sign
+			sign = "OSS2 AccessKeyId:" + tea.StringValue(accessKeyId) + ",AdditionalHeaders:" + listToString(tea.StringSliceValue(addtionalHeaders), ";") +
+				",Signature:" + getSignatureV2(request, tea.StringValue(bucketName), tea.StringValue(accessKeySecret), tea.StringSliceValue(addtionalHeaders))
+			return tea.String(sign)
 		}
 
 	} else {
-		sign = "OSS " + accessKeyId + ":" + getSignatureV1(request, bucketName, accessKeySecret)
-		return sign
+		sign = "OSS " + tea.StringValue(accessKeyId) + ":" + getSignatureV1(request, tea.StringValue(bucketName), tea.StringValue(accessKeySecret))
+		return tea.String(sign)
 	}
 }
 
@@ -162,11 +162,11 @@ func GetSignature(request *tea.Request, bucketName, accessKeyId, accessKeySecret
 // }
 
 // Add prefix to key of meta
-func ToMeta(meta map[string]string, prefix string) map[string]string {
+func ToMeta(meta map[string]string, prefix *string) map[string]string {
 	result := make(map[string]string)
 	for key, value := range meta {
-		if !strings.HasPrefix(strings.ToLower((key)), prefix) {
-			key = prefix + key
+		if !strings.HasPrefix(strings.ToLower((key)), tea.StringValue(prefix)) {
+			key = tea.StringValue(prefix) + key
 		}
 		result[key] = value
 	}
@@ -174,21 +174,21 @@ func ToMeta(meta map[string]string, prefix string) map[string]string {
 }
 
 // Remove prefix from key of meta
-func ParseMeta(meta map[string]string, prefix string) map[string]string {
+func ParseMeta(meta map[string]string, prefix *string) map[string]string {
 	userMeta := make(map[string]string)
 	for key, value := range meta {
-		if strings.HasPrefix(strings.ToLower(key), prefix) {
-			key = strings.Replace(key, prefix, "", 1)
+		if strings.HasPrefix(strings.ToLower(key), tea.StringValue(prefix)) {
+			key = strings.Replace(key, tea.StringValue(prefix), "", 1)
 		}
 		userMeta[key] = value
 	}
 	return userMeta
 }
 
-func GetErrMessage(bodyStr string) map[string]interface{} {
+func GetErrMessage(bodyStr *string) map[string]interface{} {
 	resp := make(map[string]interface{})
 	errMsg := &ServiceError{}
-	err := xml.Unmarshal([]byte(bodyStr), errMsg)
+	err := xml.Unmarshal([]byte(tea.StringValue(bodyStr)), errMsg)
 	if err != nil {
 		return resp
 	}
@@ -200,42 +200,42 @@ func GetErrMessage(bodyStr string) map[string]interface{} {
 }
 
 // Return md5 according to body
-func GetContentMD5(a string, isEnableMD5 bool) string {
-	if !isEnableMD5 {
-		return ""
+func GetContentMD5(a *string, isEnableMD5 *bool) *string {
+	if !tea.BoolValue(isEnableMD5) {
+		return tea.String("")
 	}
 
-	sum := md5.Sum([]byte(a))
+	sum := md5.Sum([]byte(tea.StringValue(a)))
 	b64 := base64.StdEncoding.EncodeToString(sum[:])
-	return b64
+	return tea.String(b64)
 }
 
 // Return content-type according to object name
-func GetContentType(name string) string {
-	return typeByExtension(name)
+func GetContentType(name *string) *string {
+	return tea.String(typeByExtension(tea.StringValue(name)))
 }
 
 // Encryption
-func Encode(val string, encodeType string) string {
-	strs := strings.Split(val, "/")
-	if encodeType == "Base64" {
+func Encode(val *string, encodeType *string) *string {
+	strs := strings.Split(tea.StringValue(val), "/")
+	if tea.StringValue(encodeType) == "Base64" {
 		encodeStr := base64.StdEncoding.EncodeToString([]byte(strs[len(strs)-1]))
 		strs[len(strs)-1] = encodeStr
-	} else if encodeType == "UrlEncode" {
+	} else if tea.StringValue(encodeType) == "UrlEncode" {
 		encodeStr, err := url.QueryUnescape(strs[len(strs)-1])
 		if err != nil {
-			return ""
+			return tea.String("")
 		}
 		strs[len(strs)-1] = encodeStr
 	}
-	return strings.Join(strs, "/")
+	return tea.String(strings.Join(strs, "/"))
 }
 
-func Decode(value string, decodeType string) string {
-	if decodeType == "Base64Decode" {
-		return base64Decode(value)
-	} else if decodeType == "UrlDecode" {
-		return urlDecode(value)
+func Decode(value *string, decodeType *string) *string {
+	if tea.StringValue(decodeType) == "Base64Decode" {
+		return tea.String(base64Decode(tea.StringValue(value)))
+	} else if tea.StringValue(decodeType) == "UrlDecode" {
+		return tea.String(urlDecode(tea.StringValue(value)))
 	}
 	return value
 }
@@ -245,24 +245,24 @@ func Inject(body io.Reader, ref map[string]string) io.Reader {
 	return body
 }
 
-func GetHost(bucketName, regionId, endpoint, hostModel string) string {
+func GetHost(bucketName, regionId, endpoint, hostModel *string) *string {
 	host := ""
-	if regionId == "" {
-		regionId = "cn-hangzhou"
+	if tea.StringValue(regionId) == "" {
+		regionId = tea.String("cn-hangzhou")
 	}
-	if endpoint == "" {
-		endpoint = "oss-" + regionId + ".aliyuncs.com"
+	if tea.StringValue(endpoint) == "" {
+		endpoint = tea.String("oss-" + tea.StringValue(regionId) + ".aliyuncs.com")
 	}
-	if bucketName != "" {
-		if strings.ToLower(hostModel) == "ip" {
-			host = endpoint + "/" + bucketName
-		} else if strings.ToLower(hostModel) == "cname" {
-			host = endpoint
+	if tea.StringValue(bucketName) != "" {
+		if strings.ToLower(tea.StringValue(hostModel)) == "ip" {
+			host = tea.StringValue(endpoint) + "/" + tea.StringValue(bucketName)
+		} else if strings.ToLower(tea.StringValue(hostModel)) == "cname" {
+			host = tea.StringValue(endpoint)
 		} else {
-			host = bucketName + "." + endpoint
+			host = tea.StringValue(bucketName) + "." + tea.StringValue(endpoint)
 		}
 	} else {
-		host = endpoint
+		host = tea.StringValue(endpoint)
 	}
-	return host
+	return tea.String(host)
 }
