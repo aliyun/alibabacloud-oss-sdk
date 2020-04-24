@@ -2,8 +2,8 @@
 import Util from '@alicloud/tea-util';
 import OSSUtil, * as $OSSUtil from '@alicloud/oss-util';
 import XML from '@alicloud/tea-xml';
-import Credential, * as $Credential from '@alicloud/credentials';
 import FileForm, * as $FileForm from '@alicloud/tea-fileform';
+import Credential, * as $Credential from '@alicloud/credentials';
 import { Readable } from 'stream';
 import * as $tea from '@alicloud/tea-typescript';
 
@@ -7260,7 +7260,7 @@ export default class Client {
         }
 
         request_.body = new $tea.BytesReadable(reqBody);
-        if (Util.isUnset($tea.toMap(request.header)) && !Util.empty(request.header.contentMD5)) {
+        if (!Util.isUnset($tea.toMap(request.header)) && !Util.empty(request.header.contentMD5)) {
           request_.headers["content-md5"] = request.header.contentMD5;
         } else {
           request_.headers["content-md5"] = OSSUtil.getContentMD5(reqBody, this._isEnableMD5);
@@ -10196,7 +10196,7 @@ export default class Client {
 
         request_.query = Util.stringifyMapValue($tea.toMap(request.filter));
         request_.body = OSSUtil.inject(request.body, ctx);
-        if (Util.isUnset($tea.toMap(request.header)) && !Util.empty(request.header.contentType)) {
+        if (!Util.isUnset($tea.toMap(request.header)) && !Util.empty(request.header.contentType)) {
           request_.headers["content-type"] = request.header.contentType;
         } else {
           request_.headers["content-type"] = OSSUtil.getContentType(request.objectName);
@@ -12087,7 +12087,7 @@ export default class Client {
         }
 
         request_.query = Util.stringifyMapValue($tea.toMap(request.filter));
-        if (Util.isUnset($tea.toMap(request.header)) && !Util.empty(request.header.contentType)) {
+        if (!Util.isUnset($tea.toMap(request.header)) && !Util.empty(request.header.contentType)) {
           request_.headers["content-type"] = request.header.contentType;
         } else {
           request_.headers["content-type"] = OSSUtil.getContentType(request.objectName);
@@ -12969,7 +12969,7 @@ export default class Client {
         }
 
         request_.body = OSSUtil.inject(request.body, ctx);
-        if (Util.isUnset($tea.toMap(request.header)) && !Util.empty(request.header.contentType)) {
+        if (!Util.isUnset($tea.toMap(request.header)) && !Util.empty(request.header.contentType)) {
           request_.headers["content-type"] = request.header.contentType;
         } else {
           request_.headers["content-type"] = OSSUtil.getContentType(request.objectName);
