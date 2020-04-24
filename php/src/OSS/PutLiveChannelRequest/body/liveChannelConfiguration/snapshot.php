@@ -8,12 +8,32 @@ use AlibabaCloud\Tea\Model;
 
 class snapshot extends Model
 {
+    /**
+     * @description RoleName
+     *
+     * @var string
+     */
     public $roleName;
 
+    /**
+     * @description DestBucket
+     *
+     * @var string
+     */
     public $destBucket;
 
+    /**
+     * @description NotifyTopic
+     *
+     * @var string
+     */
     public $notifyTopic;
 
+    /**
+     * @description Interval
+     *
+     * @var string
+     */
     public $interval;
     protected $_name = [
         'roleName'    => 'RoleName',
@@ -21,4 +41,43 @@ class snapshot extends Model
         'notifyTopic' => 'NotifyTopic',
         'interval'    => 'Interval',
     ];
+
+    public function validate()
+    {
+    }
+
+    public function toMap()
+    {
+        $res                = [];
+        $res['RoleName']    = $this->roleName;
+        $res['DestBucket']  = $this->destBucket;
+        $res['NotifyTopic'] = $this->notifyTopic;
+        $res['Interval']    = $this->interval;
+
+        return $res;
+    }
+
+    /**
+     * @param array $map
+     *
+     * @return snapshot
+     */
+    public static function fromMap($map = [])
+    {
+        $model = new self();
+        if (isset($map['RoleName'])) {
+            $model->roleName = $map['RoleName'];
+        }
+        if (isset($map['DestBucket'])) {
+            $model->destBucket = $map['DestBucket'];
+        }
+        if (isset($map['NotifyTopic'])) {
+            $model->notifyTopic = $map['NotifyTopic'];
+        }
+        if (isset($map['Interval'])) {
+            $model->interval = $map['Interval'];
+        }
+
+        return $model;
+    }
 }

@@ -8,8 +8,40 @@ use AlibabaCloud\Tea\Model;
 
 class requestPaymentConfiguration extends Model
 {
+    /**
+     * @description Payer
+     *
+     * @var string
+     */
     public $payer;
     protected $_name = [
         'payer' => 'Payer',
     ];
+
+    public function validate()
+    {
+    }
+
+    public function toMap()
+    {
+        $res          = [];
+        $res['Payer'] = $this->payer;
+
+        return $res;
+    }
+
+    /**
+     * @param array $map
+     *
+     * @return requestPaymentConfiguration
+     */
+    public static function fromMap($map = [])
+    {
+        $model = new self();
+        if (isset($map['Payer'])) {
+            $model->payer = $map['Payer'];
+        }
+
+        return $model;
+    }
 }

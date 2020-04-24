@@ -8,11 +8,52 @@ use AlibabaCloud\Tea\Model;
 
 class includeHeader extends Model
 {
+    /**
+     * @description Key
+     *
+     * @var string
+     */
     public $key;
 
+    /**
+     * @description Equals
+     *
+     * @var string
+     */
     public $equals;
     protected $_name = [
         'key'    => 'Key',
         'equals' => 'Equals',
     ];
+
+    public function validate()
+    {
+    }
+
+    public function toMap()
+    {
+        $res           = [];
+        $res['Key']    = $this->key;
+        $res['Equals'] = $this->equals;
+
+        return $res;
+    }
+
+    /**
+     * @param array $map
+     *
+     * @return includeHeader
+     */
+    public static function fromMap($map = [])
+    {
+        $model = new self();
+        if (isset($map['Key'])) {
+            $model->key = $map['Key'];
+        }
+        if (isset($map['Equals'])) {
+            $model->equals = $map['Equals'];
+        }
+
+        return $model;
+    }
 }

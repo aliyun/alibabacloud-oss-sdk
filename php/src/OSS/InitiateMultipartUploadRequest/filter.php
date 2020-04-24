@@ -8,8 +8,40 @@ use AlibabaCloud\Tea\Model;
 
 class filter extends Model
 {
+    /**
+     * @description encoding-type
+     *
+     * @var string
+     */
     public $encodingType;
     protected $_name = [
         'encodingType' => 'encoding-type',
     ];
+
+    public function validate()
+    {
+    }
+
+    public function toMap()
+    {
+        $res                  = [];
+        $res['encoding-type'] = $this->encodingType;
+
+        return $res;
+    }
+
+    /**
+     * @param array $map
+     *
+     * @return filter
+     */
+    public static function fromMap($map = [])
+    {
+        $model = new self();
+        if (isset($map['encoding-type'])) {
+            $model->encodingType = $map['encoding-type'];
+        }
+
+        return $model;
+    }
 }

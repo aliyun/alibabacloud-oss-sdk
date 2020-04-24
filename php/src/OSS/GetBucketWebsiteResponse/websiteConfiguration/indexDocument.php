@@ -8,8 +8,40 @@ use AlibabaCloud\Tea\Model;
 
 class indexDocument extends Model
 {
+    /**
+     * @description Suffix
+     *
+     * @var string
+     */
     public $suffix;
     protected $_name = [
         'suffix' => 'Suffix',
     ];
+
+    public function validate()
+    {
+    }
+
+    public function toMap()
+    {
+        $res           = [];
+        $res['Suffix'] = $this->suffix;
+
+        return $res;
+    }
+
+    /**
+     * @param array $map
+     *
+     * @return indexDocument
+     */
+    public static function fromMap($map = [])
+    {
+        $model = new self();
+        if (isset($map['Suffix'])) {
+            $model->suffix = $map['Suffix'];
+        }
+
+        return $model;
+    }
 }
