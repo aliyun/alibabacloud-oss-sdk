@@ -2,8 +2,11 @@
 package com.oss;
 
 import com.aliyun.oss.Client;
-import com.aliyun.oss.baseclient.utils.CRC64;
 import com.aliyun.oss.models.*;
+import com.aliyun.oss.models.PutBucketLifecycleRequest.PutBucketLifecycleRequestBody;
+import com.aliyun.oss.models.PutBucketLifecycleRequest.PutBucketLifecycleRequestBodyLifecycleConfiguration;
+import com.aliyun.oss.models.PutBucketLifecycleRequest.PutBucketLifecycleRequestBodyLifecycleConfigurationRule;
+import com.aliyun.oss.models.PutBucketLifecycleRequest.PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration;
 import com.aliyun.ossutil.models.RuntimeOptions;
 import org.junit.Assert;
 import org.junit.Before;
@@ -14,9 +17,6 @@ import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.aliyun.oss.models.PutBucketLifecycleRequest.*;
-import com.aliyun.oss.models.PutBucketRefererRequest.*;
-
 public class ClientTest {
     private Client client;
     private String uploadId = "";
@@ -24,8 +24,8 @@ public class ClientTest {
     @Before
     public void createClient() throws Exception {
         Config config = new Config();
-        config.accessKeyId = System.getenv("sdk_testAK");
-        config.accessKeySecret = System.getenv("sdk_testSk");
+        config.accessKeyId = System.getenv("RAMAccessKeyId");
+        config.accessKeySecret = System.getenv("RAMAccessKeySecret");
         config.signatureVersion = "V1";
         client = new Client(config);
     }
@@ -461,7 +461,7 @@ public class ClientTest {
     }
 
     @Test
-    public void getObject() throws Exception{
+    public void getObject() throws Exception {
         GetObjectRequest request = new GetObjectRequest();
         request.bucketName = "sdk-oss-test";
         request.objectName = "123.txt";
@@ -471,7 +471,7 @@ public class ClientTest {
     }
 
     @Test
-    public void deleteObject() throws Exception{
+    public void deleteObject() throws Exception {
         DeleteObjectRequest request = new DeleteObjectRequest();
         request.bucketName = "sdk-oss-test";
         request.objectName = "123.txt";

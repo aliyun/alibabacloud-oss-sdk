@@ -217,7 +217,7 @@ public class Client {
                 }
 
                 request_.body = Tea.toReadable(reqBody);
-                if (com.aliyun.teautil.Common.isUnset(TeaModel.buildMap(request.header)) && !com.aliyun.teautil.Common.empty(request.header.contentMD5)) {
+                if (!com.aliyun.teautil.Common.isUnset(TeaModel.buildMap(request.header)) && !com.aliyun.teautil.Common.empty(request.header.contentMD5)) {
                     request_.headers.put("content-md5", request.header.contentMD5);
                 } else {
                     request_.headers.put("content-md5", com.aliyun.ossutil.Client.getContentMD5(reqBody, _isEnableMD5));
@@ -3191,7 +3191,7 @@ public class Client {
 
                 request_.query = com.aliyun.teautil.Common.stringifyMapValue(TeaModel.buildMap(request.filter));
                 request_.body = com.aliyun.ossutil.Client.inject(request.body, ctx);
-                if (com.aliyun.teautil.Common.isUnset(TeaModel.buildMap(request.header)) && !com.aliyun.teautil.Common.empty(request.header.contentType)) {
+                if (!com.aliyun.teautil.Common.isUnset(TeaModel.buildMap(request.header)) && !com.aliyun.teautil.Common.empty(request.header.contentType)) {
                     request_.headers.put("content-type", request.header.contentType);
                 } else {
                     request_.headers.put("content-type", com.aliyun.ossutil.Client.getContentType(request.objectName));
@@ -5112,7 +5112,7 @@ public class Client {
                 }
 
                 request_.query = com.aliyun.teautil.Common.stringifyMapValue(TeaModel.buildMap(request.filter));
-                if (com.aliyun.teautil.Common.isUnset(TeaModel.buildMap(request.header)) && !com.aliyun.teautil.Common.empty(request.header.contentType)) {
+                if (!com.aliyun.teautil.Common.isUnset(TeaModel.buildMap(request.header)) && !com.aliyun.teautil.Common.empty(request.header.contentType)) {
                     request_.headers.put("content-type", request.header.contentType);
                 } else {
                     request_.headers.put("content-type", com.aliyun.ossutil.Client.getContentType(request.objectName));
@@ -6010,7 +6010,7 @@ public class Client {
                 }
 
                 request_.body = com.aliyun.ossutil.Client.inject(request.body, ctx);
-                if (com.aliyun.teautil.Common.isUnset(TeaModel.buildMap(request.header)) && !com.aliyun.teautil.Common.empty(request.header.contentType)) {
+                if (!com.aliyun.teautil.Common.isUnset(TeaModel.buildMap(request.header)) && !com.aliyun.teautil.Common.empty(request.header.contentType)) {
                     request_.headers.put("content-type", request.header.contentType);
                 } else {
                     request_.headers.put("content-type", com.aliyun.ossutil.Client.getContentType(request.objectName));
