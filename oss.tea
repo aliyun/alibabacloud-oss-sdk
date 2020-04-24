@@ -2,8 +2,8 @@
 import Util;
 import OSSUtil;
 import XML;
-import Credential;
 import FileForm;
+import Credential;
 
 type @endpoint = string
 type @regionId = string
@@ -239,7 +239,7 @@ api deleteMultipleObjects(request: DeleteMultipleObjectsRequest, runtime: OSSUti
     __request.headers.x-oss-security-token = token;
   }
   __request.body = reqBody;
-  if (Util.isUnset(request.header) && !Util.empty(request.header.contentMD5)) {
+  if (!Util.isUnset(request.header) && !Util.empty(request.header.contentMD5)) {
     __request.headers.content-md5 = request.header.contentMD5;
   } else {
     __request.headers.content-md5 = OSSUtil.getContentMD5(reqBody, @isEnableMD5);
@@ -2970,7 +2970,7 @@ api appendObject(request: AppendObjectRequest, runtime: OSSUtil.RuntimeOptions):
   }
   __request.query = Util.stringifyMapValue(request.filter);
   __request.body = OSSUtil.inject(request.body, ctx);
-  if (Util.isUnset(request.header) && !Util.empty(request.header.contentType)) {
+  if (!Util.isUnset(request.header) && !Util.empty(request.header.contentType)) {
     __request.headers.content-type = request.header.contentType;
   } else {
     __request.headers.content-type = OSSUtil.getContentType(request.objectName);
@@ -4596,7 +4596,7 @@ api initiateMultipartUpload(request: InitiateMultipartUploadRequest, runtime: OS
     __request.headers.x-oss-security-token = token;
   }
   __request.query = Util.stringifyMapValue(request.filter);
-  if (Util.isUnset(request.header) && !Util.empty(request.header.contentType)) {
+  if (!Util.isUnset(request.header) && !Util.empty(request.header.contentType)) {
     __request.headers.content-type = request.header.contentType;
   } else {
     __request.headers.content-type = OSSUtil.getContentType(request.objectName);
@@ -5362,7 +5362,7 @@ api putObject(request: PutObjectRequest, runtime: OSSUtil.RuntimeOptions): PutOb
     __request.headers.x-oss-security-token = token;
   }
   __request.body = OSSUtil.inject(request.body, ctx);
-  if (Util.isUnset(request.header) && !Util.empty(request.header.contentType)) {
+  if (!Util.isUnset(request.header) && !Util.empty(request.header.contentType)) {
     __request.headers.content-type = request.header.contentType;
   } else {
     __request.headers.content-type = OSSUtil.getContentType(request.objectName);
