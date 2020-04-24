@@ -141,7 +141,6 @@ use AlibabaCloud\SDK\OSS\OSS\UploadPartResponse;
 use AlibabaCloud\Tea\Exception\TeaError;
 use AlibabaCloud\Tea\Exception\TeaUnableRetryError;
 use AlibabaCloud\Tea\FileForm\FileForm;
-use AlibabaCloud\Tea\Model;
 use AlibabaCloud\Tea\OSSUtils\OSSUtils;
 use AlibabaCloud\Tea\OSSUtils\OSSUtils\RuntimeOptions;
 use AlibabaCloud\Tea\Request;
@@ -151,7 +150,6 @@ use AlibabaCloud\Tea\XML\XML;
 
 class OSS
 {
-    protected $_name = [];
     private $_endpoint;
 
     private $_regionId;
@@ -198,7 +196,7 @@ class OSS
                 'message' => "'config' can not be unset",
             ]);
         }
-        if (Utils::_empty($config->type)) {
+        if (Utils::empty_($config->type)) {
             $config->type = 'access_key';
         }
         $credentialConfig = new \AlibabaCloud\Credentials\Credential\Config([
@@ -264,9 +262,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -290,7 +289,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->body                     = $reqBody;
@@ -314,13 +313,11 @@ class OSS
                     ]);
                 }
 
-                return Model::toModel(Tea::merge(
-                    [
-                    ],
-                    $_response->headers
-                ), new PutBucketLifecycleResponse());
+                return PutBucketLifecycleResponse::fromMap(Tea::merge($_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -328,7 +325,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -361,9 +358,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -387,11 +385,11 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ], Utils::stringifyMapValue($request->header));
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->body = $reqBody;
-                if (Utils::isUnset($request->header) && !Utils::_empty($request->header->contentMD5)) {
+                if (!Utils::isUnset($request->header) && !Utils::empty_($request->header->contentMD5)) {
                     $_request->headers['content-md5'] = $request->header->contentMD5;
                 } else {
                     $_request->headers['content-md5'] = OSSUtils::getContentMD5($reqBody, $this->_isEnableMD5);
@@ -418,11 +416,13 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, DeleteMultipleObjectsResponse::class);
 
-                return Model::toModel(Tea::merge([
+                return DeleteMultipleObjectsResponse::fromMap(Tea::merge([
                     'DeleteResult' => $respMap['DeleteResult'],
-                ], $_response->headers), new DeleteMultipleObjectsResponse());
+                ], $_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -430,7 +430,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -463,9 +463,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -489,7 +490,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->body                     = $reqBody;
@@ -513,13 +514,11 @@ class OSS
                     ]);
                 }
 
-                return Model::toModel(Tea::merge(
-                    [
-                    ],
-                    $_response->headers
-                ), new PutBucketRefererResponse());
+                return PutBucketRefererResponse::fromMap(Tea::merge($_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -527,7 +526,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -560,9 +559,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -586,7 +586,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->body                     = $reqBody;
@@ -610,13 +610,11 @@ class OSS
                     ]);
                 }
 
-                return Model::toModel(Tea::merge(
-                    [
-                    ],
-                    $_response->headers
-                ), new PutBucketWebsiteResponse());
+                return PutBucketWebsiteResponse::fromMap(Tea::merge($_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -624,7 +622,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -657,9 +655,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -683,7 +682,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->query                    = Utils::stringifyMapValue($request->filter);
@@ -710,11 +709,13 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, CompleteMultipartUploadResponse::class);
 
-                return Model::toModel(Tea::merge([
+                return CompleteMultipartUploadResponse::fromMap(Tea::merge([
                     'CompleteMultipartUploadResult' => $respMap['CompleteMultipartUploadResult'],
-                ], $_response->headers), new CompleteMultipartUploadResponse());
+                ], $_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -722,7 +723,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -755,9 +756,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -781,7 +783,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->body                     = $reqBody;
@@ -805,13 +807,11 @@ class OSS
                     ]);
                 }
 
-                return Model::toModel(Tea::merge(
-                    [
-                    ],
-                    $_response->headers
-                ), new PutBucketLoggingResponse());
+                return PutBucketLoggingResponse::fromMap(Tea::merge($_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -819,7 +819,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -852,9 +852,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -878,7 +879,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->body                     = $reqBody;
@@ -902,13 +903,11 @@ class OSS
                     ]);
                 }
 
-                return Model::toModel(Tea::merge(
-                    [
-                    ],
-                    $_response->headers
-                ), new PutBucketRequestPaymentResponse());
+                return PutBucketRequestPaymentResponse::fromMap(Tea::merge($_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -916,7 +915,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -949,9 +948,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -975,7 +975,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->body                     = $reqBody;
@@ -999,13 +999,11 @@ class OSS
                     ]);
                 }
 
-                return Model::toModel(Tea::merge(
-                    [
-                    ],
-                    $_response->headers
-                ), new PutBucketEncryptionResponse());
+                return PutBucketEncryptionResponse::fromMap(Tea::merge($_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -1013,7 +1011,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -1046,9 +1044,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -1072,7 +1071,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->body                     = $reqBody;
@@ -1098,11 +1097,13 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, PutLiveChannelResponse::class);
 
-                return Model::toModel(Tea::merge([
+                return PutLiveChannelResponse::fromMap(Tea::merge([
                     'CreateLiveChannelResult' => $respMap['CreateLiveChannelResult'],
-                ], $_response->headers), new PutLiveChannelResponse());
+                ], $_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -1110,7 +1111,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -1143,9 +1144,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -1169,7 +1171,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->body                     = $reqBody;
@@ -1193,13 +1195,11 @@ class OSS
                     ]);
                 }
 
-                return Model::toModel(Tea::merge(
-                    [
-                    ],
-                    $_response->headers
-                ), new PutBucketTagsResponse());
+                return PutBucketTagsResponse::fromMap(Tea::merge($_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -1207,7 +1207,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -1240,9 +1240,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -1266,7 +1267,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->body                     = $reqBody;
@@ -1290,13 +1291,11 @@ class OSS
                     ]);
                 }
 
-                return Model::toModel(Tea::merge(
-                    [
-                    ],
-                    $_response->headers
-                ), new PutObjectTaggingResponse());
+                return PutObjectTaggingResponse::fromMap(Tea::merge($_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -1304,7 +1303,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -1337,9 +1336,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -1363,7 +1363,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->query                    = Utils::stringifyMapValue($request->filter);
@@ -1388,13 +1388,11 @@ class OSS
                     ]);
                 }
 
-                return Model::toModel(Tea::merge(
-                    [
-                    ],
-                    $_response->headers
-                ), new SelectObjectResponse());
+                return SelectObjectResponse::fromMap(Tea::merge($_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -1402,7 +1400,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -1435,9 +1433,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -1461,7 +1460,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->body                     = $reqBody;
@@ -1485,13 +1484,11 @@ class OSS
                     ]);
                 }
 
-                return Model::toModel(Tea::merge(
-                    [
-                    ],
-                    $_response->headers
-                ), new PutBucketCORSResponse());
+                return PutBucketCORSResponse::fromMap(Tea::merge($_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -1499,7 +1496,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -1532,9 +1529,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -1558,7 +1556,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ], Utils::stringifyMapValue($request->header));
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->body                     = $reqBody;
@@ -1582,13 +1580,11 @@ class OSS
                     ]);
                 }
 
-                return Model::toModel(Tea::merge(
-                    [
-                    ],
-                    $_response->headers
-                ), new PutBucketResponse());
+                return PutBucketResponse::fromMap(Tea::merge($_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -1596,7 +1592,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -1629,9 +1625,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -1654,7 +1651,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->query                    = Utils::stringifyMapValue($request->filter);
@@ -1680,11 +1677,13 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, ListMultipartUploadsResponse::class);
 
-                return Model::toModel(Tea::merge([
+                return ListMultipartUploadsResponse::fromMap(Tea::merge([
                     'ListMultipartUploadsResult' => $respMap['ListMultipartUploadsResult'],
-                ], $_response->headers), new ListMultipartUploadsResponse());
+                ], $_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -1692,7 +1691,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -1725,9 +1724,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -1750,7 +1750,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
@@ -1775,11 +1775,13 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, GetBucketRequestPaymentResponse::class);
 
-                return Model::toModel(Tea::merge([
+                return GetBucketRequestPaymentResponse::fromMap(Tea::merge([
                     'RequestPaymentConfiguration' => $respMap['RequestPaymentConfiguration'],
-                ], $_response->headers), new GetBucketRequestPaymentResponse());
+                ], $_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -1787,7 +1789,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -1820,9 +1822,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -1845,7 +1848,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
@@ -1870,11 +1873,13 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, GetBucketEncryptionResponse::class);
 
-                return Model::toModel(Tea::merge([
+                return GetBucketEncryptionResponse::fromMap(Tea::merge([
                     'ServerSideEncryptionRule' => $respMap['ServerSideEncryptionRule'],
-                ], $_response->headers), new GetBucketEncryptionResponse());
+                ], $_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -1882,7 +1887,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -1915,9 +1920,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -1940,7 +1946,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
@@ -1965,11 +1971,13 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, GetBucketTagsResponse::class);
 
-                return Model::toModel(Tea::merge([
+                return GetBucketTagsResponse::fromMap(Tea::merge([
                     'Tagging' => $respMap['Tagging'],
-                ], $_response->headers), new GetBucketTagsResponse());
+                ], $_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -1977,7 +1985,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -2010,9 +2018,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -2035,7 +2044,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->query                    = Utils::stringifyMapValue($request->filter);
@@ -2061,11 +2070,13 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, GetServiceResponse::class);
 
-                return Model::toModel(Tea::merge([
+                return GetServiceResponse::fromMap(Tea::merge([
                     'ListAllMyBucketsResult' => $respMap['ListAllMyBucketsResult'],
-                ], $_response->headers), new GetServiceResponse());
+                ], $_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -2073,7 +2084,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -2106,9 +2117,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -2131,7 +2143,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
@@ -2154,13 +2166,11 @@ class OSS
                     ]);
                 }
 
-                return Model::toModel(Tea::merge(
-                    [
-                    ],
-                    $_response->headers
-                ), new DeleteBucketEncryptionResponse());
+                return DeleteBucketEncryptionResponse::fromMap(Tea::merge($_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -2168,7 +2178,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -2201,9 +2211,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -2226,7 +2237,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->query                    = Utils::stringifyMapValue($request->filter);
@@ -2250,13 +2261,11 @@ class OSS
                     ]);
                 }
 
-                return Model::toModel(Tea::merge(
-                    [
-                    ],
-                    $_response->headers
-                ), new DeleteBucketTagsResponse());
+                return DeleteBucketTagsResponse::fromMap(Tea::merge($_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -2264,7 +2273,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -2297,9 +2306,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -2322,7 +2332,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
@@ -2347,11 +2357,13 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, GetBucketWebsiteResponse::class);
 
-                return Model::toModel(Tea::merge([
+                return GetBucketWebsiteResponse::fromMap(Tea::merge([
                     'WebsiteConfiguration' => $respMap['WebsiteConfiguration'],
-                ], $_response->headers), new GetBucketWebsiteResponse());
+                ], $_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -2359,7 +2371,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -2392,9 +2404,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -2417,7 +2430,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
@@ -2440,13 +2453,11 @@ class OSS
                     ]);
                 }
 
-                return Model::toModel(Tea::merge(
-                    [
-                    ],
-                    $_response->headers
-                ), new DeleteLiveChannelResponse());
+                return DeleteLiveChannelResponse::fromMap(Tea::merge($_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -2454,7 +2465,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -2487,9 +2498,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -2512,7 +2524,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
@@ -2537,11 +2549,13 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, GetBucketLocationResponse::class);
 
-                return Model::toModel(Tea::merge([
+                return GetBucketLocationResponse::fromMap(Tea::merge([
                     'LocationConstraint' => $respMap['LocationConstraint'],
-                ], $_response->headers), new GetBucketLocationResponse());
+                ], $_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -2549,7 +2563,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -2582,9 +2596,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -2607,7 +2622,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->query                    = Utils::stringifyMapValue($request->filter);
@@ -2633,11 +2648,13 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, ListLiveChannelResponse::class);
 
-                return Model::toModel(Tea::merge([
+                return ListLiveChannelResponse::fromMap(Tea::merge([
                     'ListLiveChannelResult' => $respMap['ListLiveChannelResult'],
-                ], $_response->headers), new ListLiveChannelResponse());
+                ], $_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -2645,7 +2662,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -2678,9 +2695,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -2703,7 +2721,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
@@ -2726,13 +2744,11 @@ class OSS
                     ]);
                 }
 
-                return Model::toModel(Tea::merge(
-                    [
-                    ],
-                    $_response->headers
-                ), new GetObjectMetaResponse());
+                return GetObjectMetaResponse::fromMap(Tea::merge($_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -2740,7 +2756,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -2773,9 +2789,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -2798,7 +2815,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
@@ -2823,11 +2840,13 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, GetBucketAclResponse::class);
 
-                return Model::toModel(Tea::merge([
+                return GetBucketAclResponse::fromMap(Tea::merge([
                     'AccessControlPolicy' => $respMap['AccessControlPolicy'],
-                ], $_response->headers), new GetBucketAclResponse());
+                ], $_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -2835,7 +2854,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -2868,9 +2887,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -2893,7 +2913,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->query                    = Utils::stringifyMapValue($request->filter);
@@ -2919,11 +2939,13 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, ListPartsResponse::class);
 
-                return Model::toModel(Tea::merge([
+                return ListPartsResponse::fromMap(Tea::merge([
                     'ListPartsResult' => $respMap['ListPartsResult'],
-                ], $_response->headers), new ListPartsResponse());
+                ], $_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -2931,7 +2953,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -2964,9 +2986,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -2989,7 +3012,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->query                    = Utils::stringifyMapValue($request->filter);
@@ -3015,11 +3038,13 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, GetLiveChannelHistoryResponse::class);
 
-                return Model::toModel(Tea::merge([
+                return GetLiveChannelHistoryResponse::fromMap(Tea::merge([
                     'LiveChannelHistory' => $respMap['LiveChannelHistory'],
-                ], $_response->headers), new GetLiveChannelHistoryResponse());
+                ], $_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -3027,7 +3052,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -3060,9 +3085,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -3085,7 +3111,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->query                    = Utils::stringifyMapValue($request->filter);
@@ -3111,11 +3137,13 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, GetBucketResponse::class);
 
-                return Model::toModel(Tea::merge([
+                return GetBucketResponse::fromMap(Tea::merge([
                     'ListBucketResult' => $respMap['ListBucketResult'],
-                ], $_response->headers), new GetBucketResponse());
+                ], $_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -3123,7 +3151,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -3156,9 +3184,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -3181,7 +3210,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
@@ -3206,11 +3235,13 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, GetLiveChannelInfoResponse::class);
 
-                return Model::toModel(Tea::merge([
+                return GetLiveChannelInfoResponse::fromMap(Tea::merge([
                     'LiveChannelConfiguration' => $respMap['LiveChannelConfiguration'],
-                ], $_response->headers), new GetLiveChannelInfoResponse());
+                ], $_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -3218,7 +3249,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -3251,9 +3282,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -3276,7 +3308,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->query                    = Utils::stringifyMapValue($request->filter);
@@ -3302,11 +3334,13 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, GetLiveChannelStatResponse::class);
 
-                return Model::toModel(Tea::merge([
+                return GetLiveChannelStatResponse::fromMap(Tea::merge([
                     'LiveChannelStat' => $respMap['LiveChannelStat'],
-                ], $_response->headers), new GetLiveChannelStatResponse());
+                ], $_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -3314,7 +3348,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -3347,9 +3381,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -3372,7 +3407,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
@@ -3395,13 +3430,11 @@ class OSS
                     ]);
                 }
 
-                return Model::toModel(Tea::merge(
-                    [
-                    ],
-                    $_response->headers
-                ), new DeleteObjectResponse());
+                return DeleteObjectResponse::fromMap(Tea::merge($_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -3409,7 +3442,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -3442,9 +3475,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -3467,7 +3501,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->query                    = Utils::stringifyMapValue($request->filter);
@@ -3491,13 +3525,11 @@ class OSS
                     ]);
                 }
 
-                return Model::toModel(Tea::merge(
-                    [
-                    ],
-                    $_response->headers
-                ), new AbortMultipartUploadResponse());
+                return AbortMultipartUploadResponse::fromMap(Tea::merge($_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -3505,7 +3537,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -3538,9 +3570,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -3568,12 +3601,12 @@ class OSS
                     Utils::stringifyMapValue($request->header),
                     OSSUtils::parseMeta($request->userMeta, 'x-oss-meta-')
                 );
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->query = Utils::stringifyMapValue($request->filter);
                 $_request->body  = OSSUtils::inject($request->body, $ctx);
-                if (Utils::isUnset($request->header) && !Utils::_empty($request->header->contentType)) {
+                if (!Utils::isUnset($request->header) && !Utils::empty_($request->header->contentType)) {
                     $_request->headers['content-type'] = $request->header->contentType;
                 } else {
                     $_request->headers['content-type'] = OSSUtils::getContentType($request->objectName);
@@ -3616,13 +3649,11 @@ class OSS
                     ]);
                 }
 
-                return Model::toModel(Tea::merge(
-                    [
-                    ],
-                    $_response->headers
-                ), new AppendObjectResponse());
+                return AppendObjectResponse::fromMap(Tea::merge($_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -3630,7 +3661,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -3663,9 +3694,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -3688,7 +3720,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ], Utils::stringifyMapValue($request->header));
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->query                    = Utils::stringifyMapValue($request->filter);
@@ -3714,11 +3746,13 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, UploadPartCopyResponse::class);
 
-                return Model::toModel(Tea::merge([
+                return UploadPartCopyResponse::fromMap(Tea::merge([
                     'CopyPartResult' => $respMap['CopyPartResult'],
-                ], $_response->headers), new UploadPartCopyResponse());
+                ], $_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -3726,7 +3760,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -3759,9 +3793,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -3784,7 +3819,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->query                    = Utils::stringifyMapValue($request->filter);
@@ -3808,13 +3843,11 @@ class OSS
                     ]);
                 }
 
-                return Model::toModel(Tea::merge(
-                    [
-                    ],
-                    $_response->headers
-                ), new GetVodPlaylistResponse());
+                return GetVodPlaylistResponse::fromMap(Tea::merge($_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -3822,7 +3855,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -3855,9 +3888,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -3880,7 +3914,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
@@ -3903,13 +3937,11 @@ class OSS
                     ]);
                 }
 
-                return Model::toModel(Tea::merge(
-                    [
-                    ],
-                    $_response->headers
-                ), new DeleteBucketCORSResponse());
+                return DeleteBucketCORSResponse::fromMap(Tea::merge($_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -3917,7 +3949,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -3950,9 +3982,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -3975,7 +4008,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ], Utils::stringifyMapValue($request->header));
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
@@ -3998,11 +4031,13 @@ class OSS
                     ]);
                 }
 
-                return Model::toModel(Tea::merge([
+                return GetObjectResponse::fromMap(Tea::merge([
                     'body' => $_response->body,
-                ], $_response->headers), new GetObjectResponse());
+                ], $_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -4010,7 +4045,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -4043,9 +4078,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -4069,7 +4105,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->query                    = Utils::stringifyMapValue($request->filter);
@@ -4112,13 +4148,11 @@ class OSS
                     ]);
                 }
 
-                return Model::toModel(Tea::merge(
-                    [
-                    ],
-                    $_response->headers
-                ), new UploadPartResponse());
+                return UploadPartResponse::fromMap(Tea::merge($_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -4126,7 +4160,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -4159,9 +4193,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -4184,7 +4219,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
@@ -4209,11 +4244,13 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, GetBucketCORSResponse::class);
 
-                return Model::toModel(Tea::merge([
+                return GetBucketCORSResponse::fromMap(Tea::merge([
                     'CORSConfiguration' => $respMap['CORSConfiguration'],
-                ], $_response->headers), new GetBucketCORSResponse());
+                ], $_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -4221,7 +4258,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -4254,9 +4291,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -4279,7 +4317,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ], Utils::stringifyMapValue($request->header));
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->headers['x-oss-copy-source'] = OSSUtils::encode($_request->headers['x-oss-copy-source'], 'UrlEncode');
@@ -4305,11 +4343,13 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, CopyObjectResponse::class);
 
-                return Model::toModel(Tea::merge([
+                return CopyObjectResponse::fromMap(Tea::merge([
                     'CopyObjectResult' => $respMap['CopyObjectResult'],
-                ], $_response->headers), new CopyObjectResponse());
+                ], $_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -4317,7 +4357,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -4350,9 +4390,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -4375,7 +4416,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
@@ -4400,11 +4441,13 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, GetObjectTaggingResponse::class);
 
-                return Model::toModel(Tea::merge([
+                return GetObjectTaggingResponse::fromMap(Tea::merge([
                     'Tagging' => $respMap['Tagging'],
-                ], $_response->headers), new GetObjectTaggingResponse());
+                ], $_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -4412,7 +4455,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -4445,9 +4488,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -4470,7 +4514,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
@@ -4493,13 +4537,11 @@ class OSS
                     ]);
                 }
 
-                return Model::toModel(Tea::merge(
-                    [
-                    ],
-                    $_response->headers
-                ), new DeleteBucketLifecycleResponse());
+                return DeleteBucketLifecycleResponse::fromMap(Tea::merge($_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -4507,7 +4549,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -4540,9 +4582,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -4565,7 +4608,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
@@ -4588,13 +4631,11 @@ class OSS
                     ]);
                 }
 
-                return Model::toModel(Tea::merge(
-                    [
-                    ],
-                    $_response->headers
-                ), new DeleteBucketLoggingResponse());
+                return DeleteBucketLoggingResponse::fromMap(Tea::merge($_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -4602,7 +4643,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -4635,9 +4676,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -4660,7 +4702,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
@@ -4683,13 +4725,11 @@ class OSS
                     ]);
                 }
 
-                return Model::toModel(Tea::merge(
-                    [
-                    ],
-                    $_response->headers
-                ), new DeleteBucketWebsiteResponse());
+                return DeleteBucketWebsiteResponse::fromMap(Tea::merge($_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -4697,7 +4737,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -4730,9 +4770,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -4755,7 +4796,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
@@ -4778,13 +4819,11 @@ class OSS
                     ]);
                 }
 
-                return Model::toModel(Tea::merge(
-                    [
-                    ],
-                    $_response->headers
-                ), new GetSymlinkResponse());
+                return GetSymlinkResponse::fromMap(Tea::merge($_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -4792,7 +4831,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -4825,9 +4864,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -4850,7 +4890,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
@@ -4875,11 +4915,13 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, GetBucketLifecycleResponse::class);
 
-                return Model::toModel(Tea::merge([
+                return GetBucketLifecycleResponse::fromMap(Tea::merge([
                     'LifecycleConfiguration' => $respMap['LifecycleConfiguration'],
-                ], $_response->headers), new GetBucketLifecycleResponse());
+                ], $_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -4887,7 +4929,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -4920,9 +4962,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -4945,7 +4988,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ], Utils::stringifyMapValue($request->header));
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
@@ -4968,13 +5011,11 @@ class OSS
                     ]);
                 }
 
-                return Model::toModel(Tea::merge(
-                    [
-                    ],
-                    $_response->headers
-                ), new PutSymlinkResponse());
+                return PutSymlinkResponse::fromMap(Tea::merge($_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -4982,7 +5023,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -5015,9 +5056,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -5040,7 +5082,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
@@ -5065,11 +5107,13 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, GetBucketRefererResponse::class);
 
-                return Model::toModel(Tea::merge([
+                return GetBucketRefererResponse::fromMap(Tea::merge([
                     'RefererConfiguration' => $respMap['RefererConfiguration'],
-                ], $_response->headers), new GetBucketRefererResponse());
+                ], $_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -5077,7 +5121,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -5110,9 +5154,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -5135,7 +5180,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
@@ -5158,13 +5203,11 @@ class OSS
                     ]);
                 }
 
-                return Model::toModel(Tea::merge(
-                    [
-                    ],
-                    $_response->headers
-                ), new CallbackResponse());
+                return CallbackResponse::fromMap(Tea::merge($_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -5172,7 +5215,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -5205,9 +5248,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -5230,7 +5274,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
@@ -5255,11 +5299,13 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, GetBucketLoggingResponse::class);
 
-                return Model::toModel(Tea::merge([
+                return GetBucketLoggingResponse::fromMap(Tea::merge([
                     'BucketLoggingStatus' => $respMap['BucketLoggingStatus'],
-                ], $_response->headers), new GetBucketLoggingResponse());
+                ], $_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -5267,7 +5313,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -5300,9 +5346,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -5325,7 +5372,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ], Utils::stringifyMapValue($request->header));
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
@@ -5348,13 +5395,11 @@ class OSS
                     ]);
                 }
 
-                return Model::toModel(Tea::merge(
-                    [
-                    ],
-                    $_response->headers
-                ), new PutObjectAclResponse());
+                return PutObjectAclResponse::fromMap(Tea::merge($_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -5362,7 +5407,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -5395,9 +5440,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -5420,7 +5466,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
@@ -5445,11 +5491,13 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, GetBucketInfoResponse::class);
 
-                return Model::toModel(Tea::merge([
+                return GetBucketInfoResponse::fromMap(Tea::merge([
                     'BucketInfo' => $respMap['BucketInfo'],
-                ], $_response->headers), new GetBucketInfoResponse());
+                ], $_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -5457,7 +5505,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -5490,9 +5538,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -5515,7 +5564,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->query                    = Utils::stringifyMapValue($request->filter);
@@ -5539,13 +5588,11 @@ class OSS
                     ]);
                 }
 
-                return Model::toModel(Tea::merge(
-                    [
-                    ],
-                    $_response->headers
-                ), new PutLiveChannelStatusResponse());
+                return PutLiveChannelStatusResponse::fromMap(Tea::merge($_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -5553,7 +5600,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -5586,9 +5633,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -5611,11 +5659,11 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ], Utils::stringifyMapValue($request->header));
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->query = Utils::stringifyMapValue($request->filter);
-                if (Utils::isUnset($request->header) && !Utils::_empty($request->header->contentType)) {
+                if (!Utils::isUnset($request->header) && !Utils::empty_($request->header->contentType)) {
                     $_request->headers['content-type'] = $request->header->contentType;
                 } else {
                     $_request->headers['content-type'] = OSSUtils::getContentType($request->objectName);
@@ -5642,11 +5690,13 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, InitiateMultipartUploadResponse::class);
 
-                return Model::toModel(Tea::merge([
+                return InitiateMultipartUploadResponse::fromMap(Tea::merge([
                     'InitiateMultipartUploadResult' => $respMap['InitiateMultipartUploadResult'],
-                ], $_response->headers), new InitiateMultipartUploadResponse());
+                ], $_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -5654,7 +5704,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -5687,9 +5737,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -5712,7 +5763,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ], Utils::stringifyMapValue($request->header));
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
@@ -5735,13 +5786,11 @@ class OSS
                     ]);
                 }
 
-                return Model::toModel(Tea::merge(
-                    [
-                    ],
-                    $_response->headers
-                ), new OptionObjectResponse());
+                return OptionObjectResponse::fromMap(Tea::merge($_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -5749,7 +5798,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -5782,9 +5831,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -5807,7 +5857,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->query                    = Utils::stringifyMapValue($request->filter);
@@ -5831,13 +5881,11 @@ class OSS
                     ]);
                 }
 
-                return Model::toModel(Tea::merge(
-                    [
-                    ],
-                    $_response->headers
-                ), new PostVodPlaylistResponse());
+                return PostVodPlaylistResponse::fromMap(Tea::merge($_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -5845,7 +5893,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -5875,9 +5923,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -5927,13 +5976,11 @@ class OSS
                 }
                 $respMap = XML::parseXml($bodyStr, PostObjectResponse::class);
 
-                return Model::toModel(Tea::merge(
-                    [
-                    ],
-                    $respMap
-                ), new PostObjectResponse());
+                return PostObjectResponse::fromMap(Tea::merge($respMap));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -5941,7 +5988,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -5974,9 +6021,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -5999,7 +6047,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ], Utils::stringifyMapValue($request->header));
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
@@ -6022,11 +6070,13 @@ class OSS
                     ]);
                 }
 
-                return Model::toModel(Tea::merge([
+                return HeadObjectResponse::fromMap(Tea::merge([
                     'usermeta' => OSSUtils::toMeta($_response->headers, 'x-oss-meta-'),
-                ], $_response->headers), new HeadObjectResponse());
+                ], $_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -6034,7 +6084,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -6067,9 +6117,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -6092,7 +6143,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
@@ -6115,13 +6166,11 @@ class OSS
                     ]);
                 }
 
-                return Model::toModel(Tea::merge(
-                    [
-                    ],
-                    $_response->headers
-                ), new DeleteObjectTaggingResponse());
+                return DeleteObjectTaggingResponse::fromMap(Tea::merge($_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -6129,7 +6178,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -6162,9 +6211,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -6187,7 +6237,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
@@ -6210,13 +6260,11 @@ class OSS
                     ]);
                 }
 
-                return Model::toModel(Tea::merge(
-                    [
-                    ],
-                    $_response->headers
-                ), new RestoreObjectResponse());
+                return RestoreObjectResponse::fromMap(Tea::merge($_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -6224,7 +6272,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -6257,9 +6305,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -6282,7 +6331,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
@@ -6307,11 +6356,13 @@ class OSS
                 $bodyStr = Utils::readAsString($_response->body);
                 $respMap = XML::parseXml($bodyStr, GetObjectAclResponse::class);
 
-                return Model::toModel(Tea::merge([
+                return GetObjectAclResponse::fromMap(Tea::merge([
                     'AccessControlPolicy' => $respMap['AccessControlPolicy'],
-                ], $_response->headers), new GetObjectAclResponse());
+                ], $_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -6319,7 +6370,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -6352,9 +6403,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -6377,7 +6429,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ], Utils::stringifyMapValue($request->header));
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
@@ -6400,13 +6452,11 @@ class OSS
                     ]);
                 }
 
-                return Model::toModel(Tea::merge(
-                    [
-                    ],
-                    $_response->headers
-                ), new PutBucketAclResponse());
+                return PutBucketAclResponse::fromMap(Tea::merge($_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -6414,7 +6464,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -6447,9 +6497,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -6472,7 +6523,7 @@ class OSS
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
                 ];
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
@@ -6495,13 +6546,11 @@ class OSS
                     ]);
                 }
 
-                return Model::toModel(Tea::merge(
-                    [
-                    ],
-                    $_response->headers
-                ), new DeleteBucketResponse());
+                return DeleteBucketResponse::fromMap(Tea::merge($_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -6509,7 +6558,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**
@@ -6542,9 +6591,10 @@ class OSS
             ],
             'ignoreSSL' => $runtime->ignoreSSL,
         ];
-        $_lastRequest = null;
-        $_now         = time();
-        $_retryTimes  = 0;
+        $_lastRequest   = null;
+        $_lastException = null;
+        $_now           = time();
+        $_retryTimes    = 0;
         while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
                 $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
@@ -6572,11 +6622,11 @@ class OSS
                     Utils::stringifyMapValue($request->header),
                     OSSUtils::parseMeta($request->userMeta, 'x-oss-meta-')
                 );
-                if (!Utils::_empty($token)) {
+                if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
                 $_request->body = OSSUtils::inject($request->body, $ctx);
-                if (Utils::isUnset($request->header) && !Utils::_empty($request->header->contentType)) {
+                if (!Utils::isUnset($request->header) && !Utils::empty_($request->header->contentType)) {
                     $_request->headers['content-type'] = $request->header->contentType;
                 } else {
                     $_request->headers['content-type'] = OSSUtils::getContentType($request->objectName);
@@ -6619,13 +6669,11 @@ class OSS
                     ]);
                 }
 
-                return Model::toModel(Tea::merge(
-                    [
-                    ],
-                    $_response->headers
-                ), new PutObjectResponse());
+                return PutObjectResponse::fromMap(Tea::merge($_response->headers));
             } catch (\Exception $e) {
-                if (Tea::isRetryable($_runtime['retry'], $_retryTimes)) {
+                if (Tea::isRetryable($e)) {
+                    $_lastException = $e;
+
                     continue;
                 }
 
@@ -6633,7 +6681,7 @@ class OSS
             }
         }
 
-        throw new TeaUnableRetryError($_lastRequest);
+        throw new TeaUnableRetryError($_lastRequest, $_lastException);
     }
 
     /**

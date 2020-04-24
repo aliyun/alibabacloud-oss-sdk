@@ -4,16 +4,37 @@
 
 namespace AlibabaCloud\SDK\OSS\OSS\GetBucketWebsiteResponse\websiteConfiguration\routingRules\routingRule\redirect;
 
+use AlibabaCloud\SDK\OSS\OSS\mirrorHeaders\set;
 use AlibabaCloud\Tea\Model;
 
 class mirrorHeaders extends Model
 {
+    /**
+     * @description PassAll
+     *
+     * @var bool
+     */
     public $passAll;
 
+    /**
+     * @description Pass
+     *
+     * @var string
+     */
     public $pass;
 
+    /**
+     * @description Remove
+     *
+     * @var string
+     */
     public $remove;
 
+    /**
+     * @description Set
+     *
+     * @var mirrorHeaders.set
+     */
     public $set;
     protected $_name = [
         'passAll' => 'PassAll',
@@ -21,4 +42,44 @@ class mirrorHeaders extends Model
         'remove'  => 'Remove',
         'set'     => 'Set',
     ];
+
+    public function validate()
+    {
+        Model::validateRequired('set', $this->set, true);
+    }
+
+    public function toMap()
+    {
+        $res            = [];
+        $res['PassAll'] = $this->passAll;
+        $res['Pass']    = $this->pass;
+        $res['Remove']  = $this->remove;
+        $res['Set']     = null !== $this->set ? $this->set->toMap() : null;
+
+        return $res;
+    }
+
+    /**
+     * @param array $map
+     *
+     * @return mirrorHeaders
+     */
+    public static function fromMap($map = [])
+    {
+        $model = new self();
+        if (isset($map['PassAll'])) {
+            $model->passAll = $map['PassAll'];
+        }
+        if (isset($map['Pass'])) {
+            $model->pass = $map['Pass'];
+        }
+        if (isset($map['Remove'])) {
+            $model->remove = $map['Remove'];
+        }
+        if (isset($map['Set'])) {
+            $model->set = mirrorHeaders\set::fromMap($map['Set']);
+        }
+
+        return $model;
+    }
 }
