@@ -8,8 +8,46 @@ use AlibabaCloud\Tea\Model;
 
 class refererList extends Model
 {
+    /**
+     * @description Referer
+     *
+     * @var array
+     */
     public $referer;
     protected $_name = [
         'referer' => 'Referer',
     ];
+
+    public function validate()
+    {
+    }
+
+    public function toMap()
+    {
+        $res            = [];
+        $res['Referer'] = [];
+        if (null !== $this->referer) {
+            $res['Referer'] = $this->referer;
+        }
+
+        return $res;
+    }
+
+    /**
+     * @param array $map
+     *
+     * @return refererList
+     */
+    public static function fromMap($map = [])
+    {
+        $model = new self();
+        if (isset($map['Referer'])) {
+            if (!empty($map['Referer'])) {
+                $model->referer = [];
+                $model->referer = $map['Referer'];
+            }
+        }
+
+        return $model;
+    }
 }

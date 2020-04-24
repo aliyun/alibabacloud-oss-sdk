@@ -8,8 +8,41 @@ use AlibabaCloud\Tea\Model;
 
 class GetBucketLocationRequest extends Model
 {
+    /**
+     * @description BucketName
+     *
+     * @var string
+     */
     public $bucketName;
     protected $_name = [
         'bucketName' => 'BucketName',
     ];
+
+    public function validate()
+    {
+        Model::validateRequired('bucketName', $this->bucketName, true);
+    }
+
+    public function toMap()
+    {
+        $res               = [];
+        $res['BucketName'] = $this->bucketName;
+
+        return $res;
+    }
+
+    /**
+     * @param array $map
+     *
+     * @return GetBucketLocationRequest
+     */
+    public static function fromMap($map = [])
+    {
+        $model = new self();
+        if (isset($map['BucketName'])) {
+            $model->bucketName = $map['BucketName'];
+        }
+
+        return $model;
+    }
 }
