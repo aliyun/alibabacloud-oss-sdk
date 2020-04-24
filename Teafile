@@ -1,7 +1,7 @@
 {
 	"scope": "alibabacloud",
 	"name": "OSS",
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"main": "./oss.tea",
 	"go": {
 		"package": [
@@ -9,7 +9,7 @@
 		]
 	},
 	"releases": {
-		"go": "github.com/alibabacloud-go/tea-oss-sdk/client:v0.0.1",
+		"go": "github.com/alibabacloud-go/tea-oss-sdk/client:v1.0.1",
 		"java": "com.aliyun:oss-client:2.0.0",
 		"csharp": "AlibabaCloud.SDK.OSS.Client:1.0.1",
 		"ts": "@alicloud/oss-client:^1.1.2",
