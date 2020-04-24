@@ -4,7 +4,7 @@
 
     <groupId>com.aliyun</groupId>
     <artifactId>oss-client</artifactId>
-    <version>2.0.0</version>
+    <version>2.0.1</version>
     <packaging>jar</packaging>
 
     <name>oss-client</name>
@@ -55,7 +55,7 @@
         <dependency>
             <groupId>com.aliyun</groupId>
             <artifactId>tea</artifactId>
-            <version>0.0.22</version>
+            <version>0.1.3</version>
         </dependency>
         <dependency>
             <groupId>com.aliyun</groupId>
@@ -65,12 +65,12 @@
         <dependency>
             <groupId>com.aliyun</groupId>
             <artifactId>tea-util</artifactId>
-            <version>0.1.5</version>
+            <version>[0.1.9, 1.0.0)</version>
         </dependency>
         <dependency>
             <groupId>com.aliyun</groupId>
             <artifactId>tea-xml</artifactId>
-            <version>0.0.1</version>
+            <version>0.1.0</version>
         </dependency>
         <dependency>
             <groupId>com.aliyun</groupId>
@@ -84,13 +84,8 @@
         </dependency>
         <dependency>
             <groupId>com.aliyun</groupId>
-            <artifactId>oss-baseclient</artifactId>
-            <version>[1.1.0, 2.0.0)</version>
-        </dependency>
-        <dependency>
-            <groupId>com.aliyun</groupId>
-            <artifactId>common</artifactId>
-            <version>0.0.5</version>
+            <artifactId>tea-rpc-util</artifactId>
+            <version>[0.0.9, 1.0.0)</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
