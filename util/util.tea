@@ -1,3 +1,10 @@
+/**
+ * This is used for OSS sdk
+ */
+
+/**
+ * The OSS runtime options model
+ */
 model RuntimeOptions {
   autoretry?: boolean(description='autoretry', name='autoretry'),
   ignoreSSL?: boolean(description='ignoreSSL', name='ignoreSSL'),
@@ -18,25 +25,64 @@ model RuntimeOptions {
 }
 
 /**
- * Get error message from msg
+ * Parse msg into a object
  * @return the object
  */
 static function getErrMessage(msg: string): object;
 
+/**
+ * Add prefix string as prefix for keys of val
+ * @return the final map[string]string
+ */
 static function toMeta(val: object, prefix: string): map[string]string;
 
+/**
+ * Remove prefix string from keys of val
+ * @return the final map[string]string
+ */
 static function parseMeta(val: object, prefix: string): map[string]string;
 
+/**
+ * Get content type according to the fileName
+ * @return the content type
+ */
 static function getContentType(fileName: string): string;
 
+/**
+ * If isEnableMD5 is true, calculate md5 according to body, or return ''
+ * @return the md5
+ */
 static function getContentMD5(body: string, isEnableMD5: boolean): string;
 
+/**
+ * Encode val according to encodeType
+ * @param encodeType the type must be Base64 or UrlEncode
+ * @return the encoded string
+ */
 static function encode(val: string, encodeType: string): string;
 
+/**
+ * Get endpoint according to bucketName, regionId, endpoint and hostModel
+ * @return the endpoint string
+ */
 static function getHost(bucketName: string, regionId: string, endpoint: string, hostModel: string): string;
 
+/**
+ * Package body as a new readable, and res record the md5 and crc of the readable.
+ * @return the new readable
+ */
 static function inject(body: readable, res: map[string]string): readable;
 
+/**
+ * If signatureVersion is V1, get signature according to request, bucketName, accessKeyId and accessKeySecret
+ * If signatureVersion is V2, get signature according to request, bucketName, accessKeyId, accessKeySecret and addtionalHeaders
+ * @return the signature string
+ */
 static function getSignature(request: $Request, bucketName: string, accessKeyId: string, accessKeySecret: string, signatureVersion: string, addtionalHeaders: [string]): string;
 
+/**
+ * Decode val according to decodeType
+ * @param decodeType the type must be Base64 or UrlEncode
+ * @return the decoded string
+ */
 static function decode(val: string, decodeType: string): string;
