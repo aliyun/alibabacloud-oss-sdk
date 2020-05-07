@@ -54,7 +54,7 @@ class GetBucketLifecycleResponse extends Model
             $model->requestId = $map['x-oss-request-id'];
         }
         if (isset($map['LifecycleConfiguration'])) {
-            $model->lifecycleConfiguration = GetBucketLifecycleResponse\lifecycleConfiguration::fromMap($map['LifecycleConfiguration']);
+            $model->lifecycleConfiguration = lifecycleConfiguration::fromMap($map['LifecycleConfiguration']);
         }
 
         return $model;

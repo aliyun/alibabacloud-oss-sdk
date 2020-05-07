@@ -53,7 +53,7 @@ class PutBucketCORSRequest extends Model
             $model->bucketName = $map['BucketName'];
         }
         if (isset($map['Body'])) {
-            $model->body = PutBucketCORSRequest\body::fromMap($map['Body']);
+            $model->body = body::fromMap($map['Body']);
         }
 
         return $model;

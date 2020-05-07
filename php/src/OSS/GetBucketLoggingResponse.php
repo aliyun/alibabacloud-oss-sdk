@@ -54,7 +54,7 @@ class GetBucketLoggingResponse extends Model
             $model->requestId = $map['x-oss-request-id'];
         }
         if (isset($map['BucketLoggingStatus'])) {
-            $model->bucketLoggingStatus = GetBucketLoggingResponse\bucketLoggingStatus::fromMap($map['BucketLoggingStatus']);
+            $model->bucketLoggingStatus = bucketLoggingStatus::fromMap($map['BucketLoggingStatus']);
         }
 
         return $model;

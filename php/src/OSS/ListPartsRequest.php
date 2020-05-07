@@ -67,7 +67,7 @@ class ListPartsRequest extends Model
             $model->objectName = $map['ObjectName'];
         }
         if (isset($map['Filter'])) {
-            $model->filter = ListPartsRequest\filter::fromMap($map['Filter']);
+            $model->filter = filter::fromMap($map['Filter']);
         }
 
         return $model;

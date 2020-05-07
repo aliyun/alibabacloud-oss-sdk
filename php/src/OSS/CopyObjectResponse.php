@@ -54,7 +54,7 @@ class CopyObjectResponse extends Model
             $model->requestId = $map['x-oss-request-id'];
         }
         if (isset($map['CopyObjectResult'])) {
-            $model->copyObjectResult = CopyObjectResponse\copyObjectResult::fromMap($map['CopyObjectResult']);
+            $model->copyObjectResult = copyObjectResult::fromMap($map['CopyObjectResult']);
         }
 
         return $model;

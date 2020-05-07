@@ -41,7 +41,7 @@ class tagging extends Model
     {
         $model = new self();
         if (isset($map['TagSet'])) {
-            $model->tagSet = tagging\tagSet::fromMap($map['TagSet']);
+            $model->tagSet = tagSet::fromMap($map['TagSet']);
         }
 
         return $model;

@@ -41,7 +41,7 @@ class body extends Model
     {
         $model = new self();
         if (isset($map['CORSConfiguration'])) {
-            $model->cORSConfiguration = body\cORSConfiguration::fromMap($map['CORSConfiguration']);
+            $model->cORSConfiguration = cORSConfiguration::fromMap($map['CORSConfiguration']);
         }
 
         return $model;

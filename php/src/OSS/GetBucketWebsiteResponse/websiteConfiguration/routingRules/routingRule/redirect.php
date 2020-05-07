@@ -173,7 +173,7 @@ class redirect extends Model
             $model->replaceKeyWith = $map['ReplaceKeyWith'];
         }
         if (isset($map['MirrorHeaders'])) {
-            $model->mirrorHeaders = redirect\mirrorHeaders::fromMap($map['MirrorHeaders']);
+            $model->mirrorHeaders = mirrorHeaders::fromMap($map['MirrorHeaders']);
         }
 
         return $model;

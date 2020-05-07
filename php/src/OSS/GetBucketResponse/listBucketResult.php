@@ -4,6 +4,7 @@
 
 namespace AlibabaCloud\SDK\OSS\OSS\GetBucketResponse;
 
+use AlibabaCloud\SDK\OSS\OSS\GetBucketResponse\listBucketResult\contents;
 use AlibabaCloud\Tea\Model;
 
 class listBucketResult extends Model
@@ -145,7 +146,7 @@ class listBucketResult extends Model
                 $model->contents = [];
                 $n               = 0;
                 foreach ($map['Contents'] as $item) {
-                    $model->contents[$n++] = null !== $item ? GetBucketResponse\listBucketResult\contents::fromMap($item) : $item;
+                    $model->contents[$n++] = null !== $item ? contents::fromMap($item) : $item;
                 }
             }
         }

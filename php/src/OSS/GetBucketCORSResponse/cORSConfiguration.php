@@ -4,6 +4,7 @@
 
 namespace AlibabaCloud\SDK\OSS\OSS\GetBucketCORSResponse;
 
+use AlibabaCloud\SDK\OSS\OSS\GetBucketCORSResponse\cORSConfiguration\cORSRule;
 use AlibabaCloud\Tea\Model;
 
 class cORSConfiguration extends Model
@@ -49,7 +50,7 @@ class cORSConfiguration extends Model
                 $model->cORSRule = [];
                 $n               = 0;
                 foreach ($map['CORSRule'] as $item) {
-                    $model->cORSRule[$n++] = null !== $item ? GetBucketCORSResponse\cORSConfiguration\cORSRule::fromMap($item) : $item;
+                    $model->cORSRule[$n++] = null !== $item ? cORSRule::fromMap($item) : $item;
                 }
             }
         }

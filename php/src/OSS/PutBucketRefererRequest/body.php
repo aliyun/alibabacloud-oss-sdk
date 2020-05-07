@@ -41,7 +41,7 @@ class body extends Model
     {
         $model = new self();
         if (isset($map['RefererConfiguration'])) {
-            $model->refererConfiguration = body\refererConfiguration::fromMap($map['RefererConfiguration']);
+            $model->refererConfiguration = refererConfiguration::fromMap($map['RefererConfiguration']);
         }
 
         return $model;

@@ -100,10 +100,10 @@ class liveChannel extends Model
             $model->lastModified = $map['LastModified'];
         }
         if (isset($map['PublishUrls'])) {
-            $model->publishUrls = liveChannel\publishUrls::fromMap($map['PublishUrls']);
+            $model->publishUrls = publishUrls::fromMap($map['PublishUrls']);
         }
         if (isset($map['PlayUrls'])) {
-            $model->playUrls = liveChannel\playUrls::fromMap($map['PlayUrls']);
+            $model->playUrls = playUrls::fromMap($map['PlayUrls']);
         }
 
         return $model;

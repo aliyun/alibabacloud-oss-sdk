@@ -77,7 +77,7 @@ class mirrorHeaders extends Model
             $model->remove = $map['Remove'];
         }
         if (isset($map['Set'])) {
-            $model->set = mirrorHeaders\set::fromMap($map['Set']);
+            $model->set = set::fromMap($map['Set']);
         }
 
         return $model;

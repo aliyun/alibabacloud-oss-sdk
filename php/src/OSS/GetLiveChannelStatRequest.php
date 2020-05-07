@@ -66,7 +66,7 @@ class GetLiveChannelStatRequest extends Model
             $model->channelName = $map['ChannelName'];
         }
         if (isset($map['Filter'])) {
-            $model->filter = GetLiveChannelStatRequest\filter::fromMap($map['Filter']);
+            $model->filter = filter::fromMap($map['Filter']);
         }
 
         return $model;

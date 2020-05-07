@@ -139,7 +139,7 @@ class redirect extends Model
     {
         $model = new self();
         if (isset($map['MirrorHeaders'])) {
-            $model->mirrorHeaders = redirect\mirrorHeaders::fromMap($map['MirrorHeaders']);
+            $model->mirrorHeaders = mirrorHeaders::fromMap($map['MirrorHeaders']);
         }
         if (isset($map['RedirectType'])) {
             $model->redirectType = $map['RedirectType'];

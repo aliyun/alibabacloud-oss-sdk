@@ -4,6 +4,7 @@
 
 namespace AlibabaCloud\SDK\OSS\OSS\GetServiceResponse\listAllMyBucketsResult;
 
+use AlibabaCloud\SDK\OSS\OSS\GetServiceResponse\listAllMyBucketsResult\buckets\bucket;
 use AlibabaCloud\Tea\Model;
 
 class buckets extends Model
@@ -49,7 +50,7 @@ class buckets extends Model
                 $model->bucket = [];
                 $n             = 0;
                 foreach ($map['Bucket'] as $item) {
-                    $model->bucket[$n++] = null !== $item ? GetServiceResponse\listAllMyBucketsResult\buckets\bucket::fromMap($item) : $item;
+                    $model->bucket[$n++] = null !== $item ? bucket::fromMap($item) : $item;
                 }
             }
         }

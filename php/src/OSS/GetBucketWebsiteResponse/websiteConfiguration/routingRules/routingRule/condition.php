@@ -65,7 +65,7 @@ class condition extends Model
             $model->httpErrorCodeReturnedEquals = $map['HttpErrorCodeReturnedEquals'];
         }
         if (isset($map['IncludeHeader'])) {
-            $model->includeHeader = condition\includeHeader::fromMap($map['IncludeHeader']);
+            $model->includeHeader = includeHeader::fromMap($map['IncludeHeader']);
         }
 
         return $model;

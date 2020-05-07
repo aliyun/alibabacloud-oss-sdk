@@ -79,7 +79,7 @@ class UploadPartRequest extends Model
             $model->body = $map['body'];
         }
         if (isset($map['Filter'])) {
-            $model->filter = UploadPartRequest\filter::fromMap($map['Filter']);
+            $model->filter = filter::fromMap($map['Filter']);
         }
 
         return $model;

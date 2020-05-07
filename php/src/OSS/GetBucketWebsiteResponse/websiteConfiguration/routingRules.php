@@ -4,6 +4,7 @@
 
 namespace AlibabaCloud\SDK\OSS\OSS\GetBucketWebsiteResponse\websiteConfiguration;
 
+use AlibabaCloud\SDK\OSS\OSS\GetBucketWebsiteResponse\websiteConfiguration\routingRules\routingRule;
 use AlibabaCloud\Tea\Model;
 
 class routingRules extends Model
@@ -49,7 +50,7 @@ class routingRules extends Model
                 $model->routingRule = [];
                 $n                  = 0;
                 foreach ($map['RoutingRule'] as $item) {
-                    $model->routingRule[$n++] = null !== $item ? GetBucketWebsiteResponse\websiteConfiguration\routingRules\routingRule::fromMap($item) : $item;
+                    $model->routingRule[$n++] = null !== $item ? routingRule::fromMap($item) : $item;
                 }
             }
         }

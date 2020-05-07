@@ -69,13 +69,13 @@ class selectRequest extends Model
     {
         $model = new self();
         if (isset($map['InputSerialization'])) {
-            $model->inputSerialization = selectRequest\inputSerialization::fromMap($map['InputSerialization']);
+            $model->inputSerialization = inputSerialization::fromMap($map['InputSerialization']);
         }
         if (isset($map['OutputSerialization'])) {
-            $model->outputSerialization = selectRequest\outputSerialization::fromMap($map['OutputSerialization']);
+            $model->outputSerialization = outputSerialization::fromMap($map['OutputSerialization']);
         }
         if (isset($map['Options'])) {
-            $model->options = selectRequest\options::fromMap($map['Options']);
+            $model->options = options::fromMap($map['Options']);
         }
         if (isset($map['Expression'])) {
             $model->expression = $map['Expression'];

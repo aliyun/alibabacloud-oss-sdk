@@ -53,7 +53,7 @@ class PutBucketLifecycleRequest extends Model
             $model->bucketName = $map['BucketName'];
         }
         if (isset($map['Body'])) {
-            $model->body = PutBucketLifecycleRequest\body::fromMap($map['Body']);
+            $model->body = body::fromMap($map['Body']);
         }
 
         return $model;

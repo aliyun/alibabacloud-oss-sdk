@@ -80,7 +80,7 @@ class PostVodPlaylistRequest extends Model
             $model->playlistName = $map['PlaylistName'];
         }
         if (isset($map['Filter'])) {
-            $model->filter = PostVodPlaylistRequest\filter::fromMap($map['Filter']);
+            $model->filter = filter::fromMap($map['Filter']);
         }
 
         return $model;

@@ -41,7 +41,7 @@ class body extends Model
     {
         $model = new self();
         if (isset($map['WebsiteConfiguration'])) {
-            $model->websiteConfiguration = body\websiteConfiguration::fromMap($map['WebsiteConfiguration']);
+            $model->websiteConfiguration = websiteConfiguration::fromMap($map['WebsiteConfiguration']);
         }
 
         return $model;

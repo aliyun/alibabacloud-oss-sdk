@@ -54,7 +54,7 @@ class GetObjectTaggingResponse extends Model
             $model->requestId = $map['x-oss-request-id'];
         }
         if (isset($map['Tagging'])) {
-            $model->tagging = GetObjectTaggingResponse\tagging::fromMap($map['Tagging']);
+            $model->tagging = tagging::fromMap($map['Tagging']);
         }
 
         return $model;

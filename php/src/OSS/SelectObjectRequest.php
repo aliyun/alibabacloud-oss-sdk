@@ -77,10 +77,10 @@ class SelectObjectRequest extends Model
             $model->objectName = $map['ObjectName'];
         }
         if (isset($map['Filter'])) {
-            $model->filter = SelectObjectRequest\filter::fromMap($map['Filter']);
+            $model->filter = filter::fromMap($map['Filter']);
         }
         if (isset($map['Body'])) {
-            $model->body = SelectObjectRequest\body::fromMap($map['Body']);
+            $model->body = body::fromMap($map['Body']);
         }
 
         return $model;

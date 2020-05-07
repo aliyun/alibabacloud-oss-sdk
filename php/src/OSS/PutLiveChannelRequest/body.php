@@ -41,7 +41,7 @@ class body extends Model
     {
         $model = new self();
         if (isset($map['LiveChannelConfiguration'])) {
-            $model->liveChannelConfiguration = body\liveChannelConfiguration::fromMap($map['LiveChannelConfiguration']);
+            $model->liveChannelConfiguration = liveChannelConfiguration::fromMap($map['LiveChannelConfiguration']);
         }
 
         return $model;
