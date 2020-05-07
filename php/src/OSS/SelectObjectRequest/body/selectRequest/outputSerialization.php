@@ -76,7 +76,7 @@ class outputSerialization extends Model
     {
         $model = new self();
         if (isset($map['CSV'])) {
-            $model->cSV = outputSerialization\cSV::fromMap($map['CSV']);
+            $model->cSV = cSV::fromMap($map['CSV']);
         }
         if (isset($map['KeepAllColumns'])) {
             $model->keepAllColumns = $map['KeepAllColumns'];

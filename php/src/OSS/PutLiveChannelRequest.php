@@ -66,7 +66,7 @@ class PutLiveChannelRequest extends Model
             $model->channelName = $map['ChannelName'];
         }
         if (isset($map['Body'])) {
-            $model->body = PutLiveChannelRequest\body::fromMap($map['Body']);
+            $model->body = body::fromMap($map['Body']);
         }
 
         return $model;

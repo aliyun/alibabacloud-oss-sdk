@@ -88,10 +88,10 @@ class liveChannelStat extends Model
             $model->remoteAddr = $map['RemoteAddr'];
         }
         if (isset($map['Video'])) {
-            $model->video = liveChannelStat\video::fromMap($map['Video']);
+            $model->video = video::fromMap($map['Video']);
         }
         if (isset($map['Audio'])) {
-            $model->audio = liveChannelStat\audio::fromMap($map['Audio']);
+            $model->audio = audio::fromMap($map['Audio']);
         }
 
         return $model;

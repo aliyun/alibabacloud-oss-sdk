@@ -58,7 +58,7 @@ class condition extends Model
     {
         $model = new self();
         if (isset($map['IncludeHeader'])) {
-            $model->includeHeader = condition\includeHeader::fromMap($map['IncludeHeader']);
+            $model->includeHeader = includeHeader::fromMap($map['IncludeHeader']);
         }
         if (isset($map['KeyPrefixEquals'])) {
             $model->keyPrefixEquals = $map['KeyPrefixEquals'];

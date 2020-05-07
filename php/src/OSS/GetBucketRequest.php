@@ -53,7 +53,7 @@ class GetBucketRequest extends Model
             $model->bucketName = $map['BucketName'];
         }
         if (isset($map['Filter'])) {
-            $model->filter = GetBucketRequest\filter::fromMap($map['Filter']);
+            $model->filter = filter::fromMap($map['Filter']);
         }
 
         return $model;

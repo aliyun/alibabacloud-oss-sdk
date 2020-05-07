@@ -101,10 +101,10 @@ class AppendObjectRequest extends Model
             $model->body = $map['body'];
         }
         if (isset($map['Filter'])) {
-            $model->filter = AppendObjectRequest\filter::fromMap($map['Filter']);
+            $model->filter = filter::fromMap($map['Filter']);
         }
         if (isset($map['Header'])) {
-            $model->header = AppendObjectRequest\header::fromMap($map['Header']);
+            $model->header = header::fromMap($map['Header']);
         }
 
         return $model;

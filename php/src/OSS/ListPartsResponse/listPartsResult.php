@@ -4,6 +4,7 @@
 
 namespace AlibabaCloud\SDK\OSS\OSS\ListPartsResponse;
 
+use AlibabaCloud\SDK\OSS\OSS\ListPartsResponse\listPartsResult\part;
 use AlibabaCloud\Tea\Model;
 
 class listPartsResult extends Model
@@ -145,7 +146,7 @@ class listPartsResult extends Model
                 $model->part = [];
                 $n           = 0;
                 foreach ($map['Part'] as $item) {
-                    $model->part[$n++] = null !== $item ? ListPartsResponse\listPartsResult\part::fromMap($item) : $item;
+                    $model->part[$n++] = null !== $item ? part::fromMap($item) : $item;
                 }
             }
         }

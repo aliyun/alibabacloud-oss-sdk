@@ -41,7 +41,7 @@ class bucketInfo extends Model
     {
         $model = new self();
         if (isset($map['Bucket'])) {
-            $model->bucket = bucketInfo\bucket::fromMap($map['Bucket']);
+            $model->bucket = bucket::fromMap($map['Bucket']);
         }
 
         return $model;

@@ -54,7 +54,7 @@ class UploadPartCopyResponse extends Model
             $model->requestId = $map['x-oss-request-id'];
         }
         if (isset($map['CopyPartResult'])) {
-            $model->copyPartResult = UploadPartCopyResponse\copyPartResult::fromMap($map['CopyPartResult']);
+            $model->copyPartResult = copyPartResult::fromMap($map['CopyPartResult']);
         }
 
         return $model;

@@ -110,16 +110,16 @@ class rule extends Model
             $model->status = $map['Status'];
         }
         if (isset($map['Expiration'])) {
-            $model->expiration = rule\expiration::fromMap($map['Expiration']);
+            $model->expiration = expiration::fromMap($map['Expiration']);
         }
         if (isset($map['Transition'])) {
-            $model->transition = rule\transition::fromMap($map['Transition']);
+            $model->transition = transition::fromMap($map['Transition']);
         }
         if (isset($map['AbortMultipartUpload'])) {
-            $model->abortMultipartUpload = rule\abortMultipartUpload::fromMap($map['AbortMultipartUpload']);
+            $model->abortMultipartUpload = abortMultipartUpload::fromMap($map['AbortMultipartUpload']);
         }
         if (isset($map['Tag'])) {
-            $model->tag = rule\tag::fromMap($map['Tag']);
+            $model->tag = tag::fromMap($map['Tag']);
         }
 
         return $model;

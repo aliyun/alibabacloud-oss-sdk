@@ -54,7 +54,7 @@ class GetBucketResponse extends Model
             $model->requestId = $map['x-oss-request-id'];
         }
         if (isset($map['ListBucketResult'])) {
-            $model->listBucketResult = GetBucketResponse\listBucketResult::fromMap($map['ListBucketResult']);
+            $model->listBucketResult = listBucketResult::fromMap($map['ListBucketResult']);
         }
 
         return $model;

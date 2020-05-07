@@ -54,7 +54,7 @@ class ListPartsResponse extends Model
             $model->requestId = $map['x-oss-request-id'];
         }
         if (isset($map['ListPartsResult'])) {
-            $model->listPartsResult = ListPartsResponse\listPartsResult::fromMap($map['ListPartsResult']);
+            $model->listPartsResult = listPartsResult::fromMap($map['ListPartsResult']);
         }
 
         return $model;

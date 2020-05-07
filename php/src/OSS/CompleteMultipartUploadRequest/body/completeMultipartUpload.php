@@ -4,6 +4,7 @@
 
 namespace AlibabaCloud\SDK\OSS\OSS\CompleteMultipartUploadRequest\body;
 
+use AlibabaCloud\SDK\OSS\OSS\CompleteMultipartUploadRequest\body\completeMultipartUpload\part;
 use AlibabaCloud\Tea\Model;
 
 class completeMultipartUpload extends Model
@@ -49,7 +50,7 @@ class completeMultipartUpload extends Model
                 $model->part = [];
                 $n           = 0;
                 foreach ($map['Part'] as $item) {
-                    $model->part[$n++] = null !== $item ? CompleteMultipartUploadRequest\body\completeMultipartUpload\part::fromMap($item) : $item;
+                    $model->part[$n++] = null !== $item ? part::fromMap($item) : $item;
                 }
             }
         }

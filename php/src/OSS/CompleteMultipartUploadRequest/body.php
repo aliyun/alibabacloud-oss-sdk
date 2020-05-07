@@ -41,7 +41,7 @@ class body extends Model
     {
         $model = new self();
         if (isset($map['CompleteMultipartUpload'])) {
-            $model->completeMultipartUpload = body\completeMultipartUpload::fromMap($map['CompleteMultipartUpload']);
+            $model->completeMultipartUpload = completeMultipartUpload::fromMap($map['CompleteMultipartUpload']);
         }
 
         return $model;

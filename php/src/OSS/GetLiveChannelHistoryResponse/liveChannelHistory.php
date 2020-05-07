@@ -4,6 +4,7 @@
 
 namespace AlibabaCloud\SDK\OSS\OSS\GetLiveChannelHistoryResponse;
 
+use AlibabaCloud\SDK\OSS\OSS\GetLiveChannelHistoryResponse\liveChannelHistory\liveRecord;
 use AlibabaCloud\Tea\Model;
 
 class liveChannelHistory extends Model
@@ -49,7 +50,7 @@ class liveChannelHistory extends Model
                 $model->liveRecord = [];
                 $n                 = 0;
                 foreach ($map['LiveRecord'] as $item) {
-                    $model->liveRecord[$n++] = null !== $item ? GetLiveChannelHistoryResponse\liveChannelHistory\liveRecord::fromMap($item) : $item;
+                    $model->liveRecord[$n++] = null !== $item ? liveRecord::fromMap($item) : $item;
                 }
             }
         }

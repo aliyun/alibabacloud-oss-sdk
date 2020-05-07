@@ -148,10 +148,10 @@ class bucket extends Model
             $model->comment = $map['Comment'];
         }
         if (isset($map['Owner'])) {
-            $model->owner = bucket\owner::fromMap($map['Owner']);
+            $model->owner = owner::fromMap($map['Owner']);
         }
         if (isset($map['AccessControlList'])) {
-            $model->accessControlList = bucket\accessControlList::fromMap($map['AccessControlList']);
+            $model->accessControlList = accessControlList::fromMap($map['AccessControlList']);
         }
 
         return $model;

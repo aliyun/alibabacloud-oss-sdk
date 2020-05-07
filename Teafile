@@ -30,6 +30,7 @@
 	"php": {
 		"package": "AlibabaCloud.SDK.OSS",
 		"clientName": "OSS",
+		"modelDirName": "OSS",
 		"packageInfo": {
 			"name": "alibabacloud/tea-oss-sdk",
 			"desc": "Aliyun Tea OSS SDK Library for PHP",

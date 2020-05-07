@@ -54,7 +54,7 @@ class GetLiveChannelStatResponse extends Model
             $model->requestId = $map['x-oss-request-id'];
         }
         if (isset($map['LiveChannelStat'])) {
-            $model->liveChannelStat = GetLiveChannelStatResponse\liveChannelStat::fromMap($map['LiveChannelStat']);
+            $model->liveChannelStat = liveChannelStat::fromMap($map['LiveChannelStat']);
         }
 
         return $model;

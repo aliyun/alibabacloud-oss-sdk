@@ -40,7 +40,7 @@ class serverSideEncryptionRule extends Model
     {
         $model = new self();
         if (isset($map['ApplyServerSideEncryptionByDefault'])) {
-            $model->applyServerSideEncryptionByDefault = serverSideEncryptionRule\applyServerSideEncryptionByDefault::fromMap($map['ApplyServerSideEncryptionByDefault']);
+            $model->applyServerSideEncryptionByDefault = applyServerSideEncryptionByDefault::fromMap($map['ApplyServerSideEncryptionByDefault']);
         }
 
         return $model;

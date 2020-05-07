@@ -53,7 +53,7 @@ class ListMultipartUploadsRequest extends Model
             $model->bucketName = $map['BucketName'];
         }
         if (isset($map['Filter'])) {
-            $model->filter = ListMultipartUploadsRequest\filter::fromMap($map['Filter']);
+            $model->filter = filter::fromMap($map['Filter']);
         }
 
         return $model;

@@ -54,7 +54,7 @@ class GetBucketCORSResponse extends Model
             $model->requestId = $map['x-oss-request-id'];
         }
         if (isset($map['CORSConfiguration'])) {
-            $model->cORSConfiguration = GetBucketCORSResponse\cORSConfiguration::fromMap($map['CORSConfiguration']);
+            $model->cORSConfiguration = cORSConfiguration::fromMap($map['CORSConfiguration']);
         }
 
         return $model;

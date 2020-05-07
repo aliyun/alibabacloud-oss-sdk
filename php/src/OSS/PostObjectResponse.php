@@ -41,7 +41,7 @@ class PostObjectResponse extends Model
     {
         $model = new self();
         if (isset($map['PostResponse'])) {
-            $model->postResponse = PostObjectResponse\postResponse::fromMap($map['PostResponse']);
+            $model->postResponse = postResponse::fromMap($map['PostResponse']);
         }
 
         return $model;

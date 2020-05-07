@@ -78,10 +78,10 @@ class UploadPartCopyRequest extends Model
             $model->objectName = $map['ObjectName'];
         }
         if (isset($map['Filter'])) {
-            $model->filter = UploadPartCopyRequest\filter::fromMap($map['Filter']);
+            $model->filter = filter::fromMap($map['Filter']);
         }
         if (isset($map['Header'])) {
-            $model->header = UploadPartCopyRequest\header::fromMap($map['Header']);
+            $model->header = header::fromMap($map['Header']);
         }
 
         return $model;

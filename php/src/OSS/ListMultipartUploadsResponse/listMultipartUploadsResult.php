@@ -4,6 +4,7 @@
 
 namespace AlibabaCloud\SDK\OSS\OSS\ListMultipartUploadsResponse;
 
+use AlibabaCloud\SDK\OSS\OSS\ListMultipartUploadsResponse\listMultipartUploadsResult\upload;
 use AlibabaCloud\Tea\Model;
 
 class listMultipartUploadsResult extends Model
@@ -157,7 +158,7 @@ class listMultipartUploadsResult extends Model
                 $model->upload = [];
                 $n             = 0;
                 foreach ($map['Upload'] as $item) {
-                    $model->upload[$n++] = null !== $item ? ListMultipartUploadsResponse\listMultipartUploadsResult\upload::fromMap($item) : $item;
+                    $model->upload[$n++] = null !== $item ? upload::fromMap($item) : $item;
                 }
             }
         }

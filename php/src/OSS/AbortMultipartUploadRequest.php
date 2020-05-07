@@ -67,7 +67,7 @@ class AbortMultipartUploadRequest extends Model
             $model->objectName = $map['ObjectName'];
         }
         if (isset($map['Filter'])) {
-            $model->filter = AbortMultipartUploadRequest\filter::fromMap($map['Filter']);
+            $model->filter = filter::fromMap($map['Filter']);
         }
 
         return $model;

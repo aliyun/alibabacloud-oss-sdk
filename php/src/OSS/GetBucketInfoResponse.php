@@ -54,7 +54,7 @@ class GetBucketInfoResponse extends Model
             $model->requestId = $map['x-oss-request-id'];
         }
         if (isset($map['BucketInfo'])) {
-            $model->bucketInfo = GetBucketInfoResponse\bucketInfo::fromMap($map['BucketInfo']);
+            $model->bucketInfo = bucketInfo::fromMap($map['BucketInfo']);
         }
 
         return $model;

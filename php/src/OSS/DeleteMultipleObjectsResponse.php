@@ -54,7 +54,7 @@ class DeleteMultipleObjectsResponse extends Model
             $model->requestId = $map['x-oss-request-id'];
         }
         if (isset($map['DeleteResult'])) {
-            $model->deleteResult = DeleteMultipleObjectsResponse\deleteResult::fromMap($map['DeleteResult']);
+            $model->deleteResult = deleteResult::fromMap($map['DeleteResult']);
         }
 
         return $model;

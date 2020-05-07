@@ -41,7 +41,7 @@ class body extends Model
     {
         $model = new self();
         if (isset($map['ServerSideEncryptionRule'])) {
-            $model->serverSideEncryptionRule = body\serverSideEncryptionRule::fromMap($map['ServerSideEncryptionRule']);
+            $model->serverSideEncryptionRule = serverSideEncryptionRule::fromMap($map['ServerSideEncryptionRule']);
         }
 
         return $model;

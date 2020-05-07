@@ -54,7 +54,7 @@ class GetLiveChannelHistoryResponse extends Model
             $model->requestId = $map['x-oss-request-id'];
         }
         if (isset($map['LiveChannelHistory'])) {
-            $model->liveChannelHistory = GetLiveChannelHistoryResponse\liveChannelHistory::fromMap($map['LiveChannelHistory']);
+            $model->liveChannelHistory = liveChannelHistory::fromMap($map['LiveChannelHistory']);
         }
 
         return $model;

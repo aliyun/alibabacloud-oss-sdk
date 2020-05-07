@@ -52,10 +52,10 @@ class accessControlPolicy extends Model
     {
         $model = new self();
         if (isset($map['Owner'])) {
-            $model->owner = accessControlPolicy\owner::fromMap($map['Owner']);
+            $model->owner = owner::fromMap($map['Owner']);
         }
         if (isset($map['AccessControlList'])) {
-            $model->accessControlList = accessControlPolicy\accessControlList::fromMap($map['AccessControlList']);
+            $model->accessControlList = accessControlList::fromMap($map['AccessControlList']);
         }
 
         return $model;

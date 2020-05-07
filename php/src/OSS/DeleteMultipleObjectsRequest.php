@@ -64,10 +64,10 @@ class DeleteMultipleObjectsRequest extends Model
             $model->bucketName = $map['BucketName'];
         }
         if (isset($map['Body'])) {
-            $model->body = DeleteMultipleObjectsRequest\body::fromMap($map['Body']);
+            $model->body = body::fromMap($map['Body']);
         }
         if (isset($map['Header'])) {
-            $model->header = DeleteMultipleObjectsRequest\header::fromMap($map['Header']);
+            $model->header = header::fromMap($map['Header']);
         }
 
         return $model;

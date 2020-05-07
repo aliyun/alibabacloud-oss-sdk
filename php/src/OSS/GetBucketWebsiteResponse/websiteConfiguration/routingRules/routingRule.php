@@ -64,10 +64,10 @@ class routingRule extends Model
             $model->ruleNumber = $map['RuleNumber'];
         }
         if (isset($map['Condition'])) {
-            $model->condition = routingRule\condition::fromMap($map['Condition']);
+            $model->condition = condition::fromMap($map['Condition']);
         }
         if (isset($map['Redirect'])) {
-            $model->redirect = routingRule\redirect::fromMap($map['Redirect']);
+            $model->redirect = redirect::fromMap($map['Redirect']);
         }
 
         return $model;
