@@ -66,7 +66,7 @@ class GetObjectRequest extends Model
             $model->objectName = $map['ObjectName'];
         }
         if (isset($map['Header'])) {
-            $model->header = GetObjectRequest\header::fromMap($map['Header']);
+            $model->header = header::fromMap($map['Header']);
         }
 
         return $model;

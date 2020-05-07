@@ -41,7 +41,7 @@ class body extends Model
     {
         $model = new self();
         if (isset($map['RequestPaymentConfiguration'])) {
-            $model->requestPaymentConfiguration = body\requestPaymentConfiguration::fromMap($map['RequestPaymentConfiguration']);
+            $model->requestPaymentConfiguration = requestPaymentConfiguration::fromMap($map['RequestPaymentConfiguration']);
         }
 
         return $model;

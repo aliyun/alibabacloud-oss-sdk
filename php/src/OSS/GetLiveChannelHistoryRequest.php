@@ -66,7 +66,7 @@ class GetLiveChannelHistoryRequest extends Model
             $model->channelName = $map['ChannelName'];
         }
         if (isset($map['Filter'])) {
-            $model->filter = GetLiveChannelHistoryRequest\filter::fromMap($map['Filter']);
+            $model->filter = filter::fromMap($map['Filter']);
         }
 
         return $model;

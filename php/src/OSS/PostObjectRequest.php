@@ -54,7 +54,7 @@ class PostObjectRequest extends Model
             $model->bucketName = $map['BucketName'];
         }
         if (isset($map['header'])) {
-            $model->header = PostObjectRequest\header::fromMap($map['header']);
+            $model->header = header::fromMap($map['header']);
         }
 
         return $model;

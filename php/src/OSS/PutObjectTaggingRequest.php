@@ -66,7 +66,7 @@ class PutObjectTaggingRequest extends Model
             $model->objectName = $map['ObjectName'];
         }
         if (isset($map['Body'])) {
-            $model->body = PutObjectTaggingRequest\body::fromMap($map['Body']);
+            $model->body = body::fromMap($map['Body']);
         }
 
         return $model;

@@ -54,7 +54,7 @@ class GetBucketTagsResponse extends Model
             $model->requestId = $map['x-oss-request-id'];
         }
         if (isset($map['Tagging'])) {
-            $model->tagging = GetBucketTagsResponse\tagging::fromMap($map['Tagging']);
+            $model->tagging = tagging::fromMap($map['Tagging']);
         }
 
         return $model;

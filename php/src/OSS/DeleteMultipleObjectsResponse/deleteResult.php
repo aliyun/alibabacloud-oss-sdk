@@ -4,6 +4,7 @@
 
 namespace AlibabaCloud\SDK\OSS\OSS\DeleteMultipleObjectsResponse;
 
+use AlibabaCloud\SDK\OSS\OSS\DeleteMultipleObjectsResponse\deleteResult\deleted;
 use AlibabaCloud\Tea\Model;
 
 class deleteResult extends Model
@@ -73,7 +74,7 @@ class deleteResult extends Model
                 $model->deleted = [];
                 $n              = 0;
                 foreach ($map['Deleted'] as $item) {
-                    $model->deleted[$n++] = null !== $item ? DeleteMultipleObjectsResponse\deleteResult\deleted::fromMap($item) : $item;
+                    $model->deleted[$n++] = null !== $item ? deleted::fromMap($item) : $item;
                 }
             }
         }

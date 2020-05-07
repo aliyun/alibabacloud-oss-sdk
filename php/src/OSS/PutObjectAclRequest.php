@@ -67,7 +67,7 @@ class PutObjectAclRequest extends Model
             $model->objectName = $map['ObjectName'];
         }
         if (isset($map['Header'])) {
-            $model->header = PutObjectAclRequest\header::fromMap($map['Header']);
+            $model->header = header::fromMap($map['Header']);
         }
 
         return $model;

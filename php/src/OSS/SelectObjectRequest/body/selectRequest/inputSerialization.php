@@ -49,7 +49,7 @@ class inputSerialization extends Model
     {
         $model = new self();
         if (isset($map['CSV'])) {
-            $model->cSV = inputSerialization\cSV::fromMap($map['CSV']);
+            $model->cSV = cSV::fromMap($map['CSV']);
         }
         if (isset($map['CompressionType'])) {
             $model->compressionType = $map['CompressionType'];

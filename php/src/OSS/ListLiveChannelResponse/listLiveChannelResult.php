@@ -101,7 +101,7 @@ class listLiveChannelResult extends Model
             $model->nextMarker = $map['NextMarker'];
         }
         if (isset($map['LiveChannel'])) {
-            $model->liveChannel = listLiveChannelResult\liveChannel::fromMap($map['LiveChannel']);
+            $model->liveChannel = liveChannel::fromMap($map['LiveChannel']);
         }
 
         return $model;

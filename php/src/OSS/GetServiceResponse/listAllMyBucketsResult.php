@@ -112,10 +112,10 @@ class listAllMyBucketsResult extends Model
             $model->nextMarker = $map['NextMarker'];
         }
         if (isset($map['Owner'])) {
-            $model->owner = listAllMyBucketsResult\owner::fromMap($map['Owner']);
+            $model->owner = owner::fromMap($map['Owner']);
         }
         if (isset($map['Buckets'])) {
-            $model->buckets = listAllMyBucketsResult\buckets::fromMap($map['Buckets']);
+            $model->buckets = buckets::fromMap($map['Buckets']);
         }
 
         return $model;

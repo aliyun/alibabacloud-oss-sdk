@@ -54,7 +54,7 @@ class ListLiveChannelResponse extends Model
             $model->requestId = $map['x-oss-request-id'];
         }
         if (isset($map['ListLiveChannelResult'])) {
-            $model->listLiveChannelResult = ListLiveChannelResponse\listLiveChannelResult::fromMap($map['ListLiveChannelResult']);
+            $model->listLiveChannelResult = listLiveChannelResult::fromMap($map['ListLiveChannelResult']);
         }
 
         return $model;

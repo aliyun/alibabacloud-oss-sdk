@@ -54,7 +54,7 @@ class CompleteMultipartUploadResponse extends Model
             $model->requestId = $map['x-oss-request-id'];
         }
         if (isset($map['CompleteMultipartUploadResult'])) {
-            $model->completeMultipartUploadResult = CompleteMultipartUploadResponse\completeMultipartUploadResult::fromMap($map['CompleteMultipartUploadResult']);
+            $model->completeMultipartUploadResult = completeMultipartUploadResult::fromMap($map['CompleteMultipartUploadResult']);
         }
 
         return $model;

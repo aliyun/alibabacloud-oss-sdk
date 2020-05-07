@@ -54,7 +54,7 @@ class InitiateMultipartUploadResponse extends Model
             $model->requestId = $map['x-oss-request-id'];
         }
         if (isset($map['InitiateMultipartUploadResult'])) {
-            $model->initiateMultipartUploadResult = InitiateMultipartUploadResponse\initiateMultipartUploadResult::fromMap($map['InitiateMultipartUploadResult']);
+            $model->initiateMultipartUploadResult = initiateMultipartUploadResult::fromMap($map['InitiateMultipartUploadResult']);
         }
 
         return $model;

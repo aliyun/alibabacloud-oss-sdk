@@ -67,7 +67,7 @@ class mirrorHeaders extends Model
     {
         $model = new self();
         if (isset($map['Set'])) {
-            $model->set = mirrorHeaders\set::fromMap($map['Set']);
+            $model->set = set::fromMap($map['Set']);
         }
         if (isset($map['PassAll'])) {
             $model->passAll = $map['PassAll'];

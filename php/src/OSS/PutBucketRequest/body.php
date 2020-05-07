@@ -41,7 +41,7 @@ class body extends Model
     {
         $model = new self();
         if (isset($map['CreateBucketConfiguration'])) {
-            $model->createBucketConfiguration = body\createBucketConfiguration::fromMap($map['CreateBucketConfiguration']);
+            $model->createBucketConfiguration = createBucketConfiguration::fromMap($map['CreateBucketConfiguration']);
         }
 
         return $model;

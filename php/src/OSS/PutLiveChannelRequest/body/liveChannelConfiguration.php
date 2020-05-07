@@ -68,10 +68,10 @@ class liveChannelConfiguration extends Model
     {
         $model = new self();
         if (isset($map['Target'])) {
-            $model->target = liveChannelConfiguration\target::fromMap($map['Target']);
+            $model->target = target::fromMap($map['Target']);
         }
         if (isset($map['Snapshot'])) {
-            $model->snapshot = liveChannelConfiguration\snapshot::fromMap($map['Snapshot']);
+            $model->snapshot = snapshot::fromMap($map['Snapshot']);
         }
         if (isset($map['Description'])) {
             $model->description = $map['Description'];

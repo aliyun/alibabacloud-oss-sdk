@@ -67,7 +67,7 @@ class PutLiveChannelStatusRequest extends Model
             $model->channelName = $map['ChannelName'];
         }
         if (isset($map['Filter'])) {
-            $model->filter = PutLiveChannelStatusRequest\filter::fromMap($map['Filter']);
+            $model->filter = filter::fromMap($map['Filter']);
         }
 
         return $model;

@@ -41,7 +41,7 @@ class body extends Model
     {
         $model = new self();
         if (isset($map['SelectRequest'])) {
-            $model->selectRequest = body\selectRequest::fromMap($map['SelectRequest']);
+            $model->selectRequest = selectRequest::fromMap($map['SelectRequest']);
         }
 
         return $model;

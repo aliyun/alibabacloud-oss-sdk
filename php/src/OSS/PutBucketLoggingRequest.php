@@ -53,7 +53,7 @@ class PutBucketLoggingRequest extends Model
             $model->bucketName = $map['BucketName'];
         }
         if (isset($map['Body'])) {
-            $model->body = PutBucketLoggingRequest\body::fromMap($map['Body']);
+            $model->body = body::fromMap($map['Body']);
         }
 
         return $model;

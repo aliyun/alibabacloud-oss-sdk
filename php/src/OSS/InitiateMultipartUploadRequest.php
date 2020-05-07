@@ -76,10 +76,10 @@ class InitiateMultipartUploadRequest extends Model
             $model->objectName = $map['ObjectName'];
         }
         if (isset($map['Filter'])) {
-            $model->filter = InitiateMultipartUploadRequest\filter::fromMap($map['Filter']);
+            $model->filter = filter::fromMap($map['Filter']);
         }
         if (isset($map['Header'])) {
-            $model->header = InitiateMultipartUploadRequest\header::fromMap($map['Header']);
+            $model->header = header::fromMap($map['Header']);
         }
 
         return $model;

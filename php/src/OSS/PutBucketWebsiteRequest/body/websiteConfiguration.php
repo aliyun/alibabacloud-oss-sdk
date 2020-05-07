@@ -60,13 +60,13 @@ class websiteConfiguration extends Model
     {
         $model = new self();
         if (isset($map['IndexDocument'])) {
-            $model->indexDocument = websiteConfiguration\indexDocument::fromMap($map['IndexDocument']);
+            $model->indexDocument = indexDocument::fromMap($map['IndexDocument']);
         }
         if (isset($map['ErrorDocument'])) {
-            $model->errorDocument = websiteConfiguration\errorDocument::fromMap($map['ErrorDocument']);
+            $model->errorDocument = errorDocument::fromMap($map['ErrorDocument']);
         }
         if (isset($map['RoutingRules'])) {
-            $model->routingRules = websiteConfiguration\routingRules::fromMap($map['RoutingRules']);
+            $model->routingRules = routingRules::fromMap($map['RoutingRules']);
         }
 
         return $model;

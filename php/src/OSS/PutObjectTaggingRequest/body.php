@@ -41,7 +41,7 @@ class body extends Model
     {
         $model = new self();
         if (isset($map['Tagging'])) {
-            $model->tagging = body\tagging::fromMap($map['Tagging']);
+            $model->tagging = tagging::fromMap($map['Tagging']);
         }
 
         return $model;

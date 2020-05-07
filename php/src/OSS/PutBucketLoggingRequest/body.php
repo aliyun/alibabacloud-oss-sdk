@@ -41,7 +41,7 @@ class body extends Model
     {
         $model = new self();
         if (isset($map['BucketLoggingStatus'])) {
-            $model->bucketLoggingStatus = body\bucketLoggingStatus::fromMap($map['BucketLoggingStatus']);
+            $model->bucketLoggingStatus = bucketLoggingStatus::fromMap($map['BucketLoggingStatus']);
         }
 
         return $model;

@@ -54,7 +54,7 @@ class GetObjectAclResponse extends Model
             $model->requestId = $map['x-oss-request-id'];
         }
         if (isset($map['AccessControlPolicy'])) {
-            $model->accessControlPolicy = GetObjectAclResponse\accessControlPolicy::fromMap($map['AccessControlPolicy']);
+            $model->accessControlPolicy = accessControlPolicy::fromMap($map['AccessControlPolicy']);
         }
 
         return $model;

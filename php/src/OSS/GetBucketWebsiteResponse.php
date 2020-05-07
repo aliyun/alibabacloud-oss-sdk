@@ -54,7 +54,7 @@ class GetBucketWebsiteResponse extends Model
             $model->requestId = $map['x-oss-request-id'];
         }
         if (isset($map['WebsiteConfiguration'])) {
-            $model->websiteConfiguration = GetBucketWebsiteResponse\websiteConfiguration::fromMap($map['WebsiteConfiguration']);
+            $model->websiteConfiguration = websiteConfiguration::fromMap($map['WebsiteConfiguration']);
         }
 
         return $model;

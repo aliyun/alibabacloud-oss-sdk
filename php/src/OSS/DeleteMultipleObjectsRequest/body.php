@@ -41,7 +41,7 @@ class body extends Model
     {
         $model = new self();
         if (isset($map['Delete'])) {
-            $model->delete = body\delete::fromMap($map['Delete']);
+            $model->delete = delete::fromMap($map['Delete']);
         }
 
         return $model;

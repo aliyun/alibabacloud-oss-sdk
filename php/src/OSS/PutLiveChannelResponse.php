@@ -54,7 +54,7 @@ class PutLiveChannelResponse extends Model
             $model->requestId = $map['x-oss-request-id'];
         }
         if (isset($map['CreateLiveChannelResult'])) {
-            $model->createLiveChannelResult = PutLiveChannelResponse\createLiveChannelResult::fromMap($map['CreateLiveChannelResult']);
+            $model->createLiveChannelResult = createLiveChannelResult::fromMap($map['CreateLiveChannelResult']);
         }
 
         return $model;
