@@ -13,7 +13,7 @@
     "php": ">5.5",
     "alibabacloud/tea-utils": "^0.2.0",
     "alibabacloud/tea-oss-utils": "^0.2.0",
-    "alibabacloud/tea-xml": "^0.1.0",
+    "alibabacloud/tea-xml": "^0.2",
     "alibabacloud/tea-fileform": "^0.3.0",
     "alibabacloud/credentials": "^1.1"
   },
