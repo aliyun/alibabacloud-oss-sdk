@@ -196,12 +196,12 @@ func Test_GetContentMD5(t *testing.T) {
 
 func Test_GetSignature(t *testing.T) {
 	request := tea.NewRequest()
-	request.Query = map[string]string{
-		"oss":      "ok",
-		"location": "oss",
+	request.Query = map[string]*string{
+		"oss":      tea.String("ok"),
+		"location": tea.String("oss"),
 	}
-	request.Headers = map[string]string{
-		"x-oss-meta": "user",
+	request.Headers = map[string]*string{
+		"x-oss-meta": tea.String("user"),
 	}
 
 	sign := GetSignature(request, tea.String("script"), tea.String("accessKeyId"), tea.String("accessKeySecret"), tea.String("V1"), []*string{tea.String("x-oss-meta")})
