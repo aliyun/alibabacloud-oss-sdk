@@ -4,6 +4,7 @@
 
 namespace AlibabaCloud\SDK\OSS\OSS\GetBucketTagsResponse\tagging;
 
+use AlibabaCloud\SDK\OSS\OSS\GetBucketTagsResponse\tagging\tagSet\tag;
 use AlibabaCloud\Tea\Model;
 
 class tagSet extends Model
@@ -49,7 +50,7 @@ class tagSet extends Model
                 $model->tag = [];
                 $n          = 0;
                 foreach ($map['Tag'] as $item) {
-                    $model->tag[$n++] = null !== $item ? GetBucketTagsResponse\tagging\tagSet\tag::fromMap($item) : $item;
+                    $model->tag[$n++] = null !== $item ? tag::fromMap($item) : $item;
                 }
             }
         }

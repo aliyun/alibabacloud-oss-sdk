@@ -54,7 +54,7 @@ class GetServiceResponse extends Model
             $model->requestId = $map['x-oss-request-id'];
         }
         if (isset($map['ListAllMyBucketsResult'])) {
-            $model->listAllMyBucketsResult = GetServiceResponse\listAllMyBucketsResult::fromMap($map['ListAllMyBucketsResult']);
+            $model->listAllMyBucketsResult = listAllMyBucketsResult::fromMap($map['ListAllMyBucketsResult']);
         }
 
         return $model;

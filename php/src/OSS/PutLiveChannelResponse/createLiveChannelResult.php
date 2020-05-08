@@ -52,10 +52,10 @@ class createLiveChannelResult extends Model
     {
         $model = new self();
         if (isset($map['PublishUrls'])) {
-            $model->publishUrls = createLiveChannelResult\publishUrls::fromMap($map['PublishUrls']);
+            $model->publishUrls = publishUrls::fromMap($map['PublishUrls']);
         }
         if (isset($map['PlayUrls'])) {
-            $model->playUrls = createLiveChannelResult\playUrls::fromMap($map['PlayUrls']);
+            $model->playUrls = playUrls::fromMap($map['PlayUrls']);
         }
 
         return $model;

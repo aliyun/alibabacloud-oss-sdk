@@ -40,7 +40,7 @@ class GetServiceRequest extends Model
     {
         $model = new self();
         if (isset($map['Filter'])) {
-            $model->filter = GetServiceRequest\filter::fromMap($map['Filter']);
+            $model->filter = filter::fromMap($map['Filter']);
         }
 
         return $model;

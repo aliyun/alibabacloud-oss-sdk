@@ -41,7 +41,7 @@ class body extends Model
     {
         $model = new self();
         if (isset($map['LifecycleConfiguration'])) {
-            $model->lifecycleConfiguration = body\lifecycleConfiguration::fromMap($map['LifecycleConfiguration']);
+            $model->lifecycleConfiguration = lifecycleConfiguration::fromMap($map['LifecycleConfiguration']);
         }
 
         return $model;

@@ -67,7 +67,7 @@ class GetVodPlaylistRequest extends Model
             $model->channelName = $map['ChannelName'];
         }
         if (isset($map['Filter'])) {
-            $model->filter = GetVodPlaylistRequest\filter::fromMap($map['Filter']);
+            $model->filter = filter::fromMap($map['Filter']);
         }
 
         return $model;

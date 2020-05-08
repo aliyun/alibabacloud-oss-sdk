@@ -67,7 +67,7 @@ class CopyObjectRequest extends Model
             $model->destObjectName = $map['DestObjectName'];
         }
         if (isset($map['Header'])) {
-            $model->header = CopyObjectRequest\header::fromMap($map['Header']);
+            $model->header = header::fromMap($map['Header']);
         }
 
         return $model;

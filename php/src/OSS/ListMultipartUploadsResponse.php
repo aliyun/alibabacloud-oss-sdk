@@ -54,7 +54,7 @@ class ListMultipartUploadsResponse extends Model
             $model->requestId = $map['x-oss-request-id'];
         }
         if (isset($map['ListMultipartUploadsResult'])) {
-            $model->listMultipartUploadsResult = ListMultipartUploadsResponse\listMultipartUploadsResult::fromMap($map['ListMultipartUploadsResult']);
+            $model->listMultipartUploadsResult = listMultipartUploadsResult::fromMap($map['ListMultipartUploadsResult']);
         }
 
         return $model;

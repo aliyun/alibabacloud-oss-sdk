@@ -54,7 +54,7 @@ class GetBucketEncryptionResponse extends Model
             $model->requestId = $map['x-oss-request-id'];
         }
         if (isset($map['ServerSideEncryptionRule'])) {
-            $model->serverSideEncryptionRule = GetBucketEncryptionResponse\serverSideEncryptionRule::fromMap($map['ServerSideEncryptionRule']);
+            $model->serverSideEncryptionRule = serverSideEncryptionRule::fromMap($map['ServerSideEncryptionRule']);
         }
 
         return $model;

@@ -4,6 +4,7 @@
 
 namespace AlibabaCloud\SDK\OSS\OSS\DeleteMultipleObjectsRequest\body;
 
+use AlibabaCloud\SDK\OSS\OSS\DeleteMultipleObjectsRequest\body\delete\object;
 use AlibabaCloud\Tea\Model;
 
 class delete extends Model
@@ -58,7 +59,7 @@ class delete extends Model
                 $model->object = [];
                 $n             = 0;
                 foreach ($map['Object'] as $item) {
-                    $model->object[$n++] = null !== $item ? DeleteMultipleObjectsRequest\body\delete\object::fromMap($item) : $item;
+                    $model->object[$n++] = null !== $item ? object::fromMap($item) : $item;
                 }
             }
         }

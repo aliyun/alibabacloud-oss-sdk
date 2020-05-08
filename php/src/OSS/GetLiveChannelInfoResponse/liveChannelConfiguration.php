@@ -65,7 +65,7 @@ class liveChannelConfiguration extends Model
             $model->status = $map['Status'];
         }
         if (isset($map['Target'])) {
-            $model->target = liveChannelConfiguration\target::fromMap($map['Target']);
+            $model->target = target::fromMap($map['Target']);
         }
 
         return $model;

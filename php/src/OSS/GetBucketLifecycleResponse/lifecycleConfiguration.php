@@ -4,6 +4,7 @@
 
 namespace AlibabaCloud\SDK\OSS\OSS\GetBucketLifecycleResponse;
 
+use AlibabaCloud\SDK\OSS\OSS\GetBucketLifecycleResponse\lifecycleConfiguration\rule;
 use AlibabaCloud\Tea\Model;
 
 class lifecycleConfiguration extends Model
@@ -49,7 +50,7 @@ class lifecycleConfiguration extends Model
                 $model->rule = [];
                 $n           = 0;
                 foreach ($map['Rule'] as $item) {
-                    $model->rule[$n++] = null !== $item ? GetBucketLifecycleResponse\lifecycleConfiguration\rule::fromMap($item) : $item;
+                    $model->rule[$n++] = null !== $item ? rule::fromMap($item) : $item;
                 }
             }
         }

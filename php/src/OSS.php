@@ -150,43 +150,43 @@ use AlibabaCloud\Tea\XML\XML;
 
 class OSS
 {
-    private $_endpoint;
+    protected $_endpoint;
 
-    private $_regionId;
+    protected $_regionId;
 
-    private $_hostModel;
+    protected $_hostModel;
 
-    private $_protocol;
+    protected $_protocol;
 
-    private $_readTimeout;
+    protected $_readTimeout;
 
-    private $_connectTimeout;
+    protected $_connectTimeout;
 
-    private $_signatureVersion;
+    protected $_signatureVersion;
 
-    private $_addtionalHeaders;
+    protected $_addtionalHeaders;
 
-    private $_localAddr;
+    protected $_localAddr;
 
-    private $_httpProxy;
+    protected $_httpProxy;
 
-    private $_httpsProxy;
+    protected $_httpsProxy;
 
-    private $_noProxy;
+    protected $_noProxy;
 
-    private $_userAgent;
+    protected $_userAgent;
 
-    private $_socks5Proxy;
+    protected $_socks5Proxy;
 
-    private $_isEnableCrc;
+    protected $_isEnableCrc;
 
-    private $_isEnableMD5;
+    protected $_isEnableMD5;
 
-    private $_socks5NetWork;
+    protected $_socks5NetWork;
 
-    private $_maxIdleConns;
+    protected $_maxIdleConns;
 
-    private $_credential;
+    protected $_credential;
 
     public function __construct(Config $config)
     {

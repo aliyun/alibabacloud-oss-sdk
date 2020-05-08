@@ -90,7 +90,7 @@ class PutObjectRequest extends Model
             $model->body = $map['body'];
         }
         if (isset($map['Header'])) {
-            $model->header = PutObjectRequest\header::fromMap($map['Header']);
+            $model->header = header::fromMap($map['Header']);
         }
 
         return $model;

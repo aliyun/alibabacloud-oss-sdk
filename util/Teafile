@@ -23,6 +23,7 @@
 	},
 	"php": {
 		"package": "AlibabaCloud.Tea.OSSUtils",
-		"clientName": "OSSUtils"
+		"clientName": "OSSUtils",
+		"modelDirName": "OSSUtils"
 	}
 }

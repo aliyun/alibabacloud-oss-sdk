@@ -53,7 +53,7 @@ class refererConfiguration extends Model
             $model->allowEmptyReferer = $map['AllowEmptyReferer'];
         }
         if (isset($map['RefererList'])) {
-            $model->refererList = refererConfiguration\refererList::fromMap($map['RefererList']);
+            $model->refererList = refererList::fromMap($map['RefererList']);
         }
 
         return $model;

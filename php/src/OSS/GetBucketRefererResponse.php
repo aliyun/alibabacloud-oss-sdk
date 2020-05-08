@@ -54,7 +54,7 @@ class GetBucketRefererResponse extends Model
             $model->requestId = $map['x-oss-request-id'];
         }
         if (isset($map['RefererConfiguration'])) {
-            $model->refererConfiguration = GetBucketRefererResponse\refererConfiguration::fromMap($map['RefererConfiguration']);
+            $model->refererConfiguration = refererConfiguration::fromMap($map['RefererConfiguration']);
         }
 
         return $model;

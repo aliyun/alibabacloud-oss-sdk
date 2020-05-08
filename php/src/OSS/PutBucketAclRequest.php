@@ -54,7 +54,7 @@ class PutBucketAclRequest extends Model
             $model->bucketName = $map['BucketName'];
         }
         if (isset($map['Header'])) {
-            $model->header = PutBucketAclRequest\header::fromMap($map['Header']);
+            $model->header = header::fromMap($map['Header']);
         }
 
         return $model;

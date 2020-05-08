@@ -54,7 +54,7 @@ class GetBucketAclResponse extends Model
             $model->requestId = $map['x-oss-request-id'];
         }
         if (isset($map['AccessControlPolicy'])) {
-            $model->accessControlPolicy = GetBucketAclResponse\accessControlPolicy::fromMap($map['AccessControlPolicy']);
+            $model->accessControlPolicy = accessControlPolicy::fromMap($map['AccessControlPolicy']);
         }
 
         return $model;

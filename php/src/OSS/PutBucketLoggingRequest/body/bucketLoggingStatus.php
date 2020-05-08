@@ -40,7 +40,7 @@ class bucketLoggingStatus extends Model
     {
         $model = new self();
         if (isset($map['LoggingEnabled'])) {
-            $model->loggingEnabled = bucketLoggingStatus\loggingEnabled::fromMap($map['LoggingEnabled']);
+            $model->loggingEnabled = loggingEnabled::fromMap($map['LoggingEnabled']);
         }
 
         return $model;

@@ -101,7 +101,7 @@ class contents extends Model
             $model->storageClass = $map['StorageClass'];
         }
         if (isset($map['Owner'])) {
-            $model->owner = contents\owner::fromMap($map['Owner']);
+            $model->owner = owner::fromMap($map['Owner']);
         }
 
         return $model;

@@ -54,7 +54,7 @@ class GetBucketRequestPaymentResponse extends Model
             $model->requestId = $map['x-oss-request-id'];
         }
         if (isset($map['RequestPaymentConfiguration'])) {
-            $model->requestPaymentConfiguration = GetBucketRequestPaymentResponse\requestPaymentConfiguration::fromMap($map['RequestPaymentConfiguration']);
+            $model->requestPaymentConfiguration = requestPaymentConfiguration::fromMap($map['RequestPaymentConfiguration']);
         }
 
         return $model;

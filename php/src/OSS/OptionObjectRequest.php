@@ -67,7 +67,7 @@ class OptionObjectRequest extends Model
             $model->objectName = $map['ObjectName'];
         }
         if (isset($map['Header'])) {
-            $model->header = OptionObjectRequest\header::fromMap($map['Header']);
+            $model->header = header::fromMap($map['Header']);
         }
 
         return $model;
