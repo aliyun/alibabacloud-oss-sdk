@@ -12,7 +12,7 @@ function upload_codecov_report {
 function run_php {
   cd util/php/ || return 126
   composer --version
-  composer install --no-dev -vvv || return 126
+  composer install --dev || return 126
   composer test || return 126
   cd ../../
   upload_codecov_report php php

@@ -212,7 +212,7 @@ describe('client', function () {
       location: 'hangzhou',
     };
     let sign = client.getSignature(req, 'sdk-oss-test', 'accessKeyId', 'accessKeySecret', 'v1');
-    assert.strictEqual(sign, '6CXQEydyX4SlqhgI3WK8NZwuSNs=');
+    assert.strictEqual(sign, 'OSS accessKeyId:6CXQEydyX4SlqhgI3WK8NZwuSNs=');
 
     let req_2 = new $tea.Request();
     req_2.method = 'GET';
@@ -225,7 +225,7 @@ describe('client', function () {
     };
     req_2.pathname = '/?putObject';
     let sign_2 = client.getSignature(req_2, 'sdk-oss-test', 'accessKeyId' , 'accessKeySecret', 'v2', ['test']);
-    assert.strictEqual(sign_2, '3TKXBGVJwa6szBjUDsy453upQ40BN5198kLeZ9ZgET0=');
+    assert.strictEqual(sign_2, 'OSS2 AccessKeyId:accessKeyId,AdditionalHeaders:test,Signature:3TKXBGVJwa6szBjUDsy453upQ40BN5198kLeZ9ZgET0=');
   });
 
   describe('RuntimeOptions', function () {
