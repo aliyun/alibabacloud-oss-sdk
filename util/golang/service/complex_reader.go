@@ -6,16 +6,18 @@ import (
 	"hash"
 	"io"
 	"strconv"
+
+	"github.com/alibabacloud-go/tea/tea"
 )
 
 type complexReader struct {
 	reader io.Reader
 	crc    *digest
 	md5    hash.Hash
-	refer  map[string]string
+	refer  map[string]*string
 }
 
-func ComplexReader(reader io.Reader, refer map[string]string) io.ReadCloser {
+func ComplexReader(reader io.Reader, refer map[string]*string) io.ReadCloser {
 	return &complexReader{
 		reader: reader,
 		crc:    NewCRC(crcTable(), 0),
@@ -28,8 +30,8 @@ func (c *complexReader) Read(p []byte) (n int, err error) {
 	n, err = c.reader.Read(p)
 
 	if err != nil && err == io.EOF {
-		c.refer["md5"] = base64.StdEncoding.EncodeToString(c.md5.Sum(nil))
-		c.refer["crc"] = strconv.FormatUint(c.crc.Sum64(), 10)
+		c.refer["md5"] = tea.String(base64.StdEncoding.EncodeToString(c.md5.Sum(nil)))
+		c.refer["crc"] = tea.String(strconv.FormatUint(c.crc.Sum64(), 10))
 	}
 
 	if n > 0 {

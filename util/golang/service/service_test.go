@@ -47,11 +47,11 @@ import (
 // }
 
 func Test_ToMeta(t *testing.T) {
-	meta := map[string]string{
-		"a": "ok",
+	meta := map[string]*string{
+		"a": tea.String("ok"),
 	}
 	result := ToMeta(meta, tea.String("x-oss-"))
-	utils.AssertEqual(t, "ok", result["x-oss-a"])
+	utils.AssertEqual(t, "ok", tea.StringValue(result["x-oss-a"]))
 }
 
 // func Test_SetLogger(t *testing.T) {
@@ -60,11 +60,11 @@ func Test_ToMeta(t *testing.T) {
 // }
 
 func Test_ParseMeta(t *testing.T) {
-	raw := map[string]string{
-		"x-oss-key": "oss",
+	raw := map[string]*string{
+		"x-oss-key": tea.String("oss"),
 	}
 	res := ParseMeta(raw, tea.String("x-oss-"))
-	utils.AssertEqual(t, "oss", res["key"])
+	utils.AssertEqual(t, "oss", tea.StringValue(res["key"]))
 }
 
 // func Test_GetContentLength(t *testing.T) {
@@ -170,12 +170,12 @@ func Test_Decode(t *testing.T) {
 
 func Test_GetRefer(t *testing.T) {
 	body := strings.NewReader("oss")
-	ref := make(map[string]string)
+	ref := make(map[string]*string)
 	reader := Inject(body, ref)
 	_, err := ioutil.ReadAll(reader)
 	utils.AssertNil(t, err)
-	utils.AssertEqual(t, "NpZEESCkAveTpwR2ZUDmng==", ref["md5"])
-	utils.AssertEqual(t, "14794686500134955722", ref["crc"])
+	utils.AssertEqual(t, "NpZEESCkAveTpwR2ZUDmng==", tea.StringValue(ref["md5"]))
+	utils.AssertEqual(t, "14794686500134955722", tea.StringValue(ref["crc"]))
 
 	err = reader.(io.ReadCloser).Close()
 	utils.AssertNil(t, err)
