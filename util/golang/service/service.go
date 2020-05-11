@@ -162,8 +162,8 @@ func GetSignature(request *tea.Request, bucketName, accessKeyId, accessKeySecret
 // }
 
 // Add prefix to key of meta
-func ToMeta(meta map[string]string, prefix *string) map[string]string {
-	result := make(map[string]string)
+func ToMeta(meta map[string]*string, prefix *string) map[string]*string {
+	result := make(map[string]*string)
 	for key, value := range meta {
 		if !strings.HasPrefix(strings.ToLower((key)), tea.StringValue(prefix)) {
 			key = tea.StringValue(prefix) + key
@@ -174,8 +174,8 @@ func ToMeta(meta map[string]string, prefix *string) map[string]string {
 }
 
 // Remove prefix from key of meta
-func ParseMeta(meta map[string]string, prefix *string) map[string]string {
-	userMeta := make(map[string]string)
+func ParseMeta(meta map[string]*string, prefix *string) map[string]*string {
+	userMeta := make(map[string]*string)
 	for key, value := range meta {
 		if strings.HasPrefix(strings.ToLower(key), tea.StringValue(prefix)) {
 			key = strings.Replace(key, tea.StringValue(prefix), "", 1)
@@ -240,7 +240,7 @@ func Decode(value *string, decodeType *string) *string {
 	return value
 }
 
-func Inject(body io.Reader, ref map[string]string) io.Reader {
+func Inject(body io.Reader, ref map[string]*string) io.Reader {
 	body = ComplexReader(body, ref)
 	return body
 }
