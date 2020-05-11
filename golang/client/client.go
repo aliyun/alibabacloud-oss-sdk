@@ -4854,7 +4854,7 @@ func (s *AbortMultipartUploadResponse) SetRequestId(v string) *AbortMultipartUpl
 type AppendObjectRequest struct {
 	BucketName *string                    `json:"BucketName" xml:"BucketName" require:"true"`
 	ObjectName *string                    `json:"ObjectName" xml:"ObjectName" require:"true"`
-	UserMeta   map[string]string          `json:"UserMeta" xml:"UserMeta"`
+	UserMeta   map[string]*string         `json:"UserMeta" xml:"UserMeta"`
 	Body       io.Reader                  `json:"body" xml:"body"`
 	Filter     *AppendObjectRequestFilter `json:"Filter" xml:"Filter" require:"true" type:"Struct"`
 	Header     *AppendObjectRequestHeader `json:"Header" xml:"Header" type:"Struct"`
@@ -4878,7 +4878,7 @@ func (s *AppendObjectRequest) SetObjectName(v string) *AppendObjectRequest {
 	return s
 }
 
-func (s *AppendObjectRequest) SetUserMeta(v map[string]string) *AppendObjectRequest {
+func (s *AppendObjectRequest) SetUserMeta(v map[string]*string) *AppendObjectRequest {
 	s.UserMeta = v
 	return s
 }
@@ -7118,7 +7118,7 @@ type PostObjectRequestHeader struct {
 	SuccessActionStatus *string             `json:"success_action_status" xml:"success_action_status"`
 	File                *fileform.FileField `json:"file" xml:"file" require:"true"`
 	Key                 *string             `json:"key" xml:"key" require:"true"`
-	UserMeta            map[string]string   `json:"UserMeta" xml:"UserMeta"`
+	UserMeta            map[string]*string  `json:"UserMeta" xml:"UserMeta"`
 }
 
 func (s PostObjectRequestHeader) String() string {
@@ -7159,7 +7159,7 @@ func (s *PostObjectRequestHeader) SetKey(v string) *PostObjectRequestHeader {
 	return s
 }
 
-func (s *PostObjectRequestHeader) SetUserMeta(v map[string]string) *PostObjectRequestHeader {
+func (s *PostObjectRequestHeader) SetUserMeta(v map[string]*string) *PostObjectRequestHeader {
 	s.UserMeta = v
 	return s
 }
@@ -7275,26 +7275,26 @@ func (s *HeadObjectRequestHeader) SetIfNoneMatch(v string) *HeadObjectRequestHea
 }
 
 type HeadObjectResponse struct {
-	RequestId                  *string           `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
-	UserMeta                   map[string]string `json:"usermeta" xml:"usermeta" require:"true"`
-	ServerSideEncryption       *string           `json:"x-oss-server-side-encryption" xml:"x-oss-server-side-encryption" require:"true"`
-	ServerSideEncryptionKeyId  *string           `json:"x-oss-server-side-encryption-key-id" xml:"x-oss-server-side-encryption-key-id" require:"true"`
-	StorageClass               *string           `json:"x-oss-storage-class" xml:"x-oss-storage-class" require:"true"`
-	ObjectType                 *string           `json:"x-oss-object-type" xml:"x-oss-object-type" require:"true"`
-	NextAppendPosition         *string           `json:"x-oss-next-append-position" xml:"x-oss-next-append-position" require:"true"`
-	HashCrc64ecma              *string           `json:"x-oss-hash-crc64ecma" xml:"x-oss-hash-crc64ecma" require:"true"`
-	Expiration                 *string           `json:"x-oss-expiration" xml:"x-oss-expiration" require:"true"`
-	Restore                    *string           `json:"x-oss-restore" xml:"x-oss-restore" require:"true"`
-	ProcessStatus              *string           `json:"x-oss-process-status" xml:"x-oss-process-status" require:"true"`
-	RequestCharged             *string           `json:"x-oss-request-charged" xml:"x-oss-request-charged" require:"true"`
-	ContentMd5                 *string           `json:"content-md5" xml:"content-md5" require:"true"`
-	LastModified               *string           `json:"last-modified" xml:"last-modified" require:"true"`
-	AccessControlAllowOrigin   *string           `json:"access-control-allow-origin" xml:"access-control-allow-origin" require:"true"`
-	AccessControlAllowMethods  *string           `json:"access-control-allow-methods" xml:"access-control-allow-methods" require:"true"`
-	AccessControlMaxAge        *string           `json:"access-control-max-age" xml:"access-control-max-age" require:"true"`
-	AccessControlAllowHeaders  *string           `json:"access-control-allow-headers" xml:"access-control-allow-headers" require:"true"`
-	AccessControlExposeHeaders *string           `json:"access-control-expose-headers" xml:"access-control-expose-headers" require:"true"`
-	TaggingCount               *string           `json:"x-oss-tagging-count" xml:"x-oss-tagging-count" require:"true"`
+	RequestId                  *string            `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+	UserMeta                   map[string]*string `json:"usermeta" xml:"usermeta" require:"true"`
+	ServerSideEncryption       *string            `json:"x-oss-server-side-encryption" xml:"x-oss-server-side-encryption" require:"true"`
+	ServerSideEncryptionKeyId  *string            `json:"x-oss-server-side-encryption-key-id" xml:"x-oss-server-side-encryption-key-id" require:"true"`
+	StorageClass               *string            `json:"x-oss-storage-class" xml:"x-oss-storage-class" require:"true"`
+	ObjectType                 *string            `json:"x-oss-object-type" xml:"x-oss-object-type" require:"true"`
+	NextAppendPosition         *string            `json:"x-oss-next-append-position" xml:"x-oss-next-append-position" require:"true"`
+	HashCrc64ecma              *string            `json:"x-oss-hash-crc64ecma" xml:"x-oss-hash-crc64ecma" require:"true"`
+	Expiration                 *string            `json:"x-oss-expiration" xml:"x-oss-expiration" require:"true"`
+	Restore                    *string            `json:"x-oss-restore" xml:"x-oss-restore" require:"true"`
+	ProcessStatus              *string            `json:"x-oss-process-status" xml:"x-oss-process-status" require:"true"`
+	RequestCharged             *string            `json:"x-oss-request-charged" xml:"x-oss-request-charged" require:"true"`
+	ContentMd5                 *string            `json:"content-md5" xml:"content-md5" require:"true"`
+	LastModified               *string            `json:"last-modified" xml:"last-modified" require:"true"`
+	AccessControlAllowOrigin   *string            `json:"access-control-allow-origin" xml:"access-control-allow-origin" require:"true"`
+	AccessControlAllowMethods  *string            `json:"access-control-allow-methods" xml:"access-control-allow-methods" require:"true"`
+	AccessControlMaxAge        *string            `json:"access-control-max-age" xml:"access-control-max-age" require:"true"`
+	AccessControlAllowHeaders  *string            `json:"access-control-allow-headers" xml:"access-control-allow-headers" require:"true"`
+	AccessControlExposeHeaders *string            `json:"access-control-expose-headers" xml:"access-control-expose-headers" require:"true"`
+	TaggingCount               *string            `json:"x-oss-tagging-count" xml:"x-oss-tagging-count" require:"true"`
 }
 
 func (s HeadObjectResponse) String() string {
@@ -7310,7 +7310,7 @@ func (s *HeadObjectResponse) SetRequestId(v string) *HeadObjectResponse {
 	return s
 }
 
-func (s *HeadObjectResponse) SetUserMeta(v map[string]string) *HeadObjectResponse {
+func (s *HeadObjectResponse) SetUserMeta(v map[string]*string) *HeadObjectResponse {
 	s.UserMeta = v
 	return s
 }
@@ -7688,7 +7688,7 @@ func (s *DeleteBucketResponse) SetRequestId(v string) *DeleteBucketResponse {
 type PutObjectRequest struct {
 	BucketName *string                 `json:"BucketName" xml:"BucketName" require:"true"`
 	ObjectName *string                 `json:"ObjectName" xml:"ObjectName" require:"true"`
-	UserMeta   map[string]string       `json:"UserMeta" xml:"UserMeta"`
+	UserMeta   map[string]*string      `json:"UserMeta" xml:"UserMeta"`
 	Body       io.Reader               `json:"body" xml:"body"`
 	Header     *PutObjectRequestHeader `json:"Header" xml:"Header" type:"Struct"`
 }
@@ -7711,7 +7711,7 @@ func (s *PutObjectRequest) SetObjectName(v string) *PutObjectRequest {
 	return s
 }
 
-func (s *PutObjectRequest) SetUserMeta(v map[string]string) *PutObjectRequest {
+func (s *PutObjectRequest) SetUserMeta(v map[string]*string) *PutObjectRequest {
 	s.UserMeta = v
 	return s
 }
@@ -7940,11 +7940,11 @@ func (client *Client) Init(config *Config) (_err error) {
 func (client *Client) PutBucketLifecycle(request *PutBucketLifecycleRequest, runtime *ossutil.RuntimeOptions) (_result *PutBucketLifecycleResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -7969,10 +7969,10 @@ func (client *Client) PutBucketLifecycle(request *PutBucketLifecycleRequest, run
 	}
 
 	_resp := &PutBucketLifecycleResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -7981,44 +7981,44 @@ func (client *Client) PutBucketLifecycle(request *PutBucketLifecycleRequest, run
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			reqBody := xml.ToXML(tea.ToMap(request.Body))
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("PUT")
 			request_.Pathname = tea.String("/?lifecycle")
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Body = tea.ToReader(tea.StringValue(reqBody))
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Body = tea.ToReader(reqBody)
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -8031,14 +8031,14 @@ func (client *Client) PutBucketLifecycle(request *PutBucketLifecycleRequest, run
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			_result = &PutBucketLifecycleResponse{}
 			_err = tea.Convert(response_.Headers, &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -8049,11 +8049,11 @@ func (client *Client) PutBucketLifecycle(request *PutBucketLifecycleRequest, run
 func (client *Client) DeleteMultipleObjects(request *DeleteMultipleObjectsRequest, runtime *ossutil.RuntimeOptions) (_result *DeleteMultipleObjectsResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -8078,10 +8078,10 @@ func (client *Client) DeleteMultipleObjects(request *DeleteMultipleObjectsReques
 	}
 
 	_resp := &DeleteMultipleObjectsResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -8090,50 +8090,50 @@ func (client *Client) DeleteMultipleObjects(request *DeleteMultipleObjectsReques
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			reqBody := xml.ToXML(tea.ToMap(request.Body))
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("POST")
 			request_.Pathname = tea.String("/?delete")
-			request_.Headers = tea.Merge(map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = tea.Merge(map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}, util.StringifyMapValue(tea.ToMap(request.Header)))
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Body = tea.ToReader(tea.StringValue(reqBody))
+			request_.Body = tea.ToReader(reqBody)
 			if !tea.BoolValue(util.IsUnset(tea.ToMap(request.Header))) && !tea.BoolValue(util.Empty(request.Header.ContentMD5)) {
-				request_.Headers["content-md5"] = tea.StringValue(request.Header.ContentMD5)
+				request_.Headers["content-md5"] = request.Header.ContentMD5
 			} else {
-				request_.Headers["content-md5"] = tea.StringValue(ossutil.GetContentMD5(reqBody, client.IsEnableMD5))
+				request_.Headers["content-md5"] = ossutil.GetContentMD5(reqBody, client.IsEnableMD5)
 			}
 
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -8146,12 +8146,12 @@ func (client *Client) DeleteMultipleObjects(request *DeleteMultipleObjectsReques
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			respMap = xml.ParseXml(bodyStr, new(DeleteMultipleObjectsResponse))
@@ -8161,7 +8161,7 @@ func (client *Client) DeleteMultipleObjects(request *DeleteMultipleObjectsReques
 			}, response_.Headers), &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -8172,11 +8172,11 @@ func (client *Client) DeleteMultipleObjects(request *DeleteMultipleObjectsReques
 func (client *Client) PutBucketReferer(request *PutBucketRefererRequest, runtime *ossutil.RuntimeOptions) (_result *PutBucketRefererResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -8201,10 +8201,10 @@ func (client *Client) PutBucketReferer(request *PutBucketRefererRequest, runtime
 	}
 
 	_resp := &PutBucketRefererResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -8213,44 +8213,44 @@ func (client *Client) PutBucketReferer(request *PutBucketRefererRequest, runtime
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			reqBody := xml.ToXML(tea.ToMap(request.Body))
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("PUT")
 			request_.Pathname = tea.String("/?referer")
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Body = tea.ToReader(tea.StringValue(reqBody))
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Body = tea.ToReader(reqBody)
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -8263,14 +8263,14 @@ func (client *Client) PutBucketReferer(request *PutBucketRefererRequest, runtime
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			_result = &PutBucketRefererResponse{}
 			_err = tea.Convert(response_.Headers, &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -8281,11 +8281,11 @@ func (client *Client) PutBucketReferer(request *PutBucketRefererRequest, runtime
 func (client *Client) PutBucketWebsite(request *PutBucketWebsiteRequest, runtime *ossutil.RuntimeOptions) (_result *PutBucketWebsiteResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -8310,10 +8310,10 @@ func (client *Client) PutBucketWebsite(request *PutBucketWebsiteRequest, runtime
 	}
 
 	_resp := &PutBucketWebsiteResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -8322,44 +8322,44 @@ func (client *Client) PutBucketWebsite(request *PutBucketWebsiteRequest, runtime
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			reqBody := xml.ToXML(tea.ToMap(request.Body))
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("PUT")
 			request_.Pathname = tea.String("/?website")
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Body = tea.ToReader(tea.StringValue(reqBody))
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Body = tea.ToReader(reqBody)
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -8372,14 +8372,14 @@ func (client *Client) PutBucketWebsite(request *PutBucketWebsiteRequest, runtime
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			_result = &PutBucketWebsiteResponse{}
 			_err = tea.Convert(response_.Headers, &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -8390,11 +8390,11 @@ func (client *Client) PutBucketWebsite(request *PutBucketWebsiteRequest, runtime
 func (client *Client) CompleteMultipartUpload(request *CompleteMultipartUploadRequest, runtime *ossutil.RuntimeOptions) (_result *CompleteMultipartUploadResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -8419,10 +8419,10 @@ func (client *Client) CompleteMultipartUpload(request *CompleteMultipartUploadRe
 	}
 
 	_resp := &CompleteMultipartUploadResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -8431,45 +8431,45 @@ func (client *Client) CompleteMultipartUpload(request *CompleteMultipartUploadRe
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			reqBody := xml.ToXML(tea.ToMap(request.Body))
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("POST")
 			request_.Pathname = tea.String("/" + tea.StringValue(request.ObjectName))
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
 			request_.Query = util.StringifyMapValue(tea.ToMap(request.Filter))
-			request_.Body = tea.ToReader(tea.StringValue(reqBody))
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Body = tea.ToReader(reqBody)
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -8482,12 +8482,12 @@ func (client *Client) CompleteMultipartUpload(request *CompleteMultipartUploadRe
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			respMap = xml.ParseXml(bodyStr, new(CompleteMultipartUploadResponse))
@@ -8497,7 +8497,7 @@ func (client *Client) CompleteMultipartUpload(request *CompleteMultipartUploadRe
 			}, response_.Headers), &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -8508,11 +8508,11 @@ func (client *Client) CompleteMultipartUpload(request *CompleteMultipartUploadRe
 func (client *Client) PutBucketLogging(request *PutBucketLoggingRequest, runtime *ossutil.RuntimeOptions) (_result *PutBucketLoggingResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -8537,10 +8537,10 @@ func (client *Client) PutBucketLogging(request *PutBucketLoggingRequest, runtime
 	}
 
 	_resp := &PutBucketLoggingResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -8549,44 +8549,44 @@ func (client *Client) PutBucketLogging(request *PutBucketLoggingRequest, runtime
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			reqBody := xml.ToXML(tea.ToMap(request.Body))
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("PUT")
 			request_.Pathname = tea.String("/?logging")
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Body = tea.ToReader(tea.StringValue(reqBody))
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Body = tea.ToReader(reqBody)
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -8599,14 +8599,14 @@ func (client *Client) PutBucketLogging(request *PutBucketLoggingRequest, runtime
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			_result = &PutBucketLoggingResponse{}
 			_err = tea.Convert(response_.Headers, &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -8617,11 +8617,11 @@ func (client *Client) PutBucketLogging(request *PutBucketLoggingRequest, runtime
 func (client *Client) PutBucketRequestPayment(request *PutBucketRequestPaymentRequest, runtime *ossutil.RuntimeOptions) (_result *PutBucketRequestPaymentResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -8646,10 +8646,10 @@ func (client *Client) PutBucketRequestPayment(request *PutBucketRequestPaymentRe
 	}
 
 	_resp := &PutBucketRequestPaymentResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -8658,44 +8658,44 @@ func (client *Client) PutBucketRequestPayment(request *PutBucketRequestPaymentRe
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			reqBody := xml.ToXML(tea.ToMap(request.Body))
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("PUT")
 			request_.Pathname = tea.String("/?requestPayment")
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Body = tea.ToReader(tea.StringValue(reqBody))
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Body = tea.ToReader(reqBody)
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -8708,14 +8708,14 @@ func (client *Client) PutBucketRequestPayment(request *PutBucketRequestPaymentRe
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			_result = &PutBucketRequestPaymentResponse{}
 			_err = tea.Convert(response_.Headers, &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -8726,11 +8726,11 @@ func (client *Client) PutBucketRequestPayment(request *PutBucketRequestPaymentRe
 func (client *Client) PutBucketEncryption(request *PutBucketEncryptionRequest, runtime *ossutil.RuntimeOptions) (_result *PutBucketEncryptionResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -8755,10 +8755,10 @@ func (client *Client) PutBucketEncryption(request *PutBucketEncryptionRequest, r
 	}
 
 	_resp := &PutBucketEncryptionResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -8767,44 +8767,44 @@ func (client *Client) PutBucketEncryption(request *PutBucketEncryptionRequest, r
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			reqBody := xml.ToXML(tea.ToMap(request.Body))
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("PUT")
 			request_.Pathname = tea.String("/?encryption")
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Body = tea.ToReader(tea.StringValue(reqBody))
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Body = tea.ToReader(reqBody)
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -8817,14 +8817,14 @@ func (client *Client) PutBucketEncryption(request *PutBucketEncryptionRequest, r
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			_result = &PutBucketEncryptionResponse{}
 			_err = tea.Convert(response_.Headers, &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -8835,11 +8835,11 @@ func (client *Client) PutBucketEncryption(request *PutBucketEncryptionRequest, r
 func (client *Client) PutLiveChannel(request *PutLiveChannelRequest, runtime *ossutil.RuntimeOptions) (_result *PutLiveChannelResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -8864,10 +8864,10 @@ func (client *Client) PutLiveChannel(request *PutLiveChannelRequest, runtime *os
 	}
 
 	_resp := &PutLiveChannelResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -8876,44 +8876,44 @@ func (client *Client) PutLiveChannel(request *PutLiveChannelRequest, runtime *os
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			reqBody := xml.ToXML(tea.ToMap(request.Body))
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("PUT")
 			request_.Pathname = tea.String("/" + tea.StringValue(request.ChannelName) + "?live")
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Body = tea.ToReader(tea.StringValue(reqBody))
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Body = tea.ToReader(reqBody)
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -8926,12 +8926,12 @@ func (client *Client) PutLiveChannel(request *PutLiveChannelRequest, runtime *os
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			respMap = xml.ParseXml(bodyStr, new(PutLiveChannelResponse))
@@ -8941,7 +8941,7 @@ func (client *Client) PutLiveChannel(request *PutLiveChannelRequest, runtime *os
 			}, response_.Headers), &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -8952,11 +8952,11 @@ func (client *Client) PutLiveChannel(request *PutLiveChannelRequest, runtime *os
 func (client *Client) PutBucketTags(request *PutBucketTagsRequest, runtime *ossutil.RuntimeOptions) (_result *PutBucketTagsResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -8981,10 +8981,10 @@ func (client *Client) PutBucketTags(request *PutBucketTagsRequest, runtime *ossu
 	}
 
 	_resp := &PutBucketTagsResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -8993,44 +8993,44 @@ func (client *Client) PutBucketTags(request *PutBucketTagsRequest, runtime *ossu
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			reqBody := xml.ToXML(tea.ToMap(request.Body))
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("PUT")
 			request_.Pathname = tea.String("/?tagging")
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Body = tea.ToReader(tea.StringValue(reqBody))
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Body = tea.ToReader(reqBody)
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -9043,14 +9043,14 @@ func (client *Client) PutBucketTags(request *PutBucketTagsRequest, runtime *ossu
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			_result = &PutBucketTagsResponse{}
 			_err = tea.Convert(response_.Headers, &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -9061,11 +9061,11 @@ func (client *Client) PutBucketTags(request *PutBucketTagsRequest, runtime *ossu
 func (client *Client) PutObjectTagging(request *PutObjectTaggingRequest, runtime *ossutil.RuntimeOptions) (_result *PutObjectTaggingResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -9090,10 +9090,10 @@ func (client *Client) PutObjectTagging(request *PutObjectTaggingRequest, runtime
 	}
 
 	_resp := &PutObjectTaggingResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -9102,44 +9102,44 @@ func (client *Client) PutObjectTagging(request *PutObjectTaggingRequest, runtime
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			reqBody := xml.ToXML(tea.ToMap(request.Body))
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("PUT")
 			request_.Pathname = tea.String("/" + tea.StringValue(request.ObjectName) + "?tagging")
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Body = tea.ToReader(tea.StringValue(reqBody))
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Body = tea.ToReader(reqBody)
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -9152,14 +9152,14 @@ func (client *Client) PutObjectTagging(request *PutObjectTaggingRequest, runtime
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			_result = &PutObjectTaggingResponse{}
 			_err = tea.Convert(response_.Headers, &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -9170,11 +9170,11 @@ func (client *Client) PutObjectTagging(request *PutObjectTaggingRequest, runtime
 func (client *Client) SelectObject(request *SelectObjectRequest, runtime *ossutil.RuntimeOptions) (_result *SelectObjectResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -9199,10 +9199,10 @@ func (client *Client) SelectObject(request *SelectObjectRequest, runtime *ossuti
 	}
 
 	_resp := &SelectObjectResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -9211,45 +9211,45 @@ func (client *Client) SelectObject(request *SelectObjectRequest, runtime *ossuti
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			reqBody := xml.ToXML(tea.ToMap(request.Body))
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("POST")
 			request_.Pathname = tea.String("/" + tea.StringValue(request.ObjectName))
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
 			request_.Query = util.StringifyMapValue(tea.ToMap(request.Filter))
-			request_.Body = tea.ToReader(tea.StringValue(reqBody))
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Body = tea.ToReader(reqBody)
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -9262,14 +9262,14 @@ func (client *Client) SelectObject(request *SelectObjectRequest, runtime *ossuti
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			_result = &SelectObjectResponse{}
 			_err = tea.Convert(response_.Headers, &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -9280,11 +9280,11 @@ func (client *Client) SelectObject(request *SelectObjectRequest, runtime *ossuti
 func (client *Client) PutBucketCORS(request *PutBucketCORSRequest, runtime *ossutil.RuntimeOptions) (_result *PutBucketCORSResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -9309,10 +9309,10 @@ func (client *Client) PutBucketCORS(request *PutBucketCORSRequest, runtime *ossu
 	}
 
 	_resp := &PutBucketCORSResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -9321,44 +9321,44 @@ func (client *Client) PutBucketCORS(request *PutBucketCORSRequest, runtime *ossu
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			reqBody := xml.ToXML(tea.ToMap(request.Body))
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("PUT")
 			request_.Pathname = tea.String("/?cors")
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Body = tea.ToReader(tea.StringValue(reqBody))
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Body = tea.ToReader(reqBody)
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -9371,14 +9371,14 @@ func (client *Client) PutBucketCORS(request *PutBucketCORSRequest, runtime *ossu
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			_result = &PutBucketCORSResponse{}
 			_err = tea.Convert(response_.Headers, &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -9389,11 +9389,11 @@ func (client *Client) PutBucketCORS(request *PutBucketCORSRequest, runtime *ossu
 func (client *Client) PutBucket(request *PutBucketRequest, runtime *ossutil.RuntimeOptions) (_result *PutBucketResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -9418,10 +9418,10 @@ func (client *Client) PutBucket(request *PutBucketRequest, runtime *ossutil.Runt
 	}
 
 	_resp := &PutBucketResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -9430,44 +9430,44 @@ func (client *Client) PutBucket(request *PutBucketRequest, runtime *ossutil.Runt
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			reqBody := xml.ToXML(tea.ToMap(request.Body))
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("PUT")
 			request_.Pathname = tea.String("/")
-			request_.Headers = tea.Merge(map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = tea.Merge(map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}, util.StringifyMapValue(tea.ToMap(request.Header)))
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Body = tea.ToReader(tea.StringValue(reqBody))
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Body = tea.ToReader(reqBody)
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -9480,14 +9480,14 @@ func (client *Client) PutBucket(request *PutBucketRequest, runtime *ossutil.Runt
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			_result = &PutBucketResponse{}
 			_err = tea.Convert(response_.Headers, &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -9498,11 +9498,11 @@ func (client *Client) PutBucket(request *PutBucketRequest, runtime *ossutil.Runt
 func (client *Client) ListMultipartUploads(request *ListMultipartUploadsRequest, runtime *ossutil.RuntimeOptions) (_result *ListMultipartUploadsResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -9527,10 +9527,10 @@ func (client *Client) ListMultipartUploads(request *ListMultipartUploadsRequest,
 	}
 
 	_resp := &ListMultipartUploadsResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -9539,43 +9539,43 @@ func (client *Client) ListMultipartUploads(request *ListMultipartUploadsRequest,
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("GET")
 			request_.Pathname = tea.String("/?uploads")
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
 			request_.Query = util.StringifyMapValue(tea.ToMap(request.Filter))
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -9588,12 +9588,12 @@ func (client *Client) ListMultipartUploads(request *ListMultipartUploadsRequest,
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			respMap = xml.ParseXml(bodyStr, new(ListMultipartUploadsResponse))
@@ -9603,7 +9603,7 @@ func (client *Client) ListMultipartUploads(request *ListMultipartUploadsRequest,
 			}, response_.Headers), &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -9614,11 +9614,11 @@ func (client *Client) ListMultipartUploads(request *ListMultipartUploadsRequest,
 func (client *Client) GetBucketRequestPayment(request *GetBucketRequestPaymentRequest, runtime *ossutil.RuntimeOptions) (_result *GetBucketRequestPaymentResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -9643,10 +9643,10 @@ func (client *Client) GetBucketRequestPayment(request *GetBucketRequestPaymentRe
 	}
 
 	_resp := &GetBucketRequestPaymentResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -9655,42 +9655,42 @@ func (client *Client) GetBucketRequestPayment(request *GetBucketRequestPaymentRe
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("GET")
 			request_.Pathname = tea.String("/?requestPayment")
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -9703,12 +9703,12 @@ func (client *Client) GetBucketRequestPayment(request *GetBucketRequestPaymentRe
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			respMap = xml.ParseXml(bodyStr, new(GetBucketRequestPaymentResponse))
@@ -9718,7 +9718,7 @@ func (client *Client) GetBucketRequestPayment(request *GetBucketRequestPaymentRe
 			}, response_.Headers), &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -9729,11 +9729,11 @@ func (client *Client) GetBucketRequestPayment(request *GetBucketRequestPaymentRe
 func (client *Client) GetBucketEncryption(request *GetBucketEncryptionRequest, runtime *ossutil.RuntimeOptions) (_result *GetBucketEncryptionResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -9758,10 +9758,10 @@ func (client *Client) GetBucketEncryption(request *GetBucketEncryptionRequest, r
 	}
 
 	_resp := &GetBucketEncryptionResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -9770,42 +9770,42 @@ func (client *Client) GetBucketEncryption(request *GetBucketEncryptionRequest, r
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("GET")
 			request_.Pathname = tea.String("/?encryption")
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -9818,12 +9818,12 @@ func (client *Client) GetBucketEncryption(request *GetBucketEncryptionRequest, r
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			respMap = xml.ParseXml(bodyStr, new(GetBucketEncryptionResponse))
@@ -9833,7 +9833,7 @@ func (client *Client) GetBucketEncryption(request *GetBucketEncryptionRequest, r
 			}, response_.Headers), &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -9844,11 +9844,11 @@ func (client *Client) GetBucketEncryption(request *GetBucketEncryptionRequest, r
 func (client *Client) GetBucketTags(request *GetBucketTagsRequest, runtime *ossutil.RuntimeOptions) (_result *GetBucketTagsResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -9873,10 +9873,10 @@ func (client *Client) GetBucketTags(request *GetBucketTagsRequest, runtime *ossu
 	}
 
 	_resp := &GetBucketTagsResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -9885,42 +9885,42 @@ func (client *Client) GetBucketTags(request *GetBucketTagsRequest, runtime *ossu
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("GET")
 			request_.Pathname = tea.String("/?tagging")
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -9933,12 +9933,12 @@ func (client *Client) GetBucketTags(request *GetBucketTagsRequest, runtime *ossu
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			respMap = xml.ParseXml(bodyStr, new(GetBucketTagsResponse))
@@ -9948,7 +9948,7 @@ func (client *Client) GetBucketTags(request *GetBucketTagsRequest, runtime *ossu
 			}, response_.Headers), &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -9959,11 +9959,11 @@ func (client *Client) GetBucketTags(request *GetBucketTagsRequest, runtime *ossu
 func (client *Client) GetService(request *GetServiceRequest, runtime *ossutil.RuntimeOptions) (_result *GetServiceResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -9988,10 +9988,10 @@ func (client *Client) GetService(request *GetServiceRequest, runtime *ossutil.Ru
 	}
 
 	_resp := &GetServiceResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -10000,43 +10000,43 @@ func (client *Client) GetService(request *GetServiceRequest, runtime *ossutil.Ru
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("GET")
 			request_.Pathname = tea.String("/")
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(tea.String(""), client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(tea.String(""), client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
 			request_.Query = util.StringifyMapValue(tea.ToMap(request.Filter))
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, tea.String(""), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, tea.String(""), accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -10049,12 +10049,12 @@ func (client *Client) GetService(request *GetServiceRequest, runtime *ossutil.Ru
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			respMap = xml.ParseXml(bodyStr, new(GetServiceResponse))
@@ -10064,7 +10064,7 @@ func (client *Client) GetService(request *GetServiceRequest, runtime *ossutil.Ru
 			}, response_.Headers), &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -10075,11 +10075,11 @@ func (client *Client) GetService(request *GetServiceRequest, runtime *ossutil.Ru
 func (client *Client) DeleteBucketEncryption(request *DeleteBucketEncryptionRequest, runtime *ossutil.RuntimeOptions) (_result *DeleteBucketEncryptionResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -10104,10 +10104,10 @@ func (client *Client) DeleteBucketEncryption(request *DeleteBucketEncryptionRequ
 	}
 
 	_resp := &DeleteBucketEncryptionResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -10116,42 +10116,42 @@ func (client *Client) DeleteBucketEncryption(request *DeleteBucketEncryptionRequ
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("DELETE")
 			request_.Pathname = tea.String("/?encryption")
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -10164,14 +10164,14 @@ func (client *Client) DeleteBucketEncryption(request *DeleteBucketEncryptionRequ
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			_result = &DeleteBucketEncryptionResponse{}
 			_err = tea.Convert(response_.Headers, &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -10182,11 +10182,11 @@ func (client *Client) DeleteBucketEncryption(request *DeleteBucketEncryptionRequ
 func (client *Client) DeleteBucketTags(request *DeleteBucketTagsRequest, runtime *ossutil.RuntimeOptions) (_result *DeleteBucketTagsResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -10211,10 +10211,10 @@ func (client *Client) DeleteBucketTags(request *DeleteBucketTagsRequest, runtime
 	}
 
 	_resp := &DeleteBucketTagsResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -10223,43 +10223,43 @@ func (client *Client) DeleteBucketTags(request *DeleteBucketTagsRequest, runtime
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("DELETE")
 			request_.Pathname = tea.String("/")
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
 			request_.Query = util.StringifyMapValue(tea.ToMap(request.Filter))
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -10272,14 +10272,14 @@ func (client *Client) DeleteBucketTags(request *DeleteBucketTagsRequest, runtime
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			_result = &DeleteBucketTagsResponse{}
 			_err = tea.Convert(response_.Headers, &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -10290,11 +10290,11 @@ func (client *Client) DeleteBucketTags(request *DeleteBucketTagsRequest, runtime
 func (client *Client) GetBucketWebsite(request *GetBucketWebsiteRequest, runtime *ossutil.RuntimeOptions) (_result *GetBucketWebsiteResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -10319,10 +10319,10 @@ func (client *Client) GetBucketWebsite(request *GetBucketWebsiteRequest, runtime
 	}
 
 	_resp := &GetBucketWebsiteResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -10331,42 +10331,42 @@ func (client *Client) GetBucketWebsite(request *GetBucketWebsiteRequest, runtime
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("GET")
 			request_.Pathname = tea.String("/?website")
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -10379,12 +10379,12 @@ func (client *Client) GetBucketWebsite(request *GetBucketWebsiteRequest, runtime
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			respMap = xml.ParseXml(bodyStr, new(GetBucketWebsiteResponse))
@@ -10394,7 +10394,7 @@ func (client *Client) GetBucketWebsite(request *GetBucketWebsiteRequest, runtime
 			}, response_.Headers), &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -10405,11 +10405,11 @@ func (client *Client) GetBucketWebsite(request *GetBucketWebsiteRequest, runtime
 func (client *Client) DeleteLiveChannel(request *DeleteLiveChannelRequest, runtime *ossutil.RuntimeOptions) (_result *DeleteLiveChannelResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -10434,10 +10434,10 @@ func (client *Client) DeleteLiveChannel(request *DeleteLiveChannelRequest, runti
 	}
 
 	_resp := &DeleteLiveChannelResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -10446,42 +10446,42 @@ func (client *Client) DeleteLiveChannel(request *DeleteLiveChannelRequest, runti
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("DELETE")
 			request_.Pathname = tea.String("/" + tea.StringValue(request.ChannelName) + "?live")
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -10494,14 +10494,14 @@ func (client *Client) DeleteLiveChannel(request *DeleteLiveChannelRequest, runti
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			_result = &DeleteLiveChannelResponse{}
 			_err = tea.Convert(response_.Headers, &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -10512,11 +10512,11 @@ func (client *Client) DeleteLiveChannel(request *DeleteLiveChannelRequest, runti
 func (client *Client) GetBucketLocation(request *GetBucketLocationRequest, runtime *ossutil.RuntimeOptions) (_result *GetBucketLocationResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -10541,10 +10541,10 @@ func (client *Client) GetBucketLocation(request *GetBucketLocationRequest, runti
 	}
 
 	_resp := &GetBucketLocationResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -10553,42 +10553,42 @@ func (client *Client) GetBucketLocation(request *GetBucketLocationRequest, runti
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("GET")
 			request_.Pathname = tea.String("/?location")
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -10601,12 +10601,12 @@ func (client *Client) GetBucketLocation(request *GetBucketLocationRequest, runti
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			respMap = xml.ParseXml(bodyStr, new(GetBucketLocationResponse))
@@ -10616,7 +10616,7 @@ func (client *Client) GetBucketLocation(request *GetBucketLocationRequest, runti
 			}, response_.Headers), &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -10627,11 +10627,11 @@ func (client *Client) GetBucketLocation(request *GetBucketLocationRequest, runti
 func (client *Client) ListLiveChannel(request *ListLiveChannelRequest, runtime *ossutil.RuntimeOptions) (_result *ListLiveChannelResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -10656,10 +10656,10 @@ func (client *Client) ListLiveChannel(request *ListLiveChannelRequest, runtime *
 	}
 
 	_resp := &ListLiveChannelResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -10668,43 +10668,43 @@ func (client *Client) ListLiveChannel(request *ListLiveChannelRequest, runtime *
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("GET")
 			request_.Pathname = tea.String("/?live")
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
 			request_.Query = util.StringifyMapValue(tea.ToMap(request.Filter))
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -10717,12 +10717,12 @@ func (client *Client) ListLiveChannel(request *ListLiveChannelRequest, runtime *
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			respMap = xml.ParseXml(bodyStr, new(ListLiveChannelResponse))
@@ -10732,7 +10732,7 @@ func (client *Client) ListLiveChannel(request *ListLiveChannelRequest, runtime *
 			}, response_.Headers), &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -10743,11 +10743,11 @@ func (client *Client) ListLiveChannel(request *ListLiveChannelRequest, runtime *
 func (client *Client) GetObjectMeta(request *GetObjectMetaRequest, runtime *ossutil.RuntimeOptions) (_result *GetObjectMetaResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -10772,10 +10772,10 @@ func (client *Client) GetObjectMeta(request *GetObjectMetaRequest, runtime *ossu
 	}
 
 	_resp := &GetObjectMetaResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -10784,42 +10784,42 @@ func (client *Client) GetObjectMeta(request *GetObjectMetaRequest, runtime *ossu
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("HEAD")
 			request_.Pathname = tea.String("/" + tea.StringValue(request.ObjectName) + "?objectMeta")
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -10832,14 +10832,14 @@ func (client *Client) GetObjectMeta(request *GetObjectMetaRequest, runtime *ossu
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			_result = &GetObjectMetaResponse{}
 			_err = tea.Convert(response_.Headers, &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -10850,11 +10850,11 @@ func (client *Client) GetObjectMeta(request *GetObjectMetaRequest, runtime *ossu
 func (client *Client) GetBucketAcl(request *GetBucketAclRequest, runtime *ossutil.RuntimeOptions) (_result *GetBucketAclResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -10879,10 +10879,10 @@ func (client *Client) GetBucketAcl(request *GetBucketAclRequest, runtime *ossuti
 	}
 
 	_resp := &GetBucketAclResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -10891,42 +10891,42 @@ func (client *Client) GetBucketAcl(request *GetBucketAclRequest, runtime *ossuti
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("GET")
 			request_.Pathname = tea.String("/?acl")
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -10939,12 +10939,12 @@ func (client *Client) GetBucketAcl(request *GetBucketAclRequest, runtime *ossuti
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			respMap = xml.ParseXml(bodyStr, new(GetBucketAclResponse))
@@ -10954,7 +10954,7 @@ func (client *Client) GetBucketAcl(request *GetBucketAclRequest, runtime *ossuti
 			}, response_.Headers), &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -10965,11 +10965,11 @@ func (client *Client) GetBucketAcl(request *GetBucketAclRequest, runtime *ossuti
 func (client *Client) ListParts(request *ListPartsRequest, runtime *ossutil.RuntimeOptions) (_result *ListPartsResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -10994,10 +10994,10 @@ func (client *Client) ListParts(request *ListPartsRequest, runtime *ossutil.Runt
 	}
 
 	_resp := &ListPartsResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -11006,43 +11006,43 @@ func (client *Client) ListParts(request *ListPartsRequest, runtime *ossutil.Runt
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("GET")
 			request_.Pathname = tea.String("/" + tea.StringValue(request.ObjectName))
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
 			request_.Query = util.StringifyMapValue(tea.ToMap(request.Filter))
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -11055,12 +11055,12 @@ func (client *Client) ListParts(request *ListPartsRequest, runtime *ossutil.Runt
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			respMap = xml.ParseXml(bodyStr, new(ListPartsResponse))
@@ -11070,7 +11070,7 @@ func (client *Client) ListParts(request *ListPartsRequest, runtime *ossutil.Runt
 			}, response_.Headers), &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -11081,11 +11081,11 @@ func (client *Client) ListParts(request *ListPartsRequest, runtime *ossutil.Runt
 func (client *Client) GetLiveChannelHistory(request *GetLiveChannelHistoryRequest, runtime *ossutil.RuntimeOptions) (_result *GetLiveChannelHistoryResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -11110,10 +11110,10 @@ func (client *Client) GetLiveChannelHistory(request *GetLiveChannelHistoryReques
 	}
 
 	_resp := &GetLiveChannelHistoryResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -11122,43 +11122,43 @@ func (client *Client) GetLiveChannelHistory(request *GetLiveChannelHistoryReques
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("GET")
 			request_.Pathname = tea.String("/" + tea.StringValue(request.ChannelName) + "?live")
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
 			request_.Query = util.StringifyMapValue(tea.ToMap(request.Filter))
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -11171,12 +11171,12 @@ func (client *Client) GetLiveChannelHistory(request *GetLiveChannelHistoryReques
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			respMap = xml.ParseXml(bodyStr, new(GetLiveChannelHistoryResponse))
@@ -11186,7 +11186,7 @@ func (client *Client) GetLiveChannelHistory(request *GetLiveChannelHistoryReques
 			}, response_.Headers), &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -11197,11 +11197,11 @@ func (client *Client) GetLiveChannelHistory(request *GetLiveChannelHistoryReques
 func (client *Client) GetBucket(request *GetBucketRequest, runtime *ossutil.RuntimeOptions) (_result *GetBucketResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -11226,10 +11226,10 @@ func (client *Client) GetBucket(request *GetBucketRequest, runtime *ossutil.Runt
 	}
 
 	_resp := &GetBucketResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -11238,43 +11238,43 @@ func (client *Client) GetBucket(request *GetBucketRequest, runtime *ossutil.Runt
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("GET")
 			request_.Pathname = tea.String("/")
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
 			request_.Query = util.StringifyMapValue(tea.ToMap(request.Filter))
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -11287,12 +11287,12 @@ func (client *Client) GetBucket(request *GetBucketRequest, runtime *ossutil.Runt
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			respMap = xml.ParseXml(bodyStr, new(GetBucketResponse))
@@ -11302,7 +11302,7 @@ func (client *Client) GetBucket(request *GetBucketRequest, runtime *ossutil.Runt
 			}, response_.Headers), &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -11313,11 +11313,11 @@ func (client *Client) GetBucket(request *GetBucketRequest, runtime *ossutil.Runt
 func (client *Client) GetLiveChannelInfo(request *GetLiveChannelInfoRequest, runtime *ossutil.RuntimeOptions) (_result *GetLiveChannelInfoResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -11342,10 +11342,10 @@ func (client *Client) GetLiveChannelInfo(request *GetLiveChannelInfoRequest, run
 	}
 
 	_resp := &GetLiveChannelInfoResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -11354,42 +11354,42 @@ func (client *Client) GetLiveChannelInfo(request *GetLiveChannelInfoRequest, run
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("GET")
 			request_.Pathname = tea.String("/" + tea.StringValue(request.ChannelName) + "?live")
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -11402,12 +11402,12 @@ func (client *Client) GetLiveChannelInfo(request *GetLiveChannelInfoRequest, run
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			respMap = xml.ParseXml(bodyStr, new(GetLiveChannelInfoResponse))
@@ -11417,7 +11417,7 @@ func (client *Client) GetLiveChannelInfo(request *GetLiveChannelInfoRequest, run
 			}, response_.Headers), &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -11428,11 +11428,11 @@ func (client *Client) GetLiveChannelInfo(request *GetLiveChannelInfoRequest, run
 func (client *Client) GetLiveChannelStat(request *GetLiveChannelStatRequest, runtime *ossutil.RuntimeOptions) (_result *GetLiveChannelStatResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -11457,10 +11457,10 @@ func (client *Client) GetLiveChannelStat(request *GetLiveChannelStatRequest, run
 	}
 
 	_resp := &GetLiveChannelStatResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -11469,43 +11469,43 @@ func (client *Client) GetLiveChannelStat(request *GetLiveChannelStatRequest, run
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("GET")
 			request_.Pathname = tea.String("/" + tea.StringValue(request.ChannelName) + "?live")
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
 			request_.Query = util.StringifyMapValue(tea.ToMap(request.Filter))
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -11518,12 +11518,12 @@ func (client *Client) GetLiveChannelStat(request *GetLiveChannelStatRequest, run
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			respMap = xml.ParseXml(bodyStr, new(GetLiveChannelStatResponse))
@@ -11533,7 +11533,7 @@ func (client *Client) GetLiveChannelStat(request *GetLiveChannelStatRequest, run
 			}, response_.Headers), &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -11544,11 +11544,11 @@ func (client *Client) GetLiveChannelStat(request *GetLiveChannelStatRequest, run
 func (client *Client) DeleteObject(request *DeleteObjectRequest, runtime *ossutil.RuntimeOptions) (_result *DeleteObjectResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -11573,10 +11573,10 @@ func (client *Client) DeleteObject(request *DeleteObjectRequest, runtime *ossuti
 	}
 
 	_resp := &DeleteObjectResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -11585,42 +11585,42 @@ func (client *Client) DeleteObject(request *DeleteObjectRequest, runtime *ossuti
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("DELETE")
 			request_.Pathname = tea.String("/" + tea.StringValue(request.ObjectName))
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -11633,14 +11633,14 @@ func (client *Client) DeleteObject(request *DeleteObjectRequest, runtime *ossuti
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			_result = &DeleteObjectResponse{}
 			_err = tea.Convert(response_.Headers, &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -11651,11 +11651,11 @@ func (client *Client) DeleteObject(request *DeleteObjectRequest, runtime *ossuti
 func (client *Client) AbortMultipartUpload(request *AbortMultipartUploadRequest, runtime *ossutil.RuntimeOptions) (_result *AbortMultipartUploadResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -11680,10 +11680,10 @@ func (client *Client) AbortMultipartUpload(request *AbortMultipartUploadRequest,
 	}
 
 	_resp := &AbortMultipartUploadResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -11692,43 +11692,43 @@ func (client *Client) AbortMultipartUpload(request *AbortMultipartUploadRequest,
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("DELETE")
 			request_.Pathname = tea.String("/" + tea.StringValue(request.ObjectName))
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
 			request_.Query = util.StringifyMapValue(tea.ToMap(request.Filter))
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -11741,14 +11741,14 @@ func (client *Client) AbortMultipartUpload(request *AbortMultipartUploadRequest,
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			_result = &AbortMultipartUploadResponse{}
 			_err = tea.Convert(response_.Headers, &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -11759,11 +11759,11 @@ func (client *Client) AbortMultipartUpload(request *AbortMultipartUploadRequest,
 func (client *Client) AppendObject(request *AppendObjectRequest, runtime *ossutil.RuntimeOptions) (_result *AppendObjectResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -11788,64 +11788,64 @@ func (client *Client) AppendObject(request *AppendObjectRequest, runtime *ossuti
 	}
 
 	_resp := &AppendObjectResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
 
 		_resp, _err = func() (*AppendObjectResponse, error) {
 			request_ := tea.NewRequest()
-			ctx := make(map[string]string)
+			ctx := make(map[string]*string)
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("POST")
 			request_.Pathname = tea.String("/" + tea.StringValue(request.ObjectName) + "?append")
-			request_.Headers = tea.Merge(map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = tea.Merge(map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}, util.StringifyMapValue(tea.ToMap(request.Header)),
 				ossutil.ParseMeta(request.UserMeta, tea.String("x-oss-meta-")))
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
 			request_.Query = util.StringifyMapValue(tea.ToMap(request.Filter))
 			request_.Body = ossutil.Inject(request.Body, ctx)
 			if !tea.BoolValue(util.IsUnset(tea.ToMap(request.Header))) && !tea.BoolValue(util.Empty(request.Header.ContentType)) {
-				request_.Headers["content-type"] = tea.StringValue(request.Header.ContentType)
+				request_.Headers["content-type"] = request.Header.ContentType
 			} else {
-				request_.Headers["content-type"] = tea.StringValue(ossutil.GetContentType(request.ObjectName))
+				request_.Headers["content-type"] = ossutil.GetContentType(request.ObjectName)
 			}
 
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -11858,36 +11858,36 @@ func (client *Client) AppendObject(request *AppendObjectRequest, runtime *ossuti
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
-			if tea.BoolValue(client.IsEnableCrc) && !tea.BoolValue(util.EqualString(tea.String(ctx["crc"]), tea.String(response_.Headers["x-oss-hash-crc64ecma"]))) {
+			if tea.BoolValue(client.IsEnableCrc) && !tea.BoolValue(util.EqualString(ctx["crc"], response_.Headers["x-oss-hash-crc64ecma"])) {
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code": "CrcNotMatched",
-					"data": map[string]string{
+					"data": map[string]*string{
 						"clientCrc": ctx["crc"],
 						"serverCrc": response_.Headers["x-oss-hash-crc64ecma"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
-			if tea.BoolValue(client.IsEnableMD5) && !tea.BoolValue(util.EqualString(tea.String(ctx["md5"]), tea.String(response_.Headers["content-md5"]))) {
+			if tea.BoolValue(client.IsEnableMD5) && !tea.BoolValue(util.EqualString(ctx["md5"], response_.Headers["content-md5"])) {
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code": "MD5NotMatched",
-					"data": map[string]string{
+					"data": map[string]*string{
 						"clientMD5": ctx["md5"],
 						"serverMD5": response_.Headers["content-md5"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			_result = &AppendObjectResponse{}
 			_err = tea.Convert(response_.Headers, &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -11898,11 +11898,11 @@ func (client *Client) AppendObject(request *AppendObjectRequest, runtime *ossuti
 func (client *Client) UploadPartCopy(request *UploadPartCopyRequest, runtime *ossutil.RuntimeOptions) (_result *UploadPartCopyResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -11927,10 +11927,10 @@ func (client *Client) UploadPartCopy(request *UploadPartCopyRequest, runtime *os
 	}
 
 	_resp := &UploadPartCopyResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -11939,43 +11939,43 @@ func (client *Client) UploadPartCopy(request *UploadPartCopyRequest, runtime *os
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("PUT")
 			request_.Pathname = tea.String("/" + tea.StringValue(request.ObjectName))
-			request_.Headers = tea.Merge(map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = tea.Merge(map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}, util.StringifyMapValue(tea.ToMap(request.Header)))
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
 			request_.Query = util.StringifyMapValue(tea.ToMap(request.Filter))
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -11988,12 +11988,12 @@ func (client *Client) UploadPartCopy(request *UploadPartCopyRequest, runtime *os
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			respMap = xml.ParseXml(bodyStr, new(UploadPartCopyResponse))
@@ -12003,7 +12003,7 @@ func (client *Client) UploadPartCopy(request *UploadPartCopyRequest, runtime *os
 			}, response_.Headers), &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -12014,11 +12014,11 @@ func (client *Client) UploadPartCopy(request *UploadPartCopyRequest, runtime *os
 func (client *Client) GetVodPlaylist(request *GetVodPlaylistRequest, runtime *ossutil.RuntimeOptions) (_result *GetVodPlaylistResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -12043,10 +12043,10 @@ func (client *Client) GetVodPlaylist(request *GetVodPlaylistRequest, runtime *os
 	}
 
 	_resp := &GetVodPlaylistResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -12055,43 +12055,43 @@ func (client *Client) GetVodPlaylist(request *GetVodPlaylistRequest, runtime *os
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("GET")
 			request_.Pathname = tea.String("/" + tea.StringValue(request.ChannelName) + "?vod")
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
 			request_.Query = util.StringifyMapValue(tea.ToMap(request.Filter))
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -12104,14 +12104,14 @@ func (client *Client) GetVodPlaylist(request *GetVodPlaylistRequest, runtime *os
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			_result = &GetVodPlaylistResponse{}
 			_err = tea.Convert(response_.Headers, &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -12122,11 +12122,11 @@ func (client *Client) GetVodPlaylist(request *GetVodPlaylistRequest, runtime *os
 func (client *Client) DeleteBucketCORS(request *DeleteBucketCORSRequest, runtime *ossutil.RuntimeOptions) (_result *DeleteBucketCORSResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -12151,10 +12151,10 @@ func (client *Client) DeleteBucketCORS(request *DeleteBucketCORSRequest, runtime
 	}
 
 	_resp := &DeleteBucketCORSResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -12163,42 +12163,42 @@ func (client *Client) DeleteBucketCORS(request *DeleteBucketCORSRequest, runtime
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("DELETE")
 			request_.Pathname = tea.String("/?cors")
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -12211,14 +12211,14 @@ func (client *Client) DeleteBucketCORS(request *DeleteBucketCORSRequest, runtime
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			_result = &DeleteBucketCORSResponse{}
 			_err = tea.Convert(response_.Headers, &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -12229,11 +12229,11 @@ func (client *Client) DeleteBucketCORS(request *DeleteBucketCORSRequest, runtime
 func (client *Client) GetObject(request *GetObjectRequest, runtime *ossutil.RuntimeOptions) (_result *GetObjectResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -12258,10 +12258,10 @@ func (client *Client) GetObject(request *GetObjectRequest, runtime *ossutil.Runt
 	}
 
 	_resp := &GetObjectResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -12270,42 +12270,42 @@ func (client *Client) GetObject(request *GetObjectRequest, runtime *ossutil.Runt
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("GET")
 			request_.Pathname = tea.String("/" + tea.StringValue(request.ObjectName))
-			request_.Headers = tea.Merge(map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = tea.Merge(map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}, util.StringifyMapValue(tea.ToMap(request.Header)))
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -12318,7 +12318,7 @@ func (client *Client) GetObject(request *GetObjectRequest, runtime *ossutil.Runt
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			_result = &GetObjectResponse{}
@@ -12326,7 +12326,7 @@ func (client *Client) GetObject(request *GetObjectRequest, runtime *ossutil.Runt
 			_err = tea.Convert(response_.Headers, &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -12337,11 +12337,11 @@ func (client *Client) GetObject(request *GetObjectRequest, runtime *ossutil.Runt
 func (client *Client) UploadPart(request *UploadPartRequest, runtime *ossutil.RuntimeOptions) (_result *UploadPartResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -12366,57 +12366,57 @@ func (client *Client) UploadPart(request *UploadPartRequest, runtime *ossutil.Ru
 	}
 
 	_resp := &UploadPartResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
 
 		_resp, _err = func() (*UploadPartResponse, error) {
 			request_ := tea.NewRequest()
-			ctx := make(map[string]string)
+			ctx := make(map[string]*string)
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("PUT")
 			request_.Pathname = tea.String("/" + tea.StringValue(request.ObjectName))
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
 			request_.Query = util.StringifyMapValue(tea.ToMap(request.Filter))
 			request_.Body = ossutil.Inject(request.Body, ctx)
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -12429,36 +12429,36 @@ func (client *Client) UploadPart(request *UploadPartRequest, runtime *ossutil.Ru
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
-			if tea.BoolValue(client.IsEnableCrc) && !tea.BoolValue(util.EqualString(tea.String(ctx["crc"]), tea.String(response_.Headers["x-oss-hash-crc64ecma"]))) {
+			if tea.BoolValue(client.IsEnableCrc) && !tea.BoolValue(util.EqualString(ctx["crc"], response_.Headers["x-oss-hash-crc64ecma"])) {
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code": "CrcNotMatched",
-					"data": map[string]string{
+					"data": map[string]*string{
 						"clientCrc": ctx["crc"],
 						"serverCrc": response_.Headers["x-oss-hash-crc64ecma"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
-			if tea.BoolValue(client.IsEnableMD5) && !tea.BoolValue(util.EqualString(tea.String(ctx["md5"]), tea.String(response_.Headers["content-md5"]))) {
+			if tea.BoolValue(client.IsEnableMD5) && !tea.BoolValue(util.EqualString(ctx["md5"], response_.Headers["content-md5"])) {
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code": "MD5NotMatched",
-					"data": map[string]string{
+					"data": map[string]*string{
 						"clientMD5": ctx["md5"],
 						"serverMD5": response_.Headers["content-md5"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			_result = &UploadPartResponse{}
 			_err = tea.Convert(response_.Headers, &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -12469,11 +12469,11 @@ func (client *Client) UploadPart(request *UploadPartRequest, runtime *ossutil.Ru
 func (client *Client) GetBucketCORS(request *GetBucketCORSRequest, runtime *ossutil.RuntimeOptions) (_result *GetBucketCORSResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -12498,10 +12498,10 @@ func (client *Client) GetBucketCORS(request *GetBucketCORSRequest, runtime *ossu
 	}
 
 	_resp := &GetBucketCORSResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -12510,42 +12510,42 @@ func (client *Client) GetBucketCORS(request *GetBucketCORSRequest, runtime *ossu
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("GET")
 			request_.Pathname = tea.String("/?cors")
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -12558,12 +12558,12 @@ func (client *Client) GetBucketCORS(request *GetBucketCORSRequest, runtime *ossu
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			respMap = xml.ParseXml(bodyStr, new(GetBucketCORSResponse))
@@ -12573,7 +12573,7 @@ func (client *Client) GetBucketCORS(request *GetBucketCORSRequest, runtime *ossu
 			}, response_.Headers), &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -12584,11 +12584,11 @@ func (client *Client) GetBucketCORS(request *GetBucketCORSRequest, runtime *ossu
 func (client *Client) CopyObject(request *CopyObjectRequest, runtime *ossutil.RuntimeOptions) (_result *CopyObjectResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -12613,10 +12613,10 @@ func (client *Client) CopyObject(request *CopyObjectRequest, runtime *ossutil.Ru
 	}
 
 	_resp := &CopyObjectResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -12625,43 +12625,43 @@ func (client *Client) CopyObject(request *CopyObjectRequest, runtime *ossutil.Ru
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("PUT")
 			request_.Pathname = tea.String("/" + tea.StringValue(request.DestObjectName))
-			request_.Headers = tea.Merge(map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = tea.Merge(map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}, util.StringifyMapValue(tea.ToMap(request.Header)))
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["x-oss-copy-source"] = tea.StringValue(ossutil.Encode(tea.String(request_.Headers["x-oss-copy-source"]), tea.String("UrlEncode")))
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["x-oss-copy-source"] = ossutil.Encode(request_.Headers["x-oss-copy-source"], tea.String("UrlEncode"))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -12674,12 +12674,12 @@ func (client *Client) CopyObject(request *CopyObjectRequest, runtime *ossutil.Ru
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			respMap = xml.ParseXml(bodyStr, new(CopyObjectResponse))
@@ -12689,7 +12689,7 @@ func (client *Client) CopyObject(request *CopyObjectRequest, runtime *ossutil.Ru
 			}, response_.Headers), &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -12700,11 +12700,11 @@ func (client *Client) CopyObject(request *CopyObjectRequest, runtime *ossutil.Ru
 func (client *Client) GetObjectTagging(request *GetObjectTaggingRequest, runtime *ossutil.RuntimeOptions) (_result *GetObjectTaggingResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -12729,10 +12729,10 @@ func (client *Client) GetObjectTagging(request *GetObjectTaggingRequest, runtime
 	}
 
 	_resp := &GetObjectTaggingResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -12741,42 +12741,42 @@ func (client *Client) GetObjectTagging(request *GetObjectTaggingRequest, runtime
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("GET")
 			request_.Pathname = tea.String("/" + tea.StringValue(request.ObjectName) + "?tagging")
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -12789,12 +12789,12 @@ func (client *Client) GetObjectTagging(request *GetObjectTaggingRequest, runtime
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			respMap = xml.ParseXml(bodyStr, new(GetObjectTaggingResponse))
@@ -12804,7 +12804,7 @@ func (client *Client) GetObjectTagging(request *GetObjectTaggingRequest, runtime
 			}, response_.Headers), &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -12815,11 +12815,11 @@ func (client *Client) GetObjectTagging(request *GetObjectTaggingRequest, runtime
 func (client *Client) DeleteBucketLifecycle(request *DeleteBucketLifecycleRequest, runtime *ossutil.RuntimeOptions) (_result *DeleteBucketLifecycleResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -12844,10 +12844,10 @@ func (client *Client) DeleteBucketLifecycle(request *DeleteBucketLifecycleReques
 	}
 
 	_resp := &DeleteBucketLifecycleResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -12856,42 +12856,42 @@ func (client *Client) DeleteBucketLifecycle(request *DeleteBucketLifecycleReques
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("DELETE")
 			request_.Pathname = tea.String("/?lifecycle")
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -12904,14 +12904,14 @@ func (client *Client) DeleteBucketLifecycle(request *DeleteBucketLifecycleReques
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			_result = &DeleteBucketLifecycleResponse{}
 			_err = tea.Convert(response_.Headers, &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -12922,11 +12922,11 @@ func (client *Client) DeleteBucketLifecycle(request *DeleteBucketLifecycleReques
 func (client *Client) DeleteBucketLogging(request *DeleteBucketLoggingRequest, runtime *ossutil.RuntimeOptions) (_result *DeleteBucketLoggingResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -12951,10 +12951,10 @@ func (client *Client) DeleteBucketLogging(request *DeleteBucketLoggingRequest, r
 	}
 
 	_resp := &DeleteBucketLoggingResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -12963,42 +12963,42 @@ func (client *Client) DeleteBucketLogging(request *DeleteBucketLoggingRequest, r
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("DELETE")
 			request_.Pathname = tea.String("/?logging")
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -13011,14 +13011,14 @@ func (client *Client) DeleteBucketLogging(request *DeleteBucketLoggingRequest, r
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			_result = &DeleteBucketLoggingResponse{}
 			_err = tea.Convert(response_.Headers, &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -13029,11 +13029,11 @@ func (client *Client) DeleteBucketLogging(request *DeleteBucketLoggingRequest, r
 func (client *Client) DeleteBucketWebsite(request *DeleteBucketWebsiteRequest, runtime *ossutil.RuntimeOptions) (_result *DeleteBucketWebsiteResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -13058,10 +13058,10 @@ func (client *Client) DeleteBucketWebsite(request *DeleteBucketWebsiteRequest, r
 	}
 
 	_resp := &DeleteBucketWebsiteResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -13070,42 +13070,42 @@ func (client *Client) DeleteBucketWebsite(request *DeleteBucketWebsiteRequest, r
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("DELETE")
 			request_.Pathname = tea.String("/?website")
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -13118,14 +13118,14 @@ func (client *Client) DeleteBucketWebsite(request *DeleteBucketWebsiteRequest, r
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			_result = &DeleteBucketWebsiteResponse{}
 			_err = tea.Convert(response_.Headers, &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -13136,11 +13136,11 @@ func (client *Client) DeleteBucketWebsite(request *DeleteBucketWebsiteRequest, r
 func (client *Client) GetSymlink(request *GetSymlinkRequest, runtime *ossutil.RuntimeOptions) (_result *GetSymlinkResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -13165,10 +13165,10 @@ func (client *Client) GetSymlink(request *GetSymlinkRequest, runtime *ossutil.Ru
 	}
 
 	_resp := &GetSymlinkResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -13177,42 +13177,42 @@ func (client *Client) GetSymlink(request *GetSymlinkRequest, runtime *ossutil.Ru
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("GET")
 			request_.Pathname = tea.String("/" + tea.StringValue(request.ObjectName) + "?symlink")
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -13225,14 +13225,14 @@ func (client *Client) GetSymlink(request *GetSymlinkRequest, runtime *ossutil.Ru
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			_result = &GetSymlinkResponse{}
 			_err = tea.Convert(response_.Headers, &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -13243,11 +13243,11 @@ func (client *Client) GetSymlink(request *GetSymlinkRequest, runtime *ossutil.Ru
 func (client *Client) GetBucketLifecycle(request *GetBucketLifecycleRequest, runtime *ossutil.RuntimeOptions) (_result *GetBucketLifecycleResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -13272,10 +13272,10 @@ func (client *Client) GetBucketLifecycle(request *GetBucketLifecycleRequest, run
 	}
 
 	_resp := &GetBucketLifecycleResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -13284,42 +13284,42 @@ func (client *Client) GetBucketLifecycle(request *GetBucketLifecycleRequest, run
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("GET")
 			request_.Pathname = tea.String("/?lifecycle")
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -13332,12 +13332,12 @@ func (client *Client) GetBucketLifecycle(request *GetBucketLifecycleRequest, run
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			respMap = xml.ParseXml(bodyStr, new(GetBucketLifecycleResponse))
@@ -13347,7 +13347,7 @@ func (client *Client) GetBucketLifecycle(request *GetBucketLifecycleRequest, run
 			}, response_.Headers), &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -13358,11 +13358,11 @@ func (client *Client) GetBucketLifecycle(request *GetBucketLifecycleRequest, run
 func (client *Client) PutSymlink(request *PutSymlinkRequest, runtime *ossutil.RuntimeOptions) (_result *PutSymlinkResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -13387,10 +13387,10 @@ func (client *Client) PutSymlink(request *PutSymlinkRequest, runtime *ossutil.Ru
 	}
 
 	_resp := &PutSymlinkResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -13399,42 +13399,42 @@ func (client *Client) PutSymlink(request *PutSymlinkRequest, runtime *ossutil.Ru
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("PUT")
 			request_.Pathname = tea.String("/" + tea.StringValue(request.ObjectName) + "?symlink")
-			request_.Headers = tea.Merge(map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = tea.Merge(map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}, util.StringifyMapValue(tea.ToMap(request.Header)))
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -13447,14 +13447,14 @@ func (client *Client) PutSymlink(request *PutSymlinkRequest, runtime *ossutil.Ru
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			_result = &PutSymlinkResponse{}
 			_err = tea.Convert(response_.Headers, &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -13465,11 +13465,11 @@ func (client *Client) PutSymlink(request *PutSymlinkRequest, runtime *ossutil.Ru
 func (client *Client) GetBucketReferer(request *GetBucketRefererRequest, runtime *ossutil.RuntimeOptions) (_result *GetBucketRefererResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -13494,10 +13494,10 @@ func (client *Client) GetBucketReferer(request *GetBucketRefererRequest, runtime
 	}
 
 	_resp := &GetBucketRefererResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -13506,42 +13506,42 @@ func (client *Client) GetBucketReferer(request *GetBucketRefererRequest, runtime
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("GET")
 			request_.Pathname = tea.String("/?referer")
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -13554,12 +13554,12 @@ func (client *Client) GetBucketReferer(request *GetBucketRefererRequest, runtime
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			respMap = xml.ParseXml(bodyStr, new(GetBucketRefererResponse))
@@ -13569,7 +13569,7 @@ func (client *Client) GetBucketReferer(request *GetBucketRefererRequest, runtime
 			}, response_.Headers), &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -13580,11 +13580,11 @@ func (client *Client) GetBucketReferer(request *GetBucketRefererRequest, runtime
 func (client *Client) Callback(request *CallbackRequest, runtime *ossutil.RuntimeOptions) (_result *CallbackResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -13609,10 +13609,10 @@ func (client *Client) Callback(request *CallbackRequest, runtime *ossutil.Runtim
 	}
 
 	_resp := &CallbackResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -13621,42 +13621,42 @@ func (client *Client) Callback(request *CallbackRequest, runtime *ossutil.Runtim
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("GET")
 			request_.Pathname = tea.String("/")
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -13669,14 +13669,14 @@ func (client *Client) Callback(request *CallbackRequest, runtime *ossutil.Runtim
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			_result = &CallbackResponse{}
 			_err = tea.Convert(response_.Headers, &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -13687,11 +13687,11 @@ func (client *Client) Callback(request *CallbackRequest, runtime *ossutil.Runtim
 func (client *Client) GetBucketLogging(request *GetBucketLoggingRequest, runtime *ossutil.RuntimeOptions) (_result *GetBucketLoggingResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -13716,10 +13716,10 @@ func (client *Client) GetBucketLogging(request *GetBucketLoggingRequest, runtime
 	}
 
 	_resp := &GetBucketLoggingResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -13728,42 +13728,42 @@ func (client *Client) GetBucketLogging(request *GetBucketLoggingRequest, runtime
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("GET")
 			request_.Pathname = tea.String("/?logging")
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -13776,12 +13776,12 @@ func (client *Client) GetBucketLogging(request *GetBucketLoggingRequest, runtime
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			respMap = xml.ParseXml(bodyStr, new(GetBucketLoggingResponse))
@@ -13791,7 +13791,7 @@ func (client *Client) GetBucketLogging(request *GetBucketLoggingRequest, runtime
 			}, response_.Headers), &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -13802,11 +13802,11 @@ func (client *Client) GetBucketLogging(request *GetBucketLoggingRequest, runtime
 func (client *Client) PutObjectAcl(request *PutObjectAclRequest, runtime *ossutil.RuntimeOptions) (_result *PutObjectAclResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -13831,10 +13831,10 @@ func (client *Client) PutObjectAcl(request *PutObjectAclRequest, runtime *ossuti
 	}
 
 	_resp := &PutObjectAclResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -13843,42 +13843,42 @@ func (client *Client) PutObjectAcl(request *PutObjectAclRequest, runtime *ossuti
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("PUT")
 			request_.Pathname = tea.String("/" + tea.StringValue(request.ObjectName) + "?acl")
-			request_.Headers = tea.Merge(map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = tea.Merge(map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}, util.StringifyMapValue(tea.ToMap(request.Header)))
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -13891,14 +13891,14 @@ func (client *Client) PutObjectAcl(request *PutObjectAclRequest, runtime *ossuti
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			_result = &PutObjectAclResponse{}
 			_err = tea.Convert(response_.Headers, &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -13909,11 +13909,11 @@ func (client *Client) PutObjectAcl(request *PutObjectAclRequest, runtime *ossuti
 func (client *Client) GetBucketInfo(request *GetBucketInfoRequest, runtime *ossutil.RuntimeOptions) (_result *GetBucketInfoResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -13938,10 +13938,10 @@ func (client *Client) GetBucketInfo(request *GetBucketInfoRequest, runtime *ossu
 	}
 
 	_resp := &GetBucketInfoResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -13950,42 +13950,42 @@ func (client *Client) GetBucketInfo(request *GetBucketInfoRequest, runtime *ossu
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("GET")
 			request_.Pathname = tea.String("/?bucketInfo")
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -13998,12 +13998,12 @@ func (client *Client) GetBucketInfo(request *GetBucketInfoRequest, runtime *ossu
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			respMap = xml.ParseXml(bodyStr, new(GetBucketInfoResponse))
@@ -14013,7 +14013,7 @@ func (client *Client) GetBucketInfo(request *GetBucketInfoRequest, runtime *ossu
 			}, response_.Headers), &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -14024,11 +14024,11 @@ func (client *Client) GetBucketInfo(request *GetBucketInfoRequest, runtime *ossu
 func (client *Client) PutLiveChannelStatus(request *PutLiveChannelStatusRequest, runtime *ossutil.RuntimeOptions) (_result *PutLiveChannelStatusResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -14053,10 +14053,10 @@ func (client *Client) PutLiveChannelStatus(request *PutLiveChannelStatusRequest,
 	}
 
 	_resp := &PutLiveChannelStatusResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -14065,43 +14065,43 @@ func (client *Client) PutLiveChannelStatus(request *PutLiveChannelStatusRequest,
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("PUT")
 			request_.Pathname = tea.String("/" + tea.StringValue(request.ChannelName) + "?live")
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
 			request_.Query = util.StringifyMapValue(tea.ToMap(request.Filter))
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -14114,14 +14114,14 @@ func (client *Client) PutLiveChannelStatus(request *PutLiveChannelStatusRequest,
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			_result = &PutLiveChannelStatusResponse{}
 			_err = tea.Convert(response_.Headers, &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -14132,11 +14132,11 @@ func (client *Client) PutLiveChannelStatus(request *PutLiveChannelStatusRequest,
 func (client *Client) InitiateMultipartUpload(request *InitiateMultipartUploadRequest, runtime *ossutil.RuntimeOptions) (_result *InitiateMultipartUploadResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -14161,10 +14161,10 @@ func (client *Client) InitiateMultipartUpload(request *InitiateMultipartUploadRe
 	}
 
 	_resp := &InitiateMultipartUploadResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -14173,49 +14173,49 @@ func (client *Client) InitiateMultipartUpload(request *InitiateMultipartUploadRe
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("POST")
 			request_.Pathname = tea.String("/" + tea.StringValue(request.ObjectName) + "?uploads")
-			request_.Headers = tea.Merge(map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = tea.Merge(map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}, util.StringifyMapValue(tea.ToMap(request.Header)))
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
 			request_.Query = util.StringifyMapValue(tea.ToMap(request.Filter))
 			if !tea.BoolValue(util.IsUnset(tea.ToMap(request.Header))) && !tea.BoolValue(util.Empty(request.Header.ContentType)) {
-				request_.Headers["content-type"] = tea.StringValue(request.Header.ContentType)
+				request_.Headers["content-type"] = request.Header.ContentType
 			} else {
-				request_.Headers["content-type"] = tea.StringValue(ossutil.GetContentType(request.ObjectName))
+				request_.Headers["content-type"] = ossutil.GetContentType(request.ObjectName)
 			}
 
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -14228,12 +14228,12 @@ func (client *Client) InitiateMultipartUpload(request *InitiateMultipartUploadRe
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			respMap = xml.ParseXml(bodyStr, new(InitiateMultipartUploadResponse))
@@ -14243,7 +14243,7 @@ func (client *Client) InitiateMultipartUpload(request *InitiateMultipartUploadRe
 			}, response_.Headers), &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -14254,11 +14254,11 @@ func (client *Client) InitiateMultipartUpload(request *InitiateMultipartUploadRe
 func (client *Client) OptionObject(request *OptionObjectRequest, runtime *ossutil.RuntimeOptions) (_result *OptionObjectResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -14283,10 +14283,10 @@ func (client *Client) OptionObject(request *OptionObjectRequest, runtime *ossuti
 	}
 
 	_resp := &OptionObjectResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -14295,42 +14295,42 @@ func (client *Client) OptionObject(request *OptionObjectRequest, runtime *ossuti
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("OPTIONS")
 			request_.Pathname = tea.String("/" + tea.StringValue(request.ObjectName))
-			request_.Headers = tea.Merge(map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = tea.Merge(map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}, util.StringifyMapValue(tea.ToMap(request.Header)))
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -14343,14 +14343,14 @@ func (client *Client) OptionObject(request *OptionObjectRequest, runtime *ossuti
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			_result = &OptionObjectResponse{}
 			_err = tea.Convert(response_.Headers, &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -14361,11 +14361,11 @@ func (client *Client) OptionObject(request *OptionObjectRequest, runtime *ossuti
 func (client *Client) PostVodPlaylist(request *PostVodPlaylistRequest, runtime *ossutil.RuntimeOptions) (_result *PostVodPlaylistResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -14390,10 +14390,10 @@ func (client *Client) PostVodPlaylist(request *PostVodPlaylistRequest, runtime *
 	}
 
 	_resp := &PostVodPlaylistResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -14402,43 +14402,43 @@ func (client *Client) PostVodPlaylist(request *PostVodPlaylistRequest, runtime *
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("POST")
 			request_.Pathname = tea.String("/" + tea.StringValue(request.ChannelName) + "/" + tea.StringValue(request.PlaylistName) + "?vod")
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
 			request_.Query = util.StringifyMapValue(tea.ToMap(request.Filter))
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -14451,14 +14451,14 @@ func (client *Client) PostVodPlaylist(request *PostVodPlaylistRequest, runtime *
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			_result = &PostVodPlaylistResponse{}
 			_err = tea.Convert(response_.Headers, &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -14469,11 +14469,11 @@ func (client *Client) PostVodPlaylist(request *PostVodPlaylistRequest, runtime *
 func (client *Client) PostObject(request *PostObjectRequest, runtime *ossutil.RuntimeOptions) (_result *PostObjectResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -14495,10 +14495,10 @@ func (client *Client) PostObject(request *PostObjectRequest, runtime *ossutil.Ru
 	}
 
 	_resp := &PostObjectResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -14509,12 +14509,12 @@ func (client *Client) PostObject(request *PostObjectRequest, runtime *ossutil.Ru
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("POST")
 			request_.Pathname = tea.String("/")
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
-			request_.Headers["content-type"] = "multipart/form-data; boundary=" + tea.ToString(tea.StringValue(boundary))
+			request_.Headers["content-type"] = tea.String("multipart/form-data; boundary=" + tea.StringValue(boundary))
 			form := tea.ToMap(map[string]interface{}{
 				"OSSAccessKeyId":        tea.StringValue(request.Header.AccessKeyId),
 				"policy":                tea.StringValue(request.Header.Policy),
@@ -14526,12 +14526,12 @@ func (client *Client) PostObject(request *PostObjectRequest, runtime *ossutil.Ru
 			request_.Body = fileform.ToFileForm(form, boundary)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			bodyStr, _err := util.ReadAsString(response_.Body)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
@@ -14545,7 +14545,7 @@ func (client *Client) PostObject(request *PostObjectRequest, runtime *ossutil.Ru
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			respMap = xml.ParseXml(bodyStr, new(PostObjectResponse))
@@ -14553,7 +14553,7 @@ func (client *Client) PostObject(request *PostObjectRequest, runtime *ossutil.Ru
 			_err = tea.Convert(respMap, &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -14564,11 +14564,11 @@ func (client *Client) PostObject(request *PostObjectRequest, runtime *ossutil.Ru
 func (client *Client) HeadObject(request *HeadObjectRequest, runtime *ossutil.RuntimeOptions) (_result *HeadObjectResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -14593,10 +14593,10 @@ func (client *Client) HeadObject(request *HeadObjectRequest, runtime *ossutil.Ru
 	}
 
 	_resp := &HeadObjectResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -14605,42 +14605,42 @@ func (client *Client) HeadObject(request *HeadObjectRequest, runtime *ossutil.Ru
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("HEAD")
 			request_.Pathname = tea.String("/" + tea.StringValue(request.ObjectName))
-			request_.Headers = tea.Merge(map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = tea.Merge(map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}, util.StringifyMapValue(tea.ToMap(request.Header)))
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -14653,7 +14653,7 @@ func (client *Client) HeadObject(request *HeadObjectRequest, runtime *ossutil.Ru
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			_result = &HeadObjectResponse{}
@@ -14662,7 +14662,7 @@ func (client *Client) HeadObject(request *HeadObjectRequest, runtime *ossutil.Ru
 			}, response_.Headers), &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -14673,11 +14673,11 @@ func (client *Client) HeadObject(request *HeadObjectRequest, runtime *ossutil.Ru
 func (client *Client) DeleteObjectTagging(request *DeleteObjectTaggingRequest, runtime *ossutil.RuntimeOptions) (_result *DeleteObjectTaggingResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -14702,10 +14702,10 @@ func (client *Client) DeleteObjectTagging(request *DeleteObjectTaggingRequest, r
 	}
 
 	_resp := &DeleteObjectTaggingResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -14714,42 +14714,42 @@ func (client *Client) DeleteObjectTagging(request *DeleteObjectTaggingRequest, r
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("DELETE")
 			request_.Pathname = tea.String("/" + tea.StringValue(request.ObjectName) + "?tagging")
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -14762,14 +14762,14 @@ func (client *Client) DeleteObjectTagging(request *DeleteObjectTaggingRequest, r
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			_result = &DeleteObjectTaggingResponse{}
 			_err = tea.Convert(response_.Headers, &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -14780,11 +14780,11 @@ func (client *Client) DeleteObjectTagging(request *DeleteObjectTaggingRequest, r
 func (client *Client) RestoreObject(request *RestoreObjectRequest, runtime *ossutil.RuntimeOptions) (_result *RestoreObjectResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -14809,10 +14809,10 @@ func (client *Client) RestoreObject(request *RestoreObjectRequest, runtime *ossu
 	}
 
 	_resp := &RestoreObjectResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -14821,42 +14821,42 @@ func (client *Client) RestoreObject(request *RestoreObjectRequest, runtime *ossu
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("POST")
 			request_.Pathname = tea.String("/" + tea.StringValue(request.ObjectName) + "?restore")
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -14869,14 +14869,14 @@ func (client *Client) RestoreObject(request *RestoreObjectRequest, runtime *ossu
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			_result = &RestoreObjectResponse{}
 			_err = tea.Convert(response_.Headers, &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -14887,11 +14887,11 @@ func (client *Client) RestoreObject(request *RestoreObjectRequest, runtime *ossu
 func (client *Client) GetObjectAcl(request *GetObjectAclRequest, runtime *ossutil.RuntimeOptions) (_result *GetObjectAclResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -14916,10 +14916,10 @@ func (client *Client) GetObjectAcl(request *GetObjectAclRequest, runtime *ossuti
 	}
 
 	_resp := &GetObjectAclResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -14928,42 +14928,42 @@ func (client *Client) GetObjectAcl(request *GetObjectAclRequest, runtime *ossuti
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("GET")
 			request_.Pathname = tea.String("/" + tea.StringValue(request.ObjectName) + "?acl")
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -14976,12 +14976,12 @@ func (client *Client) GetObjectAcl(request *GetObjectAclRequest, runtime *ossuti
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			bodyStr, _err = util.ReadAsString(response_.Body)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			respMap = xml.ParseXml(bodyStr, new(GetObjectAclResponse))
@@ -14991,7 +14991,7 @@ func (client *Client) GetObjectAcl(request *GetObjectAclRequest, runtime *ossuti
 			}, response_.Headers), &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -15002,11 +15002,11 @@ func (client *Client) GetObjectAcl(request *GetObjectAclRequest, runtime *ossuti
 func (client *Client) PutBucketAcl(request *PutBucketAclRequest, runtime *ossutil.RuntimeOptions) (_result *PutBucketAclResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -15031,10 +15031,10 @@ func (client *Client) PutBucketAcl(request *PutBucketAclRequest, runtime *ossuti
 	}
 
 	_resp := &PutBucketAclResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -15043,42 +15043,42 @@ func (client *Client) PutBucketAcl(request *PutBucketAclRequest, runtime *ossuti
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("PUT")
 			request_.Pathname = tea.String("/?acl")
-			request_.Headers = tea.Merge(map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = tea.Merge(map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}, util.StringifyMapValue(tea.ToMap(request.Header)))
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -15091,14 +15091,14 @@ func (client *Client) PutBucketAcl(request *PutBucketAclRequest, runtime *ossuti
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			_result = &PutBucketAclResponse{}
 			_err = tea.Convert(response_.Headers, &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -15109,11 +15109,11 @@ func (client *Client) PutBucketAcl(request *PutBucketAclRequest, runtime *ossuti
 func (client *Client) DeleteBucket(request *DeleteBucketRequest, runtime *ossutil.RuntimeOptions) (_result *DeleteBucketResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -15138,10 +15138,10 @@ func (client *Client) DeleteBucket(request *DeleteBucketRequest, runtime *ossuti
 	}
 
 	_resp := &DeleteBucketResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
@@ -15150,42 +15150,42 @@ func (client *Client) DeleteBucket(request *DeleteBucketRequest, runtime *ossuti
 			request_ := tea.NewRequest()
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("DELETE")
 			request_.Pathname = tea.String("/")
-			request_.Headers = map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -15198,14 +15198,14 @@ func (client *Client) DeleteBucket(request *DeleteBucketRequest, runtime *ossuti
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			_result = &DeleteBucketResponse{}
 			_err = tea.Convert(response_.Headers, &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -15216,11 +15216,11 @@ func (client *Client) DeleteBucket(request *DeleteBucketRequest, runtime *ossuti
 func (client *Client) PutObject(request *PutObjectRequest, runtime *ossutil.RuntimeOptions) (_result *PutObjectResponse, _err error) {
 	_err = tea.Validate(request)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_err = tea.Validate(runtime)
 	if _err != nil {
-		return nil, _err
+		return _result, _err
 	}
 	_runtime := map[string]interface{}{
 		"timeouted":      "retry",
@@ -15245,63 +15245,63 @@ func (client *Client) PutObject(request *PutObjectRequest, runtime *ossutil.Runt
 	}
 
 	_resp := &PutObjectResponse{}
-	for _retryTimes := 0; tea.AllowRetry(_runtime["retry"], _retryTimes); _retryTimes++ {
+	for _retryTimes := 0; tea.BoolValue(tea.AllowRetry(_runtime["retry"], tea.Int(_retryTimes))); _retryTimes++ {
 		if _retryTimes > 0 {
-			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], _retryTimes)
-			if _backoffTime > 0 {
+			_backoffTime := tea.GetBackoffTime(_runtime["backoff"], tea.Int(_retryTimes))
+			if tea.IntValue(_backoffTime) > 0 {
 				tea.Sleep(_backoffTime)
 			}
 		}
 
 		_resp, _err = func() (*PutObjectResponse, error) {
 			request_ := tea.NewRequest()
-			ctx := make(map[string]string)
+			ctx := make(map[string]*string)
 			accessKeyId, _err := client.Credential.GetAccessKeyId()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			accessKeySecret, _err := client.Credential.GetAccessKeySecret()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			token, _err := client.Credential.GetSecurityToken()
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 
 			request_.Protocol = client.Protocol
 			request_.Method = tea.String("PUT")
 			request_.Pathname = tea.String("/" + tea.StringValue(request.ObjectName))
-			request_.Headers = tea.Merge(map[string]string{
-				"host":       tea.StringValue(ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel)),
-				"date":       tea.StringValue(util.GetDateUTCString()),
-				"user-agent": tea.StringValue(client.GetUserAgent()),
+			request_.Headers = tea.Merge(map[string]*string{
+				"host":       ossutil.GetHost(request.BucketName, client.RegionId, client.Endpoint, client.HostModel),
+				"date":       util.GetDateUTCString(),
+				"user-agent": client.GetUserAgent(),
 			}, util.StringifyMapValue(tea.ToMap(request.Header)),
 				ossutil.ParseMeta(request.UserMeta, tea.String("x-oss-meta-")))
 			if !tea.BoolValue(util.Empty(token)) {
-				request_.Headers["x-oss-security-token"] = tea.StringValue(token)
+				request_.Headers["x-oss-security-token"] = token
 			}
 
 			request_.Body = ossutil.Inject(request.Body, ctx)
 			if !tea.BoolValue(util.IsUnset(tea.ToMap(request.Header))) && !tea.BoolValue(util.Empty(request.Header.ContentType)) {
-				request_.Headers["content-type"] = tea.StringValue(request.Header.ContentType)
+				request_.Headers["content-type"] = request.Header.ContentType
 			} else {
-				request_.Headers["content-type"] = tea.StringValue(ossutil.GetContentType(request.ObjectName))
+				request_.Headers["content-type"] = ossutil.GetContentType(request.ObjectName)
 			}
 
-			request_.Headers["authorization"] = tea.StringValue(ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders))
+			request_.Headers["authorization"] = ossutil.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, client.SignatureVersion, client.AddtionalHeaders)
 			response_, _err := tea.DoRequest(request_, _runtime)
 			if _err != nil {
-				return nil, _err
+				return _result, _err
 			}
 			var respMap map[string]interface{}
 			var bodyStr *string
 			if tea.BoolValue(util.Is4xx(response_.StatusCode)) || tea.BoolValue(util.Is5xx(response_.StatusCode)) {
 				bodyStr, _err = util.ReadAsString(response_.Body)
 				if _err != nil {
-					return nil, _err
+					return _result, _err
 				}
 
 				respMap = ossutil.GetErrMessage(bodyStr)
@@ -15314,36 +15314,36 @@ func (client *Client) PutObject(request *PutObjectRequest, runtime *ossutil.Runt
 						"hostId":    respMap["HostId"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
-			if tea.BoolValue(client.IsEnableCrc) && !tea.BoolValue(util.EqualString(tea.String(ctx["crc"]), tea.String(response_.Headers["x-oss-hash-crc64ecma"]))) {
+			if tea.BoolValue(client.IsEnableCrc) && !tea.BoolValue(util.EqualString(ctx["crc"], response_.Headers["x-oss-hash-crc64ecma"])) {
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code": "CrcNotMatched",
-					"data": map[string]string{
+					"data": map[string]*string{
 						"clientCrc": ctx["crc"],
 						"serverCrc": response_.Headers["x-oss-hash-crc64ecma"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
-			if tea.BoolValue(client.IsEnableMD5) && !tea.BoolValue(util.EqualString(tea.String(ctx["md5"]), tea.String(response_.Headers["content-md5"]))) {
+			if tea.BoolValue(client.IsEnableMD5) && !tea.BoolValue(util.EqualString(ctx["md5"], response_.Headers["content-md5"])) {
 				_err = tea.NewSDKError(map[string]interface{}{
 					"code": "MD5NotMatched",
-					"data": map[string]string{
+					"data": map[string]*string{
 						"clientMD5": ctx["md5"],
 						"serverMD5": response_.Headers["content-md5"],
 					},
 				})
-				return nil, _err
+				return _result, _err
 			}
 
 			_result = &PutObjectResponse{}
 			_err = tea.Convert(response_.Headers, &_result)
 			return _result, _err
 		}()
-		if !tea.Retryable(_err) {
+		if !tea.BoolValue(tea.Retryable(_err)) {
 			break
 		}
 	}
@@ -15356,7 +15356,7 @@ func (client *Client) SetUserAgent(userAgent *string) {
 }
 
 func (client *Client) AppendUserAgent(userAgent *string) {
-	client.UserAgent = tea.String(tea.ToString(tea.StringValue(client.UserAgent)) + " " + tea.ToString(tea.StringValue(userAgent)))
+	client.UserAgent = tea.String(tea.StringValue(client.UserAgent) + " " + tea.StringValue(userAgent))
 }
 
 func (client *Client) GetUserAgent() (_result *string) {
@@ -15372,7 +15372,7 @@ func (client *Client) GetAccessKeyId() (_result *string, _err error) {
 
 	accessKeyId, _err := client.Credential.GetAccessKeyId()
 	if _err != nil {
-		return tea.String(""), _err
+		return _result, _err
 	}
 
 	_result = accessKeyId
@@ -15386,7 +15386,7 @@ func (client *Client) GetAccessKeySecret() (_result *string, _err error) {
 
 	secret, _err := client.Credential.GetAccessKeySecret()
 	if _err != nil {
-		return tea.String(""), _err
+		return _result, _err
 	}
 
 	_result = secret
