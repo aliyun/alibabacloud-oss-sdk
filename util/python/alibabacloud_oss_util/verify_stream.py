@@ -67,6 +67,9 @@ class VerifyStream:
         self.file_size = os.path.getsize(file.name)
         self._file_size = self.file_size
 
+    def __len__(self):
+        return self.file_size
+
     def __iter__(self):
         return self
 
