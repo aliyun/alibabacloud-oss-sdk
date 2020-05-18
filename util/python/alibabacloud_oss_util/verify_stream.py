@@ -2,6 +2,9 @@ import ctypes
 import hashlib
 import base64
 import os
+import sys
+
+from Tea.stream import BaseStream
 
 
 def int_overflow(val):
@@ -57,8 +60,9 @@ class CRC64:
             self.value = ~self.value
 
 
-class VerifyStream:
+class VerifyStream(BaseStream):
     def __init__(self, file, res, size=1024):
+        super().__init__(size)
         self.file = file
         self.size = size
         self.crc = CRC64()
@@ -74,30 +78,47 @@ class VerifyStream:
         return self
 
     def __next__(self):
-        res = self.file.read(self.size)
+        return self.read(size=self.size, loop=True)
+
+    def read(self, size=None, loop=False):
+        res = self.file.read(size)
+        if size is None:
+            size = sys.maxsize
+
         if isinstance(res, str):
             bres = res.encode('utf-8')
         else:
             bres = res
 
-        if not res:
-            raise StopIteration
+        if size <= self._file_size:
+            self.crc.update(bres)
+            self.md5.update(bres)
+        else:
+            self.ref['md5'] = base64.b64encode(self.md5.digest()).decode('utf-8')
+            self.ref['crc'] = self.crc.get_value()
 
-        if self.size is None or self.size >= self.file_size:
+        if not res:
+            self.refresh()
+            if loop:
+                raise StopIteration
+            else:
+                return res
+
+        if size == sys.maxsize or size >= self.file_size:
             self.crc.update(bres)
             self.md5.update(bres)
             self.ref['md5'] = base64.b64encode(self.md5.digest()).decode('utf-8')
             self.ref['crc'] = self.crc.get_value()
             return res
 
-        if len(bres) < self._file_size:
-            self.crc.update(bres)
-            self.md5.update(bres)
-        else:
-            self.ref['md5'] = base64.b64encode(self.md5.digest()).decode('utf-8')
-            self.ref['crc'] = self.crc.get_value()
-        self._file_size - len(bres)
+        self._file_size -= len(bres)
         return res
+
+    def refresh(self):
+        self.crc = CRC64()
+        self.md5 = hashlib.md5()
+        self.file.seek(0, 0)
+        self._file_size = self.file_size
 
     def close(self):
         self.file.close()
