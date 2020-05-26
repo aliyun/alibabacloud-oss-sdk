@@ -4,8 +4,8 @@
 
 namespace AlibabaCloud\SDK\OSS\OSS\GetServiceResponse;
 
-use AlibabaCloud\SDK\OSS\OSS\listAllMyBucketsResult\buckets;
-use AlibabaCloud\SDK\OSS\OSS\listAllMyBucketsResult\owner;
+use AlibabaCloud\SDK\OSS\OSS\GetServiceResponse\listAllMyBucketsResult\buckets;
+use AlibabaCloud\SDK\OSS\OSS\GetServiceResponse\listAllMyBucketsResult\owner;
 use AlibabaCloud\Tea\Model;
 
 class listAllMyBucketsResult extends Model
@@ -48,14 +48,14 @@ class listAllMyBucketsResult extends Model
     /**
      * @description Owner
      *
-     * @var listAllMyBucketsResult.owner
+     * @var owner
      */
     public $owner;
 
     /**
      * @description Buckets
      *
-     * @var listAllMyBucketsResult.buckets
+     * @var buckets
      */
     public $buckets;
     protected $_name = [

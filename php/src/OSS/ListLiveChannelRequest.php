@@ -19,7 +19,7 @@ class ListLiveChannelRequest extends Model
     /**
      * @description Filter
      *
-     * @var ListLiveChannelRequest.filter
+     * @var filter
      */
     public $filter;
     protected $_name = [

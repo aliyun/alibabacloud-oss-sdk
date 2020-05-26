@@ -19,7 +19,7 @@ class UploadPartCopyResponse extends Model
     /**
      * @description CopyPartResult
      *
-     * @var UploadPartCopyResponse.copyPartResult
+     * @var copyPartResult
      */
     public $copyPartResult;
     protected $_name = [

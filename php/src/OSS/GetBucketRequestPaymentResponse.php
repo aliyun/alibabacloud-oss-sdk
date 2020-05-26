@@ -19,7 +19,7 @@ class GetBucketRequestPaymentResponse extends Model
     /**
      * @description RequestPaymentConfiguration
      *
-     * @var GetBucketRequestPaymentResponse.requestPaymentConfiguration
+     * @var requestPaymentConfiguration
      */
     public $requestPaymentConfiguration;
     protected $_name = [

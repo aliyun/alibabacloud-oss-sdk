@@ -33,7 +33,7 @@ class UploadPartRequest extends Model
     /**
      * @description Filter
      *
-     * @var UploadPartRequest.filter
+     * @var filter
      */
     public $filter;
     protected $_name = [

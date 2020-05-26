@@ -27,14 +27,14 @@ class CompleteMultipartUploadRequest extends Model
     /**
      * @description Filter
      *
-     * @var CompleteMultipartUploadRequest.filter
+     * @var filter
      */
     public $filter;
 
     /**
      * @description Body
      *
-     * @var CompleteMultipartUploadRequest.body
+     * @var body
      */
     public $body;
     protected $_name = [

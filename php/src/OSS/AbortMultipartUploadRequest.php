@@ -26,7 +26,7 @@ class AbortMultipartUploadRequest extends Model
     /**
      * @description Filter
      *
-     * @var AbortMultipartUploadRequest.filter
+     * @var filter
      */
     public $filter;
     protected $_name = [

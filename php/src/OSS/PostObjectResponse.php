@@ -12,7 +12,7 @@ class PostObjectResponse extends Model
     /**
      * @description PostResponse
      *
-     * @var PostObjectResponse.postResponse
+     * @var postResponse
      */
     public $postResponse;
     protected $_name = [

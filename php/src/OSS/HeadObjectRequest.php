@@ -26,7 +26,7 @@ class HeadObjectRequest extends Model
     /**
      * @description Header
      *
-     * @var HeadObjectRequest.header
+     * @var header
      */
     public $header;
     protected $_name = [

@@ -20,14 +20,14 @@ class PutBucketRequest extends Model
     /**
      * @description Body
      *
-     * @var PutBucketRequest.body
+     * @var body
      */
     public $body;
 
     /**
      * @description Header
      *
-     * @var PutBucketRequest.header
+     * @var header
      */
     public $header;
     protected $_name = [

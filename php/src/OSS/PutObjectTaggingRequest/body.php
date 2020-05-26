@@ -4,7 +4,7 @@
 
 namespace AlibabaCloud\SDK\OSS\OSS\PutObjectTaggingRequest;
 
-use AlibabaCloud\SDK\OSS\OSS\body\tagging;
+use AlibabaCloud\SDK\OSS\OSS\PutObjectTaggingRequest\body\tagging;
 use AlibabaCloud\Tea\Model;
 
 class body extends Model
@@ -12,7 +12,7 @@ class body extends Model
     /**
      * @description Tagging
      *
-     * @var body.tagging
+     * @var tagging
      */
     public $tagging;
     protected $_name = [

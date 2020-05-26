@@ -4,7 +4,7 @@
 
 namespace AlibabaCloud\SDK\OSS\OSS\PutBucketLifecycleRequest;
 
-use AlibabaCloud\SDK\OSS\OSS\body\lifecycleConfiguration;
+use AlibabaCloud\SDK\OSS\OSS\PutBucketLifecycleRequest\body\lifecycleConfiguration;
 use AlibabaCloud\Tea\Model;
 
 class body extends Model
@@ -12,7 +12,7 @@ class body extends Model
     /**
      * @description LifecycleConfiguration
      *
-     * @var body.lifecycleConfiguration
+     * @var lifecycleConfiguration
      */
     public $lifecycleConfiguration;
     protected $_name = [

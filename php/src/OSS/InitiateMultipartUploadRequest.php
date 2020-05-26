@@ -27,14 +27,14 @@ class InitiateMultipartUploadRequest extends Model
     /**
      * @description Filter
      *
-     * @var InitiateMultipartUploadRequest.filter
+     * @var filter
      */
     public $filter;
 
     /**
      * @description Header
      *
-     * @var InitiateMultipartUploadRequest.header
+     * @var header
      */
     public $header;
     protected $_name = [

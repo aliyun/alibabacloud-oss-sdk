@@ -26,7 +26,7 @@ class GetLiveChannelStatRequest extends Model
     /**
      * @description Filter
      *
-     * @var GetLiveChannelStatRequest.filter
+     * @var filter
      */
     public $filter;
     protected $_name = [

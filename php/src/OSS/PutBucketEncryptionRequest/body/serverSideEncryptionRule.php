@@ -4,7 +4,7 @@
 
 namespace AlibabaCloud\SDK\OSS\OSS\PutBucketEncryptionRequest\body;
 
-use AlibabaCloud\SDK\OSS\OSS\serverSideEncryptionRule\applyServerSideEncryptionByDefault;
+use AlibabaCloud\SDK\OSS\OSS\PutBucketEncryptionRequest\body\serverSideEncryptionRule\applyServerSideEncryptionByDefault;
 use AlibabaCloud\Tea\Model;
 
 class serverSideEncryptionRule extends Model
@@ -12,7 +12,7 @@ class serverSideEncryptionRule extends Model
     /**
      * @description ApplyServerSideEncryptionByDefault
      *
-     * @var serverSideEncryptionRule.applyServerSideEncryptionByDefault
+     * @var applyServerSideEncryptionByDefault
      */
     public $applyServerSideEncryptionByDefault;
     protected $_name = [

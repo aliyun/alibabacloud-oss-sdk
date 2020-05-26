@@ -26,7 +26,7 @@ class GetVodPlaylistRequest extends Model
     /**
      * @description Filter
      *
-     * @var GetVodPlaylistRequest.filter
+     * @var filter
      */
     public $filter;
     protected $_name = [

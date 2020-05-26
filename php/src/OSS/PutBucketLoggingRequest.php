@@ -19,7 +19,7 @@ class PutBucketLoggingRequest extends Model
     /**
      * @description Body
      *
-     * @var PutBucketLoggingRequest.body
+     * @var body
      */
     public $body;
     protected $_name = [

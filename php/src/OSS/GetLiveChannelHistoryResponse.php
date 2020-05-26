@@ -19,7 +19,7 @@ class GetLiveChannelHistoryResponse extends Model
     /**
      * @description LiveChannelHistory
      *
-     * @var GetLiveChannelHistoryResponse.liveChannelHistory
+     * @var liveChannelHistory
      */
     public $liveChannelHistory;
     protected $_name = [

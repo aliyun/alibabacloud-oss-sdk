@@ -19,7 +19,7 @@ class GetBucketEncryptionResponse extends Model
     /**
      * @description ServerSideEncryptionRule
      *
-     * @var GetBucketEncryptionResponse.serverSideEncryptionRule
+     * @var serverSideEncryptionRule
      */
     public $serverSideEncryptionRule;
     protected $_name = [

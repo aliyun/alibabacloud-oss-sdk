@@ -12,7 +12,7 @@ class GetServiceRequest extends Model
     /**
      * @description Filter
      *
-     * @var GetServiceRequest.filter
+     * @var filter
      */
     public $filter;
     protected $_name = [

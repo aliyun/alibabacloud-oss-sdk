@@ -19,7 +19,7 @@ class GetServiceResponse extends Model
     /**
      * @description ListAllMyBucketsResult
      *
-     * @var GetServiceResponse.listAllMyBucketsResult
+     * @var listAllMyBucketsResult
      */
     public $listAllMyBucketsResult;
     protected $_name = [

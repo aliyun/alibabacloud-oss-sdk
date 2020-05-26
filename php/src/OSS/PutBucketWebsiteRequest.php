@@ -19,7 +19,7 @@ class PutBucketWebsiteRequest extends Model
     /**
      * @description Body
      *
-     * @var PutBucketWebsiteRequest.body
+     * @var body
      */
     public $body;
     protected $_name = [

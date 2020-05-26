@@ -19,7 +19,7 @@ class PutBucketCORSRequest extends Model
     /**
      * @description Body
      *
-     * @var PutBucketCORSRequest.body
+     * @var body
      */
     public $body;
     protected $_name = [

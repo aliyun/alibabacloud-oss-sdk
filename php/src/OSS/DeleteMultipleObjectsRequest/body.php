@@ -4,7 +4,7 @@
 
 namespace AlibabaCloud\SDK\OSS\OSS\DeleteMultipleObjectsRequest;
 
-use AlibabaCloud\SDK\OSS\OSS\body\delete;
+use AlibabaCloud\SDK\OSS\OSS\DeleteMultipleObjectsRequest\body\delete;
 use AlibabaCloud\Tea\Model;
 
 class body extends Model
@@ -12,7 +12,7 @@ class body extends Model
     /**
      * @description Delete
      *
-     * @var body.delete
+     * @var delete
      */
     public $delete;
     protected $_name = [

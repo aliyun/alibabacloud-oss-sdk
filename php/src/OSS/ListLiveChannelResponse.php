@@ -19,7 +19,7 @@ class ListLiveChannelResponse extends Model
     /**
      * @description ListLiveChannelResult
      *
-     * @var ListLiveChannelResponse.listLiveChannelResult
+     * @var listLiveChannelResult
      */
     public $listLiveChannelResult;
     protected $_name = [

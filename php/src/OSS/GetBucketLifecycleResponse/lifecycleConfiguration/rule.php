@@ -4,10 +4,10 @@
 
 namespace AlibabaCloud\SDK\OSS\OSS\GetBucketLifecycleResponse\lifecycleConfiguration;
 
-use AlibabaCloud\SDK\OSS\OSS\rule\abortMultipartUpload;
-use AlibabaCloud\SDK\OSS\OSS\rule\expiration;
-use AlibabaCloud\SDK\OSS\OSS\rule\tag;
-use AlibabaCloud\SDK\OSS\OSS\rule\transition;
+use AlibabaCloud\SDK\OSS\OSS\GetBucketLifecycleResponse\lifecycleConfiguration\rule\abortMultipartUpload;
+use AlibabaCloud\SDK\OSS\OSS\GetBucketLifecycleResponse\lifecycleConfiguration\rule\expiration;
+use AlibabaCloud\SDK\OSS\OSS\GetBucketLifecycleResponse\lifecycleConfiguration\rule\tag;
+use AlibabaCloud\SDK\OSS\OSS\GetBucketLifecycleResponse\lifecycleConfiguration\rule\transition;
 use AlibabaCloud\Tea\Model;
 
 class rule extends Model
@@ -36,28 +36,28 @@ class rule extends Model
     /**
      * @description Expiration
      *
-     * @var rule.expiration
+     * @var expiration
      */
     public $expiration;
 
     /**
      * @description Transition
      *
-     * @var rule.transition
+     * @var transition
      */
     public $transition;
 
     /**
      * @description AbortMultipartUpload
      *
-     * @var rule.abortMultipartUpload
+     * @var abortMultipartUpload
      */
     public $abortMultipartUpload;
 
     /**
      * @description Tag
      *
-     * @var rule.tag
+     * @var tag
      */
     public $tag;
     protected $_name = [

@@ -19,7 +19,7 @@ class GetLiveChannelInfoResponse extends Model
     /**
      * @description LiveChannelConfiguration
      *
-     * @var GetLiveChannelInfoResponse.liveChannelConfiguration
+     * @var liveChannelConfiguration
      */
     public $liveChannelConfiguration;
     protected $_name = [

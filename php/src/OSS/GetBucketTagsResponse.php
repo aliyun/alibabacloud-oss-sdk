@@ -19,7 +19,7 @@ class GetBucketTagsResponse extends Model
     /**
      * @description Tagging
      *
-     * @var GetBucketTagsResponse.tagging
+     * @var tagging
      */
     public $tagging;
     protected $_name = [

@@ -4,7 +4,7 @@
 
 namespace AlibabaCloud\SDK\OSS\OSS\GetBucketInfoResponse;
 
-use AlibabaCloud\SDK\OSS\OSS\bucketInfo\bucket;
+use AlibabaCloud\SDK\OSS\OSS\GetBucketInfoResponse\bucketInfo\bucket;
 use AlibabaCloud\Tea\Model;
 
 class bucketInfo extends Model
@@ -12,7 +12,7 @@ class bucketInfo extends Model
     /**
      * @description Bucket
      *
-     * @var bucketInfo.bucket
+     * @var bucket
      */
     public $bucket;
     protected $_name = [

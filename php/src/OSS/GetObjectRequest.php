@@ -26,7 +26,7 @@ class GetObjectRequest extends Model
     /**
      * @description Header
      *
-     * @var GetObjectRequest.header
+     * @var header
      */
     public $header;
     protected $_name = [

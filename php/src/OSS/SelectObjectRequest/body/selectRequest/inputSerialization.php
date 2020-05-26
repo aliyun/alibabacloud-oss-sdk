@@ -4,7 +4,7 @@
 
 namespace AlibabaCloud\SDK\OSS\OSS\SelectObjectRequest\body\selectRequest;
 
-use AlibabaCloud\SDK\OSS\OSS\inputSerialization\cSV;
+use AlibabaCloud\SDK\OSS\OSS\SelectObjectRequest\body\selectRequest\inputSerialization\cSV;
 use AlibabaCloud\Tea\Model;
 
 class inputSerialization extends Model
@@ -12,7 +12,7 @@ class inputSerialization extends Model
     /**
      * @description CSV
      *
-     * @var inputSerialization.cSV
+     * @var cSV
      */
     public $cSV;
 

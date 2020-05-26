@@ -26,7 +26,7 @@ class OptionObjectRequest extends Model
     /**
      * @description Header
      *
-     * @var OptionObjectRequest.header
+     * @var header
      */
     public $header;
     protected $_name = [

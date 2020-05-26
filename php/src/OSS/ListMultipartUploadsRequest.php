@@ -19,7 +19,7 @@ class ListMultipartUploadsRequest extends Model
     /**
      * @description Filter
      *
-     * @var ListMultipartUploadsRequest.filter
+     * @var filter
      */
     public $filter;
     protected $_name = [

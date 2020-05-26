@@ -4,7 +4,7 @@
 
 namespace AlibabaCloud\SDK\OSS\OSS\GetBucketWebsiteResponse\websiteConfiguration\routingRules\routingRule;
 
-use AlibabaCloud\SDK\OSS\OSS\redirect\mirrorHeaders;
+use AlibabaCloud\SDK\OSS\OSS\GetBucketWebsiteResponse\websiteConfiguration\routingRules\routingRule\redirect\mirrorHeaders;
 use AlibabaCloud\Tea\Model;
 
 class redirect extends Model
@@ -89,7 +89,7 @@ class redirect extends Model
     /**
      * @description MirrorHeaders
      *
-     * @var redirect.mirrorHeaders
+     * @var mirrorHeaders
      */
     public $mirrorHeaders;
     protected $_name = [

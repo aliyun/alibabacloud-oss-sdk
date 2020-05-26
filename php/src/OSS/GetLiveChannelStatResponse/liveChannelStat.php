@@ -4,8 +4,8 @@
 
 namespace AlibabaCloud\SDK\OSS\OSS\GetLiveChannelStatResponse;
 
-use AlibabaCloud\SDK\OSS\OSS\liveChannelStat\audio;
-use AlibabaCloud\SDK\OSS\OSS\liveChannelStat\video;
+use AlibabaCloud\SDK\OSS\OSS\GetLiveChannelStatResponse\liveChannelStat\audio;
+use AlibabaCloud\SDK\OSS\OSS\GetLiveChannelStatResponse\liveChannelStat\video;
 use AlibabaCloud\Tea\Model;
 
 class liveChannelStat extends Model
@@ -34,14 +34,14 @@ class liveChannelStat extends Model
     /**
      * @description Video
      *
-     * @var liveChannelStat.video
+     * @var video
      */
     public $video;
 
     /**
      * @description Audio
      *
-     * @var liveChannelStat.audio
+     * @var audio
      */
     public $audio;
     protected $_name = [

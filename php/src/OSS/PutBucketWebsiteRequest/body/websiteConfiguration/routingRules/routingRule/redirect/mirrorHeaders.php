@@ -4,7 +4,7 @@
 
 namespace AlibabaCloud\SDK\OSS\OSS\PutBucketWebsiteRequest\body\websiteConfiguration\routingRules\routingRule\redirect;
 
-use AlibabaCloud\SDK\OSS\OSS\mirrorHeaders\set;
+use AlibabaCloud\SDK\OSS\OSS\PutBucketWebsiteRequest\body\websiteConfiguration\routingRules\routingRule\redirect\mirrorHeaders\set;
 use AlibabaCloud\Tea\Model;
 
 class mirrorHeaders extends Model
@@ -12,7 +12,7 @@ class mirrorHeaders extends Model
     /**
      * @description Set
      *
-     * @var mirrorHeaders.set
+     * @var set
      */
     public $set;
 

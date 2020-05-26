@@ -26,7 +26,7 @@ class PutObjectAclRequest extends Model
     /**
      * @description Header
      *
-     * @var PutObjectAclRequest.header
+     * @var header
      */
     public $header;
     protected $_name = [

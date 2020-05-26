@@ -108,7 +108,7 @@ class header extends Model
             $model->successActionStatus = $map['success_action_status'];
         }
         if (isset($map['file'])) {
-            $model->file = \AlibabaCloud\SDK\OSS\OSS\FileField::fromMap($map['file']);
+            $model->file = FileField::fromMap($map['file']);
         }
         if (isset($map['key'])) {
             $model->key = $map['key'];

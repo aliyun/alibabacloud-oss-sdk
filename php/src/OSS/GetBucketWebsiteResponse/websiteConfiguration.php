@@ -4,9 +4,9 @@
 
 namespace AlibabaCloud\SDK\OSS\OSS\GetBucketWebsiteResponse;
 
-use AlibabaCloud\SDK\OSS\OSS\websiteConfiguration\errorDocument;
-use AlibabaCloud\SDK\OSS\OSS\websiteConfiguration\indexDocument;
-use AlibabaCloud\SDK\OSS\OSS\websiteConfiguration\routingRules;
+use AlibabaCloud\SDK\OSS\OSS\GetBucketWebsiteResponse\websiteConfiguration\errorDocument;
+use AlibabaCloud\SDK\OSS\OSS\GetBucketWebsiteResponse\websiteConfiguration\indexDocument;
+use AlibabaCloud\SDK\OSS\OSS\GetBucketWebsiteResponse\websiteConfiguration\routingRules;
 use AlibabaCloud\Tea\Model;
 
 class websiteConfiguration extends Model
@@ -14,21 +14,21 @@ class websiteConfiguration extends Model
     /**
      * @description IndexDocument
      *
-     * @var websiteConfiguration.indexDocument
+     * @var indexDocument
      */
     public $indexDocument;
 
     /**
      * @description ErrorDocument
      *
-     * @var websiteConfiguration.errorDocument
+     * @var errorDocument
      */
     public $errorDocument;
 
     /**
      * @description RoutingRules
      *
-     * @var websiteConfiguration.routingRules
+     * @var routingRules
      */
     public $routingRules;
     protected $_name = [

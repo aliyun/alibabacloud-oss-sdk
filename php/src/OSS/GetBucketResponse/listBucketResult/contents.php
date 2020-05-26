@@ -4,7 +4,7 @@
 
 namespace AlibabaCloud\SDK\OSS\OSS\GetBucketResponse\listBucketResult;
 
-use AlibabaCloud\SDK\OSS\OSS\contents\owner;
+use AlibabaCloud\SDK\OSS\OSS\GetBucketResponse\listBucketResult\contents\owner;
 use AlibabaCloud\Tea\Model;
 
 class contents extends Model
@@ -47,7 +47,7 @@ class contents extends Model
     /**
      * @description Owner
      *
-     * @var contents.owner
+     * @var owner
      */
     public $owner;
     protected $_name = [

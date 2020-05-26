@@ -4,9 +4,9 @@
 
 namespace AlibabaCloud\SDK\OSS\OSS\SelectObjectRequest\body;
 
-use AlibabaCloud\SDK\OSS\OSS\selectRequest\inputSerialization;
-use AlibabaCloud\SDK\OSS\OSS\selectRequest\options;
-use AlibabaCloud\SDK\OSS\OSS\selectRequest\outputSerialization;
+use AlibabaCloud\SDK\OSS\OSS\SelectObjectRequest\body\selectRequest\inputSerialization;
+use AlibabaCloud\SDK\OSS\OSS\SelectObjectRequest\body\selectRequest\options;
+use AlibabaCloud\SDK\OSS\OSS\SelectObjectRequest\body\selectRequest\outputSerialization;
 use AlibabaCloud\Tea\Model;
 
 class selectRequest extends Model
@@ -14,21 +14,21 @@ class selectRequest extends Model
     /**
      * @description InputSerialization
      *
-     * @var selectRequest.inputSerialization
+     * @var inputSerialization
      */
     public $inputSerialization;
 
     /**
      * @description OutputSerialization
      *
-     * @var selectRequest.outputSerialization
+     * @var outputSerialization
      */
     public $outputSerialization;
 
     /**
      * @description Options
      *
-     * @var selectRequest.options
+     * @var options
      */
     public $options;
 

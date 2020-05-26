@@ -4,7 +4,7 @@
 
 namespace AlibabaCloud\SDK\OSS\OSS\PutLiveChannelRequest;
 
-use AlibabaCloud\SDK\OSS\OSS\body\liveChannelConfiguration;
+use AlibabaCloud\SDK\OSS\OSS\PutLiveChannelRequest\body\liveChannelConfiguration;
 use AlibabaCloud\Tea\Model;
 
 class body extends Model
@@ -12,7 +12,7 @@ class body extends Model
     /**
      * @description LiveChannelConfiguration
      *
-     * @var body.liveChannelConfiguration
+     * @var liveChannelConfiguration
      */
     public $liveChannelConfiguration;
     protected $_name = [

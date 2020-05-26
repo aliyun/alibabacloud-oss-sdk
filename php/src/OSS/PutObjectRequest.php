@@ -40,7 +40,7 @@ class PutObjectRequest extends Model
     /**
      * @description Header
      *
-     * @var PutObjectRequest.header
+     * @var header
      */
     public $header;
     protected $_name = [

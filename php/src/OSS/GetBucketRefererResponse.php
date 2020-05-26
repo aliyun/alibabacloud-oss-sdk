@@ -19,7 +19,7 @@ class GetBucketRefererResponse extends Model
     /**
      * @description RefererConfiguration
      *
-     * @var GetBucketRefererResponse.refererConfiguration
+     * @var refererConfiguration
      */
     public $refererConfiguration;
     protected $_name = [

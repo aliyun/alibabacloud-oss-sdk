@@ -19,7 +19,7 @@ class GetObjectAclResponse extends Model
     /**
      * @description AccessControlPolicy
      *
-     * @var GetObjectAclResponse.accessControlPolicy
+     * @var accessControlPolicy
      */
     public $accessControlPolicy;
     protected $_name = [

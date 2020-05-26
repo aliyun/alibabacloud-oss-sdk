@@ -4,7 +4,7 @@
 
 namespace AlibabaCloud\SDK\OSS\OSS\CompleteMultipartUploadRequest;
 
-use AlibabaCloud\SDK\OSS\OSS\body\completeMultipartUpload;
+use AlibabaCloud\SDK\OSS\OSS\CompleteMultipartUploadRequest\body\completeMultipartUpload;
 use AlibabaCloud\Tea\Model;
 
 class body extends Model
@@ -12,7 +12,7 @@ class body extends Model
     /**
      * @description CompleteMultipartUpload
      *
-     * @var body.completeMultipartUpload
+     * @var completeMultipartUpload
      */
     public $completeMultipartUpload;
     protected $_name = [

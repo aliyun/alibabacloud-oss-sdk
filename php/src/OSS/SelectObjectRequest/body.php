@@ -4,7 +4,7 @@
 
 namespace AlibabaCloud\SDK\OSS\OSS\SelectObjectRequest;
 
-use AlibabaCloud\SDK\OSS\OSS\body\selectRequest;
+use AlibabaCloud\SDK\OSS\OSS\SelectObjectRequest\body\selectRequest;
 use AlibabaCloud\Tea\Model;
 
 class body extends Model
@@ -12,7 +12,7 @@ class body extends Model
     /**
      * @description SelectRequest
      *
-     * @var body.selectRequest
+     * @var selectRequest
      */
     public $selectRequest;
     protected $_name = [

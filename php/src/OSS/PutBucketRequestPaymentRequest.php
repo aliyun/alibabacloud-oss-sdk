@@ -19,7 +19,7 @@ class PutBucketRequestPaymentRequest extends Model
     /**
      * @description Body
      *
-     * @var PutBucketRequestPaymentRequest.body
+     * @var body
      */
     public $body;
     protected $_name = [

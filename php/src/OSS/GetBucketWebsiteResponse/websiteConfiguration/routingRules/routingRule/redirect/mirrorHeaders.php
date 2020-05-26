@@ -4,7 +4,7 @@
 
 namespace AlibabaCloud\SDK\OSS\OSS\GetBucketWebsiteResponse\websiteConfiguration\routingRules\routingRule\redirect;
 
-use AlibabaCloud\SDK\OSS\OSS\mirrorHeaders\set;
+use AlibabaCloud\SDK\OSS\OSS\GetBucketWebsiteResponse\websiteConfiguration\routingRules\routingRule\redirect\mirrorHeaders\set;
 use AlibabaCloud\Tea\Model;
 
 class mirrorHeaders extends Model
@@ -33,7 +33,7 @@ class mirrorHeaders extends Model
     /**
      * @description Set
      *
-     * @var mirrorHeaders.set
+     * @var set
      */
     public $set;
     protected $_name = [

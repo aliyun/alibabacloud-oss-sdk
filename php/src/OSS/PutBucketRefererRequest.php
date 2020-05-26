@@ -19,7 +19,7 @@ class PutBucketRefererRequest extends Model
     /**
      * @description Body
      *
-     * @var PutBucketRefererRequest.body
+     * @var body
      */
     public $body;
     protected $_name = [

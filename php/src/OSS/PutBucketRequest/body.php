@@ -4,7 +4,7 @@
 
 namespace AlibabaCloud\SDK\OSS\OSS\PutBucketRequest;
 
-use AlibabaCloud\SDK\OSS\OSS\body\createBucketConfiguration;
+use AlibabaCloud\SDK\OSS\OSS\PutBucketRequest\body\createBucketConfiguration;
 use AlibabaCloud\Tea\Model;
 
 class body extends Model
@@ -12,7 +12,7 @@ class body extends Model
     /**
      * @description CreateBucketConfiguration
      *
-     * @var body.createBucketConfiguration
+     * @var createBucketConfiguration
      */
     public $createBucketConfiguration;
     protected $_name = [

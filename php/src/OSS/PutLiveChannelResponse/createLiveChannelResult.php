@@ -4,8 +4,8 @@
 
 namespace AlibabaCloud\SDK\OSS\OSS\PutLiveChannelResponse;
 
-use AlibabaCloud\SDK\OSS\OSS\createLiveChannelResult\playUrls;
-use AlibabaCloud\SDK\OSS\OSS\createLiveChannelResult\publishUrls;
+use AlibabaCloud\SDK\OSS\OSS\PutLiveChannelResponse\createLiveChannelResult\playUrls;
+use AlibabaCloud\SDK\OSS\OSS\PutLiveChannelResponse\createLiveChannelResult\publishUrls;
 use AlibabaCloud\Tea\Model;
 
 class createLiveChannelResult extends Model
@@ -13,14 +13,14 @@ class createLiveChannelResult extends Model
     /**
      * @description PublishUrls
      *
-     * @var createLiveChannelResult.publishUrls
+     * @var publishUrls
      */
     public $publishUrls;
 
     /**
      * @description PlayUrls
      *
-     * @var createLiveChannelResult.playUrls
+     * @var playUrls
      */
     public $playUrls;
     protected $_name = [
