@@ -4,7 +4,7 @@
 
 namespace AlibabaCloud\SDK\OSS\OSS\GetObjectTaggingResponse;
 
-use AlibabaCloud\SDK\OSS\OSS\tagging\tagSet;
+use AlibabaCloud\SDK\OSS\OSS\GetObjectTaggingResponse\tagging\tagSet;
 use AlibabaCloud\Tea\Model;
 
 class tagging extends Model
@@ -12,7 +12,7 @@ class tagging extends Model
     /**
      * @description TagSet
      *
-     * @var tagging.tagSet
+     * @var tagSet
      */
     public $tagSet;
     protected $_name = [

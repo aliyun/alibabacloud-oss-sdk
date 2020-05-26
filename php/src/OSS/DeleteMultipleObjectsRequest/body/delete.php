@@ -35,11 +35,8 @@ class delete extends Model
     {
         $res           = [];
         $res['Object'] = [];
-        if (null !== $this->object && \is_array($this->object)) {
-            $n = 0;
-            foreach ($this->object as $item) {
-                $res['Object'][$n++] = null !== $item ? $item->toMap() : $item;
-            }
+        if (null !== $this->object) {
+            $res['Object'] = $this->object;
         }
         $res['Quiet'] = $this->quiet;
 
@@ -57,10 +54,7 @@ class delete extends Model
         if (isset($map['Object'])) {
             if (!empty($map['Object'])) {
                 $model->object = [];
-                $n             = 0;
-                foreach ($map['Object'] as $item) {
-                    $model->object[$n++] = null !== $item ? object::fromMap($item) : $item;
-                }
+                $model->object = $map['Object'];
             }
         }
         if (isset($map['Quiet'])) {

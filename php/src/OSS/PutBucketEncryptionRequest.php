@@ -19,7 +19,7 @@ class PutBucketEncryptionRequest extends Model
     /**
      * @description Body
      *
-     * @var PutBucketEncryptionRequest.body
+     * @var body
      */
     public $body;
     protected $_name = [

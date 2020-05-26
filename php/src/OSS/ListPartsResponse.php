@@ -19,7 +19,7 @@ class ListPartsResponse extends Model
     /**
      * @description ListPartsResult
      *
-     * @var ListPartsResponse.listPartsResult
+     * @var listPartsResult
      */
     public $listPartsResult;
     protected $_name = [

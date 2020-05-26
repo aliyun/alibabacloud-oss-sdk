@@ -19,7 +19,7 @@ class PutBucketTagsRequest extends Model
     /**
      * @description Body
      *
-     * @var PutBucketTagsRequest.body
+     * @var body
      */
     public $body;
     protected $_name = [

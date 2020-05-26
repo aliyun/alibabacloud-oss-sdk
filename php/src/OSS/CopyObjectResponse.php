@@ -19,7 +19,7 @@ class CopyObjectResponse extends Model
     /**
      * @description CopyObjectResult
      *
-     * @var CopyObjectResponse.copyObjectResult
+     * @var copyObjectResult
      */
     public $copyObjectResult;
     protected $_name = [

@@ -27,14 +27,14 @@ class SelectObjectRequest extends Model
     /**
      * @description Filter
      *
-     * @var SelectObjectRequest.filter
+     * @var filter
      */
     public $filter;
 
     /**
      * @description Body
      *
-     * @var SelectObjectRequest.body
+     * @var body
      */
     public $body;
     protected $_name = [

@@ -19,7 +19,7 @@ class GetBucketInfoResponse extends Model
     /**
      * @description BucketInfo
      *
-     * @var GetBucketInfoResponse.bucketInfo
+     * @var bucketInfo
      */
     public $bucketInfo;
     protected $_name = [

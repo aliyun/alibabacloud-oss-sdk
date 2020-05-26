@@ -19,7 +19,7 @@ class DeleteMultipleObjectsResponse extends Model
     /**
      * @description DeleteResult
      *
-     * @var DeleteMultipleObjectsResponse.deleteResult
+     * @var deleteResult
      */
     public $deleteResult;
     protected $_name = [

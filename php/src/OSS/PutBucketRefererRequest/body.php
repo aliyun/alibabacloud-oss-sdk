@@ -4,7 +4,7 @@
 
 namespace AlibabaCloud\SDK\OSS\OSS\PutBucketRefererRequest;
 
-use AlibabaCloud\SDK\OSS\OSS\body\refererConfiguration;
+use AlibabaCloud\SDK\OSS\OSS\PutBucketRefererRequest\body\refererConfiguration;
 use AlibabaCloud\Tea\Model;
 
 class body extends Model
@@ -12,7 +12,7 @@ class body extends Model
     /**
      * @description RefererConfiguration
      *
-     * @var body.refererConfiguration
+     * @var refererConfiguration
      */
     public $refererConfiguration;
     protected $_name = [

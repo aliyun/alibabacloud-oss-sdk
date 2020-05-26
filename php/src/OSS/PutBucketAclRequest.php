@@ -19,7 +19,7 @@ class PutBucketAclRequest extends Model
     /**
      * @description Header
      *
-     * @var PutBucketAclRequest.header
+     * @var header
      */
     public $header;
     protected $_name = [

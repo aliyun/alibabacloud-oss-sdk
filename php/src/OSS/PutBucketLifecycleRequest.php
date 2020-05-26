@@ -19,7 +19,7 @@ class PutBucketLifecycleRequest extends Model
     /**
      * @description Body
      *
-     * @var PutBucketLifecycleRequest.body
+     * @var body
      */
     public $body;
     protected $_name = [

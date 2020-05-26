@@ -4,8 +4,8 @@
 
 namespace AlibabaCloud\SDK\OSS\OSS\PutBucketWebsiteRequest\body\websiteConfiguration\routingRules;
 
-use AlibabaCloud\SDK\OSS\OSS\routingRule\condition;
-use AlibabaCloud\SDK\OSS\OSS\routingRule\redirect;
+use AlibabaCloud\SDK\OSS\OSS\PutBucketWebsiteRequest\body\websiteConfiguration\routingRules\routingRule\condition;
+use AlibabaCloud\SDK\OSS\OSS\PutBucketWebsiteRequest\body\websiteConfiguration\routingRules\routingRule\redirect;
 use AlibabaCloud\Tea\Model;
 
 class routingRule extends Model
@@ -13,14 +13,14 @@ class routingRule extends Model
     /**
      * @description Condition
      *
-     * @var routingRule.condition
+     * @var condition
      */
     public $condition;
 
     /**
      * @description Redirect
      *
-     * @var routingRule.redirect
+     * @var redirect
      */
     public $redirect;
 

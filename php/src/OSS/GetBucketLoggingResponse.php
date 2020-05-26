@@ -19,7 +19,7 @@ class GetBucketLoggingResponse extends Model
     /**
      * @description BucketLoggingStatus
      *
-     * @var GetBucketLoggingResponse.bucketLoggingStatus
+     * @var bucketLoggingStatus
      */
     public $bucketLoggingStatus;
     protected $_name = [

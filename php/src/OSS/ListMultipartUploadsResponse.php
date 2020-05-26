@@ -19,7 +19,7 @@ class ListMultipartUploadsResponse extends Model
     /**
      * @description ListMultipartUploadsResult
      *
-     * @var ListMultipartUploadsResponse.listMultipartUploadsResult
+     * @var listMultipartUploadsResult
      */
     public $listMultipartUploadsResult;
     protected $_name = [

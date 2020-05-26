@@ -4,7 +4,7 @@
 
 namespace AlibabaCloud\SDK\OSS\OSS\PutBucketCORSRequest;
 
-use AlibabaCloud\SDK\OSS\OSS\body\cORSConfiguration;
+use AlibabaCloud\SDK\OSS\OSS\PutBucketCORSRequest\body\cORSConfiguration;
 use AlibabaCloud\Tea\Model;
 
 class body extends Model
@@ -12,7 +12,7 @@ class body extends Model
     /**
      * @description CORSConfiguration
      *
-     * @var body.cORSConfiguration
+     * @var cORSConfiguration
      */
     public $cORSConfiguration;
     protected $_name = [

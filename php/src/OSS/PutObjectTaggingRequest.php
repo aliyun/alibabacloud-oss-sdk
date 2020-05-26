@@ -26,7 +26,7 @@ class PutObjectTaggingRequest extends Model
     /**
      * @description Body
      *
-     * @var PutObjectTaggingRequest.body
+     * @var body
      */
     public $body;
     protected $_name = [

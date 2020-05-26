@@ -26,7 +26,7 @@ class CopyObjectRequest extends Model
     /**
      * @description Header
      *
-     * @var CopyObjectRequest.header
+     * @var header
      */
     public $header;
     protected $_name = [

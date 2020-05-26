@@ -4,8 +4,8 @@
 
 namespace AlibabaCloud\SDK\OSS\OSS\GetBucketAclResponse;
 
-use AlibabaCloud\SDK\OSS\OSS\accessControlPolicy\accessControlList;
-use AlibabaCloud\SDK\OSS\OSS\accessControlPolicy\owner;
+use AlibabaCloud\SDK\OSS\OSS\GetBucketAclResponse\accessControlPolicy\accessControlList;
+use AlibabaCloud\SDK\OSS\OSS\GetBucketAclResponse\accessControlPolicy\owner;
 use AlibabaCloud\Tea\Model;
 
 class accessControlPolicy extends Model
@@ -13,14 +13,14 @@ class accessControlPolicy extends Model
     /**
      * @description Owner
      *
-     * @var accessControlPolicy.owner
+     * @var owner
      */
     public $owner;
 
     /**
      * @description AccessControlList
      *
-     * @var accessControlPolicy.accessControlList
+     * @var accessControlList
      */
     public $accessControlList;
     protected $_name = [

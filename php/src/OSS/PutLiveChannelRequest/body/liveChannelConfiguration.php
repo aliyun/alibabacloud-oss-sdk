@@ -4,8 +4,8 @@
 
 namespace AlibabaCloud\SDK\OSS\OSS\PutLiveChannelRequest\body;
 
-use AlibabaCloud\SDK\OSS\OSS\liveChannelConfiguration\snapshot;
-use AlibabaCloud\SDK\OSS\OSS\liveChannelConfiguration\target;
+use AlibabaCloud\SDK\OSS\OSS\PutLiveChannelRequest\body\liveChannelConfiguration\snapshot;
+use AlibabaCloud\SDK\OSS\OSS\PutLiveChannelRequest\body\liveChannelConfiguration\target;
 use AlibabaCloud\Tea\Model;
 
 class liveChannelConfiguration extends Model
@@ -13,14 +13,14 @@ class liveChannelConfiguration extends Model
     /**
      * @description Target
      *
-     * @var liveChannelConfiguration.target
+     * @var target
      */
     public $target;
 
     /**
      * @description Snapshot
      *
-     * @var liveChannelConfiguration.snapshot
+     * @var snapshot
      */
     public $snapshot;
 

@@ -19,7 +19,7 @@ class CompleteMultipartUploadResponse extends Model
     /**
      * @description CompleteMultipartUploadResult
      *
-     * @var CompleteMultipartUploadResponse.completeMultipartUploadResult
+     * @var completeMultipartUploadResult
      */
     public $completeMultipartUploadResult;
     protected $_name = [

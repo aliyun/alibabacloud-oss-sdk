@@ -19,7 +19,7 @@ class GetBucketCORSResponse extends Model
     /**
      * @description CORSConfiguration
      *
-     * @var GetBucketCORSResponse.cORSConfiguration
+     * @var cORSConfiguration
      */
     public $cORSConfiguration;
     protected $_name = [

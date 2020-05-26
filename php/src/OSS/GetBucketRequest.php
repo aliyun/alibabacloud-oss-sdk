@@ -19,7 +19,7 @@ class GetBucketRequest extends Model
     /**
      * @description Filter
      *
-     * @var GetBucketRequest.filter
+     * @var filter
      */
     public $filter;
     protected $_name = [

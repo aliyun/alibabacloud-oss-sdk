@@ -4,7 +4,7 @@
 
 namespace AlibabaCloud\SDK\OSS\OSS\GetBucketRefererResponse;
 
-use AlibabaCloud\SDK\OSS\OSS\refererConfiguration\refererList;
+use AlibabaCloud\SDK\OSS\OSS\GetBucketRefererResponse\refererConfiguration\refererList;
 use AlibabaCloud\Tea\Model;
 
 class refererConfiguration extends Model
@@ -19,7 +19,7 @@ class refererConfiguration extends Model
     /**
      * @description RefererList
      *
-     * @var refererConfiguration.refererList
+     * @var refererList
      */
     public $refererList;
     protected $_name = [

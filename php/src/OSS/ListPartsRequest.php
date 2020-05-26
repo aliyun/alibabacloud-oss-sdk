@@ -26,7 +26,7 @@ class ListPartsRequest extends Model
     /**
      * @description Filter
      *
-     * @var ListPartsRequest.filter
+     * @var filter
      */
     public $filter;
     protected $_name = [

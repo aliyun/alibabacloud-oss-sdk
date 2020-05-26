@@ -19,7 +19,7 @@ class GetObjectTaggingResponse extends Model
     /**
      * @description Tagging
      *
-     * @var GetObjectTaggingResponse.tagging
+     * @var tagging
      */
     public $tagging;
     protected $_name = [

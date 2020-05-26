@@ -33,7 +33,7 @@ class PostVodPlaylistRequest extends Model
     /**
      * @description Filter
      *
-     * @var PostVodPlaylistRequest.filter
+     * @var filter
      */
     public $filter;
     protected $_name = [

@@ -19,7 +19,7 @@ class GetBucketAclResponse extends Model
     /**
      * @description AccessControlPolicy
      *
-     * @var GetBucketAclResponse.accessControlPolicy
+     * @var accessControlPolicy
      */
     public $accessControlPolicy;
     protected $_name = [

@@ -26,7 +26,7 @@ class PutLiveChannelStatusRequest extends Model
     /**
      * @description Filter
      *
-     * @var PutLiveChannelStatusRequest.filter
+     * @var filter
      */
     public $filter;
     protected $_name = [

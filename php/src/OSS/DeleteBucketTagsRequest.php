@@ -19,7 +19,7 @@ class DeleteBucketTagsRequest extends Model
     /**
      * @description Filter
      *
-     * @var DeleteBucketTagsRequest.filter
+     * @var filter
      */
     public $filter;
     protected $_name = [

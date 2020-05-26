@@ -19,7 +19,7 @@ class PostObjectRequest extends Model
     /**
      * @description header
      *
-     * @var PostObjectRequest.header
+     * @var header
      */
     public $header;
     protected $_name = [

@@ -19,7 +19,7 @@ class GetBucketLifecycleResponse extends Model
     /**
      * @description LifecycleConfiguration
      *
-     * @var GetBucketLifecycleResponse.lifecycleConfiguration
+     * @var lifecycleConfiguration
      */
     public $lifecycleConfiguration;
     protected $_name = [

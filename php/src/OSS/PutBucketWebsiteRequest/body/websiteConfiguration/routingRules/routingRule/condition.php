@@ -4,7 +4,7 @@
 
 namespace AlibabaCloud\SDK\OSS\OSS\PutBucketWebsiteRequest\body\websiteConfiguration\routingRules\routingRule;
 
-use AlibabaCloud\SDK\OSS\OSS\condition\includeHeader;
+use AlibabaCloud\SDK\OSS\OSS\PutBucketWebsiteRequest\body\websiteConfiguration\routingRules\routingRule\condition\includeHeader;
 use AlibabaCloud\Tea\Model;
 
 class condition extends Model
@@ -12,7 +12,7 @@ class condition extends Model
     /**
      * @description IncludeHeader
      *
-     * @var condition.includeHeader
+     * @var includeHeader
      */
     public $includeHeader;
 

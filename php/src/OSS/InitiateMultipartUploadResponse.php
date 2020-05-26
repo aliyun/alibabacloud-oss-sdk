@@ -19,7 +19,7 @@ class InitiateMultipartUploadResponse extends Model
     /**
      * @description InitiateMultipartUploadResult
      *
-     * @var InitiateMultipartUploadResponse.initiateMultipartUploadResult
+     * @var initiateMultipartUploadResult
      */
     public $initiateMultipartUploadResult;
     protected $_name = [

@@ -4,7 +4,7 @@
 
 namespace AlibabaCloud\SDK\OSS\OSS\PutBucketWebsiteRequest;
 
-use AlibabaCloud\SDK\OSS\OSS\body\websiteConfiguration;
+use AlibabaCloud\SDK\OSS\OSS\PutBucketWebsiteRequest\body\websiteConfiguration;
 use AlibabaCloud\Tea\Model;
 
 class body extends Model
@@ -12,7 +12,7 @@ class body extends Model
     /**
      * @description WebsiteConfiguration
      *
-     * @var body.websiteConfiguration
+     * @var websiteConfiguration
      */
     public $websiteConfiguration;
     protected $_name = [

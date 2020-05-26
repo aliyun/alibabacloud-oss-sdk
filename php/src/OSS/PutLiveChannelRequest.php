@@ -26,7 +26,7 @@ class PutLiveChannelRequest extends Model
     /**
      * @description Body
      *
-     * @var PutLiveChannelRequest.body
+     * @var body
      */
     public $body;
     protected $_name = [

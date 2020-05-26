@@ -4,7 +4,7 @@
 
 namespace AlibabaCloud\SDK\OSS\OSS\ListLiveChannelResponse;
 
-use AlibabaCloud\SDK\OSS\OSS\listLiveChannelResult\liveChannel;
+use AlibabaCloud\SDK\OSS\OSS\ListLiveChannelResponse\listLiveChannelResult\liveChannel;
 use AlibabaCloud\Tea\Model;
 
 class listLiveChannelResult extends Model
@@ -47,7 +47,7 @@ class listLiveChannelResult extends Model
     /**
      * @description LiveChannel
      *
-     * @var listLiveChannelResult.liveChannel
+     * @var liveChannel
      */
     public $liveChannel;
     protected $_name = [

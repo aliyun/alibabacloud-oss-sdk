@@ -27,14 +27,14 @@ class UploadPartCopyRequest extends Model
     /**
      * @description Filter
      *
-     * @var UploadPartCopyRequest.filter
+     * @var filter
      */
     public $filter;
 
     /**
      * @description Header
      *
-     * @var UploadPartCopyRequest.header
+     * @var header
      */
     public $header;
     protected $_name = [

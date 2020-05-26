@@ -26,7 +26,7 @@ class PutSymlinkRequest extends Model
     /**
      * @description Header
      *
-     * @var PutSymlinkRequest.header
+     * @var header
      */
     public $header;
     protected $_name = [

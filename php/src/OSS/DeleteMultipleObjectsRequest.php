@@ -20,14 +20,14 @@ class DeleteMultipleObjectsRequest extends Model
     /**
      * @description Body
      *
-     * @var DeleteMultipleObjectsRequest.body
+     * @var body
      */
     public $body;
 
     /**
      * @description Header
      *
-     * @var DeleteMultipleObjectsRequest.header
+     * @var header
      */
     public $header;
     protected $_name = [

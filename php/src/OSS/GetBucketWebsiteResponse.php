@@ -19,7 +19,7 @@ class GetBucketWebsiteResponse extends Model
     /**
      * @description WebsiteConfiguration
      *
-     * @var GetBucketWebsiteResponse.websiteConfiguration
+     * @var websiteConfiguration
      */
     public $websiteConfiguration;
     protected $_name = [

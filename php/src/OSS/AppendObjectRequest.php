@@ -41,14 +41,14 @@ class AppendObjectRequest extends Model
     /**
      * @description Filter
      *
-     * @var AppendObjectRequest.filter
+     * @var filter
      */
     public $filter;
 
     /**
      * @description Header
      *
-     * @var AppendObjectRequest.header
+     * @var header
      */
     public $header;
     protected $_name = [

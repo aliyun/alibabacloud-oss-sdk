@@ -19,7 +19,7 @@ class GetBucketResponse extends Model
     /**
      * @description ListBucketResult
      *
-     * @var GetBucketResponse.listBucketResult
+     * @var listBucketResult
      */
     public $listBucketResult;
     protected $_name = [

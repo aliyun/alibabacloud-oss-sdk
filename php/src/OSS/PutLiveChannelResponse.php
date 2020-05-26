@@ -19,7 +19,7 @@ class PutLiveChannelResponse extends Model
     /**
      * @description CreateLiveChannelResult
      *
-     * @var PutLiveChannelResponse.createLiveChannelResult
+     * @var createLiveChannelResult
      */
     public $createLiveChannelResult;
     protected $_name = [
