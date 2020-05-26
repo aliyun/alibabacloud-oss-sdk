@@ -19,6 +19,10 @@ class VerifyStream extends Stream
     {
         $this->crcRead = new Crc64();
         $this->res     = &$res;
+        if ($stream instanceof Stream) {
+            $stream->rewind();
+            $stream = fopen('data://text/plain;base64,' . base64_encode($stream->getContents()), 'r');
+        }
         parent::__construct($stream, []);
     }
 
