@@ -14,6 +14,7 @@
 - [OSS SDK for .Net](./csharp/README-CN.md)
 - [OSS SDK for TypeScript/Node.js](./ts/README-CN.md)
 - [OSS SDK for PHP](./php/README-CN.md)
+- [OSS SDK for Python](./python/README-CN.md)
 
 ## 问题
 

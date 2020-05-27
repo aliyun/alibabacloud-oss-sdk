@@ -19,7 +19,8 @@
 		"java": "com.aliyun:oss-client:2.0.1",
 		"csharp": "AlibabaCloud.SDK.OSS.Client:1.0.1",
 		"ts": "@alicloud/oss-client:^1.1.2",
-		"php": "alibabacloud/tea-oss-sdk:^0.3.0"
+		"php": "alibabacloud/tea-oss-sdk:^0.3.0",
+		"python": "alibabacloud_oss_sdk:0.0.1"
 	},
 	"java": {
 		"package": "com.aliyun.oss"
@@ -35,6 +36,17 @@
 			"name": "alibabacloud/tea-oss-sdk",
 			"desc": "Aliyun Tea OSS SDK Library for PHP",
 			"github": "https://github.com/aliyun/alibabacloud-oss-sdk"
+		}
+	},
+	"python": {
+		"package": "alibabacloud_oss_sdk",
+		"clientName": "client",
+		"packageInfo": {
+			"name": "alibabacloud_oss_sdk",
+			"desc": "Aliyun Tea OSS SDK Library for Python",
+			"github": "https://github.com/aliyun/alibabacloud-oss-sdk",
+			"author": "Alibaba Cloud",
+			"email": "alibaba-cloud-sdk-dev-team@list.alibaba-inc.com"
 		}
 	},
 	"libraries": {
