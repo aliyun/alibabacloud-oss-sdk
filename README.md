@@ -14,6 +14,7 @@ English | [简体中文](README-CN.md)
 - [OSS SDK for .Net](./csharp/README.md)
 - [OSS SDK for TypeScript/Node.js](./ts/README.md)
 - [OSS SDK for PHP](./php/README.md)
+- [OSS SDK for Python](./python/README.md)
 
 ## Issues
 
