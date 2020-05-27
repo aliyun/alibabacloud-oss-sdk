@@ -42,7 +42,7 @@ VERSION = __import__(PACKAGE).__version__
 REQUIRES = ["alibabacloud_tea_util>=0.0.2", "alibabacloud_oss_util>=0.0.1", "alibabacloud_tea_xml>=0.0.1",
             "alibabacloud_tea_fileform>=0.0.1", "alibabacloud_credentials>=0.0.1"]
 
-desc_file = open("README.md")
+desc_file = open("README.md", encoding='utf-8')
 try:
     LONG_DESCRIPTION = desc_file.read()
 finally:
