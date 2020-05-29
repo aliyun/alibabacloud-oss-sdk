@@ -4,7 +4,7 @@ from alibabacloud_tea_fileform import models as file_form_models
 
 
 class Config(TeaModel):
-    def __init__(self, type="", security_token="", access_key_id="", access_key_secret="", endpoint="", protocol="", region_id="", user_agent="", host_model="", signature_version="", is_enable_md5=False, is_enable_crc=False, read_timeout=0, connect_timeout=0, local_addr="", http_proxy="", https_proxy="", no_proxy="", socks_5proxy="", socks_5net_work="", max_idle_conns=0, addtional_headers=None):
+    def __init__(self, type=None, security_token=None, access_key_id=None, access_key_secret=None, endpoint=None, protocol=None, region_id=None, user_agent=None, host_model=None, signature_version=None, is_enable_md5=None, is_enable_crc=None, read_timeout=None, connect_timeout=None, local_addr=None, http_proxy=None, https_proxy=None, no_proxy=None, socks_5proxy=None, socks_5net_work=None, max_idle_conns=None, addtional_headers=None):
         self.type = type
         self.security_token = security_token
         self.access_key_id = access_key_id
@@ -95,7 +95,7 @@ class Config(TeaModel):
 
 
 class PutBucketLifecycleRequest(TeaModel):
-    def __init__(self, bucket_name="", body=None):
+    def __init__(self, bucket_name=None, body=None):
         self.bucket_name = bucket_name
         self.body = body
 
@@ -124,7 +124,7 @@ class PutBucketLifecycleRequest(TeaModel):
 
 
 class PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration(TeaModel):
-    def __init__(self, days=0, created_before_date=""):
+    def __init__(self, days=None, created_before_date=None):
         self.days = days
         self.created_before_date = created_before_date
 
@@ -144,7 +144,7 @@ class PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration(TeaModel
 
 
 class PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition(TeaModel):
-    def __init__(self, days=0, storage_class=""):
+    def __init__(self, days=None, storage_class=None):
         self.days = days
         self.storage_class = storage_class
 
@@ -164,7 +164,7 @@ class PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition(TeaModel
 
 
 class PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUpload(TeaModel):
-    def __init__(self, days=0, created_before_date=""):
+    def __init__(self, days=None, created_before_date=None):
         self.days = days
         self.created_before_date = created_before_date
 
@@ -184,7 +184,7 @@ class PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUploa
 
 
 class PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag(TeaModel):
-    def __init__(self, key="", value=""):
+    def __init__(self, key=None, value=None):
         self.key = key
         self.value = value
 
@@ -204,7 +204,7 @@ class PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag(TeaModel):
 
 
 class PutBucketLifecycleRequestBodyLifecycleConfigurationRule(TeaModel):
-    def __init__(self, expiration=None, transition=None, abort_multipart_upload=None, tag=None, i_d="", prefix="", status=""):
+    def __init__(self, expiration=None, transition=None, abort_multipart_upload=None, tag=None, i_d=None, prefix=None, status=None):
         self.expiration = expiration
         self.transition = transition
         self.abort_multipart_upload = abort_multipart_upload
@@ -332,7 +332,7 @@ class PutBucketLifecycleRequestBody(TeaModel):
 
 
 class PutBucketLifecycleResponse(TeaModel):
-    def __init__(self, request_id=""):
+    def __init__(self, request_id=None):
         self.request_id = request_id
 
     def validate(self):
@@ -349,7 +349,7 @@ class PutBucketLifecycleResponse(TeaModel):
 
 
 class DeleteMultipleObjectsRequest(TeaModel):
-    def __init__(self, bucket_name="", body=None, header=None):
+    def __init__(self, bucket_name=None, body=None, header=None):
         self.bucket_name = bucket_name
         self.body = body
         self.header = header
@@ -391,7 +391,7 @@ class DeleteMultipleObjectsRequest(TeaModel):
 
 
 class DeleteMultipleObjectsRequestBodyDeleteObject(TeaModel):
-    def __init__(self, key=""):
+    def __init__(self, key=None):
         self.key = key
 
     def validate(self):
@@ -408,7 +408,7 @@ class DeleteMultipleObjectsRequestBodyDeleteObject(TeaModel):
 
 
 class DeleteMultipleObjectsRequestBodyDelete(TeaModel):
-    def __init__(self, object=None, quiet=""):
+    def __init__(self, object=None, quiet=None):
         self.object = []
         self.quiet = quiet
 
@@ -469,7 +469,7 @@ class DeleteMultipleObjectsRequestBody(TeaModel):
 
 
 class DeleteMultipleObjectsRequestHeader(TeaModel):
-    def __init__(self, encoding_type="", content_length="", content_md5=""):
+    def __init__(self, encoding_type=None, content_length=None, content_md5=None):
         self.encoding_type = encoding_type
         self.content_length = content_length
         self.content_md5 = content_md5
@@ -493,7 +493,7 @@ class DeleteMultipleObjectsRequestHeader(TeaModel):
 
 
 class DeleteMultipleObjectsResponse(TeaModel):
-    def __init__(self, request_id="", delete_result=None):
+    def __init__(self, request_id=None, delete_result=None):
         self.request_id = request_id
         self.delete_result = delete_result
 
@@ -523,7 +523,7 @@ class DeleteMultipleObjectsResponse(TeaModel):
 
 
 class DeleteMultipleObjectsResponseDeleteResultDeleted(TeaModel):
-    def __init__(self, key=""):
+    def __init__(self, key=None):
         self.key = key
 
     def validate(self):
@@ -540,7 +540,7 @@ class DeleteMultipleObjectsResponseDeleteResultDeleted(TeaModel):
 
 
 class DeleteMultipleObjectsResponseDeleteResult(TeaModel):
-    def __init__(self, quiet="", encoding_type="", deleted=None):
+    def __init__(self, quiet=None, encoding_type=None, deleted=None):
         self.quiet = quiet
         self.encoding_type = encoding_type
         self.deleted = []
@@ -578,7 +578,7 @@ class DeleteMultipleObjectsResponseDeleteResult(TeaModel):
 
 
 class PutBucketRefererRequest(TeaModel):
-    def __init__(self, bucket_name="", body=None):
+    def __init__(self, bucket_name=None, body=None):
         self.bucket_name = bucket_name
         self.body = body
 
@@ -634,7 +634,7 @@ class PutBucketRefererRequestBodyRefererConfigurationRefererList(TeaModel):
 
 
 class PutBucketRefererRequestBodyRefererConfiguration(TeaModel):
-    def __init__(self, referer_list=None, allow_empty_referer=False):
+    def __init__(self, referer_list=None, allow_empty_referer=None):
         self.referer_list = referer_list
         self.allow_empty_referer = allow_empty_referer
 
@@ -688,7 +688,7 @@ class PutBucketRefererRequestBody(TeaModel):
 
 
 class PutBucketRefererResponse(TeaModel):
-    def __init__(self, request_id=""):
+    def __init__(self, request_id=None):
         self.request_id = request_id
 
     def validate(self):
@@ -705,7 +705,7 @@ class PutBucketRefererResponse(TeaModel):
 
 
 class PutBucketWebsiteRequest(TeaModel):
-    def __init__(self, bucket_name="", body=None):
+    def __init__(self, bucket_name=None, body=None):
         self.bucket_name = bucket_name
         self.body = body
 
@@ -734,7 +734,7 @@ class PutBucketWebsiteRequest(TeaModel):
 
 
 class PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument(TeaModel):
-    def __init__(self, suffix=""):
+    def __init__(self, suffix=None):
         self.suffix = suffix
 
     def validate(self):
@@ -751,7 +751,7 @@ class PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument(TeaModel):
 
 
 class PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument(TeaModel):
-    def __init__(self, key=""):
+    def __init__(self, key=None):
         self.key = key
 
     def validate(self):
@@ -768,7 +768,7 @@ class PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument(TeaModel):
 
 
 class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader(TeaModel):
-    def __init__(self, key="", equals=""):
+    def __init__(self, key=None, equals=None):
         self.key = key
         self.equals = equals
 
@@ -788,7 +788,7 @@ class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCond
 
 
 class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCondition(TeaModel):
-    def __init__(self, include_header=None, key_prefix_equals="", http_error_code_returned_equals=""):
+    def __init__(self, include_header=None, key_prefix_equals=None, http_error_code_returned_equals=None):
         self.include_header = include_header
         self.key_prefix_equals = key_prefix_equals
         self.http_error_code_returned_equals = http_error_code_returned_equals
@@ -819,7 +819,7 @@ class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCond
 
 
 class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet(TeaModel):
-    def __init__(self, key="", value=""):
+    def __init__(self, key=None, value=None):
         self.key = key
         self.value = value
 
@@ -839,7 +839,7 @@ class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedi
 
 
 class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders(TeaModel):
-    def __init__(self, set=None, pass_all=False, pass_="", remove=""):
+    def __init__(self, set=None, pass_all=None, pass_=None, remove=None):
         self.set = set
         self.pass_all = pass_all
         self.pass_ = pass_
@@ -873,7 +873,7 @@ class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedi
 
 
 class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect(TeaModel):
-    def __init__(self, mirror_headers=None, redirect_type="", pass_query_string=False, mirror_url="", mirror_pass_query_string=False, mirror_follow_redirect=False, mirror_check_md_5=False, protocol="", host_name="", http_redirect_code="", replace_key_prefix_with="", replace_key_with=""):
+    def __init__(self, mirror_headers=None, redirect_type=None, pass_query_string=None, mirror_url=None, mirror_pass_query_string=None, mirror_follow_redirect=None, mirror_check_md_5=None, protocol=None, host_name=None, http_redirect_code=None, replace_key_prefix_with=None, replace_key_with=None):
         self.mirror_headers = mirror_headers
         self.redirect_type = redirect_type
         self.pass_query_string = pass_query_string
@@ -931,7 +931,7 @@ class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedi
 
 
 class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule(TeaModel):
-    def __init__(self, condition=None, redirect=None, rule_number=0):
+    def __init__(self, condition=None, redirect=None, rule_number=None):
         self.condition = condition
         self.redirect = redirect
         self.rule_number = rule_number
@@ -1078,7 +1078,7 @@ class PutBucketWebsiteRequestBody(TeaModel):
 
 
 class PutBucketWebsiteResponse(TeaModel):
-    def __init__(self, request_id=""):
+    def __init__(self, request_id=None):
         self.request_id = request_id
 
     def validate(self):
@@ -1095,7 +1095,7 @@ class PutBucketWebsiteResponse(TeaModel):
 
 
 class CompleteMultipartUploadRequest(TeaModel):
-    def __init__(self, bucket_name="", object_name="", filter=None, body=None):
+    def __init__(self, bucket_name=None, object_name=None, filter=None, body=None):
         self.bucket_name = bucket_name
         self.object_name = object_name
         self.filter = filter
@@ -1141,7 +1141,7 @@ class CompleteMultipartUploadRequest(TeaModel):
 
 
 class CompleteMultipartUploadRequestFilter(TeaModel):
-    def __init__(self, upload_id="", encoding_type=""):
+    def __init__(self, upload_id=None, encoding_type=None):
         self.upload_id = upload_id
         self.encoding_type = encoding_type
 
@@ -1161,7 +1161,7 @@ class CompleteMultipartUploadRequestFilter(TeaModel):
 
 
 class CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart(TeaModel):
-    def __init__(self, part_number="", e_tag=""):
+    def __init__(self, part_number=None, e_tag=None):
         self.part_number = part_number
         self.e_tag = e_tag
 
@@ -1239,7 +1239,7 @@ class CompleteMultipartUploadRequestBody(TeaModel):
 
 
 class CompleteMultipartUploadResponse(TeaModel):
-    def __init__(self, request_id="", complete_multipart_upload_result=None):
+    def __init__(self, request_id=None, complete_multipart_upload_result=None):
         self.request_id = request_id
         self.complete_multipart_upload_result = complete_multipart_upload_result
 
@@ -1269,7 +1269,7 @@ class CompleteMultipartUploadResponse(TeaModel):
 
 
 class CompleteMultipartUploadResponseCompleteMultipartUploadResult(TeaModel):
-    def __init__(self, bucket="", e_tag="", location="", key="", encoding_type=""):
+    def __init__(self, bucket=None, e_tag=None, location=None, key=None, encoding_type=None):
         self.bucket = bucket
         self.e_tag = e_tag
         self.location = location
@@ -1298,7 +1298,7 @@ class CompleteMultipartUploadResponseCompleteMultipartUploadResult(TeaModel):
 
 
 class PutBucketLoggingRequest(TeaModel):
-    def __init__(self, bucket_name="", body=None):
+    def __init__(self, bucket_name=None, body=None):
         self.bucket_name = bucket_name
         self.body = body
 
@@ -1327,7 +1327,7 @@ class PutBucketLoggingRequest(TeaModel):
 
 
 class PutBucketLoggingRequestBodyBucketLoggingStatusLoggingEnabled(TeaModel):
-    def __init__(self, target_bucket="", target_prefix=""):
+    def __init__(self, target_bucket=None, target_prefix=None):
         self.target_bucket = target_bucket
         self.target_prefix = target_prefix
 
@@ -1398,7 +1398,7 @@ class PutBucketLoggingRequestBody(TeaModel):
 
 
 class PutBucketLoggingResponse(TeaModel):
-    def __init__(self, request_id=""):
+    def __init__(self, request_id=None):
         self.request_id = request_id
 
     def validate(self):
@@ -1415,7 +1415,7 @@ class PutBucketLoggingResponse(TeaModel):
 
 
 class PutBucketRequestPaymentRequest(TeaModel):
-    def __init__(self, bucket_name="", body=None):
+    def __init__(self, bucket_name=None, body=None):
         self.bucket_name = bucket_name
         self.body = body
 
@@ -1444,7 +1444,7 @@ class PutBucketRequestPaymentRequest(TeaModel):
 
 
 class PutBucketRequestPaymentRequestBodyRequestPaymentConfiguration(TeaModel):
-    def __init__(self, payer=""):
+    def __init__(self, payer=None):
         self.payer = payer
 
     def validate(self):
@@ -1487,7 +1487,7 @@ class PutBucketRequestPaymentRequestBody(TeaModel):
 
 
 class PutBucketRequestPaymentResponse(TeaModel):
-    def __init__(self, request_id=""):
+    def __init__(self, request_id=None):
         self.request_id = request_id
 
     def validate(self):
@@ -1504,7 +1504,7 @@ class PutBucketRequestPaymentResponse(TeaModel):
 
 
 class PutBucketEncryptionRequest(TeaModel):
-    def __init__(self, bucket_name="", body=None):
+    def __init__(self, bucket_name=None, body=None):
         self.bucket_name = bucket_name
         self.body = body
 
@@ -1533,7 +1533,7 @@ class PutBucketEncryptionRequest(TeaModel):
 
 
 class PutBucketEncryptionRequestBodyServerSideEncryptionRuleApplyServerSideEncryptionByDefault(TeaModel):
-    def __init__(self, s_sealgorithm="", k_msmaster_key_id=""):
+    def __init__(self, s_sealgorithm=None, k_msmaster_key_id=None):
         self.s_sealgorithm = s_sealgorithm
         self.k_msmaster_key_id = k_msmaster_key_id
 
@@ -1604,7 +1604,7 @@ class PutBucketEncryptionRequestBody(TeaModel):
 
 
 class PutBucketEncryptionResponse(TeaModel):
-    def __init__(self, request_id=""):
+    def __init__(self, request_id=None):
         self.request_id = request_id
 
     def validate(self):
@@ -1621,7 +1621,7 @@ class PutBucketEncryptionResponse(TeaModel):
 
 
 class PutLiveChannelRequest(TeaModel):
-    def __init__(self, bucket_name="", channel_name="", body=None):
+    def __init__(self, bucket_name=None, channel_name=None, body=None):
         self.bucket_name = bucket_name
         self.channel_name = channel_name
         self.body = body
@@ -1654,7 +1654,7 @@ class PutLiveChannelRequest(TeaModel):
 
 
 class PutLiveChannelRequestBodyLiveChannelConfigurationTarget(TeaModel):
-    def __init__(self, type="", frag_duration="", frag_count="", playlist_name=""):
+    def __init__(self, type=None, frag_duration=None, frag_count=None, playlist_name=None):
         self.type = type
         self.frag_duration = frag_duration
         self.frag_count = frag_count
@@ -1680,7 +1680,7 @@ class PutLiveChannelRequestBodyLiveChannelConfigurationTarget(TeaModel):
 
 
 class PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot(TeaModel):
-    def __init__(self, role_name="", dest_bucket="", notify_topic="", interval=""):
+    def __init__(self, role_name=None, dest_bucket=None, notify_topic=None, interval=None):
         self.role_name = role_name
         self.dest_bucket = dest_bucket
         self.notify_topic = notify_topic
@@ -1706,7 +1706,7 @@ class PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot(TeaModel):
 
 
 class PutLiveChannelRequestBodyLiveChannelConfiguration(TeaModel):
-    def __init__(self, target=None, snapshot=None, description="", status=""):
+    def __init__(self, target=None, snapshot=None, description=None, status=None):
         self.target = target
         self.snapshot = snapshot
         self.description = description
@@ -1775,7 +1775,7 @@ class PutLiveChannelRequestBody(TeaModel):
 
 
 class PutLiveChannelResponse(TeaModel):
-    def __init__(self, request_id="", create_live_channel_result=None):
+    def __init__(self, request_id=None, create_live_channel_result=None):
         self.request_id = request_id
         self.create_live_channel_result = create_live_channel_result
 
@@ -1805,7 +1805,7 @@ class PutLiveChannelResponse(TeaModel):
 
 
 class PutLiveChannelResponseCreateLiveChannelResultPublishUrls(TeaModel):
-    def __init__(self, url=""):
+    def __init__(self, url=None):
         self.url = url
 
     def validate(self):
@@ -1822,7 +1822,7 @@ class PutLiveChannelResponseCreateLiveChannelResultPublishUrls(TeaModel):
 
 
 class PutLiveChannelResponseCreateLiveChannelResultPlayUrls(TeaModel):
-    def __init__(self, url=""):
+    def __init__(self, url=None):
         self.url = url
 
     def validate(self):
@@ -1878,7 +1878,7 @@ class PutLiveChannelResponseCreateLiveChannelResult(TeaModel):
 
 
 class PutBucketTagsRequest(TeaModel):
-    def __init__(self, bucket_name="", body=None):
+    def __init__(self, bucket_name=None, body=None):
         self.bucket_name = bucket_name
         self.body = body
 
@@ -1907,7 +1907,7 @@ class PutBucketTagsRequest(TeaModel):
 
 
 class PutBucketTagsRequestBodyTaggingTagSetTag(TeaModel):
-    def __init__(self, key="", value=""):
+    def __init__(self, key=None, value=None):
         self.key = key
         self.value = value
 
@@ -2010,7 +2010,7 @@ class PutBucketTagsRequestBody(TeaModel):
 
 
 class PutBucketTagsResponse(TeaModel):
-    def __init__(self, request_id=""):
+    def __init__(self, request_id=None):
         self.request_id = request_id
 
     def validate(self):
@@ -2027,7 +2027,7 @@ class PutBucketTagsResponse(TeaModel):
 
 
 class PutObjectTaggingRequest(TeaModel):
-    def __init__(self, bucket_name="", object_name="", body=None):
+    def __init__(self, bucket_name=None, object_name=None, body=None):
         self.bucket_name = bucket_name
         self.object_name = object_name
         self.body = body
@@ -2060,7 +2060,7 @@ class PutObjectTaggingRequest(TeaModel):
 
 
 class PutObjectTaggingRequestBodyTaggingTagSetTag(TeaModel):
-    def __init__(self, key="", value=""):
+    def __init__(self, key=None, value=None):
         self.key = key
         self.value = value
 
@@ -2163,7 +2163,7 @@ class PutObjectTaggingRequestBody(TeaModel):
 
 
 class PutObjectTaggingResponse(TeaModel):
-    def __init__(self, request_id=""):
+    def __init__(self, request_id=None):
         self.request_id = request_id
 
     def validate(self):
@@ -2180,7 +2180,7 @@ class PutObjectTaggingResponse(TeaModel):
 
 
 class SelectObjectRequest(TeaModel):
-    def __init__(self, bucket_name="", object_name="", filter=None, body=None):
+    def __init__(self, bucket_name=None, object_name=None, filter=None, body=None):
         self.bucket_name = bucket_name
         self.object_name = object_name
         self.filter = filter
@@ -2226,7 +2226,7 @@ class SelectObjectRequest(TeaModel):
 
 
 class SelectObjectRequestFilter(TeaModel):
-    def __init__(self, porcess=""):
+    def __init__(self, porcess=None):
         self.porcess = porcess
 
     def validate(self):
@@ -2243,7 +2243,7 @@ class SelectObjectRequestFilter(TeaModel):
 
 
 class SelectObjectRequestBodySelectRequestInputSerializationCSV(TeaModel):
-    def __init__(self, file_header_info="", record_delimiter="", field_delimiter="", quote_character="", comment_character="", range=""):
+    def __init__(self, file_header_info=None, record_delimiter=None, field_delimiter=None, quote_character=None, comment_character=None, range=None):
         self.file_header_info = file_header_info
         self.record_delimiter = record_delimiter
         self.field_delimiter = field_delimiter
@@ -2275,7 +2275,7 @@ class SelectObjectRequestBodySelectRequestInputSerializationCSV(TeaModel):
 
 
 class SelectObjectRequestBodySelectRequestInputSerialization(TeaModel):
-    def __init__(self, c_sv=None, compression_type=""):
+    def __init__(self, c_sv=None, compression_type=None):
         self.c_sv = c_sv
         self.compression_type = compression_type
 
@@ -2303,7 +2303,7 @@ class SelectObjectRequestBodySelectRequestInputSerialization(TeaModel):
 
 
 class SelectObjectRequestBodySelectRequestOutputSerializationCSV(TeaModel):
-    def __init__(self, record_delimiter="", field_delimiter=""):
+    def __init__(self, record_delimiter=None, field_delimiter=None):
         self.record_delimiter = record_delimiter
         self.field_delimiter = field_delimiter
 
@@ -2323,7 +2323,7 @@ class SelectObjectRequestBodySelectRequestOutputSerializationCSV(TeaModel):
 
 
 class SelectObjectRequestBodySelectRequestOutputSerialization(TeaModel):
-    def __init__(self, c_sv=None, keep_all_columns="", output_raw_data="", enable_payload_crc="", output_header=""):
+    def __init__(self, c_sv=None, keep_all_columns=None, output_raw_data=None, enable_payload_crc=None, output_header=None):
         self.c_sv = c_sv
         self.keep_all_columns = keep_all_columns
         self.output_raw_data = output_raw_data
@@ -2360,7 +2360,7 @@ class SelectObjectRequestBodySelectRequestOutputSerialization(TeaModel):
 
 
 class SelectObjectRequestBodySelectRequestOptions(TeaModel):
-    def __init__(self, skip_partial_data_record="", max_skipped_records_allowed=""):
+    def __init__(self, skip_partial_data_record=None, max_skipped_records_allowed=None):
         self.skip_partial_data_record = skip_partial_data_record
         self.max_skipped_records_allowed = max_skipped_records_allowed
 
@@ -2380,7 +2380,7 @@ class SelectObjectRequestBodySelectRequestOptions(TeaModel):
 
 
 class SelectObjectRequestBodySelectRequest(TeaModel):
-    def __init__(self, input_serialization=None, output_serialization=None, options=None, expression=""):
+    def __init__(self, input_serialization=None, output_serialization=None, options=None, expression=None):
         self.input_serialization = input_serialization
         self.output_serialization = output_serialization
         self.options = options
@@ -2458,7 +2458,7 @@ class SelectObjectRequestBody(TeaModel):
 
 
 class SelectObjectResponse(TeaModel):
-    def __init__(self, request_id=""):
+    def __init__(self, request_id=None):
         self.request_id = request_id
 
     def validate(self):
@@ -2475,7 +2475,7 @@ class SelectObjectResponse(TeaModel):
 
 
 class PutBucketCORSRequest(TeaModel):
-    def __init__(self, bucket_name="", body=None):
+    def __init__(self, bucket_name=None, body=None):
         self.bucket_name = bucket_name
         self.body = body
 
@@ -2504,7 +2504,7 @@ class PutBucketCORSRequest(TeaModel):
 
 
 class PutBucketCORSRequestBodyCORSConfigurationCORSRule(TeaModel):
-    def __init__(self, allowed_origin=None, allowed_method=None, allowed_header=None, expose_header=None, max_age_seconds=""):
+    def __init__(self, allowed_origin=None, allowed_method=None, allowed_header=None, expose_header=None, max_age_seconds=None):
         self.allowed_origin = []
         self.allowed_method = []
         self.allowed_header = []
@@ -2631,7 +2631,7 @@ class PutBucketCORSRequestBody(TeaModel):
 
 
 class PutBucketCORSResponse(TeaModel):
-    def __init__(self, request_id=""):
+    def __init__(self, request_id=None):
         self.request_id = request_id
 
     def validate(self):
@@ -2648,7 +2648,7 @@ class PutBucketCORSResponse(TeaModel):
 
 
 class PutBucketRequest(TeaModel):
-    def __init__(self, bucket_name="", body=None, header=None):
+    def __init__(self, bucket_name=None, body=None, header=None):
         self.bucket_name = bucket_name
         self.body = body
         self.header = header
@@ -2689,7 +2689,7 @@ class PutBucketRequest(TeaModel):
 
 
 class PutBucketRequestBodyCreateBucketConfiguration(TeaModel):
-    def __init__(self, storage_class="", data_redundancy_type=""):
+    def __init__(self, storage_class=None, data_redundancy_type=None):
         self.storage_class = storage_class
         self.data_redundancy_type = data_redundancy_type
 
@@ -2735,7 +2735,7 @@ class PutBucketRequestBody(TeaModel):
 
 
 class PutBucketRequestHeader(TeaModel):
-    def __init__(self, acl=""):
+    def __init__(self, acl=None):
         self.acl = acl
 
     def validate(self):
@@ -2752,7 +2752,7 @@ class PutBucketRequestHeader(TeaModel):
 
 
 class PutBucketResponse(TeaModel):
-    def __init__(self, request_id=""):
+    def __init__(self, request_id=None):
         self.request_id = request_id
 
     def validate(self):
@@ -2769,7 +2769,7 @@ class PutBucketResponse(TeaModel):
 
 
 class ListMultipartUploadsRequest(TeaModel):
-    def __init__(self, bucket_name="", filter=None):
+    def __init__(self, bucket_name=None, filter=None):
         self.bucket_name = bucket_name
         self.filter = filter
 
@@ -2798,7 +2798,7 @@ class ListMultipartUploadsRequest(TeaModel):
 
 
 class ListMultipartUploadsRequestFilter(TeaModel):
-    def __init__(self, delimiter="", max_uploads="", key_marker="", prefix="", upload_id_marker="", encoding_type=""):
+    def __init__(self, delimiter=None, max_uploads=None, key_marker=None, prefix=None, upload_id_marker=None, encoding_type=None):
         self.delimiter = delimiter
         self.max_uploads = max_uploads
         self.key_marker = key_marker
@@ -2830,7 +2830,7 @@ class ListMultipartUploadsRequestFilter(TeaModel):
 
 
 class ListMultipartUploadsResponse(TeaModel):
-    def __init__(self, request_id="", list_multipart_uploads_result=None):
+    def __init__(self, request_id=None, list_multipart_uploads_result=None):
         self.request_id = request_id
         self.list_multipart_uploads_result = list_multipart_uploads_result
 
@@ -2860,7 +2860,7 @@ class ListMultipartUploadsResponse(TeaModel):
 
 
 class ListMultipartUploadsResponseListMultipartUploadsResultUpload(TeaModel):
-    def __init__(self, key="", upload_id="", initiated=""):
+    def __init__(self, key=None, upload_id=None, initiated=None):
         self.key = key
         self.upload_id = upload_id
         self.initiated = initiated
@@ -2883,7 +2883,7 @@ class ListMultipartUploadsResponseListMultipartUploadsResultUpload(TeaModel):
 
 
 class ListMultipartUploadsResponseListMultipartUploadsResult(TeaModel):
-    def __init__(self, bucket="", encoding_type="", key_marker="", upload_id_marker="", next_key_marker="", next_upload_id_marker="", delimiter="", max_uploads="", is_truncated="", upload=None):
+    def __init__(self, bucket=None, encoding_type=None, key_marker=None, upload_id_marker=None, next_key_marker=None, next_upload_id_marker=None, delimiter=None, max_uploads=None, is_truncated=None, upload=None):
         self.bucket = bucket
         self.encoding_type = encoding_type
         self.key_marker = key_marker
@@ -2942,7 +2942,7 @@ class ListMultipartUploadsResponseListMultipartUploadsResult(TeaModel):
 
 
 class GetBucketRequestPaymentRequest(TeaModel):
-    def __init__(self, bucket_name=""):
+    def __init__(self, bucket_name=None):
         self.bucket_name = bucket_name
 
     def validate(self):
@@ -2959,7 +2959,7 @@ class GetBucketRequestPaymentRequest(TeaModel):
 
 
 class GetBucketRequestPaymentResponse(TeaModel):
-    def __init__(self, request_id="", request_payment_configuration=None):
+    def __init__(self, request_id=None, request_payment_configuration=None):
         self.request_id = request_id
         self.request_payment_configuration = request_payment_configuration
 
@@ -2989,7 +2989,7 @@ class GetBucketRequestPaymentResponse(TeaModel):
 
 
 class GetBucketRequestPaymentResponseRequestPaymentConfiguration(TeaModel):
-    def __init__(self, payer=""):
+    def __init__(self, payer=None):
         self.payer = payer
 
     def validate(self):
@@ -3006,7 +3006,7 @@ class GetBucketRequestPaymentResponseRequestPaymentConfiguration(TeaModel):
 
 
 class GetBucketEncryptionRequest(TeaModel):
-    def __init__(self, bucket_name=""):
+    def __init__(self, bucket_name=None):
         self.bucket_name = bucket_name
 
     def validate(self):
@@ -3023,7 +3023,7 @@ class GetBucketEncryptionRequest(TeaModel):
 
 
 class GetBucketEncryptionResponse(TeaModel):
-    def __init__(self, request_id="", server_side_encryption_rule=None):
+    def __init__(self, request_id=None, server_side_encryption_rule=None):
         self.request_id = request_id
         self.server_side_encryption_rule = server_side_encryption_rule
 
@@ -3053,7 +3053,7 @@ class GetBucketEncryptionResponse(TeaModel):
 
 
 class GetBucketEncryptionResponseServerSideEncryptionRuleApplyServerSideEncryptionByDefault(TeaModel):
-    def __init__(self, s_sealgorithm="", k_msmaster_key_id=""):
+    def __init__(self, s_sealgorithm=None, k_msmaster_key_id=None):
         self.s_sealgorithm = s_sealgorithm
         self.k_msmaster_key_id = k_msmaster_key_id
 
@@ -3099,7 +3099,7 @@ class GetBucketEncryptionResponseServerSideEncryptionRule(TeaModel):
 
 
 class GetBucketTagsRequest(TeaModel):
-    def __init__(self, bucket_name=""):
+    def __init__(self, bucket_name=None):
         self.bucket_name = bucket_name
 
     def validate(self):
@@ -3116,7 +3116,7 @@ class GetBucketTagsRequest(TeaModel):
 
 
 class GetBucketTagsResponse(TeaModel):
-    def __init__(self, request_id="", tagging=None):
+    def __init__(self, request_id=None, tagging=None):
         self.request_id = request_id
         self.tagging = tagging
 
@@ -3146,7 +3146,7 @@ class GetBucketTagsResponse(TeaModel):
 
 
 class GetBucketTagsResponseTaggingTagSetTag(TeaModel):
-    def __init__(self, key="", value=""):
+    def __init__(self, key=None, value=None):
         self.key = key
         self.value = value
 
@@ -3249,7 +3249,7 @@ class GetServiceRequest(TeaModel):
 
 
 class GetServiceRequestFilter(TeaModel):
-    def __init__(self, prefix="", marker="", max_keys=""):
+    def __init__(self, prefix=None, marker=None, max_keys=None):
         self.prefix = prefix
         self.marker = marker
         self.max_keys = max_keys
@@ -3272,7 +3272,7 @@ class GetServiceRequestFilter(TeaModel):
 
 
 class GetServiceResponse(TeaModel):
-    def __init__(self, request_id="", list_all_my_buckets_result=None):
+    def __init__(self, request_id=None, list_all_my_buckets_result=None):
         self.request_id = request_id
         self.list_all_my_buckets_result = list_all_my_buckets_result
 
@@ -3302,7 +3302,7 @@ class GetServiceResponse(TeaModel):
 
 
 class GetServiceResponseListAllMyBucketsResultOwner(TeaModel):
-    def __init__(self, i_d="", display_name=""):
+    def __init__(self, i_d=None, display_name=None):
         self.i_d = i_d
         self.display_name = display_name
 
@@ -3322,7 +3322,7 @@ class GetServiceResponseListAllMyBucketsResultOwner(TeaModel):
 
 
 class GetServiceResponseListAllMyBucketsResultBucketsBucket(TeaModel):
-    def __init__(self, name="", create_date="", location="", extranet_endpoint="", intranet_endpoint="", storage_class=""):
+    def __init__(self, name=None, create_date=None, location=None, extranet_endpoint=None, intranet_endpoint=None, storage_class=None):
         self.name = name
         self.create_date = create_date
         self.location = location
@@ -3386,7 +3386,7 @@ class GetServiceResponseListAllMyBucketsResultBuckets(TeaModel):
 
 
 class GetServiceResponseListAllMyBucketsResult(TeaModel):
-    def __init__(self, prefix="", marker="", max_keys="", is_truncated="", next_marker="", owner=None, buckets=None):
+    def __init__(self, prefix=None, marker=None, max_keys=None, is_truncated=None, next_marker=None, owner=None, buckets=None):
         self.prefix = prefix
         self.marker = marker
         self.max_keys = max_keys
@@ -3440,7 +3440,7 @@ class GetServiceResponseListAllMyBucketsResult(TeaModel):
 
 
 class DeleteBucketEncryptionRequest(TeaModel):
-    def __init__(self, bucket_name=""):
+    def __init__(self, bucket_name=None):
         self.bucket_name = bucket_name
 
     def validate(self):
@@ -3457,7 +3457,7 @@ class DeleteBucketEncryptionRequest(TeaModel):
 
 
 class DeleteBucketEncryptionResponse(TeaModel):
-    def __init__(self, request_id=""):
+    def __init__(self, request_id=None):
         self.request_id = request_id
 
     def validate(self):
@@ -3474,7 +3474,7 @@ class DeleteBucketEncryptionResponse(TeaModel):
 
 
 class DeleteBucketTagsRequest(TeaModel):
-    def __init__(self, bucket_name="", filter=None):
+    def __init__(self, bucket_name=None, filter=None):
         self.bucket_name = bucket_name
         self.filter = filter
 
@@ -3504,7 +3504,7 @@ class DeleteBucketTagsRequest(TeaModel):
 
 
 class DeleteBucketTagsRequestFilter(TeaModel):
-    def __init__(self, tagging=""):
+    def __init__(self, tagging=None):
         self.tagging = tagging
 
     def validate(self):
@@ -3521,7 +3521,7 @@ class DeleteBucketTagsRequestFilter(TeaModel):
 
 
 class DeleteBucketTagsResponse(TeaModel):
-    def __init__(self, request_id=""):
+    def __init__(self, request_id=None):
         self.request_id = request_id
 
     def validate(self):
@@ -3538,7 +3538,7 @@ class DeleteBucketTagsResponse(TeaModel):
 
 
 class GetBucketWebsiteRequest(TeaModel):
-    def __init__(self, bucket_name=""):
+    def __init__(self, bucket_name=None):
         self.bucket_name = bucket_name
 
     def validate(self):
@@ -3555,7 +3555,7 @@ class GetBucketWebsiteRequest(TeaModel):
 
 
 class GetBucketWebsiteResponse(TeaModel):
-    def __init__(self, request_id="", website_configuration=None):
+    def __init__(self, request_id=None, website_configuration=None):
         self.request_id = request_id
         self.website_configuration = website_configuration
 
@@ -3585,7 +3585,7 @@ class GetBucketWebsiteResponse(TeaModel):
 
 
 class GetBucketWebsiteResponseWebsiteConfigurationIndexDocument(TeaModel):
-    def __init__(self, suffix=""):
+    def __init__(self, suffix=None):
         self.suffix = suffix
 
     def validate(self):
@@ -3602,7 +3602,7 @@ class GetBucketWebsiteResponseWebsiteConfigurationIndexDocument(TeaModel):
 
 
 class GetBucketWebsiteResponseWebsiteConfigurationErrorDocument(TeaModel):
-    def __init__(self, key=""):
+    def __init__(self, key=None):
         self.key = key
 
     def validate(self):
@@ -3619,7 +3619,7 @@ class GetBucketWebsiteResponseWebsiteConfigurationErrorDocument(TeaModel):
 
 
 class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader(TeaModel):
-    def __init__(self, key="", equals=""):
+    def __init__(self, key=None, equals=None):
         self.key = key
         self.equals = equals
 
@@ -3639,7 +3639,7 @@ class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditi
 
 
 class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleCondition(TeaModel):
-    def __init__(self, key_prefix_equals="", http_error_code_returned_equals="", include_header=None):
+    def __init__(self, key_prefix_equals=None, http_error_code_returned_equals=None, include_header=None):
         self.key_prefix_equals = key_prefix_equals
         self.http_error_code_returned_equals = http_error_code_returned_equals
         self.include_header = include_header
@@ -3671,7 +3671,7 @@ class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditi
 
 
 class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet(TeaModel):
-    def __init__(self, key="", value=""):
+    def __init__(self, key=None, value=None):
         self.key = key
         self.value = value
 
@@ -3691,7 +3691,7 @@ class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirec
 
 
 class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders(TeaModel):
-    def __init__(self, pass_all=False, pass_="", remove="", set=None):
+    def __init__(self, pass_all=None, pass_=None, remove=None, set=None):
         self.pass_all = pass_all
         self.pass_ = pass_
         self.remove = remove
@@ -3726,7 +3726,7 @@ class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirec
 
 
 class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect(TeaModel):
-    def __init__(self, redirect_type="", pass_query_string=False, mirror_url="", mirror_pass_query_string=False, mirror_follow_redirect=False, mirror_check_md_5=False, protocol="", host_name="", http_redirect_code="", replace_key_prefix_with="", replace_key_with="", mirror_headers=None):
+    def __init__(self, redirect_type=None, pass_query_string=None, mirror_url=None, mirror_pass_query_string=None, mirror_follow_redirect=None, mirror_check_md_5=None, protocol=None, host_name=None, http_redirect_code=None, replace_key_prefix_with=None, replace_key_with=None, mirror_headers=None):
         self.redirect_type = redirect_type
         self.pass_query_string = pass_query_string
         self.mirror_url = mirror_url
@@ -3785,7 +3785,7 @@ class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirec
 
 
 class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule(TeaModel):
-    def __init__(self, rule_number=0, condition=None, redirect=None):
+    def __init__(self, rule_number=None, condition=None, redirect=None):
         self.rule_number = rule_number
         self.condition = condition
         self.redirect = redirect
@@ -3911,7 +3911,7 @@ class GetBucketWebsiteResponseWebsiteConfiguration(TeaModel):
 
 
 class DeleteLiveChannelRequest(TeaModel):
-    def __init__(self, bucket_name="", channel_name=""):
+    def __init__(self, bucket_name=None, channel_name=None):
         self.bucket_name = bucket_name
         self.channel_name = channel_name
 
@@ -3932,7 +3932,7 @@ class DeleteLiveChannelRequest(TeaModel):
 
 
 class DeleteLiveChannelResponse(TeaModel):
-    def __init__(self, request_id=""):
+    def __init__(self, request_id=None):
         self.request_id = request_id
 
     def validate(self):
@@ -3949,7 +3949,7 @@ class DeleteLiveChannelResponse(TeaModel):
 
 
 class GetBucketLocationRequest(TeaModel):
-    def __init__(self, bucket_name=""):
+    def __init__(self, bucket_name=None):
         self.bucket_name = bucket_name
 
     def validate(self):
@@ -3966,7 +3966,7 @@ class GetBucketLocationRequest(TeaModel):
 
 
 class GetBucketLocationResponse(TeaModel):
-    def __init__(self, request_id="", location_constraint=""):
+    def __init__(self, request_id=None, location_constraint=None):
         self.request_id = request_id
         self.location_constraint = location_constraint
 
@@ -3987,7 +3987,7 @@ class GetBucketLocationResponse(TeaModel):
 
 
 class ListLiveChannelRequest(TeaModel):
-    def __init__(self, bucket_name="", filter=None):
+    def __init__(self, bucket_name=None, filter=None):
         self.bucket_name = bucket_name
         self.filter = filter
 
@@ -4016,7 +4016,7 @@ class ListLiveChannelRequest(TeaModel):
 
 
 class ListLiveChannelRequestFilter(TeaModel):
-    def __init__(self, marker="", max_keys="", prefix=""):
+    def __init__(self, marker=None, max_keys=None, prefix=None):
         self.marker = marker
         self.max_keys = max_keys
         self.prefix = prefix
@@ -4039,7 +4039,7 @@ class ListLiveChannelRequestFilter(TeaModel):
 
 
 class ListLiveChannelResponse(TeaModel):
-    def __init__(self, request_id="", list_live_channel_result=None):
+    def __init__(self, request_id=None, list_live_channel_result=None):
         self.request_id = request_id
         self.list_live_channel_result = list_live_channel_result
 
@@ -4069,7 +4069,7 @@ class ListLiveChannelResponse(TeaModel):
 
 
 class ListLiveChannelResponseListLiveChannelResultLiveChannelPublishUrls(TeaModel):
-    def __init__(self, url=""):
+    def __init__(self, url=None):
         self.url = url
 
     def validate(self):
@@ -4086,7 +4086,7 @@ class ListLiveChannelResponseListLiveChannelResultLiveChannelPublishUrls(TeaMode
 
 
 class ListLiveChannelResponseListLiveChannelResultLiveChannelPlayUrls(TeaModel):
-    def __init__(self, url=""):
+    def __init__(self, url=None):
         self.url = url
 
     def validate(self):
@@ -4103,7 +4103,7 @@ class ListLiveChannelResponseListLiveChannelResultLiveChannelPlayUrls(TeaModel):
 
 
 class ListLiveChannelResponseListLiveChannelResultLiveChannel(TeaModel):
-    def __init__(self, name="", description="", status="", last_modified="", publish_urls=None, play_urls=None):
+    def __init__(self, name=None, description=None, status=None, last_modified=None, publish_urls=None, play_urls=None):
         self.name = name
         self.description = description
         self.status = status
@@ -4154,7 +4154,7 @@ class ListLiveChannelResponseListLiveChannelResultLiveChannel(TeaModel):
 
 
 class ListLiveChannelResponseListLiveChannelResult(TeaModel):
-    def __init__(self, prefix="", marker="", max_keys="", is_truncated="", next_marker="", live_channel=None):
+    def __init__(self, prefix=None, marker=None, max_keys=None, is_truncated=None, next_marker=None, live_channel=None):
         self.prefix = prefix
         self.marker = marker
         self.max_keys = max_keys
@@ -4195,7 +4195,7 @@ class ListLiveChannelResponseListLiveChannelResult(TeaModel):
 
 
 class GetObjectMetaRequest(TeaModel):
-    def __init__(self, bucket_name="", object_name=""):
+    def __init__(self, bucket_name=None, object_name=None):
         self.bucket_name = bucket_name
         self.object_name = object_name
 
@@ -4216,7 +4216,7 @@ class GetObjectMetaRequest(TeaModel):
 
 
 class GetObjectMetaResponse(TeaModel):
-    def __init__(self, request_id="", e_tag="", content_length="", last_modified=""):
+    def __init__(self, request_id=None, e_tag=None, content_length=None, last_modified=None):
         self.request_id = request_id
         self.e_tag = e_tag
         self.content_length = content_length
@@ -4245,7 +4245,7 @@ class GetObjectMetaResponse(TeaModel):
 
 
 class GetBucketAclRequest(TeaModel):
-    def __init__(self, bucket_name=""):
+    def __init__(self, bucket_name=None):
         self.bucket_name = bucket_name
 
     def validate(self):
@@ -4262,7 +4262,7 @@ class GetBucketAclRequest(TeaModel):
 
 
 class GetBucketAclResponse(TeaModel):
-    def __init__(self, request_id="", access_control_policy=None):
+    def __init__(self, request_id=None, access_control_policy=None):
         self.request_id = request_id
         self.access_control_policy = access_control_policy
 
@@ -4292,7 +4292,7 @@ class GetBucketAclResponse(TeaModel):
 
 
 class GetBucketAclResponseAccessControlPolicyOwner(TeaModel):
-    def __init__(self, i_d="", display_name=""):
+    def __init__(self, i_d=None, display_name=None):
         self.i_d = i_d
         self.display_name = display_name
 
@@ -4312,7 +4312,7 @@ class GetBucketAclResponseAccessControlPolicyOwner(TeaModel):
 
 
 class GetBucketAclResponseAccessControlPolicyAccessControlList(TeaModel):
-    def __init__(self, grant=""):
+    def __init__(self, grant=None):
         self.grant = grant
 
     def validate(self):
@@ -4368,7 +4368,7 @@ class GetBucketAclResponseAccessControlPolicy(TeaModel):
 
 
 class ListPartsRequest(TeaModel):
-    def __init__(self, bucket_name="", object_name="", filter=None):
+    def __init__(self, bucket_name=None, object_name=None, filter=None):
         self.bucket_name = bucket_name
         self.object_name = object_name
         self.filter = filter
@@ -4402,7 +4402,7 @@ class ListPartsRequest(TeaModel):
 
 
 class ListPartsRequestFilter(TeaModel):
-    def __init__(self, upload_id="", max_parts=0, part_number_marker=0, encoding_type=""):
+    def __init__(self, upload_id=None, max_parts=None, part_number_marker=None, encoding_type=None):
         self.upload_id = upload_id
         self.max_parts = max_parts
         self.part_number_marker = part_number_marker
@@ -4428,7 +4428,7 @@ class ListPartsRequestFilter(TeaModel):
 
 
 class ListPartsResponse(TeaModel):
-    def __init__(self, request_id="", list_parts_result=None):
+    def __init__(self, request_id=None, list_parts_result=None):
         self.request_id = request_id
         self.list_parts_result = list_parts_result
 
@@ -4458,7 +4458,7 @@ class ListPartsResponse(TeaModel):
 
 
 class ListPartsResponseListPartsResultPart(TeaModel):
-    def __init__(self, part_number="", last_modified="", e_tag="", size=""):
+    def __init__(self, part_number=None, last_modified=None, e_tag=None, size=None):
         self.part_number = part_number
         self.last_modified = last_modified
         self.e_tag = e_tag
@@ -4484,7 +4484,7 @@ class ListPartsResponseListPartsResultPart(TeaModel):
 
 
 class ListPartsResponseListPartsResult(TeaModel):
-    def __init__(self, bucket="", encoding_type="", key="", upload_id="", part_number_marker="", next_part_number_marker="", max_parts="", is_truncated="", part=None):
+    def __init__(self, bucket=None, encoding_type=None, key=None, upload_id=None, part_number_marker=None, next_part_number_marker=None, max_parts=None, is_truncated=None, part=None):
         self.bucket = bucket
         self.encoding_type = encoding_type
         self.key = key
@@ -4540,7 +4540,7 @@ class ListPartsResponseListPartsResult(TeaModel):
 
 
 class GetLiveChannelHistoryRequest(TeaModel):
-    def __init__(self, bucket_name="", channel_name="", filter=None):
+    def __init__(self, bucket_name=None, channel_name=None, filter=None):
         self.bucket_name = bucket_name
         self.channel_name = channel_name
         self.filter = filter
@@ -4573,7 +4573,7 @@ class GetLiveChannelHistoryRequest(TeaModel):
 
 
 class GetLiveChannelHistoryRequestFilter(TeaModel):
-    def __init__(self, comp=""):
+    def __init__(self, comp=None):
         self.comp = comp
 
     def validate(self):
@@ -4590,7 +4590,7 @@ class GetLiveChannelHistoryRequestFilter(TeaModel):
 
 
 class GetLiveChannelHistoryResponse(TeaModel):
-    def __init__(self, request_id="", live_channel_history=None):
+    def __init__(self, request_id=None, live_channel_history=None):
         self.request_id = request_id
         self.live_channel_history = live_channel_history
 
@@ -4620,7 +4620,7 @@ class GetLiveChannelHistoryResponse(TeaModel):
 
 
 class GetLiveChannelHistoryResponseLiveChannelHistoryLiveRecord(TeaModel):
-    def __init__(self, start_time="", end_time="", remote_addr=""):
+    def __init__(self, start_time=None, end_time=None, remote_addr=None):
         self.start_time = start_time
         self.end_time = end_time
         self.remote_addr = remote_addr
@@ -4675,7 +4675,7 @@ class GetLiveChannelHistoryResponseLiveChannelHistory(TeaModel):
 
 
 class GetBucketRequest(TeaModel):
-    def __init__(self, bucket_name="", filter=None):
+    def __init__(self, bucket_name=None, filter=None):
         self.bucket_name = bucket_name
         self.filter = filter
 
@@ -4704,7 +4704,7 @@ class GetBucketRequest(TeaModel):
 
 
 class GetBucketRequestFilter(TeaModel):
-    def __init__(self, delimiter="", marker="", max_keys="", prefix="", encoding_type=""):
+    def __init__(self, delimiter=None, marker=None, max_keys=None, prefix=None, encoding_type=None):
         self.delimiter = delimiter
         self.marker = marker
         self.max_keys = max_keys
@@ -4733,7 +4733,7 @@ class GetBucketRequestFilter(TeaModel):
 
 
 class GetBucketResponse(TeaModel):
-    def __init__(self, request_id="", list_bucket_result=None):
+    def __init__(self, request_id=None, list_bucket_result=None):
         self.request_id = request_id
         self.list_bucket_result = list_bucket_result
 
@@ -4763,7 +4763,7 @@ class GetBucketResponse(TeaModel):
 
 
 class GetBucketResponseListBucketResultContentsOwner(TeaModel):
-    def __init__(self, i_d="", display_name=""):
+    def __init__(self, i_d=None, display_name=None):
         self.i_d = i_d
         self.display_name = display_name
 
@@ -4783,7 +4783,7 @@ class GetBucketResponseListBucketResultContentsOwner(TeaModel):
 
 
 class GetBucketResponseListBucketResultContents(TeaModel):
-    def __init__(self, key="", e_tag="", last_modified="", size="", storage_class="", owner=None):
+    def __init__(self, key=None, e_tag=None, last_modified=None, size=None, storage_class=None, owner=None):
         self.key = key
         self.e_tag = e_tag
         self.last_modified = last_modified
@@ -4824,7 +4824,7 @@ class GetBucketResponseListBucketResultContents(TeaModel):
 
 
 class GetBucketResponseListBucketResult(TeaModel):
-    def __init__(self, name="", prefix="", marker="", max_keys="", delimiter="", is_truncated="", encoding_type="", common_prefixes="", contents=None):
+    def __init__(self, name=None, prefix=None, marker=None, max_keys=None, delimiter=None, is_truncated=None, encoding_type=None, common_prefixes=None, contents=None):
         self.name = name
         self.prefix = prefix
         self.marker = marker
@@ -4880,7 +4880,7 @@ class GetBucketResponseListBucketResult(TeaModel):
 
 
 class GetLiveChannelInfoRequest(TeaModel):
-    def __init__(self, bucket_name="", channel_name=""):
+    def __init__(self, bucket_name=None, channel_name=None):
         self.bucket_name = bucket_name
         self.channel_name = channel_name
 
@@ -4901,7 +4901,7 @@ class GetLiveChannelInfoRequest(TeaModel):
 
 
 class GetLiveChannelInfoResponse(TeaModel):
-    def __init__(self, request_id="", live_channel_configuration=None):
+    def __init__(self, request_id=None, live_channel_configuration=None):
         self.request_id = request_id
         self.live_channel_configuration = live_channel_configuration
 
@@ -4931,7 +4931,7 @@ class GetLiveChannelInfoResponse(TeaModel):
 
 
 class GetLiveChannelInfoResponseLiveChannelConfigurationTarget(TeaModel):
-    def __init__(self, type="", frag_duration="", frag_count="", playlist_name=""):
+    def __init__(self, type=None, frag_duration=None, frag_count=None, playlist_name=None):
         self.type = type
         self.frag_duration = frag_duration
         self.frag_count = frag_count
@@ -4957,7 +4957,7 @@ class GetLiveChannelInfoResponseLiveChannelConfigurationTarget(TeaModel):
 
 
 class GetLiveChannelInfoResponseLiveChannelConfiguration(TeaModel):
-    def __init__(self, description="", status="", target=None):
+    def __init__(self, description=None, status=None, target=None):
         self.description = description
         self.status = status
         self.target = target
@@ -4989,7 +4989,7 @@ class GetLiveChannelInfoResponseLiveChannelConfiguration(TeaModel):
 
 
 class GetLiveChannelStatRequest(TeaModel):
-    def __init__(self, bucket_name="", channel_name="", filter=None):
+    def __init__(self, bucket_name=None, channel_name=None, filter=None):
         self.bucket_name = bucket_name
         self.channel_name = channel_name
         self.filter = filter
@@ -5022,7 +5022,7 @@ class GetLiveChannelStatRequest(TeaModel):
 
 
 class GetLiveChannelStatRequestFilter(TeaModel):
-    def __init__(self, comp=""):
+    def __init__(self, comp=None):
         self.comp = comp
 
     def validate(self):
@@ -5039,7 +5039,7 @@ class GetLiveChannelStatRequestFilter(TeaModel):
 
 
 class GetLiveChannelStatResponse(TeaModel):
-    def __init__(self, request_id="", live_channel_stat=None):
+    def __init__(self, request_id=None, live_channel_stat=None):
         self.request_id = request_id
         self.live_channel_stat = live_channel_stat
 
@@ -5069,7 +5069,7 @@ class GetLiveChannelStatResponse(TeaModel):
 
 
 class GetLiveChannelStatResponseLiveChannelStatVideo(TeaModel):
-    def __init__(self, width="", height="", frame_rate="", bandwidth="", codec=""):
+    def __init__(self, width=None, height=None, frame_rate=None, bandwidth=None, codec=None):
         self.width = width
         self.height = height
         self.frame_rate = frame_rate
@@ -5098,7 +5098,7 @@ class GetLiveChannelStatResponseLiveChannelStatVideo(TeaModel):
 
 
 class GetLiveChannelStatResponseLiveChannelStatAudio(TeaModel):
-    def __init__(self, bandwidth="", sample_rate="", codec=""):
+    def __init__(self, bandwidth=None, sample_rate=None, codec=None):
         self.bandwidth = bandwidth
         self.sample_rate = sample_rate
         self.codec = codec
@@ -5121,7 +5121,7 @@ class GetLiveChannelStatResponseLiveChannelStatAudio(TeaModel):
 
 
 class GetLiveChannelStatResponseLiveChannelStat(TeaModel):
-    def __init__(self, status="", connected_time="", remote_addr="", video=None, audio=None):
+    def __init__(self, status=None, connected_time=None, remote_addr=None, video=None, audio=None):
         self.status = status
         self.connected_time = connected_time
         self.remote_addr = remote_addr
@@ -5169,7 +5169,7 @@ class GetLiveChannelStatResponseLiveChannelStat(TeaModel):
 
 
 class DeleteObjectRequest(TeaModel):
-    def __init__(self, bucket_name="", object_name=""):
+    def __init__(self, bucket_name=None, object_name=None):
         self.bucket_name = bucket_name
         self.object_name = object_name
 
@@ -5190,7 +5190,7 @@ class DeleteObjectRequest(TeaModel):
 
 
 class DeleteObjectResponse(TeaModel):
-    def __init__(self, request_id=""):
+    def __init__(self, request_id=None):
         self.request_id = request_id
 
     def validate(self):
@@ -5207,7 +5207,7 @@ class DeleteObjectResponse(TeaModel):
 
 
 class AbortMultipartUploadRequest(TeaModel):
-    def __init__(self, bucket_name="", object_name="", filter=None):
+    def __init__(self, bucket_name=None, object_name=None, filter=None):
         self.bucket_name = bucket_name
         self.object_name = object_name
         self.filter = filter
@@ -5241,7 +5241,7 @@ class AbortMultipartUploadRequest(TeaModel):
 
 
 class AbortMultipartUploadRequestFilter(TeaModel):
-    def __init__(self, upload_id=""):
+    def __init__(self, upload_id=None):
         self.upload_id = upload_id
 
     def validate(self):
@@ -5258,7 +5258,7 @@ class AbortMultipartUploadRequestFilter(TeaModel):
 
 
 class AbortMultipartUploadResponse(TeaModel):
-    def __init__(self, request_id=""):
+    def __init__(self, request_id=None):
         self.request_id = request_id
 
     def validate(self):
@@ -5275,7 +5275,7 @@ class AbortMultipartUploadResponse(TeaModel):
 
 
 class AppendObjectRequest(TeaModel):
-    def __init__(self, bucket_name="", object_name="", user_meta=None, body=None, filter=None, header=None):
+    def __init__(self, bucket_name=None, object_name=None, user_meta=None, body=None, filter=None, header=None):
         self.bucket_name = bucket_name
         self.object_name = object_name
         self.user_meta = {}
@@ -5327,7 +5327,7 @@ class AppendObjectRequest(TeaModel):
 
 
 class AppendObjectRequestFilter(TeaModel):
-    def __init__(self, position=""):
+    def __init__(self, position=None):
         self.position = position
 
     def validate(self):
@@ -5344,7 +5344,7 @@ class AppendObjectRequestFilter(TeaModel):
 
 
 class AppendObjectRequestHeader(TeaModel):
-    def __init__(self, cache_control="", content_disposition="", content_encoding="", content_md5="", expires="", server_side_encryption="", object_acl="", storage_class="", content_type=""):
+    def __init__(self, cache_control=None, content_disposition=None, content_encoding=None, content_md5=None, expires=None, server_side_encryption=None, object_acl=None, storage_class=None, content_type=None):
         self.cache_control = cache_control
         self.content_disposition = content_disposition
         self.content_encoding = content_encoding
@@ -5385,7 +5385,7 @@ class AppendObjectRequestHeader(TeaModel):
 
 
 class AppendObjectResponse(TeaModel):
-    def __init__(self, request_id="", next_append_position="", hash_crc_64ecma=""):
+    def __init__(self, request_id=None, next_append_position=None, hash_crc_64ecma=None):
         self.request_id = request_id
         self.next_append_position = next_append_position
         self.hash_crc_64ecma = hash_crc_64ecma
@@ -5410,7 +5410,7 @@ class AppendObjectResponse(TeaModel):
 
 
 class UploadPartCopyRequest(TeaModel):
-    def __init__(self, bucket_name="", object_name="", filter=None, header=None):
+    def __init__(self, bucket_name=None, object_name=None, filter=None, header=None):
         self.bucket_name = bucket_name
         self.object_name = object_name
         self.filter = filter
@@ -5457,7 +5457,7 @@ class UploadPartCopyRequest(TeaModel):
 
 
 class UploadPartCopyRequestFilter(TeaModel):
-    def __init__(self, part_number="", upload_id=""):
+    def __init__(self, part_number=None, upload_id=None):
         self.part_number = part_number
         self.upload_id = upload_id
 
@@ -5478,7 +5478,7 @@ class UploadPartCopyRequestFilter(TeaModel):
 
 
 class UploadPartCopyRequestHeader(TeaModel):
-    def __init__(self, copy_source="", copy_source_range="", copy_source_if_match="", copy_source_if_none_match="", copy_source_if_unmodified_since="", copy_source_if_modified_since=""):
+    def __init__(self, copy_source=None, copy_source_range=None, copy_source_if_match=None, copy_source_if_none_match=None, copy_source_if_unmodified_since=None, copy_source_if_modified_since=None):
         self.copy_source = copy_source
         self.copy_source_range = copy_source_range
         self.copy_source_if_match = copy_source_if_match
@@ -5511,7 +5511,7 @@ class UploadPartCopyRequestHeader(TeaModel):
 
 
 class UploadPartCopyResponse(TeaModel):
-    def __init__(self, request_id="", copy_part_result=None):
+    def __init__(self, request_id=None, copy_part_result=None):
         self.request_id = request_id
         self.copy_part_result = copy_part_result
 
@@ -5541,7 +5541,7 @@ class UploadPartCopyResponse(TeaModel):
 
 
 class UploadPartCopyResponseCopyPartResult(TeaModel):
-    def __init__(self, last_modified="", e_tag=""):
+    def __init__(self, last_modified=None, e_tag=None):
         self.last_modified = last_modified
         self.e_tag = e_tag
 
@@ -5561,7 +5561,7 @@ class UploadPartCopyResponseCopyPartResult(TeaModel):
 
 
 class GetVodPlaylistRequest(TeaModel):
-    def __init__(self, bucket_name="", channel_name="", filter=None):
+    def __init__(self, bucket_name=None, channel_name=None, filter=None):
         self.bucket_name = bucket_name
         self.channel_name = channel_name
         self.filter = filter
@@ -5595,7 +5595,7 @@ class GetVodPlaylistRequest(TeaModel):
 
 
 class GetVodPlaylistRequestFilter(TeaModel):
-    def __init__(self, end_time="", start_time=""):
+    def __init__(self, end_time=None, start_time=None):
         self.end_time = end_time
         self.start_time = start_time
 
@@ -5616,7 +5616,7 @@ class GetVodPlaylistRequestFilter(TeaModel):
 
 
 class GetVodPlaylistResponse(TeaModel):
-    def __init__(self, request_id=""):
+    def __init__(self, request_id=None):
         self.request_id = request_id
 
     def validate(self):
@@ -5633,7 +5633,7 @@ class GetVodPlaylistResponse(TeaModel):
 
 
 class DeleteBucketCORSRequest(TeaModel):
-    def __init__(self, bucket_name=""):
+    def __init__(self, bucket_name=None):
         self.bucket_name = bucket_name
 
     def validate(self):
@@ -5650,7 +5650,7 @@ class DeleteBucketCORSRequest(TeaModel):
 
 
 class DeleteBucketCORSResponse(TeaModel):
-    def __init__(self, request_id=""):
+    def __init__(self, request_id=None):
         self.request_id = request_id
 
     def validate(self):
@@ -5667,7 +5667,7 @@ class DeleteBucketCORSResponse(TeaModel):
 
 
 class GetObjectRequest(TeaModel):
-    def __init__(self, bucket_name="", object_name="", header=None):
+    def __init__(self, bucket_name=None, object_name=None, header=None):
         self.bucket_name = bucket_name
         self.object_name = object_name
         self.header = header
@@ -5700,7 +5700,7 @@ class GetObjectRequest(TeaModel):
 
 
 class GetObjectRequestHeader(TeaModel):
-    def __init__(self, response_content_type="", response_content_language="", response_expires="", response_cache_control="", response_content_disposition="", response_content_encoding="", range="", if_modified_since="", if_unmodified_since="", if_match="", if_none_match="", accept_encoding=""):
+    def __init__(self, response_content_type=None, response_content_language=None, response_expires=None, response_cache_control=None, response_content_disposition=None, response_content_encoding=None, range=None, if_modified_since=None, if_unmodified_since=None, if_match=None, if_none_match=None, accept_encoding=None):
         self.response_content_type = response_content_type
         self.response_content_language = response_content_language
         self.response_expires = response_expires
@@ -5750,7 +5750,7 @@ class GetObjectRequestHeader(TeaModel):
 
 
 class GetObjectResponse(TeaModel):
-    def __init__(self, request_id="", object_type="", server_side_encryption="", tagging_count="", restore="", body=None):
+    def __init__(self, request_id=None, object_type=None, server_side_encryption=None, tagging_count=None, restore=None, body=None):
         self.request_id = request_id
         self.object_type = object_type
         self.server_side_encryption = server_side_encryption
@@ -5787,7 +5787,7 @@ class GetObjectResponse(TeaModel):
 
 
 class UploadPartRequest(TeaModel):
-    def __init__(self, bucket_name="", object_name="", body=None, filter=None):
+    def __init__(self, bucket_name=None, object_name=None, body=None, filter=None):
         self.bucket_name = bucket_name
         self.object_name = object_name
         self.body = body
@@ -5824,7 +5824,7 @@ class UploadPartRequest(TeaModel):
 
 
 class UploadPartRequestFilter(TeaModel):
-    def __init__(self, part_number="", upload_id=""):
+    def __init__(self, part_number=None, upload_id=None):
         self.part_number = part_number
         self.upload_id = upload_id
 
@@ -5845,7 +5845,7 @@ class UploadPartRequestFilter(TeaModel):
 
 
 class UploadPartResponse(TeaModel):
-    def __init__(self, request_id=""):
+    def __init__(self, request_id=None):
         self.request_id = request_id
 
     def validate(self):
@@ -5862,7 +5862,7 @@ class UploadPartResponse(TeaModel):
 
 
 class GetBucketCORSRequest(TeaModel):
-    def __init__(self, bucket_name=""):
+    def __init__(self, bucket_name=None):
         self.bucket_name = bucket_name
 
     def validate(self):
@@ -5879,7 +5879,7 @@ class GetBucketCORSRequest(TeaModel):
 
 
 class GetBucketCORSResponse(TeaModel):
-    def __init__(self, request_id="", c_orsconfiguration=None):
+    def __init__(self, request_id=None, c_orsconfiguration=None):
         self.request_id = request_id
         self.c_orsconfiguration = c_orsconfiguration
 
@@ -5909,7 +5909,7 @@ class GetBucketCORSResponse(TeaModel):
 
 
 class GetBucketCORSResponseCORSConfigurationCORSRule(TeaModel):
-    def __init__(self, max_age_seconds=""):
+    def __init__(self, max_age_seconds=None):
         self.max_age_seconds = max_age_seconds
 
     def validate(self):
@@ -5958,7 +5958,7 @@ class GetBucketCORSResponseCORSConfiguration(TeaModel):
 
 
 class CopyObjectRequest(TeaModel):
-    def __init__(self, bucket_name="", dest_object_name="", header=None):
+    def __init__(self, bucket_name=None, dest_object_name=None, header=None):
         self.bucket_name = bucket_name
         self.dest_object_name = dest_object_name
         self.header = header
@@ -5992,7 +5992,7 @@ class CopyObjectRequest(TeaModel):
 
 
 class CopyObjectRequestHeader(TeaModel):
-    def __init__(self, copy_source="", copy_source_if_match="", copy_source_if_none_match="", copy_source_if_unmodified_since="", copy_source_if_modified_since="", metadata_directive="", server_side_encryption="", server_side_encryption_key_id="", object_acl="", storage_class="", tagging="", tagging_directive=""):
+    def __init__(self, copy_source=None, copy_source_if_match=None, copy_source_if_none_match=None, copy_source_if_unmodified_since=None, copy_source_if_modified_since=None, metadata_directive=None, server_side_encryption=None, server_side_encryption_key_id=None, object_acl=None, storage_class=None, tagging=None, tagging_directive=None):
         self.copy_source = copy_source
         self.copy_source_if_match = copy_source_if_match
         self.copy_source_if_none_match = copy_source_if_none_match
@@ -6042,7 +6042,7 @@ class CopyObjectRequestHeader(TeaModel):
 
 
 class CopyObjectResponse(TeaModel):
-    def __init__(self, request_id="", copy_object_result=None):
+    def __init__(self, request_id=None, copy_object_result=None):
         self.request_id = request_id
         self.copy_object_result = copy_object_result
 
@@ -6072,7 +6072,7 @@ class CopyObjectResponse(TeaModel):
 
 
 class CopyObjectResponseCopyObjectResult(TeaModel):
-    def __init__(self, last_modified="", e_tag=""):
+    def __init__(self, last_modified=None, e_tag=None):
         self.last_modified = last_modified
         self.e_tag = e_tag
 
@@ -6092,7 +6092,7 @@ class CopyObjectResponseCopyObjectResult(TeaModel):
 
 
 class GetObjectTaggingRequest(TeaModel):
-    def __init__(self, bucket_name="", object_name=""):
+    def __init__(self, bucket_name=None, object_name=None):
         self.bucket_name = bucket_name
         self.object_name = object_name
 
@@ -6113,7 +6113,7 @@ class GetObjectTaggingRequest(TeaModel):
 
 
 class GetObjectTaggingResponse(TeaModel):
-    def __init__(self, request_id="", tagging=None):
+    def __init__(self, request_id=None, tagging=None):
         self.request_id = request_id
         self.tagging = tagging
 
@@ -6143,7 +6143,7 @@ class GetObjectTaggingResponse(TeaModel):
 
 
 class GetObjectTaggingResponseTaggingTagSetTag(TeaModel):
-    def __init__(self, key="", value=""):
+    def __init__(self, key=None, value=None):
         self.key = key
         self.value = value
 
@@ -6221,7 +6221,7 @@ class GetObjectTaggingResponseTagging(TeaModel):
 
 
 class DeleteBucketLifecycleRequest(TeaModel):
-    def __init__(self, bucket_name=""):
+    def __init__(self, bucket_name=None):
         self.bucket_name = bucket_name
 
     def validate(self):
@@ -6238,7 +6238,7 @@ class DeleteBucketLifecycleRequest(TeaModel):
 
 
 class DeleteBucketLifecycleResponse(TeaModel):
-    def __init__(self, request_id=""):
+    def __init__(self, request_id=None):
         self.request_id = request_id
 
     def validate(self):
@@ -6255,7 +6255,7 @@ class DeleteBucketLifecycleResponse(TeaModel):
 
 
 class DeleteBucketLoggingRequest(TeaModel):
-    def __init__(self, bucket_name=""):
+    def __init__(self, bucket_name=None):
         self.bucket_name = bucket_name
 
     def validate(self):
@@ -6272,7 +6272,7 @@ class DeleteBucketLoggingRequest(TeaModel):
 
 
 class DeleteBucketLoggingResponse(TeaModel):
-    def __init__(self, request_id=""):
+    def __init__(self, request_id=None):
         self.request_id = request_id
 
     def validate(self):
@@ -6289,7 +6289,7 @@ class DeleteBucketLoggingResponse(TeaModel):
 
 
 class DeleteBucketWebsiteRequest(TeaModel):
-    def __init__(self, bucket_name=""):
+    def __init__(self, bucket_name=None):
         self.bucket_name = bucket_name
 
     def validate(self):
@@ -6306,7 +6306,7 @@ class DeleteBucketWebsiteRequest(TeaModel):
 
 
 class DeleteBucketWebsiteResponse(TeaModel):
-    def __init__(self, request_id=""):
+    def __init__(self, request_id=None):
         self.request_id = request_id
 
     def validate(self):
@@ -6323,7 +6323,7 @@ class DeleteBucketWebsiteResponse(TeaModel):
 
 
 class GetSymlinkRequest(TeaModel):
-    def __init__(self, bucket_name="", object_name=""):
+    def __init__(self, bucket_name=None, object_name=None):
         self.bucket_name = bucket_name
         self.object_name = object_name
 
@@ -6344,7 +6344,7 @@ class GetSymlinkRequest(TeaModel):
 
 
 class GetSymlinkResponse(TeaModel):
-    def __init__(self, request_id="", symlink_target=""):
+    def __init__(self, request_id=None, symlink_target=None):
         self.request_id = request_id
         self.symlink_target = symlink_target
 
@@ -6365,7 +6365,7 @@ class GetSymlinkResponse(TeaModel):
 
 
 class GetBucketLifecycleRequest(TeaModel):
-    def __init__(self, bucket_name=""):
+    def __init__(self, bucket_name=None):
         self.bucket_name = bucket_name
 
     def validate(self):
@@ -6382,7 +6382,7 @@ class GetBucketLifecycleRequest(TeaModel):
 
 
 class GetBucketLifecycleResponse(TeaModel):
-    def __init__(self, request_id="", lifecycle_configuration=None):
+    def __init__(self, request_id=None, lifecycle_configuration=None):
         self.request_id = request_id
         self.lifecycle_configuration = lifecycle_configuration
 
@@ -6412,7 +6412,7 @@ class GetBucketLifecycleResponse(TeaModel):
 
 
 class GetBucketLifecycleResponseLifecycleConfigurationRuleExpiration(TeaModel):
-    def __init__(self, days=0, created_before_date=""):
+    def __init__(self, days=None, created_before_date=None):
         self.days = days
         self.created_before_date = created_before_date
 
@@ -6432,7 +6432,7 @@ class GetBucketLifecycleResponseLifecycleConfigurationRuleExpiration(TeaModel):
 
 
 class GetBucketLifecycleResponseLifecycleConfigurationRuleTransition(TeaModel):
-    def __init__(self, days=0, storage_class=""):
+    def __init__(self, days=None, storage_class=None):
         self.days = days
         self.storage_class = storage_class
 
@@ -6452,7 +6452,7 @@ class GetBucketLifecycleResponseLifecycleConfigurationRuleTransition(TeaModel):
 
 
 class GetBucketLifecycleResponseLifecycleConfigurationRuleAbortMultipartUpload(TeaModel):
-    def __init__(self, days=0, created_before_date=""):
+    def __init__(self, days=None, created_before_date=None):
         self.days = days
         self.created_before_date = created_before_date
 
@@ -6472,7 +6472,7 @@ class GetBucketLifecycleResponseLifecycleConfigurationRuleAbortMultipartUpload(T
 
 
 class GetBucketLifecycleResponseLifecycleConfigurationRuleTag(TeaModel):
-    def __init__(self, key="", value=""):
+    def __init__(self, key=None, value=None):
         self.key = key
         self.value = value
 
@@ -6492,7 +6492,7 @@ class GetBucketLifecycleResponseLifecycleConfigurationRuleTag(TeaModel):
 
 
 class GetBucketLifecycleResponseLifecycleConfigurationRule(TeaModel):
-    def __init__(self, i_d="", prefix="", status="", expiration=None, transition=None, abort_multipart_upload=None, tag=None):
+    def __init__(self, i_d=None, prefix=None, status=None, expiration=None, transition=None, abort_multipart_upload=None, tag=None):
         self.i_d = i_d
         self.prefix = prefix
         self.status = status
@@ -6598,7 +6598,7 @@ class GetBucketLifecycleResponseLifecycleConfiguration(TeaModel):
 
 
 class PutSymlinkRequest(TeaModel):
-    def __init__(self, bucket_name="", object_name="", header=None):
+    def __init__(self, bucket_name=None, object_name=None, header=None):
         self.bucket_name = bucket_name
         self.object_name = object_name
         self.header = header
@@ -6632,7 +6632,7 @@ class PutSymlinkRequest(TeaModel):
 
 
 class PutSymlinkRequestHeader(TeaModel):
-    def __init__(self, symlink_target="", storage_class=""):
+    def __init__(self, symlink_target=None, storage_class=None):
         self.symlink_target = symlink_target
         self.storage_class = storage_class
 
@@ -6652,7 +6652,7 @@ class PutSymlinkRequestHeader(TeaModel):
 
 
 class PutSymlinkResponse(TeaModel):
-    def __init__(self, request_id=""):
+    def __init__(self, request_id=None):
         self.request_id = request_id
 
     def validate(self):
@@ -6669,7 +6669,7 @@ class PutSymlinkResponse(TeaModel):
 
 
 class GetBucketRefererRequest(TeaModel):
-    def __init__(self, bucket_name=""):
+    def __init__(self, bucket_name=None):
         self.bucket_name = bucket_name
 
     def validate(self):
@@ -6686,7 +6686,7 @@ class GetBucketRefererRequest(TeaModel):
 
 
 class GetBucketRefererResponse(TeaModel):
-    def __init__(self, request_id="", referer_configuration=None):
+    def __init__(self, request_id=None, referer_configuration=None):
         self.request_id = request_id
         self.referer_configuration = referer_configuration
 
@@ -6743,7 +6743,7 @@ class GetBucketRefererResponseRefererConfigurationRefererList(TeaModel):
 
 
 class GetBucketRefererResponseRefererConfiguration(TeaModel):
-    def __init__(self, allow_empty_referer=False, referer_list=None):
+    def __init__(self, allow_empty_referer=None, referer_list=None):
         self.allow_empty_referer = allow_empty_referer
         self.referer_list = referer_list
 
@@ -6772,7 +6772,7 @@ class GetBucketRefererResponseRefererConfiguration(TeaModel):
 
 
 class CallbackRequest(TeaModel):
-    def __init__(self, bucket_name=""):
+    def __init__(self, bucket_name=None):
         self.bucket_name = bucket_name
 
     def validate(self):
@@ -6789,7 +6789,7 @@ class CallbackRequest(TeaModel):
 
 
 class CallbackResponse(TeaModel):
-    def __init__(self, request_id=""):
+    def __init__(self, request_id=None):
         self.request_id = request_id
 
     def validate(self):
@@ -6806,7 +6806,7 @@ class CallbackResponse(TeaModel):
 
 
 class GetBucketLoggingRequest(TeaModel):
-    def __init__(self, bucket_name=""):
+    def __init__(self, bucket_name=None):
         self.bucket_name = bucket_name
 
     def validate(self):
@@ -6823,7 +6823,7 @@ class GetBucketLoggingRequest(TeaModel):
 
 
 class GetBucketLoggingResponse(TeaModel):
-    def __init__(self, request_id="", bucket_logging_status=None):
+    def __init__(self, request_id=None, bucket_logging_status=None):
         self.request_id = request_id
         self.bucket_logging_status = bucket_logging_status
 
@@ -6853,7 +6853,7 @@ class GetBucketLoggingResponse(TeaModel):
 
 
 class GetBucketLoggingResponseBucketLoggingStatusLoggingEnabled(TeaModel):
-    def __init__(self, target_bucket="", target_prefix=""):
+    def __init__(self, target_bucket=None, target_prefix=None):
         self.target_bucket = target_bucket
         self.target_prefix = target_prefix
 
@@ -6899,7 +6899,7 @@ class GetBucketLoggingResponseBucketLoggingStatus(TeaModel):
 
 
 class PutObjectAclRequest(TeaModel):
-    def __init__(self, bucket_name="", object_name="", header=None):
+    def __init__(self, bucket_name=None, object_name=None, header=None):
         self.bucket_name = bucket_name
         self.object_name = object_name
         self.header = header
@@ -6933,7 +6933,7 @@ class PutObjectAclRequest(TeaModel):
 
 
 class PutObjectAclRequestHeader(TeaModel):
-    def __init__(self, object_acl=""):
+    def __init__(self, object_acl=None):
         self.object_acl = object_acl
 
     def validate(self):
@@ -6950,7 +6950,7 @@ class PutObjectAclRequestHeader(TeaModel):
 
 
 class PutObjectAclResponse(TeaModel):
-    def __init__(self, request_id=""):
+    def __init__(self, request_id=None):
         self.request_id = request_id
 
     def validate(self):
@@ -6967,7 +6967,7 @@ class PutObjectAclResponse(TeaModel):
 
 
 class GetBucketInfoRequest(TeaModel):
-    def __init__(self, bucket_name=""):
+    def __init__(self, bucket_name=None):
         self.bucket_name = bucket_name
 
     def validate(self):
@@ -6984,7 +6984,7 @@ class GetBucketInfoRequest(TeaModel):
 
 
 class GetBucketInfoResponse(TeaModel):
-    def __init__(self, request_id="", bucket_info=None):
+    def __init__(self, request_id=None, bucket_info=None):
         self.request_id = request_id
         self.bucket_info = bucket_info
 
@@ -7014,7 +7014,7 @@ class GetBucketInfoResponse(TeaModel):
 
 
 class GetBucketInfoResponseBucketInfoBucketOwner(TeaModel):
-    def __init__(self, i_d="", display_name=""):
+    def __init__(self, i_d=None, display_name=None):
         self.i_d = i_d
         self.display_name = display_name
 
@@ -7034,7 +7034,7 @@ class GetBucketInfoResponseBucketInfoBucketOwner(TeaModel):
 
 
 class GetBucketInfoResponseBucketInfoBucketAccessControlList(TeaModel):
-    def __init__(self, grant=""):
+    def __init__(self, grant=None):
         self.grant = grant
 
     def validate(self):
@@ -7051,7 +7051,7 @@ class GetBucketInfoResponseBucketInfoBucketAccessControlList(TeaModel):
 
 
 class GetBucketInfoResponseBucketInfoBucket(TeaModel):
-    def __init__(self, creation_date="", extranet_endpoint="", intranet_endpoint="", location="", name="", data_redundancy_type="", storage_class="", comment="", owner=None, access_control_list=None):
+    def __init__(self, creation_date=None, extranet_endpoint=None, intranet_endpoint=None, location=None, name=None, data_redundancy_type=None, storage_class=None, comment=None, owner=None, access_control_list=None):
         self.creation_date = creation_date
         self.extranet_endpoint = extranet_endpoint
         self.intranet_endpoint = intranet_endpoint
@@ -7140,7 +7140,7 @@ class GetBucketInfoResponseBucketInfo(TeaModel):
 
 
 class PutLiveChannelStatusRequest(TeaModel):
-    def __init__(self, bucket_name="", channel_name="", filter=None):
+    def __init__(self, bucket_name=None, channel_name=None, filter=None):
         self.bucket_name = bucket_name
         self.channel_name = channel_name
         self.filter = filter
@@ -7174,7 +7174,7 @@ class PutLiveChannelStatusRequest(TeaModel):
 
 
 class PutLiveChannelStatusRequestFilter(TeaModel):
-    def __init__(self, status=""):
+    def __init__(self, status=None):
         self.status = status
 
     def validate(self):
@@ -7191,7 +7191,7 @@ class PutLiveChannelStatusRequestFilter(TeaModel):
 
 
 class PutLiveChannelStatusResponse(TeaModel):
-    def __init__(self, request_id=""):
+    def __init__(self, request_id=None):
         self.request_id = request_id
 
     def validate(self):
@@ -7208,7 +7208,7 @@ class PutLiveChannelStatusResponse(TeaModel):
 
 
 class InitiateMultipartUploadRequest(TeaModel):
-    def __init__(self, bucket_name="", object_name="", filter=None, header=None):
+    def __init__(self, bucket_name=None, object_name=None, filter=None, header=None):
         self.bucket_name = bucket_name
         self.object_name = object_name
         self.filter = filter
@@ -7253,7 +7253,7 @@ class InitiateMultipartUploadRequest(TeaModel):
 
 
 class InitiateMultipartUploadRequestFilter(TeaModel):
-    def __init__(self, encoding_type=""):
+    def __init__(self, encoding_type=None):
         self.encoding_type = encoding_type
 
     def validate(self):
@@ -7270,7 +7270,7 @@ class InitiateMultipartUploadRequestFilter(TeaModel):
 
 
 class InitiateMultipartUploadRequestHeader(TeaModel):
-    def __init__(self, cache_control="", content_disposition="", content_encoding="", expires="", server_side_encryption="", server_side_encryption_key_id="", storage_class="", tagging="", content_type=""):
+    def __init__(self, cache_control=None, content_disposition=None, content_encoding=None, expires=None, server_side_encryption=None, server_side_encryption_key_id=None, storage_class=None, tagging=None, content_type=None):
         self.cache_control = cache_control
         self.content_disposition = content_disposition
         self.content_encoding = content_encoding
@@ -7311,7 +7311,7 @@ class InitiateMultipartUploadRequestHeader(TeaModel):
 
 
 class InitiateMultipartUploadResponse(TeaModel):
-    def __init__(self, request_id="", initiate_multipart_upload_result=None):
+    def __init__(self, request_id=None, initiate_multipart_upload_result=None):
         self.request_id = request_id
         self.initiate_multipart_upload_result = initiate_multipart_upload_result
 
@@ -7341,7 +7341,7 @@ class InitiateMultipartUploadResponse(TeaModel):
 
 
 class InitiateMultipartUploadResponseInitiateMultipartUploadResult(TeaModel):
-    def __init__(self, bucket="", key="", upload_id=""):
+    def __init__(self, bucket=None, key=None, upload_id=None):
         self.bucket = bucket
         self.key = key
         self.upload_id = upload_id
@@ -7364,7 +7364,7 @@ class InitiateMultipartUploadResponseInitiateMultipartUploadResult(TeaModel):
 
 
 class OptionObjectRequest(TeaModel):
-    def __init__(self, bucket_name="", object_name="", header=None):
+    def __init__(self, bucket_name=None, object_name=None, header=None):
         self.bucket_name = bucket_name
         self.object_name = object_name
         self.header = header
@@ -7398,7 +7398,7 @@ class OptionObjectRequest(TeaModel):
 
 
 class OptionObjectRequestHeader(TeaModel):
-    def __init__(self, origin="", access_control_request_method="", access_control_request_headers=""):
+    def __init__(self, origin=None, access_control_request_method=None, access_control_request_headers=None):
         self.origin = origin
         self.access_control_request_method = access_control_request_method
         self.access_control_request_headers = access_control_request_headers
@@ -7423,7 +7423,7 @@ class OptionObjectRequestHeader(TeaModel):
 
 
 class OptionObjectResponse(TeaModel):
-    def __init__(self, request_id="", access_control_allow_origin="", access_control_allow_methods="", access_control_allow_headers="", access_control_expose_headers="", access_control_max_age=""):
+    def __init__(self, request_id=None, access_control_allow_origin=None, access_control_allow_methods=None, access_control_allow_headers=None, access_control_expose_headers=None, access_control_max_age=None):
         self.request_id = request_id
         self.access_control_allow_origin = access_control_allow_origin
         self.access_control_allow_methods = access_control_allow_methods
@@ -7460,7 +7460,7 @@ class OptionObjectResponse(TeaModel):
 
 
 class PostVodPlaylistRequest(TeaModel):
-    def __init__(self, bucket_name="", channel_name="", playlist_name="", filter=None):
+    def __init__(self, bucket_name=None, channel_name=None, playlist_name=None, filter=None):
         self.bucket_name = bucket_name
         self.channel_name = channel_name
         self.playlist_name = playlist_name
@@ -7498,7 +7498,7 @@ class PostVodPlaylistRequest(TeaModel):
 
 
 class PostVodPlaylistRequestFilter(TeaModel):
-    def __init__(self, end_time="", start_time=""):
+    def __init__(self, end_time=None, start_time=None):
         self.end_time = end_time
         self.start_time = start_time
 
@@ -7519,7 +7519,7 @@ class PostVodPlaylistRequestFilter(TeaModel):
 
 
 class PostVodPlaylistResponse(TeaModel):
-    def __init__(self, request_id=""):
+    def __init__(self, request_id=None):
         self.request_id = request_id
 
     def validate(self):
@@ -7536,7 +7536,7 @@ class PostVodPlaylistResponse(TeaModel):
 
 
 class PostObjectRequest(TeaModel):
-    def __init__(self, bucket_name="", header=None):
+    def __init__(self, bucket_name=None, header=None):
         self.bucket_name = bucket_name
         self.header = header
 
@@ -7566,7 +7566,7 @@ class PostObjectRequest(TeaModel):
 
 
 class PostObjectRequestHeader(TeaModel):
-    def __init__(self, access_key_id="", policy="", signature="", success_action_status="", file=None, key="", user_meta=None):
+    def __init__(self, access_key_id=None, policy=None, signature=None, success_action_status=None, file=None, key=None, user_meta=None):
         self.access_key_id = access_key_id
         self.policy = policy
         self.signature = signature
@@ -7640,7 +7640,7 @@ class PostObjectResponse(TeaModel):
 
 
 class PostObjectResponsePostResponse(TeaModel):
-    def __init__(self, bucket="", e_tag="", location=""):
+    def __init__(self, bucket=None, e_tag=None, location=None):
         self.bucket = bucket
         self.e_tag = e_tag
         self.location = location
@@ -7665,7 +7665,7 @@ class PostObjectResponsePostResponse(TeaModel):
 
 
 class HeadObjectRequest(TeaModel):
-    def __init__(self, bucket_name="", object_name="", header=None):
+    def __init__(self, bucket_name=None, object_name=None, header=None):
         self.bucket_name = bucket_name
         self.object_name = object_name
         self.header = header
@@ -7698,7 +7698,7 @@ class HeadObjectRequest(TeaModel):
 
 
 class HeadObjectRequestHeader(TeaModel):
-    def __init__(self, if_modified_since="", if_unmodified_since="", if_match="", if_none_match=""):
+    def __init__(self, if_modified_since=None, if_unmodified_since=None, if_match=None, if_none_match=None):
         self.if_modified_since = if_modified_since
         self.if_unmodified_since = if_unmodified_since
         self.if_match = if_match
@@ -7724,7 +7724,7 @@ class HeadObjectRequestHeader(TeaModel):
 
 
 class HeadObjectResponse(TeaModel):
-    def __init__(self, request_id="", user_meta=None, server_side_encryption="", server_side_encryption_key_id="", storage_class="", object_type="", next_append_position="", hash_crc_64ecma="", expiration="", restore="", process_status="", request_charged="", content_md_5="", last_modified="", access_control_allow_origin="", access_control_allow_methods="", access_control_max_age="", access_control_allow_headers="", access_control_expose_headers="", tagging_count=""):
+    def __init__(self, request_id=None, user_meta=None, server_side_encryption=None, server_side_encryption_key_id=None, storage_class=None, object_type=None, next_append_position=None, hash_crc_64ecma=None, expiration=None, restore=None, process_status=None, request_charged=None, content_md_5=None, last_modified=None, access_control_allow_origin=None, access_control_allow_methods=None, access_control_max_age=None, access_control_allow_headers=None, access_control_expose_headers=None, tagging_count=None):
         self.request_id = request_id
         self.user_meta = {}
         self.server_side_encryption = server_side_encryption
@@ -7817,7 +7817,7 @@ class HeadObjectResponse(TeaModel):
 
 
 class DeleteObjectTaggingRequest(TeaModel):
-    def __init__(self, bucket_name="", object_name=""):
+    def __init__(self, bucket_name=None, object_name=None):
         self.bucket_name = bucket_name
         self.object_name = object_name
 
@@ -7838,7 +7838,7 @@ class DeleteObjectTaggingRequest(TeaModel):
 
 
 class DeleteObjectTaggingResponse(TeaModel):
-    def __init__(self, request_id=""):
+    def __init__(self, request_id=None):
         self.request_id = request_id
 
     def validate(self):
@@ -7855,7 +7855,7 @@ class DeleteObjectTaggingResponse(TeaModel):
 
 
 class RestoreObjectRequest(TeaModel):
-    def __init__(self, bucket_name="", object_name=""):
+    def __init__(self, bucket_name=None, object_name=None):
         self.bucket_name = bucket_name
         self.object_name = object_name
 
@@ -7876,7 +7876,7 @@ class RestoreObjectRequest(TeaModel):
 
 
 class RestoreObjectResponse(TeaModel):
-    def __init__(self, request_id=""):
+    def __init__(self, request_id=None):
         self.request_id = request_id
 
     def validate(self):
@@ -7893,7 +7893,7 @@ class RestoreObjectResponse(TeaModel):
 
 
 class GetObjectAclRequest(TeaModel):
-    def __init__(self, bucket_name="", object_name=""):
+    def __init__(self, bucket_name=None, object_name=None):
         self.bucket_name = bucket_name
         self.object_name = object_name
 
@@ -7914,7 +7914,7 @@ class GetObjectAclRequest(TeaModel):
 
 
 class GetObjectAclResponse(TeaModel):
-    def __init__(self, request_id="", access_control_policy=None):
+    def __init__(self, request_id=None, access_control_policy=None):
         self.request_id = request_id
         self.access_control_policy = access_control_policy
 
@@ -7944,7 +7944,7 @@ class GetObjectAclResponse(TeaModel):
 
 
 class GetObjectAclResponseAccessControlPolicyOwner(TeaModel):
-    def __init__(self, i_d="", display_name=""):
+    def __init__(self, i_d=None, display_name=None):
         self.i_d = i_d
         self.display_name = display_name
 
@@ -7964,7 +7964,7 @@ class GetObjectAclResponseAccessControlPolicyOwner(TeaModel):
 
 
 class GetObjectAclResponseAccessControlPolicyAccessControlList(TeaModel):
-    def __init__(self, grant=""):
+    def __init__(self, grant=None):
         self.grant = grant
 
     def validate(self):
@@ -8020,7 +8020,7 @@ class GetObjectAclResponseAccessControlPolicy(TeaModel):
 
 
 class PutBucketAclRequest(TeaModel):
-    def __init__(self, bucket_name="", header=None):
+    def __init__(self, bucket_name=None, header=None):
         self.bucket_name = bucket_name
         self.header = header
 
@@ -8050,7 +8050,7 @@ class PutBucketAclRequest(TeaModel):
 
 
 class PutBucketAclRequestHeader(TeaModel):
-    def __init__(self, acl=""):
+    def __init__(self, acl=None):
         self.acl = acl
 
     def validate(self):
@@ -8067,7 +8067,7 @@ class PutBucketAclRequestHeader(TeaModel):
 
 
 class PutBucketAclResponse(TeaModel):
-    def __init__(self, request_id=""):
+    def __init__(self, request_id=None):
         self.request_id = request_id
 
     def validate(self):
@@ -8084,7 +8084,7 @@ class PutBucketAclResponse(TeaModel):
 
 
 class DeleteBucketRequest(TeaModel):
-    def __init__(self, bucket_name=""):
+    def __init__(self, bucket_name=None):
         self.bucket_name = bucket_name
 
     def validate(self):
@@ -8101,7 +8101,7 @@ class DeleteBucketRequest(TeaModel):
 
 
 class DeleteBucketResponse(TeaModel):
-    def __init__(self, request_id=""):
+    def __init__(self, request_id=None):
         self.request_id = request_id
 
     def validate(self):
@@ -8118,7 +8118,7 @@ class DeleteBucketResponse(TeaModel):
 
 
 class PutObjectRequest(TeaModel):
-    def __init__(self, bucket_name="", object_name="", user_meta=None, body=None, header=None):
+    def __init__(self, bucket_name=None, object_name=None, user_meta=None, body=None, header=None):
         self.bucket_name = bucket_name
         self.object_name = object_name
         self.user_meta = {}
@@ -8157,7 +8157,7 @@ class PutObjectRequest(TeaModel):
 
 
 class PutObjectRequestHeader(TeaModel):
-    def __init__(self, authorization="", cache_control="", content_disposition="", content_encoding="", content_md5="", content_length="", e_tag="", expires="", server_side_encryption="", server_side_encryption_key_id="", object_acl="", storage_class="", tagging="", content_type=""):
+    def __init__(self, authorization=None, cache_control=None, content_disposition=None, content_encoding=None, content_md5=None, content_length=None, e_tag=None, expires=None, server_side_encryption=None, server_side_encryption_key_id=None, object_acl=None, storage_class=None, tagging=None, content_type=None):
         self.authorization = authorization
         self.cache_control = cache_control
         self.content_disposition = content_disposition
@@ -8213,7 +8213,7 @@ class PutObjectRequestHeader(TeaModel):
 
 
 class PutObjectResponse(TeaModel):
-    def __init__(self, request_id="", hash_crc_64ecma="", server_time="", bucket_version=""):
+    def __init__(self, request_id=None, hash_crc_64ecma=None, server_time=None, bucket_version=None):
         self.request_id = request_id
         self.hash_crc_64ecma = hash_crc_64ecma
         self.server_time = server_time
