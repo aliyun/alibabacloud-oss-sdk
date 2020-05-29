@@ -17,7 +17,7 @@ from alibabacloud_tea_fileform.client import Client as FileFormClient
 
 
 class Client:
-    def __init__(self, config, _endpoint="", _region_id="", _host_model="", _protocol="", _read_timeout=0, _connect_timeout=0, _signature_version="", _addtional_headers=None, _local_addr="", _http_proxy="", _https_proxy="", _no_proxy="", _user_agent="", _socks_5proxy="", _is_enable_crc=False, _is_enable_md5=False, _socks_5net_work="", _max_idle_conns=0, _credential=None):
+    def __init__(self, config, _endpoint=None, _region_id=None, _host_model=None, _protocol=None, _read_timeout=None, _connect_timeout=None, _signature_version=None, _addtional_headers=None, _local_addr=None, _http_proxy=None, _https_proxy=None, _no_proxy=None, _user_agent=None, _socks_5proxy=None, _is_enable_crc=None, _is_enable_md5=None, _socks_5net_work=None, _max_idle_conns=None, _credential=None):
         self._endpoint = _endpoint
         self._region_id = _region_id
         self._host_model = _host_model
@@ -102,9 +102,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -134,12 +134,12 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 return _oss_models.PutBucketLifecycleResponse().from_map(TeaCore.merge(_response.headers))
@@ -179,9 +179,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -215,18 +215,18 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
                 resp_map = XMLClient.parse_xml(body_str, _oss_models.DeleteMultipleObjectsResponse())
                 return _oss_models.DeleteMultipleObjectsResponse().from_map(TeaCore.merge({
-                    "DeleteResult": resp_map["DeleteResult"]
+                    "DeleteResult": resp_map.get('DeleteResult')
                 }, _response.headers))
 
             except Exception as e:
@@ -264,9 +264,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -296,12 +296,12 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 return _oss_models.PutBucketRefererResponse().from_map(TeaCore.merge(_response.headers))
@@ -341,9 +341,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -373,12 +373,12 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 return _oss_models.PutBucketWebsiteResponse().from_map(TeaCore.merge(_response.headers))
@@ -418,9 +418,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -451,18 +451,18 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
                 resp_map = XMLClient.parse_xml(body_str, _oss_models.CompleteMultipartUploadResponse())
                 return _oss_models.CompleteMultipartUploadResponse().from_map(TeaCore.merge({
-                    "CompleteMultipartUploadResult": resp_map["CompleteMultipartUploadResult"]
+                    "CompleteMultipartUploadResult": resp_map.get('CompleteMultipartUploadResult')
                 }, _response.headers))
 
             except Exception as e:
@@ -500,9 +500,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -532,12 +532,12 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 return _oss_models.PutBucketLoggingResponse().from_map(TeaCore.merge(_response.headers))
@@ -577,9 +577,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -609,12 +609,12 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 return _oss_models.PutBucketRequestPaymentResponse().from_map(TeaCore.merge(_response.headers))
@@ -654,9 +654,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -686,12 +686,12 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 return _oss_models.PutBucketEncryptionResponse().from_map(TeaCore.merge(_response.headers))
@@ -731,9 +731,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -763,18 +763,18 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
                 resp_map = XMLClient.parse_xml(body_str, _oss_models.PutLiveChannelResponse())
                 return _oss_models.PutLiveChannelResponse().from_map(TeaCore.merge({
-                    "CreateLiveChannelResult": resp_map["CreateLiveChannelResult"]
+                    "CreateLiveChannelResult": resp_map.get('CreateLiveChannelResult')
                 }, _response.headers))
 
             except Exception as e:
@@ -812,9 +812,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -844,12 +844,12 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 return _oss_models.PutBucketTagsResponse().from_map(TeaCore.merge(_response.headers))
@@ -889,9 +889,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -921,12 +921,12 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 return _oss_models.PutObjectTaggingResponse().from_map(TeaCore.merge(_response.headers))
@@ -966,9 +966,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -999,12 +999,12 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 return _oss_models.SelectObjectResponse().from_map(TeaCore.merge(_response.headers))
@@ -1044,9 +1044,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -1076,12 +1076,12 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 return _oss_models.PutBucketCORSResponse().from_map(TeaCore.merge(_response.headers))
@@ -1121,9 +1121,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -1153,12 +1153,12 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 return _oss_models.PutBucketResponse().from_map(TeaCore.merge(_response.headers))
@@ -1198,9 +1198,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -1229,18 +1229,18 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
                 resp_map = XMLClient.parse_xml(body_str, _oss_models.ListMultipartUploadsResponse())
                 return _oss_models.ListMultipartUploadsResponse().from_map(TeaCore.merge({
-                    "ListMultipartUploadsResult": resp_map["ListMultipartUploadsResult"]
+                    "ListMultipartUploadsResult": resp_map.get('ListMultipartUploadsResult')
                 }, _response.headers))
 
             except Exception as e:
@@ -1278,9 +1278,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -1308,18 +1308,18 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
                 resp_map = XMLClient.parse_xml(body_str, _oss_models.GetBucketRequestPaymentResponse())
                 return _oss_models.GetBucketRequestPaymentResponse().from_map(TeaCore.merge({
-                    "RequestPaymentConfiguration": resp_map["RequestPaymentConfiguration"]
+                    "RequestPaymentConfiguration": resp_map.get('RequestPaymentConfiguration')
                 }, _response.headers))
 
             except Exception as e:
@@ -1357,9 +1357,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -1387,18 +1387,18 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
                 resp_map = XMLClient.parse_xml(body_str, _oss_models.GetBucketEncryptionResponse())
                 return _oss_models.GetBucketEncryptionResponse().from_map(TeaCore.merge({
-                    "ServerSideEncryptionRule": resp_map["ServerSideEncryptionRule"]
+                    "ServerSideEncryptionRule": resp_map.get('ServerSideEncryptionRule')
                 }, _response.headers))
 
             except Exception as e:
@@ -1436,9 +1436,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -1466,18 +1466,18 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
                 resp_map = XMLClient.parse_xml(body_str, _oss_models.GetBucketTagsResponse())
                 return _oss_models.GetBucketTagsResponse().from_map(TeaCore.merge({
-                    "Tagging": resp_map["Tagging"]
+                    "Tagging": resp_map.get('Tagging')
                 }, _response.headers))
 
             except Exception as e:
@@ -1515,9 +1515,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -1546,18 +1546,18 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
                 resp_map = XMLClient.parse_xml(body_str, _oss_models.GetServiceResponse())
                 return _oss_models.GetServiceResponse().from_map(TeaCore.merge({
-                    "ListAllMyBucketsResult": resp_map["ListAllMyBucketsResult"]
+                    "ListAllMyBucketsResult": resp_map.get('ListAllMyBucketsResult')
                 }, _response.headers))
 
             except Exception as e:
@@ -1595,9 +1595,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -1625,12 +1625,12 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 return _oss_models.DeleteBucketEncryptionResponse().from_map(TeaCore.merge(_response.headers))
@@ -1670,9 +1670,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -1701,12 +1701,12 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 return _oss_models.DeleteBucketTagsResponse().from_map(TeaCore.merge(_response.headers))
@@ -1746,9 +1746,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -1776,18 +1776,18 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
                 resp_map = XMLClient.parse_xml(body_str, _oss_models.GetBucketWebsiteResponse())
                 return _oss_models.GetBucketWebsiteResponse().from_map(TeaCore.merge({
-                    "WebsiteConfiguration": resp_map["WebsiteConfiguration"]
+                    "WebsiteConfiguration": resp_map.get('WebsiteConfiguration')
                 }, _response.headers))
 
             except Exception as e:
@@ -1825,9 +1825,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -1855,12 +1855,12 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 return _oss_models.DeleteLiveChannelResponse().from_map(TeaCore.merge(_response.headers))
@@ -1900,9 +1900,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -1930,18 +1930,18 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
                 resp_map = XMLClient.parse_xml(body_str, _oss_models.GetBucketLocationResponse())
                 return _oss_models.GetBucketLocationResponse().from_map(TeaCore.merge({
-                    "LocationConstraint": resp_map["LocationConstraint"]
+                    "LocationConstraint": resp_map.get('LocationConstraint')
                 }, _response.headers))
 
             except Exception as e:
@@ -1979,9 +1979,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -2010,18 +2010,18 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
                 resp_map = XMLClient.parse_xml(body_str, _oss_models.ListLiveChannelResponse())
                 return _oss_models.ListLiveChannelResponse().from_map(TeaCore.merge({
-                    "ListLiveChannelResult": resp_map["ListLiveChannelResult"]
+                    "ListLiveChannelResult": resp_map.get('ListLiveChannelResult')
                 }, _response.headers))
 
             except Exception as e:
@@ -2059,9 +2059,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -2089,12 +2089,12 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 return _oss_models.GetObjectMetaResponse().from_map(TeaCore.merge(_response.headers))
@@ -2134,9 +2134,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -2164,18 +2164,18 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
                 resp_map = XMLClient.parse_xml(body_str, _oss_models.GetBucketAclResponse())
                 return _oss_models.GetBucketAclResponse().from_map(TeaCore.merge({
-                    "AccessControlPolicy": resp_map["AccessControlPolicy"]
+                    "AccessControlPolicy": resp_map.get('AccessControlPolicy')
                 }, _response.headers))
 
             except Exception as e:
@@ -2213,9 +2213,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -2244,18 +2244,18 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
                 resp_map = XMLClient.parse_xml(body_str, _oss_models.ListPartsResponse())
                 return _oss_models.ListPartsResponse().from_map(TeaCore.merge({
-                    "ListPartsResult": resp_map["ListPartsResult"]
+                    "ListPartsResult": resp_map.get('ListPartsResult')
                 }, _response.headers))
 
             except Exception as e:
@@ -2293,9 +2293,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -2324,18 +2324,18 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
                 resp_map = XMLClient.parse_xml(body_str, _oss_models.GetLiveChannelHistoryResponse())
                 return _oss_models.GetLiveChannelHistoryResponse().from_map(TeaCore.merge({
-                    "LiveChannelHistory": resp_map["LiveChannelHistory"]
+                    "LiveChannelHistory": resp_map.get('LiveChannelHistory')
                 }, _response.headers))
 
             except Exception as e:
@@ -2373,9 +2373,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -2404,18 +2404,18 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
                 resp_map = XMLClient.parse_xml(body_str, _oss_models.GetBucketResponse())
                 return _oss_models.GetBucketResponse().from_map(TeaCore.merge({
-                    "ListBucketResult": resp_map["ListBucketResult"]
+                    "ListBucketResult": resp_map.get('ListBucketResult')
                 }, _response.headers))
 
             except Exception as e:
@@ -2453,9 +2453,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -2483,18 +2483,18 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
                 resp_map = XMLClient.parse_xml(body_str, _oss_models.GetLiveChannelInfoResponse())
                 return _oss_models.GetLiveChannelInfoResponse().from_map(TeaCore.merge({
-                    "LiveChannelConfiguration": resp_map["LiveChannelConfiguration"]
+                    "LiveChannelConfiguration": resp_map.get('LiveChannelConfiguration')
                 }, _response.headers))
 
             except Exception as e:
@@ -2532,9 +2532,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -2563,18 +2563,18 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
                 resp_map = XMLClient.parse_xml(body_str, _oss_models.GetLiveChannelStatResponse())
                 return _oss_models.GetLiveChannelStatResponse().from_map(TeaCore.merge({
-                    "LiveChannelStat": resp_map["LiveChannelStat"]
+                    "LiveChannelStat": resp_map.get('LiveChannelStat')
                 }, _response.headers))
 
             except Exception as e:
@@ -2612,9 +2612,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -2642,12 +2642,12 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 return _oss_models.DeleteObjectResponse().from_map(TeaCore.merge(_response.headers))
@@ -2687,9 +2687,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -2718,12 +2718,12 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 return _oss_models.AbortMultipartUploadResponse().from_map(TeaCore.merge(_response.headers))
@@ -2763,9 +2763,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -2801,28 +2801,28 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
-                if self._is_enable_crc and not UtilClient.equal_string(ctx["crc"], _response.headers["x-oss-hash-crc64ecma"]):
+                if self._is_enable_crc and not UtilClient.equal_string(ctx.get('crc'), _response.headers.get('x-oss-hash-crc64ecma')):
                     raise TeaException({
                         "code": "CrcNotMatched",
                         "data": {
-                            "clientCrc": ctx["crc"],
-                            "serverCrc": _response.headers["x-oss-hash-crc64ecma"]
+                            "clientCrc": ctx.get('crc'),
+                            "serverCrc": _response.headers.get('x-oss-hash-crc64ecma')
                         }
                     })
-                if self._is_enable_md5 and not UtilClient.equal_string(ctx["md5"], _response.headers["content-md5"]):
+                if self._is_enable_md5 and not UtilClient.equal_string(ctx.get('md5'), _response.headers.get('content-md5')):
                     raise TeaException({
                         "code": "MD5NotMatched",
                         "data": {
-                            "clientMD5": ctx["md5"],
-                            "serverMD5": _response.headers["content-md5"]
+                            "clientMD5": ctx.get('md5'),
+                            "serverMD5": _response.headers.get('content-md5')
                         }
                     })
                 return _oss_models.AppendObjectResponse().from_map(TeaCore.merge(_response.headers))
@@ -2862,9 +2862,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -2893,18 +2893,18 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
                 resp_map = XMLClient.parse_xml(body_str, _oss_models.UploadPartCopyResponse())
                 return _oss_models.UploadPartCopyResponse().from_map(TeaCore.merge({
-                    "CopyPartResult": resp_map["CopyPartResult"]
+                    "CopyPartResult": resp_map.get('CopyPartResult')
                 }, _response.headers))
 
             except Exception as e:
@@ -2942,9 +2942,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -2973,12 +2973,12 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 return _oss_models.GetVodPlaylistResponse().from_map(TeaCore.merge(_response.headers))
@@ -3018,9 +3018,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -3048,12 +3048,12 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 return _oss_models.DeleteBucketCORSResponse().from_map(TeaCore.merge(_response.headers))
@@ -3093,9 +3093,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -3123,12 +3123,12 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 return _oss_models.GetObjectResponse().from_map(TeaCore.merge({
@@ -3170,9 +3170,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -3203,28 +3203,28 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
-                if self._is_enable_crc and not UtilClient.equal_string(ctx["crc"], _response.headers["x-oss-hash-crc64ecma"]):
+                if self._is_enable_crc and not UtilClient.equal_string(ctx.get('crc'), _response.headers.get('x-oss-hash-crc64ecma')):
                     raise TeaException({
                         "code": "CrcNotMatched",
                         "data": {
-                            "clientCrc": ctx["crc"],
-                            "serverCrc": _response.headers["x-oss-hash-crc64ecma"]
+                            "clientCrc": ctx.get('crc'),
+                            "serverCrc": _response.headers.get('x-oss-hash-crc64ecma')
                         }
                     })
-                if self._is_enable_md5 and not UtilClient.equal_string(ctx["md5"], _response.headers["content-md5"]):
+                if self._is_enable_md5 and not UtilClient.equal_string(ctx.get('md5'), _response.headers.get('content-md5')):
                     raise TeaException({
                         "code": "MD5NotMatched",
                         "data": {
-                            "clientMD5": ctx["md5"],
-                            "serverMD5": _response.headers["content-md5"]
+                            "clientMD5": ctx.get('md5'),
+                            "serverMD5": _response.headers.get('content-md5')
                         }
                     })
                 return _oss_models.UploadPartResponse().from_map(TeaCore.merge(_response.headers))
@@ -3264,9 +3264,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -3294,18 +3294,18 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
                 resp_map = XMLClient.parse_xml(body_str, _oss_models.GetBucketCORSResponse())
                 return _oss_models.GetBucketCORSResponse().from_map(TeaCore.merge({
-                    "CORSConfiguration": resp_map["CORSConfiguration"]
+                    "CORSConfiguration": resp_map.get('CORSConfiguration')
                 }, _response.headers))
 
             except Exception as e:
@@ -3343,9 +3343,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -3364,7 +3364,7 @@ class Client:
                 }, UtilClient.stringify_map_value(request.header.to_map()))
                 if not UtilClient.empty(token):
                     _request.headers["x-oss-security-token"] = token
-                _request.headers["x-oss-copy-source"] = OSSUtilClient.encode(_request.headers["x-oss-copy-source"], "UrlEncode")
+                _request.headers["x-oss-copy-source"] = OSSUtilClient.encode(_request.headers.get('x-oss-copy-source'), "UrlEncode")
                 _request.headers["authorization"] = OSSUtilClient.get_signature(_request, request.bucket_name, access_key_id, access_key_secret, self._signature_version, self._addtional_headers)
                 _last_request = _request
                 _response = TeaCore.do_action(_request, _runtime)
@@ -3374,18 +3374,18 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
                 resp_map = XMLClient.parse_xml(body_str, _oss_models.CopyObjectResponse())
                 return _oss_models.CopyObjectResponse().from_map(TeaCore.merge({
-                    "CopyObjectResult": resp_map["CopyObjectResult"]
+                    "CopyObjectResult": resp_map.get('CopyObjectResult')
                 }, _response.headers))
 
             except Exception as e:
@@ -3423,9 +3423,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -3453,18 +3453,18 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
                 resp_map = XMLClient.parse_xml(body_str, _oss_models.GetObjectTaggingResponse())
                 return _oss_models.GetObjectTaggingResponse().from_map(TeaCore.merge({
-                    "Tagging": resp_map["Tagging"]
+                    "Tagging": resp_map.get('Tagging')
                 }, _response.headers))
 
             except Exception as e:
@@ -3502,9 +3502,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -3532,12 +3532,12 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 return _oss_models.DeleteBucketLifecycleResponse().from_map(TeaCore.merge(_response.headers))
@@ -3577,9 +3577,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -3607,12 +3607,12 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 return _oss_models.DeleteBucketLoggingResponse().from_map(TeaCore.merge(_response.headers))
@@ -3652,9 +3652,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -3682,12 +3682,12 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 return _oss_models.DeleteBucketWebsiteResponse().from_map(TeaCore.merge(_response.headers))
@@ -3727,9 +3727,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -3757,12 +3757,12 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 return _oss_models.GetSymlinkResponse().from_map(TeaCore.merge(_response.headers))
@@ -3802,9 +3802,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -3832,18 +3832,18 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
                 resp_map = XMLClient.parse_xml(body_str, _oss_models.GetBucketLifecycleResponse())
                 return _oss_models.GetBucketLifecycleResponse().from_map(TeaCore.merge({
-                    "LifecycleConfiguration": resp_map["LifecycleConfiguration"]
+                    "LifecycleConfiguration": resp_map.get('LifecycleConfiguration')
                 }, _response.headers))
 
             except Exception as e:
@@ -3881,9 +3881,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -3911,12 +3911,12 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 return _oss_models.PutSymlinkResponse().from_map(TeaCore.merge(_response.headers))
@@ -3956,9 +3956,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -3986,18 +3986,18 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
                 resp_map = XMLClient.parse_xml(body_str, _oss_models.GetBucketRefererResponse())
                 return _oss_models.GetBucketRefererResponse().from_map(TeaCore.merge({
-                    "RefererConfiguration": resp_map["RefererConfiguration"]
+                    "RefererConfiguration": resp_map.get('RefererConfiguration')
                 }, _response.headers))
 
             except Exception as e:
@@ -4035,9 +4035,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -4065,12 +4065,12 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 return _oss_models.CallbackResponse().from_map(TeaCore.merge(_response.headers))
@@ -4110,9 +4110,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -4140,18 +4140,18 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
                 resp_map = XMLClient.parse_xml(body_str, _oss_models.GetBucketLoggingResponse())
                 return _oss_models.GetBucketLoggingResponse().from_map(TeaCore.merge({
-                    "BucketLoggingStatus": resp_map["BucketLoggingStatus"]
+                    "BucketLoggingStatus": resp_map.get('BucketLoggingStatus')
                 }, _response.headers))
 
             except Exception as e:
@@ -4189,9 +4189,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -4219,12 +4219,12 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 return _oss_models.PutObjectAclResponse().from_map(TeaCore.merge(_response.headers))
@@ -4264,9 +4264,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -4294,18 +4294,18 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
                 resp_map = XMLClient.parse_xml(body_str, _oss_models.GetBucketInfoResponse())
                 return _oss_models.GetBucketInfoResponse().from_map(TeaCore.merge({
-                    "BucketInfo": resp_map["BucketInfo"]
+                    "BucketInfo": resp_map.get('BucketInfo')
                 }, _response.headers))
 
             except Exception as e:
@@ -4343,9 +4343,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -4374,12 +4374,12 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 return _oss_models.PutLiveChannelStatusResponse().from_map(TeaCore.merge(_response.headers))
@@ -4419,9 +4419,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -4454,18 +4454,18 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
                 resp_map = XMLClient.parse_xml(body_str, _oss_models.InitiateMultipartUploadResponse())
                 return _oss_models.InitiateMultipartUploadResponse().from_map(TeaCore.merge({
-                    "InitiateMultipartUploadResult": resp_map["InitiateMultipartUploadResult"]
+                    "InitiateMultipartUploadResult": resp_map.get('InitiateMultipartUploadResult')
                 }, _response.headers))
 
             except Exception as e:
@@ -4503,9 +4503,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -4533,12 +4533,12 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 return _oss_models.OptionObjectResponse().from_map(TeaCore.merge(_response.headers))
@@ -4578,9 +4578,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -4609,12 +4609,12 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 return _oss_models.PostVodPlaylistResponse().from_map(TeaCore.merge(_response.headers))
@@ -4651,9 +4651,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -4685,12 +4685,12 @@ class Client:
                 if UtilClient.is_4xx(_response.status_code) or UtilClient.is_5xx(_response.status_code):
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 resp_map = XMLClient.parse_xml(body_str, _oss_models.PostObjectResponse())
@@ -4731,9 +4731,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -4761,12 +4761,12 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 return _oss_models.HeadObjectResponse().from_map(TeaCore.merge({
@@ -4808,9 +4808,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -4838,12 +4838,12 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 return _oss_models.DeleteObjectTaggingResponse().from_map(TeaCore.merge(_response.headers))
@@ -4883,9 +4883,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -4913,12 +4913,12 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 return _oss_models.RestoreObjectResponse().from_map(TeaCore.merge(_response.headers))
@@ -4958,9 +4958,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -4988,18 +4988,18 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
                 resp_map = XMLClient.parse_xml(body_str, _oss_models.GetObjectAclResponse())
                 return _oss_models.GetObjectAclResponse().from_map(TeaCore.merge({
-                    "AccessControlPolicy": resp_map["AccessControlPolicy"]
+                    "AccessControlPolicy": resp_map.get('AccessControlPolicy')
                 }, _response.headers))
 
             except Exception as e:
@@ -5037,9 +5037,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -5067,12 +5067,12 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 return _oss_models.PutBucketAclResponse().from_map(TeaCore.merge(_response.headers))
@@ -5112,9 +5112,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -5142,12 +5142,12 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
                 return _oss_models.DeleteBucketResponse().from_map(TeaCore.merge(_response.headers))
@@ -5187,9 +5187,9 @@ class Client:
         _last_exception = None
         _now = time.time()
         _retry_times = 0
-        while TeaCore.allow_retry(_runtime["retry"], _retry_times, _now):
+        while TeaCore.allow_retry(_runtime.get('retry'), _retry_times, _now):
             if _retry_times > 0:
-                _backoff_time = TeaCore.get_backoff_time(_runtime["backoff"], _retry_times)
+                _backoff_time = TeaCore.get_backoff_time(_runtime.get('backoff'), _retry_times)
                 if _backoff_time > 0:
                     TeaCore.sleep(_backoff_time)
             _retry_times = _retry_times + 1
@@ -5224,28 +5224,28 @@ class Client:
                     body_str = UtilClient.read_as_string(_response.body)
                     resp_map = OSSUtilClient.get_err_message(body_str)
                     raise TeaException({
-                        "code": resp_map["Code"],
-                        "message": resp_map["Message"],
+                        "code": resp_map.get('Code'),
+                        "message": resp_map.get('Message'),
                         "data": {
                             "httpCode": _response.status_code,
-                            "requestId": resp_map["RequestId"],
-                            "hostId": resp_map["HostId"]
+                            "requestId": resp_map.get('RequestId'),
+                            "hostId": resp_map.get('HostId')
                         }
                     })
-                if self._is_enable_crc and not UtilClient.equal_string(ctx["crc"], _response.headers["x-oss-hash-crc64ecma"]):
+                if self._is_enable_crc and not UtilClient.equal_string(ctx.get('crc'), _response.headers.get('x-oss-hash-crc64ecma')):
                     raise TeaException({
                         "code": "CrcNotMatched",
                         "data": {
-                            "clientCrc": ctx["crc"],
-                            "serverCrc": _response.headers["x-oss-hash-crc64ecma"]
+                            "clientCrc": ctx.get('crc'),
+                            "serverCrc": _response.headers.get('x-oss-hash-crc64ecma')
                         }
                     })
-                if self._is_enable_md5 and not UtilClient.equal_string(ctx["md5"], _response.headers["content-md5"]):
+                if self._is_enable_md5 and not UtilClient.equal_string(ctx.get('md5'), _response.headers.get('content-md5')):
                     raise TeaException({
                         "code": "MD5NotMatched",
                         "data": {
-                            "clientMD5": ctx["md5"],
-                            "serverMD5": _response.headers["content-md5"]
+                            "clientMD5": ctx.get('md5'),
+                            "serverMD5": _response.headers.get('content-md5')
                         }
                     })
                 return _oss_models.PutObjectResponse().from_map(TeaCore.merge(_response.headers))
