@@ -64,6 +64,19 @@ function run_ts {
   upload_codecov_report ts node_js
 }
 
+function run_python {
+  export PYTHONPATH=$PYTHONPATH:`pwd`/util/python
+  echo $PYTHONPATH
+  # install
+  cd util/python/tests || return 126
+  pip install coverage || return 126
+  pip install alibabacloud-tea
+
+  coverage run --source="../alibabacloud_oss_util" run_test.py || return 126
+  cd ../../../
+  upload_codecov_report util/python python
+}
+
 lang=$1
 
 if [ "$lang" == "php" ]
@@ -86,6 +99,10 @@ elif [ "$lang" == "ts" ]
 then
   echo "run ts"
   run_ts
+elif [ "$lang" == "python" ]
+then
+  echo "run python"
+  run_python
 fi
 
 exit $?
