@@ -1,7 +1,7 @@
 {
 	"scope": "alibabacloud",
 	"name": "OSSUtil",
-	"version": "0.1.4",
+	"version": "0.1.5",
 	"main": "./util.tea",
 	"releases": {
 		"go": "github.com/alibabacloud-go/tea-oss-utils/service:v1.1.0",
@@ -9,7 +9,7 @@
 		"ts": "@alicloud/oss-util:0.0.1",
 		"java": "com.aliyun:oss-util:0.0.2",
 		"php": "alibabacloud/tea-oss-utils:^0.2.0",
-		"python": "alibabacloud_oss_util:0.0.1"
+		"python": "alibabacloud_oss_util:0.0.2"
 	},
 	"go": {
 		"package": [
