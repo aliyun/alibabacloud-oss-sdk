@@ -4,6 +4,7 @@ import base64
 import os
 import sys
 
+from _io import BytesIO
 from Tea.stream import BaseStream
 
 
@@ -68,7 +69,10 @@ class VerifyStream(BaseStream):
         self.crc = CRC64()
         self.ref = res
         self.md5 = hashlib.md5()
-        self.file_size = os.path.getsize(file.name)
+        if isinstance(file, BytesIO):
+            self.file_size = file.getbuffer().nbytes
+        else:
+            self.file_size = os.path.getsize(file.name)
         self._file_size = self.file_size
 
     def __len__(self):

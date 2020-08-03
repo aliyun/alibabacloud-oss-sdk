@@ -1,4 +1,5 @@
 import unittest
+from io import BytesIO
 
 from alibabacloud_oss_util.verify_stream import VerifyStream
 
@@ -28,3 +29,13 @@ class TestVerifyStream(unittest.TestCase):
         self.assertEqual('WwpvIEGlrSYPX1YJmi0o2A==', res.get('md5'))
         self.assertEqual(146865635.8, res.get('crc'))
         v.close()
+
+        io = BytesIO(b'tests test')
+        res = {}
+        v = VerifyStream(io, res)
+        content = b''
+        for i in v:
+            content += i
+        self.assertEqual(b'tests test', content)
+        self.assertEqual('WwpvIEGlrSYPX1YJmi0o2A==', res.get('md5'))
+        self.assertEqual(146865635.8, res.get('crc'))
