@@ -1,8 +1,9 @@
+# -*- coding: utf-8 -*-
 # This file is auto-generated, don't edit it. Thanks.
 import time
 
 from alibabacloud_credentials.client import Client as CredentialClient
-from alibabacloud_oss_sdk import models as _oss_models
+from alibabacloud_oss_sdk import models as oss_models
 from alibabacloud_tea_util.client import Client as UtilClient
 from Tea.exceptions import TeaException
 from alibabacloud_credentials import models as credential_models
@@ -16,28 +17,31 @@ from Tea.exceptions import UnretryableException
 from alibabacloud_tea_fileform.client import Client as FileFormClient
 
 
-class Client:
-    def __init__(self, config, _endpoint=None, _region_id=None, _host_model=None, _protocol=None, _read_timeout=None, _connect_timeout=None, _signature_version=None, _addtional_headers=None, _local_addr=None, _http_proxy=None, _https_proxy=None, _no_proxy=None, _user_agent=None, _socks_5proxy=None, _is_enable_crc=None, _is_enable_md5=None, _socks_5net_work=None, _max_idle_conns=None, _credential=None):
-        self._endpoint = _endpoint
-        self._region_id = _region_id
-        self._host_model = _host_model
-        self._protocol = _protocol
-        self._read_timeout = _read_timeout
-        self._connect_timeout = _connect_timeout
-        self._signature_version = _signature_version
-        self._addtional_headers = []
-        self._local_addr = _local_addr
-        self._http_proxy = _http_proxy
-        self._https_proxy = _https_proxy
-        self._no_proxy = _no_proxy
-        self._user_agent = _user_agent
-        self._socks_5proxy = _socks_5proxy
-        self._is_enable_crc = _is_enable_crc
-        self._is_enable_md5 = _is_enable_md5
-        self._socks_5net_work = _socks_5net_work
-        self._max_idle_conns = _max_idle_conns
-        self._credential = _credential
-        if UtilClient.is_unset(config.to_map()):
+class Client(object):
+    def __init__(self, config, _endpoint=None, _region_id=None, _host_model=None, _protocol=None, _read_timeout=None,
+                 _connect_timeout=None, _signature_version=None, _addtional_headers=None, _local_addr=None, _http_proxy=None,
+                 _https_proxy=None, _no_proxy=None, _user_agent=None, _socks_5proxy=None, _is_enable_crc=None,
+                 _is_enable_md5=None, _socks_5net_work=None, _max_idle_conns=None, _credential=None):
+        self._endpoint = _endpoint  # type: str
+        self._region_id = _region_id  # type: str
+        self._host_model = _host_model  # type: str
+        self._protocol = _protocol  # type: str
+        self._read_timeout = _read_timeout  # type: int
+        self._connect_timeout = _connect_timeout  # type: int
+        self._signature_version = _signature_version  # type: str
+        self._addtional_headers = _addtional_headers  # type: list
+        self._local_addr = _local_addr  # type: str
+        self._http_proxy = _http_proxy  # type: str
+        self._https_proxy = _https_proxy  # type: str
+        self._no_proxy = _no_proxy  # type: str
+        self._user_agent = _user_agent  # type: str
+        self._socks_5proxy = _socks_5proxy  # type: str
+        self._is_enable_crc = _is_enable_crc  # type: bool
+        self._is_enable_md5 = _is_enable_md5  # type: bool
+        self._socks_5net_work = _socks_5net_work  # type: str
+        self._max_idle_conns = _max_idle_conns  # type: int
+        self._credential = _credential  # type: Credential
+        if UtilClient.is_unset(config):
             raise TeaException({
                 "name": "ParameterMissing",
                 "message": "'config' can not be unset"
@@ -142,8 +146,7 @@ class Client:
                             "hostId": resp_map.get('HostId')
                         }
                     })
-                return _oss_models.PutBucketLifecycleResponse().from_map(TeaCore.merge(_response.headers))
-
+                return oss_models.PutBucketLifecycleResponse().from_map(TeaCore.merge(_response.headers))
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -202,7 +205,7 @@ class Client:
                 if not UtilClient.empty(token):
                     _request.headers["x-oss-security-token"] = token
                 _request.body = req_body
-                if not UtilClient.is_unset(request.header.to_map()) and not UtilClient.empty(request.header.content_md5):
+                if not UtilClient.is_unset(request.header) and not UtilClient.empty(request.header.content_md5):
                     _request.headers["content-md5"] = request.header.content_md5
                 else:
                     _request.headers["content-md5"] = OSSUtilClient.get_content_md5(req_body, self._is_enable_md5)
@@ -224,11 +227,10 @@ class Client:
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
-                resp_map = XMLClient.parse_xml(body_str, _oss_models.DeleteMultipleObjectsResponse())
-                return _oss_models.DeleteMultipleObjectsResponse().from_map(TeaCore.merge({
+                resp_map = XMLClient.parse_xml(body_str, oss_models.DeleteMultipleObjectsResponse())
+                return oss_models.DeleteMultipleObjectsResponse().from_map(TeaCore.merge({
                     "DeleteResult": resp_map.get('DeleteResult')
                 }, _response.headers))
-
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -304,8 +306,7 @@ class Client:
                             "hostId": resp_map.get('HostId')
                         }
                     })
-                return _oss_models.PutBucketRefererResponse().from_map(TeaCore.merge(_response.headers))
-
+                return oss_models.PutBucketRefererResponse().from_map(TeaCore.merge(_response.headers))
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -381,8 +382,7 @@ class Client:
                             "hostId": resp_map.get('HostId')
                         }
                     })
-                return _oss_models.PutBucketWebsiteResponse().from_map(TeaCore.merge(_response.headers))
-
+                return oss_models.PutBucketWebsiteResponse().from_map(TeaCore.merge(_response.headers))
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -432,7 +432,7 @@ class Client:
                 req_body = XMLClient.to_xml(request.body.to_map())
                 _request.protocol = self._protocol
                 _request.method = "POST"
-                _request.pathname = "/" + request.object_name + ""
+                _request.pathname = "/" + str(request.object_name) + ""
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -460,11 +460,10 @@ class Client:
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
-                resp_map = XMLClient.parse_xml(body_str, _oss_models.CompleteMultipartUploadResponse())
-                return _oss_models.CompleteMultipartUploadResponse().from_map(TeaCore.merge({
+                resp_map = XMLClient.parse_xml(body_str, oss_models.CompleteMultipartUploadResponse())
+                return oss_models.CompleteMultipartUploadResponse().from_map(TeaCore.merge({
                     "CompleteMultipartUploadResult": resp_map.get('CompleteMultipartUploadResult')
                 }, _response.headers))
-
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -540,8 +539,7 @@ class Client:
                             "hostId": resp_map.get('HostId')
                         }
                     })
-                return _oss_models.PutBucketLoggingResponse().from_map(TeaCore.merge(_response.headers))
-
+                return oss_models.PutBucketLoggingResponse().from_map(TeaCore.merge(_response.headers))
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -617,8 +615,7 @@ class Client:
                             "hostId": resp_map.get('HostId')
                         }
                     })
-                return _oss_models.PutBucketRequestPaymentResponse().from_map(TeaCore.merge(_response.headers))
-
+                return oss_models.PutBucketRequestPaymentResponse().from_map(TeaCore.merge(_response.headers))
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -694,8 +691,7 @@ class Client:
                             "hostId": resp_map.get('HostId')
                         }
                     })
-                return _oss_models.PutBucketEncryptionResponse().from_map(TeaCore.merge(_response.headers))
-
+                return oss_models.PutBucketEncryptionResponse().from_map(TeaCore.merge(_response.headers))
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -745,7 +741,7 @@ class Client:
                 req_body = XMLClient.to_xml(request.body.to_map())
                 _request.protocol = self._protocol
                 _request.method = "PUT"
-                _request.pathname = "/" + request.channel_name + "?live"
+                _request.pathname = "/" + str(request.channel_name) + "?live"
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -772,11 +768,10 @@ class Client:
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
-                resp_map = XMLClient.parse_xml(body_str, _oss_models.PutLiveChannelResponse())
-                return _oss_models.PutLiveChannelResponse().from_map(TeaCore.merge({
+                resp_map = XMLClient.parse_xml(body_str, oss_models.PutLiveChannelResponse())
+                return oss_models.PutLiveChannelResponse().from_map(TeaCore.merge({
                     "CreateLiveChannelResult": resp_map.get('CreateLiveChannelResult')
                 }, _response.headers))
-
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -852,8 +847,7 @@ class Client:
                             "hostId": resp_map.get('HostId')
                         }
                     })
-                return _oss_models.PutBucketTagsResponse().from_map(TeaCore.merge(_response.headers))
-
+                return oss_models.PutBucketTagsResponse().from_map(TeaCore.merge(_response.headers))
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -903,7 +897,7 @@ class Client:
                 req_body = XMLClient.to_xml(request.body.to_map())
                 _request.protocol = self._protocol
                 _request.method = "PUT"
-                _request.pathname = "/" + request.object_name + "?tagging"
+                _request.pathname = "/" + str(request.object_name) + "?tagging"
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -929,8 +923,7 @@ class Client:
                             "hostId": resp_map.get('HostId')
                         }
                     })
-                return _oss_models.PutObjectTaggingResponse().from_map(TeaCore.merge(_response.headers))
-
+                return oss_models.PutObjectTaggingResponse().from_map(TeaCore.merge(_response.headers))
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -980,7 +973,7 @@ class Client:
                 req_body = XMLClient.to_xml(request.body.to_map())
                 _request.protocol = self._protocol
                 _request.method = "POST"
-                _request.pathname = "/" + request.object_name + ""
+                _request.pathname = "/" + str(request.object_name) + ""
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -1007,8 +1000,7 @@ class Client:
                             "hostId": resp_map.get('HostId')
                         }
                     })
-                return _oss_models.SelectObjectResponse().from_map(TeaCore.merge(_response.headers))
-
+                return oss_models.SelectObjectResponse().from_map(TeaCore.merge(_response.headers))
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -1084,8 +1076,7 @@ class Client:
                             "hostId": resp_map.get('HostId')
                         }
                     })
-                return _oss_models.PutBucketCORSResponse().from_map(TeaCore.merge(_response.headers))
-
+                return oss_models.PutBucketCORSResponse().from_map(TeaCore.merge(_response.headers))
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -1161,8 +1152,7 @@ class Client:
                             "hostId": resp_map.get('HostId')
                         }
                     })
-                return _oss_models.PutBucketResponse().from_map(TeaCore.merge(_response.headers))
-
+                return oss_models.PutBucketResponse().from_map(TeaCore.merge(_response.headers))
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -1238,11 +1228,10 @@ class Client:
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
-                resp_map = XMLClient.parse_xml(body_str, _oss_models.ListMultipartUploadsResponse())
-                return _oss_models.ListMultipartUploadsResponse().from_map(TeaCore.merge({
+                resp_map = XMLClient.parse_xml(body_str, oss_models.ListMultipartUploadsResponse())
+                return oss_models.ListMultipartUploadsResponse().from_map(TeaCore.merge({
                     "ListMultipartUploadsResult": resp_map.get('ListMultipartUploadsResult')
                 }, _response.headers))
-
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -1317,11 +1306,10 @@ class Client:
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
-                resp_map = XMLClient.parse_xml(body_str, _oss_models.GetBucketRequestPaymentResponse())
-                return _oss_models.GetBucketRequestPaymentResponse().from_map(TeaCore.merge({
+                resp_map = XMLClient.parse_xml(body_str, oss_models.GetBucketRequestPaymentResponse())
+                return oss_models.GetBucketRequestPaymentResponse().from_map(TeaCore.merge({
                     "RequestPaymentConfiguration": resp_map.get('RequestPaymentConfiguration')
                 }, _response.headers))
-
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -1396,11 +1384,10 @@ class Client:
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
-                resp_map = XMLClient.parse_xml(body_str, _oss_models.GetBucketEncryptionResponse())
-                return _oss_models.GetBucketEncryptionResponse().from_map(TeaCore.merge({
+                resp_map = XMLClient.parse_xml(body_str, oss_models.GetBucketEncryptionResponse())
+                return oss_models.GetBucketEncryptionResponse().from_map(TeaCore.merge({
                     "ServerSideEncryptionRule": resp_map.get('ServerSideEncryptionRule')
                 }, _response.headers))
-
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -1475,11 +1462,10 @@ class Client:
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
-                resp_map = XMLClient.parse_xml(body_str, _oss_models.GetBucketTagsResponse())
-                return _oss_models.GetBucketTagsResponse().from_map(TeaCore.merge({
+                resp_map = XMLClient.parse_xml(body_str, oss_models.GetBucketTagsResponse())
+                return oss_models.GetBucketTagsResponse().from_map(TeaCore.merge({
                     "Tagging": resp_map.get('Tagging')
                 }, _response.headers))
-
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -1555,11 +1541,10 @@ class Client:
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
-                resp_map = XMLClient.parse_xml(body_str, _oss_models.GetServiceResponse())
-                return _oss_models.GetServiceResponse().from_map(TeaCore.merge({
+                resp_map = XMLClient.parse_xml(body_str, oss_models.GetServiceResponse())
+                return oss_models.GetServiceResponse().from_map(TeaCore.merge({
                     "ListAllMyBucketsResult": resp_map.get('ListAllMyBucketsResult')
                 }, _response.headers))
-
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -1633,8 +1618,7 @@ class Client:
                             "hostId": resp_map.get('HostId')
                         }
                     })
-                return _oss_models.DeleteBucketEncryptionResponse().from_map(TeaCore.merge(_response.headers))
-
+                return oss_models.DeleteBucketEncryptionResponse().from_map(TeaCore.merge(_response.headers))
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -1709,8 +1693,7 @@ class Client:
                             "hostId": resp_map.get('HostId')
                         }
                     })
-                return _oss_models.DeleteBucketTagsResponse().from_map(TeaCore.merge(_response.headers))
-
+                return oss_models.DeleteBucketTagsResponse().from_map(TeaCore.merge(_response.headers))
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -1785,11 +1768,10 @@ class Client:
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
-                resp_map = XMLClient.parse_xml(body_str, _oss_models.GetBucketWebsiteResponse())
-                return _oss_models.GetBucketWebsiteResponse().from_map(TeaCore.merge({
+                resp_map = XMLClient.parse_xml(body_str, oss_models.GetBucketWebsiteResponse())
+                return oss_models.GetBucketWebsiteResponse().from_map(TeaCore.merge({
                     "WebsiteConfiguration": resp_map.get('WebsiteConfiguration')
                 }, _response.headers))
-
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -1838,7 +1820,7 @@ class Client:
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "DELETE"
-                _request.pathname = "/" + request.channel_name + "?live"
+                _request.pathname = "/" + str(request.channel_name) + "?live"
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -1863,8 +1845,7 @@ class Client:
                             "hostId": resp_map.get('HostId')
                         }
                     })
-                return _oss_models.DeleteLiveChannelResponse().from_map(TeaCore.merge(_response.headers))
-
+                return oss_models.DeleteLiveChannelResponse().from_map(TeaCore.merge(_response.headers))
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -1939,11 +1920,10 @@ class Client:
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
-                resp_map = XMLClient.parse_xml(body_str, _oss_models.GetBucketLocationResponse())
-                return _oss_models.GetBucketLocationResponse().from_map(TeaCore.merge({
+                resp_map = XMLClient.parse_xml(body_str, oss_models.GetBucketLocationResponse())
+                return oss_models.GetBucketLocationResponse().from_map(TeaCore.merge({
                     "LocationConstraint": resp_map.get('LocationConstraint')
                 }, _response.headers))
-
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -2019,11 +1999,10 @@ class Client:
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
-                resp_map = XMLClient.parse_xml(body_str, _oss_models.ListLiveChannelResponse())
-                return _oss_models.ListLiveChannelResponse().from_map(TeaCore.merge({
+                resp_map = XMLClient.parse_xml(body_str, oss_models.ListLiveChannelResponse())
+                return oss_models.ListLiveChannelResponse().from_map(TeaCore.merge({
                     "ListLiveChannelResult": resp_map.get('ListLiveChannelResult')
                 }, _response.headers))
-
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -2072,7 +2051,7 @@ class Client:
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "HEAD"
-                _request.pathname = "/" + request.object_name + "?objectMeta"
+                _request.pathname = "/" + str(request.object_name) + "?objectMeta"
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -2097,8 +2076,7 @@ class Client:
                             "hostId": resp_map.get('HostId')
                         }
                     })
-                return _oss_models.GetObjectMetaResponse().from_map(TeaCore.merge(_response.headers))
-
+                return oss_models.GetObjectMetaResponse().from_map(TeaCore.merge(_response.headers))
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -2173,11 +2151,10 @@ class Client:
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
-                resp_map = XMLClient.parse_xml(body_str, _oss_models.GetBucketAclResponse())
-                return _oss_models.GetBucketAclResponse().from_map(TeaCore.merge({
+                resp_map = XMLClient.parse_xml(body_str, oss_models.GetBucketAclResponse())
+                return oss_models.GetBucketAclResponse().from_map(TeaCore.merge({
                     "AccessControlPolicy": resp_map.get('AccessControlPolicy')
                 }, _response.headers))
-
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -2226,7 +2203,7 @@ class Client:
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "GET"
-                _request.pathname = "/" + request.object_name + ""
+                _request.pathname = "/" + str(request.object_name) + ""
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -2253,11 +2230,10 @@ class Client:
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
-                resp_map = XMLClient.parse_xml(body_str, _oss_models.ListPartsResponse())
-                return _oss_models.ListPartsResponse().from_map(TeaCore.merge({
+                resp_map = XMLClient.parse_xml(body_str, oss_models.ListPartsResponse())
+                return oss_models.ListPartsResponse().from_map(TeaCore.merge({
                     "ListPartsResult": resp_map.get('ListPartsResult')
                 }, _response.headers))
-
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -2306,7 +2282,7 @@ class Client:
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "GET"
-                _request.pathname = "/" + request.channel_name + "?live"
+                _request.pathname = "/" + str(request.channel_name) + "?live"
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -2333,11 +2309,10 @@ class Client:
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
-                resp_map = XMLClient.parse_xml(body_str, _oss_models.GetLiveChannelHistoryResponse())
-                return _oss_models.GetLiveChannelHistoryResponse().from_map(TeaCore.merge({
+                resp_map = XMLClient.parse_xml(body_str, oss_models.GetLiveChannelHistoryResponse())
+                return oss_models.GetLiveChannelHistoryResponse().from_map(TeaCore.merge({
                     "LiveChannelHistory": resp_map.get('LiveChannelHistory')
                 }, _response.headers))
-
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -2413,11 +2388,10 @@ class Client:
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
-                resp_map = XMLClient.parse_xml(body_str, _oss_models.GetBucketResponse())
-                return _oss_models.GetBucketResponse().from_map(TeaCore.merge({
+                resp_map = XMLClient.parse_xml(body_str, oss_models.GetBucketResponse())
+                return oss_models.GetBucketResponse().from_map(TeaCore.merge({
                     "ListBucketResult": resp_map.get('ListBucketResult')
                 }, _response.headers))
-
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -2466,7 +2440,7 @@ class Client:
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "GET"
-                _request.pathname = "/" + request.channel_name + "?live"
+                _request.pathname = "/" + str(request.channel_name) + "?live"
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -2492,11 +2466,10 @@ class Client:
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
-                resp_map = XMLClient.parse_xml(body_str, _oss_models.GetLiveChannelInfoResponse())
-                return _oss_models.GetLiveChannelInfoResponse().from_map(TeaCore.merge({
+                resp_map = XMLClient.parse_xml(body_str, oss_models.GetLiveChannelInfoResponse())
+                return oss_models.GetLiveChannelInfoResponse().from_map(TeaCore.merge({
                     "LiveChannelConfiguration": resp_map.get('LiveChannelConfiguration')
                 }, _response.headers))
-
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -2545,7 +2518,7 @@ class Client:
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "GET"
-                _request.pathname = "/" + request.channel_name + "?live"
+                _request.pathname = "/" + str(request.channel_name) + "?live"
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -2572,11 +2545,10 @@ class Client:
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
-                resp_map = XMLClient.parse_xml(body_str, _oss_models.GetLiveChannelStatResponse())
-                return _oss_models.GetLiveChannelStatResponse().from_map(TeaCore.merge({
+                resp_map = XMLClient.parse_xml(body_str, oss_models.GetLiveChannelStatResponse())
+                return oss_models.GetLiveChannelStatResponse().from_map(TeaCore.merge({
                     "LiveChannelStat": resp_map.get('LiveChannelStat')
                 }, _response.headers))
-
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -2625,7 +2597,7 @@ class Client:
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "DELETE"
-                _request.pathname = "/" + request.object_name + ""
+                _request.pathname = "/" + str(request.object_name) + ""
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -2650,8 +2622,7 @@ class Client:
                             "hostId": resp_map.get('HostId')
                         }
                     })
-                return _oss_models.DeleteObjectResponse().from_map(TeaCore.merge(_response.headers))
-
+                return oss_models.DeleteObjectResponse().from_map(TeaCore.merge(_response.headers))
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -2700,7 +2671,7 @@ class Client:
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "DELETE"
-                _request.pathname = "/" + request.object_name + ""
+                _request.pathname = "/" + str(request.object_name) + ""
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -2726,8 +2697,7 @@ class Client:
                             "hostId": resp_map.get('HostId')
                         }
                     })
-                return _oss_models.AbortMultipartUploadResponse().from_map(TeaCore.merge(_response.headers))
-
+                return oss_models.AbortMultipartUploadResponse().from_map(TeaCore.merge(_response.headers))
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -2777,7 +2747,7 @@ class Client:
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "POST"
-                _request.pathname = "/" + request.object_name + "?append"
+                _request.pathname = "/" + str(request.object_name) + "?append"
                 _request.headers = TeaCore.merge({
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -2788,7 +2758,7 @@ class Client:
                     _request.headers["x-oss-security-token"] = token
                 _request.query = UtilClient.stringify_map_value(request.filter.to_map())
                 _request.body = OSSUtilClient.inject(request.body, ctx)
-                if not UtilClient.is_unset(request.header.to_map()) and not UtilClient.empty(request.header.content_type):
+                if not UtilClient.is_unset(request.header) and not UtilClient.empty(request.header.content_type):
                     _request.headers["content-type"] = request.header.content_type
                 else:
                     _request.headers["content-type"] = OSSUtilClient.get_content_type(request.object_name)
@@ -2825,8 +2795,7 @@ class Client:
                             "serverMD5": _response.headers.get('content-md5')
                         }
                     })
-                return _oss_models.AppendObjectResponse().from_map(TeaCore.merge(_response.headers))
-
+                return oss_models.AppendObjectResponse().from_map(TeaCore.merge(_response.headers))
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -2875,7 +2844,7 @@ class Client:
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "PUT"
-                _request.pathname = "/" + request.object_name + ""
+                _request.pathname = "/" + str(request.object_name) + ""
                 _request.headers = TeaCore.merge({
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -2902,11 +2871,10 @@ class Client:
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
-                resp_map = XMLClient.parse_xml(body_str, _oss_models.UploadPartCopyResponse())
-                return _oss_models.UploadPartCopyResponse().from_map(TeaCore.merge({
+                resp_map = XMLClient.parse_xml(body_str, oss_models.UploadPartCopyResponse())
+                return oss_models.UploadPartCopyResponse().from_map(TeaCore.merge({
                     "CopyPartResult": resp_map.get('CopyPartResult')
                 }, _response.headers))
-
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -2955,7 +2923,7 @@ class Client:
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "GET"
-                _request.pathname = "/" + request.channel_name + "?vod"
+                _request.pathname = "/" + str(request.channel_name) + "?vod"
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -2981,8 +2949,7 @@ class Client:
                             "hostId": resp_map.get('HostId')
                         }
                     })
-                return _oss_models.GetVodPlaylistResponse().from_map(TeaCore.merge(_response.headers))
-
+                return oss_models.GetVodPlaylistResponse().from_map(TeaCore.merge(_response.headers))
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -3056,8 +3023,7 @@ class Client:
                             "hostId": resp_map.get('HostId')
                         }
                     })
-                return _oss_models.DeleteBucketCORSResponse().from_map(TeaCore.merge(_response.headers))
-
+                return oss_models.DeleteBucketCORSResponse().from_map(TeaCore.merge(_response.headers))
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -3106,7 +3072,7 @@ class Client:
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "GET"
-                _request.pathname = "/" + request.object_name + ""
+                _request.pathname = "/" + str(request.object_name) + ""
                 _request.headers = TeaCore.merge({
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -3131,10 +3097,9 @@ class Client:
                             "hostId": resp_map.get('HostId')
                         }
                     })
-                return _oss_models.GetObjectResponse().from_map(TeaCore.merge({
+                return oss_models.GetObjectResponse().from_map(TeaCore.merge({
                     "body": _response.body
                 }, _response.headers))
-
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -3184,7 +3149,7 @@ class Client:
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "PUT"
-                _request.pathname = "/" + request.object_name + ""
+                _request.pathname = "/" + str(request.object_name) + ""
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -3227,8 +3192,7 @@ class Client:
                             "serverMD5": _response.headers.get('content-md5')
                         }
                     })
-                return _oss_models.UploadPartResponse().from_map(TeaCore.merge(_response.headers))
-
+                return oss_models.UploadPartResponse().from_map(TeaCore.merge(_response.headers))
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -3303,11 +3267,10 @@ class Client:
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
-                resp_map = XMLClient.parse_xml(body_str, _oss_models.GetBucketCORSResponse())
-                return _oss_models.GetBucketCORSResponse().from_map(TeaCore.merge({
+                resp_map = XMLClient.parse_xml(body_str, oss_models.GetBucketCORSResponse())
+                return oss_models.GetBucketCORSResponse().from_map(TeaCore.merge({
                     "CORSConfiguration": resp_map.get('CORSConfiguration')
                 }, _response.headers))
-
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -3356,7 +3319,7 @@ class Client:
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "PUT"
-                _request.pathname = "/" + request.dest_object_name + ""
+                _request.pathname = "/" + str(request.dest_object_name) + ""
                 _request.headers = TeaCore.merge({
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -3383,11 +3346,10 @@ class Client:
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
-                resp_map = XMLClient.parse_xml(body_str, _oss_models.CopyObjectResponse())
-                return _oss_models.CopyObjectResponse().from_map(TeaCore.merge({
+                resp_map = XMLClient.parse_xml(body_str, oss_models.CopyObjectResponse())
+                return oss_models.CopyObjectResponse().from_map(TeaCore.merge({
                     "CopyObjectResult": resp_map.get('CopyObjectResult')
                 }, _response.headers))
-
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -3436,7 +3398,7 @@ class Client:
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "GET"
-                _request.pathname = "/" + request.object_name + "?tagging"
+                _request.pathname = "/" + str(request.object_name) + "?tagging"
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -3462,11 +3424,10 @@ class Client:
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
-                resp_map = XMLClient.parse_xml(body_str, _oss_models.GetObjectTaggingResponse())
-                return _oss_models.GetObjectTaggingResponse().from_map(TeaCore.merge({
+                resp_map = XMLClient.parse_xml(body_str, oss_models.GetObjectTaggingResponse())
+                return oss_models.GetObjectTaggingResponse().from_map(TeaCore.merge({
                     "Tagging": resp_map.get('Tagging')
                 }, _response.headers))
-
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -3540,8 +3501,7 @@ class Client:
                             "hostId": resp_map.get('HostId')
                         }
                     })
-                return _oss_models.DeleteBucketLifecycleResponse().from_map(TeaCore.merge(_response.headers))
-
+                return oss_models.DeleteBucketLifecycleResponse().from_map(TeaCore.merge(_response.headers))
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -3615,8 +3575,7 @@ class Client:
                             "hostId": resp_map.get('HostId')
                         }
                     })
-                return _oss_models.DeleteBucketLoggingResponse().from_map(TeaCore.merge(_response.headers))
-
+                return oss_models.DeleteBucketLoggingResponse().from_map(TeaCore.merge(_response.headers))
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -3690,8 +3649,7 @@ class Client:
                             "hostId": resp_map.get('HostId')
                         }
                     })
-                return _oss_models.DeleteBucketWebsiteResponse().from_map(TeaCore.merge(_response.headers))
-
+                return oss_models.DeleteBucketWebsiteResponse().from_map(TeaCore.merge(_response.headers))
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -3740,7 +3698,7 @@ class Client:
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "GET"
-                _request.pathname = "/" + request.object_name + "?symlink"
+                _request.pathname = "/" + str(request.object_name) + "?symlink"
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -3765,8 +3723,7 @@ class Client:
                             "hostId": resp_map.get('HostId')
                         }
                     })
-                return _oss_models.GetSymlinkResponse().from_map(TeaCore.merge(_response.headers))
-
+                return oss_models.GetSymlinkResponse().from_map(TeaCore.merge(_response.headers))
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -3841,11 +3798,10 @@ class Client:
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
-                resp_map = XMLClient.parse_xml(body_str, _oss_models.GetBucketLifecycleResponse())
-                return _oss_models.GetBucketLifecycleResponse().from_map(TeaCore.merge({
+                resp_map = XMLClient.parse_xml(body_str, oss_models.GetBucketLifecycleResponse())
+                return oss_models.GetBucketLifecycleResponse().from_map(TeaCore.merge({
                     "LifecycleConfiguration": resp_map.get('LifecycleConfiguration')
                 }, _response.headers))
-
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -3894,7 +3850,7 @@ class Client:
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "PUT"
-                _request.pathname = "/" + request.object_name + "?symlink"
+                _request.pathname = "/" + str(request.object_name) + "?symlink"
                 _request.headers = TeaCore.merge({
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -3919,8 +3875,7 @@ class Client:
                             "hostId": resp_map.get('HostId')
                         }
                     })
-                return _oss_models.PutSymlinkResponse().from_map(TeaCore.merge(_response.headers))
-
+                return oss_models.PutSymlinkResponse().from_map(TeaCore.merge(_response.headers))
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -3995,11 +3950,10 @@ class Client:
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
-                resp_map = XMLClient.parse_xml(body_str, _oss_models.GetBucketRefererResponse())
-                return _oss_models.GetBucketRefererResponse().from_map(TeaCore.merge({
+                resp_map = XMLClient.parse_xml(body_str, oss_models.GetBucketRefererResponse())
+                return oss_models.GetBucketRefererResponse().from_map(TeaCore.merge({
                     "RefererConfiguration": resp_map.get('RefererConfiguration')
                 }, _response.headers))
-
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -4073,8 +4027,7 @@ class Client:
                             "hostId": resp_map.get('HostId')
                         }
                     })
-                return _oss_models.CallbackResponse().from_map(TeaCore.merge(_response.headers))
-
+                return oss_models.CallbackResponse().from_map(TeaCore.merge(_response.headers))
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -4149,11 +4102,10 @@ class Client:
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
-                resp_map = XMLClient.parse_xml(body_str, _oss_models.GetBucketLoggingResponse())
-                return _oss_models.GetBucketLoggingResponse().from_map(TeaCore.merge({
+                resp_map = XMLClient.parse_xml(body_str, oss_models.GetBucketLoggingResponse())
+                return oss_models.GetBucketLoggingResponse().from_map(TeaCore.merge({
                     "BucketLoggingStatus": resp_map.get('BucketLoggingStatus')
                 }, _response.headers))
-
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -4202,7 +4154,7 @@ class Client:
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "PUT"
-                _request.pathname = "/" + request.object_name + "?acl"
+                _request.pathname = "/" + str(request.object_name) + "?acl"
                 _request.headers = TeaCore.merge({
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -4227,8 +4179,7 @@ class Client:
                             "hostId": resp_map.get('HostId')
                         }
                     })
-                return _oss_models.PutObjectAclResponse().from_map(TeaCore.merge(_response.headers))
-
+                return oss_models.PutObjectAclResponse().from_map(TeaCore.merge(_response.headers))
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -4303,11 +4254,10 @@ class Client:
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
-                resp_map = XMLClient.parse_xml(body_str, _oss_models.GetBucketInfoResponse())
-                return _oss_models.GetBucketInfoResponse().from_map(TeaCore.merge({
+                resp_map = XMLClient.parse_xml(body_str, oss_models.GetBucketInfoResponse())
+                return oss_models.GetBucketInfoResponse().from_map(TeaCore.merge({
                     "BucketInfo": resp_map.get('BucketInfo')
                 }, _response.headers))
-
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -4356,7 +4306,7 @@ class Client:
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "PUT"
-                _request.pathname = "/" + request.channel_name + "?live"
+                _request.pathname = "/" + str(request.channel_name) + "?live"
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -4382,8 +4332,7 @@ class Client:
                             "hostId": resp_map.get('HostId')
                         }
                     })
-                return _oss_models.PutLiveChannelStatusResponse().from_map(TeaCore.merge(_response.headers))
-
+                return oss_models.PutLiveChannelStatusResponse().from_map(TeaCore.merge(_response.headers))
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -4432,7 +4381,7 @@ class Client:
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "POST"
-                _request.pathname = "/" + request.object_name + "?uploads"
+                _request.pathname = "/" + str(request.object_name) + "?uploads"
                 _request.headers = TeaCore.merge({
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -4441,7 +4390,7 @@ class Client:
                 if not UtilClient.empty(token):
                     _request.headers["x-oss-security-token"] = token
                 _request.query = UtilClient.stringify_map_value(request.filter.to_map())
-                if not UtilClient.is_unset(request.header.to_map()) and not UtilClient.empty(request.header.content_type):
+                if not UtilClient.is_unset(request.header) and not UtilClient.empty(request.header.content_type):
                     _request.headers["content-type"] = request.header.content_type
                 else:
                     _request.headers["content-type"] = OSSUtilClient.get_content_type(request.object_name)
@@ -4463,11 +4412,10 @@ class Client:
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
-                resp_map = XMLClient.parse_xml(body_str, _oss_models.InitiateMultipartUploadResponse())
-                return _oss_models.InitiateMultipartUploadResponse().from_map(TeaCore.merge({
+                resp_map = XMLClient.parse_xml(body_str, oss_models.InitiateMultipartUploadResponse())
+                return oss_models.InitiateMultipartUploadResponse().from_map(TeaCore.merge({
                     "InitiateMultipartUploadResult": resp_map.get('InitiateMultipartUploadResult')
                 }, _response.headers))
-
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -4516,7 +4464,7 @@ class Client:
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "OPTIONS"
-                _request.pathname = "/" + request.object_name + ""
+                _request.pathname = "/" + str(request.object_name) + ""
                 _request.headers = TeaCore.merge({
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -4541,8 +4489,7 @@ class Client:
                             "hostId": resp_map.get('HostId')
                         }
                     })
-                return _oss_models.OptionObjectResponse().from_map(TeaCore.merge(_response.headers))
-
+                return oss_models.OptionObjectResponse().from_map(TeaCore.merge(_response.headers))
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -4591,7 +4538,7 @@ class Client:
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "POST"
-                _request.pathname = "/" + request.channel_name + "/" + request.playlist_name + "?vod"
+                _request.pathname = "/" + str(request.channel_name) + "/" + str(request.playlist_name) + "?vod"
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -4617,8 +4564,7 @@ class Client:
                             "hostId": resp_map.get('HostId')
                         }
                     })
-                return _oss_models.PostVodPlaylistResponse().from_map(TeaCore.merge(_response.headers))
-
+                return oss_models.PostVodPlaylistResponse().from_map(TeaCore.merge(_response.headers))
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -4668,7 +4614,7 @@ class Client:
                     "date": UtilClient.get_date_utcstring(),
                     "user-agent": self.get_user_agent()
                 }
-                _request.headers["content-type"] = "multipart/form-data; boundary=" + boundary + ""
+                _request.headers["content-type"] = "multipart/form-data; boundary=" + str(boundary) + ""
                 form = TeaCore.merge({
                     "OSSAccessKeyId": request.header.access_key_id,
                     "policy": request.header.policy,
@@ -4693,9 +4639,8 @@ class Client:
                             "hostId": resp_map.get('HostId')
                         }
                     })
-                resp_map = XMLClient.parse_xml(body_str, _oss_models.PostObjectResponse())
-                return _oss_models.PostObjectResponse().from_map(TeaCore.merge(resp_map))
-
+                resp_map = XMLClient.parse_xml(body_str, oss_models.PostObjectResponse())
+                return oss_models.PostObjectResponse().from_map(TeaCore.merge(resp_map))
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -4744,7 +4689,7 @@ class Client:
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "HEAD"
-                _request.pathname = "/" + request.object_name + ""
+                _request.pathname = "/" + str(request.object_name) + ""
                 _request.headers = TeaCore.merge({
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -4769,10 +4714,9 @@ class Client:
                             "hostId": resp_map.get('HostId')
                         }
                     })
-                return _oss_models.HeadObjectResponse().from_map(TeaCore.merge({
+                return oss_models.HeadObjectResponse().from_map(TeaCore.merge({
                     "usermeta": OSSUtilClient.to_meta(_response.headers, "x-oss-meta-")
                 }, _response.headers))
-
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -4821,7 +4765,7 @@ class Client:
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "DELETE"
-                _request.pathname = "/" + request.object_name + "?tagging"
+                _request.pathname = "/" + str(request.object_name) + "?tagging"
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -4846,8 +4790,7 @@ class Client:
                             "hostId": resp_map.get('HostId')
                         }
                     })
-                return _oss_models.DeleteObjectTaggingResponse().from_map(TeaCore.merge(_response.headers))
-
+                return oss_models.DeleteObjectTaggingResponse().from_map(TeaCore.merge(_response.headers))
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -4896,7 +4839,7 @@ class Client:
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "POST"
-                _request.pathname = "/" + request.object_name + "?restore"
+                _request.pathname = "/" + str(request.object_name) + "?restore"
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -4921,8 +4864,7 @@ class Client:
                             "hostId": resp_map.get('HostId')
                         }
                     })
-                return _oss_models.RestoreObjectResponse().from_map(TeaCore.merge(_response.headers))
-
+                return oss_models.RestoreObjectResponse().from_map(TeaCore.merge(_response.headers))
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -4971,7 +4913,7 @@ class Client:
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "GET"
-                _request.pathname = "/" + request.object_name + "?acl"
+                _request.pathname = "/" + str(request.object_name) + "?acl"
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -4997,11 +4939,10 @@ class Client:
                         }
                     })
                 body_str = UtilClient.read_as_string(_response.body)
-                resp_map = XMLClient.parse_xml(body_str, _oss_models.GetObjectAclResponse())
-                return _oss_models.GetObjectAclResponse().from_map(TeaCore.merge({
+                resp_map = XMLClient.parse_xml(body_str, oss_models.GetObjectAclResponse())
+                return oss_models.GetObjectAclResponse().from_map(TeaCore.merge({
                     "AccessControlPolicy": resp_map.get('AccessControlPolicy')
                 }, _response.headers))
-
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -5075,8 +5016,7 @@ class Client:
                             "hostId": resp_map.get('HostId')
                         }
                     })
-                return _oss_models.PutBucketAclResponse().from_map(TeaCore.merge(_response.headers))
-
+                return oss_models.PutBucketAclResponse().from_map(TeaCore.merge(_response.headers))
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -5150,8 +5090,7 @@ class Client:
                             "hostId": resp_map.get('HostId')
                         }
                     })
-                return _oss_models.DeleteBucketResponse().from_map(TeaCore.merge(_response.headers))
-
+                return oss_models.DeleteBucketResponse().from_map(TeaCore.merge(_response.headers))
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -5201,7 +5140,7 @@ class Client:
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "PUT"
-                _request.pathname = "/" + request.object_name + ""
+                _request.pathname = "/" + str(request.object_name) + ""
                 _request.headers = TeaCore.merge({
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -5211,7 +5150,7 @@ class Client:
                 if not UtilClient.empty(token):
                     _request.headers["x-oss-security-token"] = token
                 _request.body = OSSUtilClient.inject(request.body, ctx)
-                if not UtilClient.is_unset(request.header.to_map()) and not UtilClient.empty(request.header.content_type):
+                if not UtilClient.is_unset(request.header) and not UtilClient.empty(request.header.content_type):
                     _request.headers["content-type"] = request.header.content_type
                 else:
                     _request.headers["content-type"] = OSSUtilClient.get_content_type(request.object_name)
@@ -5248,8 +5187,7 @@ class Client:
                             "serverMD5": _response.headers.get('content-md5')
                         }
                     })
-                return _oss_models.PutObjectResponse().from_map(TeaCore.merge(_response.headers))
-
+                return oss_models.PutObjectResponse().from_map(TeaCore.merge(_response.headers))
             except Exception as e:
                 if TeaCore.is_retryable(e):
                     _last_exception = e
@@ -5261,7 +5199,7 @@ class Client:
         self._user_agent = user_agent
 
     def append_user_agent(self, user_agent):
-        self._user_agent = "" + self._user_agent + " " + user_agent + ""
+        self._user_agent = "" + str(self._user_agent) + " " + str(user_agent) + ""
 
     def get_user_agent(self):
         user_agent = UtilClient.get_user_agent(self._user_agent)
