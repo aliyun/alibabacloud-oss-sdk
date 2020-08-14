@@ -1,3 +1,6 @@
+### 2020-08-14 Version 0.0.4
+* Improve initialization assignment.
+
 ### 2020-05-29 Version 0.0.3
 * Fixed dict get item
 
