@@ -182,7 +182,7 @@ namespace AlibabaCloud.OSSUtil
 
         public static string GetSignature(TeaRequest request, string bucketName,string accessKeyId,string accessKeySecret,string signatureVersion,List<string> addtionalHeaders)
         {
-            if (signatureVersion.ToLower() == "v2")
+            if (signatureVersion.ToSafeString("").ToLower() == "v2")
             {
                 if (addtionalHeaders == null || addtionalHeaders.Count == 0)
                 {
@@ -435,7 +435,7 @@ namespace AlibabaCloud.OSSUtil
             var finalValue = "";
             for (var i = 0; i < value.Length - 1; ++i)
             {
-                finalValue += value[i].Replace(".", "").ToLower();
+                finalValue += value[i].ToSafeString("").Replace(".", "").ToLower();
             }
 
             finalValue += "/" + value[value.Length - 1];
