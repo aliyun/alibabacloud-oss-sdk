@@ -1,3 +1,6 @@
+### 2020-09-04 Version 1.0.2
+* Improved reference oss-util version
+
 ### 2020-03-05 Version 1.0.1
 * Improved Reference
 
