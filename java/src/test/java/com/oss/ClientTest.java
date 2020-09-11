@@ -1,6 +1,7 @@
 // This file is auto-generated, don't edit it. Thanks.
 package com.oss;
 
+import com.aliyun.fileform.models.FileField;
 import com.aliyun.oss.Client;
 import com.aliyun.oss.models.*;
 import com.aliyun.oss.models.PutBucketLifecycleRequest.PutBucketLifecycleRequestBody;
@@ -8,12 +9,15 @@ import com.aliyun.oss.models.PutBucketLifecycleRequest.PutBucketLifecycleRequest
 import com.aliyun.oss.models.PutBucketLifecycleRequest.PutBucketLifecycleRequestBodyLifecycleConfigurationRule;
 import com.aliyun.oss.models.PutBucketLifecycleRequest.PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration;
 import com.aliyun.ossutil.models.RuntimeOptions;
+import com.aliyun.tea.TeaException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +32,28 @@ public class ClientTest {
         config.accessKeySecret = System.getenv("RAMAccessKeySecret");
         config.signatureVersion = "V1";
         client = new Client(config);
+    }
+
+    @Test
+    public void postObject() throws Exception{
+        PostObjectRequest request = new PostObjectRequest();
+        PostObjectRequest.PostObjectRequestHeader header = new PostObjectRequest.PostObjectRequestHeader();
+        header.accessKeyId = System.getenv("RAMAccessKeyId");
+        FileField fileField = new FileField();
+        fileField.contentType = "";
+        fileField.content = new FileInputStream(new File("D:\\test.jpg"));
+        fileField.filename = "test";
+        header.file = fileField;
+        request.header =header;
+        request.bucketName = "sdk-script";
+        RuntimeOptions RuntimeOptions = new RuntimeOptions();
+        try {
+            client.postObject(request, RuntimeOptions);
+
+        } catch (TeaException e) {
+            System.out.println(e.getMessage());
+            System.out.println(e.getData());
+        }
     }
 
     @Test
