@@ -1,3 +1,6 @@
+2020-09-15 Version: 3.0.0
+1. Release version 3.0.0
+
 2020-09-11 Version: 2.0.2
 1. Release version 2.0.2
 
