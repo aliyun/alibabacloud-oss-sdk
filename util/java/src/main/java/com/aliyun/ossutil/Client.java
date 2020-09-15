@@ -9,9 +9,7 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
@@ -464,13 +462,18 @@ public class Client {
                 .getProperty("os.arch"), sysProps.getProperty("java.runtime.version"), "oss-baseClient", coreVersion);
     }
 
-    public static java.util.Map<String, Object> getErrMessage(String msg) throws Exception {
-        Map<String, Object> result = XmlUtil.DeserializeXml(msg, ErrorResponse.class);
+    public static java.util.Map<String, Object> getErrMessage(String msg) {
+        Map<String, Object> result = null;
+        try {
+            result = XmlUtil.DeserializeXml(msg, ErrorResponse.class);
+        } catch (Exception e) {
+          throw new RuntimeException(e);
+        }
         result = result.get("Error") == null ? result : (Map<String, Object>) result.get("Error");
         return result;
     }
 
-    public static java.util.Map<String, String> toQuery(java.util.Map<String, Object> filter) throws Exception {
+    public static java.util.Map<String, String> toQuery(java.util.Map<String, Object> filter) {
         Map<String, String> outMap = new HashMap<>(16);
         if (null != filter) {
             filter.forEach((k, v) -> outMap.put(k, v == null ? "" : String.valueOf(v)));
@@ -478,7 +481,7 @@ public class Client {
         return outMap;
     }
 
-    public static java.util.Map<String, String> toMeta(java.util.Map<String, ?> val, String prefix) throws Exception {
+    public static java.util.Map<String, String> toMeta(java.util.Map<String, ?> val, String prefix) {
         Map<String, String> result = new HashMap<>();
         if (null == val) {
             return result;
@@ -493,7 +496,7 @@ public class Client {
         return result;
     }
 
-    public static java.util.Map<String, String> parseMeta(java.util.Map<String, ?> val, String prefix) throws Exception {
+    public static java.util.Map<String, String> parseMeta(java.util.Map<String, ?> val, String prefix) {
         Map<String, String> result = new HashMap<>();
         if (null == val) {
             return result;
@@ -508,45 +511,53 @@ public class Client {
         return result;
     }
 
-    public static String getContentType(String fileName) throws Exception {
+    public static String getContentType(String fileName) {
         String suffix = fileName.substring(fileName.lastIndexOf("."));
         String type = systemContenType.get(suffix);
         return type == null ? contentType.get(suffix) : type;
     }
 
-    public static String getContentMD5(String body, boolean isEnableMD5) throws Exception {
-        MessageDigest md = MessageDigest.getInstance("MD5");
-        byte[] messageDigest = md.digest(body.getBytes(TeaRequest.URL_ENCODING));
-        return Base64.getEncoder().encodeToString(messageDigest);
+    public static String getContentMD5(String body, boolean isEnableMD5) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] messageDigest = md.digest(body.getBytes(TeaRequest.URL_ENCODING));
+            return Base64.getEncoder().encodeToString(messageDigest);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public static String encode(String val, String encodeType) throws Exception {
+    public static String encode(String val, String encodeType) {
         if (null == encodeType) {
             return val;
         }
         String[] strs = val.split("/");
-        switch (encodeType) {
-            case "Base64":
-                strs[strs.length - 1] = Base64.getEncoder().encodeToString(
-                        strs[strs.length - 1].getBytes("UTF-8"));
-                break;
-            case "UrlEncode":
-                strs[strs.length - 1] = URLEncoder.encode(strs[strs.length - 1], "UTF-8");
-                break;
-            default:
-                break;
+        try {
+            switch (encodeType) {
+                case "Base64":
+                    strs[strs.length - 1] = Base64.getEncoder().encodeToString(
+                            strs[strs.length - 1].getBytes("UTF-8"));
+                    break;
+                case "UrlEncode":
+                    strs[strs.length - 1] = URLEncoder.encode(strs[strs.length - 1], "UTF-8");
+                    break;
+                default:
+                    break;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
         return String.join("/", strs);
     }
 
-    public static String getUserAgent(String val) throws Exception {
+    public static String getUserAgent(String val) {
         if (StringUtils.isEmpty(val)) {
             return _defaultUserAgent;
         }
         return _defaultUserAgent + " " + val;
     }
 
-    public static String getHost(String bucketName, String regionId, String endpoint, String hostModel) throws Exception {
+    public static String getHost(String bucketName, String regionId, String endpoint, String hostModel) {
         String host;
         if (StringUtils.isEmpty(regionId)) {
             regionId = "cn-hangzhou";
@@ -568,8 +579,12 @@ public class Client {
         return host;
     }
 
-    public static java.io.InputStream inject(java.io.InputStream body, java.util.Map<String, String> res) throws Exception {
-        return new VerifyInputStream(body, res);
+    public static java.io.InputStream inject(java.io.InputStream body, java.util.Map<String, String> res) {
+        try {
+            return new VerifyInputStream(body, res);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     protected static boolean ifListEmpty(List<String> strs) {
@@ -579,7 +594,7 @@ public class Client {
         return strs.size() <= 0;
     }
 
-    public static String getSignature(TeaRequest request, String bucketName, String accessKeyId, String accessKeySecret, String signatureVersion, java.util.List<String> addtionalHeaders) throws Exception {
+    public static String getSignature(TeaRequest request, String bucketName, String accessKeyId, String accessKeySecret, String signatureVersion, java.util.List<String> addtionalHeaders) {
         String[] headers;
         if (null == addtionalHeaders) {
             headers = new String[]{};
@@ -597,7 +612,7 @@ public class Client {
         }
     }
 
-    protected static String getSignatureV1(TeaRequest teaRequest, String bucketName, String accessKeySecret) throws NoSuchAlgorithmException, InvalidKeyException, UnsupportedEncodingException {
+    protected static String getSignatureV1(TeaRequest teaRequest, String bucketName, String accessKeySecret) {
         String resource = "";
         if (!StringUtils.isEmpty(bucketName)) {
             resource = "/" + bucketName;
@@ -614,7 +629,7 @@ public class Client {
         return getSignedStrV1(teaRequest, resource, accessKeySecret);
     }
 
-    protected static String getSignedStrV1(TeaRequest teaRequest, String canonicalizedResource, String accessKeySecret) throws NoSuchAlgorithmException, UnsupportedEncodingException, InvalidKeyException {
+    protected static String getSignedStrV1(TeaRequest teaRequest, String canonicalizedResource, String accessKeySecret) {
         Map<String, String> temp = new HashMap<>();
         for (Map.Entry<String, String> entry : teaRequest.headers.entrySet()) {
             if (entry.getKey().toLowerCase().startsWith("x-oss-")) {
@@ -641,16 +656,21 @@ public class Client {
         if (contentMd5 == null) {
             contentMd5 = "";
         }
-        String signStr = teaRequest.method + "\n" + contentMd5 + "\n" + contentType + "\n" + date + "\n" + StringBuilder.toString() + canonicalizedResource;
-        Mac mac = Mac.getInstance("HmacSHA1");
-        mac.init(new SecretKeySpec(accessKeySecret.getBytes("UTF-8"), "HmacSHA1"));
-        byte[] signData = mac.doFinal(signStr.getBytes("UTF-8"));
-        String signedStr = DatatypeConverter.printBase64Binary(signData);
-        return signedStr;
+        try {
+            String signStr = teaRequest.method + "\n" + contentMd5 + "\n" + contentType + "\n" + date + "\n" + StringBuilder.toString() + canonicalizedResource;
+            Mac mac = Mac.getInstance("HmacSHA1");
+            mac.init(new SecretKeySpec(accessKeySecret.getBytes("UTF-8"), "HmacSHA1"));
+            byte[] signData = mac.doFinal(signStr.getBytes("UTF-8"));
+            String signedStr = DatatypeConverter.printBase64Binary(signData);
+            return signedStr;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     protected static String getSignatureV2(TeaRequest teaRequest, String bucketName, String accessKeySecret,
-                                           String[] additionalHeaders) throws NoSuchAlgorithmException, InvalidKeyException, UnsupportedEncodingException {
+                                           String[] additionalHeaders) {
         String resource = "";
         String pathName = teaRequest.pathname;
         if (!StringUtils.isEmpty(bucketName)) {
@@ -709,8 +729,7 @@ public class Client {
     }
 
     protected static String getSignedStrV2(TeaRequest teaRequest, String canonicalizedResource,
-                                           String accessKeySecret, String[] additionalHeaders) throws NoSuchAlgorithmException,
-            InvalidKeyException, UnsupportedEncodingException {
+                                           String accessKeySecret, String[] additionalHeaders) {
         Map<String, String> temp = new HashMap<>();
         List<String> headers;
         if (null == additionalHeaders) {
@@ -748,12 +767,16 @@ public class Client {
         return signedStr;
     }
 
-    protected static String getOssSignature(String accessKeySecret, String str) throws NoSuchAlgorithmException, UnsupportedEncodingException, InvalidKeyException {
-        Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
-        SecretKeySpec secret_key = new SecretKeySpec(accessKeySecret.getBytes("UTF-8"), "HmacSHA256");
-        sha256_HMAC.init(secret_key);
-        byte[] bytes = sha256_HMAC.doFinal(str.getBytes("UTF-8"));
-        return DatatypeConverter.printBase64Binary(bytes);
+    protected static String getOssSignature(String accessKeySecret, String str) {
+        try {
+            Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
+            SecretKeySpec secret_key = new SecretKeySpec(accessKeySecret.getBytes("UTF-8"), "HmacSHA256");
+            sha256_HMAC.init(secret_key);
+            byte[] bytes = sha256_HMAC.doFinal(str.getBytes("UTF-8"));
+            return DatatypeConverter.printBase64Binary(bytes);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     protected static boolean charContains(char ch) {
@@ -765,21 +788,25 @@ public class Client {
         return false;
     }
 
-    public static String decode(String val, String decodeType) throws Exception {
+    public static String decode(String val, String decodeType) {
         if (null == decodeType) {
             return val;
         }
         String[] strs = val.split("/");
-        switch (decodeType) {
-            case "Base64Decode":
-                strs[strs.length - 1] = Base64.getEncoder().encodeToString(
-                        strs[strs.length - 1].getBytes("UTF-8"));
-                break;
-            case "UrlDecode":
-                strs[strs.length - 1] = URLEncoder.encode(strs[strs.length - 1], "UTF-8");
-                break;
-            default:
-                break;
+        try {
+            switch (decodeType) {
+                case "Base64Decode":
+                    strs[strs.length - 1] = Base64.getEncoder().encodeToString(
+                            strs[strs.length - 1].getBytes("UTF-8"));
+                    break;
+                case "UrlDecode":
+                    strs[strs.length - 1] = URLEncoder.encode(strs[strs.length - 1], "UTF-8");
+                    break;
+                default:
+                    break;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
         return String.join("/", strs);
     }
