@@ -4,7 +4,7 @@
 
     <groupId>com.aliyun</groupId>
     <artifactId>oss-util</artifactId>
-    <version>0.0.2</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
 
     <name>oss-util</name>
@@ -55,7 +55,7 @@
         <dependency>
             <groupId>com.aliyun</groupId>
             <artifactId>tea</artifactId>
-            <version>0.0.22</version>
+            <version>1.0.6</version>
             <optional>true</optional>
         </dependency>
         <dependency>

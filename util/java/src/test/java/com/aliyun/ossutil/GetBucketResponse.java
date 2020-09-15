@@ -5,6 +5,8 @@ import com.aliyun.tea.NameInMap;
 import com.aliyun.tea.TeaModel;
 import com.aliyun.tea.Validation;
 
+import java.util.List;
+
 public class GetBucketResponse extends TeaModel {
     @NameInMap("x-oss-request-id")
     @Validation(required = true)
@@ -97,7 +99,7 @@ public class GetBucketResponse extends TeaModel {
 
         @NameInMap("Contents")
         @Validation(required = true)
-        public GetBucketResponseListBucketResultContents[] contents;
+        public List<GetBucketResponseListBucketResultContents> contents;
 
     }
 

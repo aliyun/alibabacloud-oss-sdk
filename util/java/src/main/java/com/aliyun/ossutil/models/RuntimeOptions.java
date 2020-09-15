@@ -52,7 +52,7 @@ public class RuntimeOptions extends TeaModel {
     @NameInMap("listener")
     public Object listener;
 
-    public static RuntimeOptions build(java.util.Map<String, ?> map) throws Exception {
+    public static RuntimeOptions build(java.util.Map<String, ?> map) {
         RuntimeOptions self = new RuntimeOptions();
         return TeaModel.build(map, self);
     }

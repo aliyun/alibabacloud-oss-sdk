@@ -4,13 +4,22 @@ package com.aliyun.oss.models;
 import com.aliyun.tea.*;
 
 public class GetBucketInfoRequest extends TeaModel {
+    // BucketName
     @NameInMap("BucketName")
     @Validation(required = true)
     public String bucketName;
 
-    public static GetBucketInfoRequest build(java.util.Map<String, ?> map) throws Exception {
+    public static GetBucketInfoRequest build(java.util.Map<String, ?> map) {
         GetBucketInfoRequest self = new GetBucketInfoRequest();
         return TeaModel.build(map, self);
+    }
+
+    public GetBucketInfoRequest setBucketName(String bucketName) {
+        this.bucketName = bucketName;
+        return this;
+    }
+    public String getBucketName() {
+        return this.bucketName;
     }
 
 }

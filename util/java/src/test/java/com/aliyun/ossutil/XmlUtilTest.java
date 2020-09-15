@@ -5,7 +5,9 @@ import org.junit.Test;
 import com.aliyun.ossutil.GetBucketResponse.*;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class XmlUtilTest {
@@ -59,7 +61,10 @@ public class XmlUtilTest {
         owner.displayName = "disName";
         contents.owner = owner;
         contents.key = "key";
-        result.contents = new GetBucketResponseListBucketResultContents[]{contents, contents2};
+        List<GetBucketResponseListBucketResultContents> list = new ArrayList<GetBucketResponseListBucketResultContents>();
+        list.add(contents);
+        list.add(contents2);
+        result.contents = list;
         body.contents = result;
         Map<String, Object> map = body.toMap();
         String xml = XmlUtil.mapToXml(map);

@@ -4,17 +4,35 @@ package com.aliyun.oss.models;
 import com.aliyun.tea.*;
 
 public class RestoreObjectRequest extends TeaModel {
+    // BucketName
     @NameInMap("BucketName")
     @Validation(required = true)
     public String bucketName;
 
+    // ObjectName
     @NameInMap("ObjectName")
     @Validation(required = true)
     public String objectName;
 
-    public static RestoreObjectRequest build(java.util.Map<String, ?> map) throws Exception {
+    public static RestoreObjectRequest build(java.util.Map<String, ?> map) {
         RestoreObjectRequest self = new RestoreObjectRequest();
         return TeaModel.build(map, self);
+    }
+
+    public RestoreObjectRequest setBucketName(String bucketName) {
+        this.bucketName = bucketName;
+        return this;
+    }
+    public String getBucketName() {
+        return this.bucketName;
+    }
+
+    public RestoreObjectRequest setObjectName(String objectName) {
+        this.objectName = objectName;
+        return this;
+    }
+    public String getObjectName() {
+        return this.objectName;
     }
 
 }
