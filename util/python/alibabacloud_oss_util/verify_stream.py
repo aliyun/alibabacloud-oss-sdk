@@ -1,4 +1,3 @@
-import ctypes
 import hashlib
 import base64
 import os
@@ -8,32 +7,11 @@ from _io import BytesIO
 from Tea.stream import BaseStream
 
 
-def int_overflow(val):
-    maxint = 2147483647
-    if not -maxint - 1 <= val <= maxint:
-        val = (val + (maxint + 1)) % (2 * (maxint + 1)) - maxint - 1
-    return val
-
-
-def unsigned_right_shift(n, i):
-    if n < 0:
-        n = ctypes.c_uint32(n).value
-
-    if i < 0:
-        return -int_overflow(n << abs(i))
-
-    return int_overflow(n >> i)
-
-
 class CRC64:
-    POLY = 0xc96c5795d7870f42
+    POLY = (0xC96C5795 << 32) | 0xD7870F42
 
     def __init__(self):
         self.value = 0
-
-    @property
-    def table(self):
-        return int(''.join(self._table))
 
     @property
     def _table(self):
@@ -41,23 +19,21 @@ class CRC64:
         for n in range(256):
             crc = n
             for j in range(8):
-                if crc & 1 == 1:
-                    crc = unsigned_right_shift(crc, 1) ^ self.POLY
+                if crc & True:
+                    crc = (crc >> 1) & ~(0x8 << 60) ^ self.POLY
                 else:
-                    crc = unsigned_right_shift(crc, 1)
+                    crc = (crc >> 1) & ~(0x8 << 60)
             table.append(crc)
 
         return table
 
     def get_value(self):
-        first = unsigned_right_shift(self.value, 1) / 5
-        second = self.value - first * 10
-        return first + second
+        return self.value
 
     def update(self, bt):
         for b in bt:
             self.value = ~self.value
-            self.value = self._table[(self.value ^ b) & 0xff] ^ unsigned_right_shift(self.value, 8)
+            self.value = self._table[(self.value ^ b) & 0xff] ^ (self.value >> 8) & ~(0xff << 56)
             self.value = ~self.value
 
 

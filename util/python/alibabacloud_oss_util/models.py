@@ -68,11 +68,7 @@ class RuntimeOptions(TeaModel):
 
 class ErrorResponse(TeaModel):
     def __init__(self, code=None, message=None, request_id=None, host_id=None):
-        super().__init__()
-        if code is not None:
-            self.code = int(code)
-        else:
-            self.code = code
+        self.code = code
         self.message = message
         self.request_id = request_id
         self.host_id = host_id

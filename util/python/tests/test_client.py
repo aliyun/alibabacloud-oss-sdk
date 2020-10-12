@@ -10,7 +10,8 @@ class TestClient(unittest.TestCase):
     def test_get_err_message(self):
         message = "<?xml version='1.0' encoding='UTF-8'?><Error><Code>401</Code></Error>"
         result = Client.get_err_message(message)
-        self.assertEqual(401, result.code)
+
+        self.assertEqual('401', result.code)
 
         message = "<?xml version='1.0' encoding='UTF-8'?><Code>401</Code>"
         result = Client.get_err_message(message)
@@ -43,6 +44,7 @@ class TestClient(unittest.TestCase):
 
     def test_get_content_md5(self):
         self.assertEqual('CY9rzUYh03PK3k6DJie09g==', Client.get_content_md5("test", True))
+        self.assertEqual('', Client.get_content_md5("test", False))
 
     def test_encode(self):
         value = 'test/encode/h%f'
@@ -55,14 +57,11 @@ class TestClient(unittest.TestCase):
         res = Client.decode('test', None)
         self.assertEqual('test', res)
 
-        res = Client.decode('test/dXJs', 'Base64Decode')
-        self.assertEqual('test/url', res)
+        res = Client.decode('JjJi', 'Base64Decode')
+        self.assertEqual('&2b', res)
 
-        res = Client.decode('test/url', 'UrlDecode')
-        self.assertEqual('test/url', res)
-
-        res = Client.decode('test/url/rr', 'test')
-        self.assertEqual('test/url/rr', res)
+        res = Client.decode('path/%262b', 'UrlDecode')
+        self.assertEqual('path/&2b', res)
 
     def test_get_host(self):
         host = Client.get_host(None, None, None, None)
@@ -94,7 +93,23 @@ class TestClient(unittest.TestCase):
         v2.close()
         self.assertEqual({'md5': 'WwpvIEGlrSYPX1YJmi0o2A==', 'crc': 146865635.8}, d)
 
-    def test_get_signature(self):
+    def test_get_signature_v1(self):
+        request = TeaRequest()
+        request.headers = {
+            'x-oss-test': 'test',
+            'content-type': 'type',
+            'content-md5': 'md5'
+        }
+        request.query = {
+            'testQuery': 'testQuery',
+            'queryKey': 'queryValue',
+            'x-oss-process': 'value',
+            'location': 'test'
+        }
+        res = Client.get_signature(request, 'test', "ak", "sk", "v1", None)
+        self.assertEqual('OSS ak:W4SUPcBUAN61lMVICM0Nzy662w0=', res)
+
+    def test_get_signature_v2(self):
         request = TeaRequest()
         signature = Client.get_signature(request, "bucket", "accessKeyId",
                                          "accessKeySecret", "v2", None)
@@ -113,19 +128,16 @@ class TestClient(unittest.TestCase):
             'queryKey': 'queryValue',
             "x-oss-test": "test"
         }
-        res = Client.get_signature(request, 'test', 'ak', 'sk', 'v2', None)
-        self.assertEqual('OSS2 AccessKeyId:ak,Signature:QNGIXVU4Qg0dxuBmVaN8q//ceXf15fmdTEaIK7R3od4=', res)
+        res = Client.get_signature(request, 'test', 'ak', 'sk', 'v2', ['headers', 'sign2'])
+        self.assertEqual(
+            'OSS2 AccessKeyId:ak,AdditionalHeaders:headers;'
+            'sign2,Signature:l8RDYSFtqTP0NhyoTyrRqAtrnUO6lCjrOF/MK2zV0nU=',
+            res
+        )
 
-        request = TeaRequest()
-        request.headers = {
-            'x-oss-test': 'test',
-            'content-type': 'type',
-            'content-md5': 'md5'
-        }
-        request.query = {
-            'testQuery': 'testQuery',
-            'queryKey': 'queryValue',
-            'x-oss-process': 'value'
-        }
-        res = Client.get_signature(request, 'test', "ak", "sk", "v1", None)
-        self.assertEqual('OSS ak:q9lSDGVH1VmpjMTGSwUZn3tg3J4=', res)
+        request.pathname = 'test?zz'
+        res = Client.get_signature(request, 'test', 'ak', 'sk', 'v2', ['headers'])
+        self.assertEqual(
+            'OSS2 AccessKeyId:ak,AdditionalHeaders:headers,Signature:kbg4BGoZbDGm2OBRt1kOTh9z6dToFSg1L55PXTmGdQw=',
+            res
+        )
