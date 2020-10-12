@@ -3,7 +3,7 @@ import hmac
 import base64
 
 from xml.etree import ElementTree
-from urllib.parse import quote
+from urllib.parse import quote, unquote
 
 from alibabacloud_oss_util import models, verify_stream
 
@@ -448,18 +448,26 @@ class Client:
 
     @staticmethod
     def get_err_message(msg):
+        """
+        Parse msg into a object
+        @return the object
+        """
         et = ElementTree.fromstring(msg)
         err_resp = models.ErrorResponse()
         if et.tag == 'Error':
             for lf in et:
                 if lf.tag in Client._FIELDS_MAP:
                     key = Client._FIELDS_MAP[lf.tag]
-                    value = int(lf.text) if lf.tag == 'Code' else lf.text
-                    setattr(err_resp, key, value)
+                    setattr(err_resp, key, lf.text)
         return err_resp
 
     @staticmethod
     def to_meta(val, prefix):
+        """
+        Add prefix string as prefix for keys of val
+        @rtype: dict
+        @return the final map[string]string
+        """
         result = {}
         if isinstance(val, dict):
             for key, value in val.items():
@@ -471,6 +479,11 @@ class Client:
 
     @staticmethod
     def parse_meta(val, prefix):
+        """
+        Remove prefix string from keys of val
+        @rtype: dict
+        @return the final map[string]string
+        """
         result = {}
         if isinstance(val, dict):
             for key, value in val.items():
@@ -483,12 +496,20 @@ class Client:
 
     @staticmethod
     def get_content_type(file_name):
+        """
+        Get content type according to the fileName
+        @return the content type
+        """
         suffix = '.' + file_name.split('.')[-1]
         type = Client.SYSTEM_CONTENT_TYPE.get(suffix)
         return Client.CONTENT_TYPE[suffix] if type is None else type
 
     @staticmethod
     def get_content_md5(body, is_enable_dm5=True):
+        """
+        If isEnableMD5 is true, calculate md5 according to body, or return ''
+        @return the md5
+        """
         if is_enable_dm5 is True:
             if isinstance(body, str):
                 body = body.encode('utf-8')
@@ -499,6 +520,10 @@ class Client:
 
     @staticmethod
     def get_host(bucket_name, region_id="cn-hangzhou", endpoint=None, host_model=None):
+        """
+        Get endpoint according to bucketName, regionId, endpoint and hostModel
+        @return the endpoint string
+        """
         if not region_id:
             region_id = "cn-hangzhou"
         if not endpoint:
@@ -516,18 +541,24 @@ class Client:
 
     @staticmethod
     def decode(val, decode_type):
-        if decode_type is None:
-            return val
-
-        strs = val.split('/')
+        """
+        Decode val according to decodeType
+        @param decode_type the type must be Base64 or UrlEncode
+        @return the decoded string
+        """
         if decode_type == 'Base64Decode':
-            strs[-1] = base64.b64decode(strs[-1].encode('utf-8')).decode('utf-8')
+            return base64.b64decode(val.encode('utf-8')).decode('utf-8')
         elif decode_type == 'UrlDecode':
-            strs[-1] = quote(strs[-1], encoding='utf-8', safe='')
-        return '/'.join(strs)
+            return unquote(val, encoding='utf-8')
+        return val
 
     @staticmethod
     def encode(val, encode_type):
+        """
+        Encode val according to encodeType
+        @param encode_type the type must be Base64 or UrlEncode
+        @return the encoded string
+        """
         if encode_type is None:
             return val
 
@@ -541,39 +572,49 @@ class Client:
 
     @staticmethod
     def inject(body, res):
+        """
+        Package body as a new readable, and res record the md5 and crc of the readable.
+        @return the new readable
+        """
         return verify_stream.VerifyStream(body, res)
 
     @staticmethod
-    def get_signature(request, bucket_name, access_key_id, access_key_secret, signature_version, addtional_headers):
-        if isinstance(signature_version, str):
-            if signature_version.upper() == 'V1':
-                resource = ''
-                if bucket_name:
-                    resource = '/%s' % bucket_name
-                resource += request.pathname
-                if request.query and '?' not in resource:
-                    resource += '?'
-                for k, v in request.query.items():
-                    if k in Client.SIGN_KEY_LIST and v:
-                        if resource.endswith('?'):
-                            resource += '%s=%s' % (k, v)
-                        else:
-                            resource += '&%s=%s' % (k, v)
-                signature = 'OSS %s:%s' % (access_key_id, Client._signature_v1(request, resource, access_key_secret))
-            elif signature_version.upper() == 'V2':
-                if addtional_headers:
-                    headers = list(addtional_headers)
-                    signature_v2 = Client._signature_v2(request, bucket_name, access_key_secret, headers)
-                    signature = 'OSS2 AccessKeyId:%s,AdditionalHeaders:%s,Signature:%s' % \
-                                (access_key_id, ';'.join(addtional_headers), signature_v2)
-                else:
-                    headers = []
-                    signature_v2 = Client._signature_v2(request, bucket_name, access_key_secret, headers)
-                    signature = 'OSS2 AccessKeyId:%s,Signature:%s' % (access_key_id, signature_v2)
+    def get_signature(request,
+                      bucket_name,
+                      access_key_id,
+                      access_key_secret,
+                      signature_version='V1',
+                      addtional_headers=None):
+        """
+        If signatureVersion is V1, get signature according to request, bucketName, accessKeyId and accessKeySecret.
+        If signatureVersion is V2, get signature according to request, bucketName, accessKeyId, accessKeySecret and
+        addtionalHeaders.
+        @return the signature string
+        """
+        if signature_version.upper() == 'V1':
+            resource = ''
+            if bucket_name:
+                resource = '/%s' % bucket_name
+            resource += request.pathname
+            if request.query and '?' not in resource:
+                resource += '?'
+            for k, v in request.query.items():
+                if k in Client.SIGN_KEY_LIST and v:
+                    if resource.endswith('?'):
+                        resource += '%s=%s' % (k, v)
+                    else:
+                        resource += '&%s=%s' % (k, v)
+            signature = 'OSS %s:%s' % (access_key_id, Client._signature_v1(request, resource, access_key_secret))
+        else:
+            if addtional_headers:
+                signature_v2 = Client._signature_v2(request, bucket_name, access_key_secret, addtional_headers)
+                signature = 'OSS2 AccessKeyId:%s,AdditionalHeaders:%s,Signature:%s' % \
+                            (access_key_id, ';'.join(addtional_headers), signature_v2)
             else:
-                return
+                signature_v2 = Client._signature_v2(request, bucket_name, access_key_secret, addtional_headers)
+                signature = 'OSS2 AccessKeyId:%s,Signature:%s' % (access_key_id, signature_v2)
 
-            return signature
+        return signature
 
     @staticmethod
     def _signature_v1(req, resource, secret):
