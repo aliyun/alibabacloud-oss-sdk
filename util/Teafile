@@ -9,7 +9,7 @@
 		"ts": "@alicloud/oss-util:0.0.1",
 		"java": "com.aliyun:oss-util:1.0.0",
 		"php": "alibabacloud/tea-oss-utils:^0.2.0",
-		"python": "alibabacloud_oss_util:0.0.2"
+		"python": "alibabacloud_oss_util:0.0.3"
 	},
 	"go": {
 		"package": [
