@@ -6,7 +6,7 @@ import com.aliyun.tea.*;
 public class PutObjectTaggingRequest extends TeaModel {
     // BucketName
     @NameInMap("BucketName")
-    @Validation(required = true)
+    @Validation(required = true, pattern = "[a-zA-Z0-9\\-\\_]+")
     public String bucketName;
 
     // ObjectName
@@ -18,7 +18,7 @@ public class PutObjectTaggingRequest extends TeaModel {
     @NameInMap("Body")
     public PutObjectTaggingRequestBody body;
 
-    public static PutObjectTaggingRequest build(java.util.Map<String, ?> map) {
+    public static PutObjectTaggingRequest build(java.util.Map<String, ?> map) throws Exception {
         PutObjectTaggingRequest self = new PutObjectTaggingRequest();
         return TeaModel.build(map, self);
     }
@@ -56,7 +56,7 @@ public class PutObjectTaggingRequest extends TeaModel {
         @NameInMap("Value")
         public String value;
 
-        public static PutObjectTaggingRequestBodyTaggingTagSetTag build(java.util.Map<String, ?> map) {
+        public static PutObjectTaggingRequestBodyTaggingTagSetTag build(java.util.Map<String, ?> map) throws Exception {
             PutObjectTaggingRequestBodyTaggingTagSetTag self = new PutObjectTaggingRequestBodyTaggingTagSetTag();
             return TeaModel.build(map, self);
         }
@@ -84,7 +84,7 @@ public class PutObjectTaggingRequest extends TeaModel {
         @NameInMap("Tag")
         public java.util.List<PutObjectTaggingRequestBodyTaggingTagSetTag> tag;
 
-        public static PutObjectTaggingRequestBodyTaggingTagSet build(java.util.Map<String, ?> map) {
+        public static PutObjectTaggingRequestBodyTaggingTagSet build(java.util.Map<String, ?> map) throws Exception {
             PutObjectTaggingRequestBodyTaggingTagSet self = new PutObjectTaggingRequestBodyTaggingTagSet();
             return TeaModel.build(map, self);
         }
@@ -104,7 +104,7 @@ public class PutObjectTaggingRequest extends TeaModel {
         @NameInMap("TagSet")
         public PutObjectTaggingRequestBodyTaggingTagSet tagSet;
 
-        public static PutObjectTaggingRequestBodyTagging build(java.util.Map<String, ?> map) {
+        public static PutObjectTaggingRequestBodyTagging build(java.util.Map<String, ?> map) throws Exception {
             PutObjectTaggingRequestBodyTagging self = new PutObjectTaggingRequestBodyTagging();
             return TeaModel.build(map, self);
         }
@@ -125,7 +125,7 @@ public class PutObjectTaggingRequest extends TeaModel {
         @Validation(required = true)
         public PutObjectTaggingRequestBodyTagging tagging;
 
-        public static PutObjectTaggingRequestBody build(java.util.Map<String, ?> map) {
+        public static PutObjectTaggingRequestBody build(java.util.Map<String, ?> map) throws Exception {
             PutObjectTaggingRequestBody self = new PutObjectTaggingRequestBody();
             return TeaModel.build(map, self);
         }

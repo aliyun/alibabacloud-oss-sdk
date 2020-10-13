@@ -6,14 +6,14 @@ import com.aliyun.tea.*;
 public class PutBucketRefererRequest extends TeaModel {
     // BucketName
     @NameInMap("BucketName")
-    @Validation(required = true)
+    @Validation(required = true, pattern = "[a-zA-Z0-9\\-\\_]+")
     public String bucketName;
 
     // Body
     @NameInMap("Body")
     public PutBucketRefererRequestBody body;
 
-    public static PutBucketRefererRequest build(java.util.Map<String, ?> map) {
+    public static PutBucketRefererRequest build(java.util.Map<String, ?> map) throws Exception {
         PutBucketRefererRequest self = new PutBucketRefererRequest();
         return TeaModel.build(map, self);
     }
@@ -39,7 +39,7 @@ public class PutBucketRefererRequest extends TeaModel {
         @NameInMap("Referer")
         public java.util.List<String> referer;
 
-        public static PutBucketRefererRequestBodyRefererConfigurationRefererList build(java.util.Map<String, ?> map) {
+        public static PutBucketRefererRequestBodyRefererConfigurationRefererList build(java.util.Map<String, ?> map) throws Exception {
             PutBucketRefererRequestBodyRefererConfigurationRefererList self = new PutBucketRefererRequestBodyRefererConfigurationRefererList();
             return TeaModel.build(map, self);
         }
@@ -63,7 +63,7 @@ public class PutBucketRefererRequest extends TeaModel {
         @NameInMap("AllowEmptyReferer")
         public Boolean allowEmptyReferer;
 
-        public static PutBucketRefererRequestBodyRefererConfiguration build(java.util.Map<String, ?> map) {
+        public static PutBucketRefererRequestBodyRefererConfiguration build(java.util.Map<String, ?> map) throws Exception {
             PutBucketRefererRequestBodyRefererConfiguration self = new PutBucketRefererRequestBodyRefererConfiguration();
             return TeaModel.build(map, self);
         }
@@ -92,7 +92,7 @@ public class PutBucketRefererRequest extends TeaModel {
         @Validation(required = true)
         public PutBucketRefererRequestBodyRefererConfiguration refererConfiguration;
 
-        public static PutBucketRefererRequestBody build(java.util.Map<String, ?> map) {
+        public static PutBucketRefererRequestBody build(java.util.Map<String, ?> map) throws Exception {
             PutBucketRefererRequestBody self = new PutBucketRefererRequestBody();
             return TeaModel.build(map, self);
         }

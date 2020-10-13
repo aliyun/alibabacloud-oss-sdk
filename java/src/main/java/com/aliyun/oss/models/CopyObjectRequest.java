@@ -6,7 +6,7 @@ import com.aliyun.tea.*;
 public class CopyObjectRequest extends TeaModel {
     // BucketName
     @NameInMap("BucketName")
-    @Validation(required = true)
+    @Validation(required = true, pattern = "[a-zA-Z0-9\\-\\_]+")
     public String bucketName;
 
     // DestObjectName
@@ -19,7 +19,7 @@ public class CopyObjectRequest extends TeaModel {
     @Validation(required = true)
     public CopyObjectRequestHeader header;
 
-    public static CopyObjectRequest build(java.util.Map<String, ?> map) {
+    public static CopyObjectRequest build(java.util.Map<String, ?> map) throws Exception {
         CopyObjectRequest self = new CopyObjectRequest();
         return TeaModel.build(map, self);
     }
@@ -98,7 +98,7 @@ public class CopyObjectRequest extends TeaModel {
         @NameInMap("x-oss-tagging-directive")
         public String taggingDirective;
 
-        public static CopyObjectRequestHeader build(java.util.Map<String, ?> map) {
+        public static CopyObjectRequestHeader build(java.util.Map<String, ?> map) throws Exception {
             CopyObjectRequestHeader self = new CopyObjectRequestHeader();
             return TeaModel.build(map, self);
         }

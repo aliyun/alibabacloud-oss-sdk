@@ -6,7 +6,7 @@ import com.aliyun.tea.*;
 public class GetLiveChannelStatRequest extends TeaModel {
     // BucketName
     @NameInMap("BucketName")
-    @Validation(required = true)
+    @Validation(required = true, pattern = "[a-zA-Z0-9\\-\\_]+")
     public String bucketName;
 
     // ChannelName
@@ -18,7 +18,7 @@ public class GetLiveChannelStatRequest extends TeaModel {
     @NameInMap("Filter")
     public GetLiveChannelStatRequestFilter filter;
 
-    public static GetLiveChannelStatRequest build(java.util.Map<String, ?> map) {
+    public static GetLiveChannelStatRequest build(java.util.Map<String, ?> map) throws Exception {
         GetLiveChannelStatRequest self = new GetLiveChannelStatRequest();
         return TeaModel.build(map, self);
     }
@@ -52,7 +52,7 @@ public class GetLiveChannelStatRequest extends TeaModel {
         @NameInMap("comp")
         public String comp;
 
-        public static GetLiveChannelStatRequestFilter build(java.util.Map<String, ?> map) {
+        public static GetLiveChannelStatRequestFilter build(java.util.Map<String, ?> map) throws Exception {
             GetLiveChannelStatRequestFilter self = new GetLiveChannelStatRequestFilter();
             return TeaModel.build(map, self);
         }

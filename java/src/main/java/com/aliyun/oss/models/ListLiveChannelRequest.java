@@ -6,14 +6,14 @@ import com.aliyun.tea.*;
 public class ListLiveChannelRequest extends TeaModel {
     // BucketName
     @NameInMap("BucketName")
-    @Validation(required = true)
+    @Validation(required = true, pattern = "[a-zA-Z0-9\\-\\_]+")
     public String bucketName;
 
     // Filter
     @NameInMap("Filter")
     public ListLiveChannelRequestFilter filter;
 
-    public static ListLiveChannelRequest build(java.util.Map<String, ?> map) {
+    public static ListLiveChannelRequest build(java.util.Map<String, ?> map) throws Exception {
         ListLiveChannelRequest self = new ListLiveChannelRequest();
         return TeaModel.build(map, self);
     }
@@ -47,7 +47,7 @@ public class ListLiveChannelRequest extends TeaModel {
         @NameInMap("prefix")
         public String prefix;
 
-        public static ListLiveChannelRequestFilter build(java.util.Map<String, ?> map) {
+        public static ListLiveChannelRequestFilter build(java.util.Map<String, ?> map) throws Exception {
             ListLiveChannelRequestFilter self = new ListLiveChannelRequestFilter();
             return TeaModel.build(map, self);
         }

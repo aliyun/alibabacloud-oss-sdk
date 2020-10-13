@@ -6,14 +6,14 @@ import com.aliyun.tea.*;
 public class PutBucketLifecycleRequest extends TeaModel {
     // BucketName
     @NameInMap("BucketName")
-    @Validation(required = true)
+    @Validation(required = true, pattern = "[a-zA-Z0-9\\-\\_]+")
     public String bucketName;
 
     // Body
     @NameInMap("Body")
     public PutBucketLifecycleRequestBody body;
 
-    public static PutBucketLifecycleRequest build(java.util.Map<String, ?> map) {
+    public static PutBucketLifecycleRequest build(java.util.Map<String, ?> map) throws Exception {
         PutBucketLifecycleRequest self = new PutBucketLifecycleRequest();
         return TeaModel.build(map, self);
     }
@@ -43,7 +43,7 @@ public class PutBucketLifecycleRequest extends TeaModel {
         @NameInMap("CreatedBeforeDate")
         public String createdBeforeDate;
 
-        public static PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration build(java.util.Map<String, ?> map) {
+        public static PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration build(java.util.Map<String, ?> map) throws Exception {
             PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration self = new PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration();
             return TeaModel.build(map, self);
         }
@@ -75,7 +75,7 @@ public class PutBucketLifecycleRequest extends TeaModel {
         @NameInMap("StorageClass")
         public String storageClass;
 
-        public static PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition build(java.util.Map<String, ?> map) {
+        public static PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition build(java.util.Map<String, ?> map) throws Exception {
             PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition self = new PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition();
             return TeaModel.build(map, self);
         }
@@ -107,7 +107,7 @@ public class PutBucketLifecycleRequest extends TeaModel {
         @NameInMap("CreatedBeforeDate")
         public String createdBeforeDate;
 
-        public static PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUpload build(java.util.Map<String, ?> map) {
+        public static PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUpload build(java.util.Map<String, ?> map) throws Exception {
             PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUpload self = new PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUpload();
             return TeaModel.build(map, self);
         }
@@ -139,7 +139,7 @@ public class PutBucketLifecycleRequest extends TeaModel {
         @NameInMap("Value")
         public String value;
 
-        public static PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag build(java.util.Map<String, ?> map) {
+        public static PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag build(java.util.Map<String, ?> map) throws Exception {
             PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag self = new PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag();
             return TeaModel.build(map, self);
         }
@@ -191,7 +191,7 @@ public class PutBucketLifecycleRequest extends TeaModel {
         @NameInMap("Status")
         public String status;
 
-        public static PutBucketLifecycleRequestBodyLifecycleConfigurationRule build(java.util.Map<String, ?> map) {
+        public static PutBucketLifecycleRequestBodyLifecycleConfigurationRule build(java.util.Map<String, ?> map) throws Exception {
             PutBucketLifecycleRequestBodyLifecycleConfigurationRule self = new PutBucketLifecycleRequestBodyLifecycleConfigurationRule();
             return TeaModel.build(map, self);
         }
@@ -259,7 +259,7 @@ public class PutBucketLifecycleRequest extends TeaModel {
         @NameInMap("Rule")
         public java.util.List<PutBucketLifecycleRequestBodyLifecycleConfigurationRule> rule;
 
-        public static PutBucketLifecycleRequestBodyLifecycleConfiguration build(java.util.Map<String, ?> map) {
+        public static PutBucketLifecycleRequestBodyLifecycleConfiguration build(java.util.Map<String, ?> map) throws Exception {
             PutBucketLifecycleRequestBodyLifecycleConfiguration self = new PutBucketLifecycleRequestBodyLifecycleConfiguration();
             return TeaModel.build(map, self);
         }
@@ -280,7 +280,7 @@ public class PutBucketLifecycleRequest extends TeaModel {
         @Validation(required = true)
         public PutBucketLifecycleRequestBodyLifecycleConfiguration lifecycleConfiguration;
 
-        public static PutBucketLifecycleRequestBody build(java.util.Map<String, ?> map) {
+        public static PutBucketLifecycleRequestBody build(java.util.Map<String, ?> map) throws Exception {
             PutBucketLifecycleRequestBody self = new PutBucketLifecycleRequestBody();
             return TeaModel.build(map, self);
         }

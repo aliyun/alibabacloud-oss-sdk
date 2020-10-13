@@ -9,7 +9,7 @@ public class PutBucketResponse extends TeaModel {
     @Validation(required = true)
     public String requestId;
 
-    public static PutBucketResponse build(java.util.Map<String, ?> map) {
+    public static PutBucketResponse build(java.util.Map<String, ?> map) throws Exception {
         PutBucketResponse self = new PutBucketResponse();
         return TeaModel.build(map, self);
     }

@@ -6,7 +6,7 @@ import com.aliyun.tea.*;
 public class SelectObjectRequest extends TeaModel {
     // BucketName
     @NameInMap("BucketName")
-    @Validation(required = true)
+    @Validation(required = true, pattern = "[a-zA-Z0-9\\-\\_]+")
     public String bucketName;
 
     // ObjectName
@@ -23,7 +23,7 @@ public class SelectObjectRequest extends TeaModel {
     @NameInMap("Body")
     public SelectObjectRequestBody body;
 
-    public static SelectObjectRequest build(java.util.Map<String, ?> map) {
+    public static SelectObjectRequest build(java.util.Map<String, ?> map) throws Exception {
         SelectObjectRequest self = new SelectObjectRequest();
         return TeaModel.build(map, self);
     }
@@ -66,7 +66,7 @@ public class SelectObjectRequest extends TeaModel {
         @Validation(required = true)
         public String porcess;
 
-        public static SelectObjectRequestFilter build(java.util.Map<String, ?> map) {
+        public static SelectObjectRequestFilter build(java.util.Map<String, ?> map) throws Exception {
             SelectObjectRequestFilter self = new SelectObjectRequestFilter();
             return TeaModel.build(map, self);
         }
@@ -106,7 +106,7 @@ public class SelectObjectRequest extends TeaModel {
         @NameInMap("Range")
         public String range;
 
-        public static SelectObjectRequestBodySelectRequestInputSerializationCSV build(java.util.Map<String, ?> map) {
+        public static SelectObjectRequestBodySelectRequestInputSerializationCSV build(java.util.Map<String, ?> map) throws Exception {
             SelectObjectRequestBodySelectRequestInputSerializationCSV self = new SelectObjectRequestBodySelectRequestInputSerializationCSV();
             return TeaModel.build(map, self);
         }
@@ -170,7 +170,7 @@ public class SelectObjectRequest extends TeaModel {
         @NameInMap("CompressionType")
         public String compressionType;
 
-        public static SelectObjectRequestBodySelectRequestInputSerialization build(java.util.Map<String, ?> map) {
+        public static SelectObjectRequestBodySelectRequestInputSerialization build(java.util.Map<String, ?> map) throws Exception {
             SelectObjectRequestBodySelectRequestInputSerialization self = new SelectObjectRequestBodySelectRequestInputSerialization();
             return TeaModel.build(map, self);
         }
@@ -202,7 +202,7 @@ public class SelectObjectRequest extends TeaModel {
         @NameInMap("FieldDelimiter")
         public String fieldDelimiter;
 
-        public static SelectObjectRequestBodySelectRequestOutputSerializationCSV build(java.util.Map<String, ?> map) {
+        public static SelectObjectRequestBodySelectRequestOutputSerializationCSV build(java.util.Map<String, ?> map) throws Exception {
             SelectObjectRequestBodySelectRequestOutputSerializationCSV self = new SelectObjectRequestBodySelectRequestOutputSerializationCSV();
             return TeaModel.build(map, self);
         }
@@ -246,7 +246,7 @@ public class SelectObjectRequest extends TeaModel {
         @NameInMap("OutputHeader")
         public String outputHeader;
 
-        public static SelectObjectRequestBodySelectRequestOutputSerialization build(java.util.Map<String, ?> map) {
+        public static SelectObjectRequestBodySelectRequestOutputSerialization build(java.util.Map<String, ?> map) throws Exception {
             SelectObjectRequestBodySelectRequestOutputSerialization self = new SelectObjectRequestBodySelectRequestOutputSerialization();
             return TeaModel.build(map, self);
         }
@@ -302,7 +302,7 @@ public class SelectObjectRequest extends TeaModel {
         @NameInMap("MaxSkippedRecordsAllowed")
         public String maxSkippedRecordsAllowed;
 
-        public static SelectObjectRequestBodySelectRequestOptions build(java.util.Map<String, ?> map) {
+        public static SelectObjectRequestBodySelectRequestOptions build(java.util.Map<String, ?> map) throws Exception {
             SelectObjectRequestBodySelectRequestOptions self = new SelectObjectRequestBodySelectRequestOptions();
             return TeaModel.build(map, self);
         }
@@ -342,7 +342,7 @@ public class SelectObjectRequest extends TeaModel {
         @NameInMap("Expression")
         public String expression;
 
-        public static SelectObjectRequestBodySelectRequest build(java.util.Map<String, ?> map) {
+        public static SelectObjectRequestBodySelectRequest build(java.util.Map<String, ?> map) throws Exception {
             SelectObjectRequestBodySelectRequest self = new SelectObjectRequestBodySelectRequest();
             return TeaModel.build(map, self);
         }
@@ -387,7 +387,7 @@ public class SelectObjectRequest extends TeaModel {
         @Validation(required = true)
         public SelectObjectRequestBodySelectRequest selectRequest;
 
-        public static SelectObjectRequestBody build(java.util.Map<String, ?> map) {
+        public static SelectObjectRequestBody build(java.util.Map<String, ?> map) throws Exception {
             SelectObjectRequestBody self = new SelectObjectRequestBody();
             return TeaModel.build(map, self);
         }

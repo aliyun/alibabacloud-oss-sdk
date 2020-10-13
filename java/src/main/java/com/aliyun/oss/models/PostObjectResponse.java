@@ -9,7 +9,7 @@ public class PostObjectResponse extends TeaModel {
     @Validation(required = true)
     public PostObjectResponsePostResponse postResponse;
 
-    public static PostObjectResponse build(java.util.Map<String, ?> map) {
+    public static PostObjectResponse build(java.util.Map<String, ?> map) throws Exception {
         PostObjectResponse self = new PostObjectResponse();
         return TeaModel.build(map, self);
     }
@@ -38,7 +38,7 @@ public class PostObjectResponse extends TeaModel {
         @Validation(required = true)
         public String location;
 
-        public static PostObjectResponsePostResponse build(java.util.Map<String, ?> map) {
+        public static PostObjectResponsePostResponse build(java.util.Map<String, ?> map) throws Exception {
             PostObjectResponsePostResponse self = new PostObjectResponsePostResponse();
             return TeaModel.build(map, self);
         }

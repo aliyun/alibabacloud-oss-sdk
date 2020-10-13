@@ -14,7 +14,7 @@ public class ListMultipartUploadsResponse extends TeaModel {
     @Validation(required = true)
     public ListMultipartUploadsResponseListMultipartUploadsResult listMultipartUploadsResult;
 
-    public static ListMultipartUploadsResponse build(java.util.Map<String, ?> map) {
+    public static ListMultipartUploadsResponse build(java.util.Map<String, ?> map) throws Exception {
         ListMultipartUploadsResponse self = new ListMultipartUploadsResponse();
         return TeaModel.build(map, self);
     }
@@ -48,7 +48,7 @@ public class ListMultipartUploadsResponse extends TeaModel {
         @NameInMap("Initiated")
         public String initiated;
 
-        public static ListMultipartUploadsResponseListMultipartUploadsResultUpload build(java.util.Map<String, ?> map) {
+        public static ListMultipartUploadsResponseListMultipartUploadsResultUpload build(java.util.Map<String, ?> map) throws Exception {
             ListMultipartUploadsResponseListMultipartUploadsResultUpload self = new ListMultipartUploadsResponseListMultipartUploadsResultUpload();
             return TeaModel.build(map, self);
         }
@@ -120,7 +120,7 @@ public class ListMultipartUploadsResponse extends TeaModel {
         @NameInMap("Upload")
         public java.util.List<ListMultipartUploadsResponseListMultipartUploadsResultUpload> upload;
 
-        public static ListMultipartUploadsResponseListMultipartUploadsResult build(java.util.Map<String, ?> map) {
+        public static ListMultipartUploadsResponseListMultipartUploadsResult build(java.util.Map<String, ?> map) throws Exception {
             ListMultipartUploadsResponseListMultipartUploadsResult self = new ListMultipartUploadsResponseListMultipartUploadsResult();
             return TeaModel.build(map, self);
         }

@@ -9,7 +9,7 @@ public class PutObjectAclResponse extends TeaModel {
     @Validation(required = true)
     public String requestId;
 
-    public static PutObjectAclResponse build(java.util.Map<String, ?> map) {
+    public static PutObjectAclResponse build(java.util.Map<String, ?> map) throws Exception {
         PutObjectAclResponse self = new PutObjectAclResponse();
         return TeaModel.build(map, self);
     }

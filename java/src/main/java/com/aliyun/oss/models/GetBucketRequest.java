@@ -6,14 +6,14 @@ import com.aliyun.tea.*;
 public class GetBucketRequest extends TeaModel {
     // BucketName
     @NameInMap("BucketName")
-    @Validation(required = true)
+    @Validation(required = true, pattern = "[a-zA-Z0-9\\-\\_]+")
     public String bucketName;
 
     // Filter
     @NameInMap("Filter")
     public GetBucketRequestFilter filter;
 
-    public static GetBucketRequest build(java.util.Map<String, ?> map) {
+    public static GetBucketRequest build(java.util.Map<String, ?> map) throws Exception {
         GetBucketRequest self = new GetBucketRequest();
         return TeaModel.build(map, self);
     }
@@ -55,7 +55,7 @@ public class GetBucketRequest extends TeaModel {
         @NameInMap("encoding-type")
         public String encodingType;
 
-        public static GetBucketRequestFilter build(java.util.Map<String, ?> map) {
+        public static GetBucketRequestFilter build(java.util.Map<String, ?> map) throws Exception {
             GetBucketRequestFilter self = new GetBucketRequestFilter();
             return TeaModel.build(map, self);
         }

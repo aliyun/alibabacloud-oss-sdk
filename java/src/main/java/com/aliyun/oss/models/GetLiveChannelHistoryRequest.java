@@ -6,7 +6,7 @@ import com.aliyun.tea.*;
 public class GetLiveChannelHistoryRequest extends TeaModel {
     // BucketName
     @NameInMap("BucketName")
-    @Validation(required = true)
+    @Validation(required = true, pattern = "[a-zA-Z0-9\\-\\_]+")
     public String bucketName;
 
     // ChannelName
@@ -18,7 +18,7 @@ public class GetLiveChannelHistoryRequest extends TeaModel {
     @NameInMap("Filter")
     public GetLiveChannelHistoryRequestFilter filter;
 
-    public static GetLiveChannelHistoryRequest build(java.util.Map<String, ?> map) {
+    public static GetLiveChannelHistoryRequest build(java.util.Map<String, ?> map) throws Exception {
         GetLiveChannelHistoryRequest self = new GetLiveChannelHistoryRequest();
         return TeaModel.build(map, self);
     }
@@ -52,7 +52,7 @@ public class GetLiveChannelHistoryRequest extends TeaModel {
         @NameInMap("comp")
         public String comp;
 
-        public static GetLiveChannelHistoryRequestFilter build(java.util.Map<String, ?> map) {
+        public static GetLiveChannelHistoryRequestFilter build(java.util.Map<String, ?> map) throws Exception {
             GetLiveChannelHistoryRequestFilter self = new GetLiveChannelHistoryRequestFilter();
             return TeaModel.build(map, self);
         }
