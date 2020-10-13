@@ -1,4 +1,4 @@
-#!/usr/bin/python
+# -*- coding: utf-8 -*-
 """
  Licensed to the Apache Software Foundation (ASF) under one
  or more contributor license agreements.  See the NOTICE file
@@ -18,46 +18,53 @@
  under the License.
 """
 
-from setuptools import setup, find_packages
-import os
 import sys
+import os
+from setuptools import setup, find_packages
 
 """
-setup module for alibabacloud-sdk-oss.
+setup module for alibabacloud_oss_sdk.
 
-Created on 27/05/2020
+Created on 13/10/2020
 
 @author: Alibaba Cloud
 """
 
 PACKAGE = "alibabacloud_oss_sdk"
-NAME = "alibabacloud_oss_sdk"
+NAME = "alibabacloud_oss_sdk" or "alibabacloud-package"
 DESCRIPTION = "Aliyun Tea OSS SDK Library for Python"
 AUTHOR = "Alibaba Cloud"
 AUTHOR_EMAIL = "alibaba-cloud-sdk-dev-team@list.alibaba-inc.com"
-URL = "https://github.com/aliyun/alibabacloud-oss-sdk"
-
-TOPDIR = os.path.dirname(__file__) or "."
+URL = "https://github.com/aliyun/alibabacloud-oss-sdk/tree/master/python"
+REQUIRES = ["alibabacloud_tea_util>=0.2.0, <1.0.0",
+            "alibabacloud_oss_util>=0.0.2, <1.0.0",
+            "alibabacloud_tea_xml>=0.0.2, <1.0.0",
+            "alibabacloud_tea_fileform>=0.0.3, <1.0.0",
+            "alibabacloud_credentials>=0.0.5, <1.0.0"]
 VERSION = __import__(PACKAGE).__version__
-REQUIRES = ["alibabacloud_tea_util>=0.0.2", "alibabacloud_oss_util>=0.0.1", "alibabacloud_tea_xml>=0.0.1",
-            "alibabacloud_tea_fileform>=0.0.1", "alibabacloud_credentials>=0.0.1"]
 
-desc_file = open("README.md", encoding='utf-8')
-try:
-    LONG_DESCRIPTION = desc_file.read()
-finally:
-    desc_file.close()
+
+LONG_DESCRIPTION = ''
+if os.path.exists('./README.md'):
+    if sys.version_info[0] == 2:
+        with open("README.md") as fp:
+            LONG_DESCRIPTION = fp.read()
+    else:
+        with open("README.md", encoding='utf-8') as fp:
+            LONG_DESCRIPTION = fp.read()
+
 
 setup(
     name=NAME,
     version=VERSION,
     description=DESCRIPTION,
     long_description=LONG_DESCRIPTION,
+    long_description_content_type='text/markdown',
     author=AUTHOR,
     author_email=AUTHOR_EMAIL,
     license="Apache License 2.0",
     url=URL,
-    keywords=["alibabacloud-oss-sdk"],
+    keywords=["alibabacloud_oss_sdk"],
     packages=find_packages(exclude=["tests*"]),
     include_package_data=True,
     platforms="any",
@@ -68,7 +75,6 @@ setup(
         "License :: OSI Approved :: Apache Software License",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.3",
         "Programming Language :: Python :: 3.4",
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",

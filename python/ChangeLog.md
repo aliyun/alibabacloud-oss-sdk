@@ -1,3 +1,6 @@
+### 2020-10-13 Version 0.0.5
+* Added pattern to regionid and bucketname.
+
 ### 2020-08-14 Version 0.0.4
 * Improve initialization assignment.
 
