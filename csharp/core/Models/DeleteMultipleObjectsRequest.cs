@@ -9,10 +9,16 @@ using Tea;
 namespace AlibabaCloud.OSS.Models
 {
     public class DeleteMultipleObjectsRequest : TeaModel {
+        /// <summary>
+        /// BucketName
+        /// </summary>
         [NameInMap("BucketName")]
-        [Validation(Required=true)]
+        [Validation(Required=true, Pattern="[a-zA-Z0-9\\-\\_]+")]
         public string BucketName { get; set; }
 
+        /// <summary>
+        /// Body
+        /// </summary>
         [NameInMap("Body")]
         [Validation(Required=false)]
         public DeleteMultipleObjectsRequestBody Body { get; set; }
@@ -21,16 +27,25 @@ namespace AlibabaCloud.OSS.Models
             [Validation(Required=true)]
             public DeleteMultipleObjectsRequestBodyDelete Delete { get; set; }
             public class DeleteMultipleObjectsRequestBodyDelete : TeaModel {
+                /// <summary>
+                /// Object
+                /// </summary>
                 [NameInMap("Object")]
                 [Validation(Required=false)]
                 public List<DeleteMultipleObjectsRequestBodyDeleteObject> Object { get; set; }
                 public class DeleteMultipleObjectsRequestBodyDeleteObject : TeaModel {
+                    /// <summary>
+                    /// Key
+                    /// </summary>
                     [NameInMap("Key")]
                     [Validation(Required=false)]
                     public string Key { get; set; }
 
                 }
 
+                /// <summary>
+                /// Quiet
+                /// </summary>
                 [NameInMap("Quiet")]
                 [Validation(Required=false)]
                 public string Quiet { get; set; }
@@ -38,6 +53,9 @@ namespace AlibabaCloud.OSS.Models
             }
         };
 
+        /// <summary>
+        /// Header
+        /// </summary>
         [NameInMap("Header")]
         [Validation(Required=true)]
         public DeleteMultipleObjectsRequestHeader Header { get; set; }

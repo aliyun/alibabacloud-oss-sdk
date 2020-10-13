@@ -9,10 +9,16 @@ using Tea;
 namespace AlibabaCloud.OSS.Models
 {
     public class GetBucketRequestPaymentResponse : TeaModel {
+        /// <summary>
+        /// x-oss-request-id
+        /// </summary>
         [NameInMap("x-oss-request-id")]
         [Validation(Required=true)]
         public string RequestId { get; set; }
 
+        /// <summary>
+        /// RequestPaymentConfiguration
+        /// </summary>
         [NameInMap("RequestPaymentConfiguration")]
         [Validation(Required=true)]
         public GetBucketRequestPaymentResponseRequestPaymentConfiguration RequestPaymentConfiguration { get; set; }

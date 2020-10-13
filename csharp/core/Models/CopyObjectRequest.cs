@@ -9,14 +9,23 @@ using Tea;
 namespace AlibabaCloud.OSS.Models
 {
     public class CopyObjectRequest : TeaModel {
+        /// <summary>
+        /// BucketName
+        /// </summary>
         [NameInMap("BucketName")]
-        [Validation(Required=true)]
+        [Validation(Required=true, Pattern="[a-zA-Z0-9\\-\\_]+")]
         public string BucketName { get; set; }
 
+        /// <summary>
+        /// DestObjectName
+        /// </summary>
         [NameInMap("DestObjectName")]
         [Validation(Required=true)]
         public string DestObjectName { get; set; }
 
+        /// <summary>
+        /// Header
+        /// </summary>
         [NameInMap("Header")]
         [Validation(Required=true)]
         public CopyObjectRequestHeader Header { get; set; }

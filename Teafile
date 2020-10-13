@@ -17,7 +17,7 @@
 	"releases": {
 		"go": "github.com/alibabacloud-go/tea-oss-sdk/client:v1.1.1",
 		"java": "com.aliyun:oss-client:3.0.1",
-		"csharp": "AlibabaCloud.SDK.OSS.Client:1.0.2",
+		"csharp": "AlibabaCloud.SDK.OSS.Client:1.0.3",
 		"ts": "@alicloud/oss-client:^1.1.2",
 		"php": "alibabacloud/tea-oss-sdk:^0.3.0",
 		"python": "alibabacloud_oss_sdk:0.0.5"
@@ -26,7 +26,10 @@
 		"package": "com.aliyun.oss"
 	},
 	"csharp": {
-		"namespace": "AlibabaCloud.OSS"
+		"namespace": "AlibabaCloud.OSS",
+		"packageInfo": {
+			"name": "oss-sdk"
+		}
 	},
 	"php": {
 		"package": "AlibabaCloud.SDK.OSS",

@@ -9,10 +9,16 @@ using Tea;
 namespace AlibabaCloud.OSS.Models
 {
     public class UploadPartCopyResponse : TeaModel {
+        /// <summary>
+        /// x-oss-request-id
+        /// </summary>
         [NameInMap("x-oss-request-id")]
         [Validation(Required=true)]
         public string RequestId { get; set; }
 
+        /// <summary>
+        /// CopyPartResult
+        /// </summary>
         [NameInMap("CopyPartResult")]
         [Validation(Required=true)]
         public UploadPartCopyResponseCopyPartResult CopyPartResult { get; set; }

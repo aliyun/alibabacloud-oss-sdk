@@ -9,10 +9,16 @@ using Tea;
 namespace AlibabaCloud.OSS.Models
 {
     public class PutBucketWebsiteRequest : TeaModel {
+        /// <summary>
+        /// BucketName
+        /// </summary>
         [NameInMap("BucketName")]
-        [Validation(Required=true)]
+        [Validation(Required=true, Pattern="[a-zA-Z0-9\\-\\_]+")]
         public string BucketName { get; set; }
 
+        /// <summary>
+        /// Body
+        /// </summary>
         [NameInMap("Body")]
         [Validation(Required=false)]
         public PutBucketWebsiteRequestBody Body { get; set; }
@@ -21,6 +27,9 @@ namespace AlibabaCloud.OSS.Models
             [Validation(Required=true)]
             public PutBucketWebsiteRequestBodyWebsiteConfiguration WebsiteConfiguration { get; set; }
             public class PutBucketWebsiteRequestBodyWebsiteConfiguration : TeaModel {
+                /// <summary>
+                /// IndexDocument
+                /// </summary>
                 [NameInMap("IndexDocument")]
                 [Validation(Required=false)]
                 public PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument IndexDocument { get; set; }
@@ -30,6 +39,9 @@ namespace AlibabaCloud.OSS.Models
                     public string Suffix { get; set; }
                 };
 
+                /// <summary>
+                /// ErrorDocument
+                /// </summary>
                 [NameInMap("ErrorDocument")]
                 [Validation(Required=false)]
                 public PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument ErrorDocument { get; set; }
@@ -39,6 +51,9 @@ namespace AlibabaCloud.OSS.Models
                     public string Key { get; set; }
                 };
 
+                /// <summary>
+                /// RoutingRules
+                /// </summary>
                 [NameInMap("RoutingRules")]
                 [Validation(Required=false)]
                 public PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules RoutingRules { get; set; }
@@ -47,6 +62,9 @@ namespace AlibabaCloud.OSS.Models
                     [Validation(Required=false)]
                     public List<PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule> RoutingRule { get; set; }
                     public class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule : TeaModel {
+                        /// <summary>
+                        /// IncludeHeader
+                        /// </summary>
                         [NameInMap("IncludeHeader")]
                         [Validation(Required=false)]
                         public PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleIncludeHeader IncludeHeader { get; set; }
@@ -59,10 +77,16 @@ namespace AlibabaCloud.OSS.Models
                             public string Equals_ { get; set; }
                         };
 
+                        /// <summary>
+                        /// KeyPrefixEquals
+                        /// </summary>
                         [NameInMap("KeyPrefixEquals")]
                         [Validation(Required=false)]
                         public string KeyPrefixEquals { get; set; }
 
+                        /// <summary>
+                        /// HttpErrorCodeReturnedEquals
+                        /// </summary>
                         [NameInMap("HttpErrorCodeReturnedEquals")]
                         [Validation(Required=false)]
                         public string HttpErrorCodeReturnedEquals { get; set; }

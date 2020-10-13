@@ -9,10 +9,16 @@ using Tea;
 namespace AlibabaCloud.OSS.Models
 {
     public class PutBucketEncryptionRequest : TeaModel {
+        /// <summary>
+        /// BucketName
+        /// </summary>
         [NameInMap("BucketName")]
-        [Validation(Required=true)]
+        [Validation(Required=true, Pattern="[a-zA-Z0-9\\-\\_]+")]
         public string BucketName { get; set; }
 
+        /// <summary>
+        /// Body
+        /// </summary>
         [NameInMap("Body")]
         [Validation(Required=false)]
         public PutBucketEncryptionRequestBody Body { get; set; }
@@ -21,6 +27,9 @@ namespace AlibabaCloud.OSS.Models
             [Validation(Required=true)]
             public PutBucketEncryptionRequestBodyServerSideEncryptionRule ServerSideEncryptionRule { get; set; }
             public class PutBucketEncryptionRequestBodyServerSideEncryptionRule : TeaModel {
+                /// <summary>
+                /// ApplyServerSideEncryptionByDefault
+                /// </summary>
                 [NameInMap("ApplyServerSideEncryptionByDefault")]
                 [Validation(Required=false)]
                 public PutBucketEncryptionRequestBodyServerSideEncryptionRuleApplyServerSideEncryptionByDefault ApplyServerSideEncryptionByDefault { get; set; }

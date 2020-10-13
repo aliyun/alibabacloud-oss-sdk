@@ -9,10 +9,16 @@ using Tea;
 namespace AlibabaCloud.OSS.Models
 {
     public class GetBucketWebsiteResponse : TeaModel {
+        /// <summary>
+        /// x-oss-request-id
+        /// </summary>
         [NameInMap("x-oss-request-id")]
         [Validation(Required=true)]
         public string RequestId { get; set; }
 
+        /// <summary>
+        /// WebsiteConfiguration
+        /// </summary>
         [NameInMap("WebsiteConfiguration")]
         [Validation(Required=true)]
         public GetBucketWebsiteResponseWebsiteConfiguration WebsiteConfiguration { get; set; }
@@ -21,6 +27,9 @@ namespace AlibabaCloud.OSS.Models
             [Validation(Required=true)]
             public GetBucketWebsiteResponseWebsiteConfigurationIndexDocument IndexDocument { get; set; }
             public class GetBucketWebsiteResponseWebsiteConfigurationIndexDocument : TeaModel {
+                /// <summary>
+                /// Suffix
+                /// </summary>
                 [NameInMap("Suffix")]
                 [Validation(Required=false)]
                 public string Suffix { get; set; }
@@ -30,6 +39,9 @@ namespace AlibabaCloud.OSS.Models
             [Validation(Required=true)]
             public GetBucketWebsiteResponseWebsiteConfigurationErrorDocument ErrorDocument { get; set; }
             public class GetBucketWebsiteResponseWebsiteConfigurationErrorDocument : TeaModel {
+                /// <summary>
+                /// Key
+                /// </summary>
                 [NameInMap("Key")]
                 [Validation(Required=false)]
                 public string Key { get; set; }
@@ -39,14 +51,23 @@ namespace AlibabaCloud.OSS.Models
             [Validation(Required=true)]
             public GetBucketWebsiteResponseWebsiteConfigurationRoutingRules RoutingRules { get; set; }
             public class GetBucketWebsiteResponseWebsiteConfigurationRoutingRules : TeaModel {
+                /// <summary>
+                /// RoutingRule
+                /// </summary>
                 [NameInMap("RoutingRule")]
                 [Validation(Required=false)]
                 public List<GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule> RoutingRule { get; set; }
                 public class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule : TeaModel {
+                    /// <summary>
+                    /// RuleNumber
+                    /// </summary>
                     [NameInMap("RuleNumber")]
                     [Validation(Required=false)]
                     public int? RuleNumber { get; set; }
 
+                    /// <summary>
+                    /// Condition
+                    /// </summary>
                     [NameInMap("Condition")]
                     [Validation(Required=true)]
                     public GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleCondition Condition { get; set; }
@@ -61,10 +82,16 @@ namespace AlibabaCloud.OSS.Models
                         [Validation(Required=true)]
                         public GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader IncludeHeader { get; set; }
                         public class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader : TeaModel {
+                            /// <summary>
+                            /// Key
+                            /// </summary>
                             [NameInMap("Key")]
                             [Validation(Required=false)]
                             public string Key { get; set; }
 
+                            /// <summary>
+                            /// Equals
+                            /// </summary>
                             [NameInMap("Equals")]
                             [Validation(Required=false)]
                             public string Equals_ { get; set; }
@@ -72,6 +99,9 @@ namespace AlibabaCloud.OSS.Models
                         }
                     };
 
+                    /// <summary>
+                    /// Redirect
+                    /// </summary>
                     [NameInMap("Redirect")]
                     [Validation(Required=true)]
                     public GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect Redirect { get; set; }
@@ -113,18 +143,30 @@ namespace AlibabaCloud.OSS.Models
                         [Validation(Required=true)]
                         public GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders MirrorHeaders { get; set; }
                         public class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders : TeaModel {
+                            /// <summary>
+                            /// PassAll
+                            /// </summary>
                             [NameInMap("PassAll")]
                             [Validation(Required=false)]
                             public bool? PassAll { get; set; }
 
+                            /// <summary>
+                            /// Pass
+                            /// </summary>
                             [NameInMap("Pass")]
                             [Validation(Required=false)]
                             public string Pass { get; set; }
 
+                            /// <summary>
+                            /// Remove
+                            /// </summary>
                             [NameInMap("Remove")]
                             [Validation(Required=false)]
                             public string Remove { get; set; }
 
+                            /// <summary>
+                            /// Set
+                            /// </summary>
                             [NameInMap("Set")]
                             [Validation(Required=true)]
                             public GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet Set { get; set; }

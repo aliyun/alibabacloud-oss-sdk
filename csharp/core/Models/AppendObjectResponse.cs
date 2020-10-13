@@ -9,14 +9,23 @@ using Tea;
 namespace AlibabaCloud.OSS.Models
 {
     public class AppendObjectResponse : TeaModel {
+        /// <summary>
+        /// x-oss-request-id
+        /// </summary>
         [NameInMap("x-oss-request-id")]
         [Validation(Required=true)]
         public string RequestId { get; set; }
 
+        /// <summary>
+        /// x-oss-next-append-position
+        /// </summary>
         [NameInMap("x-oss-next-append-position")]
         [Validation(Required=true)]
         public string NextAppendPosition { get; set; }
 
+        /// <summary>
+        /// x-oss-hash-crc64ecma
+        /// </summary>
         [NameInMap("x-oss-hash-crc64ecma")]
         [Validation(Required=true)]
         public string HashCrc64ecma { get; set; }

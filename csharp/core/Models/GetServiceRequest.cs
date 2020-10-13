@@ -9,6 +9,9 @@ using Tea;
 namespace AlibabaCloud.OSS.Models
 {
     public class GetServiceRequest : TeaModel {
+        /// <summary>
+        /// Filter
+        /// </summary>
         [NameInMap("Filter")]
         [Validation(Required=false)]
         public GetServiceRequestFilter Filter { get; set; }

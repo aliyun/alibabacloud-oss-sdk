@@ -9,10 +9,16 @@ using Tea;
 namespace AlibabaCloud.OSS.Models
 {
     public class GetLiveChannelInfoResponse : TeaModel {
+        /// <summary>
+        /// x-oss-request-id
+        /// </summary>
         [NameInMap("x-oss-request-id")]
         [Validation(Required=true)]
         public string RequestId { get; set; }
 
+        /// <summary>
+        /// LiveChannelConfiguration
+        /// </summary>
         [NameInMap("LiveChannelConfiguration")]
         [Validation(Required=true)]
         public GetLiveChannelInfoResponseLiveChannelConfiguration LiveChannelConfiguration { get; set; }
@@ -27,18 +33,30 @@ namespace AlibabaCloud.OSS.Models
             [Validation(Required=true)]
             public GetLiveChannelInfoResponseLiveChannelConfigurationTarget Target { get; set; }
             public class GetLiveChannelInfoResponseLiveChannelConfigurationTarget : TeaModel {
+                /// <summary>
+                /// Type
+                /// </summary>
                 [NameInMap("Type")]
                 [Validation(Required=false)]
                 public string Type { get; set; }
 
+                /// <summary>
+                /// FragDuration
+                /// </summary>
                 [NameInMap("FragDuration")]
                 [Validation(Required=false)]
                 public string FragDuration { get; set; }
 
+                /// <summary>
+                /// FragCount
+                /// </summary>
                 [NameInMap("FragCount")]
                 [Validation(Required=false)]
                 public string FragCount { get; set; }
 
+                /// <summary>
+                /// PlaylistName
+                /// </summary>
                 [NameInMap("PlaylistName")]
                 [Validation(Required=false)]
                 public string PlaylistName { get; set; }

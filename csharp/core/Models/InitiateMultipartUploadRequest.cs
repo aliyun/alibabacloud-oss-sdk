@@ -9,14 +9,23 @@ using Tea;
 namespace AlibabaCloud.OSS.Models
 {
     public class InitiateMultipartUploadRequest : TeaModel {
+        /// <summary>
+        /// BucketName
+        /// </summary>
         [NameInMap("BucketName")]
-        [Validation(Required=true)]
+        [Validation(Required=true, Pattern="[a-zA-Z0-9\\-\\_]+")]
         public string BucketName { get; set; }
 
+        /// <summary>
+        /// ObjectName
+        /// </summary>
         [NameInMap("ObjectName")]
         [Validation(Required=true)]
         public string ObjectName { get; set; }
 
+        /// <summary>
+        /// Filter
+        /// </summary>
         [NameInMap("Filter")]
         [Validation(Required=false)]
         public InitiateMultipartUploadRequestFilter Filter { get; set; }
@@ -26,6 +35,9 @@ namespace AlibabaCloud.OSS.Models
             public string EncodingType { get; set; }
         };
 
+        /// <summary>
+        /// Header
+        /// </summary>
         [NameInMap("Header")]
         [Validation(Required=false)]
         public InitiateMultipartUploadRequestHeader Header { get; set; }
