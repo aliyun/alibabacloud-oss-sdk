@@ -68,7 +68,7 @@ class listBucketResult extends Model
     /**
      * @description Contents
      *
-     * @var array
+     * @var contents[]
      */
     public $contents;
     protected $_name = [
@@ -89,20 +89,38 @@ class listBucketResult extends Model
 
     public function toMap()
     {
-        $res                   = [];
-        $res['Name']           = $this->name;
-        $res['Prefix']         = $this->prefix;
-        $res['Marker']         = $this->marker;
-        $res['MaxKeys']        = $this->maxKeys;
-        $res['Delimiter']      = $this->delimiter;
-        $res['IsTruncated']    = $this->isTruncated;
-        $res['EncodingType']   = $this->encodingType;
-        $res['CommonPrefixes'] = $this->commonPrefixes;
-        $res['Contents']       = [];
-        if (null !== $this->contents && \is_array($this->contents)) {
-            $n = 0;
-            foreach ($this->contents as $item) {
-                $res['Contents'][$n++] = null !== $item ? $item->toMap() : $item;
+        $res = [];
+        if (null !== $this->name) {
+            $res['Name'] = $this->name;
+        }
+        if (null !== $this->prefix) {
+            $res['Prefix'] = $this->prefix;
+        }
+        if (null !== $this->marker) {
+            $res['Marker'] = $this->marker;
+        }
+        if (null !== $this->maxKeys) {
+            $res['MaxKeys'] = $this->maxKeys;
+        }
+        if (null !== $this->delimiter) {
+            $res['Delimiter'] = $this->delimiter;
+        }
+        if (null !== $this->isTruncated) {
+            $res['IsTruncated'] = $this->isTruncated;
+        }
+        if (null !== $this->encodingType) {
+            $res['EncodingType'] = $this->encodingType;
+        }
+        if (null !== $this->commonPrefixes) {
+            $res['CommonPrefixes'] = $this->commonPrefixes;
+        }
+        if (null !== $this->contents) {
+            $res['Contents'] = [];
+            if (null !== $this->contents && \is_array($this->contents)) {
+                $n = 0;
+                foreach ($this->contents as $item) {
+                    $res['Contents'][$n++] = null !== $item ? $item->toMap() : $item;
+                }
             }
         }
 

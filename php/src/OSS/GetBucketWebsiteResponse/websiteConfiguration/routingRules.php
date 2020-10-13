@@ -12,7 +12,7 @@ class routingRules extends Model
     /**
      * @description RoutingRule
      *
-     * @var array
+     * @var routingRule[]
      */
     public $routingRule;
     protected $_name = [
@@ -25,12 +25,14 @@ class routingRules extends Model
 
     public function toMap()
     {
-        $res                = [];
-        $res['RoutingRule'] = [];
-        if (null !== $this->routingRule && \is_array($this->routingRule)) {
-            $n = 0;
-            foreach ($this->routingRule as $item) {
-                $res['RoutingRule'][$n++] = null !== $item ? $item->toMap() : $item;
+        $res = [];
+        if (null !== $this->routingRule) {
+            $res['RoutingRule'] = [];
+            if (null !== $this->routingRule && \is_array($this->routingRule)) {
+                $n = 0;
+                foreach ($this->routingRule as $item) {
+                    $res['RoutingRule'][$n++] = null !== $item ? $item->toMap() : $item;
+                }
             }
         }
 

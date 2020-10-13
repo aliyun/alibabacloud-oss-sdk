@@ -26,8 +26,10 @@ class body extends Model
 
     public function toMap()
     {
-        $res           = [];
-        $res['Delete'] = null !== $this->delete ? $this->delete->toMap() : null;
+        $res = [];
+        if (null !== $this->delete) {
+            $res['Delete'] = null !== $this->delete ? $this->delete->toMap() : null;
+        }
 
         return $res;
     }

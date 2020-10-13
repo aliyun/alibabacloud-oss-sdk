@@ -34,9 +34,13 @@ class GetBucketLocationResponse extends Model
 
     public function toMap()
     {
-        $res                       = [];
-        $res['x-oss-request-id']   = $this->requestId;
-        $res['LocationConstraint'] = $this->locationConstraint;
+        $res = [];
+        if (null !== $this->requestId) {
+            $res['x-oss-request-id'] = $this->requestId;
+        }
+        if (null !== $this->locationConstraint) {
+            $res['LocationConstraint'] = $this->locationConstraint;
+        }
 
         return $res;
     }

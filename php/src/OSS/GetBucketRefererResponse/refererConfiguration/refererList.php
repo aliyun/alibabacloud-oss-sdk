@@ -11,7 +11,7 @@ class refererList extends Model
     /**
      * @description Referer
      *
-     * @var array
+     * @var string[]
      */
     public $referer;
     protected $_name = [
@@ -24,8 +24,7 @@ class refererList extends Model
 
     public function toMap()
     {
-        $res            = [];
-        $res['Referer'] = [];
+        $res = [];
         if (null !== $this->referer) {
             $res['Referer'] = $this->referer;
         }
@@ -43,7 +42,6 @@ class refererList extends Model
         $model = new self();
         if (isset($map['Referer'])) {
             if (!empty($map['Referer'])) {
-                $model->referer = [];
                 $model->referer = $map['Referer'];
             }
         }

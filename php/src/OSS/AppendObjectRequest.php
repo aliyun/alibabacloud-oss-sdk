@@ -7,6 +7,7 @@ namespace AlibabaCloud\SDK\OSS\OSS;
 use AlibabaCloud\SDK\OSS\OSS\AppendObjectRequest\filter;
 use AlibabaCloud\SDK\OSS\OSS\AppendObjectRequest\header;
 use AlibabaCloud\Tea\Model;
+use GuzzleHttp\Psr7\Stream;
 
 class AppendObjectRequest extends Model
 {
@@ -27,7 +28,7 @@ class AppendObjectRequest extends Model
     /**
      * @description UserMeta
      *
-     * @var array
+     * @var string[]
      */
     public $userMeta;
 
@@ -65,17 +66,30 @@ class AppendObjectRequest extends Model
         Model::validateRequired('bucketName', $this->bucketName, true);
         Model::validateRequired('objectName', $this->objectName, true);
         Model::validateRequired('filter', $this->filter, true);
+        Model::validatePattern('bucketName', $this->bucketName, '[a-zA-Z0-9\\-\\_]+');
     }
 
     public function toMap()
     {
-        $res               = [];
-        $res['BucketName'] = $this->bucketName;
-        $res['ObjectName'] = $this->objectName;
-        $res['UserMeta']   = $this->userMeta;
-        $res['body']       = $this->body;
-        $res['Filter']     = null !== $this->filter ? $this->filter->toMap() : null;
-        $res['Header']     = null !== $this->header ? $this->header->toMap() : null;
+        $res = [];
+        if (null !== $this->bucketName) {
+            $res['BucketName'] = $this->bucketName;
+        }
+        if (null !== $this->objectName) {
+            $res['ObjectName'] = $this->objectName;
+        }
+        if (null !== $this->userMeta) {
+            $res['UserMeta'] = $this->userMeta;
+        }
+        if (null !== $this->body) {
+            $res['body'] = $this->body;
+        }
+        if (null !== $this->filter) {
+            $res['Filter'] = null !== $this->filter ? $this->filter->toMap() : null;
+        }
+        if (null !== $this->header) {
+            $res['Header'] = null !== $this->header ? $this->header->toMap() : null;
+        }
 
         return $res;
     }

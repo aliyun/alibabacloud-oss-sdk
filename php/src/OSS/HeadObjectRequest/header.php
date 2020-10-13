@@ -48,11 +48,19 @@ class header extends Model
 
     public function toMap()
     {
-        $res                        = [];
-        $res['If-Modified-Since']   = $this->ifModifiedSince;
-        $res['If-Unmodified-Since'] = $this->ifUnmodifiedSince;
-        $res['If-Match']            = $this->ifMatch;
-        $res['If-None-Match']       = $this->ifNoneMatch;
+        $res = [];
+        if (null !== $this->ifModifiedSince) {
+            $res['If-Modified-Since'] = $this->ifModifiedSince;
+        }
+        if (null !== $this->ifUnmodifiedSince) {
+            $res['If-Unmodified-Since'] = $this->ifUnmodifiedSince;
+        }
+        if (null !== $this->ifMatch) {
+            $res['If-Match'] = $this->ifMatch;
+        }
+        if (null !== $this->ifNoneMatch) {
+            $res['If-None-Match'] = $this->ifNoneMatch;
+        }
 
         return $res;
     }

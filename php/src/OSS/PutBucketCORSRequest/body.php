@@ -26,8 +26,10 @@ class body extends Model
 
     public function toMap()
     {
-        $res                      = [];
-        $res['CORSConfiguration'] = null !== $this->cORSConfiguration ? $this->cORSConfiguration->toMap() : null;
+        $res = [];
+        if (null !== $this->cORSConfiguration) {
+            $res['CORSConfiguration'] = null !== $this->cORSConfiguration ? $this->cORSConfiguration->toMap() : null;
+        }
 
         return $res;
     }

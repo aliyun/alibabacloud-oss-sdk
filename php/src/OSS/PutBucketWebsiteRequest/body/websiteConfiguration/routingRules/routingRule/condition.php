@@ -41,10 +41,16 @@ class condition extends Model
 
     public function toMap()
     {
-        $res                                = [];
-        $res['IncludeHeader']               = null !== $this->includeHeader ? $this->includeHeader->toMap() : null;
-        $res['KeyPrefixEquals']             = $this->keyPrefixEquals;
-        $res['HttpErrorCodeReturnedEquals'] = $this->httpErrorCodeReturnedEquals;
+        $res = [];
+        if (null !== $this->includeHeader) {
+            $res['IncludeHeader'] = null !== $this->includeHeader ? $this->includeHeader->toMap() : null;
+        }
+        if (null !== $this->keyPrefixEquals) {
+            $res['KeyPrefixEquals'] = $this->keyPrefixEquals;
+        }
+        if (null !== $this->httpErrorCodeReturnedEquals) {
+            $res['HttpErrorCodeReturnedEquals'] = $this->httpErrorCodeReturnedEquals;
+        }
 
         return $res;
     }

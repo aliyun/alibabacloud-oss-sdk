@@ -35,9 +35,13 @@ class DeleteMultipleObjectsResponse extends Model
 
     public function toMap()
     {
-        $res                     = [];
-        $res['x-oss-request-id'] = $this->requestId;
-        $res['DeleteResult']     = null !== $this->deleteResult ? $this->deleteResult->toMap() : null;
+        $res = [];
+        if (null !== $this->requestId) {
+            $res['x-oss-request-id'] = $this->requestId;
+        }
+        if (null !== $this->deleteResult) {
+            $res['DeleteResult'] = null !== $this->deleteResult ? $this->deleteResult->toMap() : null;
+        }
 
         return $res;
     }

@@ -32,9 +32,13 @@ class loggingEnabled extends Model
 
     public function toMap()
     {
-        $res                 = [];
-        $res['TargetBucket'] = $this->targetBucket;
-        $res['TargetPrefix'] = $this->targetPrefix;
+        $res = [];
+        if (null !== $this->targetBucket) {
+            $res['TargetBucket'] = $this->targetBucket;
+        }
+        if (null !== $this->targetPrefix) {
+            $res['TargetPrefix'] = $this->targetPrefix;
+        }
 
         return $res;
     }

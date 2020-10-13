@@ -70,13 +70,25 @@ class GetObjectResponse extends Model
 
     public function toMap()
     {
-        $res                                 = [];
-        $res['x-oss-request-id']             = $this->requestId;
-        $res['x-oss-object-type']            = $this->objectType;
-        $res['x-oss-server-side-encryption'] = $this->serverSideEncryption;
-        $res['x-oss-tagging-count']          = $this->taggingCount;
-        $res['x-oss-restore']                = $this->restore;
-        $res['body']                         = $this->body;
+        $res = [];
+        if (null !== $this->requestId) {
+            $res['x-oss-request-id'] = $this->requestId;
+        }
+        if (null !== $this->objectType) {
+            $res['x-oss-object-type'] = $this->objectType;
+        }
+        if (null !== $this->serverSideEncryption) {
+            $res['x-oss-server-side-encryption'] = $this->serverSideEncryption;
+        }
+        if (null !== $this->taggingCount) {
+            $res['x-oss-tagging-count'] = $this->taggingCount;
+        }
+        if (null !== $this->restore) {
+            $res['x-oss-restore'] = $this->restore;
+        }
+        if (null !== $this->body) {
+            $res['body'] = $this->body;
+        }
 
         return $res;
     }

@@ -35,9 +35,13 @@ class PutLiveChannelResponse extends Model
 
     public function toMap()
     {
-        $res                            = [];
-        $res['x-oss-request-id']        = $this->requestId;
-        $res['CreateLiveChannelResult'] = null !== $this->createLiveChannelResult ? $this->createLiveChannelResult->toMap() : null;
+        $res = [];
+        if (null !== $this->requestId) {
+            $res['x-oss-request-id'] = $this->requestId;
+        }
+        if (null !== $this->createLiveChannelResult) {
+            $res['CreateLiveChannelResult'] = null !== $this->createLiveChannelResult ? $this->createLiveChannelResult->toMap() : null;
+        }
 
         return $res;
     }

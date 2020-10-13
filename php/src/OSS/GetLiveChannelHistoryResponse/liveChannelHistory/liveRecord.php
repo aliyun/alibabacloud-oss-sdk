@@ -40,10 +40,16 @@ class liveRecord extends Model
 
     public function toMap()
     {
-        $res               = [];
-        $res['StartTime']  = $this->startTime;
-        $res['EndTime']    = $this->endTime;
-        $res['RemoteAddr'] = $this->remoteAddr;
+        $res = [];
+        if (null !== $this->startTime) {
+            $res['StartTime'] = $this->startTime;
+        }
+        if (null !== $this->endTime) {
+            $res['EndTime'] = $this->endTime;
+        }
+        if (null !== $this->remoteAddr) {
+            $res['RemoteAddr'] = $this->remoteAddr;
+        }
 
         return $res;
     }

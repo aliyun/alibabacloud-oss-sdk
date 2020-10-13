@@ -35,9 +35,13 @@ class ListPartsResponse extends Model
 
     public function toMap()
     {
-        $res                     = [];
-        $res['x-oss-request-id'] = $this->requestId;
-        $res['ListPartsResult']  = null !== $this->listPartsResult ? $this->listPartsResult->toMap() : null;
+        $res = [];
+        if (null !== $this->requestId) {
+            $res['x-oss-request-id'] = $this->requestId;
+        }
+        if (null !== $this->listPartsResult) {
+            $res['ListPartsResult'] = null !== $this->listPartsResult ? $this->listPartsResult->toMap() : null;
+        }
 
         return $res;
     }

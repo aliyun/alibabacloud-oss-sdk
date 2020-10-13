@@ -88,16 +88,34 @@ class header extends Model
 
     public function toMap()
     {
-        $res                                 = [];
-        $res['Cache-Control']                = $this->cacheControl;
-        $res['Content-Disposition']          = $this->contentDisposition;
-        $res['Content-Encoding']             = $this->contentEncoding;
-        $res['Content-MD5']                  = $this->contentMD5;
-        $res['Expires']                      = $this->expires;
-        $res['x-oss-server-side-encryption'] = $this->serverSideEncryption;
-        $res['x-oss-object-acl']             = $this->objectAcl;
-        $res['x-oss-storage-class']          = $this->storageClass;
-        $res['content-type']                 = $this->contentType;
+        $res = [];
+        if (null !== $this->cacheControl) {
+            $res['Cache-Control'] = $this->cacheControl;
+        }
+        if (null !== $this->contentDisposition) {
+            $res['Content-Disposition'] = $this->contentDisposition;
+        }
+        if (null !== $this->contentEncoding) {
+            $res['Content-Encoding'] = $this->contentEncoding;
+        }
+        if (null !== $this->contentMD5) {
+            $res['Content-MD5'] = $this->contentMD5;
+        }
+        if (null !== $this->expires) {
+            $res['Expires'] = $this->expires;
+        }
+        if (null !== $this->serverSideEncryption) {
+            $res['x-oss-server-side-encryption'] = $this->serverSideEncryption;
+        }
+        if (null !== $this->objectAcl) {
+            $res['x-oss-object-acl'] = $this->objectAcl;
+        }
+        if (null !== $this->storageClass) {
+            $res['x-oss-storage-class'] = $this->storageClass;
+        }
+        if (null !== $this->contentType) {
+            $res['content-type'] = $this->contentType;
+        }
 
         return $res;
     }

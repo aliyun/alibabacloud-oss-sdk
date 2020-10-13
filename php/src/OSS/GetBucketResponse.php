@@ -35,9 +35,13 @@ class GetBucketResponse extends Model
 
     public function toMap()
     {
-        $res                     = [];
-        $res['x-oss-request-id'] = $this->requestId;
-        $res['ListBucketResult'] = null !== $this->listBucketResult ? $this->listBucketResult->toMap() : null;
+        $res = [];
+        if (null !== $this->requestId) {
+            $res['x-oss-request-id'] = $this->requestId;
+        }
+        if (null !== $this->listBucketResult) {
+            $res['ListBucketResult'] = null !== $this->listBucketResult ? $this->listBucketResult->toMap() : null;
+        }
 
         return $res;
     }

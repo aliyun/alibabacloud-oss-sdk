@@ -12,7 +12,7 @@ class cORSConfiguration extends Model
     /**
      * @description CORSRule
      *
-     * @var array
+     * @var cORSRule[]
      */
     public $cORSRule;
     protected $_name = [
@@ -25,12 +25,14 @@ class cORSConfiguration extends Model
 
     public function toMap()
     {
-        $res             = [];
-        $res['CORSRule'] = [];
-        if (null !== $this->cORSRule && \is_array($this->cORSRule)) {
-            $n = 0;
-            foreach ($this->cORSRule as $item) {
-                $res['CORSRule'][$n++] = null !== $item ? $item->toMap() : $item;
+        $res = [];
+        if (null !== $this->cORSRule) {
+            $res['CORSRule'] = [];
+            if (null !== $this->cORSRule && \is_array($this->cORSRule)) {
+                $n = 0;
+                foreach ($this->cORSRule as $item) {
+                    $res['CORSRule'][$n++] = null !== $item ? $item->toMap() : $item;
+                }
             }
         }
 

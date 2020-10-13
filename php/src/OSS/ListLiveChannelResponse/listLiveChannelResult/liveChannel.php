@@ -68,13 +68,25 @@ class liveChannel extends Model
 
     public function toMap()
     {
-        $res                 = [];
-        $res['Name']         = $this->name;
-        $res['Description']  = $this->description;
-        $res['Status']       = $this->status;
-        $res['LastModified'] = $this->lastModified;
-        $res['PublishUrls']  = null !== $this->publishUrls ? $this->publishUrls->toMap() : null;
-        $res['PlayUrls']     = null !== $this->playUrls ? $this->playUrls->toMap() : null;
+        $res = [];
+        if (null !== $this->name) {
+            $res['Name'] = $this->name;
+        }
+        if (null !== $this->description) {
+            $res['Description'] = $this->description;
+        }
+        if (null !== $this->status) {
+            $res['Status'] = $this->status;
+        }
+        if (null !== $this->lastModified) {
+            $res['LastModified'] = $this->lastModified;
+        }
+        if (null !== $this->publishUrls) {
+            $res['PublishUrls'] = null !== $this->publishUrls ? $this->publishUrls->toMap() : null;
+        }
+        if (null !== $this->playUrls) {
+            $res['PlayUrls'] = null !== $this->playUrls ? $this->playUrls->toMap() : null;
+        }
 
         return $res;
     }

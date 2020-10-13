@@ -68,7 +68,7 @@ class listPartsResult extends Model
     /**
      * @description Part
      *
-     * @var array
+     * @var part[]
      */
     public $part;
     protected $_name = [
@@ -89,20 +89,38 @@ class listPartsResult extends Model
 
     public function toMap()
     {
-        $res                         = [];
-        $res['Bucket']               = $this->bucket;
-        $res['EncodingType']         = $this->encodingType;
-        $res['Key']                  = $this->key;
-        $res['UploadId']             = $this->uploadId;
-        $res['PartNumberMarker']     = $this->partNumberMarker;
-        $res['NextPartNumberMarker'] = $this->nextPartNumberMarker;
-        $res['MaxParts']             = $this->maxParts;
-        $res['IsTruncated']          = $this->isTruncated;
-        $res['Part']                 = [];
-        if (null !== $this->part && \is_array($this->part)) {
-            $n = 0;
-            foreach ($this->part as $item) {
-                $res['Part'][$n++] = null !== $item ? $item->toMap() : $item;
+        $res = [];
+        if (null !== $this->bucket) {
+            $res['Bucket'] = $this->bucket;
+        }
+        if (null !== $this->encodingType) {
+            $res['EncodingType'] = $this->encodingType;
+        }
+        if (null !== $this->key) {
+            $res['Key'] = $this->key;
+        }
+        if (null !== $this->uploadId) {
+            $res['UploadId'] = $this->uploadId;
+        }
+        if (null !== $this->partNumberMarker) {
+            $res['PartNumberMarker'] = $this->partNumberMarker;
+        }
+        if (null !== $this->nextPartNumberMarker) {
+            $res['NextPartNumberMarker'] = $this->nextPartNumberMarker;
+        }
+        if (null !== $this->maxParts) {
+            $res['MaxParts'] = $this->maxParts;
+        }
+        if (null !== $this->isTruncated) {
+            $res['IsTruncated'] = $this->isTruncated;
+        }
+        if (null !== $this->part) {
+            $res['Part'] = [];
+            if (null !== $this->part && \is_array($this->part)) {
+                $n = 0;
+                foreach ($this->part as $item) {
+                    $res['Part'][$n++] = null !== $item ? $item->toMap() : $item;
+                }
             }
         }
 

@@ -26,8 +26,10 @@ class body extends Model
 
     public function toMap()
     {
-        $res                         = [];
-        $res['WebsiteConfiguration'] = null !== $this->websiteConfiguration ? $this->websiteConfiguration->toMap() : null;
+        $res = [];
+        if (null !== $this->websiteConfiguration) {
+            $res['WebsiteConfiguration'] = null !== $this->websiteConfiguration ? $this->websiteConfiguration->toMap() : null;
+        }
 
         return $res;
     }

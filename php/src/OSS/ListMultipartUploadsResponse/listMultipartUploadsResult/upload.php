@@ -40,10 +40,16 @@ class upload extends Model
 
     public function toMap()
     {
-        $res              = [];
-        $res['Key']       = $this->key;
-        $res['UploadId']  = $this->uploadId;
-        $res['Initiated'] = $this->initiated;
+        $res = [];
+        if (null !== $this->key) {
+            $res['Key'] = $this->key;
+        }
+        if (null !== $this->uploadId) {
+            $res['UploadId'] = $this->uploadId;
+        }
+        if (null !== $this->initiated) {
+            $res['Initiated'] = $this->initiated;
+        }
 
         return $res;
     }

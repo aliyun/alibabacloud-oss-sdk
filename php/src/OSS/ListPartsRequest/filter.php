@@ -49,11 +49,19 @@ class filter extends Model
 
     public function toMap()
     {
-        $res                       = [];
-        $res['uploadId']           = $this->uploadId;
-        $res['max-parts']          = $this->maxParts;
-        $res['part-number-marker'] = $this->partNumberMarker;
-        $res['Encoding-type']      = $this->encodingType;
+        $res = [];
+        if (null !== $this->uploadId) {
+            $res['uploadId'] = $this->uploadId;
+        }
+        if (null !== $this->maxParts) {
+            $res['max-parts'] = $this->maxParts;
+        }
+        if (null !== $this->partNumberMarker) {
+            $res['part-number-marker'] = $this->partNumberMarker;
+        }
+        if (null !== $this->encodingType) {
+            $res['Encoding-type'] = $this->encodingType;
+        }
 
         return $res;
     }

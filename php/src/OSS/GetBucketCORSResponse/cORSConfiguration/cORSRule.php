@@ -24,8 +24,10 @@ class cORSRule extends Model
 
     public function toMap()
     {
-        $res                  = [];
-        $res['MaxAgeSeconds'] = $this->maxAgeSeconds;
+        $res = [];
+        if (null !== $this->maxAgeSeconds) {
+            $res['MaxAgeSeconds'] = $this->maxAgeSeconds;
+        }
 
         return $res;
     }

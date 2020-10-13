@@ -31,13 +31,18 @@ class DeleteBucketTagsRequest extends Model
     {
         Model::validateRequired('bucketName', $this->bucketName, true);
         Model::validateRequired('filter', $this->filter, true);
+        Model::validatePattern('bucketName', $this->bucketName, '[a-zA-Z0-9\\-\\_]+');
     }
 
     public function toMap()
     {
-        $res               = [];
-        $res['BucketName'] = $this->bucketName;
-        $res['Filter']     = null !== $this->filter ? $this->filter->toMap() : null;
+        $res = [];
+        if (null !== $this->bucketName) {
+            $res['BucketName'] = $this->bucketName;
+        }
+        if (null !== $this->filter) {
+            $res['Filter'] = null !== $this->filter ? $this->filter->toMap() : null;
+        }
 
         return $res;
     }

@@ -30,13 +30,18 @@ class PutBucketRequestPaymentRequest extends Model
     public function validate()
     {
         Model::validateRequired('bucketName', $this->bucketName, true);
+        Model::validatePattern('bucketName', $this->bucketName, '[a-zA-Z0-9\\-\\_]+');
     }
 
     public function toMap()
     {
-        $res               = [];
-        $res['BucketName'] = $this->bucketName;
-        $res['Body']       = null !== $this->body ? $this->body->toMap() : null;
+        $res = [];
+        if (null !== $this->bucketName) {
+            $res['BucketName'] = $this->bucketName;
+        }
+        if (null !== $this->body) {
+            $res['Body'] = null !== $this->body ? $this->body->toMap() : null;
+        }
 
         return $res;
     }

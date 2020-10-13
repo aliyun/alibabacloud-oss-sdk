@@ -34,9 +34,13 @@ class filter extends Model
 
     public function toMap()
     {
-        $res               = [];
-        $res['partNumber'] = $this->partNumber;
-        $res['uploadId']   = $this->uploadId;
+        $res = [];
+        if (null !== $this->partNumber) {
+            $res['partNumber'] = $this->partNumber;
+        }
+        if (null !== $this->uploadId) {
+            $res['uploadId'] = $this->uploadId;
+        }
 
         return $res;
     }

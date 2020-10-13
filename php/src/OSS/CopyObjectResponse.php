@@ -35,9 +35,13 @@ class CopyObjectResponse extends Model
 
     public function toMap()
     {
-        $res                     = [];
-        $res['x-oss-request-id'] = $this->requestId;
-        $res['CopyObjectResult'] = null !== $this->copyObjectResult ? $this->copyObjectResult->toMap() : null;
+        $res = [];
+        if (null !== $this->requestId) {
+            $res['x-oss-request-id'] = $this->requestId;
+        }
+        if (null !== $this->copyObjectResult) {
+            $res['CopyObjectResult'] = null !== $this->copyObjectResult ? $this->copyObjectResult->toMap() : null;
+        }
 
         return $res;
     }

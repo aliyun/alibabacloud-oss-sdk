@@ -26,8 +26,10 @@ class body extends Model
 
     public function toMap()
     {
-        $res                            = [];
-        $res['CompleteMultipartUpload'] = null !== $this->completeMultipartUpload ? $this->completeMultipartUpload->toMap() : null;
+        $res = [];
+        if (null !== $this->completeMultipartUpload) {
+            $res['CompleteMultipartUpload'] = null !== $this->completeMultipartUpload ? $this->completeMultipartUpload->toMap() : null;
+        }
 
         return $res;
     }

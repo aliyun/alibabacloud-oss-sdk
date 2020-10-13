@@ -25,8 +25,10 @@ class UploadPartResponse extends Model
 
     public function toMap()
     {
-        $res                     = [];
-        $res['x-oss-request-id'] = $this->requestId;
+        $res = [];
+        if (null !== $this->requestId) {
+            $res['x-oss-request-id'] = $this->requestId;
+        }
 
         return $res;
     }

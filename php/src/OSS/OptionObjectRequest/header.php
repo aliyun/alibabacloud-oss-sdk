@@ -43,10 +43,16 @@ class header extends Model
 
     public function toMap()
     {
-        $res                                   = [];
-        $res['Origin']                         = $this->origin;
-        $res['Access-Control-Request-Method']  = $this->accessControlRequestMethod;
-        $res['Access-Control-Request-Headers'] = $this->accessControlRequestHeaders;
+        $res = [];
+        if (null !== $this->origin) {
+            $res['Origin'] = $this->origin;
+        }
+        if (null !== $this->accessControlRequestMethod) {
+            $res['Access-Control-Request-Method'] = $this->accessControlRequestMethod;
+        }
+        if (null !== $this->accessControlRequestHeaders) {
+            $res['Access-Control-Request-Headers'] = $this->accessControlRequestHeaders;
+        }
 
         return $res;
     }

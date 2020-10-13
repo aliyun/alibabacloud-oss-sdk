@@ -48,11 +48,19 @@ class snapshot extends Model
 
     public function toMap()
     {
-        $res                = [];
-        $res['RoleName']    = $this->roleName;
-        $res['DestBucket']  = $this->destBucket;
-        $res['NotifyTopic'] = $this->notifyTopic;
-        $res['Interval']    = $this->interval;
+        $res = [];
+        if (null !== $this->roleName) {
+            $res['RoleName'] = $this->roleName;
+        }
+        if (null !== $this->destBucket) {
+            $res['DestBucket'] = $this->destBucket;
+        }
+        if (null !== $this->notifyTopic) {
+            $res['NotifyTopic'] = $this->notifyTopic;
+        }
+        if (null !== $this->interval) {
+            $res['Interval'] = $this->interval;
+        }
 
         return $res;
     }

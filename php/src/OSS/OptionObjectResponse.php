@@ -70,13 +70,25 @@ class OptionObjectResponse extends Model
 
     public function toMap()
     {
-        $res                                  = [];
-        $res['x-oss-request-id']              = $this->requestId;
-        $res['access-control-allow-origin']   = $this->accessControlAllowOrigin;
-        $res['access-control-allow-methods']  = $this->accessControlAllowMethods;
-        $res['access-control-allow-headers']  = $this->accessControlAllowHeaders;
-        $res['access-control-expose-headers'] = $this->accessControlExposeHeaders;
-        $res['access-control-max-age']        = $this->accessControlMaxAge;
+        $res = [];
+        if (null !== $this->requestId) {
+            $res['x-oss-request-id'] = $this->requestId;
+        }
+        if (null !== $this->accessControlAllowOrigin) {
+            $res['access-control-allow-origin'] = $this->accessControlAllowOrigin;
+        }
+        if (null !== $this->accessControlAllowMethods) {
+            $res['access-control-allow-methods'] = $this->accessControlAllowMethods;
+        }
+        if (null !== $this->accessControlAllowHeaders) {
+            $res['access-control-allow-headers'] = $this->accessControlAllowHeaders;
+        }
+        if (null !== $this->accessControlExposeHeaders) {
+            $res['access-control-expose-headers'] = $this->accessControlExposeHeaders;
+        }
+        if (null !== $this->accessControlMaxAge) {
+            $res['access-control-max-age'] = $this->accessControlMaxAge;
+        }
 
         return $res;
     }

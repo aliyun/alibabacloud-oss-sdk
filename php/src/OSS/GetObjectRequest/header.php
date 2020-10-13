@@ -112,19 +112,43 @@ class header extends Model
 
     public function toMap()
     {
-        $res                                 = [];
-        $res['response-content-type']        = $this->responseContentType;
-        $res['response-content-language']    = $this->responseContentLanguage;
-        $res['response-expires']             = $this->responseExpires;
-        $res['response-cache-control']       = $this->responseCacheControl;
-        $res['response-content-disposition'] = $this->responseContentDisposition;
-        $res['response-content-encoding']    = $this->responseContentEncoding;
-        $res['Range']                        = $this->range;
-        $res['If-Modified-Since']            = $this->ifModifiedSince;
-        $res['If-Unmodified-Since']          = $this->ifUnmodifiedSince;
-        $res['If-Match']                     = $this->ifMatch;
-        $res['If-None-Match']                = $this->ifNoneMatch;
-        $res['Accept-Encoding']              = $this->acceptEncoding;
+        $res = [];
+        if (null !== $this->responseContentType) {
+            $res['response-content-type'] = $this->responseContentType;
+        }
+        if (null !== $this->responseContentLanguage) {
+            $res['response-content-language'] = $this->responseContentLanguage;
+        }
+        if (null !== $this->responseExpires) {
+            $res['response-expires'] = $this->responseExpires;
+        }
+        if (null !== $this->responseCacheControl) {
+            $res['response-cache-control'] = $this->responseCacheControl;
+        }
+        if (null !== $this->responseContentDisposition) {
+            $res['response-content-disposition'] = $this->responseContentDisposition;
+        }
+        if (null !== $this->responseContentEncoding) {
+            $res['response-content-encoding'] = $this->responseContentEncoding;
+        }
+        if (null !== $this->range) {
+            $res['Range'] = $this->range;
+        }
+        if (null !== $this->ifModifiedSince) {
+            $res['If-Modified-Since'] = $this->ifModifiedSince;
+        }
+        if (null !== $this->ifUnmodifiedSince) {
+            $res['If-Unmodified-Since'] = $this->ifUnmodifiedSince;
+        }
+        if (null !== $this->ifMatch) {
+            $res['If-Match'] = $this->ifMatch;
+        }
+        if (null !== $this->ifNoneMatch) {
+            $res['If-None-Match'] = $this->ifNoneMatch;
+        }
+        if (null !== $this->acceptEncoding) {
+            $res['Accept-Encoding'] = $this->acceptEncoding;
+        }
 
         return $res;
     }

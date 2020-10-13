@@ -80,14 +80,28 @@ class rule extends Model
 
     public function toMap()
     {
-        $res                         = [];
-        $res['ID']                   = $this->iD;
-        $res['Prefix']               = $this->prefix;
-        $res['Status']               = $this->status;
-        $res['Expiration']           = null !== $this->expiration ? $this->expiration->toMap() : null;
-        $res['Transition']           = null !== $this->transition ? $this->transition->toMap() : null;
-        $res['AbortMultipartUpload'] = null !== $this->abortMultipartUpload ? $this->abortMultipartUpload->toMap() : null;
-        $res['Tag']                  = null !== $this->tag ? $this->tag->toMap() : null;
+        $res = [];
+        if (null !== $this->iD) {
+            $res['ID'] = $this->iD;
+        }
+        if (null !== $this->prefix) {
+            $res['Prefix'] = $this->prefix;
+        }
+        if (null !== $this->status) {
+            $res['Status'] = $this->status;
+        }
+        if (null !== $this->expiration) {
+            $res['Expiration'] = null !== $this->expiration ? $this->expiration->toMap() : null;
+        }
+        if (null !== $this->transition) {
+            $res['Transition'] = null !== $this->transition ? $this->transition->toMap() : null;
+        }
+        if (null !== $this->abortMultipartUpload) {
+            $res['AbortMultipartUpload'] = null !== $this->abortMultipartUpload ? $this->abortMultipartUpload->toMap() : null;
+        }
+        if (null !== $this->tag) {
+            $res['Tag'] = null !== $this->tag ? $this->tag->toMap() : null;
+        }
 
         return $res;
     }

@@ -40,10 +40,16 @@ class filter extends Model
 
     public function toMap()
     {
-        $res             = [];
-        $res['marker']   = $this->marker;
-        $res['max-keys'] = $this->maxKeys;
-        $res['prefix']   = $this->prefix;
+        $res = [];
+        if (null !== $this->marker) {
+            $res['marker'] = $this->marker;
+        }
+        if (null !== $this->maxKeys) {
+            $res['max-keys'] = $this->maxKeys;
+        }
+        if (null !== $this->prefix) {
+            $res['prefix'] = $this->prefix;
+        }
 
         return $res;
     }

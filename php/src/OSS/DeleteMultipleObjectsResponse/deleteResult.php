@@ -26,7 +26,7 @@ class deleteResult extends Model
     /**
      * @description Deleted
      *
-     * @var array
+     * @var deleted[]
      */
     public $deleted;
     protected $_name = [
@@ -41,14 +41,20 @@ class deleteResult extends Model
 
     public function toMap()
     {
-        $res                 = [];
-        $res['Quiet']        = $this->quiet;
-        $res['EncodingType'] = $this->encodingType;
-        $res['Deleted']      = [];
-        if (null !== $this->deleted && \is_array($this->deleted)) {
-            $n = 0;
-            foreach ($this->deleted as $item) {
-                $res['Deleted'][$n++] = null !== $item ? $item->toMap() : $item;
+        $res = [];
+        if (null !== $this->quiet) {
+            $res['Quiet'] = $this->quiet;
+        }
+        if (null !== $this->encodingType) {
+            $res['EncodingType'] = $this->encodingType;
+        }
+        if (null !== $this->deleted) {
+            $res['Deleted'] = [];
+            if (null !== $this->deleted && \is_array($this->deleted)) {
+                $n = 0;
+                foreach ($this->deleted as $item) {
+                    $res['Deleted'][$n++] = null !== $item ? $item->toMap() : $item;
+                }
             }
         }
 

@@ -12,7 +12,7 @@ class delete extends Model
     /**
      * @description Object
      *
-     * @var array
+     * @var object[]
      */
     public $object;
 
@@ -33,12 +33,19 @@ class delete extends Model
 
     public function toMap()
     {
-        $res           = [];
-        $res['Object'] = [];
+        $res = [];
         if (null !== $this->object) {
-            $res['Object'] = $this->object;
+            $res['Object'] = [];
+            if (null !== $this->object && \is_array($this->object)) {
+                $n = 0;
+                foreach ($this->object as $item) {
+                    $res['Object'][$n++] = null !== $item ? $item->toMap() : $item;
+                }
+            }
         }
-        $res['Quiet'] = $this->quiet;
+        if (null !== $this->quiet) {
+            $res['Quiet'] = $this->quiet;
+        }
 
         return $res;
     }
@@ -54,7 +61,10 @@ class delete extends Model
         if (isset($map['Object'])) {
             if (!empty($map['Object'])) {
                 $model->object = [];
-                $model->object = $map['Object'];
+                $n             = 0;
+                foreach ($map['Object'] as $item) {
+                    $model->object[$n++] = null !== $item ? object::fromMap($item) : $item;
+                }
             }
         }
         if (isset($map['Quiet'])) {

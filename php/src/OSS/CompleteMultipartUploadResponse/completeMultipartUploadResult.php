@@ -56,12 +56,22 @@ class completeMultipartUploadResult extends Model
 
     public function toMap()
     {
-        $res                 = [];
-        $res['Bucket']       = $this->bucket;
-        $res['ETag']         = $this->eTag;
-        $res['Location']     = $this->location;
-        $res['Key']          = $this->key;
-        $res['EncodingType'] = $this->encodingType;
+        $res = [];
+        if (null !== $this->bucket) {
+            $res['Bucket'] = $this->bucket;
+        }
+        if (null !== $this->eTag) {
+            $res['ETag'] = $this->eTag;
+        }
+        if (null !== $this->location) {
+            $res['Location'] = $this->location;
+        }
+        if (null !== $this->key) {
+            $res['Key'] = $this->key;
+        }
+        if (null !== $this->encodingType) {
+            $res['EncodingType'] = $this->encodingType;
+        }
 
         return $res;
     }

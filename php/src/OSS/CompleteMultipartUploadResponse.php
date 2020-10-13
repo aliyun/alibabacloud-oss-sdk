@@ -35,9 +35,13 @@ class CompleteMultipartUploadResponse extends Model
 
     public function toMap()
     {
-        $res                                  = [];
-        $res['x-oss-request-id']              = $this->requestId;
-        $res['CompleteMultipartUploadResult'] = null !== $this->completeMultipartUploadResult ? $this->completeMultipartUploadResult->toMap() : null;
+        $res = [];
+        if (null !== $this->requestId) {
+            $res['x-oss-request-id'] = $this->requestId;
+        }
+        if (null !== $this->completeMultipartUploadResult) {
+            $res['CompleteMultipartUploadResult'] = null !== $this->completeMultipartUploadResult ? $this->completeMultipartUploadResult->toMap() : null;
+        }
 
         return $res;
     }

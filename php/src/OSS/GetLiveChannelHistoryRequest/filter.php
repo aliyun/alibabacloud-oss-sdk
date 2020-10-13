@@ -24,8 +24,10 @@ class filter extends Model
 
     public function toMap()
     {
-        $res         = [];
-        $res['comp'] = $this->comp;
+        $res = [];
+        if (null !== $this->comp) {
+            $res['comp'] = $this->comp;
+        }
 
         return $res;
     }

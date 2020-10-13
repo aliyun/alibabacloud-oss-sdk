@@ -76,14 +76,28 @@ class listAllMyBucketsResult extends Model
 
     public function toMap()
     {
-        $res                = [];
-        $res['Prefix']      = $this->prefix;
-        $res['Marker']      = $this->marker;
-        $res['MaxKeys']     = $this->maxKeys;
-        $res['IsTruncated'] = $this->isTruncated;
-        $res['NextMarker']  = $this->nextMarker;
-        $res['Owner']       = null !== $this->owner ? $this->owner->toMap() : null;
-        $res['Buckets']     = null !== $this->buckets ? $this->buckets->toMap() : null;
+        $res = [];
+        if (null !== $this->prefix) {
+            $res['Prefix'] = $this->prefix;
+        }
+        if (null !== $this->marker) {
+            $res['Marker'] = $this->marker;
+        }
+        if (null !== $this->maxKeys) {
+            $res['MaxKeys'] = $this->maxKeys;
+        }
+        if (null !== $this->isTruncated) {
+            $res['IsTruncated'] = $this->isTruncated;
+        }
+        if (null !== $this->nextMarker) {
+            $res['NextMarker'] = $this->nextMarker;
+        }
+        if (null !== $this->owner) {
+            $res['Owner'] = null !== $this->owner ? $this->owner->toMap() : null;
+        }
+        if (null !== $this->buckets) {
+            $res['Buckets'] = null !== $this->buckets ? $this->buckets->toMap() : null;
+        }
 
         return $res;
     }

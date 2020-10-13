@@ -12,7 +12,7 @@ class lifecycleConfiguration extends Model
     /**
      * @description Rule
      *
-     * @var array
+     * @var rule[]
      */
     public $rule;
     protected $_name = [
@@ -25,12 +25,14 @@ class lifecycleConfiguration extends Model
 
     public function toMap()
     {
-        $res         = [];
-        $res['Rule'] = [];
-        if (null !== $this->rule && \is_array($this->rule)) {
-            $n = 0;
-            foreach ($this->rule as $item) {
-                $res['Rule'][$n++] = null !== $item ? $item->toMap() : $item;
+        $res = [];
+        if (null !== $this->rule) {
+            $res['Rule'] = [];
+            if (null !== $this->rule && \is_array($this->rule)) {
+                $n = 0;
+                foreach ($this->rule as $item) {
+                    $res['Rule'][$n++] = null !== $item ? $item->toMap() : $item;
+                }
             }
         }
 

@@ -32,9 +32,13 @@ class includeHeader extends Model
 
     public function toMap()
     {
-        $res           = [];
-        $res['Key']    = $this->key;
-        $res['Equals'] = $this->equals;
+        $res = [];
+        if (null !== $this->key) {
+            $res['Key'] = $this->key;
+        }
+        if (null !== $this->equals) {
+            $res['Equals'] = $this->equals;
+        }
 
         return $res;
     }

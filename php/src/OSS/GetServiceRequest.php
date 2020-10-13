@@ -25,8 +25,10 @@ class GetServiceRequest extends Model
 
     public function toMap()
     {
-        $res           = [];
-        $res['Filter'] = null !== $this->filter ? $this->filter->toMap() : null;
+        $res = [];
+        if (null !== $this->filter) {
+            $res['Filter'] = null !== $this->filter ? $this->filter->toMap() : null;
+        }
 
         return $res;
     }

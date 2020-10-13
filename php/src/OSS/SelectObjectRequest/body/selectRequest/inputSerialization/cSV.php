@@ -64,13 +64,25 @@ class cSV extends Model
 
     public function toMap()
     {
-        $res                     = [];
-        $res['FileHeaderInfo']   = $this->fileHeaderInfo;
-        $res['RecordDelimiter']  = $this->recordDelimiter;
-        $res['FieldDelimiter']   = $this->fieldDelimiter;
-        $res['QuoteCharacter']   = $this->quoteCharacter;
-        $res['CommentCharacter'] = $this->commentCharacter;
-        $res['Range']            = $this->range;
+        $res = [];
+        if (null !== $this->fileHeaderInfo) {
+            $res['FileHeaderInfo'] = $this->fileHeaderInfo;
+        }
+        if (null !== $this->recordDelimiter) {
+            $res['RecordDelimiter'] = $this->recordDelimiter;
+        }
+        if (null !== $this->fieldDelimiter) {
+            $res['FieldDelimiter'] = $this->fieldDelimiter;
+        }
+        if (null !== $this->quoteCharacter) {
+            $res['QuoteCharacter'] = $this->quoteCharacter;
+        }
+        if (null !== $this->commentCharacter) {
+            $res['CommentCharacter'] = $this->commentCharacter;
+        }
+        if (null !== $this->range) {
+            $res['Range'] = $this->range;
+        }
 
         return $res;
     }

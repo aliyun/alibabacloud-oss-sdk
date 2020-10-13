@@ -26,8 +26,10 @@ class body extends Model
 
     public function toMap()
     {
-        $res                              = [];
-        $res['CreateBucketConfiguration'] = null !== $this->createBucketConfiguration ? $this->createBucketConfiguration->toMap() : null;
+        $res = [];
+        if (null !== $this->createBucketConfiguration) {
+            $res['CreateBucketConfiguration'] = null !== $this->createBucketConfiguration ? $this->createBucketConfiguration->toMap() : null;
+        }
 
         return $res;
     }

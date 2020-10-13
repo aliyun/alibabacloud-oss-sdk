@@ -35,9 +35,13 @@ class GetBucketCORSResponse extends Model
 
     public function toMap()
     {
-        $res                      = [];
-        $res['x-oss-request-id']  = $this->requestId;
-        $res['CORSConfiguration'] = null !== $this->cORSConfiguration ? $this->cORSConfiguration->toMap() : null;
+        $res = [];
+        if (null !== $this->requestId) {
+            $res['x-oss-request-id'] = $this->requestId;
+        }
+        if (null !== $this->cORSConfiguration) {
+            $res['CORSConfiguration'] = null !== $this->cORSConfiguration ? $this->cORSConfiguration->toMap() : null;
+        }
 
         return $res;
     }

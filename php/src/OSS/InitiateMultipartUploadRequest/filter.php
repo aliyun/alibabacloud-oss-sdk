@@ -24,8 +24,10 @@ class filter extends Model
 
     public function toMap()
     {
-        $res                  = [];
-        $res['encoding-type'] = $this->encodingType;
+        $res = [];
+        if (null !== $this->encodingType) {
+            $res['encoding-type'] = $this->encodingType;
+        }
 
         return $res;
     }

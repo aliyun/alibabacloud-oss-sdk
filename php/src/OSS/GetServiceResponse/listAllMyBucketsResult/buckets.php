@@ -12,7 +12,7 @@ class buckets extends Model
     /**
      * @description Bucket
      *
-     * @var array
+     * @var bucket[]
      */
     public $bucket;
     protected $_name = [
@@ -25,12 +25,14 @@ class buckets extends Model
 
     public function toMap()
     {
-        $res           = [];
-        $res['Bucket'] = [];
-        if (null !== $this->bucket && \is_array($this->bucket)) {
-            $n = 0;
-            foreach ($this->bucket as $item) {
-                $res['Bucket'][$n++] = null !== $item ? $item->toMap() : $item;
+        $res = [];
+        if (null !== $this->bucket) {
+            $res['Bucket'] = [];
+            if (null !== $this->bucket && \is_array($this->bucket)) {
+                $n = 0;
+                foreach ($this->bucket as $item) {
+                    $res['Bucket'][$n++] = null !== $item ? $item->toMap() : $item;
+                }
             }
         }
 

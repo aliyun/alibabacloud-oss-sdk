@@ -35,9 +35,13 @@ class GetBucketLoggingResponse extends Model
 
     public function toMap()
     {
-        $res                        = [];
-        $res['x-oss-request-id']    = $this->requestId;
-        $res['BucketLoggingStatus'] = null !== $this->bucketLoggingStatus ? $this->bucketLoggingStatus->toMap() : null;
+        $res = [];
+        if (null !== $this->requestId) {
+            $res['x-oss-request-id'] = $this->requestId;
+        }
+        if (null !== $this->bucketLoggingStatus) {
+            $res['BucketLoggingStatus'] = null !== $this->bucketLoggingStatus ? $this->bucketLoggingStatus->toMap() : null;
+        }
 
         return $res;
     }

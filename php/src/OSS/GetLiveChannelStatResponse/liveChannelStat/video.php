@@ -56,12 +56,22 @@ class video extends Model
 
     public function toMap()
     {
-        $res              = [];
-        $res['Width']     = $this->width;
-        $res['Height']    = $this->height;
-        $res['FrameRate'] = $this->frameRate;
-        $res['Bandwidth'] = $this->bandwidth;
-        $res['Codec']     = $this->codec;
+        $res = [];
+        if (null !== $this->width) {
+            $res['Width'] = $this->width;
+        }
+        if (null !== $this->height) {
+            $res['Height'] = $this->height;
+        }
+        if (null !== $this->frameRate) {
+            $res['FrameRate'] = $this->frameRate;
+        }
+        if (null !== $this->bandwidth) {
+            $res['Bandwidth'] = $this->bandwidth;
+        }
+        if (null !== $this->codec) {
+            $res['Codec'] = $this->codec;
+        }
 
         return $res;
     }

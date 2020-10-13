@@ -32,9 +32,13 @@ class cSV extends Model
 
     public function toMap()
     {
-        $res                    = [];
-        $res['RecordDelimiter'] = $this->recordDelimiter;
-        $res['FieldDelimiter']  = $this->fieldDelimiter;
+        $res = [];
+        if (null !== $this->recordDelimiter) {
+            $res['RecordDelimiter'] = $this->recordDelimiter;
+        }
+        if (null !== $this->fieldDelimiter) {
+            $res['FieldDelimiter'] = $this->fieldDelimiter;
+        }
 
         return $res;
     }

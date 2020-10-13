@@ -35,9 +35,13 @@ class UploadPartCopyResponse extends Model
 
     public function toMap()
     {
-        $res                     = [];
-        $res['x-oss-request-id'] = $this->requestId;
-        $res['CopyPartResult']   = null !== $this->copyPartResult ? $this->copyPartResult->toMap() : null;
+        $res = [];
+        if (null !== $this->requestId) {
+            $res['x-oss-request-id'] = $this->requestId;
+        }
+        if (null !== $this->copyPartResult) {
+            $res['CopyPartResult'] = null !== $this->copyPartResult ? $this->copyPartResult->toMap() : null;
+        }
 
         return $res;
     }

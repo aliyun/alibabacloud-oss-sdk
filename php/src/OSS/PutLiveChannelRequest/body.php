@@ -26,8 +26,10 @@ class body extends Model
 
     public function toMap()
     {
-        $res                             = [];
-        $res['LiveChannelConfiguration'] = null !== $this->liveChannelConfiguration ? $this->liveChannelConfiguration->toMap() : null;
+        $res = [];
+        if (null !== $this->liveChannelConfiguration) {
+            $res['LiveChannelConfiguration'] = null !== $this->liveChannelConfiguration ? $this->liveChannelConfiguration->toMap() : null;
+        }
 
         return $res;
     }

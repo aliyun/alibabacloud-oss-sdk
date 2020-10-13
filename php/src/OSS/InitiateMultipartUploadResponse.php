@@ -35,9 +35,13 @@ class InitiateMultipartUploadResponse extends Model
 
     public function toMap()
     {
-        $res                                  = [];
-        $res['x-oss-request-id']              = $this->requestId;
-        $res['InitiateMultipartUploadResult'] = null !== $this->initiateMultipartUploadResult ? $this->initiateMultipartUploadResult->toMap() : null;
+        $res = [];
+        if (null !== $this->requestId) {
+            $res['x-oss-request-id'] = $this->requestId;
+        }
+        if (null !== $this->initiateMultipartUploadResult) {
+            $res['InitiateMultipartUploadResult'] = null !== $this->initiateMultipartUploadResult ? $this->initiateMultipartUploadResult->toMap() : null;
+        }
 
         return $res;
     }

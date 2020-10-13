@@ -43,10 +43,16 @@ class postResponse extends Model
 
     public function toMap()
     {
-        $res             = [];
-        $res['Bucket']   = $this->bucket;
-        $res['ETag']     = $this->eTag;
-        $res['Location'] = $this->location;
+        $res = [];
+        if (null !== $this->bucket) {
+            $res['Bucket'] = $this->bucket;
+        }
+        if (null !== $this->eTag) {
+            $res['ETag'] = $this->eTag;
+        }
+        if (null !== $this->location) {
+            $res['Location'] = $this->location;
+        }
 
         return $res;
     }

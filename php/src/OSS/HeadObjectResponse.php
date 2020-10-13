@@ -18,7 +18,7 @@ class HeadObjectResponse extends Model
     /**
      * @description usermeta
      *
-     * @var array
+     * @var string[]
      */
     public $userMeta;
 
@@ -196,27 +196,67 @@ class HeadObjectResponse extends Model
 
     public function toMap()
     {
-        $res                                        = [];
-        $res['x-oss-request-id']                    = $this->requestId;
-        $res['usermeta']                            = $this->userMeta;
-        $res['x-oss-server-side-encryption']        = $this->serverSideEncryption;
-        $res['x-oss-server-side-encryption-key-id'] = $this->serverSideEncryptionKeyId;
-        $res['x-oss-storage-class']                 = $this->storageClass;
-        $res['x-oss-object-type']                   = $this->objectType;
-        $res['x-oss-next-append-position']          = $this->nextAppendPosition;
-        $res['x-oss-hash-crc64ecma']                = $this->hashCrc64ecma;
-        $res['x-oss-expiration']                    = $this->expiration;
-        $res['x-oss-restore']                       = $this->restore;
-        $res['x-oss-process-status']                = $this->processStatus;
-        $res['x-oss-request-charged']               = $this->requestCharged;
-        $res['content-md5']                         = $this->contentMd5;
-        $res['last-modified']                       = $this->lastModified;
-        $res['access-control-allow-origin']         = $this->accessControlAllowOrigin;
-        $res['access-control-allow-methods']        = $this->accessControlAllowMethods;
-        $res['access-control-max-age']              = $this->accessControlMaxAge;
-        $res['access-control-allow-headers']        = $this->accessControlAllowHeaders;
-        $res['access-control-expose-headers']       = $this->accessControlExposeHeaders;
-        $res['x-oss-tagging-count']                 = $this->taggingCount;
+        $res = [];
+        if (null !== $this->requestId) {
+            $res['x-oss-request-id'] = $this->requestId;
+        }
+        if (null !== $this->userMeta) {
+            $res['usermeta'] = $this->userMeta;
+        }
+        if (null !== $this->serverSideEncryption) {
+            $res['x-oss-server-side-encryption'] = $this->serverSideEncryption;
+        }
+        if (null !== $this->serverSideEncryptionKeyId) {
+            $res['x-oss-server-side-encryption-key-id'] = $this->serverSideEncryptionKeyId;
+        }
+        if (null !== $this->storageClass) {
+            $res['x-oss-storage-class'] = $this->storageClass;
+        }
+        if (null !== $this->objectType) {
+            $res['x-oss-object-type'] = $this->objectType;
+        }
+        if (null !== $this->nextAppendPosition) {
+            $res['x-oss-next-append-position'] = $this->nextAppendPosition;
+        }
+        if (null !== $this->hashCrc64ecma) {
+            $res['x-oss-hash-crc64ecma'] = $this->hashCrc64ecma;
+        }
+        if (null !== $this->expiration) {
+            $res['x-oss-expiration'] = $this->expiration;
+        }
+        if (null !== $this->restore) {
+            $res['x-oss-restore'] = $this->restore;
+        }
+        if (null !== $this->processStatus) {
+            $res['x-oss-process-status'] = $this->processStatus;
+        }
+        if (null !== $this->requestCharged) {
+            $res['x-oss-request-charged'] = $this->requestCharged;
+        }
+        if (null !== $this->contentMd5) {
+            $res['content-md5'] = $this->contentMd5;
+        }
+        if (null !== $this->lastModified) {
+            $res['last-modified'] = $this->lastModified;
+        }
+        if (null !== $this->accessControlAllowOrigin) {
+            $res['access-control-allow-origin'] = $this->accessControlAllowOrigin;
+        }
+        if (null !== $this->accessControlAllowMethods) {
+            $res['access-control-allow-methods'] = $this->accessControlAllowMethods;
+        }
+        if (null !== $this->accessControlMaxAge) {
+            $res['access-control-max-age'] = $this->accessControlMaxAge;
+        }
+        if (null !== $this->accessControlAllowHeaders) {
+            $res['access-control-allow-headers'] = $this->accessControlAllowHeaders;
+        }
+        if (null !== $this->accessControlExposeHeaders) {
+            $res['access-control-expose-headers'] = $this->accessControlExposeHeaders;
+        }
+        if (null !== $this->taggingCount) {
+            $res['x-oss-tagging-count'] = $this->taggingCount;
+        }
 
         return $res;
     }

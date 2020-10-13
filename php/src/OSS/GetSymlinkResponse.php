@@ -34,9 +34,13 @@ class GetSymlinkResponse extends Model
 
     public function toMap()
     {
-        $res                         = [];
-        $res['x-oss-request-id']     = $this->requestId;
-        $res['x-oss-symlink-target'] = $this->symlinkTarget;
+        $res = [];
+        if (null !== $this->requestId) {
+            $res['x-oss-request-id'] = $this->requestId;
+        }
+        if (null !== $this->symlinkTarget) {
+            $res['x-oss-symlink-target'] = $this->symlinkTarget;
+        }
 
         return $res;
     }

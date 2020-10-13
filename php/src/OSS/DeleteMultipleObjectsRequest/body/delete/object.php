@@ -24,8 +24,10 @@ class object extends Model
 
     public function toMap()
     {
-        $res        = [];
-        $res['Key'] = $this->key;
+        $res = [];
+        if (null !== $this->key) {
+            $res['Key'] = $this->key;
+        }
 
         return $res;
     }

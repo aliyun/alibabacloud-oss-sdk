@@ -26,8 +26,10 @@ class body extends Model
 
     public function toMap()
     {
-        $res                         = [];
-        $res['RefererConfiguration'] = null !== $this->refererConfiguration ? $this->refererConfiguration->toMap() : null;
+        $res = [];
+        if (null !== $this->refererConfiguration) {
+            $res['RefererConfiguration'] = null !== $this->refererConfiguration ? $this->refererConfiguration->toMap() : null;
+        }
 
         return $res;
     }

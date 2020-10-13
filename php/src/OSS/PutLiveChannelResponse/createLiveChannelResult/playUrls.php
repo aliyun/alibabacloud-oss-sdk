@@ -24,8 +24,10 @@ class playUrls extends Model
 
     public function toMap()
     {
-        $res        = [];
-        $res['Url'] = $this->url;
+        $res = [];
+        if (null !== $this->url) {
+            $res['Url'] = $this->url;
+        }
 
         return $res;
     }

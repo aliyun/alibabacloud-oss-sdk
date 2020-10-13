@@ -26,8 +26,10 @@ class body extends Model
 
     public function toMap()
     {
-        $res                           = [];
-        $res['LifecycleConfiguration'] = null !== $this->lifecycleConfiguration ? $this->lifecycleConfiguration->toMap() : null;
+        $res = [];
+        if (null !== $this->lifecycleConfiguration) {
+            $res['LifecycleConfiguration'] = null !== $this->lifecycleConfiguration ? $this->lifecycleConfiguration->toMap() : null;
+        }
 
         return $res;
     }

@@ -33,9 +33,13 @@ class header extends Model
 
     public function toMap()
     {
-        $res                         = [];
-        $res['x-oss-symlink-target'] = $this->symlinkTarget;
-        $res['x-oss-storage-class']  = $this->storageClass;
+        $res = [];
+        if (null !== $this->symlinkTarget) {
+            $res['x-oss-symlink-target'] = $this->symlinkTarget;
+        }
+        if (null !== $this->storageClass) {
+            $res['x-oss-storage-class'] = $this->storageClass;
+        }
 
         return $res;
     }

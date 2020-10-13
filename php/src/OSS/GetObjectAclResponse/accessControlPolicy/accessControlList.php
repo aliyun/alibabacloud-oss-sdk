@@ -24,8 +24,10 @@ class accessControlList extends Model
 
     public function toMap()
     {
-        $res          = [];
-        $res['Grant'] = $this->grant;
+        $res = [];
+        if (null !== $this->grant) {
+            $res['Grant'] = $this->grant;
+        }
 
         return $res;
     }

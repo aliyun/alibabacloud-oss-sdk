@@ -40,14 +40,21 @@ class CopyObjectRequest extends Model
         Model::validateRequired('bucketName', $this->bucketName, true);
         Model::validateRequired('destObjectName', $this->destObjectName, true);
         Model::validateRequired('header', $this->header, true);
+        Model::validatePattern('bucketName', $this->bucketName, '[a-zA-Z0-9\\-\\_]+');
     }
 
     public function toMap()
     {
-        $res                   = [];
-        $res['BucketName']     = $this->bucketName;
-        $res['DestObjectName'] = $this->destObjectName;
-        $res['Header']         = null !== $this->header ? $this->header->toMap() : null;
+        $res = [];
+        if (null !== $this->bucketName) {
+            $res['BucketName'] = $this->bucketName;
+        }
+        if (null !== $this->destObjectName) {
+            $res['DestObjectName'] = $this->destObjectName;
+        }
+        if (null !== $this->header) {
+            $res['Header'] = null !== $this->header ? $this->header->toMap() : null;
+        }
 
         return $res;
     }

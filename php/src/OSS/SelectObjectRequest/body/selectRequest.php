@@ -51,11 +51,19 @@ class selectRequest extends Model
 
     public function toMap()
     {
-        $res                        = [];
-        $res['InputSerialization']  = null !== $this->inputSerialization ? $this->inputSerialization->toMap() : null;
-        $res['OutputSerialization'] = null !== $this->outputSerialization ? $this->outputSerialization->toMap() : null;
-        $res['Options']             = null !== $this->options ? $this->options->toMap() : null;
-        $res['Expression']          = $this->expression;
+        $res = [];
+        if (null !== $this->inputSerialization) {
+            $res['InputSerialization'] = null !== $this->inputSerialization ? $this->inputSerialization->toMap() : null;
+        }
+        if (null !== $this->outputSerialization) {
+            $res['OutputSerialization'] = null !== $this->outputSerialization ? $this->outputSerialization->toMap() : null;
+        }
+        if (null !== $this->options) {
+            $res['Options'] = null !== $this->options ? $this->options->toMap() : null;
+        }
+        if (null !== $this->expression) {
+            $res['Expression'] = $this->expression;
+        }
 
         return $res;
     }

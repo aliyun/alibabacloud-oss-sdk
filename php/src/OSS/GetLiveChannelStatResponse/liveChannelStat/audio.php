@@ -40,10 +40,16 @@ class audio extends Model
 
     public function toMap()
     {
-        $res               = [];
-        $res['Bandwidth']  = $this->bandwidth;
-        $res['SampleRate'] = $this->sampleRate;
-        $res['Codec']      = $this->codec;
+        $res = [];
+        if (null !== $this->bandwidth) {
+            $res['Bandwidth'] = $this->bandwidth;
+        }
+        if (null !== $this->sampleRate) {
+            $res['SampleRate'] = $this->sampleRate;
+        }
+        if (null !== $this->codec) {
+            $res['Codec'] = $this->codec;
+        }
 
         return $res;
     }

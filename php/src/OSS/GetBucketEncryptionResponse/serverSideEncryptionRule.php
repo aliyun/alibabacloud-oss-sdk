@@ -26,8 +26,10 @@ class serverSideEncryptionRule extends Model
 
     public function toMap()
     {
-        $res                                       = [];
-        $res['ApplyServerSideEncryptionByDefault'] = null !== $this->applyServerSideEncryptionByDefault ? $this->applyServerSideEncryptionByDefault->toMap() : null;
+        $res = [];
+        if (null !== $this->applyServerSideEncryptionByDefault) {
+            $res['ApplyServerSideEncryptionByDefault'] = null !== $this->applyServerSideEncryptionByDefault ? $this->applyServerSideEncryptionByDefault->toMap() : null;
+        }
 
         return $res;
     }

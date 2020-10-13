@@ -66,13 +66,25 @@ class contents extends Model
 
     public function toMap()
     {
-        $res                 = [];
-        $res['Key']          = $this->key;
-        $res['ETag']         = $this->eTag;
-        $res['LastModified'] = $this->lastModified;
-        $res['Size']         = $this->size;
-        $res['StorageClass'] = $this->storageClass;
-        $res['Owner']        = null !== $this->owner ? $this->owner->toMap() : null;
+        $res = [];
+        if (null !== $this->key) {
+            $res['Key'] = $this->key;
+        }
+        if (null !== $this->eTag) {
+            $res['ETag'] = $this->eTag;
+        }
+        if (null !== $this->lastModified) {
+            $res['LastModified'] = $this->lastModified;
+        }
+        if (null !== $this->size) {
+            $res['Size'] = $this->size;
+        }
+        if (null !== $this->storageClass) {
+            $res['StorageClass'] = $this->storageClass;
+        }
+        if (null !== $this->owner) {
+            $res['Owner'] = null !== $this->owner ? $this->owner->toMap() : null;
+        }
 
         return $res;
     }

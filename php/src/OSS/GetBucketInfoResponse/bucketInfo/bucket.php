@@ -100,17 +100,37 @@ class bucket extends Model
 
     public function toMap()
     {
-        $res                       = [];
-        $res['CreationDate']       = $this->creationDate;
-        $res['ExtranetEndpoint']   = $this->extranetEndpoint;
-        $res['IntranetEndpoint']   = $this->intranetEndpoint;
-        $res['Location']           = $this->location;
-        $res['Name']               = $this->name;
-        $res['DataRedundancyType'] = $this->dataRedundancyType;
-        $res['StorageClass']       = $this->storageClass;
-        $res['Comment']            = $this->comment;
-        $res['Owner']              = null !== $this->owner ? $this->owner->toMap() : null;
-        $res['AccessControlList']  = null !== $this->accessControlList ? $this->accessControlList->toMap() : null;
+        $res = [];
+        if (null !== $this->creationDate) {
+            $res['CreationDate'] = $this->creationDate;
+        }
+        if (null !== $this->extranetEndpoint) {
+            $res['ExtranetEndpoint'] = $this->extranetEndpoint;
+        }
+        if (null !== $this->intranetEndpoint) {
+            $res['IntranetEndpoint'] = $this->intranetEndpoint;
+        }
+        if (null !== $this->location) {
+            $res['Location'] = $this->location;
+        }
+        if (null !== $this->name) {
+            $res['Name'] = $this->name;
+        }
+        if (null !== $this->dataRedundancyType) {
+            $res['DataRedundancyType'] = $this->dataRedundancyType;
+        }
+        if (null !== $this->storageClass) {
+            $res['StorageClass'] = $this->storageClass;
+        }
+        if (null !== $this->comment) {
+            $res['Comment'] = $this->comment;
+        }
+        if (null !== $this->owner) {
+            $res['Owner'] = null !== $this->owner ? $this->owner->toMap() : null;
+        }
+        if (null !== $this->accessControlList) {
+            $res['AccessControlList'] = null !== $this->accessControlList ? $this->accessControlList->toMap() : null;
+        }
 
         return $res;
     }

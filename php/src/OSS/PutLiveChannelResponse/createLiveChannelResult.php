@@ -36,9 +36,13 @@ class createLiveChannelResult extends Model
 
     public function toMap()
     {
-        $res                = [];
-        $res['PublishUrls'] = null !== $this->publishUrls ? $this->publishUrls->toMap() : null;
-        $res['PlayUrls']    = null !== $this->playUrls ? $this->playUrls->toMap() : null;
+        $res = [];
+        if (null !== $this->publishUrls) {
+            $res['PublishUrls'] = null !== $this->publishUrls ? $this->publishUrls->toMap() : null;
+        }
+        if (null !== $this->playUrls) {
+            $res['PlayUrls'] = null !== $this->playUrls ? $this->playUrls->toMap() : null;
+        }
 
         return $res;
     }

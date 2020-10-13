@@ -35,9 +35,13 @@ class GetBucketRefererResponse extends Model
 
     public function toMap()
     {
-        $res                         = [];
-        $res['x-oss-request-id']     = $this->requestId;
-        $res['RefererConfiguration'] = null !== $this->refererConfiguration ? $this->refererConfiguration->toMap() : null;
+        $res = [];
+        if (null !== $this->requestId) {
+            $res['x-oss-request-id'] = $this->requestId;
+        }
+        if (null !== $this->refererConfiguration) {
+            $res['RefererConfiguration'] = null !== $this->refererConfiguration ? $this->refererConfiguration->toMap() : null;
+        }
 
         return $res;
     }
