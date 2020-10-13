@@ -9,10 +9,16 @@ using Tea;
 namespace AlibabaCloud.OSS.Models
 {
     public class PutBucketLifecycleRequest : TeaModel {
+        /// <summary>
+        /// BucketName
+        /// </summary>
         [NameInMap("BucketName")]
-        [Validation(Required=true)]
+        [Validation(Required=true, Pattern="[a-zA-Z0-9\\-\\_]+")]
         public string BucketName { get; set; }
 
+        /// <summary>
+        /// Body
+        /// </summary>
         [NameInMap("Body")]
         [Validation(Required=false)]
         public PutBucketLifecycleRequestBody Body { get; set; }
@@ -21,10 +27,16 @@ namespace AlibabaCloud.OSS.Models
             [Validation(Required=true)]
             public PutBucketLifecycleRequestBodyLifecycleConfiguration LifecycleConfiguration { get; set; }
             public class PutBucketLifecycleRequestBodyLifecycleConfiguration : TeaModel {
+                /// <summary>
+                /// Rule
+                /// </summary>
                 [NameInMap("Rule")]
                 [Validation(Required=false)]
                 public List<PutBucketLifecycleRequestBodyLifecycleConfigurationRule> Rule { get; set; }
                 public class PutBucketLifecycleRequestBodyLifecycleConfigurationRule : TeaModel {
+                    /// <summary>
+                    /// Expiration
+                    /// </summary>
                     [NameInMap("Expiration")]
                     [Validation(Required=false)]
                     public PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration Expiration { get; set; }
@@ -37,6 +49,9 @@ namespace AlibabaCloud.OSS.Models
                         public string CreatedBeforeDate { get; set; }
                     };
 
+                    /// <summary>
+                    /// Transition
+                    /// </summary>
                     [NameInMap("Transition")]
                     [Validation(Required=false)]
                     public PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition Transition { get; set; }
@@ -49,6 +64,9 @@ namespace AlibabaCloud.OSS.Models
                         public string StorageClass { get; set; }
                     };
 
+                    /// <summary>
+                    /// AbortMultipartUpload
+                    /// </summary>
                     [NameInMap("AbortMultipartUpload")]
                     [Validation(Required=false)]
                     public PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUpload AbortMultipartUpload { get; set; }
@@ -61,6 +79,9 @@ namespace AlibabaCloud.OSS.Models
                         public string CreatedBeforeDate { get; set; }
                     };
 
+                    /// <summary>
+                    /// Tag
+                    /// </summary>
                     [NameInMap("Tag")]
                     [Validation(Required=false)]
                     public PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag Tag { get; set; }
@@ -73,14 +94,23 @@ namespace AlibabaCloud.OSS.Models
                         public string Value { get; set; }
                     };
 
+                    /// <summary>
+                    /// ID
+                    /// </summary>
                     [NameInMap("ID")]
                     [Validation(Required=false)]
                     public string ID { get; set; }
 
+                    /// <summary>
+                    /// Prefix
+                    /// </summary>
                     [NameInMap("Prefix")]
                     [Validation(Required=false)]
                     public string Prefix { get; set; }
 
+                    /// <summary>
+                    /// Status
+                    /// </summary>
                     [NameInMap("Status")]
                     [Validation(Required=false)]
                     public string Status { get; set; }

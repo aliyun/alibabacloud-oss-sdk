@@ -9,10 +9,16 @@ using Tea;
 namespace AlibabaCloud.OSS.Models
 {
     public class ListPartsResponse : TeaModel {
+        /// <summary>
+        /// x-oss-request-id
+        /// </summary>
         [NameInMap("x-oss-request-id")]
         [Validation(Required=true)]
         public string RequestId { get; set; }
 
+        /// <summary>
+        /// ListPartsResult
+        /// </summary>
         [NameInMap("ListPartsResult")]
         [Validation(Required=true)]
         public ListPartsResponseListPartsResult ListPartsResult { get; set; }
@@ -45,10 +51,10 @@ namespace AlibabaCloud.OSS.Models
             [Validation(Required=false)]
             public List<ListPartsResponseListPartsResultPart> Part { get; set; }
             public class ListPartsResponseListPartsResultPart : TeaModel {
-                    public string PartNumber { get; set; }
-                    public string LastModified { get; set; }
-                    public string ETag { get; set; }
-                    public string Size { get; set; }
+                public string PartNumber { get; set; }
+                public string LastModified { get; set; }
+                public string ETag { get; set; }
+                public string Size { get; set; }
             }
         };
 

@@ -9,10 +9,16 @@ using Tea;
 namespace AlibabaCloud.OSS.Models
 {
     public class GetBucketRefererResponse : TeaModel {
+        /// <summary>
+        /// x-oss-request-id
+        /// </summary>
         [NameInMap("x-oss-request-id")]
         [Validation(Required=true)]
         public string RequestId { get; set; }
 
+        /// <summary>
+        /// RefererConfiguration
+        /// </summary>
         [NameInMap("RefererConfiguration")]
         [Validation(Required=true)]
         public GetBucketRefererResponseRefererConfiguration RefererConfiguration { get; set; }
@@ -24,6 +30,9 @@ namespace AlibabaCloud.OSS.Models
             [Validation(Required=true)]
             public GetBucketRefererResponseRefererConfigurationRefererList RefererList { get; set; }
             public class GetBucketRefererResponseRefererConfigurationRefererList : TeaModel {
+                /// <summary>
+                /// Referer
+                /// </summary>
                 [NameInMap("Referer")]
                 [Validation(Required=false)]
                 public List<string> Referer { get; set; }

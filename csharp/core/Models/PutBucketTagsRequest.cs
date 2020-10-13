@@ -9,10 +9,16 @@ using Tea;
 namespace AlibabaCloud.OSS.Models
 {
     public class PutBucketTagsRequest : TeaModel {
+        /// <summary>
+        /// BucketName
+        /// </summary>
         [NameInMap("BucketName")]
-        [Validation(Required=true)]
+        [Validation(Required=true, Pattern="[a-zA-Z0-9\\-\\_]+")]
         public string BucketName { get; set; }
 
+        /// <summary>
+        /// Body
+        /// </summary>
         [NameInMap("Body")]
         [Validation(Required=false)]
         public PutBucketTagsRequestBody Body { get; set; }
@@ -21,6 +27,9 @@ namespace AlibabaCloud.OSS.Models
             [Validation(Required=true)]
             public PutBucketTagsRequestBodyTagging Tagging { get; set; }
             public class PutBucketTagsRequestBodyTagging : TeaModel {
+                /// <summary>
+                /// TagSet
+                /// </summary>
                 [NameInMap("TagSet")]
                 [Validation(Required=false)]
                 public PutBucketTagsRequestBodyTaggingTagSet TagSet { get; set; }
@@ -29,8 +38,8 @@ namespace AlibabaCloud.OSS.Models
                     [Validation(Required=false)]
                     public List<PutBucketTagsRequestBodyTaggingTagSetTag> Tag { get; set; }
                     public class PutBucketTagsRequestBodyTaggingTagSetTag : TeaModel {
-                            public string Key { get; set; }
-                            public string Value { get; set; }
+                        public string Key { get; set; }
+                        public string Value { get; set; }
                     }
                 };
 

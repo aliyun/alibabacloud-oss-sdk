@@ -9,14 +9,23 @@ using Tea;
 namespace AlibabaCloud.OSS.Models
 {
     public class PutLiveChannelRequest : TeaModel {
+        /// <summary>
+        /// BucketName
+        /// </summary>
         [NameInMap("BucketName")]
-        [Validation(Required=true)]
+        [Validation(Required=true, Pattern="[a-zA-Z0-9\\-\\_]+")]
         public string BucketName { get; set; }
 
+        /// <summary>
+        /// ChannelName
+        /// </summary>
         [NameInMap("ChannelName")]
         [Validation(Required=true)]
         public string ChannelName { get; set; }
 
+        /// <summary>
+        /// Body
+        /// </summary>
         [NameInMap("Body")]
         [Validation(Required=false)]
         public PutLiveChannelRequestBody Body { get; set; }
@@ -25,6 +34,9 @@ namespace AlibabaCloud.OSS.Models
             [Validation(Required=true)]
             public PutLiveChannelRequestBodyLiveChannelConfiguration LiveChannelConfiguration { get; set; }
             public class PutLiveChannelRequestBodyLiveChannelConfiguration : TeaModel {
+                /// <summary>
+                /// Target
+                /// </summary>
                 [NameInMap("Target")]
                 [Validation(Required=false)]
                 public PutLiveChannelRequestBodyLiveChannelConfigurationTarget Target { get; set; }
@@ -43,6 +55,9 @@ namespace AlibabaCloud.OSS.Models
                     public string PlaylistName { get; set; }
                 };
 
+                /// <summary>
+                /// Snapshot
+                /// </summary>
                 [NameInMap("Snapshot")]
                 [Validation(Required=false)]
                 public PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot Snapshot { get; set; }
@@ -61,10 +76,16 @@ namespace AlibabaCloud.OSS.Models
                     public string Interval { get; set; }
                 };
 
+                /// <summary>
+                /// Description
+                /// </summary>
                 [NameInMap("Description")]
                 [Validation(Required=false)]
                 public string Description { get; set; }
 
+                /// <summary>
+                /// Status
+                /// </summary>
                 [NameInMap("Status")]
                 [Validation(Required=false)]
                 public string Status { get; set; }

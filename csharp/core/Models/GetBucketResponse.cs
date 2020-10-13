@@ -9,10 +9,16 @@ using Tea;
 namespace AlibabaCloud.OSS.Models
 {
     public class GetBucketResponse : TeaModel {
+        /// <summary>
+        /// x-oss-request-id
+        /// </summary>
         [NameInMap("x-oss-request-id")]
         [Validation(Required=true)]
         public string RequestId { get; set; }
 
+        /// <summary>
+        /// ListBucketResult
+        /// </summary>
         [NameInMap("ListBucketResult")]
         [Validation(Required=true)]
         public GetBucketResponseListBucketResult ListBucketResult { get; set; }
@@ -45,22 +51,28 @@ namespace AlibabaCloud.OSS.Models
             [Validation(Required=false)]
             public List<GetBucketResponseListBucketResultContents> Contents { get; set; }
             public class GetBucketResponseListBucketResultContents : TeaModel {
-                    public string Key { get; set; }
-                    public string ETag { get; set; }
-                    public string LastModified { get; set; }
-                    public string Size { get; set; }
-                    public string StorageClass { get; set; }
-                    public GetBucketResponseListBucketResultContentsOwner Owner { get; set; }
-                    public class GetBucketResponseListBucketResultContentsOwner : TeaModel {
-                        [NameInMap("ID")]
-                        [Validation(Required=false)]
-                        public string ID { get; set; }
+                public string Key { get; set; }
+                public string ETag { get; set; }
+                public string LastModified { get; set; }
+                public string Size { get; set; }
+                public string StorageClass { get; set; }
+                public GetBucketResponseListBucketResultContentsOwner Owner { get; set; }
+                public class GetBucketResponseListBucketResultContentsOwner : TeaModel {
+                    /// <summary>
+                    /// ID
+                    /// </summary>
+                    [NameInMap("ID")]
+                    [Validation(Required=false)]
+                    public string ID { get; set; }
 
-                        [NameInMap("DisplayName")]
-                        [Validation(Required=false)]
-                        public string DisplayName { get; set; }
+                    /// <summary>
+                    /// DisplayName
+                    /// </summary>
+                    [NameInMap("DisplayName")]
+                    [Validation(Required=false)]
+                    public string DisplayName { get; set; }
 
-                    }
+                }
             }
         };
 

@@ -9,10 +9,16 @@ using Tea;
 namespace AlibabaCloud.OSS.Models
 {
     public class ListLiveChannelResponse : TeaModel {
+        /// <summary>
+        /// x-oss-request-id
+        /// </summary>
         [NameInMap("x-oss-request-id")]
         [Validation(Required=true)]
         public string RequestId { get; set; }
 
+        /// <summary>
+        /// ListLiveChannelResult
+        /// </summary>
         [NameInMap("ListLiveChannelResult")]
         [Validation(Required=true)]
         public ListLiveChannelResponseListLiveChannelResult ListLiveChannelResult { get; set; }
@@ -36,22 +42,37 @@ namespace AlibabaCloud.OSS.Models
             [Validation(Required=true)]
             public ListLiveChannelResponseListLiveChannelResultLiveChannel LiveChannel { get; set; }
             public class ListLiveChannelResponseListLiveChannelResultLiveChannel : TeaModel {
+                /// <summary>
+                /// Name
+                /// </summary>
                 [NameInMap("Name")]
                 [Validation(Required=false)]
                 public string Name { get; set; }
 
+                /// <summary>
+                /// Description
+                /// </summary>
                 [NameInMap("Description")]
                 [Validation(Required=false)]
                 public string Description { get; set; }
 
+                /// <summary>
+                /// Status
+                /// </summary>
                 [NameInMap("Status")]
                 [Validation(Required=false)]
                 public string Status { get; set; }
 
+                /// <summary>
+                /// LastModified
+                /// </summary>
                 [NameInMap("LastModified")]
                 [Validation(Required=false)]
                 public string LastModified { get; set; }
 
+                /// <summary>
+                /// PublishUrls
+                /// </summary>
                 [NameInMap("PublishUrls")]
                 [Validation(Required=true)]
                 public ListLiveChannelResponseListLiveChannelResultLiveChannelPublishUrls PublishUrls { get; set; }
@@ -61,6 +82,9 @@ namespace AlibabaCloud.OSS.Models
                     public string Url { get; set; }
                 };
 
+                /// <summary>
+                /// PlayUrls
+                /// </summary>
                 [NameInMap("PlayUrls")]
                 [Validation(Required=true)]
                 public ListLiveChannelResponseListLiveChannelResultLiveChannelPlayUrls PlayUrls { get; set; }

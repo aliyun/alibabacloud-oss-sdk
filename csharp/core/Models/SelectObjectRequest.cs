@@ -9,14 +9,23 @@ using Tea;
 namespace AlibabaCloud.OSS.Models
 {
     public class SelectObjectRequest : TeaModel {
+        /// <summary>
+        /// BucketName
+        /// </summary>
         [NameInMap("BucketName")]
-        [Validation(Required=true)]
+        [Validation(Required=true, Pattern="[a-zA-Z0-9\\-\\_]+")]
         public string BucketName { get; set; }
 
+        /// <summary>
+        /// ObjectName
+        /// </summary>
         [NameInMap("ObjectName")]
         [Validation(Required=true)]
         public string ObjectName { get; set; }
 
+        /// <summary>
+        /// Filter
+        /// </summary>
         [NameInMap("Filter")]
         [Validation(Required=true)]
         public SelectObjectRequestFilter Filter { get; set; }
@@ -26,6 +35,9 @@ namespace AlibabaCloud.OSS.Models
             public string Porcess { get; set; }
         };
 
+        /// <summary>
+        /// Body
+        /// </summary>
         [NameInMap("Body")]
         [Validation(Required=false)]
         public SelectObjectRequestBody Body { get; set; }
@@ -34,6 +46,9 @@ namespace AlibabaCloud.OSS.Models
             [Validation(Required=true)]
             public SelectObjectRequestBodySelectRequest SelectRequest { get; set; }
             public class SelectObjectRequestBodySelectRequest : TeaModel {
+                /// <summary>
+                /// InputSerialization
+                /// </summary>
                 [NameInMap("InputSerialization")]
                 [Validation(Required=false)]
                 public SelectObjectRequestBodySelectRequestInputSerialization InputSerialization { get; set; }
@@ -42,26 +57,44 @@ namespace AlibabaCloud.OSS.Models
                     [Validation(Required=false)]
                     public SelectObjectRequestBodySelectRequestInputSerializationCSV CSV { get; set; }
                     public class SelectObjectRequestBodySelectRequestInputSerializationCSV : TeaModel {
+                        /// <summary>
+                        /// FileHeaderInfo
+                        /// </summary>
                         [NameInMap("FileHeaderInfo")]
                         [Validation(Required=false)]
                         public string FileHeaderInfo { get; set; }
 
+                        /// <summary>
+                        /// RecordDelimiter
+                        /// </summary>
                         [NameInMap("RecordDelimiter")]
                         [Validation(Required=false)]
                         public string RecordDelimiter { get; set; }
 
+                        /// <summary>
+                        /// FieldDelimiter
+                        /// </summary>
                         [NameInMap("FieldDelimiter")]
                         [Validation(Required=false)]
                         public string FieldDelimiter { get; set; }
 
+                        /// <summary>
+                        /// QuoteCharacter
+                        /// </summary>
                         [NameInMap("QuoteCharacter")]
                         [Validation(Required=false)]
                         public string QuoteCharacter { get; set; }
 
+                        /// <summary>
+                        /// CommentCharacter
+                        /// </summary>
                         [NameInMap("CommentCharacter")]
                         [Validation(Required=false)]
                         public string CommentCharacter { get; set; }
 
+                        /// <summary>
+                        /// Range
+                        /// </summary>
                         [NameInMap("Range")]
                         [Validation(Required=false)]
                         public string Range { get; set; }
@@ -72,6 +105,9 @@ namespace AlibabaCloud.OSS.Models
                     public string CompressionType { get; set; }
                 };
 
+                /// <summary>
+                /// OutputSerialization
+                /// </summary>
                 [NameInMap("OutputSerialization")]
                 [Validation(Required=false)]
                 public SelectObjectRequestBodySelectRequestOutputSerialization OutputSerialization { get; set; }
@@ -80,10 +116,16 @@ namespace AlibabaCloud.OSS.Models
                     [Validation(Required=false)]
                     public SelectObjectRequestBodySelectRequestOutputSerializationCSV CSV { get; set; }
                     public class SelectObjectRequestBodySelectRequestOutputSerializationCSV : TeaModel {
+                        /// <summary>
+                        /// RecordDelimiter
+                        /// </summary>
                         [NameInMap("RecordDelimiter")]
                         [Validation(Required=false)]
                         public string RecordDelimiter { get; set; }
 
+                        /// <summary>
+                        /// FieldDelimiter
+                        /// </summary>
                         [NameInMap("FieldDelimiter")]
                         [Validation(Required=false)]
                         public string FieldDelimiter { get; set; }
@@ -103,6 +145,9 @@ namespace AlibabaCloud.OSS.Models
                     public string OutputHeader { get; set; }
                 };
 
+                /// <summary>
+                /// Options
+                /// </summary>
                 [NameInMap("Options")]
                 [Validation(Required=false)]
                 public SelectObjectRequestBodySelectRequestOptions Options { get; set; }
@@ -115,6 +160,9 @@ namespace AlibabaCloud.OSS.Models
                     public string MaxSkippedRecordsAllowed { get; set; }
                 };
 
+                /// <summary>
+                /// Expression
+                /// </summary>
                 [NameInMap("Expression")]
                 [Validation(Required=false)]
                 public string Expression { get; set; }

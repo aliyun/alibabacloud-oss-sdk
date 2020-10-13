@@ -9,10 +9,16 @@ using Tea;
 namespace AlibabaCloud.OSS.Models
 {
     public class GetLiveChannelHistoryResponse : TeaModel {
+        /// <summary>
+        /// x-oss-request-id
+        /// </summary>
         [NameInMap("x-oss-request-id")]
         [Validation(Required=true)]
         public string RequestId { get; set; }
 
+        /// <summary>
+        /// LiveChannelHistory
+        /// </summary>
         [NameInMap("LiveChannelHistory")]
         [Validation(Required=true)]
         public GetLiveChannelHistoryResponseLiveChannelHistory LiveChannelHistory { get; set; }
@@ -21,9 +27,9 @@ namespace AlibabaCloud.OSS.Models
             [Validation(Required=false)]
             public List<GetLiveChannelHistoryResponseLiveChannelHistoryLiveRecord> LiveRecord { get; set; }
             public class GetLiveChannelHistoryResponseLiveChannelHistoryLiveRecord : TeaModel {
-                    public string StartTime { get; set; }
-                    public string EndTime { get; set; }
-                    public string RemoteAddr { get; set; }
+                public string StartTime { get; set; }
+                public string EndTime { get; set; }
+                public string RemoteAddr { get; set; }
             }
         };
 

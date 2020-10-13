@@ -9,6 +9,9 @@ using Tea;
 namespace AlibabaCloud.OSS.Models
 {
     public class PostObjectResponse : TeaModel {
+        /// <summary>
+        /// PostResponse
+        /// </summary>
         [NameInMap("PostResponse")]
         [Validation(Required=true)]
         public PostObjectResponsePostResponse PostResponse { get; set; }

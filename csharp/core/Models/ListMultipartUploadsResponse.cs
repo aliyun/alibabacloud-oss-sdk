@@ -9,10 +9,16 @@ using Tea;
 namespace AlibabaCloud.OSS.Models
 {
     public class ListMultipartUploadsResponse : TeaModel {
+        /// <summary>
+        /// x-oss-request-id
+        /// </summary>
         [NameInMap("x-oss-request-id")]
         [Validation(Required=true)]
         public string RequestId { get; set; }
 
+        /// <summary>
+        /// ListMultipartUploadsResult
+        /// </summary>
         [NameInMap("ListMultipartUploadsResult")]
         [Validation(Required=true)]
         public ListMultipartUploadsResponseListMultipartUploadsResult ListMultipartUploadsResult { get; set; }
@@ -48,9 +54,9 @@ namespace AlibabaCloud.OSS.Models
             [Validation(Required=false)]
             public List<ListMultipartUploadsResponseListMultipartUploadsResultUpload> Upload { get; set; }
             public class ListMultipartUploadsResponseListMultipartUploadsResultUpload : TeaModel {
-                    public string Key { get; set; }
-                    public string UploadId { get; set; }
-                    public string Initiated { get; set; }
+                public string Key { get; set; }
+                public string UploadId { get; set; }
+                public string Initiated { get; set; }
             }
         };
 

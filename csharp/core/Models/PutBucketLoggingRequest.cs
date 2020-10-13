@@ -9,10 +9,16 @@ using Tea;
 namespace AlibabaCloud.OSS.Models
 {
     public class PutBucketLoggingRequest : TeaModel {
+        /// <summary>
+        /// BucketName
+        /// </summary>
         [NameInMap("BucketName")]
-        [Validation(Required=true)]
+        [Validation(Required=true, Pattern="[a-zA-Z0-9\\-\\_]+")]
         public string BucketName { get; set; }
 
+        /// <summary>
+        /// Body
+        /// </summary>
         [NameInMap("Body")]
         [Validation(Required=false)]
         public PutBucketLoggingRequestBody Body { get; set; }
@@ -21,6 +27,9 @@ namespace AlibabaCloud.OSS.Models
             [Validation(Required=true)]
             public PutBucketLoggingRequestBodyBucketLoggingStatus BucketLoggingStatus { get; set; }
             public class PutBucketLoggingRequestBodyBucketLoggingStatus : TeaModel {
+                /// <summary>
+                /// LoggingEnabled
+                /// </summary>
                 [NameInMap("LoggingEnabled")]
                 [Validation(Required=false)]
                 public PutBucketLoggingRequestBodyBucketLoggingStatusLoggingEnabled LoggingEnabled { get; set; }

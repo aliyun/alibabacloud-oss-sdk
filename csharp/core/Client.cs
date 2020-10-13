@@ -7,6 +7,7 @@ using System.IO;
 using System.Threading.Tasks;
 
 using Tea;
+using Tea.Utils;
 
 using AlibabaCloud.OSS.Models;
 
@@ -14,25 +15,25 @@ namespace AlibabaCloud.OSS
 {
     public class Client 
     {
-        private string _endpoint;
-        private string _regionId;
-        private string _hostModel;
-        private string _protocol;
-        private int? _readTimeout;
-        private int? _connectTimeout;
-        private string _signatureVersion;
-        private List<string> _addtionalHeaders;
-        private string _localAddr;
-        private string _httpProxy;
-        private string _httpsProxy;
-        private string _noProxy;
-        private string _userAgent;
-        private string _socks5Proxy;
-        private bool? _isEnableCrc;
-        private bool? _isEnableMD5;
-        private string _socks5NetWork;
-        private int? _maxIdleConns;
-        private Aliyun.Credentials.Client _credential;
+        protected string _endpoint;
+        protected string _regionId;
+        protected string _hostModel;
+        protected string _protocol;
+        protected int? _readTimeout;
+        protected int? _connectTimeout;
+        protected string _signatureVersion;
+        protected List<string> _addtionalHeaders;
+        protected string _localAddr;
+        protected string _httpProxy;
+        protected string _httpsProxy;
+        protected string _noProxy;
+        protected string _userAgent;
+        protected string _socks5Proxy;
+        protected bool? _isEnableCrc;
+        protected bool? _isEnableMD5;
+        protected string _socks5NetWork;
+        protected int? _maxIdleConns;
+        protected Aliyun.Credentials.Client _credential;
 
         public Client(Config config)
         {
@@ -160,13 +161,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -265,13 +266,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -362,7 +363,7 @@ namespace AlibabaCloud.OSS
                         request_.Headers["x-oss-security-token"] = token;
                     }
                     request_.Body = TeaCore.BytesReadable(reqBody);
-                    if (AlibabaCloud.TeaUtil.Common.IsUnset(request.Header.ToMap()) && !AlibabaCloud.TeaUtil.Common.Empty(request.Header.ContentMD5))
+                    if (!AlibabaCloud.TeaUtil.Common.IsUnset(request.Header.ToMap()) && !AlibabaCloud.TeaUtil.Common.Empty(request.Header.ContentMD5))
                     {
                         request_.Headers["content-md5"] = request.Header.ContentMD5;
                     }
@@ -382,13 +383,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -398,7 +399,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"DeleteResult", respMap["DeleteResult"]},
+                            {"DeleteResult", respMap.Get("DeleteResult")},
                         },
                         response_.Headers
                     ));
@@ -485,7 +486,7 @@ namespace AlibabaCloud.OSS
                         request_.Headers["x-oss-security-token"] = token;
                     }
                     request_.Body = TeaCore.BytesReadable(reqBody);
-                    if (AlibabaCloud.TeaUtil.Common.IsUnset(request.Header.ToMap()) && !AlibabaCloud.TeaUtil.Common.Empty(request.Header.ContentMD5))
+                    if (!AlibabaCloud.TeaUtil.Common.IsUnset(request.Header.ToMap()) && !AlibabaCloud.TeaUtil.Common.Empty(request.Header.ContentMD5))
                     {
                         request_.Headers["content-md5"] = request.Header.ContentMD5;
                     }
@@ -505,13 +506,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -521,7 +522,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"DeleteResult", respMap["DeleteResult"]},
+                            {"DeleteResult", respMap.Get("DeleteResult")},
                         },
                         response_.Headers
                     ));
@@ -616,13 +617,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -721,13 +722,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -826,13 +827,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -931,13 +932,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -1037,13 +1038,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -1053,7 +1054,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"CompleteMultipartUploadResult", respMap["CompleteMultipartUploadResult"]},
+                            {"CompleteMultipartUploadResult", respMap.Get("CompleteMultipartUploadResult")},
                         },
                         response_.Headers
                     ));
@@ -1149,13 +1150,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -1165,7 +1166,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"CompleteMultipartUploadResult", respMap["CompleteMultipartUploadResult"]},
+                            {"CompleteMultipartUploadResult", respMap.Get("CompleteMultipartUploadResult")},
                         },
                         response_.Headers
                     ));
@@ -1260,13 +1261,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -1365,13 +1366,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -1470,13 +1471,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -1575,13 +1576,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -1680,13 +1681,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -1785,13 +1786,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -1890,13 +1891,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -1906,7 +1907,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"CreateLiveChannelResult", respMap["CreateLiveChannelResult"]},
+                            {"CreateLiveChannelResult", respMap.Get("CreateLiveChannelResult")},
                         },
                         response_.Headers
                     ));
@@ -2001,13 +2002,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -2017,7 +2018,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"CreateLiveChannelResult", respMap["CreateLiveChannelResult"]},
+                            {"CreateLiveChannelResult", respMap.Get("CreateLiveChannelResult")},
                         },
                         response_.Headers
                     ));
@@ -2112,13 +2113,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -2217,13 +2218,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -2322,13 +2323,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -2427,13 +2428,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -2533,13 +2534,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -2639,13 +2640,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -2744,13 +2745,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -2849,13 +2850,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -2958,13 +2959,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -3067,13 +3068,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -3171,13 +3172,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -3187,7 +3188,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"ListMultipartUploadsResult", respMap["ListMultipartUploadsResult"]},
+                            {"ListMultipartUploadsResult", respMap.Get("ListMultipartUploadsResult")},
                         },
                         response_.Headers
                     ));
@@ -3281,13 +3282,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -3297,7 +3298,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"ListMultipartUploadsResult", respMap["ListMultipartUploadsResult"]},
+                            {"ListMultipartUploadsResult", respMap.Get("ListMultipartUploadsResult")},
                         },
                         response_.Headers
                     ));
@@ -3390,13 +3391,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -3406,7 +3407,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"RequestPaymentConfiguration", respMap["RequestPaymentConfiguration"]},
+                            {"RequestPaymentConfiguration", respMap.Get("RequestPaymentConfiguration")},
                         },
                         response_.Headers
                     ));
@@ -3499,13 +3500,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -3515,7 +3516,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"RequestPaymentConfiguration", respMap["RequestPaymentConfiguration"]},
+                            {"RequestPaymentConfiguration", respMap.Get("RequestPaymentConfiguration")},
                         },
                         response_.Headers
                     ));
@@ -3608,13 +3609,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -3624,7 +3625,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"ServerSideEncryptionRule", respMap["ServerSideEncryptionRule"]},
+                            {"ServerSideEncryptionRule", respMap.Get("ServerSideEncryptionRule")},
                         },
                         response_.Headers
                     ));
@@ -3717,13 +3718,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -3733,7 +3734,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"ServerSideEncryptionRule", respMap["ServerSideEncryptionRule"]},
+                            {"ServerSideEncryptionRule", respMap.Get("ServerSideEncryptionRule")},
                         },
                         response_.Headers
                     ));
@@ -3826,13 +3827,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -3842,7 +3843,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"Tagging", respMap["Tagging"]},
+                            {"Tagging", respMap.Get("Tagging")},
                         },
                         response_.Headers
                     ));
@@ -3935,13 +3936,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -3951,7 +3952,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"Tagging", respMap["Tagging"]},
+                            {"Tagging", respMap.Get("Tagging")},
                         },
                         response_.Headers
                     ));
@@ -4045,13 +4046,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -4061,7 +4062,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"ListAllMyBucketsResult", respMap["ListAllMyBucketsResult"]},
+                            {"ListAllMyBucketsResult", respMap.Get("ListAllMyBucketsResult")},
                         },
                         response_.Headers
                     ));
@@ -4155,13 +4156,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -4171,7 +4172,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"ListAllMyBucketsResult", respMap["ListAllMyBucketsResult"]},
+                            {"ListAllMyBucketsResult", respMap.Get("ListAllMyBucketsResult")},
                         },
                         response_.Headers
                     ));
@@ -4264,13 +4265,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -4367,13 +4368,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -4471,13 +4472,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -4575,13 +4576,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -4678,13 +4679,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -4694,7 +4695,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"WebsiteConfiguration", respMap["WebsiteConfiguration"]},
+                            {"WebsiteConfiguration", respMap.Get("WebsiteConfiguration")},
                         },
                         response_.Headers
                     ));
@@ -4787,13 +4788,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -4803,7 +4804,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"WebsiteConfiguration", respMap["WebsiteConfiguration"]},
+                            {"WebsiteConfiguration", respMap.Get("WebsiteConfiguration")},
                         },
                         response_.Headers
                     ));
@@ -4896,13 +4897,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -4999,13 +5000,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -5102,13 +5103,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -5118,7 +5119,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"LocationConstraint", respMap["LocationConstraint"]},
+                            {"LocationConstraint", respMap.Get("LocationConstraint")},
                         },
                         response_.Headers
                     ));
@@ -5211,13 +5212,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -5227,7 +5228,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"LocationConstraint", respMap["LocationConstraint"]},
+                            {"LocationConstraint", respMap.Get("LocationConstraint")},
                         },
                         response_.Headers
                     ));
@@ -5321,13 +5322,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -5337,7 +5338,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"ListLiveChannelResult", respMap["ListLiveChannelResult"]},
+                            {"ListLiveChannelResult", respMap.Get("ListLiveChannelResult")},
                         },
                         response_.Headers
                     ));
@@ -5431,13 +5432,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -5447,7 +5448,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"ListLiveChannelResult", respMap["ListLiveChannelResult"]},
+                            {"ListLiveChannelResult", respMap.Get("ListLiveChannelResult")},
                         },
                         response_.Headers
                     ));
@@ -5540,13 +5541,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -5643,13 +5644,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -5746,13 +5747,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -5762,7 +5763,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"AccessControlPolicy", respMap["AccessControlPolicy"]},
+                            {"AccessControlPolicy", respMap.Get("AccessControlPolicy")},
                         },
                         response_.Headers
                     ));
@@ -5855,13 +5856,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -5871,7 +5872,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"AccessControlPolicy", respMap["AccessControlPolicy"]},
+                            {"AccessControlPolicy", respMap.Get("AccessControlPolicy")},
                         },
                         response_.Headers
                     ));
@@ -5965,13 +5966,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -5981,7 +5982,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"ListPartsResult", respMap["ListPartsResult"]},
+                            {"ListPartsResult", respMap.Get("ListPartsResult")},
                         },
                         response_.Headers
                     ));
@@ -6075,13 +6076,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -6091,7 +6092,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"ListPartsResult", respMap["ListPartsResult"]},
+                            {"ListPartsResult", respMap.Get("ListPartsResult")},
                         },
                         response_.Headers
                     ));
@@ -6185,13 +6186,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -6201,7 +6202,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"LiveChannelHistory", respMap["LiveChannelHistory"]},
+                            {"LiveChannelHistory", respMap.Get("LiveChannelHistory")},
                         },
                         response_.Headers
                     ));
@@ -6295,13 +6296,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -6311,7 +6312,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"LiveChannelHistory", respMap["LiveChannelHistory"]},
+                            {"LiveChannelHistory", respMap.Get("LiveChannelHistory")},
                         },
                         response_.Headers
                     ));
@@ -6405,13 +6406,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -6421,7 +6422,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"ListBucketResult", respMap["ListBucketResult"]},
+                            {"ListBucketResult", respMap.Get("ListBucketResult")},
                         },
                         response_.Headers
                     ));
@@ -6515,13 +6516,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -6531,7 +6532,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"ListBucketResult", respMap["ListBucketResult"]},
+                            {"ListBucketResult", respMap.Get("ListBucketResult")},
                         },
                         response_.Headers
                     ));
@@ -6624,13 +6625,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -6640,7 +6641,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"LiveChannelConfiguration", respMap["LiveChannelConfiguration"]},
+                            {"LiveChannelConfiguration", respMap.Get("LiveChannelConfiguration")},
                         },
                         response_.Headers
                     ));
@@ -6733,13 +6734,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -6749,7 +6750,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"LiveChannelConfiguration", respMap["LiveChannelConfiguration"]},
+                            {"LiveChannelConfiguration", respMap.Get("LiveChannelConfiguration")},
                         },
                         response_.Headers
                     ));
@@ -6843,13 +6844,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -6859,7 +6860,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"LiveChannelStat", respMap["LiveChannelStat"]},
+                            {"LiveChannelStat", respMap.Get("LiveChannelStat")},
                         },
                         response_.Headers
                     ));
@@ -6953,13 +6954,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -6969,7 +6970,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"LiveChannelStat", respMap["LiveChannelStat"]},
+                            {"LiveChannelStat", respMap.Get("LiveChannelStat")},
                         },
                         response_.Headers
                     ));
@@ -7062,13 +7063,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -7165,13 +7166,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -7269,13 +7270,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -7373,13 +7374,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -7472,7 +7473,7 @@ namespace AlibabaCloud.OSS
                     }
                     request_.Query = AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Filter.ToMap());
                     request_.Body = AlibabaCloud.OSSUtil.Common.Inject(request.Body, ctx);
-                    if (AlibabaCloud.TeaUtil.Common.IsUnset(request.Header.ToMap()) && !AlibabaCloud.TeaUtil.Common.Empty(request.Header.ContentType))
+                    if (!AlibabaCloud.TeaUtil.Common.IsUnset(request.Header.ToMap()) && !AlibabaCloud.TeaUtil.Common.Empty(request.Header.ContentType))
                     {
                         request_.Headers["content-type"] = request.Header.ContentType;
                     }
@@ -7492,37 +7493,37 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
-                    if (_isEnableCrc.Value && !AlibabaCloud.TeaUtil.Common.EqualString(ctx["crc"], response_.Headers["x-oss-hash-crc64ecma"]))
+                    if (_isEnableCrc.Value && !AlibabaCloud.TeaUtil.Common.EqualString(ctx.Get("crc"), response_.Headers.Get("x-oss-hash-crc64ecma")))
                     {
                         throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", "CrcNotMatched"},
                             {"data", new Dictionary<string, string>
                             {
-                                {"clientCrc", ctx["crc"]},
-                                {"serverCrc", response_.Headers["x-oss-hash-crc64ecma"]},
+                                {"clientCrc", ctx.Get("crc")},
+                                {"serverCrc", response_.Headers.Get("x-oss-hash-crc64ecma")},
                             }},
                         });
                     }
-                    if (_isEnableMD5.Value && !AlibabaCloud.TeaUtil.Common.EqualString(ctx["md5"], response_.Headers["content-md5"]))
+                    if (_isEnableMD5.Value && !AlibabaCloud.TeaUtil.Common.EqualString(ctx.Get("md5"), response_.Headers.Get("content-md5")))
                     {
                         throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", "MD5NotMatched"},
                             {"data", new Dictionary<string, string>
                             {
-                                {"clientMD5", ctx["md5"]},
-                                {"serverMD5", response_.Headers["content-md5"]},
+                                {"clientMD5", ctx.Get("md5")},
+                                {"serverMD5", response_.Headers.Get("content-md5")},
                             }},
                         });
                     }
@@ -7615,7 +7616,7 @@ namespace AlibabaCloud.OSS
                     }
                     request_.Query = AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Filter.ToMap());
                     request_.Body = AlibabaCloud.OSSUtil.Common.Inject(request.Body, ctx);
-                    if (AlibabaCloud.TeaUtil.Common.IsUnset(request.Header.ToMap()) && !AlibabaCloud.TeaUtil.Common.Empty(request.Header.ContentType))
+                    if (!AlibabaCloud.TeaUtil.Common.IsUnset(request.Header.ToMap()) && !AlibabaCloud.TeaUtil.Common.Empty(request.Header.ContentType))
                     {
                         request_.Headers["content-type"] = request.Header.ContentType;
                     }
@@ -7635,37 +7636,37 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
-                    if (_isEnableCrc.Value && !AlibabaCloud.TeaUtil.Common.EqualString(ctx["crc"], response_.Headers["x-oss-hash-crc64ecma"]))
+                    if (_isEnableCrc.Value && !AlibabaCloud.TeaUtil.Common.EqualString(ctx.Get("crc"), response_.Headers.Get("x-oss-hash-crc64ecma")))
                     {
                         throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", "CrcNotMatched"},
                             {"data", new Dictionary<string, string>
                             {
-                                {"clientCrc", ctx["crc"]},
-                                {"serverCrc", response_.Headers["x-oss-hash-crc64ecma"]},
+                                {"clientCrc", ctx.Get("crc")},
+                                {"serverCrc", response_.Headers.Get("x-oss-hash-crc64ecma")},
                             }},
                         });
                     }
-                    if (_isEnableMD5.Value && !AlibabaCloud.TeaUtil.Common.EqualString(ctx["md5"], response_.Headers["content-md5"]))
+                    if (_isEnableMD5.Value && !AlibabaCloud.TeaUtil.Common.EqualString(ctx.Get("md5"), response_.Headers.Get("content-md5")))
                     {
                         throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", "MD5NotMatched"},
                             {"data", new Dictionary<string, string>
                             {
-                                {"clientMD5", ctx["md5"]},
-                                {"serverMD5", response_.Headers["content-md5"]},
+                                {"clientMD5", ctx.Get("md5")},
+                                {"serverMD5", response_.Headers.Get("content-md5")},
                             }},
                         });
                     }
@@ -7767,13 +7768,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -7783,7 +7784,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"CopyPartResult", respMap["CopyPartResult"]},
+                            {"CopyPartResult", respMap.Get("CopyPartResult")},
                         },
                         response_.Headers
                     ));
@@ -7881,13 +7882,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -7897,7 +7898,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"CopyPartResult", respMap["CopyPartResult"]},
+                            {"CopyPartResult", respMap.Get("CopyPartResult")},
                         },
                         response_.Headers
                     ));
@@ -7991,13 +7992,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -8095,13 +8096,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -8198,13 +8199,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -8301,13 +8302,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -8408,13 +8409,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -8519,13 +8520,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -8629,37 +8630,37 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
-                    if (_isEnableCrc.Value && !AlibabaCloud.TeaUtil.Common.EqualString(ctx["crc"], response_.Headers["x-oss-hash-crc64ecma"]))
+                    if (_isEnableCrc.Value && !AlibabaCloud.TeaUtil.Common.EqualString(ctx.Get("crc"), response_.Headers.Get("x-oss-hash-crc64ecma")))
                     {
                         throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", "CrcNotMatched"},
                             {"data", new Dictionary<string, string>
                             {
-                                {"clientCrc", ctx["crc"]},
-                                {"serverCrc", response_.Headers["x-oss-hash-crc64ecma"]},
+                                {"clientCrc", ctx.Get("crc")},
+                                {"serverCrc", response_.Headers.Get("x-oss-hash-crc64ecma")},
                             }},
                         });
                     }
-                    if (_isEnableMD5.Value && !AlibabaCloud.TeaUtil.Common.EqualString(ctx["md5"], response_.Headers["content-md5"]))
+                    if (_isEnableMD5.Value && !AlibabaCloud.TeaUtil.Common.EqualString(ctx.Get("md5"), response_.Headers.Get("content-md5")))
                     {
                         throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", "MD5NotMatched"},
                             {"data", new Dictionary<string, string>
                             {
-                                {"clientMD5", ctx["md5"]},
-                                {"serverMD5", response_.Headers["content-md5"]},
+                                {"clientMD5", ctx.Get("md5")},
+                                {"serverMD5", response_.Headers.Get("content-md5")},
                             }},
                         });
                     }
@@ -8759,37 +8760,37 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
-                    if (_isEnableCrc.Value && !AlibabaCloud.TeaUtil.Common.EqualString(ctx["crc"], response_.Headers["x-oss-hash-crc64ecma"]))
+                    if (_isEnableCrc.Value && !AlibabaCloud.TeaUtil.Common.EqualString(ctx.Get("crc"), response_.Headers.Get("x-oss-hash-crc64ecma")))
                     {
                         throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", "CrcNotMatched"},
                             {"data", new Dictionary<string, string>
                             {
-                                {"clientCrc", ctx["crc"]},
-                                {"serverCrc", response_.Headers["x-oss-hash-crc64ecma"]},
+                                {"clientCrc", ctx.Get("crc")},
+                                {"serverCrc", response_.Headers.Get("x-oss-hash-crc64ecma")},
                             }},
                         });
                     }
-                    if (_isEnableMD5.Value && !AlibabaCloud.TeaUtil.Common.EqualString(ctx["md5"], response_.Headers["content-md5"]))
+                    if (_isEnableMD5.Value && !AlibabaCloud.TeaUtil.Common.EqualString(ctx.Get("md5"), response_.Headers.Get("content-md5")))
                     {
                         throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", "MD5NotMatched"},
                             {"data", new Dictionary<string, string>
                             {
-                                {"clientMD5", ctx["md5"]},
-                                {"serverMD5", response_.Headers["content-md5"]},
+                                {"clientMD5", ctx.Get("md5")},
+                                {"serverMD5", response_.Headers.Get("content-md5")},
                             }},
                         });
                     }
@@ -8886,13 +8887,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -8902,7 +8903,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"CORSConfiguration", respMap["CORSConfiguration"]},
+                            {"CORSConfiguration", respMap.Get("CORSConfiguration")},
                         },
                         response_.Headers
                     ));
@@ -8995,13 +8996,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -9011,7 +9012,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"CORSConfiguration", respMap["CORSConfiguration"]},
+                            {"CORSConfiguration", respMap.Get("CORSConfiguration")},
                         },
                         response_.Headers
                     ));
@@ -9096,7 +9097,7 @@ namespace AlibabaCloud.OSS
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["x-oss-copy-source"] = AlibabaCloud.OSSUtil.Common.Encode(request_.Headers["x-oss-copy-source"], "UrlEncode");
+                    request_.Headers["x-oss-copy-source"] = AlibabaCloud.OSSUtil.Common.Encode(request_.Headers.Get("x-oss-copy-source"), "UrlEncode");
                     request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = TeaCore.DoAction(request_, runtime_);
@@ -9109,13 +9110,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -9125,7 +9126,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"CopyObjectResult", respMap["CopyObjectResult"]},
+                            {"CopyObjectResult", respMap.Get("CopyObjectResult")},
                         },
                         response_.Headers
                     ));
@@ -9210,7 +9211,7 @@ namespace AlibabaCloud.OSS
                     {
                         request_.Headers["x-oss-security-token"] = token;
                     }
-                    request_.Headers["x-oss-copy-source"] = AlibabaCloud.OSSUtil.Common.Encode(request_.Headers["x-oss-copy-source"], "UrlEncode");
+                    request_.Headers["x-oss-copy-source"] = AlibabaCloud.OSSUtil.Common.Encode(request_.Headers.Get("x-oss-copy-source"), "UrlEncode");
                     request_.Headers["authorization"] = AlibabaCloud.OSSUtil.Common.GetSignature(request_, request.BucketName, accessKeyId, accessKeySecret, _signatureVersion, _addtionalHeaders);
                     _lastRequest = request_;
                     TeaResponse response_ = await TeaCore.DoActionAsync(request_, runtime_);
@@ -9223,13 +9224,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -9239,7 +9240,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"CopyObjectResult", respMap["CopyObjectResult"]},
+                            {"CopyObjectResult", respMap.Get("CopyObjectResult")},
                         },
                         response_.Headers
                     ));
@@ -9332,13 +9333,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -9348,7 +9349,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"Tagging", respMap["Tagging"]},
+                            {"Tagging", respMap.Get("Tagging")},
                         },
                         response_.Headers
                     ));
@@ -9441,13 +9442,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -9457,7 +9458,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"Tagging", respMap["Tagging"]},
+                            {"Tagging", respMap.Get("Tagging")},
                         },
                         response_.Headers
                     ));
@@ -9550,13 +9551,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -9653,13 +9654,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -9756,13 +9757,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -9859,13 +9860,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -9962,13 +9963,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -10065,13 +10066,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -10168,13 +10169,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -10271,13 +10272,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -10374,13 +10375,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -10390,7 +10391,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"LifecycleConfiguration", respMap["LifecycleConfiguration"]},
+                            {"LifecycleConfiguration", respMap.Get("LifecycleConfiguration")},
                         },
                         response_.Headers
                     ));
@@ -10483,13 +10484,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -10499,7 +10500,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"LifecycleConfiguration", respMap["LifecycleConfiguration"]},
+                            {"LifecycleConfiguration", respMap.Get("LifecycleConfiguration")},
                         },
                         response_.Headers
                     ));
@@ -10596,13 +10597,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -10703,13 +10704,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -10806,13 +10807,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -10822,7 +10823,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"RefererConfiguration", respMap["RefererConfiguration"]},
+                            {"RefererConfiguration", respMap.Get("RefererConfiguration")},
                         },
                         response_.Headers
                     ));
@@ -10915,13 +10916,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -10931,7 +10932,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"RefererConfiguration", respMap["RefererConfiguration"]},
+                            {"RefererConfiguration", respMap.Get("RefererConfiguration")},
                         },
                         response_.Headers
                     ));
@@ -11024,13 +11025,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -11127,13 +11128,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -11230,13 +11231,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -11246,7 +11247,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"BucketLoggingStatus", respMap["BucketLoggingStatus"]},
+                            {"BucketLoggingStatus", respMap.Get("BucketLoggingStatus")},
                         },
                         response_.Headers
                     ));
@@ -11339,13 +11340,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -11355,7 +11356,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"BucketLoggingStatus", respMap["BucketLoggingStatus"]},
+                            {"BucketLoggingStatus", respMap.Get("BucketLoggingStatus")},
                         },
                         response_.Headers
                     ));
@@ -11452,13 +11453,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -11559,13 +11560,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -11662,13 +11663,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -11678,7 +11679,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"BucketInfo", respMap["BucketInfo"]},
+                            {"BucketInfo", respMap.Get("BucketInfo")},
                         },
                         response_.Headers
                     ));
@@ -11771,13 +11772,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -11787,7 +11788,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"BucketInfo", respMap["BucketInfo"]},
+                            {"BucketInfo", respMap.Get("BucketInfo")},
                         },
                         response_.Headers
                     ));
@@ -11881,13 +11882,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -11985,13 +11986,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -12081,7 +12082,7 @@ namespace AlibabaCloud.OSS
                         request_.Headers["x-oss-security-token"] = token;
                     }
                     request_.Query = AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Filter.ToMap());
-                    if (AlibabaCloud.TeaUtil.Common.IsUnset(request.Header.ToMap()) && !AlibabaCloud.TeaUtil.Common.Empty(request.Header.ContentType))
+                    if (!AlibabaCloud.TeaUtil.Common.IsUnset(request.Header.ToMap()) && !AlibabaCloud.TeaUtil.Common.Empty(request.Header.ContentType))
                     {
                         request_.Headers["content-type"] = request.Header.ContentType;
                     }
@@ -12101,13 +12102,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -12117,7 +12118,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"InitiateMultipartUploadResult", respMap["InitiateMultipartUploadResult"]},
+                            {"InitiateMultipartUploadResult", respMap.Get("InitiateMultipartUploadResult")},
                         },
                         response_.Headers
                     ));
@@ -12203,7 +12204,7 @@ namespace AlibabaCloud.OSS
                         request_.Headers["x-oss-security-token"] = token;
                     }
                     request_.Query = AlibabaCloud.TeaUtil.Common.StringifyMapValue(request.Filter.ToMap());
-                    if (AlibabaCloud.TeaUtil.Common.IsUnset(request.Header.ToMap()) && !AlibabaCloud.TeaUtil.Common.Empty(request.Header.ContentType))
+                    if (!AlibabaCloud.TeaUtil.Common.IsUnset(request.Header.ToMap()) && !AlibabaCloud.TeaUtil.Common.Empty(request.Header.ContentType))
                     {
                         request_.Headers["content-type"] = request.Header.ContentType;
                     }
@@ -12223,13 +12224,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -12239,7 +12240,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"InitiateMultipartUploadResult", respMap["InitiateMultipartUploadResult"]},
+                            {"InitiateMultipartUploadResult", respMap.Get("InitiateMultipartUploadResult")},
                         },
                         response_.Headers
                     ));
@@ -12336,13 +12337,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -12443,13 +12444,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -12547,13 +12548,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -12651,13 +12652,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -12758,13 +12759,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -12866,13 +12867,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -12974,13 +12975,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -13085,13 +13086,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -13192,13 +13193,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -13295,13 +13296,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -13398,13 +13399,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -13501,13 +13502,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -13604,13 +13605,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -13620,7 +13621,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"AccessControlPolicy", respMap["AccessControlPolicy"]},
+                            {"AccessControlPolicy", respMap.Get("AccessControlPolicy")},
                         },
                         response_.Headers
                     ));
@@ -13713,13 +13714,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -13729,7 +13730,7 @@ namespace AlibabaCloud.OSS
                     (
                         new Dictionary<string, object>()
                         {
-                            {"AccessControlPolicy", respMap["AccessControlPolicy"]},
+                            {"AccessControlPolicy", respMap.Get("AccessControlPolicy")},
                         },
                         response_.Headers
                     ));
@@ -13826,13 +13827,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -13933,13 +13934,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -14036,13 +14037,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -14139,13 +14140,13 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
@@ -14237,7 +14238,7 @@ namespace AlibabaCloud.OSS
                         request_.Headers["x-oss-security-token"] = token;
                     }
                     request_.Body = AlibabaCloud.OSSUtil.Common.Inject(request.Body, ctx);
-                    if (AlibabaCloud.TeaUtil.Common.IsUnset(request.Header.ToMap()) && !AlibabaCloud.TeaUtil.Common.Empty(request.Header.ContentType))
+                    if (!AlibabaCloud.TeaUtil.Common.IsUnset(request.Header.ToMap()) && !AlibabaCloud.TeaUtil.Common.Empty(request.Header.ContentType))
                     {
                         request_.Headers["content-type"] = request.Header.ContentType;
                     }
@@ -14257,37 +14258,37 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
-                    if (_isEnableCrc.Value && !AlibabaCloud.TeaUtil.Common.EqualString(ctx["crc"], response_.Headers["x-oss-hash-crc64ecma"]))
+                    if (_isEnableCrc.Value && !AlibabaCloud.TeaUtil.Common.EqualString(ctx.Get("crc"), response_.Headers.Get("x-oss-hash-crc64ecma")))
                     {
                         throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", "CrcNotMatched"},
                             {"data", new Dictionary<string, string>
                             {
-                                {"clientCrc", ctx["crc"]},
-                                {"serverCrc", response_.Headers["x-oss-hash-crc64ecma"]},
+                                {"clientCrc", ctx.Get("crc")},
+                                {"serverCrc", response_.Headers.Get("x-oss-hash-crc64ecma")},
                             }},
                         });
                     }
-                    if (_isEnableMD5.Value && !AlibabaCloud.TeaUtil.Common.EqualString(ctx["md5"], response_.Headers["content-md5"]))
+                    if (_isEnableMD5.Value && !AlibabaCloud.TeaUtil.Common.EqualString(ctx.Get("md5"), response_.Headers.Get("content-md5")))
                     {
                         throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", "MD5NotMatched"},
                             {"data", new Dictionary<string, string>
                             {
-                                {"clientMD5", ctx["md5"]},
-                                {"serverMD5", response_.Headers["content-md5"]},
+                                {"clientMD5", ctx.Get("md5")},
+                                {"serverMD5", response_.Headers.Get("content-md5")},
                             }},
                         });
                     }
@@ -14379,7 +14380,7 @@ namespace AlibabaCloud.OSS
                         request_.Headers["x-oss-security-token"] = token;
                     }
                     request_.Body = AlibabaCloud.OSSUtil.Common.Inject(request.Body, ctx);
-                    if (AlibabaCloud.TeaUtil.Common.IsUnset(request.Header.ToMap()) && !AlibabaCloud.TeaUtil.Common.Empty(request.Header.ContentType))
+                    if (!AlibabaCloud.TeaUtil.Common.IsUnset(request.Header.ToMap()) && !AlibabaCloud.TeaUtil.Common.Empty(request.Header.ContentType))
                     {
                         request_.Headers["content-type"] = request.Header.ContentType;
                     }
@@ -14399,37 +14400,37 @@ namespace AlibabaCloud.OSS
                         respMap = AlibabaCloud.OSSUtil.Common.GetErrMessage(bodyStr);
                         throw new TeaException(new Dictionary<string, object>
                         {
-                            {"code", respMap["Code"]},
-                            {"message", respMap["Message"]},
+                            {"code", respMap.Get("Code")},
+                            {"message", respMap.Get("Message")},
                             {"data", new Dictionary<string, object>
                             {
                                 {"httpCode", response_.StatusCode},
-                                {"requestId", respMap["RequestId"]},
-                                {"hostId", respMap["HostId"]},
+                                {"requestId", respMap.Get("RequestId")},
+                                {"hostId", respMap.Get("HostId")},
                             }},
                         });
                     }
-                    if (_isEnableCrc.Value && !AlibabaCloud.TeaUtil.Common.EqualString(ctx["crc"], response_.Headers["x-oss-hash-crc64ecma"]))
+                    if (_isEnableCrc.Value && !AlibabaCloud.TeaUtil.Common.EqualString(ctx.Get("crc"), response_.Headers.Get("x-oss-hash-crc64ecma")))
                     {
                         throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", "CrcNotMatched"},
                             {"data", new Dictionary<string, string>
                             {
-                                {"clientCrc", ctx["crc"]},
-                                {"serverCrc", response_.Headers["x-oss-hash-crc64ecma"]},
+                                {"clientCrc", ctx.Get("crc")},
+                                {"serverCrc", response_.Headers.Get("x-oss-hash-crc64ecma")},
                             }},
                         });
                     }
-                    if (_isEnableMD5.Value && !AlibabaCloud.TeaUtil.Common.EqualString(ctx["md5"], response_.Headers["content-md5"]))
+                    if (_isEnableMD5.Value && !AlibabaCloud.TeaUtil.Common.EqualString(ctx.Get("md5"), response_.Headers.Get("content-md5")))
                     {
                         throw new TeaException(new Dictionary<string, object>
                         {
                             {"code", "MD5NotMatched"},
                             {"data", new Dictionary<string, string>
                             {
-                                {"clientMD5", ctx["md5"]},
-                                {"serverMD5", response_.Headers["content-md5"]},
+                                {"clientMD5", ctx.Get("md5")},
+                                {"serverMD5", response_.Headers.Get("content-md5")},
                             }},
                         });
                     }
