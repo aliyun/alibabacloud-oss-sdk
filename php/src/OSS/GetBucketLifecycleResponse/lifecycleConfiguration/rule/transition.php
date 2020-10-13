@@ -32,9 +32,13 @@ class transition extends Model
 
     public function toMap()
     {
-        $res                 = [];
-        $res['Days']         = $this->days;
-        $res['StorageClass'] = $this->storageClass;
+        $res = [];
+        if (null !== $this->days) {
+            $res['Days'] = $this->days;
+        }
+        if (null !== $this->storageClass) {
+            $res['StorageClass'] = $this->storageClass;
+        }
 
         return $res;
     }

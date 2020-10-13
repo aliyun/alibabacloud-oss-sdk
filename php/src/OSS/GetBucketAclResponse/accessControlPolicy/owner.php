@@ -32,9 +32,13 @@ class owner extends Model
 
     public function toMap()
     {
-        $res                = [];
-        $res['ID']          = $this->iD;
-        $res['DisplayName'] = $this->displayName;
+        $res = [];
+        if (null !== $this->iD) {
+            $res['ID'] = $this->iD;
+        }
+        if (null !== $this->displayName) {
+            $res['DisplayName'] = $this->displayName;
+        }
 
         return $res;
     }

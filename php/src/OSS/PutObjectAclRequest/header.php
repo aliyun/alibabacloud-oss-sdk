@@ -25,8 +25,10 @@ class header extends Model
 
     public function toMap()
     {
-        $res                     = [];
-        $res['x-oss-object-acl'] = $this->objectAcl;
+        $res = [];
+        if (null !== $this->objectAcl) {
+            $res['x-oss-object-acl'] = $this->objectAcl;
+        }
 
         return $res;
     }

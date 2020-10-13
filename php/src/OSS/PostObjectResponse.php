@@ -26,8 +26,10 @@ class PostObjectResponse extends Model
 
     public function toMap()
     {
-        $res                 = [];
-        $res['PostResponse'] = null !== $this->postResponse ? $this->postResponse->toMap() : null;
+        $res = [];
+        if (null !== $this->postResponse) {
+            $res['PostResponse'] = null !== $this->postResponse ? $this->postResponse->toMap() : null;
+        }
 
         return $res;
     }

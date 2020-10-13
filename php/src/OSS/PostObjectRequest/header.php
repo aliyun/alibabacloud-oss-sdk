@@ -52,7 +52,7 @@ class header extends Model
     /**
      * @description UserMeta
      *
-     * @var array
+     * @var string[]
      */
     public $userMeta;
     protected $_name = [
@@ -75,14 +75,28 @@ class header extends Model
 
     public function toMap()
     {
-        $res                          = [];
-        $res['OSSAccessKeyId']        = $this->accessKeyId;
-        $res['policy']                = $this->policy;
-        $res['Signature']             = $this->signature;
-        $res['success_action_status'] = $this->successActionStatus;
-        $res['file']                  = null !== $this->file ? $this->file->toMap() : null;
-        $res['key']                   = $this->key;
-        $res['UserMeta']              = $this->userMeta;
+        $res = [];
+        if (null !== $this->accessKeyId) {
+            $res['OSSAccessKeyId'] = $this->accessKeyId;
+        }
+        if (null !== $this->policy) {
+            $res['policy'] = $this->policy;
+        }
+        if (null !== $this->signature) {
+            $res['Signature'] = $this->signature;
+        }
+        if (null !== $this->successActionStatus) {
+            $res['success_action_status'] = $this->successActionStatus;
+        }
+        if (null !== $this->file) {
+            $res['file'] = null !== $this->file ? $this->file->toMap() : null;
+        }
+        if (null !== $this->key) {
+            $res['key'] = $this->key;
+        }
+        if (null !== $this->userMeta) {
+            $res['UserMeta'] = $this->userMeta;
+        }
 
         return $res;
     }

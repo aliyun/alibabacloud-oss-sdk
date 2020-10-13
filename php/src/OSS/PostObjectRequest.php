@@ -31,13 +31,18 @@ class PostObjectRequest extends Model
     {
         Model::validateRequired('bucketName', $this->bucketName, true);
         Model::validateRequired('header', $this->header, true);
+        Model::validatePattern('bucketName', $this->bucketName, '[a-zA-Z0-9\\-\\_]+');
     }
 
     public function toMap()
     {
-        $res               = [];
-        $res['BucketName'] = $this->bucketName;
-        $res['header']     = null !== $this->header ? $this->header->toMap() : null;
+        $res = [];
+        if (null !== $this->bucketName) {
+            $res['BucketName'] = $this->bucketName;
+        }
+        if (null !== $this->header) {
+            $res['header'] = null !== $this->header ? $this->header->toMap() : null;
+        }
 
         return $res;
     }

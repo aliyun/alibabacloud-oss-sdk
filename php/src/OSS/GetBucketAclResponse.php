@@ -35,9 +35,13 @@ class GetBucketAclResponse extends Model
 
     public function toMap()
     {
-        $res                        = [];
-        $res['x-oss-request-id']    = $this->requestId;
-        $res['AccessControlPolicy'] = null !== $this->accessControlPolicy ? $this->accessControlPolicy->toMap() : null;
+        $res = [];
+        if (null !== $this->requestId) {
+            $res['x-oss-request-id'] = $this->requestId;
+        }
+        if (null !== $this->accessControlPolicy) {
+            $res['AccessControlPolicy'] = null !== $this->accessControlPolicy ? $this->accessControlPolicy->toMap() : null;
+        }
 
         return $res;
     }

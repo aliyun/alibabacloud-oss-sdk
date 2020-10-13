@@ -26,6 +26,9 @@ class Config extends Model
 
     public $protocol;
 
+    /**
+     * @var string
+     */
     public $regionId;
 
     public $userAgent;
@@ -62,33 +65,75 @@ class Config extends Model
     {
         Model::validateRequired('accessKeyId', $this->accessKeyId, true);
         Model::validateRequired('accessKeySecret', $this->accessKeySecret, true);
+        Model::validatePattern('regionId', $this->regionId, '[a-zA-Z0-9\\-\\_]+');
     }
 
     public function toMap()
     {
-        $res                     = [];
-        $res['type']             = $this->type;
-        $res['securityToken']    = $this->securityToken;
-        $res['accessKeyId']      = $this->accessKeyId;
-        $res['accessKeySecret']  = $this->accessKeySecret;
-        $res['endpoint']         = $this->endpoint;
-        $res['protocol']         = $this->protocol;
-        $res['regionId']         = $this->regionId;
-        $res['userAgent']        = $this->userAgent;
-        $res['hostModel']        = $this->hostModel;
-        $res['signatureVersion'] = $this->signatureVersion;
-        $res['isEnableMD5']      = $this->isEnableMD5;
-        $res['isEnableCrc']      = $this->isEnableCrc;
-        $res['readTimeout']      = $this->readTimeout;
-        $res['connectTimeout']   = $this->connectTimeout;
-        $res['localAddr']        = $this->localAddr;
-        $res['httpProxy']        = $this->httpProxy;
-        $res['httpsProxy']       = $this->httpsProxy;
-        $res['noProxy']          = $this->noProxy;
-        $res['socks5Proxy']      = $this->socks5Proxy;
-        $res['socks5NetWork']    = $this->socks5NetWork;
-        $res['maxIdleConns']     = $this->maxIdleConns;
-        $res['addtionalHeaders'] = [];
+        $res = [];
+        if (null !== $this->type) {
+            $res['type'] = $this->type;
+        }
+        if (null !== $this->securityToken) {
+            $res['securityToken'] = $this->securityToken;
+        }
+        if (null !== $this->accessKeyId) {
+            $res['accessKeyId'] = $this->accessKeyId;
+        }
+        if (null !== $this->accessKeySecret) {
+            $res['accessKeySecret'] = $this->accessKeySecret;
+        }
+        if (null !== $this->endpoint) {
+            $res['endpoint'] = $this->endpoint;
+        }
+        if (null !== $this->protocol) {
+            $res['protocol'] = $this->protocol;
+        }
+        if (null !== $this->regionId) {
+            $res['regionId'] = $this->regionId;
+        }
+        if (null !== $this->userAgent) {
+            $res['userAgent'] = $this->userAgent;
+        }
+        if (null !== $this->hostModel) {
+            $res['hostModel'] = $this->hostModel;
+        }
+        if (null !== $this->signatureVersion) {
+            $res['signatureVersion'] = $this->signatureVersion;
+        }
+        if (null !== $this->isEnableMD5) {
+            $res['isEnableMD5'] = $this->isEnableMD5;
+        }
+        if (null !== $this->isEnableCrc) {
+            $res['isEnableCrc'] = $this->isEnableCrc;
+        }
+        if (null !== $this->readTimeout) {
+            $res['readTimeout'] = $this->readTimeout;
+        }
+        if (null !== $this->connectTimeout) {
+            $res['connectTimeout'] = $this->connectTimeout;
+        }
+        if (null !== $this->localAddr) {
+            $res['localAddr'] = $this->localAddr;
+        }
+        if (null !== $this->httpProxy) {
+            $res['httpProxy'] = $this->httpProxy;
+        }
+        if (null !== $this->httpsProxy) {
+            $res['httpsProxy'] = $this->httpsProxy;
+        }
+        if (null !== $this->noProxy) {
+            $res['noProxy'] = $this->noProxy;
+        }
+        if (null !== $this->socks5Proxy) {
+            $res['socks5Proxy'] = $this->socks5Proxy;
+        }
+        if (null !== $this->socks5NetWork) {
+            $res['socks5NetWork'] = $this->socks5NetWork;
+        }
+        if (null !== $this->maxIdleConns) {
+            $res['maxIdleConns'] = $this->maxIdleConns;
+        }
         if (null !== $this->addtionalHeaders) {
             $res['addtionalHeaders'] = $this->addtionalHeaders;
         }
@@ -169,7 +214,6 @@ class Config extends Model
         }
         if (isset($map['addtionalHeaders'])) {
             if (!empty($map['addtionalHeaders'])) {
-                $model->addtionalHeaders = [];
                 $model->addtionalHeaders = $map['addtionalHeaders'];
             }
         }

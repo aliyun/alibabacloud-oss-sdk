@@ -35,9 +35,13 @@ class GetServiceResponse extends Model
 
     public function toMap()
     {
-        $res                           = [];
-        $res['x-oss-request-id']       = $this->requestId;
-        $res['ListAllMyBucketsResult'] = null !== $this->listAllMyBucketsResult ? $this->listAllMyBucketsResult->toMap() : null;
+        $res = [];
+        if (null !== $this->requestId) {
+            $res['x-oss-request-id'] = $this->requestId;
+        }
+        if (null !== $this->listAllMyBucketsResult) {
+            $res['ListAllMyBucketsResult'] = null !== $this->listAllMyBucketsResult ? $this->listAllMyBucketsResult->toMap() : null;
+        }
 
         return $res;
     }

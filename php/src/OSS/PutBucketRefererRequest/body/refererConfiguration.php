@@ -33,9 +33,13 @@ class refererConfiguration extends Model
 
     public function toMap()
     {
-        $res                      = [];
-        $res['RefererList']       = null !== $this->refererList ? $this->refererList->toMap() : null;
-        $res['AllowEmptyReferer'] = $this->allowEmptyReferer;
+        $res = [];
+        if (null !== $this->refererList) {
+            $res['RefererList'] = null !== $this->refererList ? $this->refererList->toMap() : null;
+        }
+        if (null !== $this->allowEmptyReferer) {
+            $res['AllowEmptyReferer'] = $this->allowEmptyReferer;
+        }
 
         return $res;
     }

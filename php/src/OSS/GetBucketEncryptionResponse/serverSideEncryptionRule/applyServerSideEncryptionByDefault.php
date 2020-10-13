@@ -32,9 +32,13 @@ class applyServerSideEncryptionByDefault extends Model
 
     public function toMap()
     {
-        $res                   = [];
-        $res['SSEAlgorithm']   = $this->sSEAlgorithm;
-        $res['KMSMasterKeyID'] = $this->kMSMasterKeyID;
+        $res = [];
+        if (null !== $this->sSEAlgorithm) {
+            $res['SSEAlgorithm'] = $this->sSEAlgorithm;
+        }
+        if (null !== $this->kMSMasterKeyID) {
+            $res['KMSMasterKeyID'] = $this->kMSMasterKeyID;
+        }
 
         return $res;
     }

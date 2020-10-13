@@ -12,7 +12,7 @@ class completeMultipartUpload extends Model
     /**
      * @description Part
      *
-     * @var array
+     * @var part[]
      */
     public $part;
     protected $_name = [
@@ -25,12 +25,14 @@ class completeMultipartUpload extends Model
 
     public function toMap()
     {
-        $res         = [];
-        $res['Part'] = [];
-        if (null !== $this->part && \is_array($this->part)) {
-            $n = 0;
-            foreach ($this->part as $item) {
-                $res['Part'][$n++] = null !== $item ? $item->toMap() : $item;
+        $res = [];
+        if (null !== $this->part) {
+            $res['Part'] = [];
+            if (null !== $this->part && \is_array($this->part)) {
+                $n = 0;
+                foreach ($this->part as $item) {
+                    $res['Part'][$n++] = null !== $item ? $item->toMap() : $item;
+                }
             }
         }
 

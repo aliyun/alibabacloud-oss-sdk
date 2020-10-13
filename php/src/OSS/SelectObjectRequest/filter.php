@@ -25,8 +25,10 @@ class filter extends Model
 
     public function toMap()
     {
-        $res                  = [];
-        $res['x-oss-process'] = $this->porcess;
+        $res = [];
+        if (null !== $this->porcess) {
+            $res['x-oss-process'] = $this->porcess;
+        }
 
         return $res;
     }

@@ -42,10 +42,16 @@ class liveChannelConfiguration extends Model
 
     public function toMap()
     {
-        $res                = [];
-        $res['Description'] = $this->description;
-        $res['Status']      = $this->status;
-        $res['Target']      = null !== $this->target ? $this->target->toMap() : null;
+        $res = [];
+        if (null !== $this->description) {
+            $res['Description'] = $this->description;
+        }
+        if (null !== $this->status) {
+            $res['Status'] = $this->status;
+        }
+        if (null !== $this->target) {
+            $res['Target'] = null !== $this->target ? $this->target->toMap() : null;
+        }
 
         return $res;
     }

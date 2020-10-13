@@ -13,7 +13,6 @@ use AlibabaCloud\SDK\OSS\OSS\CallbackRequest;
 use AlibabaCloud\SDK\OSS\OSS\CallbackResponse;
 use AlibabaCloud\SDK\OSS\OSS\CompleteMultipartUploadRequest;
 use AlibabaCloud\SDK\OSS\OSS\CompleteMultipartUploadResponse;
-use AlibabaCloud\SDK\OSS\OSS\Config;
 use AlibabaCloud\SDK\OSS\OSS\CopyObjectRequest;
 use AlibabaCloud\SDK\OSS\OSS\CopyObjectResponse;
 use AlibabaCloud\SDK\OSS\OSS\DeleteBucketCORSRequest;
@@ -147,6 +146,7 @@ use AlibabaCloud\Tea\Request;
 use AlibabaCloud\Tea\Tea;
 use AlibabaCloud\Tea\Utils\Utils;
 use AlibabaCloud\Tea\XML\XML;
+use Exception;
 
 class OSS
 {
@@ -188,7 +188,7 @@ class OSS
 
     protected $_credential;
 
-    public function __construct(Config $config)
+    public function __construct($config)
     {
         if (Utils::isUnset($config)) {
             throw new TeaError([
@@ -233,11 +233,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param PutBucketLifecycleRequest $request
+     * @param RuntimeOptions            $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return PutBucketLifecycleResponse
      */
-    public function putBucketLifecycle(PutBucketLifecycleRequest $request, RuntimeOptions $runtime)
+    public function putBucketLifecycle($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -266,9 +271,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -280,7 +285,7 @@ class OSS
                 $accessKeyId        = $this->_credential->getAccessKeyId();
                 $accessKeySecret    = $this->_credential->getAccessKeySecret();
                 $token              = $this->_credential->getSecurityToken();
-                $reqBody            = XML::toXML($request->body);
+                $reqBody            = XML::toXML($request->body->toMap());
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'PUT';
                 $_request->pathname = '/?lifecycle';
@@ -303,18 +308,21 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
 
                 return PutBucketLifecycleResponse::fromMap(Tea::merge($_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -329,11 +337,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param DeleteMultipleObjectsRequest $request
+     * @param RuntimeOptions               $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return DeleteMultipleObjectsResponse
      */
-    public function deleteMultipleObjects(DeleteMultipleObjectsRequest $request, RuntimeOptions $runtime)
+    public function deleteMultipleObjects($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -362,9 +375,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -376,7 +389,7 @@ class OSS
                 $accessKeyId        = $this->_credential->getAccessKeyId();
                 $accessKeySecret    = $this->_credential->getAccessKeySecret();
                 $token              = $this->_credential->getSecurityToken();
-                $reqBody            = XML::toXML($request->body);
+                $reqBody            = XML::toXML($request->body->toMap());
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'POST';
                 $_request->pathname = '/?delete';
@@ -384,7 +397,7 @@ class OSS
                     'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
-                ], Utils::stringifyMapValue($request->header));
+                ], Utils::stringifyMapValue($request->header->toMap()));
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
@@ -404,12 +417,12 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
@@ -417,9 +430,12 @@ class OSS
                 $respMap = XML::parseXml($bodyStr, DeleteMultipleObjectsResponse::class);
 
                 return DeleteMultipleObjectsResponse::fromMap(Tea::merge([
-                    'DeleteResult' => $respMap['DeleteResult'],
+                    'DeleteResult' => @$respMap['DeleteResult'],
                 ], $_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -434,11 +450,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param PutBucketRefererRequest $request
+     * @param RuntimeOptions          $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return PutBucketRefererResponse
      */
-    public function putBucketReferer(PutBucketRefererRequest $request, RuntimeOptions $runtime)
+    public function putBucketReferer($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -467,9 +488,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -481,7 +502,7 @@ class OSS
                 $accessKeyId        = $this->_credential->getAccessKeyId();
                 $accessKeySecret    = $this->_credential->getAccessKeySecret();
                 $token              = $this->_credential->getSecurityToken();
-                $reqBody            = XML::toXML($request->body);
+                $reqBody            = XML::toXML($request->body->toMap());
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'PUT';
                 $_request->pathname = '/?referer';
@@ -504,18 +525,21 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
 
                 return PutBucketRefererResponse::fromMap(Tea::merge($_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -530,11 +554,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param PutBucketWebsiteRequest $request
+     * @param RuntimeOptions          $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return PutBucketWebsiteResponse
      */
-    public function putBucketWebsite(PutBucketWebsiteRequest $request, RuntimeOptions $runtime)
+    public function putBucketWebsite($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -563,9 +592,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -577,7 +606,7 @@ class OSS
                 $accessKeyId        = $this->_credential->getAccessKeyId();
                 $accessKeySecret    = $this->_credential->getAccessKeySecret();
                 $token              = $this->_credential->getSecurityToken();
-                $reqBody            = XML::toXML($request->body);
+                $reqBody            = XML::toXML($request->body->toMap());
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'PUT';
                 $_request->pathname = '/?website';
@@ -600,18 +629,21 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
 
                 return PutBucketWebsiteResponse::fromMap(Tea::merge($_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -626,11 +658,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param CompleteMultipartUploadRequest $request
+     * @param RuntimeOptions                 $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return CompleteMultipartUploadResponse
      */
-    public function completeMultipartUpload(CompleteMultipartUploadRequest $request, RuntimeOptions $runtime)
+    public function completeMultipartUpload($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -659,9 +696,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -673,7 +710,7 @@ class OSS
                 $accessKeyId        = $this->_credential->getAccessKeyId();
                 $accessKeySecret    = $this->_credential->getAccessKeySecret();
                 $token              = $this->_credential->getSecurityToken();
-                $reqBody            = XML::toXML($request->body);
+                $reqBody            = XML::toXML($request->body->toMap());
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'POST';
                 $_request->pathname = '/' . $request->objectName . '';
@@ -685,7 +722,7 @@ class OSS
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
-                $_request->query                    = Utils::stringifyMapValue($request->filter);
+                $_request->query                    = Utils::stringifyMapValue($request->filter->toMap());
                 $_request->body                     = $reqBody;
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
                 $_lastRequest                       = $_request;
@@ -697,12 +734,12 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
@@ -710,9 +747,12 @@ class OSS
                 $respMap = XML::parseXml($bodyStr, CompleteMultipartUploadResponse::class);
 
                 return CompleteMultipartUploadResponse::fromMap(Tea::merge([
-                    'CompleteMultipartUploadResult' => $respMap['CompleteMultipartUploadResult'],
+                    'CompleteMultipartUploadResult' => @$respMap['CompleteMultipartUploadResult'],
                 ], $_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -727,11 +767,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param PutBucketLoggingRequest $request
+     * @param RuntimeOptions          $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return PutBucketLoggingResponse
      */
-    public function putBucketLogging(PutBucketLoggingRequest $request, RuntimeOptions $runtime)
+    public function putBucketLogging($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -760,9 +805,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -774,7 +819,7 @@ class OSS
                 $accessKeyId        = $this->_credential->getAccessKeyId();
                 $accessKeySecret    = $this->_credential->getAccessKeySecret();
                 $token              = $this->_credential->getSecurityToken();
-                $reqBody            = XML::toXML($request->body);
+                $reqBody            = XML::toXML($request->body->toMap());
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'PUT';
                 $_request->pathname = '/?logging';
@@ -797,18 +842,21 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
 
                 return PutBucketLoggingResponse::fromMap(Tea::merge($_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -823,11 +871,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param PutBucketRequestPaymentRequest $request
+     * @param RuntimeOptions                 $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return PutBucketRequestPaymentResponse
      */
-    public function putBucketRequestPayment(PutBucketRequestPaymentRequest $request, RuntimeOptions $runtime)
+    public function putBucketRequestPayment($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -856,9 +909,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -870,7 +923,7 @@ class OSS
                 $accessKeyId        = $this->_credential->getAccessKeyId();
                 $accessKeySecret    = $this->_credential->getAccessKeySecret();
                 $token              = $this->_credential->getSecurityToken();
-                $reqBody            = XML::toXML($request->body);
+                $reqBody            = XML::toXML($request->body->toMap());
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'PUT';
                 $_request->pathname = '/?requestPayment';
@@ -893,18 +946,21 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
 
                 return PutBucketRequestPaymentResponse::fromMap(Tea::merge($_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -919,11 +975,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param PutBucketEncryptionRequest $request
+     * @param RuntimeOptions             $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return PutBucketEncryptionResponse
      */
-    public function putBucketEncryption(PutBucketEncryptionRequest $request, RuntimeOptions $runtime)
+    public function putBucketEncryption($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -952,9 +1013,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -966,7 +1027,7 @@ class OSS
                 $accessKeyId        = $this->_credential->getAccessKeyId();
                 $accessKeySecret    = $this->_credential->getAccessKeySecret();
                 $token              = $this->_credential->getSecurityToken();
-                $reqBody            = XML::toXML($request->body);
+                $reqBody            = XML::toXML($request->body->toMap());
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'PUT';
                 $_request->pathname = '/?encryption';
@@ -989,18 +1050,21 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
 
                 return PutBucketEncryptionResponse::fromMap(Tea::merge($_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -1015,11 +1079,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param PutLiveChannelRequest $request
+     * @param RuntimeOptions        $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return PutLiveChannelResponse
      */
-    public function putLiveChannel(PutLiveChannelRequest $request, RuntimeOptions $runtime)
+    public function putLiveChannel($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -1048,9 +1117,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -1062,7 +1131,7 @@ class OSS
                 $accessKeyId        = $this->_credential->getAccessKeyId();
                 $accessKeySecret    = $this->_credential->getAccessKeySecret();
                 $token              = $this->_credential->getSecurityToken();
-                $reqBody            = XML::toXML($request->body);
+                $reqBody            = XML::toXML($request->body->toMap());
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'PUT';
                 $_request->pathname = '/' . $request->channelName . '?live';
@@ -1085,12 +1154,12 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
@@ -1098,9 +1167,12 @@ class OSS
                 $respMap = XML::parseXml($bodyStr, PutLiveChannelResponse::class);
 
                 return PutLiveChannelResponse::fromMap(Tea::merge([
-                    'CreateLiveChannelResult' => $respMap['CreateLiveChannelResult'],
+                    'CreateLiveChannelResult' => @$respMap['CreateLiveChannelResult'],
                 ], $_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -1115,11 +1187,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param PutBucketTagsRequest $request
+     * @param RuntimeOptions       $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return PutBucketTagsResponse
      */
-    public function putBucketTags(PutBucketTagsRequest $request, RuntimeOptions $runtime)
+    public function putBucketTags($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -1148,9 +1225,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -1162,7 +1239,7 @@ class OSS
                 $accessKeyId        = $this->_credential->getAccessKeyId();
                 $accessKeySecret    = $this->_credential->getAccessKeySecret();
                 $token              = $this->_credential->getSecurityToken();
-                $reqBody            = XML::toXML($request->body);
+                $reqBody            = XML::toXML($request->body->toMap());
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'PUT';
                 $_request->pathname = '/?tagging';
@@ -1185,18 +1262,21 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
 
                 return PutBucketTagsResponse::fromMap(Tea::merge($_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -1211,11 +1291,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param PutObjectTaggingRequest $request
+     * @param RuntimeOptions          $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return PutObjectTaggingResponse
      */
-    public function putObjectTagging(PutObjectTaggingRequest $request, RuntimeOptions $runtime)
+    public function putObjectTagging($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -1244,9 +1329,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -1258,7 +1343,7 @@ class OSS
                 $accessKeyId        = $this->_credential->getAccessKeyId();
                 $accessKeySecret    = $this->_credential->getAccessKeySecret();
                 $token              = $this->_credential->getSecurityToken();
-                $reqBody            = XML::toXML($request->body);
+                $reqBody            = XML::toXML($request->body->toMap());
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'PUT';
                 $_request->pathname = '/' . $request->objectName . '?tagging';
@@ -1281,18 +1366,21 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
 
                 return PutObjectTaggingResponse::fromMap(Tea::merge($_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -1307,11 +1395,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param SelectObjectRequest $request
+     * @param RuntimeOptions      $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return SelectObjectResponse
      */
-    public function selectObject(SelectObjectRequest $request, RuntimeOptions $runtime)
+    public function selectObject($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -1340,9 +1433,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -1354,7 +1447,7 @@ class OSS
                 $accessKeyId        = $this->_credential->getAccessKeyId();
                 $accessKeySecret    = $this->_credential->getAccessKeySecret();
                 $token              = $this->_credential->getSecurityToken();
-                $reqBody            = XML::toXML($request->body);
+                $reqBody            = XML::toXML($request->body->toMap());
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'POST';
                 $_request->pathname = '/' . $request->objectName . '';
@@ -1366,7 +1459,7 @@ class OSS
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
-                $_request->query                    = Utils::stringifyMapValue($request->filter);
+                $_request->query                    = Utils::stringifyMapValue($request->filter->toMap());
                 $_request->body                     = $reqBody;
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
                 $_lastRequest                       = $_request;
@@ -1378,18 +1471,21 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
 
                 return SelectObjectResponse::fromMap(Tea::merge($_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -1404,11 +1500,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param PutBucketCORSRequest $request
+     * @param RuntimeOptions       $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return PutBucketCORSResponse
      */
-    public function putBucketCORS(PutBucketCORSRequest $request, RuntimeOptions $runtime)
+    public function putBucketCORS($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -1437,9 +1538,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -1451,7 +1552,7 @@ class OSS
                 $accessKeyId        = $this->_credential->getAccessKeyId();
                 $accessKeySecret    = $this->_credential->getAccessKeySecret();
                 $token              = $this->_credential->getSecurityToken();
-                $reqBody            = XML::toXML($request->body);
+                $reqBody            = XML::toXML($request->body->toMap());
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'PUT';
                 $_request->pathname = '/?cors';
@@ -1474,18 +1575,21 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
 
                 return PutBucketCORSResponse::fromMap(Tea::merge($_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -1500,11 +1604,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param PutBucketRequest $request
+     * @param RuntimeOptions   $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return PutBucketResponse
      */
-    public function putBucket(PutBucketRequest $request, RuntimeOptions $runtime)
+    public function putBucket($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -1533,9 +1642,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -1547,7 +1656,7 @@ class OSS
                 $accessKeyId        = $this->_credential->getAccessKeyId();
                 $accessKeySecret    = $this->_credential->getAccessKeySecret();
                 $token              = $this->_credential->getSecurityToken();
-                $reqBody            = XML::toXML($request->body);
+                $reqBody            = XML::toXML($request->body->toMap());
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'PUT';
                 $_request->pathname = '/';
@@ -1555,7 +1664,7 @@ class OSS
                     'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
-                ], Utils::stringifyMapValue($request->header));
+                ], Utils::stringifyMapValue($request->header->toMap()));
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
@@ -1570,18 +1679,21 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
 
                 return PutBucketResponse::fromMap(Tea::merge($_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -1596,11 +1708,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param ListMultipartUploadsRequest $request
+     * @param RuntimeOptions              $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return ListMultipartUploadsResponse
      */
-    public function listMultipartUploads(ListMultipartUploadsRequest $request, RuntimeOptions $runtime)
+    public function listMultipartUploads($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -1629,9 +1746,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -1654,7 +1771,7 @@ class OSS
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
-                $_request->query                    = Utils::stringifyMapValue($request->filter);
+                $_request->query                    = Utils::stringifyMapValue($request->filter->toMap());
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
                 $_lastRequest                       = $_request;
                 $_response                          = Tea::send($_request, $_runtime);
@@ -1665,12 +1782,12 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
@@ -1678,9 +1795,12 @@ class OSS
                 $respMap = XML::parseXml($bodyStr, ListMultipartUploadsResponse::class);
 
                 return ListMultipartUploadsResponse::fromMap(Tea::merge([
-                    'ListMultipartUploadsResult' => $respMap['ListMultipartUploadsResult'],
+                    'ListMultipartUploadsResult' => @$respMap['ListMultipartUploadsResult'],
                 ], $_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -1695,11 +1815,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param GetBucketRequestPaymentRequest $request
+     * @param RuntimeOptions                 $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return GetBucketRequestPaymentResponse
      */
-    public function getBucketRequestPayment(GetBucketRequestPaymentRequest $request, RuntimeOptions $runtime)
+    public function getBucketRequestPayment($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -1728,9 +1853,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -1763,12 +1888,12 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
@@ -1776,9 +1901,12 @@ class OSS
                 $respMap = XML::parseXml($bodyStr, GetBucketRequestPaymentResponse::class);
 
                 return GetBucketRequestPaymentResponse::fromMap(Tea::merge([
-                    'RequestPaymentConfiguration' => $respMap['RequestPaymentConfiguration'],
+                    'RequestPaymentConfiguration' => @$respMap['RequestPaymentConfiguration'],
                 ], $_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -1793,11 +1921,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param GetBucketEncryptionRequest $request
+     * @param RuntimeOptions             $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return GetBucketEncryptionResponse
      */
-    public function getBucketEncryption(GetBucketEncryptionRequest $request, RuntimeOptions $runtime)
+    public function getBucketEncryption($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -1826,9 +1959,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -1861,12 +1994,12 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
@@ -1874,9 +2007,12 @@ class OSS
                 $respMap = XML::parseXml($bodyStr, GetBucketEncryptionResponse::class);
 
                 return GetBucketEncryptionResponse::fromMap(Tea::merge([
-                    'ServerSideEncryptionRule' => $respMap['ServerSideEncryptionRule'],
+                    'ServerSideEncryptionRule' => @$respMap['ServerSideEncryptionRule'],
                 ], $_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -1891,11 +2027,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param GetBucketTagsRequest $request
+     * @param RuntimeOptions       $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return GetBucketTagsResponse
      */
-    public function getBucketTags(GetBucketTagsRequest $request, RuntimeOptions $runtime)
+    public function getBucketTags($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -1924,9 +2065,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -1959,12 +2100,12 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
@@ -1972,9 +2113,12 @@ class OSS
                 $respMap = XML::parseXml($bodyStr, GetBucketTagsResponse::class);
 
                 return GetBucketTagsResponse::fromMap(Tea::merge([
-                    'Tagging' => $respMap['Tagging'],
+                    'Tagging' => @$respMap['Tagging'],
                 ], $_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -1989,11 +2133,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param GetServiceRequest $request
+     * @param RuntimeOptions    $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return GetServiceResponse
      */
-    public function getService(GetServiceRequest $request, RuntimeOptions $runtime)
+    public function getService($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -2022,9 +2171,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -2047,7 +2196,7 @@ class OSS
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
-                $_request->query                    = Utils::stringifyMapValue($request->filter);
+                $_request->query                    = Utils::stringifyMapValue($request->filter->toMap());
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, '', $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
                 $_lastRequest                       = $_request;
                 $_response                          = Tea::send($_request, $_runtime);
@@ -2058,12 +2207,12 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
@@ -2071,9 +2220,12 @@ class OSS
                 $respMap = XML::parseXml($bodyStr, GetServiceResponse::class);
 
                 return GetServiceResponse::fromMap(Tea::merge([
-                    'ListAllMyBucketsResult' => $respMap['ListAllMyBucketsResult'],
+                    'ListAllMyBucketsResult' => @$respMap['ListAllMyBucketsResult'],
                 ], $_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -2088,11 +2240,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param DeleteBucketEncryptionRequest $request
+     * @param RuntimeOptions                $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return DeleteBucketEncryptionResponse
      */
-    public function deleteBucketEncryption(DeleteBucketEncryptionRequest $request, RuntimeOptions $runtime)
+    public function deleteBucketEncryption($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -2121,9 +2278,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -2156,18 +2313,21 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
 
                 return DeleteBucketEncryptionResponse::fromMap(Tea::merge($_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -2182,11 +2342,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param DeleteBucketTagsRequest $request
+     * @param RuntimeOptions          $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return DeleteBucketTagsResponse
      */
-    public function deleteBucketTags(DeleteBucketTagsRequest $request, RuntimeOptions $runtime)
+    public function deleteBucketTags($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -2215,9 +2380,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -2240,7 +2405,7 @@ class OSS
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
-                $_request->query                    = Utils::stringifyMapValue($request->filter);
+                $_request->query                    = Utils::stringifyMapValue($request->filter->toMap());
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
                 $_lastRequest                       = $_request;
                 $_response                          = Tea::send($_request, $_runtime);
@@ -2251,18 +2416,21 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
 
                 return DeleteBucketTagsResponse::fromMap(Tea::merge($_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -2277,11 +2445,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param GetBucketWebsiteRequest $request
+     * @param RuntimeOptions          $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return GetBucketWebsiteResponse
      */
-    public function getBucketWebsite(GetBucketWebsiteRequest $request, RuntimeOptions $runtime)
+    public function getBucketWebsite($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -2310,9 +2483,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -2345,12 +2518,12 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
@@ -2358,9 +2531,12 @@ class OSS
                 $respMap = XML::parseXml($bodyStr, GetBucketWebsiteResponse::class);
 
                 return GetBucketWebsiteResponse::fromMap(Tea::merge([
-                    'WebsiteConfiguration' => $respMap['WebsiteConfiguration'],
+                    'WebsiteConfiguration' => @$respMap['WebsiteConfiguration'],
                 ], $_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -2375,11 +2551,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param DeleteLiveChannelRequest $request
+     * @param RuntimeOptions           $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return DeleteLiveChannelResponse
      */
-    public function deleteLiveChannel(DeleteLiveChannelRequest $request, RuntimeOptions $runtime)
+    public function deleteLiveChannel($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -2408,9 +2589,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -2443,18 +2624,21 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
 
                 return DeleteLiveChannelResponse::fromMap(Tea::merge($_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -2469,11 +2653,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param GetBucketLocationRequest $request
+     * @param RuntimeOptions           $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return GetBucketLocationResponse
      */
-    public function getBucketLocation(GetBucketLocationRequest $request, RuntimeOptions $runtime)
+    public function getBucketLocation($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -2502,9 +2691,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -2537,12 +2726,12 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
@@ -2550,9 +2739,12 @@ class OSS
                 $respMap = XML::parseXml($bodyStr, GetBucketLocationResponse::class);
 
                 return GetBucketLocationResponse::fromMap(Tea::merge([
-                    'LocationConstraint' => $respMap['LocationConstraint'],
+                    'LocationConstraint' => @$respMap['LocationConstraint'],
                 ], $_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -2567,11 +2759,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param ListLiveChannelRequest $request
+     * @param RuntimeOptions         $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return ListLiveChannelResponse
      */
-    public function listLiveChannel(ListLiveChannelRequest $request, RuntimeOptions $runtime)
+    public function listLiveChannel($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -2600,9 +2797,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -2625,7 +2822,7 @@ class OSS
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
-                $_request->query                    = Utils::stringifyMapValue($request->filter);
+                $_request->query                    = Utils::stringifyMapValue($request->filter->toMap());
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
                 $_lastRequest                       = $_request;
                 $_response                          = Tea::send($_request, $_runtime);
@@ -2636,12 +2833,12 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
@@ -2649,9 +2846,12 @@ class OSS
                 $respMap = XML::parseXml($bodyStr, ListLiveChannelResponse::class);
 
                 return ListLiveChannelResponse::fromMap(Tea::merge([
-                    'ListLiveChannelResult' => $respMap['ListLiveChannelResult'],
+                    'ListLiveChannelResult' => @$respMap['ListLiveChannelResult'],
                 ], $_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -2666,11 +2866,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param GetObjectMetaRequest $request
+     * @param RuntimeOptions       $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return GetObjectMetaResponse
      */
-    public function getObjectMeta(GetObjectMetaRequest $request, RuntimeOptions $runtime)
+    public function getObjectMeta($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -2699,9 +2904,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -2734,18 +2939,21 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
 
                 return GetObjectMetaResponse::fromMap(Tea::merge($_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -2760,11 +2968,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param GetBucketAclRequest $request
+     * @param RuntimeOptions      $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return GetBucketAclResponse
      */
-    public function getBucketAcl(GetBucketAclRequest $request, RuntimeOptions $runtime)
+    public function getBucketAcl($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -2793,9 +3006,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -2828,12 +3041,12 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
@@ -2841,9 +3054,12 @@ class OSS
                 $respMap = XML::parseXml($bodyStr, GetBucketAclResponse::class);
 
                 return GetBucketAclResponse::fromMap(Tea::merge([
-                    'AccessControlPolicy' => $respMap['AccessControlPolicy'],
+                    'AccessControlPolicy' => @$respMap['AccessControlPolicy'],
                 ], $_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -2858,11 +3074,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param ListPartsRequest $request
+     * @param RuntimeOptions   $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return ListPartsResponse
      */
-    public function listParts(ListPartsRequest $request, RuntimeOptions $runtime)
+    public function listParts($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -2891,9 +3112,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -2916,7 +3137,7 @@ class OSS
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
-                $_request->query                    = Utils::stringifyMapValue($request->filter);
+                $_request->query                    = Utils::stringifyMapValue($request->filter->toMap());
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
                 $_lastRequest                       = $_request;
                 $_response                          = Tea::send($_request, $_runtime);
@@ -2927,12 +3148,12 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
@@ -2940,9 +3161,12 @@ class OSS
                 $respMap = XML::parseXml($bodyStr, ListPartsResponse::class);
 
                 return ListPartsResponse::fromMap(Tea::merge([
-                    'ListPartsResult' => $respMap['ListPartsResult'],
+                    'ListPartsResult' => @$respMap['ListPartsResult'],
                 ], $_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -2957,11 +3181,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param GetLiveChannelHistoryRequest $request
+     * @param RuntimeOptions               $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return GetLiveChannelHistoryResponse
      */
-    public function getLiveChannelHistory(GetLiveChannelHistoryRequest $request, RuntimeOptions $runtime)
+    public function getLiveChannelHistory($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -2990,9 +3219,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -3015,7 +3244,7 @@ class OSS
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
-                $_request->query                    = Utils::stringifyMapValue($request->filter);
+                $_request->query                    = Utils::stringifyMapValue($request->filter->toMap());
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
                 $_lastRequest                       = $_request;
                 $_response                          = Tea::send($_request, $_runtime);
@@ -3026,12 +3255,12 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
@@ -3039,9 +3268,12 @@ class OSS
                 $respMap = XML::parseXml($bodyStr, GetLiveChannelHistoryResponse::class);
 
                 return GetLiveChannelHistoryResponse::fromMap(Tea::merge([
-                    'LiveChannelHistory' => $respMap['LiveChannelHistory'],
+                    'LiveChannelHistory' => @$respMap['LiveChannelHistory'],
                 ], $_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -3056,11 +3288,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param GetBucketRequest $request
+     * @param RuntimeOptions   $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return GetBucketResponse
      */
-    public function getBucket(GetBucketRequest $request, RuntimeOptions $runtime)
+    public function getBucket($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -3089,9 +3326,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -3114,7 +3351,7 @@ class OSS
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
-                $_request->query                    = Utils::stringifyMapValue($request->filter);
+                $_request->query                    = Utils::stringifyMapValue($request->filter->toMap());
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
                 $_lastRequest                       = $_request;
                 $_response                          = Tea::send($_request, $_runtime);
@@ -3125,12 +3362,12 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
@@ -3138,9 +3375,12 @@ class OSS
                 $respMap = XML::parseXml($bodyStr, GetBucketResponse::class);
 
                 return GetBucketResponse::fromMap(Tea::merge([
-                    'ListBucketResult' => $respMap['ListBucketResult'],
+                    'ListBucketResult' => @$respMap['ListBucketResult'],
                 ], $_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -3155,11 +3395,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param GetLiveChannelInfoRequest $request
+     * @param RuntimeOptions            $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return GetLiveChannelInfoResponse
      */
-    public function getLiveChannelInfo(GetLiveChannelInfoRequest $request, RuntimeOptions $runtime)
+    public function getLiveChannelInfo($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -3188,9 +3433,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -3223,12 +3468,12 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
@@ -3236,9 +3481,12 @@ class OSS
                 $respMap = XML::parseXml($bodyStr, GetLiveChannelInfoResponse::class);
 
                 return GetLiveChannelInfoResponse::fromMap(Tea::merge([
-                    'LiveChannelConfiguration' => $respMap['LiveChannelConfiguration'],
+                    'LiveChannelConfiguration' => @$respMap['LiveChannelConfiguration'],
                 ], $_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -3253,11 +3501,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param GetLiveChannelStatRequest $request
+     * @param RuntimeOptions            $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return GetLiveChannelStatResponse
      */
-    public function getLiveChannelStat(GetLiveChannelStatRequest $request, RuntimeOptions $runtime)
+    public function getLiveChannelStat($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -3286,9 +3539,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -3311,7 +3564,7 @@ class OSS
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
-                $_request->query                    = Utils::stringifyMapValue($request->filter);
+                $_request->query                    = Utils::stringifyMapValue($request->filter->toMap());
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
                 $_lastRequest                       = $_request;
                 $_response                          = Tea::send($_request, $_runtime);
@@ -3322,12 +3575,12 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
@@ -3335,9 +3588,12 @@ class OSS
                 $respMap = XML::parseXml($bodyStr, GetLiveChannelStatResponse::class);
 
                 return GetLiveChannelStatResponse::fromMap(Tea::merge([
-                    'LiveChannelStat' => $respMap['LiveChannelStat'],
+                    'LiveChannelStat' => @$respMap['LiveChannelStat'],
                 ], $_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -3352,11 +3608,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param DeleteObjectRequest $request
+     * @param RuntimeOptions      $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return DeleteObjectResponse
      */
-    public function deleteObject(DeleteObjectRequest $request, RuntimeOptions $runtime)
+    public function deleteObject($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -3385,9 +3646,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -3420,18 +3681,21 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
 
                 return DeleteObjectResponse::fromMap(Tea::merge($_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -3446,11 +3710,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param AbortMultipartUploadRequest $request
+     * @param RuntimeOptions              $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return AbortMultipartUploadResponse
      */
-    public function abortMultipartUpload(AbortMultipartUploadRequest $request, RuntimeOptions $runtime)
+    public function abortMultipartUpload($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -3479,9 +3748,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -3504,7 +3773,7 @@ class OSS
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
-                $_request->query                    = Utils::stringifyMapValue($request->filter);
+                $_request->query                    = Utils::stringifyMapValue($request->filter->toMap());
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
                 $_lastRequest                       = $_request;
                 $_response                          = Tea::send($_request, $_runtime);
@@ -3515,18 +3784,21 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
 
                 return AbortMultipartUploadResponse::fromMap(Tea::merge($_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -3541,11 +3813,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param AppendObjectRequest $request
+     * @param RuntimeOptions      $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return AppendObjectResponse
      */
-    public function appendObject(AppendObjectRequest $request, RuntimeOptions $runtime)
+    public function appendObject($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -3574,9 +3851,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -3592,19 +3869,15 @@ class OSS
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'POST';
                 $_request->pathname = '/' . $request->objectName . '?append';
-                $_request->headers  = Tea::merge(
-                    [
-                        'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
-                        'date'       => Utils::getDateUTCString(),
-                        'user-agent' => $this->getUserAgent(),
-                    ],
-                    Utils::stringifyMapValue($request->header),
-                    OSSUtils::parseMeta($request->userMeta, 'x-oss-meta-')
-                );
+                $_request->headers  = Tea::merge([
+                    'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
+                    'date'       => Utils::getDateUTCString(),
+                    'user-agent' => $this->getUserAgent(),
+                ], Utils::stringifyMapValue($request->header->toMap()), OSSUtils::parseMeta($request->userMeta, 'x-oss-meta-'));
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
-                $_request->query = Utils::stringifyMapValue($request->filter);
+                $_request->query = Utils::stringifyMapValue($request->filter->toMap());
                 $_request->body  = OSSUtils::inject($request->body, $ctx);
                 if (!Utils::isUnset($request->header) && !Utils::empty_($request->header->contentType)) {
                     $_request->headers['content-type'] = $request->header->contentType;
@@ -3621,36 +3894,39 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
-                if ($this->_isEnableCrc && !Utils::equalString($ctx['crc'], $_response->headers['x-oss-hash-crc64ecma'])) {
+                if ($this->_isEnableCrc && !Utils::equalString(@$ctx['crc'], $_response->headers['x-oss-hash-crc64ecma'])) {
                     throw new TeaError([
                         'code' => 'CrcNotMatched',
                         'data' => [
-                            'clientCrc' => $ctx['crc'],
+                            'clientCrc' => @$ctx['crc'],
                             'serverCrc' => $_response->headers['x-oss-hash-crc64ecma'],
                         ],
                     ]);
                 }
-                if ($this->_isEnableMD5 && !Utils::equalString($ctx['md5'], $_response->headers['content-md5'])) {
+                if ($this->_isEnableMD5 && !Utils::equalString(@$ctx['md5'], $_response->headers['content-md5'])) {
                     throw new TeaError([
                         'code' => 'MD5NotMatched',
                         'data' => [
-                            'clientMD5' => $ctx['md5'],
+                            'clientMD5' => @$ctx['md5'],
                             'serverMD5' => $_response->headers['content-md5'],
                         ],
                     ]);
                 }
 
                 return AppendObjectResponse::fromMap(Tea::merge($_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -3665,11 +3941,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param UploadPartCopyRequest $request
+     * @param RuntimeOptions        $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return UploadPartCopyResponse
      */
-    public function uploadPartCopy(UploadPartCopyRequest $request, RuntimeOptions $runtime)
+    public function uploadPartCopy($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -3698,9 +3979,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -3719,11 +4000,11 @@ class OSS
                     'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
-                ], Utils::stringifyMapValue($request->header));
+                ], Utils::stringifyMapValue($request->header->toMap()));
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
-                $_request->query                    = Utils::stringifyMapValue($request->filter);
+                $_request->query                    = Utils::stringifyMapValue($request->filter->toMap());
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
                 $_lastRequest                       = $_request;
                 $_response                          = Tea::send($_request, $_runtime);
@@ -3734,12 +4015,12 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
@@ -3747,9 +4028,12 @@ class OSS
                 $respMap = XML::parseXml($bodyStr, UploadPartCopyResponse::class);
 
                 return UploadPartCopyResponse::fromMap(Tea::merge([
-                    'CopyPartResult' => $respMap['CopyPartResult'],
+                    'CopyPartResult' => @$respMap['CopyPartResult'],
                 ], $_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -3764,11 +4048,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param GetVodPlaylistRequest $request
+     * @param RuntimeOptions        $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return GetVodPlaylistResponse
      */
-    public function getVodPlaylist(GetVodPlaylistRequest $request, RuntimeOptions $runtime)
+    public function getVodPlaylist($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -3797,9 +4086,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -3822,7 +4111,7 @@ class OSS
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
-                $_request->query                    = Utils::stringifyMapValue($request->filter);
+                $_request->query                    = Utils::stringifyMapValue($request->filter->toMap());
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
                 $_lastRequest                       = $_request;
                 $_response                          = Tea::send($_request, $_runtime);
@@ -3833,18 +4122,21 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
 
                 return GetVodPlaylistResponse::fromMap(Tea::merge($_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -3859,11 +4151,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param DeleteBucketCORSRequest $request
+     * @param RuntimeOptions          $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return DeleteBucketCORSResponse
      */
-    public function deleteBucketCORS(DeleteBucketCORSRequest $request, RuntimeOptions $runtime)
+    public function deleteBucketCORS($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -3892,9 +4189,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -3927,18 +4224,21 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
 
                 return DeleteBucketCORSResponse::fromMap(Tea::merge($_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -3953,11 +4253,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param GetObjectRequest $request
+     * @param RuntimeOptions   $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return GetObjectResponse
      */
-    public function getObject(GetObjectRequest $request, RuntimeOptions $runtime)
+    public function getObject($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -3986,9 +4291,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -4007,7 +4312,7 @@ class OSS
                     'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
-                ], Utils::stringifyMapValue($request->header));
+                ], Utils::stringifyMapValue($request->header->toMap()));
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
@@ -4021,12 +4326,12 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
@@ -4034,7 +4339,10 @@ class OSS
                 return GetObjectResponse::fromMap(Tea::merge([
                     'body' => $_response->body,
                 ], $_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -4049,11 +4357,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param UploadPartRequest $request
+     * @param RuntimeOptions    $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return UploadPartResponse
      */
-    public function uploadPart(UploadPartRequest $request, RuntimeOptions $runtime)
+    public function uploadPart($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -4082,9 +4395,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -4108,7 +4421,7 @@ class OSS
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
-                $_request->query                    = Utils::stringifyMapValue($request->filter);
+                $_request->query                    = Utils::stringifyMapValue($request->filter->toMap());
                 $_request->body                     = OSSUtils::inject($request->body, $ctx);
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
                 $_lastRequest                       = $_request;
@@ -4120,36 +4433,39 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
-                if ($this->_isEnableCrc && !Utils::equalString($ctx['crc'], $_response->headers['x-oss-hash-crc64ecma'])) {
+                if ($this->_isEnableCrc && !Utils::equalString(@$ctx['crc'], $_response->headers['x-oss-hash-crc64ecma'])) {
                     throw new TeaError([
                         'code' => 'CrcNotMatched',
                         'data' => [
-                            'clientCrc' => $ctx['crc'],
+                            'clientCrc' => @$ctx['crc'],
                             'serverCrc' => $_response->headers['x-oss-hash-crc64ecma'],
                         ],
                     ]);
                 }
-                if ($this->_isEnableMD5 && !Utils::equalString($ctx['md5'], $_response->headers['content-md5'])) {
+                if ($this->_isEnableMD5 && !Utils::equalString(@$ctx['md5'], $_response->headers['content-md5'])) {
                     throw new TeaError([
                         'code' => 'MD5NotMatched',
                         'data' => [
-                            'clientMD5' => $ctx['md5'],
+                            'clientMD5' => @$ctx['md5'],
                             'serverMD5' => $_response->headers['content-md5'],
                         ],
                     ]);
                 }
 
                 return UploadPartResponse::fromMap(Tea::merge($_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -4164,11 +4480,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param GetBucketCORSRequest $request
+     * @param RuntimeOptions       $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return GetBucketCORSResponse
      */
-    public function getBucketCORS(GetBucketCORSRequest $request, RuntimeOptions $runtime)
+    public function getBucketCORS($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -4197,9 +4518,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -4232,12 +4553,12 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
@@ -4245,9 +4566,12 @@ class OSS
                 $respMap = XML::parseXml($bodyStr, GetBucketCORSResponse::class);
 
                 return GetBucketCORSResponse::fromMap(Tea::merge([
-                    'CORSConfiguration' => $respMap['CORSConfiguration'],
+                    'CORSConfiguration' => @$respMap['CORSConfiguration'],
                 ], $_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -4262,11 +4586,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param CopyObjectRequest $request
+     * @param RuntimeOptions    $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return CopyObjectResponse
      */
-    public function copyObject(CopyObjectRequest $request, RuntimeOptions $runtime)
+    public function copyObject($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -4295,9 +4624,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -4316,7 +4645,7 @@ class OSS
                     'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
-                ], Utils::stringifyMapValue($request->header));
+                ], Utils::stringifyMapValue($request->header->toMap()));
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
@@ -4331,12 +4660,12 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
@@ -4344,9 +4673,12 @@ class OSS
                 $respMap = XML::parseXml($bodyStr, CopyObjectResponse::class);
 
                 return CopyObjectResponse::fromMap(Tea::merge([
-                    'CopyObjectResult' => $respMap['CopyObjectResult'],
+                    'CopyObjectResult' => @$respMap['CopyObjectResult'],
                 ], $_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -4361,11 +4693,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param GetObjectTaggingRequest $request
+     * @param RuntimeOptions          $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return GetObjectTaggingResponse
      */
-    public function getObjectTagging(GetObjectTaggingRequest $request, RuntimeOptions $runtime)
+    public function getObjectTagging($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -4394,9 +4731,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -4429,12 +4766,12 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
@@ -4442,9 +4779,12 @@ class OSS
                 $respMap = XML::parseXml($bodyStr, GetObjectTaggingResponse::class);
 
                 return GetObjectTaggingResponse::fromMap(Tea::merge([
-                    'Tagging' => $respMap['Tagging'],
+                    'Tagging' => @$respMap['Tagging'],
                 ], $_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -4459,11 +4799,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param DeleteBucketLifecycleRequest $request
+     * @param RuntimeOptions               $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return DeleteBucketLifecycleResponse
      */
-    public function deleteBucketLifecycle(DeleteBucketLifecycleRequest $request, RuntimeOptions $runtime)
+    public function deleteBucketLifecycle($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -4492,9 +4837,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -4527,18 +4872,21 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
 
                 return DeleteBucketLifecycleResponse::fromMap(Tea::merge($_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -4553,11 +4901,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param DeleteBucketLoggingRequest $request
+     * @param RuntimeOptions             $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return DeleteBucketLoggingResponse
      */
-    public function deleteBucketLogging(DeleteBucketLoggingRequest $request, RuntimeOptions $runtime)
+    public function deleteBucketLogging($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -4586,9 +4939,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -4621,18 +4974,21 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
 
                 return DeleteBucketLoggingResponse::fromMap(Tea::merge($_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -4647,11 +5003,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param DeleteBucketWebsiteRequest $request
+     * @param RuntimeOptions             $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return DeleteBucketWebsiteResponse
      */
-    public function deleteBucketWebsite(DeleteBucketWebsiteRequest $request, RuntimeOptions $runtime)
+    public function deleteBucketWebsite($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -4680,9 +5041,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -4715,18 +5076,21 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
 
                 return DeleteBucketWebsiteResponse::fromMap(Tea::merge($_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -4741,11 +5105,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param GetSymlinkRequest $request
+     * @param RuntimeOptions    $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return GetSymlinkResponse
      */
-    public function getSymlink(GetSymlinkRequest $request, RuntimeOptions $runtime)
+    public function getSymlink($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -4774,9 +5143,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -4809,18 +5178,21 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
 
                 return GetSymlinkResponse::fromMap(Tea::merge($_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -4835,11 +5207,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param GetBucketLifecycleRequest $request
+     * @param RuntimeOptions            $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return GetBucketLifecycleResponse
      */
-    public function getBucketLifecycle(GetBucketLifecycleRequest $request, RuntimeOptions $runtime)
+    public function getBucketLifecycle($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -4868,9 +5245,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -4903,12 +5280,12 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
@@ -4916,9 +5293,12 @@ class OSS
                 $respMap = XML::parseXml($bodyStr, GetBucketLifecycleResponse::class);
 
                 return GetBucketLifecycleResponse::fromMap(Tea::merge([
-                    'LifecycleConfiguration' => $respMap['LifecycleConfiguration'],
+                    'LifecycleConfiguration' => @$respMap['LifecycleConfiguration'],
                 ], $_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -4933,11 +5313,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param PutSymlinkRequest $request
+     * @param RuntimeOptions    $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return PutSymlinkResponse
      */
-    public function putSymlink(PutSymlinkRequest $request, RuntimeOptions $runtime)
+    public function putSymlink($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -4966,9 +5351,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -4987,7 +5372,7 @@ class OSS
                     'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
-                ], Utils::stringifyMapValue($request->header));
+                ], Utils::stringifyMapValue($request->header->toMap()));
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
@@ -5001,18 +5386,21 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
 
                 return PutSymlinkResponse::fromMap(Tea::merge($_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -5027,11 +5415,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param GetBucketRefererRequest $request
+     * @param RuntimeOptions          $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return GetBucketRefererResponse
      */
-    public function getBucketReferer(GetBucketRefererRequest $request, RuntimeOptions $runtime)
+    public function getBucketReferer($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -5060,9 +5453,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -5095,12 +5488,12 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
@@ -5108,9 +5501,12 @@ class OSS
                 $respMap = XML::parseXml($bodyStr, GetBucketRefererResponse::class);
 
                 return GetBucketRefererResponse::fromMap(Tea::merge([
-                    'RefererConfiguration' => $respMap['RefererConfiguration'],
+                    'RefererConfiguration' => @$respMap['RefererConfiguration'],
                 ], $_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -5125,11 +5521,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param CallbackRequest $request
+     * @param RuntimeOptions  $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return CallbackResponse
      */
-    public function callback(CallbackRequest $request, RuntimeOptions $runtime)
+    public function callback($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -5158,9 +5559,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -5193,18 +5594,21 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
 
                 return CallbackResponse::fromMap(Tea::merge($_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -5219,11 +5623,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param GetBucketLoggingRequest $request
+     * @param RuntimeOptions          $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return GetBucketLoggingResponse
      */
-    public function getBucketLogging(GetBucketLoggingRequest $request, RuntimeOptions $runtime)
+    public function getBucketLogging($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -5252,9 +5661,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -5287,12 +5696,12 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
@@ -5300,9 +5709,12 @@ class OSS
                 $respMap = XML::parseXml($bodyStr, GetBucketLoggingResponse::class);
 
                 return GetBucketLoggingResponse::fromMap(Tea::merge([
-                    'BucketLoggingStatus' => $respMap['BucketLoggingStatus'],
+                    'BucketLoggingStatus' => @$respMap['BucketLoggingStatus'],
                 ], $_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -5317,11 +5729,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param PutObjectAclRequest $request
+     * @param RuntimeOptions      $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return PutObjectAclResponse
      */
-    public function putObjectAcl(PutObjectAclRequest $request, RuntimeOptions $runtime)
+    public function putObjectAcl($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -5350,9 +5767,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -5371,7 +5788,7 @@ class OSS
                     'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
-                ], Utils::stringifyMapValue($request->header));
+                ], Utils::stringifyMapValue($request->header->toMap()));
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
@@ -5385,18 +5802,21 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
 
                 return PutObjectAclResponse::fromMap(Tea::merge($_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -5411,11 +5831,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param GetBucketInfoRequest $request
+     * @param RuntimeOptions       $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return GetBucketInfoResponse
      */
-    public function getBucketInfo(GetBucketInfoRequest $request, RuntimeOptions $runtime)
+    public function getBucketInfo($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -5444,9 +5869,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -5479,12 +5904,12 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
@@ -5492,9 +5917,12 @@ class OSS
                 $respMap = XML::parseXml($bodyStr, GetBucketInfoResponse::class);
 
                 return GetBucketInfoResponse::fromMap(Tea::merge([
-                    'BucketInfo' => $respMap['BucketInfo'],
+                    'BucketInfo' => @$respMap['BucketInfo'],
                 ], $_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -5509,11 +5937,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param PutLiveChannelStatusRequest $request
+     * @param RuntimeOptions              $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return PutLiveChannelStatusResponse
      */
-    public function putLiveChannelStatus(PutLiveChannelStatusRequest $request, RuntimeOptions $runtime)
+    public function putLiveChannelStatus($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -5542,9 +5975,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -5567,7 +6000,7 @@ class OSS
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
-                $_request->query                    = Utils::stringifyMapValue($request->filter);
+                $_request->query                    = Utils::stringifyMapValue($request->filter->toMap());
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
                 $_lastRequest                       = $_request;
                 $_response                          = Tea::send($_request, $_runtime);
@@ -5578,18 +6011,21 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
 
                 return PutLiveChannelStatusResponse::fromMap(Tea::merge($_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -5604,11 +6040,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param InitiateMultipartUploadRequest $request
+     * @param RuntimeOptions                 $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return InitiateMultipartUploadResponse
      */
-    public function initiateMultipartUpload(InitiateMultipartUploadRequest $request, RuntimeOptions $runtime)
+    public function initiateMultipartUpload($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -5637,9 +6078,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -5658,11 +6099,11 @@ class OSS
                     'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
-                ], Utils::stringifyMapValue($request->header));
+                ], Utils::stringifyMapValue($request->header->toMap()));
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
-                $_request->query = Utils::stringifyMapValue($request->filter);
+                $_request->query = Utils::stringifyMapValue($request->filter->toMap());
                 if (!Utils::isUnset($request->header) && !Utils::empty_($request->header->contentType)) {
                     $_request->headers['content-type'] = $request->header->contentType;
                 } else {
@@ -5678,12 +6119,12 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
@@ -5691,9 +6132,12 @@ class OSS
                 $respMap = XML::parseXml($bodyStr, InitiateMultipartUploadResponse::class);
 
                 return InitiateMultipartUploadResponse::fromMap(Tea::merge([
-                    'InitiateMultipartUploadResult' => $respMap['InitiateMultipartUploadResult'],
+                    'InitiateMultipartUploadResult' => @$respMap['InitiateMultipartUploadResult'],
                 ], $_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -5708,11 +6152,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param OptionObjectRequest $request
+     * @param RuntimeOptions      $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return OptionObjectResponse
      */
-    public function optionObject(OptionObjectRequest $request, RuntimeOptions $runtime)
+    public function optionObject($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -5741,9 +6190,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -5762,7 +6211,7 @@ class OSS
                     'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
-                ], Utils::stringifyMapValue($request->header));
+                ], Utils::stringifyMapValue($request->header->toMap()));
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
@@ -5776,18 +6225,21 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
 
                 return OptionObjectResponse::fromMap(Tea::merge($_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -5802,11 +6254,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param PostVodPlaylistRequest $request
+     * @param RuntimeOptions         $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return PostVodPlaylistResponse
      */
-    public function postVodPlaylist(PostVodPlaylistRequest $request, RuntimeOptions $runtime)
+    public function postVodPlaylist($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -5835,9 +6292,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -5860,7 +6317,7 @@ class OSS
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
-                $_request->query                    = Utils::stringifyMapValue($request->filter);
+                $_request->query                    = Utils::stringifyMapValue($request->filter->toMap());
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
                 $_lastRequest                       = $_request;
                 $_response                          = Tea::send($_request, $_runtime);
@@ -5871,18 +6328,21 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
 
                 return PostVodPlaylistResponse::fromMap(Tea::merge($_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -5897,11 +6357,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param PostObjectRequest $request
+     * @param RuntimeOptions    $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return PostObjectResponse
      */
-    public function postObject(PostObjectRequest $request, RuntimeOptions $runtime)
+    public function postObject($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -5927,9 +6392,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -5965,19 +6430,22 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
                 $respMap = XML::parseXml($bodyStr, PostObjectResponse::class);
 
                 return PostObjectResponse::fromMap(Tea::merge($respMap));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -5992,11 +6460,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param HeadObjectRequest $request
+     * @param RuntimeOptions    $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return HeadObjectResponse
      */
-    public function headObject(HeadObjectRequest $request, RuntimeOptions $runtime)
+    public function headObject($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -6025,9 +6498,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -6046,7 +6519,7 @@ class OSS
                     'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
-                ], Utils::stringifyMapValue($request->header));
+                ], Utils::stringifyMapValue($request->header->toMap()));
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
@@ -6060,12 +6533,12 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
@@ -6073,7 +6546,10 @@ class OSS
                 return HeadObjectResponse::fromMap(Tea::merge([
                     'usermeta' => OSSUtils::toMeta($_response->headers, 'x-oss-meta-'),
                 ], $_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -6088,11 +6564,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param DeleteObjectTaggingRequest $request
+     * @param RuntimeOptions             $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return DeleteObjectTaggingResponse
      */
-    public function deleteObjectTagging(DeleteObjectTaggingRequest $request, RuntimeOptions $runtime)
+    public function deleteObjectTagging($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -6121,9 +6602,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -6156,18 +6637,21 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
 
                 return DeleteObjectTaggingResponse::fromMap(Tea::merge($_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -6182,11 +6666,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param RestoreObjectRequest $request
+     * @param RuntimeOptions       $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return RestoreObjectResponse
      */
-    public function restoreObject(RestoreObjectRequest $request, RuntimeOptions $runtime)
+    public function restoreObject($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -6215,9 +6704,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -6250,18 +6739,21 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
 
                 return RestoreObjectResponse::fromMap(Tea::merge($_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -6276,11 +6768,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param GetObjectAclRequest $request
+     * @param RuntimeOptions      $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return GetObjectAclResponse
      */
-    public function getObjectAcl(GetObjectAclRequest $request, RuntimeOptions $runtime)
+    public function getObjectAcl($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -6309,9 +6806,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -6344,12 +6841,12 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
@@ -6357,9 +6854,12 @@ class OSS
                 $respMap = XML::parseXml($bodyStr, GetObjectAclResponse::class);
 
                 return GetObjectAclResponse::fromMap(Tea::merge([
-                    'AccessControlPolicy' => $respMap['AccessControlPolicy'],
+                    'AccessControlPolicy' => @$respMap['AccessControlPolicy'],
                 ], $_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -6374,11 +6874,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param PutBucketAclRequest $request
+     * @param RuntimeOptions      $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return PutBucketAclResponse
      */
-    public function putBucketAcl(PutBucketAclRequest $request, RuntimeOptions $runtime)
+    public function putBucketAcl($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -6407,9 +6912,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -6428,7 +6933,7 @@ class OSS
                     'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
-                ], Utils::stringifyMapValue($request->header));
+                ], Utils::stringifyMapValue($request->header->toMap()));
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
@@ -6442,18 +6947,21 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
 
                 return PutBucketAclResponse::fromMap(Tea::merge($_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -6468,11 +6976,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param DeleteBucketRequest $request
+     * @param RuntimeOptions      $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return DeleteBucketResponse
      */
-    public function deleteBucket(DeleteBucketRequest $request, RuntimeOptions $runtime)
+    public function deleteBucket($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -6501,9 +7014,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -6536,18 +7049,21 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
 
                 return DeleteBucketResponse::fromMap(Tea::merge($_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -6562,11 +7078,16 @@ class OSS
     }
 
     /**
-     * @throws \Exception
+     * @param PutObjectRequest $request
+     * @param RuntimeOptions   $runtime
+     *
+     * @throws TeaError
+     * @throws Exception
+     * @throws TeaUnableRetryError
      *
      * @return PutObjectResponse
      */
-    public function putObject(PutObjectRequest $request, RuntimeOptions $runtime)
+    public function putObject($request, $runtime)
     {
         $request->validate();
         $runtime->validate();
@@ -6595,9 +7116,9 @@ class OSS
         $_lastException = null;
         $_now           = time();
         $_retryTimes    = 0;
-        while (Tea::allowRetry($_runtime['retry'], $_retryTimes, $_now)) {
+        while (Tea::allowRetry(@$_runtime['retry'], $_retryTimes, $_now)) {
             if ($_retryTimes > 0) {
-                $_backoffTime = Tea::getBackoffTime($_runtime['backoff'], $_retryTimes);
+                $_backoffTime = Tea::getBackoffTime(@$_runtime['backoff'], $_retryTimes);
                 if ($_backoffTime > 0) {
                     Tea::sleep($_backoffTime);
                 }
@@ -6613,15 +7134,11 @@ class OSS
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'PUT';
                 $_request->pathname = '/' . $request->objectName . '';
-                $_request->headers  = Tea::merge(
-                    [
-                        'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
-                        'date'       => Utils::getDateUTCString(),
-                        'user-agent' => $this->getUserAgent(),
-                    ],
-                    Utils::stringifyMapValue($request->header),
-                    OSSUtils::parseMeta($request->userMeta, 'x-oss-meta-')
-                );
+                $_request->headers  = Tea::merge([
+                    'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
+                    'date'       => Utils::getDateUTCString(),
+                    'user-agent' => $this->getUserAgent(),
+                ], Utils::stringifyMapValue($request->header->toMap()), OSSUtils::parseMeta($request->userMeta, 'x-oss-meta-'));
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
@@ -6641,36 +7158,39 @@ class OSS
                     $respMap = OSSUtils::getErrMessage($bodyStr);
 
                     throw new TeaError([
-                        'code'    => $respMap['Code'],
-                        'message' => $respMap['Message'],
+                        'code'    => @$respMap['Code'],
+                        'message' => @$respMap['Message'],
                         'data'    => [
                             'httpCode'  => $_response->statusCode,
-                            'requestId' => $respMap['RequestId'],
-                            'hostId'    => $respMap['HostId'],
+                            'requestId' => @$respMap['RequestId'],
+                            'hostId'    => @$respMap['HostId'],
                         ],
                     ]);
                 }
-                if ($this->_isEnableCrc && !Utils::equalString($ctx['crc'], $_response->headers['x-oss-hash-crc64ecma'])) {
+                if ($this->_isEnableCrc && !Utils::equalString(@$ctx['crc'], $_response->headers['x-oss-hash-crc64ecma'])) {
                     throw new TeaError([
                         'code' => 'CrcNotMatched',
                         'data' => [
-                            'clientCrc' => $ctx['crc'],
+                            'clientCrc' => @$ctx['crc'],
                             'serverCrc' => $_response->headers['x-oss-hash-crc64ecma'],
                         ],
                     ]);
                 }
-                if ($this->_isEnableMD5 && !Utils::equalString($ctx['md5'], $_response->headers['content-md5'])) {
+                if ($this->_isEnableMD5 && !Utils::equalString(@$ctx['md5'], $_response->headers['content-md5'])) {
                     throw new TeaError([
                         'code' => 'MD5NotMatched',
                         'data' => [
-                            'clientMD5' => $ctx['md5'],
+                            'clientMD5' => @$ctx['md5'],
                             'serverMD5' => $_response->headers['content-md5'],
                         ],
                     ]);
                 }
 
                 return PutObjectResponse::fromMap(Tea::merge($_response->headers));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                if (!($e instanceof TeaError)) {
+                    $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+                }
                 if (Tea::isRetryable($e)) {
                     $_lastException = $e;
 
@@ -6686,8 +7206,6 @@ class OSS
 
     /**
      * @param string $userAgent
-     *
-     * @throws \Exception
      */
     public function setUserAgent($userAgent)
     {
@@ -6696,8 +7214,6 @@ class OSS
 
     /**
      * @param string $userAgent
-     *
-     * @throws \Exception
      */
     public function appendUserAgent($userAgent)
     {
@@ -6705,8 +7221,6 @@ class OSS
     }
 
     /**
-     * @throws \Exception
-     *
      * @return string
      */
     public function getUserAgent()
@@ -6715,8 +7229,6 @@ class OSS
     }
 
     /**
-     * @throws \Exception
-     *
      * @return string
      */
     public function getAccessKeyId()
@@ -6729,8 +7241,6 @@ class OSS
     }
 
     /**
-     * @throws \Exception
-     *
      * @return string
      */
     public function getAccessKeySecret()

@@ -33,9 +33,13 @@ class inputSerialization extends Model
 
     public function toMap()
     {
-        $res                    = [];
-        $res['CSV']             = null !== $this->cSV ? $this->cSV->toMap() : null;
-        $res['CompressionType'] = $this->compressionType;
+        $res = [];
+        if (null !== $this->cSV) {
+            $res['CSV'] = null !== $this->cSV ? $this->cSV->toMap() : null;
+        }
+        if (null !== $this->compressionType) {
+            $res['CompressionType'] = $this->compressionType;
+        }
 
         return $res;
     }

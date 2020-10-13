@@ -57,12 +57,22 @@ class outputSerialization extends Model
 
     public function toMap()
     {
-        $res                     = [];
-        $res['CSV']              = null !== $this->cSV ? $this->cSV->toMap() : null;
-        $res['KeepAllColumns']   = $this->keepAllColumns;
-        $res['OutputRawData']    = $this->outputRawData;
-        $res['EnablePayloadCrc'] = $this->enablePayloadCrc;
-        $res['OutputHeader']     = $this->outputHeader;
+        $res = [];
+        if (null !== $this->cSV) {
+            $res['CSV'] = null !== $this->cSV ? $this->cSV->toMap() : null;
+        }
+        if (null !== $this->keepAllColumns) {
+            $res['KeepAllColumns'] = $this->keepAllColumns;
+        }
+        if (null !== $this->outputRawData) {
+            $res['OutputRawData'] = $this->outputRawData;
+        }
+        if (null !== $this->enablePayloadCrc) {
+            $res['EnablePayloadCrc'] = $this->enablePayloadCrc;
+        }
+        if (null !== $this->outputHeader) {
+            $res['OutputHeader'] = $this->outputHeader;
+        }
 
         return $res;
     }

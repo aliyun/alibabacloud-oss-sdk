@@ -43,10 +43,16 @@ class websiteConfiguration extends Model
 
     public function toMap()
     {
-        $res                  = [];
-        $res['IndexDocument'] = null !== $this->indexDocument ? $this->indexDocument->toMap() : null;
-        $res['ErrorDocument'] = null !== $this->errorDocument ? $this->errorDocument->toMap() : null;
-        $res['RoutingRules']  = null !== $this->routingRules ? $this->routingRules->toMap() : null;
+        $res = [];
+        if (null !== $this->indexDocument) {
+            $res['IndexDocument'] = null !== $this->indexDocument ? $this->indexDocument->toMap() : null;
+        }
+        if (null !== $this->errorDocument) {
+            $res['ErrorDocument'] = null !== $this->errorDocument ? $this->errorDocument->toMap() : null;
+        }
+        if (null !== $this->routingRules) {
+            $res['RoutingRules'] = null !== $this->routingRules ? $this->routingRules->toMap() : null;
+        }
 
         return $res;
     }

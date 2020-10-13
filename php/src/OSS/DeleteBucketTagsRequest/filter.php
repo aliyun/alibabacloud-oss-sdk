@@ -25,8 +25,10 @@ class filter extends Model
 
     public function toMap()
     {
-        $res            = [];
-        $res['tagging'] = $this->tagging;
+        $res = [];
+        if (null !== $this->tagging) {
+            $res['tagging'] = $this->tagging;
+        }
 
         return $res;
     }

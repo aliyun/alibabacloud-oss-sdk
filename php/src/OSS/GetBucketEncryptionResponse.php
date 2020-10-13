@@ -35,9 +35,13 @@ class GetBucketEncryptionResponse extends Model
 
     public function toMap()
     {
-        $res                             = [];
-        $res['x-oss-request-id']         = $this->requestId;
-        $res['ServerSideEncryptionRule'] = null !== $this->serverSideEncryptionRule ? $this->serverSideEncryptionRule->toMap() : null;
+        $res = [];
+        if (null !== $this->requestId) {
+            $res['x-oss-request-id'] = $this->requestId;
+        }
+        if (null !== $this->serverSideEncryptionRule) {
+            $res['ServerSideEncryptionRule'] = null !== $this->serverSideEncryptionRule ? $this->serverSideEncryptionRule->toMap() : null;
+        }
 
         return $res;
     }

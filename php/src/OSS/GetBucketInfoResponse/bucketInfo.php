@@ -26,8 +26,10 @@ class bucketInfo extends Model
 
     public function toMap()
     {
-        $res           = [];
-        $res['Bucket'] = null !== $this->bucket ? $this->bucket->toMap() : null;
+        $res = [];
+        if (null !== $this->bucket) {
+            $res['Bucket'] = null !== $this->bucket ? $this->bucket->toMap() : null;
+        }
 
         return $res;
     }

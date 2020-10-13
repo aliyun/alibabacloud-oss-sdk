@@ -114,19 +114,43 @@ class redirect extends Model
 
     public function toMap()
     {
-        $res                          = [];
-        $res['RedirectType']          = $this->redirectType;
-        $res['PassQueryString']       = $this->passQueryString;
-        $res['MirrorURL']             = $this->mirrorURL;
-        $res['MirrorPassQueryString'] = $this->mirrorPassQueryString;
-        $res['MirrorFollowRedirect']  = $this->mirrorFollowRedirect;
-        $res['MirrorCheckMd5']        = $this->mirrorCheckMd5;
-        $res['Protocol']              = $this->protocol;
-        $res['HostName']              = $this->hostName;
-        $res['HttpRedirectCode']      = $this->httpRedirectCode;
-        $res['ReplaceKeyPrefixWith']  = $this->replaceKeyPrefixWith;
-        $res['ReplaceKeyWith']        = $this->replaceKeyWith;
-        $res['MirrorHeaders']         = null !== $this->mirrorHeaders ? $this->mirrorHeaders->toMap() : null;
+        $res = [];
+        if (null !== $this->redirectType) {
+            $res['RedirectType'] = $this->redirectType;
+        }
+        if (null !== $this->passQueryString) {
+            $res['PassQueryString'] = $this->passQueryString;
+        }
+        if (null !== $this->mirrorURL) {
+            $res['MirrorURL'] = $this->mirrorURL;
+        }
+        if (null !== $this->mirrorPassQueryString) {
+            $res['MirrorPassQueryString'] = $this->mirrorPassQueryString;
+        }
+        if (null !== $this->mirrorFollowRedirect) {
+            $res['MirrorFollowRedirect'] = $this->mirrorFollowRedirect;
+        }
+        if (null !== $this->mirrorCheckMd5) {
+            $res['MirrorCheckMd5'] = $this->mirrorCheckMd5;
+        }
+        if (null !== $this->protocol) {
+            $res['Protocol'] = $this->protocol;
+        }
+        if (null !== $this->hostName) {
+            $res['HostName'] = $this->hostName;
+        }
+        if (null !== $this->httpRedirectCode) {
+            $res['HttpRedirectCode'] = $this->httpRedirectCode;
+        }
+        if (null !== $this->replaceKeyPrefixWith) {
+            $res['ReplaceKeyPrefixWith'] = $this->replaceKeyPrefixWith;
+        }
+        if (null !== $this->replaceKeyWith) {
+            $res['ReplaceKeyWith'] = $this->replaceKeyWith;
+        }
+        if (null !== $this->mirrorHeaders) {
+            $res['MirrorHeaders'] = null !== $this->mirrorHeaders ? $this->mirrorHeaders->toMap() : null;
+        }
 
         return $res;
     }

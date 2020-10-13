@@ -32,9 +32,13 @@ class expiration extends Model
 
     public function toMap()
     {
-        $res                      = [];
-        $res['Days']              = $this->days;
-        $res['CreatedBeforeDate'] = $this->createdBeforeDate;
+        $res = [];
+        if (null !== $this->days) {
+            $res['Days'] = $this->days;
+        }
+        if (null !== $this->createdBeforeDate) {
+            $res['CreatedBeforeDate'] = $this->createdBeforeDate;
+        }
 
         return $res;
     }

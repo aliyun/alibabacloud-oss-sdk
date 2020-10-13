@@ -44,10 +44,16 @@ class routingRule extends Model
 
     public function toMap()
     {
-        $res               = [];
-        $res['RuleNumber'] = $this->ruleNumber;
-        $res['Condition']  = null !== $this->condition ? $this->condition->toMap() : null;
-        $res['Redirect']   = null !== $this->redirect ? $this->redirect->toMap() : null;
+        $res = [];
+        if (null !== $this->ruleNumber) {
+            $res['RuleNumber'] = $this->ruleNumber;
+        }
+        if (null !== $this->condition) {
+            $res['Condition'] = null !== $this->condition ? $this->condition->toMap() : null;
+        }
+        if (null !== $this->redirect) {
+            $res['Redirect'] = null !== $this->redirect ? $this->redirect->toMap() : null;
+        }
 
         return $res;
     }

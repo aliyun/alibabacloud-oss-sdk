@@ -25,8 +25,10 @@ class tagging extends Model
 
     public function toMap()
     {
-        $res           = [];
-        $res['TagSet'] = null !== $this->tagSet ? $this->tagSet->toMap() : null;
+        $res = [];
+        if (null !== $this->tagSet) {
+            $res['TagSet'] = null !== $this->tagSet ? $this->tagSet->toMap() : null;
+        }
 
         return $res;
     }

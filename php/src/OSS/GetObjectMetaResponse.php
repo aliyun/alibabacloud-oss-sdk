@@ -52,11 +52,19 @@ class GetObjectMetaResponse extends Model
 
     public function toMap()
     {
-        $res                     = [];
-        $res['x-oss-request-id'] = $this->requestId;
-        $res['etag']             = $this->eTag;
-        $res['content-length']   = $this->contentLength;
-        $res['last-modified']    = $this->lastModified;
+        $res = [];
+        if (null !== $this->requestId) {
+            $res['x-oss-request-id'] = $this->requestId;
+        }
+        if (null !== $this->eTag) {
+            $res['etag'] = $this->eTag;
+        }
+        if (null !== $this->contentLength) {
+            $res['content-length'] = $this->contentLength;
+        }
+        if (null !== $this->lastModified) {
+            $res['last-modified'] = $this->lastModified;
+        }
 
         return $res;
     }

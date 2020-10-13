@@ -35,9 +35,13 @@ class ListMultipartUploadsResponse extends Model
 
     public function toMap()
     {
-        $res                               = [];
-        $res['x-oss-request-id']           = $this->requestId;
-        $res['ListMultipartUploadsResult'] = null !== $this->listMultipartUploadsResult ? $this->listMultipartUploadsResult->toMap() : null;
+        $res = [];
+        if (null !== $this->requestId) {
+            $res['x-oss-request-id'] = $this->requestId;
+        }
+        if (null !== $this->listMultipartUploadsResult) {
+            $res['ListMultipartUploadsResult'] = null !== $this->listMultipartUploadsResult ? $this->listMultipartUploadsResult->toMap() : null;
+        }
 
         return $res;
     }

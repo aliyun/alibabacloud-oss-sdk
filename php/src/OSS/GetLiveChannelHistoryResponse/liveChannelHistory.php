@@ -12,7 +12,7 @@ class liveChannelHistory extends Model
     /**
      * @description LiveRecord
      *
-     * @var array
+     * @var liveRecord[]
      */
     public $liveRecord;
     protected $_name = [
@@ -25,12 +25,14 @@ class liveChannelHistory extends Model
 
     public function toMap()
     {
-        $res               = [];
-        $res['LiveRecord'] = [];
-        if (null !== $this->liveRecord && \is_array($this->liveRecord)) {
-            $n = 0;
-            foreach ($this->liveRecord as $item) {
-                $res['LiveRecord'][$n++] = null !== $item ? $item->toMap() : $item;
+        $res = [];
+        if (null !== $this->liveRecord) {
+            $res['LiveRecord'] = [];
+            if (null !== $this->liveRecord && \is_array($this->liveRecord)) {
+                $n = 0;
+                foreach ($this->liveRecord as $item) {
+                    $res['LiveRecord'][$n++] = null !== $item ? $item->toMap() : $item;
+                }
             }
         }
 

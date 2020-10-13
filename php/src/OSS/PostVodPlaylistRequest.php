@@ -49,15 +49,24 @@ class PostVodPlaylistRequest extends Model
         Model::validateRequired('channelName', $this->channelName, true);
         Model::validateRequired('playlistName', $this->playlistName, true);
         Model::validateRequired('filter', $this->filter, true);
+        Model::validatePattern('bucketName', $this->bucketName, '[a-zA-Z0-9\\-\\_]+');
     }
 
     public function toMap()
     {
-        $res                 = [];
-        $res['BucketName']   = $this->bucketName;
-        $res['ChannelName']  = $this->channelName;
-        $res['PlaylistName'] = $this->playlistName;
-        $res['Filter']       = null !== $this->filter ? $this->filter->toMap() : null;
+        $res = [];
+        if (null !== $this->bucketName) {
+            $res['BucketName'] = $this->bucketName;
+        }
+        if (null !== $this->channelName) {
+            $res['ChannelName'] = $this->channelName;
+        }
+        if (null !== $this->playlistName) {
+            $res['PlaylistName'] = $this->playlistName;
+        }
+        if (null !== $this->filter) {
+            $res['Filter'] = null !== $this->filter ? $this->filter->toMap() : null;
+        }
 
         return $res;
     }

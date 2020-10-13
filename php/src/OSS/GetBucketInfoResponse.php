@@ -35,9 +35,13 @@ class GetBucketInfoResponse extends Model
 
     public function toMap()
     {
-        $res                     = [];
-        $res['x-oss-request-id'] = $this->requestId;
-        $res['BucketInfo']       = null !== $this->bucketInfo ? $this->bucketInfo->toMap() : null;
+        $res = [];
+        if (null !== $this->requestId) {
+            $res['x-oss-request-id'] = $this->requestId;
+        }
+        if (null !== $this->bucketInfo) {
+            $res['BucketInfo'] = null !== $this->bucketInfo ? $this->bucketInfo->toMap() : null;
+        }
 
         return $res;
     }

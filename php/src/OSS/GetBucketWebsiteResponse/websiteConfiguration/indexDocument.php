@@ -24,8 +24,10 @@ class indexDocument extends Model
 
     public function toMap()
     {
-        $res           = [];
-        $res['Suffix'] = $this->suffix;
+        $res = [];
+        if (null !== $this->suffix) {
+            $res['Suffix'] = $this->suffix;
+        }
 
         return $res;
     }

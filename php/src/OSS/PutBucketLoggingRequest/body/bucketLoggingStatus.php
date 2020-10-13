@@ -25,8 +25,10 @@ class bucketLoggingStatus extends Model
 
     public function toMap()
     {
-        $res                   = [];
-        $res['LoggingEnabled'] = null !== $this->loggingEnabled ? $this->loggingEnabled->toMap() : null;
+        $res = [];
+        if (null !== $this->loggingEnabled) {
+            $res['LoggingEnabled'] = null !== $this->loggingEnabled ? $this->loggingEnabled->toMap() : null;
+        }
 
         return $res;
     }

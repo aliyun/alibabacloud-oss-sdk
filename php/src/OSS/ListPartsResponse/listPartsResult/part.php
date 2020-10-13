@@ -48,11 +48,19 @@ class part extends Model
 
     public function toMap()
     {
-        $res                 = [];
-        $res['PartNumber']   = $this->partNumber;
-        $res['LastModified'] = $this->lastModified;
-        $res['ETag']         = $this->eTag;
-        $res['Size']         = $this->size;
+        $res = [];
+        if (null !== $this->partNumber) {
+            $res['PartNumber'] = $this->partNumber;
+        }
+        if (null !== $this->lastModified) {
+            $res['LastModified'] = $this->lastModified;
+        }
+        if (null !== $this->eTag) {
+            $res['ETag'] = $this->eTag;
+        }
+        if (null !== $this->size) {
+            $res['Size'] = $this->size;
+        }
 
         return $res;
     }

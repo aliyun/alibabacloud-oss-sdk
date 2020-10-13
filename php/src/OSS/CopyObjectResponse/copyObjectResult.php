@@ -32,9 +32,13 @@ class copyObjectResult extends Model
 
     public function toMap()
     {
-        $res                 = [];
-        $res['LastModified'] = $this->lastModified;
-        $res['ETag']         = $this->eTag;
+        $res = [];
+        if (null !== $this->lastModified) {
+            $res['LastModified'] = $this->lastModified;
+        }
+        if (null !== $this->eTag) {
+            $res['ETag'] = $this->eTag;
+        }
 
         return $res;
     }

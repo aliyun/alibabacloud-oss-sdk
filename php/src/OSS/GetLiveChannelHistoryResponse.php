@@ -35,9 +35,13 @@ class GetLiveChannelHistoryResponse extends Model
 
     public function toMap()
     {
-        $res                       = [];
-        $res['x-oss-request-id']   = $this->requestId;
-        $res['LiveChannelHistory'] = null !== $this->liveChannelHistory ? $this->liveChannelHistory->toMap() : null;
+        $res = [];
+        if (null !== $this->requestId) {
+            $res['x-oss-request-id'] = $this->requestId;
+        }
+        if (null !== $this->liveChannelHistory) {
+            $res['LiveChannelHistory'] = null !== $this->liveChannelHistory ? $this->liveChannelHistory->toMap() : null;
+        }
 
         return $res;
     }

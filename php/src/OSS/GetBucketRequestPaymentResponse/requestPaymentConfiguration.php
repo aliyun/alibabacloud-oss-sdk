@@ -24,8 +24,10 @@ class requestPaymentConfiguration extends Model
 
     public function toMap()
     {
-        $res          = [];
-        $res['Payer'] = $this->payer;
+        $res = [];
+        if (null !== $this->payer) {
+            $res['Payer'] = $this->payer;
+        }
 
         return $res;
     }

@@ -60,12 +60,22 @@ class liveChannelStat extends Model
 
     public function toMap()
     {
-        $res                  = [];
-        $res['Status']        = $this->status;
-        $res['ConnectedTime'] = $this->connectedTime;
-        $res['RemoteAddr']    = $this->remoteAddr;
-        $res['Video']         = null !== $this->video ? $this->video->toMap() : null;
-        $res['Audio']         = null !== $this->audio ? $this->audio->toMap() : null;
+        $res = [];
+        if (null !== $this->status) {
+            $res['Status'] = $this->status;
+        }
+        if (null !== $this->connectedTime) {
+            $res['ConnectedTime'] = $this->connectedTime;
+        }
+        if (null !== $this->remoteAddr) {
+            $res['RemoteAddr'] = $this->remoteAddr;
+        }
+        if (null !== $this->video) {
+            $res['Video'] = null !== $this->video ? $this->video->toMap() : null;
+        }
+        if (null !== $this->audio) {
+            $res['Audio'] = null !== $this->audio ? $this->audio->toMap() : null;
+        }
 
         return $res;
     }

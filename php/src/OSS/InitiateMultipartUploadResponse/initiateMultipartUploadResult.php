@@ -40,10 +40,16 @@ class initiateMultipartUploadResult extends Model
 
     public function toMap()
     {
-        $res             = [];
-        $res['Bucket']   = $this->bucket;
-        $res['Key']      = $this->key;
-        $res['UploadId'] = $this->uploadId;
+        $res = [];
+        if (null !== $this->bucket) {
+            $res['Bucket'] = $this->bucket;
+        }
+        if (null !== $this->key) {
+            $res['Key'] = $this->key;
+        }
+        if (null !== $this->uploadId) {
+            $res['UploadId'] = $this->uploadId;
+        }
 
         return $res;
     }

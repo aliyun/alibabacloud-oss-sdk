@@ -66,13 +66,25 @@ class header extends Model
 
     public function toMap()
     {
-        $res                                          = [];
-        $res['x-oss-copy-source']                     = $this->copySource;
-        $res['x-oss-copy-source-range']               = $this->copySourceRange;
-        $res['x-oss-copy-source-if-match']            = $this->copySourceIfMatch;
-        $res['x-oss-copy-source-if-none-match']       = $this->copySourceIfNoneMatch;
-        $res['x-oss-copy-source-if-unmodified-since'] = $this->copySourceIfUnmodifiedSince;
-        $res['x-oss-copy-source-if-modified-since']   = $this->copySourceIfModifiedSince;
+        $res = [];
+        if (null !== $this->copySource) {
+            $res['x-oss-copy-source'] = $this->copySource;
+        }
+        if (null !== $this->copySourceRange) {
+            $res['x-oss-copy-source-range'] = $this->copySourceRange;
+        }
+        if (null !== $this->copySourceIfMatch) {
+            $res['x-oss-copy-source-if-match'] = $this->copySourceIfMatch;
+        }
+        if (null !== $this->copySourceIfNoneMatch) {
+            $res['x-oss-copy-source-if-none-match'] = $this->copySourceIfNoneMatch;
+        }
+        if (null !== $this->copySourceIfUnmodifiedSince) {
+            $res['x-oss-copy-source-if-unmodified-since'] = $this->copySourceIfUnmodifiedSince;
+        }
+        if (null !== $this->copySourceIfModifiedSince) {
+            $res['x-oss-copy-source-if-modified-since'] = $this->copySourceIfModifiedSince;
+        }
 
         return $res;
     }

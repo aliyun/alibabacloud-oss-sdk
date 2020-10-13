@@ -35,9 +35,13 @@ class GetLiveChannelInfoResponse extends Model
 
     public function toMap()
     {
-        $res                             = [];
-        $res['x-oss-request-id']         = $this->requestId;
-        $res['LiveChannelConfiguration'] = null !== $this->liveChannelConfiguration ? $this->liveChannelConfiguration->toMap() : null;
+        $res = [];
+        if (null !== $this->requestId) {
+            $res['x-oss-request-id'] = $this->requestId;
+        }
+        if (null !== $this->liveChannelConfiguration) {
+            $res['LiveChannelConfiguration'] = null !== $this->liveChannelConfiguration ? $this->liveChannelConfiguration->toMap() : null;
+        }
 
         return $res;
     }

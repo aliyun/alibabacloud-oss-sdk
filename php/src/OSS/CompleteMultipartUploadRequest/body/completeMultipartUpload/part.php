@@ -32,9 +32,13 @@ class part extends Model
 
     public function toMap()
     {
-        $res               = [];
-        $res['PartNumber'] = $this->partNumber;
-        $res['ETag']       = $this->eTag;
+        $res = [];
+        if (null !== $this->partNumber) {
+            $res['PartNumber'] = $this->partNumber;
+        }
+        if (null !== $this->eTag) {
+            $res['ETag'] = $this->eTag;
+        }
 
         return $res;
     }

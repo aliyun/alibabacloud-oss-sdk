@@ -32,9 +32,13 @@ class options extends Model
 
     public function toMap()
     {
-        $res                             = [];
-        $res['SkipPartialDataRecord']    = $this->skipPartialDataRecord;
-        $res['MaxSkippedRecordsAllowed'] = $this->maxSkippedRecordsAllowed;
+        $res = [];
+        if (null !== $this->skipPartialDataRecord) {
+            $res['SkipPartialDataRecord'] = $this->skipPartialDataRecord;
+        }
+        if (null !== $this->maxSkippedRecordsAllowed) {
+            $res['MaxSkippedRecordsAllowed'] = $this->maxSkippedRecordsAllowed;
+        }
 
         return $res;
     }

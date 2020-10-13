@@ -26,8 +26,10 @@ class body extends Model
 
     public function toMap()
     {
-        $res                                = [];
-        $res['RequestPaymentConfiguration'] = null !== $this->requestPaymentConfiguration ? $this->requestPaymentConfiguration->toMap() : null;
+        $res = [];
+        if (null !== $this->requestPaymentConfiguration) {
+            $res['RequestPaymentConfiguration'] = null !== $this->requestPaymentConfiguration ? $this->requestPaymentConfiguration->toMap() : null;
+        }
 
         return $res;
     }

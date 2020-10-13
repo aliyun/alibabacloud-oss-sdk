@@ -66,13 +66,25 @@ class listLiveChannelResult extends Model
 
     public function toMap()
     {
-        $res                = [];
-        $res['Prefix']      = $this->prefix;
-        $res['Marker']      = $this->marker;
-        $res['MaxKeys']     = $this->maxKeys;
-        $res['IsTruncated'] = $this->isTruncated;
-        $res['NextMarker']  = $this->nextMarker;
-        $res['LiveChannel'] = null !== $this->liveChannel ? $this->liveChannel->toMap() : null;
+        $res = [];
+        if (null !== $this->prefix) {
+            $res['Prefix'] = $this->prefix;
+        }
+        if (null !== $this->marker) {
+            $res['Marker'] = $this->marker;
+        }
+        if (null !== $this->maxKeys) {
+            $res['MaxKeys'] = $this->maxKeys;
+        }
+        if (null !== $this->isTruncated) {
+            $res['IsTruncated'] = $this->isTruncated;
+        }
+        if (null !== $this->nextMarker) {
+            $res['NextMarker'] = $this->nextMarker;
+        }
+        if (null !== $this->liveChannel) {
+            $res['LiveChannel'] = null !== $this->liveChannel ? $this->liveChannel->toMap() : null;
+        }
 
         return $res;
     }

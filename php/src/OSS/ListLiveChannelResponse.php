@@ -35,9 +35,13 @@ class ListLiveChannelResponse extends Model
 
     public function toMap()
     {
-        $res                          = [];
-        $res['x-oss-request-id']      = $this->requestId;
-        $res['ListLiveChannelResult'] = null !== $this->listLiveChannelResult ? $this->listLiveChannelResult->toMap() : null;
+        $res = [];
+        if (null !== $this->requestId) {
+            $res['x-oss-request-id'] = $this->requestId;
+        }
+        if (null !== $this->listLiveChannelResult) {
+            $res['ListLiveChannelResult'] = null !== $this->listLiveChannelResult ? $this->listLiveChannelResult->toMap() : null;
+        }
 
         return $res;
     }

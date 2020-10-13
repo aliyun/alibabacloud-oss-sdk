@@ -26,8 +26,10 @@ class body extends Model
 
     public function toMap()
     {
-        $res                  = [];
-        $res['SelectRequest'] = null !== $this->selectRequest ? $this->selectRequest->toMap() : null;
+        $res = [];
+        if (null !== $this->selectRequest) {
+            $res['SelectRequest'] = null !== $this->selectRequest ? $this->selectRequest->toMap() : null;
+        }
 
         return $res;
     }

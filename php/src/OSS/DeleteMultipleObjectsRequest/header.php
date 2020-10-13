@@ -42,10 +42,16 @@ class header extends Model
 
     public function toMap()
     {
-        $res                   = [];
-        $res['Encoding-type']  = $this->encodingType;
-        $res['Content-Length'] = $this->contentLength;
-        $res['Content-MD5']    = $this->contentMD5;
+        $res = [];
+        if (null !== $this->encodingType) {
+            $res['Encoding-type'] = $this->encodingType;
+        }
+        if (null !== $this->contentLength) {
+            $res['Content-Length'] = $this->contentLength;
+        }
+        if (null !== $this->contentMD5) {
+            $res['Content-MD5'] = $this->contentMD5;
+        }
 
         return $res;
     }

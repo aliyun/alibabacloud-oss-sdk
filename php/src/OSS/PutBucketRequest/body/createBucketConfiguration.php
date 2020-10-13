@@ -32,9 +32,13 @@ class createBucketConfiguration extends Model
 
     public function toMap()
     {
-        $res                       = [];
-        $res['StorageClass']       = $this->storageClass;
-        $res['DataRedundancyType'] = $this->dataRedundancyType;
+        $res = [];
+        if (null !== $this->storageClass) {
+            $res['StorageClass'] = $this->storageClass;
+        }
+        if (null !== $this->dataRedundancyType) {
+            $res['DataRedundancyType'] = $this->dataRedundancyType;
+        }
 
         return $res;
     }

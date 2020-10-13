@@ -39,14 +39,21 @@ class PutLiveChannelRequest extends Model
     {
         Model::validateRequired('bucketName', $this->bucketName, true);
         Model::validateRequired('channelName', $this->channelName, true);
+        Model::validatePattern('bucketName', $this->bucketName, '[a-zA-Z0-9\\-\\_]+');
     }
 
     public function toMap()
     {
-        $res                = [];
-        $res['BucketName']  = $this->bucketName;
-        $res['ChannelName'] = $this->channelName;
-        $res['Body']        = null !== $this->body ? $this->body->toMap() : null;
+        $res = [];
+        if (null !== $this->bucketName) {
+            $res['BucketName'] = $this->bucketName;
+        }
+        if (null !== $this->channelName) {
+            $res['ChannelName'] = $this->channelName;
+        }
+        if (null !== $this->body) {
+            $res['Body'] = null !== $this->body ? $this->body->toMap() : null;
+        }
 
         return $res;
     }

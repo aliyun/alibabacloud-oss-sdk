@@ -26,8 +26,10 @@ class body extends Model
 
     public function toMap()
     {
-        $res                             = [];
-        $res['ServerSideEncryptionRule'] = null !== $this->serverSideEncryptionRule ? $this->serverSideEncryptionRule->toMap() : null;
+        $res = [];
+        if (null !== $this->serverSideEncryptionRule) {
+            $res['ServerSideEncryptionRule'] = null !== $this->serverSideEncryptionRule ? $this->serverSideEncryptionRule->toMap() : null;
+        }
 
         return $res;
     }

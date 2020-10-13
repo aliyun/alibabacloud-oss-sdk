@@ -56,12 +56,22 @@ class filter extends Model
 
     public function toMap()
     {
-        $res                  = [];
-        $res['delimiter']     = $this->delimiter;
-        $res['marker']        = $this->marker;
-        $res['max-keys']      = $this->maxKeys;
-        $res['prefix']        = $this->prefix;
-        $res['encoding-type'] = $this->encodingType;
+        $res = [];
+        if (null !== $this->delimiter) {
+            $res['delimiter'] = $this->delimiter;
+        }
+        if (null !== $this->marker) {
+            $res['marker'] = $this->marker;
+        }
+        if (null !== $this->maxKeys) {
+            $res['max-keys'] = $this->maxKeys;
+        }
+        if (null !== $this->prefix) {
+            $res['prefix'] = $this->prefix;
+        }
+        if (null !== $this->encodingType) {
+            $res['encoding-type'] = $this->encodingType;
+        }
 
         return $res;
     }

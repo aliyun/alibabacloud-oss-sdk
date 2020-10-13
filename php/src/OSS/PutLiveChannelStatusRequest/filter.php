@@ -25,8 +25,10 @@ class filter extends Model
 
     public function toMap()
     {
-        $res           = [];
-        $res['status'] = $this->status;
+        $res = [];
+        if (null !== $this->status) {
+            $res['status'] = $this->status;
+        }
 
         return $res;
     }

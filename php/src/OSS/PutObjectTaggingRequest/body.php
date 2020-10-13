@@ -26,8 +26,10 @@ class body extends Model
 
     public function toMap()
     {
-        $res            = [];
-        $res['Tagging'] = null !== $this->tagging ? $this->tagging->toMap() : null;
+        $res = [];
+        if (null !== $this->tagging) {
+            $res['Tagging'] = null !== $this->tagging ? $this->tagging->toMap() : null;
+        }
 
         return $res;
     }

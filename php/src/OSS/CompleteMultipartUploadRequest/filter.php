@@ -33,9 +33,13 @@ class filter extends Model
 
     public function toMap()
     {
-        $res                  = [];
-        $res['uploadId']      = $this->uploadId;
-        $res['Encoding-type'] = $this->encodingType;
+        $res = [];
+        if (null !== $this->uploadId) {
+            $res['uploadId'] = $this->uploadId;
+        }
+        if (null !== $this->encodingType) {
+            $res['Encoding-type'] = $this->encodingType;
+        }
 
         return $res;
     }

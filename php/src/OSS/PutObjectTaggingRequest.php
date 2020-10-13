@@ -39,14 +39,21 @@ class PutObjectTaggingRequest extends Model
     {
         Model::validateRequired('bucketName', $this->bucketName, true);
         Model::validateRequired('objectName', $this->objectName, true);
+        Model::validatePattern('bucketName', $this->bucketName, '[a-zA-Z0-9\\-\\_]+');
     }
 
     public function toMap()
     {
-        $res               = [];
-        $res['BucketName'] = $this->bucketName;
-        $res['ObjectName'] = $this->objectName;
-        $res['Body']       = null !== $this->body ? $this->body->toMap() : null;
+        $res = [];
+        if (null !== $this->bucketName) {
+            $res['BucketName'] = $this->bucketName;
+        }
+        if (null !== $this->objectName) {
+            $res['ObjectName'] = $this->objectName;
+        }
+        if (null !== $this->body) {
+            $res['Body'] = null !== $this->body ? $this->body->toMap() : null;
+        }
 
         return $res;
     }

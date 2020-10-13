@@ -113,19 +113,43 @@ class header extends Model
 
     public function toMap()
     {
-        $res                                          = [];
-        $res['x-oss-copy-source']                     = $this->copySource;
-        $res['x-oss-copy-source-if-match']            = $this->copySourceIfMatch;
-        $res['x-oss-copy-source-if-none-match']       = $this->copySourceIfNoneMatch;
-        $res['x-oss-copy-source-if-unmodified-since'] = $this->copySourceIfUnmodifiedSince;
-        $res['x-oss-copy-source-if-modified-since']   = $this->copySourceIfModifiedSince;
-        $res['x-oss-metadata-directive']              = $this->metadataDirective;
-        $res['x-oss-server-side-encryption']          = $this->serverSideEncryption;
-        $res['x-oss-server-side-encryption-key-id']   = $this->serverSideEncryptionKeyId;
-        $res['x-oss-object-acl']                      = $this->objectAcl;
-        $res['x-oss-storage-class']                   = $this->storageClass;
-        $res['x-oss-tagging']                         = $this->tagging;
-        $res['x-oss-tagging-directive']               = $this->taggingDirective;
+        $res = [];
+        if (null !== $this->copySource) {
+            $res['x-oss-copy-source'] = $this->copySource;
+        }
+        if (null !== $this->copySourceIfMatch) {
+            $res['x-oss-copy-source-if-match'] = $this->copySourceIfMatch;
+        }
+        if (null !== $this->copySourceIfNoneMatch) {
+            $res['x-oss-copy-source-if-none-match'] = $this->copySourceIfNoneMatch;
+        }
+        if (null !== $this->copySourceIfUnmodifiedSince) {
+            $res['x-oss-copy-source-if-unmodified-since'] = $this->copySourceIfUnmodifiedSince;
+        }
+        if (null !== $this->copySourceIfModifiedSince) {
+            $res['x-oss-copy-source-if-modified-since'] = $this->copySourceIfModifiedSince;
+        }
+        if (null !== $this->metadataDirective) {
+            $res['x-oss-metadata-directive'] = $this->metadataDirective;
+        }
+        if (null !== $this->serverSideEncryption) {
+            $res['x-oss-server-side-encryption'] = $this->serverSideEncryption;
+        }
+        if (null !== $this->serverSideEncryptionKeyId) {
+            $res['x-oss-server-side-encryption-key-id'] = $this->serverSideEncryptionKeyId;
+        }
+        if (null !== $this->objectAcl) {
+            $res['x-oss-object-acl'] = $this->objectAcl;
+        }
+        if (null !== $this->storageClass) {
+            $res['x-oss-storage-class'] = $this->storageClass;
+        }
+        if (null !== $this->tagging) {
+            $res['x-oss-tagging'] = $this->tagging;
+        }
+        if (null !== $this->taggingDirective) {
+            $res['x-oss-tagging-directive'] = $this->taggingDirective;
+        }
 
         return $res;
     }

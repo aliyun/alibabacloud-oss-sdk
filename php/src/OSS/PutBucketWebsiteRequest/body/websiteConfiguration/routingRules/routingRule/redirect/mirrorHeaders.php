@@ -49,11 +49,19 @@ class mirrorHeaders extends Model
 
     public function toMap()
     {
-        $res            = [];
-        $res['Set']     = null !== $this->set ? $this->set->toMap() : null;
-        $res['PassAll'] = $this->passAll;
-        $res['Pass']    = $this->pass;
-        $res['Remove']  = $this->remove;
+        $res = [];
+        if (null !== $this->set) {
+            $res['Set'] = null !== $this->set ? $this->set->toMap() : null;
+        }
+        if (null !== $this->passAll) {
+            $res['PassAll'] = $this->passAll;
+        }
+        if (null !== $this->pass) {
+            $res['Pass'] = $this->pass;
+        }
+        if (null !== $this->remove) {
+            $res['Remove'] = $this->remove;
+        }
 
         return $res;
     }

@@ -34,9 +34,13 @@ class filter extends Model
 
     public function toMap()
     {
-        $res              = [];
-        $res['endTime']   = $this->endTime;
-        $res['startTime'] = $this->startTime;
+        $res = [];
+        if (null !== $this->endTime) {
+            $res['endTime'] = $this->endTime;
+        }
+        if (null !== $this->startTime) {
+            $res['startTime'] = $this->startTime;
+        }
 
         return $res;
     }

@@ -11,28 +11,28 @@ class cORSRule extends Model
     /**
      * @description AllowedOrigin
      *
-     * @var array
+     * @var string[]
      */
     public $allowedOrigin;
 
     /**
      * @description AllowedMethod
      *
-     * @var array
+     * @var string[]
      */
     public $allowedMethod;
 
     /**
      * @description AllowedHeader
      *
-     * @var array
+     * @var string[]
      */
     public $allowedHeader;
 
     /**
      * @description ExposeHeader
      *
-     * @var array
+     * @var string[]
      */
     public $exposeHeader;
 
@@ -56,24 +56,22 @@ class cORSRule extends Model
 
     public function toMap()
     {
-        $res                  = [];
-        $res['AllowedOrigin'] = [];
+        $res = [];
         if (null !== $this->allowedOrigin) {
             $res['AllowedOrigin'] = $this->allowedOrigin;
         }
-        $res['AllowedMethod'] = [];
         if (null !== $this->allowedMethod) {
             $res['AllowedMethod'] = $this->allowedMethod;
         }
-        $res['AllowedHeader'] = [];
         if (null !== $this->allowedHeader) {
             $res['AllowedHeader'] = $this->allowedHeader;
         }
-        $res['ExposeHeader'] = [];
         if (null !== $this->exposeHeader) {
             $res['ExposeHeader'] = $this->exposeHeader;
         }
-        $res['MaxAgeSeconds'] = $this->maxAgeSeconds;
+        if (null !== $this->maxAgeSeconds) {
+            $res['MaxAgeSeconds'] = $this->maxAgeSeconds;
+        }
 
         return $res;
     }
@@ -88,25 +86,21 @@ class cORSRule extends Model
         $model = new self();
         if (isset($map['AllowedOrigin'])) {
             if (!empty($map['AllowedOrigin'])) {
-                $model->allowedOrigin = [];
                 $model->allowedOrigin = $map['AllowedOrigin'];
             }
         }
         if (isset($map['AllowedMethod'])) {
             if (!empty($map['AllowedMethod'])) {
-                $model->allowedMethod = [];
                 $model->allowedMethod = $map['AllowedMethod'];
             }
         }
         if (isset($map['AllowedHeader'])) {
             if (!empty($map['AllowedHeader'])) {
-                $model->allowedHeader = [];
                 $model->allowedHeader = $map['AllowedHeader'];
             }
         }
         if (isset($map['ExposeHeader'])) {
             if (!empty($map['ExposeHeader'])) {
-                $model->exposeHeader = [];
                 $model->exposeHeader = $map['ExposeHeader'];
             }
         }

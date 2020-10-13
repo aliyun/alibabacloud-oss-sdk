@@ -36,9 +36,13 @@ class accessControlPolicy extends Model
 
     public function toMap()
     {
-        $res                      = [];
-        $res['Owner']             = null !== $this->owner ? $this->owner->toMap() : null;
-        $res['AccessControlList'] = null !== $this->accessControlList ? $this->accessControlList->toMap() : null;
+        $res = [];
+        if (null !== $this->owner) {
+            $res['Owner'] = null !== $this->owner ? $this->owner->toMap() : null;
+        }
+        if (null !== $this->accessControlList) {
+            $res['AccessControlList'] = null !== $this->accessControlList ? $this->accessControlList->toMap() : null;
+        }
 
         return $res;
     }

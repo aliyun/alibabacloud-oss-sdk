@@ -25,8 +25,10 @@ class filter extends Model
 
     public function toMap()
     {
-        $res             = [];
-        $res['uploadId'] = $this->uploadId;
+        $res = [];
+        if (null !== $this->uploadId) {
+            $res['uploadId'] = $this->uploadId;
+        }
 
         return $res;
     }

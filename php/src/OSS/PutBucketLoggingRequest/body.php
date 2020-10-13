@@ -26,8 +26,10 @@ class body extends Model
 
     public function toMap()
     {
-        $res                        = [];
-        $res['BucketLoggingStatus'] = null !== $this->bucketLoggingStatus ? $this->bucketLoggingStatus->toMap() : null;
+        $res = [];
+        if (null !== $this->bucketLoggingStatus) {
+            $res['BucketLoggingStatus'] = null !== $this->bucketLoggingStatus ? $this->bucketLoggingStatus->toMap() : null;
+        }
 
         return $res;
     }

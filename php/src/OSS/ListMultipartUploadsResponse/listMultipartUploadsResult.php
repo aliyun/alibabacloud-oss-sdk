@@ -75,7 +75,7 @@ class listMultipartUploadsResult extends Model
     /**
      * @description Upload
      *
-     * @var array
+     * @var upload[]
      */
     public $upload;
     protected $_name = [
@@ -97,21 +97,41 @@ class listMultipartUploadsResult extends Model
 
     public function toMap()
     {
-        $res                       = [];
-        $res['Bucket']             = $this->bucket;
-        $res['EncodingType']       = $this->encodingType;
-        $res['KeyMarker']          = $this->keyMarker;
-        $res['UploadIdMarker']     = $this->uploadIdMarker;
-        $res['NextKeyMarker']      = $this->nextKeyMarker;
-        $res['NextUploadIdMarker'] = $this->nextUploadIdMarker;
-        $res['Delimiter']          = $this->delimiter;
-        $res['MaxUploads']         = $this->maxUploads;
-        $res['IsTruncated']        = $this->isTruncated;
-        $res['Upload']             = [];
-        if (null !== $this->upload && \is_array($this->upload)) {
-            $n = 0;
-            foreach ($this->upload as $item) {
-                $res['Upload'][$n++] = null !== $item ? $item->toMap() : $item;
+        $res = [];
+        if (null !== $this->bucket) {
+            $res['Bucket'] = $this->bucket;
+        }
+        if (null !== $this->encodingType) {
+            $res['EncodingType'] = $this->encodingType;
+        }
+        if (null !== $this->keyMarker) {
+            $res['KeyMarker'] = $this->keyMarker;
+        }
+        if (null !== $this->uploadIdMarker) {
+            $res['UploadIdMarker'] = $this->uploadIdMarker;
+        }
+        if (null !== $this->nextKeyMarker) {
+            $res['NextKeyMarker'] = $this->nextKeyMarker;
+        }
+        if (null !== $this->nextUploadIdMarker) {
+            $res['NextUploadIdMarker'] = $this->nextUploadIdMarker;
+        }
+        if (null !== $this->delimiter) {
+            $res['Delimiter'] = $this->delimiter;
+        }
+        if (null !== $this->maxUploads) {
+            $res['MaxUploads'] = $this->maxUploads;
+        }
+        if (null !== $this->isTruncated) {
+            $res['IsTruncated'] = $this->isTruncated;
+        }
+        if (null !== $this->upload) {
+            $res['Upload'] = [];
+            if (null !== $this->upload && \is_array($this->upload)) {
+                $n = 0;
+                foreach ($this->upload as $item) {
+                    $res['Upload'][$n++] = null !== $item ? $item->toMap() : $item;
+                }
             }
         }
 

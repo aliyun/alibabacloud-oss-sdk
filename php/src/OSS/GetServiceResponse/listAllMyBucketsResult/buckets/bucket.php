@@ -64,13 +64,25 @@ class bucket extends Model
 
     public function toMap()
     {
-        $res                     = [];
-        $res['Name']             = $this->name;
-        $res['CreateDate']       = $this->createDate;
-        $res['Location']         = $this->location;
-        $res['ExtranetEndpoint'] = $this->extranetEndpoint;
-        $res['IntranetEndpoint'] = $this->intranetEndpoint;
-        $res['StorageClass']     = $this->storageClass;
+        $res = [];
+        if (null !== $this->name) {
+            $res['Name'] = $this->name;
+        }
+        if (null !== $this->createDate) {
+            $res['CreateDate'] = $this->createDate;
+        }
+        if (null !== $this->location) {
+            $res['Location'] = $this->location;
+        }
+        if (null !== $this->extranetEndpoint) {
+            $res['ExtranetEndpoint'] = $this->extranetEndpoint;
+        }
+        if (null !== $this->intranetEndpoint) {
+            $res['IntranetEndpoint'] = $this->intranetEndpoint;
+        }
+        if (null !== $this->storageClass) {
+            $res['StorageClass'] = $this->storageClass;
+        }
 
         return $res;
     }

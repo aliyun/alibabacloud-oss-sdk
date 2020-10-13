@@ -43,10 +43,16 @@ class AppendObjectResponse extends Model
 
     public function toMap()
     {
-        $res                               = [];
-        $res['x-oss-request-id']           = $this->requestId;
-        $res['x-oss-next-append-position'] = $this->nextAppendPosition;
-        $res['x-oss-hash-crc64ecma']       = $this->hashCrc64ecma;
+        $res = [];
+        if (null !== $this->requestId) {
+            $res['x-oss-request-id'] = $this->requestId;
+        }
+        if (null !== $this->nextAppendPosition) {
+            $res['x-oss-next-append-position'] = $this->nextAppendPosition;
+        }
+        if (null !== $this->hashCrc64ecma) {
+            $res['x-oss-hash-crc64ecma'] = $this->hashCrc64ecma;
+        }
 
         return $res;
     }

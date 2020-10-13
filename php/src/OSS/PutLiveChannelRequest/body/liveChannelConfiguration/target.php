@@ -48,11 +48,19 @@ class target extends Model
 
     public function toMap()
     {
-        $res                 = [];
-        $res['Type']         = $this->type;
-        $res['FragDuration'] = $this->fragDuration;
-        $res['FragCount']    = $this->fragCount;
-        $res['PlaylistName'] = $this->playlistName;
+        $res = [];
+        if (null !== $this->type) {
+            $res['Type'] = $this->type;
+        }
+        if (null !== $this->fragDuration) {
+            $res['FragDuration'] = $this->fragDuration;
+        }
+        if (null !== $this->fragCount) {
+            $res['FragCount'] = $this->fragCount;
+        }
+        if (null !== $this->playlistName) {
+            $res['PlaylistName'] = $this->playlistName;
+        }
 
         return $res;
     }

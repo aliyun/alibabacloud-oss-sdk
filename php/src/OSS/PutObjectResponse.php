@@ -52,11 +52,19 @@ class PutObjectResponse extends Model
 
     public function toMap()
     {
-        $res                         = [];
-        $res['x-oss-request-id']     = $this->requestId;
-        $res['x-oss-hash-crc64ecma'] = $this->hashCrc64ecma;
-        $res['x-oss-server-time']    = $this->serverTime;
-        $res['x-oss-bucket-version'] = $this->bucketVersion;
+        $res = [];
+        if (null !== $this->requestId) {
+            $res['x-oss-request-id'] = $this->requestId;
+        }
+        if (null !== $this->hashCrc64ecma) {
+            $res['x-oss-hash-crc64ecma'] = $this->hashCrc64ecma;
+        }
+        if (null !== $this->serverTime) {
+            $res['x-oss-server-time'] = $this->serverTime;
+        }
+        if (null !== $this->bucketVersion) {
+            $res['x-oss-bucket-version'] = $this->bucketVersion;
+        }
 
         return $res;
     }
