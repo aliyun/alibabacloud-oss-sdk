@@ -12,28 +12,28 @@ import (
 )
 
 type Config struct {
-	Type             *string   `json:"type" xml:"type"`
-	SecurityToken    *string   `json:"securityToken" xml:"securityToken"`
-	AccessKeyId      *string   `json:"accessKeyId" xml:"accessKeyId" require:"true"`
-	AccessKeySecret  *string   `json:"accessKeySecret" xml:"accessKeySecret" require:"true"`
-	Endpoint         *string   `json:"endpoint" xml:"endpoint"`
-	Protocol         *string   `json:"protocol" xml:"protocol"`
-	RegionId         *string   `json:"regionId" xml:"regionId"`
-	UserAgent        *string   `json:"userAgent" xml:"userAgent"`
-	HostModel        *string   `json:"hostModel" xml:"hostModel"`
-	SignatureVersion *string   `json:"signatureVersion" xml:"signatureVersion"`
-	IsEnableMD5      *bool     `json:"isEnableMD5" xml:"isEnableMD5"`
-	IsEnableCrc      *bool     `json:"isEnableCrc" xml:"isEnableCrc"`
-	ReadTimeout      *int      `json:"readTimeout" xml:"readTimeout"`
-	ConnectTimeout   *int      `json:"connectTimeout" xml:"connectTimeout"`
-	LocalAddr        *string   `json:"localAddr" xml:"localAddr"`
-	HttpProxy        *string   `json:"httpProxy" xml:"httpProxy"`
-	HttpsProxy       *string   `json:"httpsProxy" xml:"httpsProxy"`
-	NoProxy          *string   `json:"noProxy" xml:"noProxy"`
-	Socks5Proxy      *string   `json:"socks5Proxy" xml:"socks5Proxy"`
-	Socks5NetWork    *string   `json:"socks5NetWork" xml:"socks5NetWork"`
-	MaxIdleConns     *int      `json:"maxIdleConns" xml:"maxIdleConns"`
-	AddtionalHeaders []*string `json:"addtionalHeaders" xml:"addtionalHeaders" type:"Repeated"`
+	Type             *string   `json:"type,omitempty" xml:"type,omitempty"`
+	SecurityToken    *string   `json:"securityToken,omitempty" xml:"securityToken,omitempty"`
+	AccessKeyId      *string   `json:"accessKeyId,omitempty" xml:"accessKeyId,omitempty" require:"true"`
+	AccessKeySecret  *string   `json:"accessKeySecret,omitempty" xml:"accessKeySecret,omitempty" require:"true"`
+	Endpoint         *string   `json:"endpoint,omitempty" xml:"endpoint,omitempty"`
+	Protocol         *string   `json:"protocol,omitempty" xml:"protocol,omitempty"`
+	RegionId         *string   `json:"regionId,omitempty" xml:"regionId,omitempty" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	UserAgent        *string   `json:"userAgent,omitempty" xml:"userAgent,omitempty"`
+	HostModel        *string   `json:"hostModel,omitempty" xml:"hostModel,omitempty"`
+	SignatureVersion *string   `json:"signatureVersion,omitempty" xml:"signatureVersion,omitempty"`
+	IsEnableMD5      *bool     `json:"isEnableMD5,omitempty" xml:"isEnableMD5,omitempty"`
+	IsEnableCrc      *bool     `json:"isEnableCrc,omitempty" xml:"isEnableCrc,omitempty"`
+	ReadTimeout      *int      `json:"readTimeout,omitempty" xml:"readTimeout,omitempty"`
+	ConnectTimeout   *int      `json:"connectTimeout,omitempty" xml:"connectTimeout,omitempty"`
+	LocalAddr        *string   `json:"localAddr,omitempty" xml:"localAddr,omitempty"`
+	HttpProxy        *string   `json:"httpProxy,omitempty" xml:"httpProxy,omitempty"`
+	HttpsProxy       *string   `json:"httpsProxy,omitempty" xml:"httpsProxy,omitempty"`
+	NoProxy          *string   `json:"noProxy,omitempty" xml:"noProxy,omitempty"`
+	Socks5Proxy      *string   `json:"socks5Proxy,omitempty" xml:"socks5Proxy,omitempty"`
+	Socks5NetWork    *string   `json:"socks5NetWork,omitempty" xml:"socks5NetWork,omitempty"`
+	MaxIdleConns     *int      `json:"maxIdleConns,omitempty" xml:"maxIdleConns,omitempty"`
+	AddtionalHeaders []*string `json:"addtionalHeaders,omitempty" xml:"addtionalHeaders,omitempty" type:"Repeated"`
 }
 
 func (s Config) String() string {
@@ -155,8 +155,10 @@ func (s *Config) SetAddtionalHeaders(v []*string) *Config {
 }
 
 type PutBucketLifecycleRequest struct {
-	BucketName *string                        `json:"BucketName" xml:"BucketName" require:"true"`
-	Body       *PutBucketLifecycleRequestBody `json:"Body" xml:"Body" type:"Struct"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	// Body
+	Body *PutBucketLifecycleRequestBody `json:"Body,omitempty" xml:"Body,omitempty" type:"Struct"`
 }
 
 func (s PutBucketLifecycleRequest) String() string {
@@ -178,7 +180,8 @@ func (s *PutBucketLifecycleRequest) SetBody(v *PutBucketLifecycleRequestBody) *P
 }
 
 type PutBucketLifecycleRequestBody struct {
-	LifecycleConfiguration *PutBucketLifecycleRequestBodyLifecycleConfiguration `json:"LifecycleConfiguration" xml:"LifecycleConfiguration" require:"true" type:"Struct"`
+	// LifecycleConfiguration
+	LifecycleConfiguration *PutBucketLifecycleRequestBodyLifecycleConfiguration `json:"LifecycleConfiguration,omitempty" xml:"LifecycleConfiguration,omitempty" require:"true" type:"Struct"`
 }
 
 func (s PutBucketLifecycleRequestBody) String() string {
@@ -195,7 +198,8 @@ func (s *PutBucketLifecycleRequestBody) SetLifecycleConfiguration(v *PutBucketLi
 }
 
 type PutBucketLifecycleRequestBodyLifecycleConfiguration struct {
-	Rule []*PutBucketLifecycleRequestBodyLifecycleConfigurationRule `json:"Rule" xml:"Rule" type:"Repeated"`
+	// Rule
+	Rule []*PutBucketLifecycleRequestBodyLifecycleConfigurationRule `json:"Rule,omitempty" xml:"Rule,omitempty" type:"Repeated"`
 }
 
 func (s PutBucketLifecycleRequestBodyLifecycleConfiguration) String() string {
@@ -212,13 +216,20 @@ func (s *PutBucketLifecycleRequestBodyLifecycleConfiguration) SetRule(v []*PutBu
 }
 
 type PutBucketLifecycleRequestBodyLifecycleConfigurationRule struct {
-	Expiration           *PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration           `json:"Expiration" xml:"Expiration" type:"Struct"`
-	Transition           *PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition           `json:"Transition" xml:"Transition" type:"Struct"`
-	AbortMultipartUpload *PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUpload `json:"AbortMultipartUpload" xml:"AbortMultipartUpload" type:"Struct"`
-	Tag                  *PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag                  `json:"Tag" xml:"Tag" type:"Struct"`
-	ID                   *string                                                                      `json:"ID" xml:"ID"`
-	Prefix               *string                                                                      `json:"Prefix" xml:"Prefix"`
-	Status               *string                                                                      `json:"Status" xml:"Status"`
+	// Expiration
+	Expiration *PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration `json:"Expiration,omitempty" xml:"Expiration,omitempty" type:"Struct"`
+	// Transition
+	Transition *PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition `json:"Transition,omitempty" xml:"Transition,omitempty" type:"Struct"`
+	// AbortMultipartUpload
+	AbortMultipartUpload *PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUpload `json:"AbortMultipartUpload,omitempty" xml:"AbortMultipartUpload,omitempty" type:"Struct"`
+	// Tag
+	Tag *PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag `json:"Tag,omitempty" xml:"Tag,omitempty" type:"Struct"`
+	// ID
+	ID *string `json:"ID,omitempty" xml:"ID,omitempty"`
+	// Prefix
+	Prefix *string `json:"Prefix,omitempty" xml:"Prefix,omitempty"`
+	// Status
+	Status *string `json:"Status,omitempty" xml:"Status,omitempty"`
 }
 
 func (s PutBucketLifecycleRequestBodyLifecycleConfigurationRule) String() string {
@@ -265,8 +276,10 @@ func (s *PutBucketLifecycleRequestBodyLifecycleConfigurationRule) SetStatus(v st
 }
 
 type PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration struct {
-	Days              *int    `json:"Days" xml:"Days"`
-	CreatedBeforeDate *string `json:"CreatedBeforeDate" xml:"CreatedBeforeDate"`
+	// Days
+	Days *int `json:"Days,omitempty" xml:"Days,omitempty"`
+	// CreatedBeforeDate
+	CreatedBeforeDate *string `json:"CreatedBeforeDate,omitempty" xml:"CreatedBeforeDate,omitempty"`
 }
 
 func (s PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration) String() string {
@@ -288,8 +301,10 @@ func (s *PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration) SetC
 }
 
 type PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition struct {
-	Days         *int    `json:"Days" xml:"Days"`
-	StorageClass *string `json:"StorageClass" xml:"StorageClass"`
+	// Days
+	Days *int `json:"Days,omitempty" xml:"Days,omitempty"`
+	// StorageClass
+	StorageClass *string `json:"StorageClass,omitempty" xml:"StorageClass,omitempty"`
 }
 
 func (s PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition) String() string {
@@ -311,8 +326,10 @@ func (s *PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition) SetS
 }
 
 type PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUpload struct {
-	Days              *int    `json:"Days" xml:"Days"`
-	CreatedBeforeDate *string `json:"CreatedBeforeDate" xml:"CreatedBeforeDate"`
+	// Days
+	Days *int `json:"Days,omitempty" xml:"Days,omitempty"`
+	// CreatedBeforeDate
+	CreatedBeforeDate *string `json:"CreatedBeforeDate,omitempty" xml:"CreatedBeforeDate,omitempty"`
 }
 
 func (s PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUpload) String() string {
@@ -334,8 +351,10 @@ func (s *PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUp
 }
 
 type PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag struct {
-	Key   *string `json:"Key" xml:"Key"`
-	Value *string `json:"Value" xml:"Value"`
+	// Key
+	Key *string `json:"Key,omitempty" xml:"Key,omitempty"`
+	// Value
+	Value *string `json:"Value,omitempty" xml:"Value,omitempty"`
 }
 
 func (s PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag) String() string {
@@ -357,7 +376,8 @@ func (s *PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag) SetValue(v 
 }
 
 type PutBucketLifecycleResponse struct {
-	RequestId *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
 }
 
 func (s PutBucketLifecycleResponse) String() string {
@@ -374,9 +394,12 @@ func (s *PutBucketLifecycleResponse) SetRequestId(v string) *PutBucketLifecycleR
 }
 
 type DeleteMultipleObjectsRequest struct {
-	BucketName *string                             `json:"BucketName" xml:"BucketName" require:"true"`
-	Body       *DeleteMultipleObjectsRequestBody   `json:"Body" xml:"Body" type:"Struct"`
-	Header     *DeleteMultipleObjectsRequestHeader `json:"Header" xml:"Header" require:"true" type:"Struct"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	// Body
+	Body *DeleteMultipleObjectsRequestBody `json:"Body,omitempty" xml:"Body,omitempty" type:"Struct"`
+	// Header
+	Header *DeleteMultipleObjectsRequestHeader `json:"Header,omitempty" xml:"Header,omitempty" require:"true" type:"Struct"`
 }
 
 func (s DeleteMultipleObjectsRequest) String() string {
@@ -403,7 +426,8 @@ func (s *DeleteMultipleObjectsRequest) SetHeader(v *DeleteMultipleObjectsRequest
 }
 
 type DeleteMultipleObjectsRequestBody struct {
-	Delete *DeleteMultipleObjectsRequestBodyDelete `json:"Delete" xml:"Delete" require:"true" type:"Struct"`
+	// Delete
+	Delete *DeleteMultipleObjectsRequestBodyDelete `json:"Delete,omitempty" xml:"Delete,omitempty" require:"true" type:"Struct"`
 }
 
 func (s DeleteMultipleObjectsRequestBody) String() string {
@@ -420,8 +444,10 @@ func (s *DeleteMultipleObjectsRequestBody) SetDelete(v *DeleteMultipleObjectsReq
 }
 
 type DeleteMultipleObjectsRequestBodyDelete struct {
-	Object []*DeleteMultipleObjectsRequestBodyDeleteObject `json:"Object" xml:"Object" type:"Repeated"`
-	Quiet  *string                                         `json:"Quiet" xml:"Quiet"`
+	// Object
+	Object []*DeleteMultipleObjectsRequestBodyDeleteObject `json:"Object,omitempty" xml:"Object,omitempty" type:"Repeated"`
+	// Quiet
+	Quiet *string `json:"Quiet,omitempty" xml:"Quiet,omitempty"`
 }
 
 func (s DeleteMultipleObjectsRequestBodyDelete) String() string {
@@ -443,7 +469,8 @@ func (s *DeleteMultipleObjectsRequestBodyDelete) SetQuiet(v string) *DeleteMulti
 }
 
 type DeleteMultipleObjectsRequestBodyDeleteObject struct {
-	Key *string `json:"Key" xml:"Key"`
+	// Key
+	Key *string `json:"Key,omitempty" xml:"Key,omitempty"`
 }
 
 func (s DeleteMultipleObjectsRequestBodyDeleteObject) String() string {
@@ -460,9 +487,12 @@ func (s *DeleteMultipleObjectsRequestBodyDeleteObject) SetKey(v string) *DeleteM
 }
 
 type DeleteMultipleObjectsRequestHeader struct {
-	EncodingType  *string `json:"Encoding-type" xml:"Encoding-type"`
-	ContentLength *string `json:"Content-Length" xml:"Content-Length" require:"true"`
-	ContentMD5    *string `json:"Content-MD5" xml:"Content-MD5" require:"true"`
+	// Encoding-type
+	EncodingType *string `json:"Encoding-type,omitempty" xml:"Encoding-type,omitempty"`
+	// Content-Length
+	ContentLength *string `json:"Content-Length,omitempty" xml:"Content-Length,omitempty" require:"true"`
+	// Content-MD5
+	ContentMD5 *string `json:"Content-MD5,omitempty" xml:"Content-MD5,omitempty" require:"true"`
 }
 
 func (s DeleteMultipleObjectsRequestHeader) String() string {
@@ -489,8 +519,10 @@ func (s *DeleteMultipleObjectsRequestHeader) SetContentMD5(v string) *DeleteMult
 }
 
 type DeleteMultipleObjectsResponse struct {
-	RequestId    *string                                    `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
-	DeleteResult *DeleteMultipleObjectsResponseDeleteResult `json:"DeleteResult" xml:"DeleteResult" require:"true" type:"Struct"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
+	// DeleteResult
+	DeleteResult *DeleteMultipleObjectsResponseDeleteResult `json:"DeleteResult,omitempty" xml:"DeleteResult,omitempty" require:"true" type:"Struct"`
 }
 
 func (s DeleteMultipleObjectsResponse) String() string {
@@ -512,9 +544,12 @@ func (s *DeleteMultipleObjectsResponse) SetDeleteResult(v *DeleteMultipleObjects
 }
 
 type DeleteMultipleObjectsResponseDeleteResult struct {
-	Quiet        *string                                             `json:"Quiet" xml:"Quiet"`
-	EncodingType *string                                             `json:"EncodingType" xml:"EncodingType"`
-	Deleted      []*DeleteMultipleObjectsResponseDeleteResultDeleted `json:"Deleted" xml:"Deleted" type:"Repeated"`
+	// Quiet
+	Quiet *string `json:"Quiet,omitempty" xml:"Quiet,omitempty"`
+	// EncodingType
+	EncodingType *string `json:"EncodingType,omitempty" xml:"EncodingType,omitempty"`
+	// Deleted
+	Deleted []*DeleteMultipleObjectsResponseDeleteResultDeleted `json:"Deleted,omitempty" xml:"Deleted,omitempty" type:"Repeated"`
 }
 
 func (s DeleteMultipleObjectsResponseDeleteResult) String() string {
@@ -541,7 +576,8 @@ func (s *DeleteMultipleObjectsResponseDeleteResult) SetDeleted(v []*DeleteMultip
 }
 
 type DeleteMultipleObjectsResponseDeleteResultDeleted struct {
-	Key *string `json:"Key" xml:"Key"`
+	// Key
+	Key *string `json:"Key,omitempty" xml:"Key,omitempty"`
 }
 
 func (s DeleteMultipleObjectsResponseDeleteResultDeleted) String() string {
@@ -558,8 +594,10 @@ func (s *DeleteMultipleObjectsResponseDeleteResultDeleted) SetKey(v string) *Del
 }
 
 type PutBucketRefererRequest struct {
-	BucketName *string                      `json:"BucketName" xml:"BucketName" require:"true"`
-	Body       *PutBucketRefererRequestBody `json:"Body" xml:"Body" type:"Struct"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	// Body
+	Body *PutBucketRefererRequestBody `json:"Body,omitempty" xml:"Body,omitempty" type:"Struct"`
 }
 
 func (s PutBucketRefererRequest) String() string {
@@ -581,7 +619,8 @@ func (s *PutBucketRefererRequest) SetBody(v *PutBucketRefererRequestBody) *PutBu
 }
 
 type PutBucketRefererRequestBody struct {
-	RefererConfiguration *PutBucketRefererRequestBodyRefererConfiguration `json:"RefererConfiguration" xml:"RefererConfiguration" require:"true" type:"Struct"`
+	// RefererConfiguration
+	RefererConfiguration *PutBucketRefererRequestBodyRefererConfiguration `json:"RefererConfiguration,omitempty" xml:"RefererConfiguration,omitempty" require:"true" type:"Struct"`
 }
 
 func (s PutBucketRefererRequestBody) String() string {
@@ -598,8 +637,10 @@ func (s *PutBucketRefererRequestBody) SetRefererConfiguration(v *PutBucketRefere
 }
 
 type PutBucketRefererRequestBodyRefererConfiguration struct {
-	RefererList       *PutBucketRefererRequestBodyRefererConfigurationRefererList `json:"RefererList" xml:"RefererList" type:"Struct"`
-	AllowEmptyReferer *bool                                                       `json:"AllowEmptyReferer" xml:"AllowEmptyReferer"`
+	// RefererList
+	RefererList *PutBucketRefererRequestBodyRefererConfigurationRefererList `json:"RefererList,omitempty" xml:"RefererList,omitempty" type:"Struct"`
+	// AllowEmptyReferer
+	AllowEmptyReferer *bool `json:"AllowEmptyReferer,omitempty" xml:"AllowEmptyReferer,omitempty"`
 }
 
 func (s PutBucketRefererRequestBodyRefererConfiguration) String() string {
@@ -621,7 +662,8 @@ func (s *PutBucketRefererRequestBodyRefererConfiguration) SetAllowEmptyReferer(v
 }
 
 type PutBucketRefererRequestBodyRefererConfigurationRefererList struct {
-	Referer []*string `json:"Referer" xml:"Referer" type:"Repeated"`
+	// Referer
+	Referer []*string `json:"Referer,omitempty" xml:"Referer,omitempty" type:"Repeated"`
 }
 
 func (s PutBucketRefererRequestBodyRefererConfigurationRefererList) String() string {
@@ -638,7 +680,8 @@ func (s *PutBucketRefererRequestBodyRefererConfigurationRefererList) SetReferer(
 }
 
 type PutBucketRefererResponse struct {
-	RequestId *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
 }
 
 func (s PutBucketRefererResponse) String() string {
@@ -655,8 +698,10 @@ func (s *PutBucketRefererResponse) SetRequestId(v string) *PutBucketRefererRespo
 }
 
 type PutBucketWebsiteRequest struct {
-	BucketName *string                      `json:"BucketName" xml:"BucketName" require:"true"`
-	Body       *PutBucketWebsiteRequestBody `json:"Body" xml:"Body" type:"Struct"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	// Body
+	Body *PutBucketWebsiteRequestBody `json:"Body,omitempty" xml:"Body,omitempty" type:"Struct"`
 }
 
 func (s PutBucketWebsiteRequest) String() string {
@@ -678,7 +723,8 @@ func (s *PutBucketWebsiteRequest) SetBody(v *PutBucketWebsiteRequestBody) *PutBu
 }
 
 type PutBucketWebsiteRequestBody struct {
-	WebsiteConfiguration *PutBucketWebsiteRequestBodyWebsiteConfiguration `json:"WebsiteConfiguration" xml:"WebsiteConfiguration" require:"true" type:"Struct"`
+	// WebsiteConfiguration
+	WebsiteConfiguration *PutBucketWebsiteRequestBodyWebsiteConfiguration `json:"WebsiteConfiguration,omitempty" xml:"WebsiteConfiguration,omitempty" require:"true" type:"Struct"`
 }
 
 func (s PutBucketWebsiteRequestBody) String() string {
@@ -695,9 +741,12 @@ func (s *PutBucketWebsiteRequestBody) SetWebsiteConfiguration(v *PutBucketWebsit
 }
 
 type PutBucketWebsiteRequestBodyWebsiteConfiguration struct {
-	IndexDocument *PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument `json:"IndexDocument" xml:"IndexDocument" type:"Struct"`
-	ErrorDocument *PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument `json:"ErrorDocument" xml:"ErrorDocument" type:"Struct"`
-	RoutingRules  *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules  `json:"RoutingRules" xml:"RoutingRules" type:"Struct"`
+	// IndexDocument
+	IndexDocument *PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument `json:"IndexDocument,omitempty" xml:"IndexDocument,omitempty" type:"Struct"`
+	// ErrorDocument
+	ErrorDocument *PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument `json:"ErrorDocument,omitempty" xml:"ErrorDocument,omitempty" type:"Struct"`
+	// RoutingRules
+	RoutingRules *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules `json:"RoutingRules,omitempty" xml:"RoutingRules,omitempty" type:"Struct"`
 }
 
 func (s PutBucketWebsiteRequestBodyWebsiteConfiguration) String() string {
@@ -724,7 +773,8 @@ func (s *PutBucketWebsiteRequestBodyWebsiteConfiguration) SetRoutingRules(v *Put
 }
 
 type PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument struct {
-	Suffix *string `json:"Suffix" xml:"Suffix"`
+	// Suffix
+	Suffix *string `json:"Suffix,omitempty" xml:"Suffix,omitempty"`
 }
 
 func (s PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument) String() string {
@@ -741,7 +791,8 @@ func (s *PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument) SetSuffix
 }
 
 type PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument struct {
-	Key *string `json:"Key" xml:"Key"`
+	// Key
+	Key *string `json:"Key,omitempty" xml:"Key,omitempty"`
 }
 
 func (s PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument) String() string {
@@ -758,7 +809,8 @@ func (s *PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument) SetKey(v 
 }
 
 type PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules struct {
-	RoutingRule []*PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule `json:"RoutingRule" xml:"RoutingRule" type:"Repeated"`
+	// RoutingRule
+	RoutingRule []*PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule `json:"RoutingRule,omitempty" xml:"RoutingRule,omitempty" type:"Repeated"`
 }
 
 func (s PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules) String() string {
@@ -775,9 +827,12 @@ func (s *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules) SetRouting
 }
 
 type PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule struct {
-	Condition  *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCondition `json:"Condition" xml:"Condition" type:"Struct"`
-	Redirect   *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect  `json:"Redirect" xml:"Redirect" type:"Struct"`
-	RuleNumber *int                                                                             `json:"RuleNumber" xml:"RuleNumber"`
+	// Condition
+	Condition *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCondition `json:"Condition,omitempty" xml:"Condition,omitempty" type:"Struct"`
+	// Redirect
+	Redirect *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect `json:"Redirect,omitempty" xml:"Redirect,omitempty" type:"Struct"`
+	// RuleNumber
+	RuleNumber *int `json:"RuleNumber,omitempty" xml:"RuleNumber,omitempty"`
 }
 
 func (s PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule) String() string {
@@ -804,9 +859,12 @@ func (s *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule)
 }
 
 type PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCondition struct {
-	IncludeHeader               *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader `json:"IncludeHeader" xml:"IncludeHeader" type:"Struct"`
-	KeyPrefixEquals             *string                                                                                       `json:"KeyPrefixEquals" xml:"KeyPrefixEquals"`
-	HttpErrorCodeReturnedEquals *string                                                                                       `json:"HttpErrorCodeReturnedEquals" xml:"HttpErrorCodeReturnedEquals"`
+	// IncludeHeader
+	IncludeHeader *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader `json:"IncludeHeader,omitempty" xml:"IncludeHeader,omitempty" type:"Struct"`
+	// KeyPrefixEquals
+	KeyPrefixEquals *string `json:"KeyPrefixEquals,omitempty" xml:"KeyPrefixEquals,omitempty"`
+	// HttpErrorCodeReturnedEquals
+	HttpErrorCodeReturnedEquals *string `json:"HttpErrorCodeReturnedEquals,omitempty" xml:"HttpErrorCodeReturnedEquals,omitempty"`
 }
 
 func (s PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCondition) String() string {
@@ -833,8 +891,10 @@ func (s *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleC
 }
 
 type PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader struct {
-	Key    *string `json:"Key" xml:"Key"`
-	Equals *string `json:"Equals" xml:"Equals"`
+	// Key
+	Key *string `json:"Key,omitempty" xml:"Key,omitempty"`
+	// Equals
+	Equals *string `json:"Equals,omitempty" xml:"Equals,omitempty"`
 }
 
 func (s PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader) String() string {
@@ -856,18 +916,30 @@ func (s *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleC
 }
 
 type PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect struct {
-	MirrorHeaders         *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders `json:"MirrorHeaders" xml:"MirrorHeaders" type:"Struct"`
-	RedirectType          *string                                                                                      `json:"RedirectType" xml:"RedirectType"`
-	PassQueryString       *bool                                                                                        `json:"PassQueryString" xml:"PassQueryString"`
-	MirrorURL             *string                                                                                      `json:"MirrorURL" xml:"MirrorURL"`
-	MirrorPassQueryString *bool                                                                                        `json:"MirrorPassQueryString" xml:"MirrorPassQueryString"`
-	MirrorFollowRedirect  *bool                                                                                        `json:"MirrorFollowRedirect" xml:"MirrorFollowRedirect"`
-	MirrorCheckMd5        *bool                                                                                        `json:"MirrorCheckMd5" xml:"MirrorCheckMd5"`
-	Protocol              *string                                                                                      `json:"Protocol" xml:"Protocol"`
-	HostName              *string                                                                                      `json:"HostName" xml:"HostName"`
-	HttpRedirectCode      *string                                                                                      `json:"HttpRedirectCode" xml:"HttpRedirectCode"`
-	ReplaceKeyPrefixWith  *string                                                                                      `json:"ReplaceKeyPrefixWith" xml:"ReplaceKeyPrefixWith"`
-	ReplaceKeyWith        *string                                                                                      `json:"ReplaceKeyWith" xml:"ReplaceKeyWith"`
+	// MirrorHeaders
+	MirrorHeaders *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders `json:"MirrorHeaders,omitempty" xml:"MirrorHeaders,omitempty" type:"Struct"`
+	// RedirectType
+	RedirectType *string `json:"RedirectType,omitempty" xml:"RedirectType,omitempty"`
+	// PassQueryString
+	PassQueryString *bool `json:"PassQueryString,omitempty" xml:"PassQueryString,omitempty"`
+	// MirrorURL
+	MirrorURL *string `json:"MirrorURL,omitempty" xml:"MirrorURL,omitempty"`
+	// MirrorPassQueryString
+	MirrorPassQueryString *bool `json:"MirrorPassQueryString,omitempty" xml:"MirrorPassQueryString,omitempty"`
+	// MirrorFollowRedirect
+	MirrorFollowRedirect *bool `json:"MirrorFollowRedirect,omitempty" xml:"MirrorFollowRedirect,omitempty"`
+	// MirrorCheckMd5
+	MirrorCheckMd5 *bool `json:"MirrorCheckMd5,omitempty" xml:"MirrorCheckMd5,omitempty"`
+	// Protocol
+	Protocol *string `json:"Protocol,omitempty" xml:"Protocol,omitempty"`
+	// HostName
+	HostName *string `json:"HostName,omitempty" xml:"HostName,omitempty"`
+	// HttpRedirectCode
+	HttpRedirectCode *string `json:"HttpRedirectCode,omitempty" xml:"HttpRedirectCode,omitempty"`
+	// ReplaceKeyPrefixWith
+	ReplaceKeyPrefixWith *string `json:"ReplaceKeyPrefixWith,omitempty" xml:"ReplaceKeyPrefixWith,omitempty"`
+	// ReplaceKeyWith
+	ReplaceKeyWith *string `json:"ReplaceKeyWith,omitempty" xml:"ReplaceKeyWith,omitempty"`
 }
 
 func (s PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect) String() string {
@@ -939,10 +1011,14 @@ func (s *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleR
 }
 
 type PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders struct {
-	Set     *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet `json:"Set" xml:"Set" type:"Struct"`
-	PassAll *bool                                                                                           `json:"PassAll" xml:"PassAll"`
-	Pass    *string                                                                                         `json:"Pass" xml:"Pass"`
-	Remove  *string                                                                                         `json:"Remove" xml:"Remove"`
+	// Set
+	Set *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet `json:"Set,omitempty" xml:"Set,omitempty" type:"Struct"`
+	// PassAll
+	PassAll *bool `json:"PassAll,omitempty" xml:"PassAll,omitempty"`
+	// Pass
+	Pass *string `json:"Pass,omitempty" xml:"Pass,omitempty"`
+	// Remove
+	Remove *string `json:"Remove,omitempty" xml:"Remove,omitempty"`
 }
 
 func (s PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders) String() string {
@@ -974,8 +1050,10 @@ func (s *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleR
 }
 
 type PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet struct {
-	Key   *string `json:"Key" xml:"Key"`
-	Value *string `json:"Value" xml:"Value"`
+	// Key
+	Key *string `json:"Key,omitempty" xml:"Key,omitempty"`
+	// Value
+	Value *string `json:"Value,omitempty" xml:"Value,omitempty"`
 }
 
 func (s PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet) String() string {
@@ -997,7 +1075,8 @@ func (s *PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleR
 }
 
 type PutBucketWebsiteResponse struct {
-	RequestId *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
 }
 
 func (s PutBucketWebsiteResponse) String() string {
@@ -1014,10 +1093,14 @@ func (s *PutBucketWebsiteResponse) SetRequestId(v string) *PutBucketWebsiteRespo
 }
 
 type CompleteMultipartUploadRequest struct {
-	BucketName *string                               `json:"BucketName" xml:"BucketName" require:"true"`
-	ObjectName *string                               `json:"ObjectName" xml:"ObjectName" require:"true"`
-	Filter     *CompleteMultipartUploadRequestFilter `json:"Filter" xml:"Filter" require:"true" type:"Struct"`
-	Body       *CompleteMultipartUploadRequestBody   `json:"Body" xml:"Body" type:"Struct"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	// ObjectName
+	ObjectName *string `json:"ObjectName,omitempty" xml:"ObjectName,omitempty" require:"true"`
+	// Filter
+	Filter *CompleteMultipartUploadRequestFilter `json:"Filter,omitempty" xml:"Filter,omitempty" require:"true" type:"Struct"`
+	// Body
+	Body *CompleteMultipartUploadRequestBody `json:"Body,omitempty" xml:"Body,omitempty" type:"Struct"`
 }
 
 func (s CompleteMultipartUploadRequest) String() string {
@@ -1049,8 +1132,10 @@ func (s *CompleteMultipartUploadRequest) SetBody(v *CompleteMultipartUploadReque
 }
 
 type CompleteMultipartUploadRequestFilter struct {
-	UploadId     *string `json:"uploadId" xml:"uploadId" require:"true" signed:"true"`
-	EncodingType *string `json:"Encoding-type" xml:"Encoding-type"`
+	// uploadId
+	UploadId *string `json:"uploadId,omitempty" xml:"uploadId,omitempty" require:"true" signed:"true"`
+	// Encoding-type
+	EncodingType *string `json:"Encoding-type,omitempty" xml:"Encoding-type,omitempty"`
 }
 
 func (s CompleteMultipartUploadRequestFilter) String() string {
@@ -1072,7 +1157,8 @@ func (s *CompleteMultipartUploadRequestFilter) SetEncodingType(v string) *Comple
 }
 
 type CompleteMultipartUploadRequestBody struct {
-	CompleteMultipartUpload *CompleteMultipartUploadRequestBodyCompleteMultipartUpload `json:"CompleteMultipartUpload" xml:"CompleteMultipartUpload" require:"true" type:"Struct"`
+	// CompleteMultipartUpload
+	CompleteMultipartUpload *CompleteMultipartUploadRequestBodyCompleteMultipartUpload `json:"CompleteMultipartUpload,omitempty" xml:"CompleteMultipartUpload,omitempty" require:"true" type:"Struct"`
 }
 
 func (s CompleteMultipartUploadRequestBody) String() string {
@@ -1089,7 +1175,8 @@ func (s *CompleteMultipartUploadRequestBody) SetCompleteMultipartUpload(v *Compl
 }
 
 type CompleteMultipartUploadRequestBodyCompleteMultipartUpload struct {
-	Part []*CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart `json:"Part" xml:"Part" type:"Repeated"`
+	// Part
+	Part []*CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart `json:"Part,omitempty" xml:"Part,omitempty" type:"Repeated"`
 }
 
 func (s CompleteMultipartUploadRequestBodyCompleteMultipartUpload) String() string {
@@ -1106,8 +1193,10 @@ func (s *CompleteMultipartUploadRequestBodyCompleteMultipartUpload) SetPart(v []
 }
 
 type CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart struct {
-	PartNumber *string `json:"PartNumber" xml:"PartNumber"`
-	ETag       *string `json:"ETag" xml:"ETag"`
+	// PartNumber
+	PartNumber *string `json:"PartNumber,omitempty" xml:"PartNumber,omitempty"`
+	// ETag
+	ETag *string `json:"ETag,omitempty" xml:"ETag,omitempty"`
 }
 
 func (s CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart) String() string {
@@ -1129,8 +1218,10 @@ func (s *CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart) SetETag(
 }
 
 type CompleteMultipartUploadResponse struct {
-	RequestId                     *string                                                       `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
-	CompleteMultipartUploadResult *CompleteMultipartUploadResponseCompleteMultipartUploadResult `json:"CompleteMultipartUploadResult" xml:"CompleteMultipartUploadResult" require:"true" type:"Struct"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
+	// CompleteMultipartUploadResult
+	CompleteMultipartUploadResult *CompleteMultipartUploadResponseCompleteMultipartUploadResult `json:"CompleteMultipartUploadResult,omitempty" xml:"CompleteMultipartUploadResult,omitempty" require:"true" type:"Struct"`
 }
 
 func (s CompleteMultipartUploadResponse) String() string {
@@ -1152,11 +1243,16 @@ func (s *CompleteMultipartUploadResponse) SetCompleteMultipartUploadResult(v *Co
 }
 
 type CompleteMultipartUploadResponseCompleteMultipartUploadResult struct {
-	Bucket       *string `json:"Bucket" xml:"Bucket"`
-	ETag         *string `json:"ETag" xml:"ETag"`
-	Location     *string `json:"Location" xml:"Location"`
-	Key          *string `json:"Key" xml:"Key"`
-	EncodingType *string `json:"EncodingType" xml:"EncodingType"`
+	// Bucket
+	Bucket *string `json:"Bucket,omitempty" xml:"Bucket,omitempty"`
+	// ETag
+	ETag *string `json:"ETag,omitempty" xml:"ETag,omitempty"`
+	// Location
+	Location *string `json:"Location,omitempty" xml:"Location,omitempty"`
+	// Key
+	Key *string `json:"Key,omitempty" xml:"Key,omitempty"`
+	// EncodingType
+	EncodingType *string `json:"EncodingType,omitempty" xml:"EncodingType,omitempty"`
 }
 
 func (s CompleteMultipartUploadResponseCompleteMultipartUploadResult) String() string {
@@ -1193,8 +1289,10 @@ func (s *CompleteMultipartUploadResponseCompleteMultipartUploadResult) SetEncodi
 }
 
 type PutBucketLoggingRequest struct {
-	BucketName *string                      `json:"BucketName" xml:"BucketName" require:"true"`
-	Body       *PutBucketLoggingRequestBody `json:"Body" xml:"Body" type:"Struct"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	// Body
+	Body *PutBucketLoggingRequestBody `json:"Body,omitempty" xml:"Body,omitempty" type:"Struct"`
 }
 
 func (s PutBucketLoggingRequest) String() string {
@@ -1216,7 +1314,8 @@ func (s *PutBucketLoggingRequest) SetBody(v *PutBucketLoggingRequestBody) *PutBu
 }
 
 type PutBucketLoggingRequestBody struct {
-	BucketLoggingStatus *PutBucketLoggingRequestBodyBucketLoggingStatus `json:"BucketLoggingStatus" xml:"BucketLoggingStatus" require:"true" type:"Struct"`
+	// BucketLoggingStatus
+	BucketLoggingStatus *PutBucketLoggingRequestBodyBucketLoggingStatus `json:"BucketLoggingStatus,omitempty" xml:"BucketLoggingStatus,omitempty" require:"true" type:"Struct"`
 }
 
 func (s PutBucketLoggingRequestBody) String() string {
@@ -1233,7 +1332,8 @@ func (s *PutBucketLoggingRequestBody) SetBucketLoggingStatus(v *PutBucketLogging
 }
 
 type PutBucketLoggingRequestBodyBucketLoggingStatus struct {
-	LoggingEnabled *PutBucketLoggingRequestBodyBucketLoggingStatusLoggingEnabled `json:"LoggingEnabled" xml:"LoggingEnabled" type:"Struct"`
+	// LoggingEnabled
+	LoggingEnabled *PutBucketLoggingRequestBodyBucketLoggingStatusLoggingEnabled `json:"LoggingEnabled,omitempty" xml:"LoggingEnabled,omitempty" type:"Struct"`
 }
 
 func (s PutBucketLoggingRequestBodyBucketLoggingStatus) String() string {
@@ -1250,8 +1350,10 @@ func (s *PutBucketLoggingRequestBodyBucketLoggingStatus) SetLoggingEnabled(v *Pu
 }
 
 type PutBucketLoggingRequestBodyBucketLoggingStatusLoggingEnabled struct {
-	TargetBucket *string `json:"TargetBucket" xml:"TargetBucket"`
-	TargetPrefix *string `json:"TargetPrefix" xml:"TargetPrefix"`
+	// TargetBucket
+	TargetBucket *string `json:"TargetBucket,omitempty" xml:"TargetBucket,omitempty"`
+	// TargetPrefix
+	TargetPrefix *string `json:"TargetPrefix,omitempty" xml:"TargetPrefix,omitempty"`
 }
 
 func (s PutBucketLoggingRequestBodyBucketLoggingStatusLoggingEnabled) String() string {
@@ -1273,7 +1375,8 @@ func (s *PutBucketLoggingRequestBodyBucketLoggingStatusLoggingEnabled) SetTarget
 }
 
 type PutBucketLoggingResponse struct {
-	RequestId *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
 }
 
 func (s PutBucketLoggingResponse) String() string {
@@ -1290,8 +1393,10 @@ func (s *PutBucketLoggingResponse) SetRequestId(v string) *PutBucketLoggingRespo
 }
 
 type PutBucketRequestPaymentRequest struct {
-	BucketName *string                             `json:"BucketName" xml:"BucketName" require:"true"`
-	Body       *PutBucketRequestPaymentRequestBody `json:"Body" xml:"Body" type:"Struct"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	// Body
+	Body *PutBucketRequestPaymentRequestBody `json:"Body,omitempty" xml:"Body,omitempty" type:"Struct"`
 }
 
 func (s PutBucketRequestPaymentRequest) String() string {
@@ -1313,7 +1418,8 @@ func (s *PutBucketRequestPaymentRequest) SetBody(v *PutBucketRequestPaymentReque
 }
 
 type PutBucketRequestPaymentRequestBody struct {
-	RequestPaymentConfiguration *PutBucketRequestPaymentRequestBodyRequestPaymentConfiguration `json:"RequestPaymentConfiguration" xml:"RequestPaymentConfiguration" require:"true" type:"Struct"`
+	// RequestPaymentConfiguration
+	RequestPaymentConfiguration *PutBucketRequestPaymentRequestBodyRequestPaymentConfiguration `json:"RequestPaymentConfiguration,omitempty" xml:"RequestPaymentConfiguration,omitempty" require:"true" type:"Struct"`
 }
 
 func (s PutBucketRequestPaymentRequestBody) String() string {
@@ -1330,7 +1436,8 @@ func (s *PutBucketRequestPaymentRequestBody) SetRequestPaymentConfiguration(v *P
 }
 
 type PutBucketRequestPaymentRequestBodyRequestPaymentConfiguration struct {
-	Payer *string `json:"Payer" xml:"Payer"`
+	// Payer
+	Payer *string `json:"Payer,omitempty" xml:"Payer,omitempty"`
 }
 
 func (s PutBucketRequestPaymentRequestBodyRequestPaymentConfiguration) String() string {
@@ -1347,7 +1454,8 @@ func (s *PutBucketRequestPaymentRequestBodyRequestPaymentConfiguration) SetPayer
 }
 
 type PutBucketRequestPaymentResponse struct {
-	RequestId *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
 }
 
 func (s PutBucketRequestPaymentResponse) String() string {
@@ -1364,8 +1472,10 @@ func (s *PutBucketRequestPaymentResponse) SetRequestId(v string) *PutBucketReque
 }
 
 type PutBucketEncryptionRequest struct {
-	BucketName *string                         `json:"BucketName" xml:"BucketName" require:"true"`
-	Body       *PutBucketEncryptionRequestBody `json:"Body" xml:"Body" type:"Struct"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	// Body
+	Body *PutBucketEncryptionRequestBody `json:"Body,omitempty" xml:"Body,omitempty" type:"Struct"`
 }
 
 func (s PutBucketEncryptionRequest) String() string {
@@ -1387,7 +1497,8 @@ func (s *PutBucketEncryptionRequest) SetBody(v *PutBucketEncryptionRequestBody) 
 }
 
 type PutBucketEncryptionRequestBody struct {
-	ServerSideEncryptionRule *PutBucketEncryptionRequestBodyServerSideEncryptionRule `json:"ServerSideEncryptionRule" xml:"ServerSideEncryptionRule" require:"true" type:"Struct"`
+	// ServerSideEncryptionRule
+	ServerSideEncryptionRule *PutBucketEncryptionRequestBodyServerSideEncryptionRule `json:"ServerSideEncryptionRule,omitempty" xml:"ServerSideEncryptionRule,omitempty" require:"true" type:"Struct"`
 }
 
 func (s PutBucketEncryptionRequestBody) String() string {
@@ -1404,7 +1515,8 @@ func (s *PutBucketEncryptionRequestBody) SetServerSideEncryptionRule(v *PutBucke
 }
 
 type PutBucketEncryptionRequestBodyServerSideEncryptionRule struct {
-	ApplyServerSideEncryptionByDefault *PutBucketEncryptionRequestBodyServerSideEncryptionRuleApplyServerSideEncryptionByDefault `json:"ApplyServerSideEncryptionByDefault" xml:"ApplyServerSideEncryptionByDefault" type:"Struct"`
+	// ApplyServerSideEncryptionByDefault
+	ApplyServerSideEncryptionByDefault *PutBucketEncryptionRequestBodyServerSideEncryptionRuleApplyServerSideEncryptionByDefault `json:"ApplyServerSideEncryptionByDefault,omitempty" xml:"ApplyServerSideEncryptionByDefault,omitempty" type:"Struct"`
 }
 
 func (s PutBucketEncryptionRequestBodyServerSideEncryptionRule) String() string {
@@ -1421,8 +1533,10 @@ func (s *PutBucketEncryptionRequestBodyServerSideEncryptionRule) SetApplyServerS
 }
 
 type PutBucketEncryptionRequestBodyServerSideEncryptionRuleApplyServerSideEncryptionByDefault struct {
-	SSEAlgorithm   *string `json:"SSEAlgorithm" xml:"SSEAlgorithm"`
-	KMSMasterKeyID *string `json:"KMSMasterKeyID" xml:"KMSMasterKeyID"`
+	// SSEAlgorithm
+	SSEAlgorithm *string `json:"SSEAlgorithm,omitempty" xml:"SSEAlgorithm,omitempty"`
+	// KMSMasterKeyID
+	KMSMasterKeyID *string `json:"KMSMasterKeyID,omitempty" xml:"KMSMasterKeyID,omitempty"`
 }
 
 func (s PutBucketEncryptionRequestBodyServerSideEncryptionRuleApplyServerSideEncryptionByDefault) String() string {
@@ -1444,7 +1558,8 @@ func (s *PutBucketEncryptionRequestBodyServerSideEncryptionRuleApplyServerSideEn
 }
 
 type PutBucketEncryptionResponse struct {
-	RequestId *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
 }
 
 func (s PutBucketEncryptionResponse) String() string {
@@ -1461,9 +1576,12 @@ func (s *PutBucketEncryptionResponse) SetRequestId(v string) *PutBucketEncryptio
 }
 
 type PutLiveChannelRequest struct {
-	BucketName  *string                    `json:"BucketName" xml:"BucketName" require:"true"`
-	ChannelName *string                    `json:"ChannelName" xml:"ChannelName" require:"true"`
-	Body        *PutLiveChannelRequestBody `json:"Body" xml:"Body" type:"Struct"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	// ChannelName
+	ChannelName *string `json:"ChannelName,omitempty" xml:"ChannelName,omitempty" require:"true"`
+	// Body
+	Body *PutLiveChannelRequestBody `json:"Body,omitempty" xml:"Body,omitempty" type:"Struct"`
 }
 
 func (s PutLiveChannelRequest) String() string {
@@ -1490,7 +1608,8 @@ func (s *PutLiveChannelRequest) SetBody(v *PutLiveChannelRequestBody) *PutLiveCh
 }
 
 type PutLiveChannelRequestBody struct {
-	LiveChannelConfiguration *PutLiveChannelRequestBodyLiveChannelConfiguration `json:"LiveChannelConfiguration" xml:"LiveChannelConfiguration" require:"true" type:"Struct"`
+	// LiveChannelConfiguration
+	LiveChannelConfiguration *PutLiveChannelRequestBodyLiveChannelConfiguration `json:"LiveChannelConfiguration,omitempty" xml:"LiveChannelConfiguration,omitempty" require:"true" type:"Struct"`
 }
 
 func (s PutLiveChannelRequestBody) String() string {
@@ -1507,10 +1626,14 @@ func (s *PutLiveChannelRequestBody) SetLiveChannelConfiguration(v *PutLiveChanne
 }
 
 type PutLiveChannelRequestBodyLiveChannelConfiguration struct {
-	Target      *PutLiveChannelRequestBodyLiveChannelConfigurationTarget   `json:"Target" xml:"Target" type:"Struct"`
-	Snapshot    *PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot `json:"Snapshot" xml:"Snapshot" type:"Struct"`
-	Description *string                                                    `json:"Description" xml:"Description"`
-	Status      *string                                                    `json:"Status" xml:"Status"`
+	// Target
+	Target *PutLiveChannelRequestBodyLiveChannelConfigurationTarget `json:"Target,omitempty" xml:"Target,omitempty" type:"Struct"`
+	// Snapshot
+	Snapshot *PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot `json:"Snapshot,omitempty" xml:"Snapshot,omitempty" type:"Struct"`
+	// Description
+	Description *string `json:"Description,omitempty" xml:"Description,omitempty"`
+	// Status
+	Status *string `json:"Status,omitempty" xml:"Status,omitempty"`
 }
 
 func (s PutLiveChannelRequestBodyLiveChannelConfiguration) String() string {
@@ -1542,10 +1665,14 @@ func (s *PutLiveChannelRequestBodyLiveChannelConfiguration) SetStatus(v string) 
 }
 
 type PutLiveChannelRequestBodyLiveChannelConfigurationTarget struct {
-	Type         *string `json:"Type" xml:"Type"`
-	FragDuration *string `json:"FragDuration" xml:"FragDuration"`
-	FragCount    *string `json:"FragCount" xml:"FragCount"`
-	PlaylistName *string `json:"PlaylistName" xml:"PlaylistName"`
+	// Type
+	Type *string `json:"Type,omitempty" xml:"Type,omitempty"`
+	// FragDuration
+	FragDuration *string `json:"FragDuration,omitempty" xml:"FragDuration,omitempty"`
+	// FragCount
+	FragCount *string `json:"FragCount,omitempty" xml:"FragCount,omitempty"`
+	// PlaylistName
+	PlaylistName *string `json:"PlaylistName,omitempty" xml:"PlaylistName,omitempty"`
 }
 
 func (s PutLiveChannelRequestBodyLiveChannelConfigurationTarget) String() string {
@@ -1577,10 +1704,14 @@ func (s *PutLiveChannelRequestBodyLiveChannelConfigurationTarget) SetPlaylistNam
 }
 
 type PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot struct {
-	RoleName    *string `json:"RoleName" xml:"RoleName"`
-	DestBucket  *string `json:"DestBucket" xml:"DestBucket"`
-	NotifyTopic *string `json:"NotifyTopic" xml:"NotifyTopic"`
-	Interval    *string `json:"Interval" xml:"Interval"`
+	// RoleName
+	RoleName *string `json:"RoleName,omitempty" xml:"RoleName,omitempty"`
+	// DestBucket
+	DestBucket *string `json:"DestBucket,omitempty" xml:"DestBucket,omitempty"`
+	// NotifyTopic
+	NotifyTopic *string `json:"NotifyTopic,omitempty" xml:"NotifyTopic,omitempty"`
+	// Interval
+	Interval *string `json:"Interval,omitempty" xml:"Interval,omitempty"`
 }
 
 func (s PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot) String() string {
@@ -1612,8 +1743,10 @@ func (s *PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot) SetInterval(
 }
 
 type PutLiveChannelResponse struct {
-	RequestId               *string                                        `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
-	CreateLiveChannelResult *PutLiveChannelResponseCreateLiveChannelResult `json:"CreateLiveChannelResult" xml:"CreateLiveChannelResult" require:"true" type:"Struct"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
+	// CreateLiveChannelResult
+	CreateLiveChannelResult *PutLiveChannelResponseCreateLiveChannelResult `json:"CreateLiveChannelResult,omitempty" xml:"CreateLiveChannelResult,omitempty" require:"true" type:"Struct"`
 }
 
 func (s PutLiveChannelResponse) String() string {
@@ -1635,8 +1768,10 @@ func (s *PutLiveChannelResponse) SetCreateLiveChannelResult(v *PutLiveChannelRes
 }
 
 type PutLiveChannelResponseCreateLiveChannelResult struct {
-	PublishUrls *PutLiveChannelResponseCreateLiveChannelResultPublishUrls `json:"PublishUrls" xml:"PublishUrls" require:"true" type:"Struct"`
-	PlayUrls    *PutLiveChannelResponseCreateLiveChannelResultPlayUrls    `json:"PlayUrls" xml:"PlayUrls" require:"true" type:"Struct"`
+	// PublishUrls
+	PublishUrls *PutLiveChannelResponseCreateLiveChannelResultPublishUrls `json:"PublishUrls,omitempty" xml:"PublishUrls,omitempty" require:"true" type:"Struct"`
+	// PlayUrls
+	PlayUrls *PutLiveChannelResponseCreateLiveChannelResultPlayUrls `json:"PlayUrls,omitempty" xml:"PlayUrls,omitempty" require:"true" type:"Struct"`
 }
 
 func (s PutLiveChannelResponseCreateLiveChannelResult) String() string {
@@ -1658,7 +1793,8 @@ func (s *PutLiveChannelResponseCreateLiveChannelResult) SetPlayUrls(v *PutLiveCh
 }
 
 type PutLiveChannelResponseCreateLiveChannelResultPublishUrls struct {
-	Url *string `json:"Url" xml:"Url"`
+	// Url
+	Url *string `json:"Url,omitempty" xml:"Url,omitempty"`
 }
 
 func (s PutLiveChannelResponseCreateLiveChannelResultPublishUrls) String() string {
@@ -1675,7 +1811,8 @@ func (s *PutLiveChannelResponseCreateLiveChannelResultPublishUrls) SetUrl(v stri
 }
 
 type PutLiveChannelResponseCreateLiveChannelResultPlayUrls struct {
-	Url *string `json:"Url" xml:"Url"`
+	// Url
+	Url *string `json:"Url,omitempty" xml:"Url,omitempty"`
 }
 
 func (s PutLiveChannelResponseCreateLiveChannelResultPlayUrls) String() string {
@@ -1692,8 +1829,10 @@ func (s *PutLiveChannelResponseCreateLiveChannelResultPlayUrls) SetUrl(v string)
 }
 
 type PutBucketTagsRequest struct {
-	BucketName *string                   `json:"BucketName" xml:"BucketName" require:"true"`
-	Body       *PutBucketTagsRequestBody `json:"Body" xml:"Body" type:"Struct"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	// Body
+	Body *PutBucketTagsRequestBody `json:"Body,omitempty" xml:"Body,omitempty" type:"Struct"`
 }
 
 func (s PutBucketTagsRequest) String() string {
@@ -1715,7 +1854,8 @@ func (s *PutBucketTagsRequest) SetBody(v *PutBucketTagsRequestBody) *PutBucketTa
 }
 
 type PutBucketTagsRequestBody struct {
-	Tagging *PutBucketTagsRequestBodyTagging `json:"Tagging" xml:"Tagging" require:"true" type:"Struct"`
+	// Tagging
+	Tagging *PutBucketTagsRequestBodyTagging `json:"Tagging,omitempty" xml:"Tagging,omitempty" require:"true" type:"Struct"`
 }
 
 func (s PutBucketTagsRequestBody) String() string {
@@ -1732,7 +1872,8 @@ func (s *PutBucketTagsRequestBody) SetTagging(v *PutBucketTagsRequestBodyTagging
 }
 
 type PutBucketTagsRequestBodyTagging struct {
-	TagSet *PutBucketTagsRequestBodyTaggingTagSet `json:"TagSet" xml:"TagSet" type:"Struct"`
+	// TagSet
+	TagSet *PutBucketTagsRequestBodyTaggingTagSet `json:"TagSet,omitempty" xml:"TagSet,omitempty" type:"Struct"`
 }
 
 func (s PutBucketTagsRequestBodyTagging) String() string {
@@ -1749,7 +1890,8 @@ func (s *PutBucketTagsRequestBodyTagging) SetTagSet(v *PutBucketTagsRequestBodyT
 }
 
 type PutBucketTagsRequestBodyTaggingTagSet struct {
-	Tag []*PutBucketTagsRequestBodyTaggingTagSetTag `json:"Tag" xml:"Tag" type:"Repeated"`
+	// Tag
+	Tag []*PutBucketTagsRequestBodyTaggingTagSetTag `json:"Tag,omitempty" xml:"Tag,omitempty" type:"Repeated"`
 }
 
 func (s PutBucketTagsRequestBodyTaggingTagSet) String() string {
@@ -1766,8 +1908,10 @@ func (s *PutBucketTagsRequestBodyTaggingTagSet) SetTag(v []*PutBucketTagsRequest
 }
 
 type PutBucketTagsRequestBodyTaggingTagSetTag struct {
-	Key   *string `json:"Key" xml:"Key"`
-	Value *string `json:"Value" xml:"Value"`
+	// Key
+	Key *string `json:"Key,omitempty" xml:"Key,omitempty"`
+	// Value
+	Value *string `json:"Value,omitempty" xml:"Value,omitempty"`
 }
 
 func (s PutBucketTagsRequestBodyTaggingTagSetTag) String() string {
@@ -1789,7 +1933,8 @@ func (s *PutBucketTagsRequestBodyTaggingTagSetTag) SetValue(v string) *PutBucket
 }
 
 type PutBucketTagsResponse struct {
-	RequestId *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
 }
 
 func (s PutBucketTagsResponse) String() string {
@@ -1806,9 +1951,12 @@ func (s *PutBucketTagsResponse) SetRequestId(v string) *PutBucketTagsResponse {
 }
 
 type PutObjectTaggingRequest struct {
-	BucketName *string                      `json:"BucketName" xml:"BucketName" require:"true"`
-	ObjectName *string                      `json:"ObjectName" xml:"ObjectName" require:"true"`
-	Body       *PutObjectTaggingRequestBody `json:"Body" xml:"Body" type:"Struct"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	// ObjectName
+	ObjectName *string `json:"ObjectName,omitempty" xml:"ObjectName,omitempty" require:"true"`
+	// Body
+	Body *PutObjectTaggingRequestBody `json:"Body,omitempty" xml:"Body,omitempty" type:"Struct"`
 }
 
 func (s PutObjectTaggingRequest) String() string {
@@ -1835,7 +1983,8 @@ func (s *PutObjectTaggingRequest) SetBody(v *PutObjectTaggingRequestBody) *PutOb
 }
 
 type PutObjectTaggingRequestBody struct {
-	Tagging *PutObjectTaggingRequestBodyTagging `json:"Tagging" xml:"Tagging" require:"true" type:"Struct"`
+	// Tagging
+	Tagging *PutObjectTaggingRequestBodyTagging `json:"Tagging,omitempty" xml:"Tagging,omitempty" require:"true" type:"Struct"`
 }
 
 func (s PutObjectTaggingRequestBody) String() string {
@@ -1852,7 +2001,8 @@ func (s *PutObjectTaggingRequestBody) SetTagging(v *PutObjectTaggingRequestBodyT
 }
 
 type PutObjectTaggingRequestBodyTagging struct {
-	TagSet *PutObjectTaggingRequestBodyTaggingTagSet `json:"TagSet" xml:"TagSet" type:"Struct"`
+	// TagSet
+	TagSet *PutObjectTaggingRequestBodyTaggingTagSet `json:"TagSet,omitempty" xml:"TagSet,omitempty" type:"Struct"`
 }
 
 func (s PutObjectTaggingRequestBodyTagging) String() string {
@@ -1869,7 +2019,8 @@ func (s *PutObjectTaggingRequestBodyTagging) SetTagSet(v *PutObjectTaggingReques
 }
 
 type PutObjectTaggingRequestBodyTaggingTagSet struct {
-	Tag []*PutObjectTaggingRequestBodyTaggingTagSetTag `json:"Tag" xml:"Tag" type:"Repeated"`
+	// Tag
+	Tag []*PutObjectTaggingRequestBodyTaggingTagSetTag `json:"Tag,omitempty" xml:"Tag,omitempty" type:"Repeated"`
 }
 
 func (s PutObjectTaggingRequestBodyTaggingTagSet) String() string {
@@ -1886,8 +2037,10 @@ func (s *PutObjectTaggingRequestBodyTaggingTagSet) SetTag(v []*PutObjectTaggingR
 }
 
 type PutObjectTaggingRequestBodyTaggingTagSetTag struct {
-	Key   *string `json:"Key" xml:"Key"`
-	Value *string `json:"Value" xml:"Value"`
+	// Key
+	Key *string `json:"Key,omitempty" xml:"Key,omitempty"`
+	// Value
+	Value *string `json:"Value,omitempty" xml:"Value,omitempty"`
 }
 
 func (s PutObjectTaggingRequestBodyTaggingTagSetTag) String() string {
@@ -1909,7 +2062,8 @@ func (s *PutObjectTaggingRequestBodyTaggingTagSetTag) SetValue(v string) *PutObj
 }
 
 type PutObjectTaggingResponse struct {
-	RequestId *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
 }
 
 func (s PutObjectTaggingResponse) String() string {
@@ -1926,10 +2080,14 @@ func (s *PutObjectTaggingResponse) SetRequestId(v string) *PutObjectTaggingRespo
 }
 
 type SelectObjectRequest struct {
-	BucketName *string                    `json:"BucketName" xml:"BucketName" require:"true"`
-	ObjectName *string                    `json:"ObjectName" xml:"ObjectName" require:"true"`
-	Filter     *SelectObjectRequestFilter `json:"Filter" xml:"Filter" require:"true" type:"Struct"`
-	Body       *SelectObjectRequestBody   `json:"Body" xml:"Body" type:"Struct"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	// ObjectName
+	ObjectName *string `json:"ObjectName,omitempty" xml:"ObjectName,omitempty" require:"true"`
+	// Filter
+	Filter *SelectObjectRequestFilter `json:"Filter,omitempty" xml:"Filter,omitempty" require:"true" type:"Struct"`
+	// Body
+	Body *SelectObjectRequestBody `json:"Body,omitempty" xml:"Body,omitempty" type:"Struct"`
 }
 
 func (s SelectObjectRequest) String() string {
@@ -1961,7 +2119,8 @@ func (s *SelectObjectRequest) SetBody(v *SelectObjectRequestBody) *SelectObjectR
 }
 
 type SelectObjectRequestFilter struct {
-	Porcess *string `json:"x-oss-process" xml:"x-oss-process" require:"true"`
+	// x-oss-process
+	Porcess *string `json:"x-oss-process,omitempty" xml:"x-oss-process,omitempty" require:"true"`
 }
 
 func (s SelectObjectRequestFilter) String() string {
@@ -1978,7 +2137,8 @@ func (s *SelectObjectRequestFilter) SetPorcess(v string) *SelectObjectRequestFil
 }
 
 type SelectObjectRequestBody struct {
-	SelectRequest *SelectObjectRequestBodySelectRequest `json:"SelectRequest" xml:"SelectRequest" require:"true" type:"Struct"`
+	// SelectRequest
+	SelectRequest *SelectObjectRequestBodySelectRequest `json:"SelectRequest,omitempty" xml:"SelectRequest,omitempty" require:"true" type:"Struct"`
 }
 
 func (s SelectObjectRequestBody) String() string {
@@ -1995,10 +2155,14 @@ func (s *SelectObjectRequestBody) SetSelectRequest(v *SelectObjectRequestBodySel
 }
 
 type SelectObjectRequestBodySelectRequest struct {
-	InputSerialization  *SelectObjectRequestBodySelectRequestInputSerialization  `json:"InputSerialization" xml:"InputSerialization" type:"Struct"`
-	OutputSerialization *SelectObjectRequestBodySelectRequestOutputSerialization `json:"OutputSerialization" xml:"OutputSerialization" type:"Struct"`
-	Options             *SelectObjectRequestBodySelectRequestOptions             `json:"Options" xml:"Options" type:"Struct"`
-	Expression          *string                                                  `json:"Expression" xml:"Expression"`
+	// InputSerialization
+	InputSerialization *SelectObjectRequestBodySelectRequestInputSerialization `json:"InputSerialization,omitempty" xml:"InputSerialization,omitempty" type:"Struct"`
+	// OutputSerialization
+	OutputSerialization *SelectObjectRequestBodySelectRequestOutputSerialization `json:"OutputSerialization,omitempty" xml:"OutputSerialization,omitempty" type:"Struct"`
+	// Options
+	Options *SelectObjectRequestBodySelectRequestOptions `json:"Options,omitempty" xml:"Options,omitempty" type:"Struct"`
+	// Expression
+	Expression *string `json:"Expression,omitempty" xml:"Expression,omitempty"`
 }
 
 func (s SelectObjectRequestBodySelectRequest) String() string {
@@ -2030,8 +2194,10 @@ func (s *SelectObjectRequestBodySelectRequest) SetExpression(v string) *SelectOb
 }
 
 type SelectObjectRequestBodySelectRequestInputSerialization struct {
-	CSV             *SelectObjectRequestBodySelectRequestInputSerializationCSV `json:"CSV" xml:"CSV" type:"Struct"`
-	CompressionType *string                                                    `json:"CompressionType" xml:"CompressionType"`
+	// CSV
+	CSV *SelectObjectRequestBodySelectRequestInputSerializationCSV `json:"CSV,omitempty" xml:"CSV,omitempty" type:"Struct"`
+	// CompressionType
+	CompressionType *string `json:"CompressionType,omitempty" xml:"CompressionType,omitempty"`
 }
 
 func (s SelectObjectRequestBodySelectRequestInputSerialization) String() string {
@@ -2053,12 +2219,18 @@ func (s *SelectObjectRequestBodySelectRequestInputSerialization) SetCompressionT
 }
 
 type SelectObjectRequestBodySelectRequestInputSerializationCSV struct {
-	FileHeaderInfo   *string `json:"FileHeaderInfo" xml:"FileHeaderInfo"`
-	RecordDelimiter  *string `json:"RecordDelimiter" xml:"RecordDelimiter"`
-	FieldDelimiter   *string `json:"FieldDelimiter" xml:"FieldDelimiter"`
-	QuoteCharacter   *string `json:"QuoteCharacter" xml:"QuoteCharacter"`
-	CommentCharacter *string `json:"CommentCharacter" xml:"CommentCharacter"`
-	Range            *string `json:"Range" xml:"Range"`
+	// FileHeaderInfo
+	FileHeaderInfo *string `json:"FileHeaderInfo,omitempty" xml:"FileHeaderInfo,omitempty"`
+	// RecordDelimiter
+	RecordDelimiter *string `json:"RecordDelimiter,omitempty" xml:"RecordDelimiter,omitempty"`
+	// FieldDelimiter
+	FieldDelimiter *string `json:"FieldDelimiter,omitempty" xml:"FieldDelimiter,omitempty"`
+	// QuoteCharacter
+	QuoteCharacter *string `json:"QuoteCharacter,omitempty" xml:"QuoteCharacter,omitempty"`
+	// CommentCharacter
+	CommentCharacter *string `json:"CommentCharacter,omitempty" xml:"CommentCharacter,omitempty"`
+	// Range
+	Range *string `json:"Range,omitempty" xml:"Range,omitempty"`
 }
 
 func (s SelectObjectRequestBodySelectRequestInputSerializationCSV) String() string {
@@ -2100,11 +2272,16 @@ func (s *SelectObjectRequestBodySelectRequestInputSerializationCSV) SetRange(v s
 }
 
 type SelectObjectRequestBodySelectRequestOutputSerialization struct {
-	CSV              *SelectObjectRequestBodySelectRequestOutputSerializationCSV `json:"CSV" xml:"CSV" type:"Struct"`
-	KeepAllColumns   *string                                                     `json:"KeepAllColumns" xml:"KeepAllColumns"`
-	OutputRawData    *string                                                     `json:"OutputRawData" xml:"OutputRawData"`
-	EnablePayloadCrc *string                                                     `json:"EnablePayloadCrc" xml:"EnablePayloadCrc"`
-	OutputHeader     *string                                                     `json:"OutputHeader" xml:"OutputHeader"`
+	// CSV
+	CSV *SelectObjectRequestBodySelectRequestOutputSerializationCSV `json:"CSV,omitempty" xml:"CSV,omitempty" type:"Struct"`
+	// KeepAllColumns
+	KeepAllColumns *string `json:"KeepAllColumns,omitempty" xml:"KeepAllColumns,omitempty"`
+	// OutputRawData
+	OutputRawData *string `json:"OutputRawData,omitempty" xml:"OutputRawData,omitempty"`
+	// EnablePayloadCrc
+	EnablePayloadCrc *string `json:"EnablePayloadCrc,omitempty" xml:"EnablePayloadCrc,omitempty"`
+	// OutputHeader
+	OutputHeader *string `json:"OutputHeader,omitempty" xml:"OutputHeader,omitempty"`
 }
 
 func (s SelectObjectRequestBodySelectRequestOutputSerialization) String() string {
@@ -2141,8 +2318,10 @@ func (s *SelectObjectRequestBodySelectRequestOutputSerialization) SetOutputHeade
 }
 
 type SelectObjectRequestBodySelectRequestOutputSerializationCSV struct {
-	RecordDelimiter *string `json:"RecordDelimiter" xml:"RecordDelimiter"`
-	FieldDelimiter  *string `json:"FieldDelimiter" xml:"FieldDelimiter"`
+	// RecordDelimiter
+	RecordDelimiter *string `json:"RecordDelimiter,omitempty" xml:"RecordDelimiter,omitempty"`
+	// FieldDelimiter
+	FieldDelimiter *string `json:"FieldDelimiter,omitempty" xml:"FieldDelimiter,omitempty"`
 }
 
 func (s SelectObjectRequestBodySelectRequestOutputSerializationCSV) String() string {
@@ -2164,8 +2343,10 @@ func (s *SelectObjectRequestBodySelectRequestOutputSerializationCSV) SetFieldDel
 }
 
 type SelectObjectRequestBodySelectRequestOptions struct {
-	SkipPartialDataRecord    *string `json:"SkipPartialDataRecord" xml:"SkipPartialDataRecord"`
-	MaxSkippedRecordsAllowed *string `json:"MaxSkippedRecordsAllowed" xml:"MaxSkippedRecordsAllowed"`
+	// SkipPartialDataRecord
+	SkipPartialDataRecord *string `json:"SkipPartialDataRecord,omitempty" xml:"SkipPartialDataRecord,omitempty"`
+	// MaxSkippedRecordsAllowed
+	MaxSkippedRecordsAllowed *string `json:"MaxSkippedRecordsAllowed,omitempty" xml:"MaxSkippedRecordsAllowed,omitempty"`
 }
 
 func (s SelectObjectRequestBodySelectRequestOptions) String() string {
@@ -2187,7 +2368,8 @@ func (s *SelectObjectRequestBodySelectRequestOptions) SetMaxSkippedRecordsAllowe
 }
 
 type SelectObjectResponse struct {
-	RequestId *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
 }
 
 func (s SelectObjectResponse) String() string {
@@ -2204,8 +2386,10 @@ func (s *SelectObjectResponse) SetRequestId(v string) *SelectObjectResponse {
 }
 
 type PutBucketCORSRequest struct {
-	BucketName *string                   `json:"BucketName" xml:"BucketName" require:"true"`
-	Body       *PutBucketCORSRequestBody `json:"Body" xml:"Body" type:"Struct"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	// Body
+	Body *PutBucketCORSRequestBody `json:"Body,omitempty" xml:"Body,omitempty" type:"Struct"`
 }
 
 func (s PutBucketCORSRequest) String() string {
@@ -2227,7 +2411,8 @@ func (s *PutBucketCORSRequest) SetBody(v *PutBucketCORSRequestBody) *PutBucketCO
 }
 
 type PutBucketCORSRequestBody struct {
-	CORSConfiguration *PutBucketCORSRequestBodyCORSConfiguration `json:"CORSConfiguration" xml:"CORSConfiguration" require:"true" type:"Struct"`
+	// CORSConfiguration
+	CORSConfiguration *PutBucketCORSRequestBodyCORSConfiguration `json:"CORSConfiguration,omitempty" xml:"CORSConfiguration,omitempty" require:"true" type:"Struct"`
 }
 
 func (s PutBucketCORSRequestBody) String() string {
@@ -2244,7 +2429,8 @@ func (s *PutBucketCORSRequestBody) SetCORSConfiguration(v *PutBucketCORSRequestB
 }
 
 type PutBucketCORSRequestBodyCORSConfiguration struct {
-	CORSRule []*PutBucketCORSRequestBodyCORSConfigurationCORSRule `json:"CORSRule" xml:"CORSRule" type:"Repeated"`
+	// CORSRule
+	CORSRule []*PutBucketCORSRequestBodyCORSConfigurationCORSRule `json:"CORSRule,omitempty" xml:"CORSRule,omitempty" type:"Repeated"`
 }
 
 func (s PutBucketCORSRequestBodyCORSConfiguration) String() string {
@@ -2261,11 +2447,16 @@ func (s *PutBucketCORSRequestBodyCORSConfiguration) SetCORSRule(v []*PutBucketCO
 }
 
 type PutBucketCORSRequestBodyCORSConfigurationCORSRule struct {
-	AllowedOrigin []*string `json:"AllowedOrigin" xml:"AllowedOrigin" type:"Repeated"`
-	AllowedMethod []*string `json:"AllowedMethod" xml:"AllowedMethod" type:"Repeated"`
-	AllowedHeader []*string `json:"AllowedHeader" xml:"AllowedHeader" type:"Repeated"`
-	ExposeHeader  []*string `json:"ExposeHeader" xml:"ExposeHeader" type:"Repeated"`
-	MaxAgeSeconds *string   `json:"MaxAgeSeconds" xml:"MaxAgeSeconds"`
+	// AllowedOrigin
+	AllowedOrigin []*string `json:"AllowedOrigin,omitempty" xml:"AllowedOrigin,omitempty" type:"Repeated"`
+	// AllowedMethod
+	AllowedMethod []*string `json:"AllowedMethod,omitempty" xml:"AllowedMethod,omitempty" type:"Repeated"`
+	// AllowedHeader
+	AllowedHeader []*string `json:"AllowedHeader,omitempty" xml:"AllowedHeader,omitempty" type:"Repeated"`
+	// ExposeHeader
+	ExposeHeader []*string `json:"ExposeHeader,omitempty" xml:"ExposeHeader,omitempty" type:"Repeated"`
+	// MaxAgeSeconds
+	MaxAgeSeconds *string `json:"MaxAgeSeconds,omitempty" xml:"MaxAgeSeconds,omitempty"`
 }
 
 func (s PutBucketCORSRequestBodyCORSConfigurationCORSRule) String() string {
@@ -2302,7 +2493,8 @@ func (s *PutBucketCORSRequestBodyCORSConfigurationCORSRule) SetMaxAgeSeconds(v s
 }
 
 type PutBucketCORSResponse struct {
-	RequestId *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
 }
 
 func (s PutBucketCORSResponse) String() string {
@@ -2319,9 +2511,12 @@ func (s *PutBucketCORSResponse) SetRequestId(v string) *PutBucketCORSResponse {
 }
 
 type PutBucketRequest struct {
-	BucketName *string                 `json:"BucketName" xml:"BucketName" require:"true"`
-	Body       *PutBucketRequestBody   `json:"Body" xml:"Body" type:"Struct"`
-	Header     *PutBucketRequestHeader `json:"Header" xml:"Header" type:"Struct"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	// Body
+	Body *PutBucketRequestBody `json:"Body,omitempty" xml:"Body,omitempty" type:"Struct"`
+	// Header
+	Header *PutBucketRequestHeader `json:"Header,omitempty" xml:"Header,omitempty" type:"Struct"`
 }
 
 func (s PutBucketRequest) String() string {
@@ -2348,7 +2543,8 @@ func (s *PutBucketRequest) SetHeader(v *PutBucketRequestHeader) *PutBucketReques
 }
 
 type PutBucketRequestBody struct {
-	CreateBucketConfiguration *PutBucketRequestBodyCreateBucketConfiguration `json:"CreateBucketConfiguration" xml:"CreateBucketConfiguration" require:"true" type:"Struct"`
+	// CreateBucketConfiguration
+	CreateBucketConfiguration *PutBucketRequestBodyCreateBucketConfiguration `json:"CreateBucketConfiguration,omitempty" xml:"CreateBucketConfiguration,omitempty" require:"true" type:"Struct"`
 }
 
 func (s PutBucketRequestBody) String() string {
@@ -2365,8 +2561,10 @@ func (s *PutBucketRequestBody) SetCreateBucketConfiguration(v *PutBucketRequestB
 }
 
 type PutBucketRequestBodyCreateBucketConfiguration struct {
-	StorageClass       *string `json:"StorageClass" xml:"StorageClass"`
-	DataRedundancyType *string `json:"DataRedundancyType" xml:"DataRedundancyType"`
+	// StorageClass
+	StorageClass *string `json:"StorageClass,omitempty" xml:"StorageClass,omitempty"`
+	// DataRedundancyType
+	DataRedundancyType *string `json:"DataRedundancyType,omitempty" xml:"DataRedundancyType,omitempty"`
 }
 
 func (s PutBucketRequestBodyCreateBucketConfiguration) String() string {
@@ -2388,7 +2586,8 @@ func (s *PutBucketRequestBodyCreateBucketConfiguration) SetDataRedundancyType(v 
 }
 
 type PutBucketRequestHeader struct {
-	Acl *string `json:"x-oss-acl" xml:"x-oss-acl"`
+	// x-oss-acl
+	Acl *string `json:"x-oss-acl,omitempty" xml:"x-oss-acl,omitempty"`
 }
 
 func (s PutBucketRequestHeader) String() string {
@@ -2405,7 +2604,8 @@ func (s *PutBucketRequestHeader) SetAcl(v string) *PutBucketRequestHeader {
 }
 
 type PutBucketResponse struct {
-	RequestId *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
 }
 
 func (s PutBucketResponse) String() string {
@@ -2422,8 +2622,10 @@ func (s *PutBucketResponse) SetRequestId(v string) *PutBucketResponse {
 }
 
 type ListMultipartUploadsRequest struct {
-	BucketName *string                            `json:"BucketName" xml:"BucketName" require:"true"`
-	Filter     *ListMultipartUploadsRequestFilter `json:"Filter" xml:"Filter" type:"Struct"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	// Filter
+	Filter *ListMultipartUploadsRequestFilter `json:"Filter,omitempty" xml:"Filter,omitempty" type:"Struct"`
 }
 
 func (s ListMultipartUploadsRequest) String() string {
@@ -2445,12 +2647,18 @@ func (s *ListMultipartUploadsRequest) SetFilter(v *ListMultipartUploadsRequestFi
 }
 
 type ListMultipartUploadsRequestFilter struct {
-	Delimiter      *string `json:"delimiter" xml:"delimiter"`
-	MaxUploads     *string `json:"max-uploads" xml:"max-uploads"`
-	KeyMarker      *string `json:"key-marker" xml:"key-marker"`
-	Prefix         *string `json:"prefix" xml:"prefix"`
-	UploadIdMarker *string `json:"upload-id-marker" xml:"upload-id-marker"`
-	EncodingType   *string `json:"encoding-type" xml:"encoding-type"`
+	// delimiter
+	Delimiter *string `json:"delimiter,omitempty" xml:"delimiter,omitempty"`
+	// max-uploads
+	MaxUploads *string `json:"max-uploads,omitempty" xml:"max-uploads,omitempty"`
+	// key-marker
+	KeyMarker *string `json:"key-marker,omitempty" xml:"key-marker,omitempty"`
+	// prefix
+	Prefix *string `json:"prefix,omitempty" xml:"prefix,omitempty"`
+	// upload-id-marker
+	UploadIdMarker *string `json:"upload-id-marker,omitempty" xml:"upload-id-marker,omitempty"`
+	// encoding-type
+	EncodingType *string `json:"encoding-type,omitempty" xml:"encoding-type,omitempty"`
 }
 
 func (s ListMultipartUploadsRequestFilter) String() string {
@@ -2492,8 +2700,10 @@ func (s *ListMultipartUploadsRequestFilter) SetEncodingType(v string) *ListMulti
 }
 
 type ListMultipartUploadsResponse struct {
-	RequestId                  *string                                                 `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
-	ListMultipartUploadsResult *ListMultipartUploadsResponseListMultipartUploadsResult `json:"ListMultipartUploadsResult" xml:"ListMultipartUploadsResult" require:"true" type:"Struct"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
+	// ListMultipartUploadsResult
+	ListMultipartUploadsResult *ListMultipartUploadsResponseListMultipartUploadsResult `json:"ListMultipartUploadsResult,omitempty" xml:"ListMultipartUploadsResult,omitempty" require:"true" type:"Struct"`
 }
 
 func (s ListMultipartUploadsResponse) String() string {
@@ -2515,16 +2725,26 @@ func (s *ListMultipartUploadsResponse) SetListMultipartUploadsResult(v *ListMult
 }
 
 type ListMultipartUploadsResponseListMultipartUploadsResult struct {
-	Bucket             *string                                                         `json:"Bucket" xml:"Bucket"`
-	EncodingType       *string                                                         `json:"EncodingType" xml:"EncodingType"`
-	KeyMarker          *string                                                         `json:"KeyMarker" xml:"KeyMarker"`
-	UploadIdMarker     *string                                                         `json:"UploadIdMarker" xml:"UploadIdMarker"`
-	NextKeyMarker      *string                                                         `json:"NextKeyMarker" xml:"NextKeyMarker"`
-	NextUploadIdMarker *string                                                         `json:"NextUploadIdMarker" xml:"NextUploadIdMarker"`
-	Delimiter          *string                                                         `json:"Delimiter" xml:"Delimiter"`
-	MaxUploads         *string                                                         `json:"MaxUploads" xml:"MaxUploads"`
-	IsTruncated        *string                                                         `json:"IsTruncated" xml:"IsTruncated"`
-	Upload             []*ListMultipartUploadsResponseListMultipartUploadsResultUpload `json:"Upload" xml:"Upload" type:"Repeated"`
+	// Bucket
+	Bucket *string `json:"Bucket,omitempty" xml:"Bucket,omitempty"`
+	// EncodingType
+	EncodingType *string `json:"EncodingType,omitempty" xml:"EncodingType,omitempty"`
+	// KeyMarker
+	KeyMarker *string `json:"KeyMarker,omitempty" xml:"KeyMarker,omitempty"`
+	// UploadIdMarker
+	UploadIdMarker *string `json:"UploadIdMarker,omitempty" xml:"UploadIdMarker,omitempty"`
+	// NextKeyMarker
+	NextKeyMarker *string `json:"NextKeyMarker,omitempty" xml:"NextKeyMarker,omitempty"`
+	// NextUploadIdMarker
+	NextUploadIdMarker *string `json:"NextUploadIdMarker,omitempty" xml:"NextUploadIdMarker,omitempty"`
+	// Delimiter
+	Delimiter *string `json:"Delimiter,omitempty" xml:"Delimiter,omitempty"`
+	// MaxUploads
+	MaxUploads *string `json:"MaxUploads,omitempty" xml:"MaxUploads,omitempty"`
+	// IsTruncated
+	IsTruncated *string `json:"IsTruncated,omitempty" xml:"IsTruncated,omitempty"`
+	// Upload
+	Upload []*ListMultipartUploadsResponseListMultipartUploadsResultUpload `json:"Upload,omitempty" xml:"Upload,omitempty" type:"Repeated"`
 }
 
 func (s ListMultipartUploadsResponseListMultipartUploadsResult) String() string {
@@ -2586,9 +2806,12 @@ func (s *ListMultipartUploadsResponseListMultipartUploadsResult) SetUpload(v []*
 }
 
 type ListMultipartUploadsResponseListMultipartUploadsResultUpload struct {
-	Key       *string `json:"Key" xml:"Key"`
-	UploadId  *string `json:"UploadId" xml:"UploadId"`
-	Initiated *string `json:"Initiated" xml:"Initiated"`
+	// Key
+	Key *string `json:"Key,omitempty" xml:"Key,omitempty"`
+	// UploadId
+	UploadId *string `json:"UploadId,omitempty" xml:"UploadId,omitempty"`
+	// Initiated
+	Initiated *string `json:"Initiated,omitempty" xml:"Initiated,omitempty"`
 }
 
 func (s ListMultipartUploadsResponseListMultipartUploadsResultUpload) String() string {
@@ -2615,7 +2838,8 @@ func (s *ListMultipartUploadsResponseListMultipartUploadsResultUpload) SetInitia
 }
 
 type GetBucketRequestPaymentRequest struct {
-	BucketName *string `json:"BucketName" xml:"BucketName" require:"true"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
 }
 
 func (s GetBucketRequestPaymentRequest) String() string {
@@ -2632,8 +2856,10 @@ func (s *GetBucketRequestPaymentRequest) SetBucketName(v string) *GetBucketReque
 }
 
 type GetBucketRequestPaymentResponse struct {
-	RequestId                   *string                                                     `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
-	RequestPaymentConfiguration *GetBucketRequestPaymentResponseRequestPaymentConfiguration `json:"RequestPaymentConfiguration" xml:"RequestPaymentConfiguration" require:"true" type:"Struct"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
+	// RequestPaymentConfiguration
+	RequestPaymentConfiguration *GetBucketRequestPaymentResponseRequestPaymentConfiguration `json:"RequestPaymentConfiguration,omitempty" xml:"RequestPaymentConfiguration,omitempty" require:"true" type:"Struct"`
 }
 
 func (s GetBucketRequestPaymentResponse) String() string {
@@ -2655,7 +2881,8 @@ func (s *GetBucketRequestPaymentResponse) SetRequestPaymentConfiguration(v *GetB
 }
 
 type GetBucketRequestPaymentResponseRequestPaymentConfiguration struct {
-	Payer *string `json:"Payer" xml:"Payer"`
+	// Payer
+	Payer *string `json:"Payer,omitempty" xml:"Payer,omitempty"`
 }
 
 func (s GetBucketRequestPaymentResponseRequestPaymentConfiguration) String() string {
@@ -2672,7 +2899,8 @@ func (s *GetBucketRequestPaymentResponseRequestPaymentConfiguration) SetPayer(v 
 }
 
 type GetBucketEncryptionRequest struct {
-	BucketName *string `json:"BucketName" xml:"BucketName" require:"true"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
 }
 
 func (s GetBucketEncryptionRequest) String() string {
@@ -2689,8 +2917,10 @@ func (s *GetBucketEncryptionRequest) SetBucketName(v string) *GetBucketEncryptio
 }
 
 type GetBucketEncryptionResponse struct {
-	RequestId                *string                                              `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
-	ServerSideEncryptionRule *GetBucketEncryptionResponseServerSideEncryptionRule `json:"ServerSideEncryptionRule" xml:"ServerSideEncryptionRule" require:"true" type:"Struct"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
+	// ServerSideEncryptionRule
+	ServerSideEncryptionRule *GetBucketEncryptionResponseServerSideEncryptionRule `json:"ServerSideEncryptionRule,omitempty" xml:"ServerSideEncryptionRule,omitempty" require:"true" type:"Struct"`
 }
 
 func (s GetBucketEncryptionResponse) String() string {
@@ -2712,7 +2942,8 @@ func (s *GetBucketEncryptionResponse) SetServerSideEncryptionRule(v *GetBucketEn
 }
 
 type GetBucketEncryptionResponseServerSideEncryptionRule struct {
-	ApplyServerSideEncryptionByDefault *GetBucketEncryptionResponseServerSideEncryptionRuleApplyServerSideEncryptionByDefault `json:"ApplyServerSideEncryptionByDefault" xml:"ApplyServerSideEncryptionByDefault" require:"true" type:"Struct"`
+	// ApplyServerSideEncryptionByDefault
+	ApplyServerSideEncryptionByDefault *GetBucketEncryptionResponseServerSideEncryptionRuleApplyServerSideEncryptionByDefault `json:"ApplyServerSideEncryptionByDefault,omitempty" xml:"ApplyServerSideEncryptionByDefault,omitempty" require:"true" type:"Struct"`
 }
 
 func (s GetBucketEncryptionResponseServerSideEncryptionRule) String() string {
@@ -2729,8 +2960,10 @@ func (s *GetBucketEncryptionResponseServerSideEncryptionRule) SetApplyServerSide
 }
 
 type GetBucketEncryptionResponseServerSideEncryptionRuleApplyServerSideEncryptionByDefault struct {
-	SSEAlgorithm   *string `json:"SSEAlgorithm" xml:"SSEAlgorithm"`
-	KMSMasterKeyID *string `json:"KMSMasterKeyID" xml:"KMSMasterKeyID"`
+	// SSEAlgorithm
+	SSEAlgorithm *string `json:"SSEAlgorithm,omitempty" xml:"SSEAlgorithm,omitempty"`
+	// KMSMasterKeyID
+	KMSMasterKeyID *string `json:"KMSMasterKeyID,omitempty" xml:"KMSMasterKeyID,omitempty"`
 }
 
 func (s GetBucketEncryptionResponseServerSideEncryptionRuleApplyServerSideEncryptionByDefault) String() string {
@@ -2752,7 +2985,8 @@ func (s *GetBucketEncryptionResponseServerSideEncryptionRuleApplyServerSideEncry
 }
 
 type GetBucketTagsRequest struct {
-	BucketName *string `json:"BucketName" xml:"BucketName" require:"true"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
 }
 
 func (s GetBucketTagsRequest) String() string {
@@ -2769,8 +3003,10 @@ func (s *GetBucketTagsRequest) SetBucketName(v string) *GetBucketTagsRequest {
 }
 
 type GetBucketTagsResponse struct {
-	RequestId *string                       `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
-	Tagging   *GetBucketTagsResponseTagging `json:"Tagging" xml:"Tagging" require:"true" type:"Struct"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
+	// Tagging
+	Tagging *GetBucketTagsResponseTagging `json:"Tagging,omitempty" xml:"Tagging,omitempty" require:"true" type:"Struct"`
 }
 
 func (s GetBucketTagsResponse) String() string {
@@ -2792,7 +3028,8 @@ func (s *GetBucketTagsResponse) SetTagging(v *GetBucketTagsResponseTagging) *Get
 }
 
 type GetBucketTagsResponseTagging struct {
-	TagSet *GetBucketTagsResponseTaggingTagSet `json:"TagSet" xml:"TagSet" require:"true" type:"Struct"`
+	// TagSet
+	TagSet *GetBucketTagsResponseTaggingTagSet `json:"TagSet,omitempty" xml:"TagSet,omitempty" require:"true" type:"Struct"`
 }
 
 func (s GetBucketTagsResponseTagging) String() string {
@@ -2809,7 +3046,8 @@ func (s *GetBucketTagsResponseTagging) SetTagSet(v *GetBucketTagsResponseTagging
 }
 
 type GetBucketTagsResponseTaggingTagSet struct {
-	Tag []*GetBucketTagsResponseTaggingTagSetTag `json:"Tag" xml:"Tag" type:"Repeated"`
+	// Tag
+	Tag []*GetBucketTagsResponseTaggingTagSetTag `json:"Tag,omitempty" xml:"Tag,omitempty" type:"Repeated"`
 }
 
 func (s GetBucketTagsResponseTaggingTagSet) String() string {
@@ -2826,8 +3064,10 @@ func (s *GetBucketTagsResponseTaggingTagSet) SetTag(v []*GetBucketTagsResponseTa
 }
 
 type GetBucketTagsResponseTaggingTagSetTag struct {
-	Key   *string `json:"Key" xml:"Key"`
-	Value *string `json:"Value" xml:"Value"`
+	// Key
+	Key *string `json:"Key,omitempty" xml:"Key,omitempty"`
+	// Value
+	Value *string `json:"Value,omitempty" xml:"Value,omitempty"`
 }
 
 func (s GetBucketTagsResponseTaggingTagSetTag) String() string {
@@ -2849,7 +3089,8 @@ func (s *GetBucketTagsResponseTaggingTagSetTag) SetValue(v string) *GetBucketTag
 }
 
 type GetServiceRequest struct {
-	Filter *GetServiceRequestFilter `json:"Filter" xml:"Filter" type:"Struct"`
+	// Filter
+	Filter *GetServiceRequestFilter `json:"Filter,omitempty" xml:"Filter,omitempty" type:"Struct"`
 }
 
 func (s GetServiceRequest) String() string {
@@ -2866,9 +3107,12 @@ func (s *GetServiceRequest) SetFilter(v *GetServiceRequestFilter) *GetServiceReq
 }
 
 type GetServiceRequestFilter struct {
-	Prefix  *string `json:"prefix" xml:"prefix"`
-	Marker  *string `json:"marker" xml:"marker"`
-	MaxKeys *string `json:"max-keys" xml:"max-keys"`
+	// prefix
+	Prefix *string `json:"prefix,omitempty" xml:"prefix,omitempty"`
+	// marker
+	Marker *string `json:"marker,omitempty" xml:"marker,omitempty"`
+	// max-keys
+	MaxKeys *string `json:"max-keys,omitempty" xml:"max-keys,omitempty"`
 }
 
 func (s GetServiceRequestFilter) String() string {
@@ -2895,8 +3139,10 @@ func (s *GetServiceRequestFilter) SetMaxKeys(v string) *GetServiceRequestFilter 
 }
 
 type GetServiceResponse struct {
-	RequestId              *string                                   `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
-	ListAllMyBucketsResult *GetServiceResponseListAllMyBucketsResult `json:"ListAllMyBucketsResult" xml:"ListAllMyBucketsResult" require:"true" type:"Struct"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
+	// ListAllMyBucketsResult
+	ListAllMyBucketsResult *GetServiceResponseListAllMyBucketsResult `json:"ListAllMyBucketsResult,omitempty" xml:"ListAllMyBucketsResult,omitempty" require:"true" type:"Struct"`
 }
 
 func (s GetServiceResponse) String() string {
@@ -2918,13 +3164,20 @@ func (s *GetServiceResponse) SetListAllMyBucketsResult(v *GetServiceResponseList
 }
 
 type GetServiceResponseListAllMyBucketsResult struct {
-	Prefix      *string                                          `json:"Prefix" xml:"Prefix"`
-	Marker      *string                                          `json:"Marker" xml:"Marker"`
-	MaxKeys     *string                                          `json:"MaxKeys" xml:"MaxKeys"`
-	IsTruncated *string                                          `json:"IsTruncated" xml:"IsTruncated"`
-	NextMarker  *string                                          `json:"NextMarker" xml:"NextMarker"`
-	Owner       *GetServiceResponseListAllMyBucketsResultOwner   `json:"Owner" xml:"Owner" require:"true" type:"Struct"`
-	Buckets     *GetServiceResponseListAllMyBucketsResultBuckets `json:"Buckets" xml:"Buckets" require:"true" type:"Struct"`
+	// Prefix
+	Prefix *string `json:"Prefix,omitempty" xml:"Prefix,omitempty"`
+	// Marker
+	Marker *string `json:"Marker,omitempty" xml:"Marker,omitempty"`
+	// MaxKeys
+	MaxKeys *string `json:"MaxKeys,omitempty" xml:"MaxKeys,omitempty"`
+	// IsTruncated
+	IsTruncated *string `json:"IsTruncated,omitempty" xml:"IsTruncated,omitempty"`
+	// NextMarker
+	NextMarker *string `json:"NextMarker,omitempty" xml:"NextMarker,omitempty"`
+	// Owner
+	Owner *GetServiceResponseListAllMyBucketsResultOwner `json:"Owner,omitempty" xml:"Owner,omitempty" require:"true" type:"Struct"`
+	// Buckets
+	Buckets *GetServiceResponseListAllMyBucketsResultBuckets `json:"Buckets,omitempty" xml:"Buckets,omitempty" require:"true" type:"Struct"`
 }
 
 func (s GetServiceResponseListAllMyBucketsResult) String() string {
@@ -2971,8 +3224,10 @@ func (s *GetServiceResponseListAllMyBucketsResult) SetBuckets(v *GetServiceRespo
 }
 
 type GetServiceResponseListAllMyBucketsResultOwner struct {
-	ID          *string `json:"ID" xml:"ID"`
-	DisplayName *string `json:"DisplayName" xml:"DisplayName"`
+	// ID
+	ID *string `json:"ID,omitempty" xml:"ID,omitempty"`
+	// DisplayName
+	DisplayName *string `json:"DisplayName,omitempty" xml:"DisplayName,omitempty"`
 }
 
 func (s GetServiceResponseListAllMyBucketsResultOwner) String() string {
@@ -2994,7 +3249,8 @@ func (s *GetServiceResponseListAllMyBucketsResultOwner) SetDisplayName(v string)
 }
 
 type GetServiceResponseListAllMyBucketsResultBuckets struct {
-	Bucket []*GetServiceResponseListAllMyBucketsResultBucketsBucket `json:"Bucket" xml:"Bucket" type:"Repeated"`
+	// Bucket
+	Bucket []*GetServiceResponseListAllMyBucketsResultBucketsBucket `json:"Bucket,omitempty" xml:"Bucket,omitempty" type:"Repeated"`
 }
 
 func (s GetServiceResponseListAllMyBucketsResultBuckets) String() string {
@@ -3011,12 +3267,18 @@ func (s *GetServiceResponseListAllMyBucketsResultBuckets) SetBucket(v []*GetServ
 }
 
 type GetServiceResponseListAllMyBucketsResultBucketsBucket struct {
-	Name             *string `json:"Name" xml:"Name"`
-	CreateDate       *string `json:"CreateDate" xml:"CreateDate"`
-	Location         *string `json:"Location" xml:"Location"`
-	ExtranetEndpoint *string `json:"ExtranetEndpoint" xml:"ExtranetEndpoint"`
-	IntranetEndpoint *string `json:"IntranetEndpoint" xml:"IntranetEndpoint"`
-	StorageClass     *string `json:"StorageClass" xml:"StorageClass"`
+	// Name
+	Name *string `json:"Name,omitempty" xml:"Name,omitempty"`
+	// CreateDate
+	CreateDate *string `json:"CreateDate,omitempty" xml:"CreateDate,omitempty"`
+	// Location
+	Location *string `json:"Location,omitempty" xml:"Location,omitempty"`
+	// ExtranetEndpoint
+	ExtranetEndpoint *string `json:"ExtranetEndpoint,omitempty" xml:"ExtranetEndpoint,omitempty"`
+	// IntranetEndpoint
+	IntranetEndpoint *string `json:"IntranetEndpoint,omitempty" xml:"IntranetEndpoint,omitempty"`
+	// StorageClass
+	StorageClass *string `json:"StorageClass,omitempty" xml:"StorageClass,omitempty"`
 }
 
 func (s GetServiceResponseListAllMyBucketsResultBucketsBucket) String() string {
@@ -3058,7 +3320,8 @@ func (s *GetServiceResponseListAllMyBucketsResultBucketsBucket) SetStorageClass(
 }
 
 type DeleteBucketEncryptionRequest struct {
-	BucketName *string `json:"BucketName" xml:"BucketName" require:"true"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
 }
 
 func (s DeleteBucketEncryptionRequest) String() string {
@@ -3075,7 +3338,8 @@ func (s *DeleteBucketEncryptionRequest) SetBucketName(v string) *DeleteBucketEnc
 }
 
 type DeleteBucketEncryptionResponse struct {
-	RequestId *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
 }
 
 func (s DeleteBucketEncryptionResponse) String() string {
@@ -3092,8 +3356,10 @@ func (s *DeleteBucketEncryptionResponse) SetRequestId(v string) *DeleteBucketEnc
 }
 
 type DeleteBucketTagsRequest struct {
-	BucketName *string                        `json:"BucketName" xml:"BucketName" require:"true"`
-	Filter     *DeleteBucketTagsRequestFilter `json:"Filter" xml:"Filter" require:"true" type:"Struct"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	// Filter
+	Filter *DeleteBucketTagsRequestFilter `json:"Filter,omitempty" xml:"Filter,omitempty" require:"true" type:"Struct"`
 }
 
 func (s DeleteBucketTagsRequest) String() string {
@@ -3115,7 +3381,8 @@ func (s *DeleteBucketTagsRequest) SetFilter(v *DeleteBucketTagsRequestFilter) *D
 }
 
 type DeleteBucketTagsRequestFilter struct {
-	Tagging *string `json:"tagging" xml:"tagging" require:"true" signed:"true"`
+	// tagging
+	Tagging *string `json:"tagging,omitempty" xml:"tagging,omitempty" require:"true" signed:"true"`
 }
 
 func (s DeleteBucketTagsRequestFilter) String() string {
@@ -3132,7 +3399,8 @@ func (s *DeleteBucketTagsRequestFilter) SetTagging(v string) *DeleteBucketTagsRe
 }
 
 type DeleteBucketTagsResponse struct {
-	RequestId *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
 }
 
 func (s DeleteBucketTagsResponse) String() string {
@@ -3149,7 +3417,8 @@ func (s *DeleteBucketTagsResponse) SetRequestId(v string) *DeleteBucketTagsRespo
 }
 
 type GetBucketWebsiteRequest struct {
-	BucketName *string `json:"BucketName" xml:"BucketName" require:"true"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
 }
 
 func (s GetBucketWebsiteRequest) String() string {
@@ -3166,8 +3435,10 @@ func (s *GetBucketWebsiteRequest) SetBucketName(v string) *GetBucketWebsiteReque
 }
 
 type GetBucketWebsiteResponse struct {
-	RequestId            *string                                       `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
-	WebsiteConfiguration *GetBucketWebsiteResponseWebsiteConfiguration `json:"WebsiteConfiguration" xml:"WebsiteConfiguration" require:"true" type:"Struct"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
+	// WebsiteConfiguration
+	WebsiteConfiguration *GetBucketWebsiteResponseWebsiteConfiguration `json:"WebsiteConfiguration,omitempty" xml:"WebsiteConfiguration,omitempty" require:"true" type:"Struct"`
 }
 
 func (s GetBucketWebsiteResponse) String() string {
@@ -3189,9 +3460,12 @@ func (s *GetBucketWebsiteResponse) SetWebsiteConfiguration(v *GetBucketWebsiteRe
 }
 
 type GetBucketWebsiteResponseWebsiteConfiguration struct {
-	IndexDocument *GetBucketWebsiteResponseWebsiteConfigurationIndexDocument `json:"IndexDocument" xml:"IndexDocument" require:"true" type:"Struct"`
-	ErrorDocument *GetBucketWebsiteResponseWebsiteConfigurationErrorDocument `json:"ErrorDocument" xml:"ErrorDocument" require:"true" type:"Struct"`
-	RoutingRules  *GetBucketWebsiteResponseWebsiteConfigurationRoutingRules  `json:"RoutingRules" xml:"RoutingRules" require:"true" type:"Struct"`
+	// IndexDocument
+	IndexDocument *GetBucketWebsiteResponseWebsiteConfigurationIndexDocument `json:"IndexDocument,omitempty" xml:"IndexDocument,omitempty" require:"true" type:"Struct"`
+	// ErrorDocument
+	ErrorDocument *GetBucketWebsiteResponseWebsiteConfigurationErrorDocument `json:"ErrorDocument,omitempty" xml:"ErrorDocument,omitempty" require:"true" type:"Struct"`
+	// RoutingRules
+	RoutingRules *GetBucketWebsiteResponseWebsiteConfigurationRoutingRules `json:"RoutingRules,omitempty" xml:"RoutingRules,omitempty" require:"true" type:"Struct"`
 }
 
 func (s GetBucketWebsiteResponseWebsiteConfiguration) String() string {
@@ -3218,7 +3492,8 @@ func (s *GetBucketWebsiteResponseWebsiteConfiguration) SetRoutingRules(v *GetBuc
 }
 
 type GetBucketWebsiteResponseWebsiteConfigurationIndexDocument struct {
-	Suffix *string `json:"Suffix" xml:"Suffix"`
+	// Suffix
+	Suffix *string `json:"Suffix,omitempty" xml:"Suffix,omitempty"`
 }
 
 func (s GetBucketWebsiteResponseWebsiteConfigurationIndexDocument) String() string {
@@ -3235,7 +3510,8 @@ func (s *GetBucketWebsiteResponseWebsiteConfigurationIndexDocument) SetSuffix(v 
 }
 
 type GetBucketWebsiteResponseWebsiteConfigurationErrorDocument struct {
-	Key *string `json:"Key" xml:"Key"`
+	// Key
+	Key *string `json:"Key,omitempty" xml:"Key,omitempty"`
 }
 
 func (s GetBucketWebsiteResponseWebsiteConfigurationErrorDocument) String() string {
@@ -3252,7 +3528,8 @@ func (s *GetBucketWebsiteResponseWebsiteConfigurationErrorDocument) SetKey(v str
 }
 
 type GetBucketWebsiteResponseWebsiteConfigurationRoutingRules struct {
-	RoutingRule []*GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule `json:"RoutingRule" xml:"RoutingRule" type:"Repeated"`
+	// RoutingRule
+	RoutingRule []*GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule `json:"RoutingRule,omitempty" xml:"RoutingRule,omitempty" type:"Repeated"`
 }
 
 func (s GetBucketWebsiteResponseWebsiteConfigurationRoutingRules) String() string {
@@ -3269,9 +3546,12 @@ func (s *GetBucketWebsiteResponseWebsiteConfigurationRoutingRules) SetRoutingRul
 }
 
 type GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule struct {
-	RuleNumber *int                                                                          `json:"RuleNumber" xml:"RuleNumber"`
-	Condition  *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleCondition `json:"Condition" xml:"Condition" require:"true" type:"Struct"`
-	Redirect   *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect  `json:"Redirect" xml:"Redirect" require:"true" type:"Struct"`
+	// RuleNumber
+	RuleNumber *int `json:"RuleNumber,omitempty" xml:"RuleNumber,omitempty"`
+	// Condition
+	Condition *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleCondition `json:"Condition,omitempty" xml:"Condition,omitempty" require:"true" type:"Struct"`
+	// Redirect
+	Redirect *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect `json:"Redirect,omitempty" xml:"Redirect,omitempty" require:"true" type:"Struct"`
 }
 
 func (s GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule) String() string {
@@ -3298,9 +3578,12 @@ func (s *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule) Se
 }
 
 type GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleCondition struct {
-	KeyPrefixEquals             *string                                                                                    `json:"KeyPrefixEquals" xml:"KeyPrefixEquals"`
-	HttpErrorCodeReturnedEquals *string                                                                                    `json:"HttpErrorCodeReturnedEquals" xml:"HttpErrorCodeReturnedEquals"`
-	IncludeHeader               *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader `json:"IncludeHeader" xml:"IncludeHeader" require:"true" type:"Struct"`
+	// KeyPrefixEquals
+	KeyPrefixEquals *string `json:"KeyPrefixEquals,omitempty" xml:"KeyPrefixEquals,omitempty"`
+	// HttpErrorCodeReturnedEquals
+	HttpErrorCodeReturnedEquals *string `json:"HttpErrorCodeReturnedEquals,omitempty" xml:"HttpErrorCodeReturnedEquals,omitempty"`
+	// IncludeHeader
+	IncludeHeader *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader `json:"IncludeHeader,omitempty" xml:"IncludeHeader,omitempty" require:"true" type:"Struct"`
 }
 
 func (s GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleCondition) String() string {
@@ -3327,8 +3610,10 @@ func (s *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleCond
 }
 
 type GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader struct {
-	Key    *string `json:"Key" xml:"Key"`
-	Equals *string `json:"Equals" xml:"Equals"`
+	// Key
+	Key *string `json:"Key,omitempty" xml:"Key,omitempty"`
+	// Equals
+	Equals *string `json:"Equals,omitempty" xml:"Equals,omitempty"`
 }
 
 func (s GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader) String() string {
@@ -3350,18 +3635,30 @@ func (s *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleCond
 }
 
 type GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect struct {
-	RedirectType          *string                                                                                   `json:"RedirectType" xml:"RedirectType"`
-	PassQueryString       *bool                                                                                     `json:"PassQueryString" xml:"PassQueryString"`
-	MirrorURL             *string                                                                                   `json:"MirrorURL" xml:"MirrorURL"`
-	MirrorPassQueryString *bool                                                                                     `json:"MirrorPassQueryString" xml:"MirrorPassQueryString"`
-	MirrorFollowRedirect  *bool                                                                                     `json:"MirrorFollowRedirect" xml:"MirrorFollowRedirect"`
-	MirrorCheckMd5        *bool                                                                                     `json:"MirrorCheckMd5" xml:"MirrorCheckMd5"`
-	Protocol              *string                                                                                   `json:"Protocol" xml:"Protocol"`
-	HostName              *string                                                                                   `json:"HostName" xml:"HostName"`
-	HttpRedirectCode      *string                                                                                   `json:"HttpRedirectCode" xml:"HttpRedirectCode"`
-	ReplaceKeyPrefixWith  *string                                                                                   `json:"ReplaceKeyPrefixWith" xml:"ReplaceKeyPrefixWith"`
-	ReplaceKeyWith        *string                                                                                   `json:"ReplaceKeyWith" xml:"ReplaceKeyWith"`
-	MirrorHeaders         *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders `json:"MirrorHeaders" xml:"MirrorHeaders" require:"true" type:"Struct"`
+	// RedirectType
+	RedirectType *string `json:"RedirectType,omitempty" xml:"RedirectType,omitempty"`
+	// PassQueryString
+	PassQueryString *bool `json:"PassQueryString,omitempty" xml:"PassQueryString,omitempty"`
+	// MirrorURL
+	MirrorURL *string `json:"MirrorURL,omitempty" xml:"MirrorURL,omitempty"`
+	// MirrorPassQueryString
+	MirrorPassQueryString *bool `json:"MirrorPassQueryString,omitempty" xml:"MirrorPassQueryString,omitempty"`
+	// MirrorFollowRedirect
+	MirrorFollowRedirect *bool `json:"MirrorFollowRedirect,omitempty" xml:"MirrorFollowRedirect,omitempty"`
+	// MirrorCheckMd5
+	MirrorCheckMd5 *bool `json:"MirrorCheckMd5,omitempty" xml:"MirrorCheckMd5,omitempty"`
+	// Protocol
+	Protocol *string `json:"Protocol,omitempty" xml:"Protocol,omitempty"`
+	// HostName
+	HostName *string `json:"HostName,omitempty" xml:"HostName,omitempty"`
+	// HttpRedirectCode
+	HttpRedirectCode *string `json:"HttpRedirectCode,omitempty" xml:"HttpRedirectCode,omitempty"`
+	// ReplaceKeyPrefixWith
+	ReplaceKeyPrefixWith *string `json:"ReplaceKeyPrefixWith,omitempty" xml:"ReplaceKeyPrefixWith,omitempty"`
+	// ReplaceKeyWith
+	ReplaceKeyWith *string `json:"ReplaceKeyWith,omitempty" xml:"ReplaceKeyWith,omitempty"`
+	// MirrorHeaders
+	MirrorHeaders *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders `json:"MirrorHeaders,omitempty" xml:"MirrorHeaders,omitempty" require:"true" type:"Struct"`
 }
 
 func (s GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect) String() string {
@@ -3433,10 +3730,14 @@ func (s *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedi
 }
 
 type GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders struct {
-	PassAll *bool                                                                                        `json:"PassAll" xml:"PassAll"`
-	Pass    *string                                                                                      `json:"Pass" xml:"Pass"`
-	Remove  *string                                                                                      `json:"Remove" xml:"Remove"`
-	Set     *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet `json:"Set" xml:"Set" require:"true" type:"Struct"`
+	// PassAll
+	PassAll *bool `json:"PassAll,omitempty" xml:"PassAll,omitempty"`
+	// Pass
+	Pass *string `json:"Pass,omitempty" xml:"Pass,omitempty"`
+	// Remove
+	Remove *string `json:"Remove,omitempty" xml:"Remove,omitempty"`
+	// Set
+	Set *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet `json:"Set,omitempty" xml:"Set,omitempty" require:"true" type:"Struct"`
 }
 
 func (s GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders) String() string {
@@ -3468,8 +3769,10 @@ func (s *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedi
 }
 
 type GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet struct {
-	Key   *string `json:"Key" xml:"Key"`
-	Value *string `json:"Value" xml:"Value"`
+	// Key
+	Key *string `json:"Key,omitempty" xml:"Key,omitempty"`
+	// Value
+	Value *string `json:"Value,omitempty" xml:"Value,omitempty"`
 }
 
 func (s GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet) String() string {
@@ -3491,8 +3794,10 @@ func (s *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedi
 }
 
 type DeleteLiveChannelRequest struct {
-	BucketName  *string `json:"BucketName" xml:"BucketName" require:"true"`
-	ChannelName *string `json:"ChannelName" xml:"ChannelName" require:"true"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	// ChannelName
+	ChannelName *string `json:"ChannelName,omitempty" xml:"ChannelName,omitempty" require:"true"`
 }
 
 func (s DeleteLiveChannelRequest) String() string {
@@ -3514,7 +3819,8 @@ func (s *DeleteLiveChannelRequest) SetChannelName(v string) *DeleteLiveChannelRe
 }
 
 type DeleteLiveChannelResponse struct {
-	RequestId *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
 }
 
 func (s DeleteLiveChannelResponse) String() string {
@@ -3531,7 +3837,8 @@ func (s *DeleteLiveChannelResponse) SetRequestId(v string) *DeleteLiveChannelRes
 }
 
 type GetBucketLocationRequest struct {
-	BucketName *string `json:"BucketName" xml:"BucketName" require:"true"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
 }
 
 func (s GetBucketLocationRequest) String() string {
@@ -3548,8 +3855,10 @@ func (s *GetBucketLocationRequest) SetBucketName(v string) *GetBucketLocationReq
 }
 
 type GetBucketLocationResponse struct {
-	RequestId          *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
-	LocationConstraint *string `json:"LocationConstraint" xml:"LocationConstraint" require:"true"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
+	// LocationConstraint
+	LocationConstraint *string `json:"LocationConstraint,omitempty" xml:"LocationConstraint,omitempty" require:"true"`
 }
 
 func (s GetBucketLocationResponse) String() string {
@@ -3571,8 +3880,10 @@ func (s *GetBucketLocationResponse) SetLocationConstraint(v string) *GetBucketLo
 }
 
 type ListLiveChannelRequest struct {
-	BucketName *string                       `json:"BucketName" xml:"BucketName" require:"true"`
-	Filter     *ListLiveChannelRequestFilter `json:"Filter" xml:"Filter" type:"Struct"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	// Filter
+	Filter *ListLiveChannelRequestFilter `json:"Filter,omitempty" xml:"Filter,omitempty" type:"Struct"`
 }
 
 func (s ListLiveChannelRequest) String() string {
@@ -3594,9 +3905,12 @@ func (s *ListLiveChannelRequest) SetFilter(v *ListLiveChannelRequestFilter) *Lis
 }
 
 type ListLiveChannelRequestFilter struct {
-	Marker  *string `json:"marker" xml:"marker"`
-	MaxKeys *string `json:"max-keys" xml:"max-keys"`
-	Prefix  *string `json:"prefix" xml:"prefix"`
+	// marker
+	Marker *string `json:"marker,omitempty" xml:"marker,omitempty"`
+	// max-keys
+	MaxKeys *string `json:"max-keys,omitempty" xml:"max-keys,omitempty"`
+	// prefix
+	Prefix *string `json:"prefix,omitempty" xml:"prefix,omitempty"`
 }
 
 func (s ListLiveChannelRequestFilter) String() string {
@@ -3623,8 +3937,10 @@ func (s *ListLiveChannelRequestFilter) SetPrefix(v string) *ListLiveChannelReque
 }
 
 type ListLiveChannelResponse struct {
-	RequestId             *string                                       `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
-	ListLiveChannelResult *ListLiveChannelResponseListLiveChannelResult `json:"ListLiveChannelResult" xml:"ListLiveChannelResult" require:"true" type:"Struct"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
+	// ListLiveChannelResult
+	ListLiveChannelResult *ListLiveChannelResponseListLiveChannelResult `json:"ListLiveChannelResult,omitempty" xml:"ListLiveChannelResult,omitempty" require:"true" type:"Struct"`
 }
 
 func (s ListLiveChannelResponse) String() string {
@@ -3646,12 +3962,18 @@ func (s *ListLiveChannelResponse) SetListLiveChannelResult(v *ListLiveChannelRes
 }
 
 type ListLiveChannelResponseListLiveChannelResult struct {
-	Prefix      *string                                                  `json:"Prefix" xml:"Prefix"`
-	Marker      *string                                                  `json:"Marker" xml:"Marker"`
-	MaxKeys     *string                                                  `json:"MaxKeys" xml:"MaxKeys"`
-	IsTruncated *string                                                  `json:"IsTruncated" xml:"IsTruncated"`
-	NextMarker  *string                                                  `json:"NextMarker" xml:"NextMarker"`
-	LiveChannel *ListLiveChannelResponseListLiveChannelResultLiveChannel `json:"LiveChannel" xml:"LiveChannel" require:"true" type:"Struct"`
+	// Prefix
+	Prefix *string `json:"Prefix,omitempty" xml:"Prefix,omitempty"`
+	// Marker
+	Marker *string `json:"Marker,omitempty" xml:"Marker,omitempty"`
+	// MaxKeys
+	MaxKeys *string `json:"MaxKeys,omitempty" xml:"MaxKeys,omitempty"`
+	// IsTruncated
+	IsTruncated *string `json:"IsTruncated,omitempty" xml:"IsTruncated,omitempty"`
+	// NextMarker
+	NextMarker *string `json:"NextMarker,omitempty" xml:"NextMarker,omitempty"`
+	// LiveChannel
+	LiveChannel *ListLiveChannelResponseListLiveChannelResultLiveChannel `json:"LiveChannel,omitempty" xml:"LiveChannel,omitempty" require:"true" type:"Struct"`
 }
 
 func (s ListLiveChannelResponseListLiveChannelResult) String() string {
@@ -3693,12 +4015,18 @@ func (s *ListLiveChannelResponseListLiveChannelResult) SetLiveChannel(v *ListLiv
 }
 
 type ListLiveChannelResponseListLiveChannelResultLiveChannel struct {
-	Name         *string                                                             `json:"Name" xml:"Name"`
-	Description  *string                                                             `json:"Description" xml:"Description"`
-	Status       *string                                                             `json:"Status" xml:"Status"`
-	LastModified *string                                                             `json:"LastModified" xml:"LastModified"`
-	PublishUrls  *ListLiveChannelResponseListLiveChannelResultLiveChannelPublishUrls `json:"PublishUrls" xml:"PublishUrls" require:"true" type:"Struct"`
-	PlayUrls     *ListLiveChannelResponseListLiveChannelResultLiveChannelPlayUrls    `json:"PlayUrls" xml:"PlayUrls" require:"true" type:"Struct"`
+	// Name
+	Name *string `json:"Name,omitempty" xml:"Name,omitempty"`
+	// Description
+	Description *string `json:"Description,omitempty" xml:"Description,omitempty"`
+	// Status
+	Status *string `json:"Status,omitempty" xml:"Status,omitempty"`
+	// LastModified
+	LastModified *string `json:"LastModified,omitempty" xml:"LastModified,omitempty"`
+	// PublishUrls
+	PublishUrls *ListLiveChannelResponseListLiveChannelResultLiveChannelPublishUrls `json:"PublishUrls,omitempty" xml:"PublishUrls,omitempty" require:"true" type:"Struct"`
+	// PlayUrls
+	PlayUrls *ListLiveChannelResponseListLiveChannelResultLiveChannelPlayUrls `json:"PlayUrls,omitempty" xml:"PlayUrls,omitempty" require:"true" type:"Struct"`
 }
 
 func (s ListLiveChannelResponseListLiveChannelResultLiveChannel) String() string {
@@ -3740,7 +4068,8 @@ func (s *ListLiveChannelResponseListLiveChannelResultLiveChannel) SetPlayUrls(v 
 }
 
 type ListLiveChannelResponseListLiveChannelResultLiveChannelPublishUrls struct {
-	Url *string `json:"Url" xml:"Url"`
+	// Url
+	Url *string `json:"Url,omitempty" xml:"Url,omitempty"`
 }
 
 func (s ListLiveChannelResponseListLiveChannelResultLiveChannelPublishUrls) String() string {
@@ -3757,7 +4086,8 @@ func (s *ListLiveChannelResponseListLiveChannelResultLiveChannelPublishUrls) Set
 }
 
 type ListLiveChannelResponseListLiveChannelResultLiveChannelPlayUrls struct {
-	Url *string `json:"Url" xml:"Url"`
+	// Url
+	Url *string `json:"Url,omitempty" xml:"Url,omitempty"`
 }
 
 func (s ListLiveChannelResponseListLiveChannelResultLiveChannelPlayUrls) String() string {
@@ -3774,8 +4104,10 @@ func (s *ListLiveChannelResponseListLiveChannelResultLiveChannelPlayUrls) SetUrl
 }
 
 type GetObjectMetaRequest struct {
-	BucketName *string `json:"BucketName" xml:"BucketName" require:"true"`
-	ObjectName *string `json:"ObjectName" xml:"ObjectName" require:"true"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	// ObjectName
+	ObjectName *string `json:"ObjectName,omitempty" xml:"ObjectName,omitempty" require:"true"`
 }
 
 func (s GetObjectMetaRequest) String() string {
@@ -3797,10 +4129,14 @@ func (s *GetObjectMetaRequest) SetObjectName(v string) *GetObjectMetaRequest {
 }
 
 type GetObjectMetaResponse struct {
-	RequestId     *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
-	ETag          *string `json:"etag" xml:"etag" require:"true"`
-	ContentLength *string `json:"content-length" xml:"content-length" require:"true"`
-	LastModified  *string `json:"last-modified" xml:"last-modified" require:"true"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
+	// ETag
+	ETag *string `json:"etag,omitempty" xml:"etag,omitempty" require:"true"`
+	// Content-Length
+	ContentLength *string `json:"content-length,omitempty" xml:"content-length,omitempty" require:"true"`
+	// Last-Modified
+	LastModified *string `json:"last-modified,omitempty" xml:"last-modified,omitempty" require:"true"`
 }
 
 func (s GetObjectMetaResponse) String() string {
@@ -3832,7 +4168,8 @@ func (s *GetObjectMetaResponse) SetLastModified(v string) *GetObjectMetaResponse
 }
 
 type GetBucketAclRequest struct {
-	BucketName *string `json:"BucketName" xml:"BucketName" require:"true"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
 }
 
 func (s GetBucketAclRequest) String() string {
@@ -3849,8 +4186,10 @@ func (s *GetBucketAclRequest) SetBucketName(v string) *GetBucketAclRequest {
 }
 
 type GetBucketAclResponse struct {
-	RequestId           *string                                  `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
-	AccessControlPolicy *GetBucketAclResponseAccessControlPolicy `json:"AccessControlPolicy" xml:"AccessControlPolicy" require:"true" type:"Struct"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
+	// AccessControlPolicy
+	AccessControlPolicy *GetBucketAclResponseAccessControlPolicy `json:"AccessControlPolicy,omitempty" xml:"AccessControlPolicy,omitempty" require:"true" type:"Struct"`
 }
 
 func (s GetBucketAclResponse) String() string {
@@ -3872,8 +4211,10 @@ func (s *GetBucketAclResponse) SetAccessControlPolicy(v *GetBucketAclResponseAcc
 }
 
 type GetBucketAclResponseAccessControlPolicy struct {
-	Owner             *GetBucketAclResponseAccessControlPolicyOwner             `json:"Owner" xml:"Owner" require:"true" type:"Struct"`
-	AccessControlList *GetBucketAclResponseAccessControlPolicyAccessControlList `json:"AccessControlList" xml:"AccessControlList" require:"true" type:"Struct"`
+	// Owner
+	Owner *GetBucketAclResponseAccessControlPolicyOwner `json:"Owner,omitempty" xml:"Owner,omitempty" require:"true" type:"Struct"`
+	// AccessControlList
+	AccessControlList *GetBucketAclResponseAccessControlPolicyAccessControlList `json:"AccessControlList,omitempty" xml:"AccessControlList,omitempty" require:"true" type:"Struct"`
 }
 
 func (s GetBucketAclResponseAccessControlPolicy) String() string {
@@ -3895,8 +4236,10 @@ func (s *GetBucketAclResponseAccessControlPolicy) SetAccessControlList(v *GetBuc
 }
 
 type GetBucketAclResponseAccessControlPolicyOwner struct {
-	ID          *string `json:"ID" xml:"ID"`
-	DisplayName *string `json:"DisplayName" xml:"DisplayName"`
+	// ID
+	ID *string `json:"ID,omitempty" xml:"ID,omitempty"`
+	// DisplayName
+	DisplayName *string `json:"DisplayName,omitempty" xml:"DisplayName,omitempty"`
 }
 
 func (s GetBucketAclResponseAccessControlPolicyOwner) String() string {
@@ -3918,7 +4261,8 @@ func (s *GetBucketAclResponseAccessControlPolicyOwner) SetDisplayName(v string) 
 }
 
 type GetBucketAclResponseAccessControlPolicyAccessControlList struct {
-	Grant *string `json:"Grant" xml:"Grant"`
+	// Grant
+	Grant *string `json:"Grant,omitempty" xml:"Grant,omitempty"`
 }
 
 func (s GetBucketAclResponseAccessControlPolicyAccessControlList) String() string {
@@ -3935,9 +4279,12 @@ func (s *GetBucketAclResponseAccessControlPolicyAccessControlList) SetGrant(v st
 }
 
 type ListPartsRequest struct {
-	BucketName *string                 `json:"BucketName" xml:"BucketName" require:"true"`
-	ObjectName *string                 `json:"ObjectName" xml:"ObjectName" require:"true"`
-	Filter     *ListPartsRequestFilter `json:"Filter" xml:"Filter" require:"true" type:"Struct"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	// ObjectName
+	ObjectName *string `json:"ObjectName,omitempty" xml:"ObjectName,omitempty" require:"true"`
+	// Filter
+	Filter *ListPartsRequestFilter `json:"Filter,omitempty" xml:"Filter,omitempty" require:"true" type:"Struct"`
 }
 
 func (s ListPartsRequest) String() string {
@@ -3964,10 +4311,14 @@ func (s *ListPartsRequest) SetFilter(v *ListPartsRequestFilter) *ListPartsReques
 }
 
 type ListPartsRequestFilter struct {
-	UploadId         *string `json:"uploadId" xml:"uploadId" require:"true" signed:"true"`
-	MaxParts         *int    `json:"max-parts" xml:"max-parts"`
-	PartNumberMarker *int    `json:"part-number-marker" xml:"part-number-marker"`
-	EncodingType     *string `json:"Encoding-type" xml:"Encoding-type"`
+	// uploadId
+	UploadId *string `json:"uploadId,omitempty" xml:"uploadId,omitempty" require:"true" signed:"true"`
+	// max-parts
+	MaxParts *int `json:"max-parts,omitempty" xml:"max-parts,omitempty"`
+	// part-number-marker
+	PartNumberMarker *int `json:"part-number-marker,omitempty" xml:"part-number-marker,omitempty"`
+	// Encoding-type
+	EncodingType *string `json:"Encoding-type,omitempty" xml:"Encoding-type,omitempty"`
 }
 
 func (s ListPartsRequestFilter) String() string {
@@ -3999,8 +4350,10 @@ func (s *ListPartsRequestFilter) SetEncodingType(v string) *ListPartsRequestFilt
 }
 
 type ListPartsResponse struct {
-	RequestId       *string                           `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
-	ListPartsResult *ListPartsResponseListPartsResult `json:"ListPartsResult" xml:"ListPartsResult" require:"true" type:"Struct"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
+	// ListPartsResult
+	ListPartsResult *ListPartsResponseListPartsResult `json:"ListPartsResult,omitempty" xml:"ListPartsResult,omitempty" require:"true" type:"Struct"`
 }
 
 func (s ListPartsResponse) String() string {
@@ -4022,15 +4375,24 @@ func (s *ListPartsResponse) SetListPartsResult(v *ListPartsResponseListPartsResu
 }
 
 type ListPartsResponseListPartsResult struct {
-	Bucket               *string                                 `json:"Bucket" xml:"Bucket"`
-	EncodingType         *string                                 `json:"EncodingType" xml:"EncodingType"`
-	Key                  *string                                 `json:"Key" xml:"Key"`
-	UploadId             *string                                 `json:"UploadId" xml:"UploadId"`
-	PartNumberMarker     *string                                 `json:"PartNumberMarker" xml:"PartNumberMarker"`
-	NextPartNumberMarker *string                                 `json:"NextPartNumberMarker" xml:"NextPartNumberMarker"`
-	MaxParts             *string                                 `json:"MaxParts" xml:"MaxParts"`
-	IsTruncated          *string                                 `json:"IsTruncated" xml:"IsTruncated"`
-	Part                 []*ListPartsResponseListPartsResultPart `json:"Part" xml:"Part" type:"Repeated"`
+	// Bucket
+	Bucket *string `json:"Bucket,omitempty" xml:"Bucket,omitempty"`
+	// EncodingType
+	EncodingType *string `json:"EncodingType,omitempty" xml:"EncodingType,omitempty"`
+	// Key
+	Key *string `json:"Key,omitempty" xml:"Key,omitempty"`
+	// UploadId
+	UploadId *string `json:"UploadId,omitempty" xml:"UploadId,omitempty"`
+	// PartNumberMarker
+	PartNumberMarker *string `json:"PartNumberMarker,omitempty" xml:"PartNumberMarker,omitempty"`
+	// NextPartNumberMarker
+	NextPartNumberMarker *string `json:"NextPartNumberMarker,omitempty" xml:"NextPartNumberMarker,omitempty"`
+	// MaxParts
+	MaxParts *string `json:"MaxParts,omitempty" xml:"MaxParts,omitempty"`
+	// IsTruncated
+	IsTruncated *string `json:"IsTruncated,omitempty" xml:"IsTruncated,omitempty"`
+	// Part
+	Part []*ListPartsResponseListPartsResultPart `json:"Part,omitempty" xml:"Part,omitempty" type:"Repeated"`
 }
 
 func (s ListPartsResponseListPartsResult) String() string {
@@ -4087,10 +4449,14 @@ func (s *ListPartsResponseListPartsResult) SetPart(v []*ListPartsResponseListPar
 }
 
 type ListPartsResponseListPartsResultPart struct {
-	PartNumber   *string `json:"PartNumber" xml:"PartNumber"`
-	LastModified *string `json:"LastModified" xml:"LastModified"`
-	ETag         *string `json:"ETag" xml:"ETag"`
-	Size         *string `json:"Size" xml:"Size"`
+	// PartNumber
+	PartNumber *string `json:"PartNumber,omitempty" xml:"PartNumber,omitempty"`
+	// LastModified
+	LastModified *string `json:"LastModified,omitempty" xml:"LastModified,omitempty"`
+	// ETag
+	ETag *string `json:"ETag,omitempty" xml:"ETag,omitempty"`
+	// Size
+	Size *string `json:"Size,omitempty" xml:"Size,omitempty"`
 }
 
 func (s ListPartsResponseListPartsResultPart) String() string {
@@ -4122,9 +4488,12 @@ func (s *ListPartsResponseListPartsResultPart) SetSize(v string) *ListPartsRespo
 }
 
 type GetLiveChannelHistoryRequest struct {
-	BucketName  *string                             `json:"BucketName" xml:"BucketName" require:"true"`
-	ChannelName *string                             `json:"ChannelName" xml:"ChannelName" require:"true"`
-	Filter      *GetLiveChannelHistoryRequestFilter `json:"Filter" xml:"Filter" type:"Struct"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	// ChannelName
+	ChannelName *string `json:"ChannelName,omitempty" xml:"ChannelName,omitempty" require:"true"`
+	// Filter
+	Filter *GetLiveChannelHistoryRequestFilter `json:"Filter,omitempty" xml:"Filter,omitempty" type:"Struct"`
 }
 
 func (s GetLiveChannelHistoryRequest) String() string {
@@ -4151,7 +4520,8 @@ func (s *GetLiveChannelHistoryRequest) SetFilter(v *GetLiveChannelHistoryRequest
 }
 
 type GetLiveChannelHistoryRequestFilter struct {
-	Comp *string `json:"comp" xml:"comp" signed:"true"`
+	// comp
+	Comp *string `json:"comp,omitempty" xml:"comp,omitempty" signed:"true"`
 }
 
 func (s GetLiveChannelHistoryRequestFilter) String() string {
@@ -4168,8 +4538,10 @@ func (s *GetLiveChannelHistoryRequestFilter) SetComp(v string) *GetLiveChannelHi
 }
 
 type GetLiveChannelHistoryResponse struct {
-	RequestId          *string                                          `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
-	LiveChannelHistory *GetLiveChannelHistoryResponseLiveChannelHistory `json:"LiveChannelHistory" xml:"LiveChannelHistory" require:"true" type:"Struct"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
+	// LiveChannelHistory
+	LiveChannelHistory *GetLiveChannelHistoryResponseLiveChannelHistory `json:"LiveChannelHistory,omitempty" xml:"LiveChannelHistory,omitempty" require:"true" type:"Struct"`
 }
 
 func (s GetLiveChannelHistoryResponse) String() string {
@@ -4191,7 +4563,8 @@ func (s *GetLiveChannelHistoryResponse) SetLiveChannelHistory(v *GetLiveChannelH
 }
 
 type GetLiveChannelHistoryResponseLiveChannelHistory struct {
-	LiveRecord []*GetLiveChannelHistoryResponseLiveChannelHistoryLiveRecord `json:"LiveRecord" xml:"LiveRecord" type:"Repeated"`
+	// LiveRecord
+	LiveRecord []*GetLiveChannelHistoryResponseLiveChannelHistoryLiveRecord `json:"LiveRecord,omitempty" xml:"LiveRecord,omitempty" type:"Repeated"`
 }
 
 func (s GetLiveChannelHistoryResponseLiveChannelHistory) String() string {
@@ -4208,9 +4581,12 @@ func (s *GetLiveChannelHistoryResponseLiveChannelHistory) SetLiveRecord(v []*Get
 }
 
 type GetLiveChannelHistoryResponseLiveChannelHistoryLiveRecord struct {
-	StartTime  *string `json:"StartTime" xml:"StartTime"`
-	EndTime    *string `json:"EndTime" xml:"EndTime"`
-	RemoteAddr *string `json:"RemoteAddr" xml:"RemoteAddr"`
+	// StartTime
+	StartTime *string `json:"StartTime,omitempty" xml:"StartTime,omitempty"`
+	// EndTime
+	EndTime *string `json:"EndTime,omitempty" xml:"EndTime,omitempty"`
+	// RemoteAddr
+	RemoteAddr *string `json:"RemoteAddr,omitempty" xml:"RemoteAddr,omitempty"`
 }
 
 func (s GetLiveChannelHistoryResponseLiveChannelHistoryLiveRecord) String() string {
@@ -4237,8 +4613,10 @@ func (s *GetLiveChannelHistoryResponseLiveChannelHistoryLiveRecord) SetRemoteAdd
 }
 
 type GetBucketRequest struct {
-	BucketName *string                 `json:"BucketName" xml:"BucketName" require:"true"`
-	Filter     *GetBucketRequestFilter `json:"Filter" xml:"Filter" type:"Struct"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	// Filter
+	Filter *GetBucketRequestFilter `json:"Filter,omitempty" xml:"Filter,omitempty" type:"Struct"`
 }
 
 func (s GetBucketRequest) String() string {
@@ -4260,11 +4638,16 @@ func (s *GetBucketRequest) SetFilter(v *GetBucketRequestFilter) *GetBucketReques
 }
 
 type GetBucketRequestFilter struct {
-	Delimiter    *string `json:"delimiter" xml:"delimiter"`
-	Marker       *string `json:"marker" xml:"marker"`
-	MaxKeys      *string `json:"max-keys" xml:"max-keys"`
-	Prefix       *string `json:"prefix" xml:"prefix"`
-	EncodingType *string `json:"encoding-type" xml:"encoding-type"`
+	// delimiter
+	Delimiter *string `json:"delimiter,omitempty" xml:"delimiter,omitempty"`
+	// marker
+	Marker *string `json:"marker,omitempty" xml:"marker,omitempty"`
+	// max-keys
+	MaxKeys *string `json:"max-keys,omitempty" xml:"max-keys,omitempty"`
+	// prefix
+	Prefix *string `json:"prefix,omitempty" xml:"prefix,omitempty"`
+	// encoding-type
+	EncodingType *string `json:"encoding-type,omitempty" xml:"encoding-type,omitempty"`
 }
 
 func (s GetBucketRequestFilter) String() string {
@@ -4301,8 +4684,10 @@ func (s *GetBucketRequestFilter) SetEncodingType(v string) *GetBucketRequestFilt
 }
 
 type GetBucketResponse struct {
-	RequestId        *string                            `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
-	ListBucketResult *GetBucketResponseListBucketResult `json:"ListBucketResult" xml:"ListBucketResult" require:"true" type:"Struct"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
+	// ListBucketResult
+	ListBucketResult *GetBucketResponseListBucketResult `json:"ListBucketResult,omitempty" xml:"ListBucketResult,omitempty" require:"true" type:"Struct"`
 }
 
 func (s GetBucketResponse) String() string {
@@ -4324,15 +4709,24 @@ func (s *GetBucketResponse) SetListBucketResult(v *GetBucketResponseListBucketRe
 }
 
 type GetBucketResponseListBucketResult struct {
-	Name           *string                                      `json:"Name" xml:"Name"`
-	Prefix         *string                                      `json:"Prefix" xml:"Prefix"`
-	Marker         *string                                      `json:"Marker" xml:"Marker"`
-	MaxKeys        *string                                      `json:"MaxKeys" xml:"MaxKeys"`
-	Delimiter      *string                                      `json:"Delimiter" xml:"Delimiter"`
-	IsTruncated    *string                                      `json:"IsTruncated" xml:"IsTruncated"`
-	EncodingType   *string                                      `json:"EncodingType" xml:"EncodingType"`
-	CommonPrefixes *string                                      `json:"CommonPrefixes" xml:"CommonPrefixes"`
-	Contents       []*GetBucketResponseListBucketResultContents `json:"Contents" xml:"Contents" type:"Repeated"`
+	// Name
+	Name *string `json:"Name,omitempty" xml:"Name,omitempty"`
+	// Prefix
+	Prefix *string `json:"Prefix,omitempty" xml:"Prefix,omitempty"`
+	// Marker
+	Marker *string `json:"Marker,omitempty" xml:"Marker,omitempty"`
+	// MaxKeys
+	MaxKeys *string `json:"MaxKeys,omitempty" xml:"MaxKeys,omitempty"`
+	// Delimiter
+	Delimiter *string `json:"Delimiter,omitempty" xml:"Delimiter,omitempty"`
+	// IsTruncated
+	IsTruncated *string `json:"IsTruncated,omitempty" xml:"IsTruncated,omitempty"`
+	// EncodingType
+	EncodingType *string `json:"EncodingType,omitempty" xml:"EncodingType,omitempty"`
+	// CommonPrefixes
+	CommonPrefixes *string `json:"CommonPrefixes,omitempty" xml:"CommonPrefixes,omitempty"`
+	// Contents
+	Contents []*GetBucketResponseListBucketResultContents `json:"Contents,omitempty" xml:"Contents,omitempty" type:"Repeated"`
 }
 
 func (s GetBucketResponseListBucketResult) String() string {
@@ -4389,12 +4783,18 @@ func (s *GetBucketResponseListBucketResult) SetContents(v []*GetBucketResponseLi
 }
 
 type GetBucketResponseListBucketResultContents struct {
-	Key          *string                                         `json:"Key" xml:"Key"`
-	ETag         *string                                         `json:"ETag" xml:"ETag"`
-	LastModified *string                                         `json:"LastModified" xml:"LastModified"`
-	Size         *string                                         `json:"Size" xml:"Size"`
-	StorageClass *string                                         `json:"StorageClass" xml:"StorageClass"`
-	Owner        *GetBucketResponseListBucketResultContentsOwner `json:"Owner" xml:"Owner" require:"true" type:"Struct"`
+	// Key
+	Key *string `json:"Key,omitempty" xml:"Key,omitempty"`
+	// ETag
+	ETag *string `json:"ETag,omitempty" xml:"ETag,omitempty"`
+	// LastModified
+	LastModified *string `json:"LastModified,omitempty" xml:"LastModified,omitempty"`
+	// Size
+	Size *string `json:"Size,omitempty" xml:"Size,omitempty"`
+	// StorageClass
+	StorageClass *string `json:"StorageClass,omitempty" xml:"StorageClass,omitempty"`
+	// Owner
+	Owner *GetBucketResponseListBucketResultContentsOwner `json:"Owner,omitempty" xml:"Owner,omitempty" require:"true" type:"Struct"`
 }
 
 func (s GetBucketResponseListBucketResultContents) String() string {
@@ -4436,8 +4836,10 @@ func (s *GetBucketResponseListBucketResultContents) SetOwner(v *GetBucketRespons
 }
 
 type GetBucketResponseListBucketResultContentsOwner struct {
-	ID          *string `json:"ID" xml:"ID"`
-	DisplayName *string `json:"DisplayName" xml:"DisplayName"`
+	// ID
+	ID *string `json:"ID,omitempty" xml:"ID,omitempty"`
+	// DisplayName
+	DisplayName *string `json:"DisplayName,omitempty" xml:"DisplayName,omitempty"`
 }
 
 func (s GetBucketResponseListBucketResultContentsOwner) String() string {
@@ -4459,8 +4861,10 @@ func (s *GetBucketResponseListBucketResultContentsOwner) SetDisplayName(v string
 }
 
 type GetLiveChannelInfoRequest struct {
-	BucketName  *string `json:"BucketName" xml:"BucketName" require:"true"`
-	ChannelName *string `json:"ChannelName" xml:"ChannelName" require:"true"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	// ChannelName
+	ChannelName *string `json:"ChannelName,omitempty" xml:"ChannelName,omitempty" require:"true"`
 }
 
 func (s GetLiveChannelInfoRequest) String() string {
@@ -4482,8 +4886,10 @@ func (s *GetLiveChannelInfoRequest) SetChannelName(v string) *GetLiveChannelInfo
 }
 
 type GetLiveChannelInfoResponse struct {
-	RequestId                *string                                             `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
-	LiveChannelConfiguration *GetLiveChannelInfoResponseLiveChannelConfiguration `json:"LiveChannelConfiguration" xml:"LiveChannelConfiguration" require:"true" type:"Struct"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
+	// LiveChannelConfiguration
+	LiveChannelConfiguration *GetLiveChannelInfoResponseLiveChannelConfiguration `json:"LiveChannelConfiguration,omitempty" xml:"LiveChannelConfiguration,omitempty" require:"true" type:"Struct"`
 }
 
 func (s GetLiveChannelInfoResponse) String() string {
@@ -4505,9 +4911,12 @@ func (s *GetLiveChannelInfoResponse) SetLiveChannelConfiguration(v *GetLiveChann
 }
 
 type GetLiveChannelInfoResponseLiveChannelConfiguration struct {
-	Description *string                                                   `json:"Description" xml:"Description"`
-	Status      *string                                                   `json:"Status" xml:"Status"`
-	Target      *GetLiveChannelInfoResponseLiveChannelConfigurationTarget `json:"Target" xml:"Target" require:"true" type:"Struct"`
+	// Description
+	Description *string `json:"Description,omitempty" xml:"Description,omitempty"`
+	// Status
+	Status *string `json:"Status,omitempty" xml:"Status,omitempty"`
+	// Target
+	Target *GetLiveChannelInfoResponseLiveChannelConfigurationTarget `json:"Target,omitempty" xml:"Target,omitempty" require:"true" type:"Struct"`
 }
 
 func (s GetLiveChannelInfoResponseLiveChannelConfiguration) String() string {
@@ -4534,10 +4943,14 @@ func (s *GetLiveChannelInfoResponseLiveChannelConfiguration) SetTarget(v *GetLiv
 }
 
 type GetLiveChannelInfoResponseLiveChannelConfigurationTarget struct {
-	Type         *string `json:"Type" xml:"Type"`
-	FragDuration *string `json:"FragDuration" xml:"FragDuration"`
-	FragCount    *string `json:"FragCount" xml:"FragCount"`
-	PlaylistName *string `json:"PlaylistName" xml:"PlaylistName"`
+	// Type
+	Type *string `json:"Type,omitempty" xml:"Type,omitempty"`
+	// FragDuration
+	FragDuration *string `json:"FragDuration,omitempty" xml:"FragDuration,omitempty"`
+	// FragCount
+	FragCount *string `json:"FragCount,omitempty" xml:"FragCount,omitempty"`
+	// PlaylistName
+	PlaylistName *string `json:"PlaylistName,omitempty" xml:"PlaylistName,omitempty"`
 }
 
 func (s GetLiveChannelInfoResponseLiveChannelConfigurationTarget) String() string {
@@ -4569,9 +4982,12 @@ func (s *GetLiveChannelInfoResponseLiveChannelConfigurationTarget) SetPlaylistNa
 }
 
 type GetLiveChannelStatRequest struct {
-	BucketName  *string                          `json:"BucketName" xml:"BucketName" require:"true"`
-	ChannelName *string                          `json:"ChannelName" xml:"ChannelName" require:"true"`
-	Filter      *GetLiveChannelStatRequestFilter `json:"Filter" xml:"Filter" type:"Struct"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	// ChannelName
+	ChannelName *string `json:"ChannelName,omitempty" xml:"ChannelName,omitempty" require:"true"`
+	// Filter
+	Filter *GetLiveChannelStatRequestFilter `json:"Filter,omitempty" xml:"Filter,omitempty" type:"Struct"`
 }
 
 func (s GetLiveChannelStatRequest) String() string {
@@ -4598,7 +5014,8 @@ func (s *GetLiveChannelStatRequest) SetFilter(v *GetLiveChannelStatRequestFilter
 }
 
 type GetLiveChannelStatRequestFilter struct {
-	Comp *string `json:"comp" xml:"comp" signed:"true"`
+	// comp
+	Comp *string `json:"comp,omitempty" xml:"comp,omitempty" signed:"true"`
 }
 
 func (s GetLiveChannelStatRequestFilter) String() string {
@@ -4615,8 +5032,10 @@ func (s *GetLiveChannelStatRequestFilter) SetComp(v string) *GetLiveChannelStatR
 }
 
 type GetLiveChannelStatResponse struct {
-	RequestId       *string                                    `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
-	LiveChannelStat *GetLiveChannelStatResponseLiveChannelStat `json:"LiveChannelStat" xml:"LiveChannelStat" require:"true" type:"Struct"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
+	// LiveChannelStat
+	LiveChannelStat *GetLiveChannelStatResponseLiveChannelStat `json:"LiveChannelStat,omitempty" xml:"LiveChannelStat,omitempty" require:"true" type:"Struct"`
 }
 
 func (s GetLiveChannelStatResponse) String() string {
@@ -4638,11 +5057,16 @@ func (s *GetLiveChannelStatResponse) SetLiveChannelStat(v *GetLiveChannelStatRes
 }
 
 type GetLiveChannelStatResponseLiveChannelStat struct {
-	Status        *string                                         `json:"Status" xml:"Status"`
-	ConnectedTime *string                                         `json:"ConnectedTime" xml:"ConnectedTime"`
-	RemoteAddr    *string                                         `json:"RemoteAddr" xml:"RemoteAddr"`
-	Video         *GetLiveChannelStatResponseLiveChannelStatVideo `json:"Video" xml:"Video" require:"true" type:"Struct"`
-	Audio         *GetLiveChannelStatResponseLiveChannelStatAudio `json:"Audio" xml:"Audio" require:"true" type:"Struct"`
+	// Status
+	Status *string `json:"Status,omitempty" xml:"Status,omitempty"`
+	// ConnectedTime
+	ConnectedTime *string `json:"ConnectedTime,omitempty" xml:"ConnectedTime,omitempty"`
+	// RemoteAddr
+	RemoteAddr *string `json:"RemoteAddr,omitempty" xml:"RemoteAddr,omitempty"`
+	// Video
+	Video *GetLiveChannelStatResponseLiveChannelStatVideo `json:"Video,omitempty" xml:"Video,omitempty" require:"true" type:"Struct"`
+	// Audio
+	Audio *GetLiveChannelStatResponseLiveChannelStatAudio `json:"Audio,omitempty" xml:"Audio,omitempty" require:"true" type:"Struct"`
 }
 
 func (s GetLiveChannelStatResponseLiveChannelStat) String() string {
@@ -4679,11 +5103,16 @@ func (s *GetLiveChannelStatResponseLiveChannelStat) SetAudio(v *GetLiveChannelSt
 }
 
 type GetLiveChannelStatResponseLiveChannelStatVideo struct {
-	Width     *string `json:"Width" xml:"Width"`
-	Height    *string `json:"Height" xml:"Height"`
-	FrameRate *string `json:"FrameRate" xml:"FrameRate"`
-	Bandwidth *string `json:"Bandwidth" xml:"Bandwidth"`
-	Codec     *string `json:"Codec" xml:"Codec"`
+	// Width
+	Width *string `json:"Width,omitempty" xml:"Width,omitempty"`
+	// Height
+	Height *string `json:"Height,omitempty" xml:"Height,omitempty"`
+	// FrameRate
+	FrameRate *string `json:"FrameRate,omitempty" xml:"FrameRate,omitempty"`
+	// Bandwidth
+	Bandwidth *string `json:"Bandwidth,omitempty" xml:"Bandwidth,omitempty"`
+	// Codec
+	Codec *string `json:"Codec,omitempty" xml:"Codec,omitempty"`
 }
 
 func (s GetLiveChannelStatResponseLiveChannelStatVideo) String() string {
@@ -4720,9 +5149,12 @@ func (s *GetLiveChannelStatResponseLiveChannelStatVideo) SetCodec(v string) *Get
 }
 
 type GetLiveChannelStatResponseLiveChannelStatAudio struct {
-	Bandwidth  *string `json:"Bandwidth" xml:"Bandwidth"`
-	SampleRate *string `json:"SampleRate" xml:"SampleRate"`
-	Codec      *string `json:"Codec" xml:"Codec"`
+	// Bandwidth
+	Bandwidth *string `json:"Bandwidth,omitempty" xml:"Bandwidth,omitempty"`
+	// SampleRate
+	SampleRate *string `json:"SampleRate,omitempty" xml:"SampleRate,omitempty"`
+	// Codec
+	Codec *string `json:"Codec,omitempty" xml:"Codec,omitempty"`
 }
 
 func (s GetLiveChannelStatResponseLiveChannelStatAudio) String() string {
@@ -4749,8 +5181,10 @@ func (s *GetLiveChannelStatResponseLiveChannelStatAudio) SetCodec(v string) *Get
 }
 
 type DeleteObjectRequest struct {
-	BucketName *string `json:"BucketName" xml:"BucketName" require:"true"`
-	ObjectName *string `json:"ObjectName" xml:"ObjectName" require:"true"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	// ObjectName
+	ObjectName *string `json:"ObjectName,omitempty" xml:"ObjectName,omitempty" require:"true"`
 }
 
 func (s DeleteObjectRequest) String() string {
@@ -4772,7 +5206,8 @@ func (s *DeleteObjectRequest) SetObjectName(v string) *DeleteObjectRequest {
 }
 
 type DeleteObjectResponse struct {
-	RequestId *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
 }
 
 func (s DeleteObjectResponse) String() string {
@@ -4789,9 +5224,12 @@ func (s *DeleteObjectResponse) SetRequestId(v string) *DeleteObjectResponse {
 }
 
 type AbortMultipartUploadRequest struct {
-	BucketName *string                            `json:"BucketName" xml:"BucketName" require:"true"`
-	ObjectName *string                            `json:"ObjectName" xml:"ObjectName" require:"true"`
-	Filter     *AbortMultipartUploadRequestFilter `json:"Filter" xml:"Filter" require:"true" type:"Struct"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	// ObjectName
+	ObjectName *string `json:"ObjectName,omitempty" xml:"ObjectName,omitempty" require:"true"`
+	// Filter
+	Filter *AbortMultipartUploadRequestFilter `json:"Filter,omitempty" xml:"Filter,omitempty" require:"true" type:"Struct"`
 }
 
 func (s AbortMultipartUploadRequest) String() string {
@@ -4818,7 +5256,8 @@ func (s *AbortMultipartUploadRequest) SetFilter(v *AbortMultipartUploadRequestFi
 }
 
 type AbortMultipartUploadRequestFilter struct {
-	UploadId *string `json:"uploadId" xml:"uploadId" require:"true" signed:"true"`
+	// uploadId
+	UploadId *string `json:"uploadId,omitempty" xml:"uploadId,omitempty" require:"true" signed:"true"`
 }
 
 func (s AbortMultipartUploadRequestFilter) String() string {
@@ -4835,7 +5274,8 @@ func (s *AbortMultipartUploadRequestFilter) SetUploadId(v string) *AbortMultipar
 }
 
 type AbortMultipartUploadResponse struct {
-	RequestId *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
 }
 
 func (s AbortMultipartUploadResponse) String() string {
@@ -4852,12 +5292,18 @@ func (s *AbortMultipartUploadResponse) SetRequestId(v string) *AbortMultipartUpl
 }
 
 type AppendObjectRequest struct {
-	BucketName *string                    `json:"BucketName" xml:"BucketName" require:"true"`
-	ObjectName *string                    `json:"ObjectName" xml:"ObjectName" require:"true"`
-	UserMeta   map[string]*string         `json:"UserMeta" xml:"UserMeta"`
-	Body       io.Reader                  `json:"body" xml:"body"`
-	Filter     *AppendObjectRequestFilter `json:"Filter" xml:"Filter" require:"true" type:"Struct"`
-	Header     *AppendObjectRequestHeader `json:"Header" xml:"Header" type:"Struct"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	// ObjectName
+	ObjectName *string `json:"ObjectName,omitempty" xml:"ObjectName,omitempty" require:"true"`
+	// UserMeta
+	UserMeta map[string]*string `json:"UserMeta,omitempty" xml:"UserMeta,omitempty"`
+	// body
+	Body io.Reader `json:"body,omitempty" xml:"body,omitempty"`
+	// Filter
+	Filter *AppendObjectRequestFilter `json:"Filter,omitempty" xml:"Filter,omitempty" require:"true" type:"Struct"`
+	// Header
+	Header *AppendObjectRequestHeader `json:"Header,omitempty" xml:"Header,omitempty" type:"Struct"`
 }
 
 func (s AppendObjectRequest) String() string {
@@ -4899,7 +5345,8 @@ func (s *AppendObjectRequest) SetHeader(v *AppendObjectRequestHeader) *AppendObj
 }
 
 type AppendObjectRequestFilter struct {
-	Position *string `json:"position" xml:"position" require:"true" signed:"true"`
+	// position
+	Position *string `json:"position,omitempty" xml:"position,omitempty" require:"true" signed:"true"`
 }
 
 func (s AppendObjectRequestFilter) String() string {
@@ -4916,15 +5363,24 @@ func (s *AppendObjectRequestFilter) SetPosition(v string) *AppendObjectRequestFi
 }
 
 type AppendObjectRequestHeader struct {
-	CacheControl         *string `json:"Cache-Control" xml:"Cache-Control"`
-	ContentDisposition   *string `json:"Content-Disposition" xml:"Content-Disposition"`
-	ContentEncoding      *string `json:"Content-Encoding" xml:"Content-Encoding"`
-	ContentMD5           *string `json:"Content-MD5" xml:"Content-MD5"`
-	Expires              *string `json:"Expires" xml:"Expires"`
-	ServerSideEncryption *string `json:"x-oss-server-side-encryption" xml:"x-oss-server-side-encryption"`
-	ObjectAcl            *string `json:"x-oss-object-acl" xml:"x-oss-object-acl"`
-	StorageClass         *string `json:"x-oss-storage-class" xml:"x-oss-storage-class"`
-	ContentType          *string `json:"content-type" xml:"content-type"`
+	// Cache-Control
+	CacheControl *string `json:"Cache-Control,omitempty" xml:"Cache-Control,omitempty"`
+	// Content-Disposition
+	ContentDisposition *string `json:"Content-Disposition,omitempty" xml:"Content-Disposition,omitempty"`
+	// Content-Encoding
+	ContentEncoding *string `json:"Content-Encoding,omitempty" xml:"Content-Encoding,omitempty"`
+	// Content-MD5
+	ContentMD5 *string `json:"Content-MD5,omitempty" xml:"Content-MD5,omitempty"`
+	// Expires
+	Expires *string `json:"Expires,omitempty" xml:"Expires,omitempty"`
+	// x-oss-server-side-encryption
+	ServerSideEncryption *string `json:"x-oss-server-side-encryption,omitempty" xml:"x-oss-server-side-encryption,omitempty"`
+	// x-oss-object-acl
+	ObjectAcl *string `json:"x-oss-object-acl,omitempty" xml:"x-oss-object-acl,omitempty"`
+	// x-oss-storage-class
+	StorageClass *string `json:"x-oss-storage-class,omitempty" xml:"x-oss-storage-class,omitempty"`
+	// content-type
+	ContentType *string `json:"content-type,omitempty" xml:"content-type,omitempty"`
 }
 
 func (s AppendObjectRequestHeader) String() string {
@@ -4981,9 +5437,12 @@ func (s *AppendObjectRequestHeader) SetContentType(v string) *AppendObjectReques
 }
 
 type AppendObjectResponse struct {
-	RequestId          *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
-	NextAppendPosition *string `json:"x-oss-next-append-position" xml:"x-oss-next-append-position" require:"true"`
-	HashCrc64ecma      *string `json:"x-oss-hash-crc64ecma" xml:"x-oss-hash-crc64ecma" require:"true"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
+	// x-oss-next-append-position
+	NextAppendPosition *string `json:"x-oss-next-append-position,omitempty" xml:"x-oss-next-append-position,omitempty" require:"true"`
+	// x-oss-hash-crc64ecma
+	HashCrc64ecma *string `json:"x-oss-hash-crc64ecma,omitempty" xml:"x-oss-hash-crc64ecma,omitempty" require:"true"`
 }
 
 func (s AppendObjectResponse) String() string {
@@ -5010,10 +5469,14 @@ func (s *AppendObjectResponse) SetHashCrc64ecma(v string) *AppendObjectResponse 
 }
 
 type UploadPartCopyRequest struct {
-	BucketName *string                      `json:"BucketName" xml:"BucketName" require:"true"`
-	ObjectName *string                      `json:"ObjectName" xml:"ObjectName" require:"true"`
-	Filter     *UploadPartCopyRequestFilter `json:"Filter" xml:"Filter" require:"true" type:"Struct"`
-	Header     *UploadPartCopyRequestHeader `json:"Header" xml:"Header" require:"true" type:"Struct"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	// ObjectName
+	ObjectName *string `json:"ObjectName,omitempty" xml:"ObjectName,omitempty" require:"true"`
+	// Filter
+	Filter *UploadPartCopyRequestFilter `json:"Filter,omitempty" xml:"Filter,omitempty" require:"true" type:"Struct"`
+	// Header
+	Header *UploadPartCopyRequestHeader `json:"Header,omitempty" xml:"Header,omitempty" require:"true" type:"Struct"`
 }
 
 func (s UploadPartCopyRequest) String() string {
@@ -5045,8 +5508,10 @@ func (s *UploadPartCopyRequest) SetHeader(v *UploadPartCopyRequestHeader) *Uploa
 }
 
 type UploadPartCopyRequestFilter struct {
-	PartNumber *string `json:"partNumber" xml:"partNumber" require:"true" signed:"true"`
-	UploadId   *string `json:"uploadId" xml:"uploadId" require:"true" signed:"true"`
+	// partNumber
+	PartNumber *string `json:"partNumber,omitempty" xml:"partNumber,omitempty" require:"true" signed:"true"`
+	// uploadId
+	UploadId *string `json:"uploadId,omitempty" xml:"uploadId,omitempty" require:"true" signed:"true"`
 }
 
 func (s UploadPartCopyRequestFilter) String() string {
@@ -5068,12 +5533,18 @@ func (s *UploadPartCopyRequestFilter) SetUploadId(v string) *UploadPartCopyReque
 }
 
 type UploadPartCopyRequestHeader struct {
-	CopySource                  *string `json:"x-oss-copy-source" xml:"x-oss-copy-source" require:"true"`
-	CopySourceRange             *string `json:"x-oss-copy-source-range" xml:"x-oss-copy-source-range" require:"true"`
-	CopySourceIfMatch           *string `json:"x-oss-copy-source-if-match" xml:"x-oss-copy-source-if-match"`
-	CopySourceIfNoneMatch       *string `json:"x-oss-copy-source-if-none-match" xml:"x-oss-copy-source-if-none-match"`
-	CopySourceIfUnmodifiedSince *string `json:"x-oss-copy-source-if-unmodified-since" xml:"x-oss-copy-source-if-unmodified-since"`
-	CopySourceIfModifiedSince   *string `json:"x-oss-copy-source-if-modified-since" xml:"x-oss-copy-source-if-modified-since"`
+	// x-oss-copy-source
+	CopySource *string `json:"x-oss-copy-source,omitempty" xml:"x-oss-copy-source,omitempty" require:"true"`
+	// x-oss-copy-source-range
+	CopySourceRange *string `json:"x-oss-copy-source-range,omitempty" xml:"x-oss-copy-source-range,omitempty" require:"true"`
+	// x-oss-copy-source-if-match
+	CopySourceIfMatch *string `json:"x-oss-copy-source-if-match,omitempty" xml:"x-oss-copy-source-if-match,omitempty"`
+	// x-oss-copy-source-if-none-match
+	CopySourceIfNoneMatch *string `json:"x-oss-copy-source-if-none-match,omitempty" xml:"x-oss-copy-source-if-none-match,omitempty"`
+	// x-oss-copy-source-if-unmodified-since
+	CopySourceIfUnmodifiedSince *string `json:"x-oss-copy-source-if-unmodified-since,omitempty" xml:"x-oss-copy-source-if-unmodified-since,omitempty"`
+	// x-oss-copy-source-if-modified-since
+	CopySourceIfModifiedSince *string `json:"x-oss-copy-source-if-modified-since,omitempty" xml:"x-oss-copy-source-if-modified-since,omitempty"`
 }
 
 func (s UploadPartCopyRequestHeader) String() string {
@@ -5115,8 +5586,10 @@ func (s *UploadPartCopyRequestHeader) SetCopySourceIfModifiedSince(v string) *Up
 }
 
 type UploadPartCopyResponse struct {
-	RequestId      *string                               `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
-	CopyPartResult *UploadPartCopyResponseCopyPartResult `json:"CopyPartResult" xml:"CopyPartResult" require:"true" type:"Struct"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
+	// CopyPartResult
+	CopyPartResult *UploadPartCopyResponseCopyPartResult `json:"CopyPartResult,omitempty" xml:"CopyPartResult,omitempty" require:"true" type:"Struct"`
 }
 
 func (s UploadPartCopyResponse) String() string {
@@ -5138,8 +5611,10 @@ func (s *UploadPartCopyResponse) SetCopyPartResult(v *UploadPartCopyResponseCopy
 }
 
 type UploadPartCopyResponseCopyPartResult struct {
-	LastModified *string `json:"LastModified" xml:"LastModified"`
-	ETag         *string `json:"ETag" xml:"ETag"`
+	// LastModified
+	LastModified *string `json:"LastModified,omitempty" xml:"LastModified,omitempty"`
+	// ETag
+	ETag *string `json:"ETag,omitempty" xml:"ETag,omitempty"`
 }
 
 func (s UploadPartCopyResponseCopyPartResult) String() string {
@@ -5161,9 +5636,12 @@ func (s *UploadPartCopyResponseCopyPartResult) SetETag(v string) *UploadPartCopy
 }
 
 type GetVodPlaylistRequest struct {
-	BucketName  *string                      `json:"BucketName" xml:"BucketName" require:"true"`
-	ChannelName *string                      `json:"ChannelName" xml:"ChannelName" require:"true"`
-	Filter      *GetVodPlaylistRequestFilter `json:"Filter" xml:"Filter" require:"true" type:"Struct"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	// ChannelName
+	ChannelName *string `json:"ChannelName,omitempty" xml:"ChannelName,omitempty" require:"true"`
+	// Filter
+	Filter *GetVodPlaylistRequestFilter `json:"Filter,omitempty" xml:"Filter,omitempty" require:"true" type:"Struct"`
 }
 
 func (s GetVodPlaylistRequest) String() string {
@@ -5190,8 +5668,10 @@ func (s *GetVodPlaylistRequest) SetFilter(v *GetVodPlaylistRequestFilter) *GetVo
 }
 
 type GetVodPlaylistRequestFilter struct {
-	EndTime   *string `json:"endTime" xml:"endTime" require:"true" signed:"true"`
-	StartTime *string `json:"startTime" xml:"startTime" require:"true" signed:"true"`
+	// endTime
+	EndTime *string `json:"endTime,omitempty" xml:"endTime,omitempty" require:"true" signed:"true"`
+	// startTime
+	StartTime *string `json:"startTime,omitempty" xml:"startTime,omitempty" require:"true" signed:"true"`
 }
 
 func (s GetVodPlaylistRequestFilter) String() string {
@@ -5213,7 +5693,8 @@ func (s *GetVodPlaylistRequestFilter) SetStartTime(v string) *GetVodPlaylistRequ
 }
 
 type GetVodPlaylistResponse struct {
-	RequestId *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
 }
 
 func (s GetVodPlaylistResponse) String() string {
@@ -5230,7 +5711,8 @@ func (s *GetVodPlaylistResponse) SetRequestId(v string) *GetVodPlaylistResponse 
 }
 
 type DeleteBucketCORSRequest struct {
-	BucketName *string `json:"BucketName" xml:"BucketName" require:"true"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
 }
 
 func (s DeleteBucketCORSRequest) String() string {
@@ -5247,7 +5729,8 @@ func (s *DeleteBucketCORSRequest) SetBucketName(v string) *DeleteBucketCORSReque
 }
 
 type DeleteBucketCORSResponse struct {
-	RequestId *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
 }
 
 func (s DeleteBucketCORSResponse) String() string {
@@ -5264,9 +5747,12 @@ func (s *DeleteBucketCORSResponse) SetRequestId(v string) *DeleteBucketCORSRespo
 }
 
 type GetObjectRequest struct {
-	BucketName *string                 `json:"BucketName" xml:"BucketName" require:"true"`
-	ObjectName *string                 `json:"ObjectName" xml:"ObjectName" require:"true"`
-	Header     *GetObjectRequestHeader `json:"Header" xml:"Header" type:"Struct"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	// ObjectName
+	ObjectName *string `json:"ObjectName,omitempty" xml:"ObjectName,omitempty" require:"true"`
+	// Header
+	Header *GetObjectRequestHeader `json:"Header,omitempty" xml:"Header,omitempty" type:"Struct"`
 }
 
 func (s GetObjectRequest) String() string {
@@ -5293,18 +5779,30 @@ func (s *GetObjectRequest) SetHeader(v *GetObjectRequestHeader) *GetObjectReques
 }
 
 type GetObjectRequestHeader struct {
-	ResponseContentType        *string `json:"response-content-type" xml:"response-content-type"`
-	ResponseContentLanguage    *string `json:"response-content-language" xml:"response-content-language"`
-	ResponseExpires            *string `json:"response-expires" xml:"response-expires"`
-	ResponseCacheControl       *string `json:"response-cache-control" xml:"response-cache-control"`
-	ResponseContentDisposition *string `json:"response-content-disposition" xml:"response-content-disposition"`
-	ResponseContentEncoding    *string `json:"response-content-encoding" xml:"response-content-encoding"`
-	Range                      *string `json:"Range" xml:"Range"`
-	IfModifiedSince            *string `json:"If-Modified-Since" xml:"If-Modified-Since"`
-	IfUnmodifiedSince          *string `json:"If-Unmodified-Since" xml:"If-Unmodified-Since"`
-	IfMatch                    *string `json:"If-Match" xml:"If-Match"`
-	IfNoneMatch                *string `json:"If-None-Match" xml:"If-None-Match"`
-	AcceptEncoding             *string `json:"Accept-Encoding" xml:"Accept-Encoding"`
+	// response-content-type
+	ResponseContentType *string `json:"response-content-type,omitempty" xml:"response-content-type,omitempty"`
+	// response-content-language
+	ResponseContentLanguage *string `json:"response-content-language,omitempty" xml:"response-content-language,omitempty"`
+	// response-expires
+	ResponseExpires *string `json:"response-expires,omitempty" xml:"response-expires,omitempty"`
+	// response-cache-control
+	ResponseCacheControl *string `json:"response-cache-control,omitempty" xml:"response-cache-control,omitempty"`
+	// response-content-disposition
+	ResponseContentDisposition *string `json:"response-content-disposition,omitempty" xml:"response-content-disposition,omitempty"`
+	// response-content-encoding
+	ResponseContentEncoding *string `json:"response-content-encoding,omitempty" xml:"response-content-encoding,omitempty"`
+	// Range
+	Range *string `json:"Range,omitempty" xml:"Range,omitempty"`
+	// If-Modified-Since
+	IfModifiedSince *string `json:"If-Modified-Since,omitempty" xml:"If-Modified-Since,omitempty"`
+	// If-Unmodified-Since
+	IfUnmodifiedSince *string `json:"If-Unmodified-Since,omitempty" xml:"If-Unmodified-Since,omitempty"`
+	// If-Match
+	IfMatch *string `json:"If-Match,omitempty" xml:"If-Match,omitempty"`
+	// If-None-Match
+	IfNoneMatch *string `json:"If-None-Match,omitempty" xml:"If-None-Match,omitempty"`
+	// Accept-Encoding
+	AcceptEncoding *string `json:"Accept-Encoding,omitempty" xml:"Accept-Encoding,omitempty"`
 }
 
 func (s GetObjectRequestHeader) String() string {
@@ -5376,12 +5874,18 @@ func (s *GetObjectRequestHeader) SetAcceptEncoding(v string) *GetObjectRequestHe
 }
 
 type GetObjectResponse struct {
-	RequestId            *string   `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
-	ObjectType           *string   `json:"x-oss-object-type" xml:"x-oss-object-type" require:"true"`
-	ServerSideEncryption *string   `json:"x-oss-server-side-encryption" xml:"x-oss-server-side-encryption" require:"true"`
-	TaggingCount         *string   `json:"x-oss-tagging-count" xml:"x-oss-tagging-count" require:"true"`
-	Restore              *string   `json:"x-oss-restore" xml:"x-oss-restore" require:"true"`
-	Body                 io.Reader `json:"body" xml:"body" require:"true"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
+	// x-oss-object-type
+	ObjectType *string `json:"x-oss-object-type,omitempty" xml:"x-oss-object-type,omitempty" require:"true"`
+	// x-oss-server-side-encryption
+	ServerSideEncryption *string `json:"x-oss-server-side-encryption,omitempty" xml:"x-oss-server-side-encryption,omitempty" require:"true"`
+	// x-oss-tagging-count
+	TaggingCount *string `json:"x-oss-tagging-count,omitempty" xml:"x-oss-tagging-count,omitempty" require:"true"`
+	// x-oss-restore
+	Restore *string `json:"x-oss-restore,omitempty" xml:"x-oss-restore,omitempty" require:"true"`
+	// body
+	Body io.Reader `json:"body,omitempty" xml:"body,omitempty" require:"true"`
 }
 
 func (s GetObjectResponse) String() string {
@@ -5423,10 +5927,14 @@ func (s *GetObjectResponse) SetBody(v io.Reader) *GetObjectResponse {
 }
 
 type UploadPartRequest struct {
-	BucketName *string                  `json:"BucketName" xml:"BucketName" require:"true"`
-	ObjectName *string                  `json:"ObjectName" xml:"ObjectName" require:"true"`
-	Body       io.Reader                `json:"body" xml:"body"`
-	Filter     *UploadPartRequestFilter `json:"Filter" xml:"Filter" require:"true" type:"Struct"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	// ObjectName
+	ObjectName *string `json:"ObjectName,omitempty" xml:"ObjectName,omitempty" require:"true"`
+	// body
+	Body io.Reader `json:"body,omitempty" xml:"body,omitempty"`
+	// Filter
+	Filter *UploadPartRequestFilter `json:"Filter,omitempty" xml:"Filter,omitempty" require:"true" type:"Struct"`
 }
 
 func (s UploadPartRequest) String() string {
@@ -5458,8 +5966,10 @@ func (s *UploadPartRequest) SetFilter(v *UploadPartRequestFilter) *UploadPartReq
 }
 
 type UploadPartRequestFilter struct {
-	PartNumber *string `json:"partNumber" xml:"partNumber" require:"true" signed:"true"`
-	UploadId   *string `json:"uploadId" xml:"uploadId" require:"true" signed:"true"`
+	// partNumber
+	PartNumber *string `json:"partNumber,omitempty" xml:"partNumber,omitempty" require:"true" signed:"true"`
+	// uploadId
+	UploadId *string `json:"uploadId,omitempty" xml:"uploadId,omitempty" require:"true" signed:"true"`
 }
 
 func (s UploadPartRequestFilter) String() string {
@@ -5481,7 +5991,8 @@ func (s *UploadPartRequestFilter) SetUploadId(v string) *UploadPartRequestFilter
 }
 
 type UploadPartResponse struct {
-	RequestId *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
 }
 
 func (s UploadPartResponse) String() string {
@@ -5498,7 +6009,8 @@ func (s *UploadPartResponse) SetRequestId(v string) *UploadPartResponse {
 }
 
 type GetBucketCORSRequest struct {
-	BucketName *string `json:"BucketName" xml:"BucketName" require:"true"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
 }
 
 func (s GetBucketCORSRequest) String() string {
@@ -5515,8 +6027,10 @@ func (s *GetBucketCORSRequest) SetBucketName(v string) *GetBucketCORSRequest {
 }
 
 type GetBucketCORSResponse struct {
-	RequestId         *string                                 `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
-	CORSConfiguration *GetBucketCORSResponseCORSConfiguration `json:"CORSConfiguration" xml:"CORSConfiguration" require:"true" type:"Struct"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
+	// CORSConfiguration
+	CORSConfiguration *GetBucketCORSResponseCORSConfiguration `json:"CORSConfiguration,omitempty" xml:"CORSConfiguration,omitempty" require:"true" type:"Struct"`
 }
 
 func (s GetBucketCORSResponse) String() string {
@@ -5538,7 +6052,8 @@ func (s *GetBucketCORSResponse) SetCORSConfiguration(v *GetBucketCORSResponseCOR
 }
 
 type GetBucketCORSResponseCORSConfiguration struct {
-	CORSRule []*GetBucketCORSResponseCORSConfigurationCORSRule `json:"CORSRule" xml:"CORSRule" type:"Repeated"`
+	// CORSRule
+	CORSRule []*GetBucketCORSResponseCORSConfigurationCORSRule `json:"CORSRule,omitempty" xml:"CORSRule,omitempty" type:"Repeated"`
 }
 
 func (s GetBucketCORSResponseCORSConfiguration) String() string {
@@ -5555,7 +6070,8 @@ func (s *GetBucketCORSResponseCORSConfiguration) SetCORSRule(v []*GetBucketCORSR
 }
 
 type GetBucketCORSResponseCORSConfigurationCORSRule struct {
-	MaxAgeSeconds *string `json:"MaxAgeSeconds" xml:"MaxAgeSeconds"`
+	// MaxAgeSeconds
+	MaxAgeSeconds *string `json:"MaxAgeSeconds,omitempty" xml:"MaxAgeSeconds,omitempty"`
 }
 
 func (s GetBucketCORSResponseCORSConfigurationCORSRule) String() string {
@@ -5572,9 +6088,12 @@ func (s *GetBucketCORSResponseCORSConfigurationCORSRule) SetMaxAgeSeconds(v stri
 }
 
 type CopyObjectRequest struct {
-	BucketName     *string                  `json:"BucketName" xml:"BucketName" require:"true"`
-	DestObjectName *string                  `json:"DestObjectName" xml:"DestObjectName" require:"true"`
-	Header         *CopyObjectRequestHeader `json:"Header" xml:"Header" require:"true" type:"Struct"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	// DestObjectName
+	DestObjectName *string `json:"DestObjectName,omitempty" xml:"DestObjectName,omitempty" require:"true"`
+	// Header
+	Header *CopyObjectRequestHeader `json:"Header,omitempty" xml:"Header,omitempty" require:"true" type:"Struct"`
 }
 
 func (s CopyObjectRequest) String() string {
@@ -5601,18 +6120,30 @@ func (s *CopyObjectRequest) SetHeader(v *CopyObjectRequestHeader) *CopyObjectReq
 }
 
 type CopyObjectRequestHeader struct {
-	CopySource                  *string `json:"x-oss-copy-source" xml:"x-oss-copy-source" require:"true"`
-	CopySourceIfMatch           *string `json:"x-oss-copy-source-if-match" xml:"x-oss-copy-source-if-match"`
-	CopySourceIfNoneMatch       *string `json:"x-oss-copy-source-if-none-match" xml:"x-oss-copy-source-if-none-match"`
-	CopySourceIfUnmodifiedSince *string `json:"x-oss-copy-source-if-unmodified-since" xml:"x-oss-copy-source-if-unmodified-since"`
-	CopySourceIfModifiedSince   *string `json:"x-oss-copy-source-if-modified-since" xml:"x-oss-copy-source-if-modified-since"`
-	MetadataDirective           *string `json:"x-oss-metadata-directive" xml:"x-oss-metadata-directive"`
-	ServerSideEncryption        *string `json:"x-oss-server-side-encryption" xml:"x-oss-server-side-encryption"`
-	ServerSideEncryptionKeyId   *string `json:"x-oss-server-side-encryption-key-id" xml:"x-oss-server-side-encryption-key-id"`
-	ObjectAcl                   *string `json:"x-oss-object-acl" xml:"x-oss-object-acl"`
-	StorageClass                *string `json:"x-oss-storage-class" xml:"x-oss-storage-class"`
-	Tagging                     *string `json:"x-oss-tagging" xml:"x-oss-tagging"`
-	TaggingDirective            *string `json:"x-oss-tagging-directive" xml:"x-oss-tagging-directive"`
+	// x-oss-copy-source
+	CopySource *string `json:"x-oss-copy-source,omitempty" xml:"x-oss-copy-source,omitempty" require:"true"`
+	// x-oss-copy-source-if-match
+	CopySourceIfMatch *string `json:"x-oss-copy-source-if-match,omitempty" xml:"x-oss-copy-source-if-match,omitempty"`
+	// x-oss-copy-source-if-none-match
+	CopySourceIfNoneMatch *string `json:"x-oss-copy-source-if-none-match,omitempty" xml:"x-oss-copy-source-if-none-match,omitempty"`
+	// x-oss-copy-source-if-unmodified-since
+	CopySourceIfUnmodifiedSince *string `json:"x-oss-copy-source-if-unmodified-since,omitempty" xml:"x-oss-copy-source-if-unmodified-since,omitempty"`
+	// x-oss-copy-source-if-modified-since
+	CopySourceIfModifiedSince *string `json:"x-oss-copy-source-if-modified-since,omitempty" xml:"x-oss-copy-source-if-modified-since,omitempty"`
+	// x-oss-metadata-directive
+	MetadataDirective *string `json:"x-oss-metadata-directive,omitempty" xml:"x-oss-metadata-directive,omitempty"`
+	// x-oss-server-side-encryption
+	ServerSideEncryption *string `json:"x-oss-server-side-encryption,omitempty" xml:"x-oss-server-side-encryption,omitempty"`
+	// x-oss-server-side-encryption-key-id
+	ServerSideEncryptionKeyId *string `json:"x-oss-server-side-encryption-key-id,omitempty" xml:"x-oss-server-side-encryption-key-id,omitempty"`
+	// x-oss-object-acl
+	ObjectAcl *string `json:"x-oss-object-acl,omitempty" xml:"x-oss-object-acl,omitempty"`
+	// x-oss-storage-class
+	StorageClass *string `json:"x-oss-storage-class,omitempty" xml:"x-oss-storage-class,omitempty"`
+	// x-oss-tagging
+	Tagging *string `json:"x-oss-tagging,omitempty" xml:"x-oss-tagging,omitempty"`
+	// x-oss-tagging-directive
+	TaggingDirective *string `json:"x-oss-tagging-directive,omitempty" xml:"x-oss-tagging-directive,omitempty"`
 }
 
 func (s CopyObjectRequestHeader) String() string {
@@ -5684,8 +6215,10 @@ func (s *CopyObjectRequestHeader) SetTaggingDirective(v string) *CopyObjectReque
 }
 
 type CopyObjectResponse struct {
-	RequestId        *string                             `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
-	CopyObjectResult *CopyObjectResponseCopyObjectResult `json:"CopyObjectResult" xml:"CopyObjectResult" require:"true" type:"Struct"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
+	// CopyObjectResult
+	CopyObjectResult *CopyObjectResponseCopyObjectResult `json:"CopyObjectResult,omitempty" xml:"CopyObjectResult,omitempty" require:"true" type:"Struct"`
 }
 
 func (s CopyObjectResponse) String() string {
@@ -5707,8 +6240,10 @@ func (s *CopyObjectResponse) SetCopyObjectResult(v *CopyObjectResponseCopyObject
 }
 
 type CopyObjectResponseCopyObjectResult struct {
-	LastModified *string `json:"LastModified" xml:"LastModified"`
-	ETag         *string `json:"ETag" xml:"ETag"`
+	// LastModified
+	LastModified *string `json:"LastModified,omitempty" xml:"LastModified,omitempty"`
+	// ETag
+	ETag *string `json:"ETag,omitempty" xml:"ETag,omitempty"`
 }
 
 func (s CopyObjectResponseCopyObjectResult) String() string {
@@ -5730,8 +6265,10 @@ func (s *CopyObjectResponseCopyObjectResult) SetETag(v string) *CopyObjectRespon
 }
 
 type GetObjectTaggingRequest struct {
-	BucketName *string `json:"BucketName" xml:"BucketName" require:"true"`
-	ObjectName *string `json:"ObjectName" xml:"ObjectName" require:"true"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	// ObjectName
+	ObjectName *string `json:"ObjectName,omitempty" xml:"ObjectName,omitempty" require:"true"`
 }
 
 func (s GetObjectTaggingRequest) String() string {
@@ -5753,8 +6290,10 @@ func (s *GetObjectTaggingRequest) SetObjectName(v string) *GetObjectTaggingReque
 }
 
 type GetObjectTaggingResponse struct {
-	RequestId *string                          `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
-	Tagging   *GetObjectTaggingResponseTagging `json:"Tagging" xml:"Tagging" require:"true" type:"Struct"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
+	// Tagging
+	Tagging *GetObjectTaggingResponseTagging `json:"Tagging,omitempty" xml:"Tagging,omitempty" require:"true" type:"Struct"`
 }
 
 func (s GetObjectTaggingResponse) String() string {
@@ -5776,7 +6315,8 @@ func (s *GetObjectTaggingResponse) SetTagging(v *GetObjectTaggingResponseTagging
 }
 
 type GetObjectTaggingResponseTagging struct {
-	TagSet *GetObjectTaggingResponseTaggingTagSet `json:"TagSet" xml:"TagSet" require:"true" type:"Struct"`
+	// TagSet
+	TagSet *GetObjectTaggingResponseTaggingTagSet `json:"TagSet,omitempty" xml:"TagSet,omitempty" require:"true" type:"Struct"`
 }
 
 func (s GetObjectTaggingResponseTagging) String() string {
@@ -5793,7 +6333,8 @@ func (s *GetObjectTaggingResponseTagging) SetTagSet(v *GetObjectTaggingResponseT
 }
 
 type GetObjectTaggingResponseTaggingTagSet struct {
-	Tag []*GetObjectTaggingResponseTaggingTagSetTag `json:"Tag" xml:"Tag" type:"Repeated"`
+	// Tag
+	Tag []*GetObjectTaggingResponseTaggingTagSetTag `json:"Tag,omitempty" xml:"Tag,omitempty" type:"Repeated"`
 }
 
 func (s GetObjectTaggingResponseTaggingTagSet) String() string {
@@ -5810,8 +6351,10 @@ func (s *GetObjectTaggingResponseTaggingTagSet) SetTag(v []*GetObjectTaggingResp
 }
 
 type GetObjectTaggingResponseTaggingTagSetTag struct {
-	Key   *string `json:"Key" xml:"Key"`
-	Value *string `json:"Value" xml:"Value"`
+	// Key
+	Key *string `json:"Key,omitempty" xml:"Key,omitempty"`
+	// Value
+	Value *string `json:"Value,omitempty" xml:"Value,omitempty"`
 }
 
 func (s GetObjectTaggingResponseTaggingTagSetTag) String() string {
@@ -5833,7 +6376,8 @@ func (s *GetObjectTaggingResponseTaggingTagSetTag) SetValue(v string) *GetObject
 }
 
 type DeleteBucketLifecycleRequest struct {
-	BucketName *string `json:"BucketName" xml:"BucketName" require:"true"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
 }
 
 func (s DeleteBucketLifecycleRequest) String() string {
@@ -5850,7 +6394,8 @@ func (s *DeleteBucketLifecycleRequest) SetBucketName(v string) *DeleteBucketLife
 }
 
 type DeleteBucketLifecycleResponse struct {
-	RequestId *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
 }
 
 func (s DeleteBucketLifecycleResponse) String() string {
@@ -5867,7 +6412,8 @@ func (s *DeleteBucketLifecycleResponse) SetRequestId(v string) *DeleteBucketLife
 }
 
 type DeleteBucketLoggingRequest struct {
-	BucketName *string `json:"BucketName" xml:"BucketName" require:"true"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
 }
 
 func (s DeleteBucketLoggingRequest) String() string {
@@ -5884,7 +6430,8 @@ func (s *DeleteBucketLoggingRequest) SetBucketName(v string) *DeleteBucketLoggin
 }
 
 type DeleteBucketLoggingResponse struct {
-	RequestId *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
 }
 
 func (s DeleteBucketLoggingResponse) String() string {
@@ -5901,7 +6448,8 @@ func (s *DeleteBucketLoggingResponse) SetRequestId(v string) *DeleteBucketLoggin
 }
 
 type DeleteBucketWebsiteRequest struct {
-	BucketName *string `json:"BucketName" xml:"BucketName" require:"true"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
 }
 
 func (s DeleteBucketWebsiteRequest) String() string {
@@ -5918,7 +6466,8 @@ func (s *DeleteBucketWebsiteRequest) SetBucketName(v string) *DeleteBucketWebsit
 }
 
 type DeleteBucketWebsiteResponse struct {
-	RequestId *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
 }
 
 func (s DeleteBucketWebsiteResponse) String() string {
@@ -5935,8 +6484,10 @@ func (s *DeleteBucketWebsiteResponse) SetRequestId(v string) *DeleteBucketWebsit
 }
 
 type GetSymlinkRequest struct {
-	BucketName *string `json:"BucketName" xml:"BucketName" require:"true"`
-	ObjectName *string `json:"ObjectName" xml:"ObjectName" require:"true"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	// ObjectName
+	ObjectName *string `json:"ObjectName,omitempty" xml:"ObjectName,omitempty" require:"true"`
 }
 
 func (s GetSymlinkRequest) String() string {
@@ -5958,8 +6509,10 @@ func (s *GetSymlinkRequest) SetObjectName(v string) *GetSymlinkRequest {
 }
 
 type GetSymlinkResponse struct {
-	RequestId     *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
-	SymlinkTarget *string `json:"x-oss-symlink-target" xml:"x-oss-symlink-target" require:"true"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
+	// x-oss-symlink-target
+	SymlinkTarget *string `json:"x-oss-symlink-target,omitempty" xml:"x-oss-symlink-target,omitempty" require:"true"`
 }
 
 func (s GetSymlinkResponse) String() string {
@@ -5981,7 +6534,8 @@ func (s *GetSymlinkResponse) SetSymlinkTarget(v string) *GetSymlinkResponse {
 }
 
 type GetBucketLifecycleRequest struct {
-	BucketName *string `json:"BucketName" xml:"BucketName" require:"true"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
 }
 
 func (s GetBucketLifecycleRequest) String() string {
@@ -5998,8 +6552,10 @@ func (s *GetBucketLifecycleRequest) SetBucketName(v string) *GetBucketLifecycleR
 }
 
 type GetBucketLifecycleResponse struct {
-	RequestId              *string                                           `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
-	LifecycleConfiguration *GetBucketLifecycleResponseLifecycleConfiguration `json:"LifecycleConfiguration" xml:"LifecycleConfiguration" require:"true" type:"Struct"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
+	// LifecycleConfiguration
+	LifecycleConfiguration *GetBucketLifecycleResponseLifecycleConfiguration `json:"LifecycleConfiguration,omitempty" xml:"LifecycleConfiguration,omitempty" require:"true" type:"Struct"`
 }
 
 func (s GetBucketLifecycleResponse) String() string {
@@ -6021,7 +6577,8 @@ func (s *GetBucketLifecycleResponse) SetLifecycleConfiguration(v *GetBucketLifec
 }
 
 type GetBucketLifecycleResponseLifecycleConfiguration struct {
-	Rule []*GetBucketLifecycleResponseLifecycleConfigurationRule `json:"Rule" xml:"Rule" type:"Repeated"`
+	// Rule
+	Rule []*GetBucketLifecycleResponseLifecycleConfigurationRule `json:"Rule,omitempty" xml:"Rule,omitempty" type:"Repeated"`
 }
 
 func (s GetBucketLifecycleResponseLifecycleConfiguration) String() string {
@@ -6038,13 +6595,20 @@ func (s *GetBucketLifecycleResponseLifecycleConfiguration) SetRule(v []*GetBucke
 }
 
 type GetBucketLifecycleResponseLifecycleConfigurationRule struct {
-	ID                   *string                                                                   `json:"ID" xml:"ID"`
-	Prefix               *string                                                                   `json:"Prefix" xml:"Prefix"`
-	Status               *string                                                                   `json:"Status" xml:"Status"`
-	Expiration           *GetBucketLifecycleResponseLifecycleConfigurationRuleExpiration           `json:"Expiration" xml:"Expiration" require:"true" type:"Struct"`
-	Transition           *GetBucketLifecycleResponseLifecycleConfigurationRuleTransition           `json:"Transition" xml:"Transition" require:"true" type:"Struct"`
-	AbortMultipartUpload *GetBucketLifecycleResponseLifecycleConfigurationRuleAbortMultipartUpload `json:"AbortMultipartUpload" xml:"AbortMultipartUpload" require:"true" type:"Struct"`
-	Tag                  *GetBucketLifecycleResponseLifecycleConfigurationRuleTag                  `json:"Tag" xml:"Tag" require:"true" type:"Struct"`
+	// ID
+	ID *string `json:"ID,omitempty" xml:"ID,omitempty"`
+	// Prefix
+	Prefix *string `json:"Prefix,omitempty" xml:"Prefix,omitempty"`
+	// Status
+	Status *string `json:"Status,omitempty" xml:"Status,omitempty"`
+	// Expiration
+	Expiration *GetBucketLifecycleResponseLifecycleConfigurationRuleExpiration `json:"Expiration,omitempty" xml:"Expiration,omitempty" require:"true" type:"Struct"`
+	// Transition
+	Transition *GetBucketLifecycleResponseLifecycleConfigurationRuleTransition `json:"Transition,omitempty" xml:"Transition,omitempty" require:"true" type:"Struct"`
+	// AbortMultipartUpload
+	AbortMultipartUpload *GetBucketLifecycleResponseLifecycleConfigurationRuleAbortMultipartUpload `json:"AbortMultipartUpload,omitempty" xml:"AbortMultipartUpload,omitempty" require:"true" type:"Struct"`
+	// Tag
+	Tag *GetBucketLifecycleResponseLifecycleConfigurationRuleTag `json:"Tag,omitempty" xml:"Tag,omitempty" require:"true" type:"Struct"`
 }
 
 func (s GetBucketLifecycleResponseLifecycleConfigurationRule) String() string {
@@ -6091,8 +6655,10 @@ func (s *GetBucketLifecycleResponseLifecycleConfigurationRule) SetTag(v *GetBuck
 }
 
 type GetBucketLifecycleResponseLifecycleConfigurationRuleExpiration struct {
-	Days              *int    `json:"Days" xml:"Days"`
-	CreatedBeforeDate *string `json:"CreatedBeforeDate" xml:"CreatedBeforeDate"`
+	// Days
+	Days *int `json:"Days,omitempty" xml:"Days,omitempty"`
+	// CreatedBeforeDate
+	CreatedBeforeDate *string `json:"CreatedBeforeDate,omitempty" xml:"CreatedBeforeDate,omitempty"`
 }
 
 func (s GetBucketLifecycleResponseLifecycleConfigurationRuleExpiration) String() string {
@@ -6114,8 +6680,10 @@ func (s *GetBucketLifecycleResponseLifecycleConfigurationRuleExpiration) SetCrea
 }
 
 type GetBucketLifecycleResponseLifecycleConfigurationRuleTransition struct {
-	Days         *int    `json:"Days" xml:"Days"`
-	StorageClass *string `json:"StorageClass" xml:"StorageClass"`
+	// Days
+	Days *int `json:"Days,omitempty" xml:"Days,omitempty"`
+	// StorageClass
+	StorageClass *string `json:"StorageClass,omitempty" xml:"StorageClass,omitempty"`
 }
 
 func (s GetBucketLifecycleResponseLifecycleConfigurationRuleTransition) String() string {
@@ -6137,8 +6705,10 @@ func (s *GetBucketLifecycleResponseLifecycleConfigurationRuleTransition) SetStor
 }
 
 type GetBucketLifecycleResponseLifecycleConfigurationRuleAbortMultipartUpload struct {
-	Days              *int    `json:"Days" xml:"Days"`
-	CreatedBeforeDate *string `json:"CreatedBeforeDate" xml:"CreatedBeforeDate"`
+	// Days
+	Days *int `json:"Days,omitempty" xml:"Days,omitempty"`
+	// CreatedBeforeDate
+	CreatedBeforeDate *string `json:"CreatedBeforeDate,omitempty" xml:"CreatedBeforeDate,omitempty"`
 }
 
 func (s GetBucketLifecycleResponseLifecycleConfigurationRuleAbortMultipartUpload) String() string {
@@ -6160,8 +6730,10 @@ func (s *GetBucketLifecycleResponseLifecycleConfigurationRuleAbortMultipartUploa
 }
 
 type GetBucketLifecycleResponseLifecycleConfigurationRuleTag struct {
-	Key   *string `json:"Key" xml:"Key"`
-	Value *string `json:"Value" xml:"Value"`
+	// Key
+	Key *string `json:"Key,omitempty" xml:"Key,omitempty"`
+	// Value
+	Value *string `json:"Value,omitempty" xml:"Value,omitempty"`
 }
 
 func (s GetBucketLifecycleResponseLifecycleConfigurationRuleTag) String() string {
@@ -6183,9 +6755,12 @@ func (s *GetBucketLifecycleResponseLifecycleConfigurationRuleTag) SetValue(v str
 }
 
 type PutSymlinkRequest struct {
-	BucketName *string                  `json:"BucketName" xml:"BucketName" require:"true"`
-	ObjectName *string                  `json:"ObjectName" xml:"ObjectName" require:"true"`
-	Header     *PutSymlinkRequestHeader `json:"Header" xml:"Header" require:"true" type:"Struct"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	// ObjectName
+	ObjectName *string `json:"ObjectName,omitempty" xml:"ObjectName,omitempty" require:"true"`
+	// Header
+	Header *PutSymlinkRequestHeader `json:"Header,omitempty" xml:"Header,omitempty" require:"true" type:"Struct"`
 }
 
 func (s PutSymlinkRequest) String() string {
@@ -6212,8 +6787,10 @@ func (s *PutSymlinkRequest) SetHeader(v *PutSymlinkRequestHeader) *PutSymlinkReq
 }
 
 type PutSymlinkRequestHeader struct {
-	SymlinkTarget *string `json:"x-oss-symlink-target" xml:"x-oss-symlink-target" require:"true"`
-	StorageClass  *string `json:"x-oss-storage-class" xml:"x-oss-storage-class"`
+	// x-oss-symlink-target
+	SymlinkTarget *string `json:"x-oss-symlink-target,omitempty" xml:"x-oss-symlink-target,omitempty" require:"true"`
+	// x-oss-storage-class
+	StorageClass *string `json:"x-oss-storage-class,omitempty" xml:"x-oss-storage-class,omitempty"`
 }
 
 func (s PutSymlinkRequestHeader) String() string {
@@ -6235,7 +6812,8 @@ func (s *PutSymlinkRequestHeader) SetStorageClass(v string) *PutSymlinkRequestHe
 }
 
 type PutSymlinkResponse struct {
-	RequestId *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
 }
 
 func (s PutSymlinkResponse) String() string {
@@ -6252,7 +6830,8 @@ func (s *PutSymlinkResponse) SetRequestId(v string) *PutSymlinkResponse {
 }
 
 type GetBucketRefererRequest struct {
-	BucketName *string `json:"BucketName" xml:"BucketName" require:"true"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
 }
 
 func (s GetBucketRefererRequest) String() string {
@@ -6269,8 +6848,10 @@ func (s *GetBucketRefererRequest) SetBucketName(v string) *GetBucketRefererReque
 }
 
 type GetBucketRefererResponse struct {
-	RequestId            *string                                       `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
-	RefererConfiguration *GetBucketRefererResponseRefererConfiguration `json:"RefererConfiguration" xml:"RefererConfiguration" require:"true" type:"Struct"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
+	// RefererConfiguration
+	RefererConfiguration *GetBucketRefererResponseRefererConfiguration `json:"RefererConfiguration,omitempty" xml:"RefererConfiguration,omitempty" require:"true" type:"Struct"`
 }
 
 func (s GetBucketRefererResponse) String() string {
@@ -6292,8 +6873,10 @@ func (s *GetBucketRefererResponse) SetRefererConfiguration(v *GetBucketRefererRe
 }
 
 type GetBucketRefererResponseRefererConfiguration struct {
-	AllowEmptyReferer *bool                                                    `json:"AllowEmptyReferer" xml:"AllowEmptyReferer"`
-	RefererList       *GetBucketRefererResponseRefererConfigurationRefererList `json:"RefererList" xml:"RefererList" require:"true" type:"Struct"`
+	// AllowEmptyReferer
+	AllowEmptyReferer *bool `json:"AllowEmptyReferer,omitempty" xml:"AllowEmptyReferer,omitempty"`
+	// RefererList
+	RefererList *GetBucketRefererResponseRefererConfigurationRefererList `json:"RefererList,omitempty" xml:"RefererList,omitempty" require:"true" type:"Struct"`
 }
 
 func (s GetBucketRefererResponseRefererConfiguration) String() string {
@@ -6315,7 +6898,8 @@ func (s *GetBucketRefererResponseRefererConfiguration) SetRefererList(v *GetBuck
 }
 
 type GetBucketRefererResponseRefererConfigurationRefererList struct {
-	Referer []*string `json:"Referer" xml:"Referer" type:"Repeated"`
+	// Referer
+	Referer []*string `json:"Referer,omitempty" xml:"Referer,omitempty" type:"Repeated"`
 }
 
 func (s GetBucketRefererResponseRefererConfigurationRefererList) String() string {
@@ -6332,7 +6916,8 @@ func (s *GetBucketRefererResponseRefererConfigurationRefererList) SetReferer(v [
 }
 
 type CallbackRequest struct {
-	BucketName *string `json:"BucketName" xml:"BucketName" require:"true"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
 }
 
 func (s CallbackRequest) String() string {
@@ -6349,7 +6934,8 @@ func (s *CallbackRequest) SetBucketName(v string) *CallbackRequest {
 }
 
 type CallbackResponse struct {
-	RequestId *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
 }
 
 func (s CallbackResponse) String() string {
@@ -6366,7 +6952,8 @@ func (s *CallbackResponse) SetRequestId(v string) *CallbackResponse {
 }
 
 type GetBucketLoggingRequest struct {
-	BucketName *string `json:"BucketName" xml:"BucketName" require:"true"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
 }
 
 func (s GetBucketLoggingRequest) String() string {
@@ -6383,8 +6970,10 @@ func (s *GetBucketLoggingRequest) SetBucketName(v string) *GetBucketLoggingReque
 }
 
 type GetBucketLoggingResponse struct {
-	RequestId           *string                                      `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
-	BucketLoggingStatus *GetBucketLoggingResponseBucketLoggingStatus `json:"BucketLoggingStatus" xml:"BucketLoggingStatus" require:"true" type:"Struct"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
+	// BucketLoggingStatus
+	BucketLoggingStatus *GetBucketLoggingResponseBucketLoggingStatus `json:"BucketLoggingStatus,omitempty" xml:"BucketLoggingStatus,omitempty" require:"true" type:"Struct"`
 }
 
 func (s GetBucketLoggingResponse) String() string {
@@ -6406,7 +6995,8 @@ func (s *GetBucketLoggingResponse) SetBucketLoggingStatus(v *GetBucketLoggingRes
 }
 
 type GetBucketLoggingResponseBucketLoggingStatus struct {
-	LoggingEnabled *GetBucketLoggingResponseBucketLoggingStatusLoggingEnabled `json:"LoggingEnabled" xml:"LoggingEnabled" require:"true" type:"Struct"`
+	// LoggingEnabled
+	LoggingEnabled *GetBucketLoggingResponseBucketLoggingStatusLoggingEnabled `json:"LoggingEnabled,omitempty" xml:"LoggingEnabled,omitempty" require:"true" type:"Struct"`
 }
 
 func (s GetBucketLoggingResponseBucketLoggingStatus) String() string {
@@ -6423,8 +7013,10 @@ func (s *GetBucketLoggingResponseBucketLoggingStatus) SetLoggingEnabled(v *GetBu
 }
 
 type GetBucketLoggingResponseBucketLoggingStatusLoggingEnabled struct {
-	TargetBucket *string `json:"TargetBucket" xml:"TargetBucket"`
-	TargetPrefix *string `json:"TargetPrefix" xml:"TargetPrefix"`
+	// TargetBucket
+	TargetBucket *string `json:"TargetBucket,omitempty" xml:"TargetBucket,omitempty"`
+	// TargetPrefix
+	TargetPrefix *string `json:"TargetPrefix,omitempty" xml:"TargetPrefix,omitempty"`
 }
 
 func (s GetBucketLoggingResponseBucketLoggingStatusLoggingEnabled) String() string {
@@ -6446,9 +7038,12 @@ func (s *GetBucketLoggingResponseBucketLoggingStatusLoggingEnabled) SetTargetPre
 }
 
 type PutObjectAclRequest struct {
-	BucketName *string                    `json:"BucketName" xml:"BucketName" require:"true"`
-	ObjectName *string                    `json:"ObjectName" xml:"ObjectName" require:"true"`
-	Header     *PutObjectAclRequestHeader `json:"Header" xml:"Header" require:"true" type:"Struct"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	// ObjectName
+	ObjectName *string `json:"ObjectName,omitempty" xml:"ObjectName,omitempty" require:"true"`
+	// Header
+	Header *PutObjectAclRequestHeader `json:"Header,omitempty" xml:"Header,omitempty" require:"true" type:"Struct"`
 }
 
 func (s PutObjectAclRequest) String() string {
@@ -6475,7 +7070,8 @@ func (s *PutObjectAclRequest) SetHeader(v *PutObjectAclRequestHeader) *PutObject
 }
 
 type PutObjectAclRequestHeader struct {
-	ObjectAcl *string `json:"x-oss-object-acl" xml:"x-oss-object-acl" require:"true"`
+	// x-oss-object-acl
+	ObjectAcl *string `json:"x-oss-object-acl,omitempty" xml:"x-oss-object-acl,omitempty" require:"true"`
 }
 
 func (s PutObjectAclRequestHeader) String() string {
@@ -6492,7 +7088,8 @@ func (s *PutObjectAclRequestHeader) SetObjectAcl(v string) *PutObjectAclRequestH
 }
 
 type PutObjectAclResponse struct {
-	RequestId *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
 }
 
 func (s PutObjectAclResponse) String() string {
@@ -6509,7 +7106,8 @@ func (s *PutObjectAclResponse) SetRequestId(v string) *PutObjectAclResponse {
 }
 
 type GetBucketInfoRequest struct {
-	BucketName *string `json:"BucketName" xml:"BucketName" require:"true"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
 }
 
 func (s GetBucketInfoRequest) String() string {
@@ -6526,8 +7124,10 @@ func (s *GetBucketInfoRequest) SetBucketName(v string) *GetBucketInfoRequest {
 }
 
 type GetBucketInfoResponse struct {
-	RequestId  *string                          `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
-	BucketInfo *GetBucketInfoResponseBucketInfo `json:"BucketInfo" xml:"BucketInfo" require:"true" type:"Struct"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
+	// BucketInfo
+	BucketInfo *GetBucketInfoResponseBucketInfo `json:"BucketInfo,omitempty" xml:"BucketInfo,omitempty" require:"true" type:"Struct"`
 }
 
 func (s GetBucketInfoResponse) String() string {
@@ -6549,7 +7149,8 @@ func (s *GetBucketInfoResponse) SetBucketInfo(v *GetBucketInfoResponseBucketInfo
 }
 
 type GetBucketInfoResponseBucketInfo struct {
-	Bucket *GetBucketInfoResponseBucketInfoBucket `json:"Bucket" xml:"Bucket" require:"true" type:"Struct"`
+	// Bucket
+	Bucket *GetBucketInfoResponseBucketInfoBucket `json:"Bucket,omitempty" xml:"Bucket,omitempty" require:"true" type:"Struct"`
 }
 
 func (s GetBucketInfoResponseBucketInfo) String() string {
@@ -6566,16 +7167,26 @@ func (s *GetBucketInfoResponseBucketInfo) SetBucket(v *GetBucketInfoResponseBuck
 }
 
 type GetBucketInfoResponseBucketInfoBucket struct {
-	CreationDate       *string                                                 `json:"CreationDate" xml:"CreationDate"`
-	ExtranetEndpoint   *string                                                 `json:"ExtranetEndpoint" xml:"ExtranetEndpoint"`
-	IntranetEndpoint   *string                                                 `json:"IntranetEndpoint" xml:"IntranetEndpoint"`
-	Location           *string                                                 `json:"Location" xml:"Location"`
-	Name               *string                                                 `json:"Name" xml:"Name"`
-	DataRedundancyType *string                                                 `json:"DataRedundancyType" xml:"DataRedundancyType"`
-	StorageClass       *string                                                 `json:"StorageClass" xml:"StorageClass"`
-	Comment            *string                                                 `json:"Comment" xml:"Comment"`
-	Owner              *GetBucketInfoResponseBucketInfoBucketOwner             `json:"Owner" xml:"Owner" require:"true" type:"Struct"`
-	AccessControlList  *GetBucketInfoResponseBucketInfoBucketAccessControlList `json:"AccessControlList" xml:"AccessControlList" require:"true" type:"Struct"`
+	// CreationDate
+	CreationDate *string `json:"CreationDate,omitempty" xml:"CreationDate,omitempty"`
+	// ExtranetEndpoint
+	ExtranetEndpoint *string `json:"ExtranetEndpoint,omitempty" xml:"ExtranetEndpoint,omitempty"`
+	// IntranetEndpoint
+	IntranetEndpoint *string `json:"IntranetEndpoint,omitempty" xml:"IntranetEndpoint,omitempty"`
+	// Location
+	Location *string `json:"Location,omitempty" xml:"Location,omitempty"`
+	// Name
+	Name *string `json:"Name,omitempty" xml:"Name,omitempty"`
+	// DataRedundancyType
+	DataRedundancyType *string `json:"DataRedundancyType,omitempty" xml:"DataRedundancyType,omitempty"`
+	// StorageClass
+	StorageClass *string `json:"StorageClass,omitempty" xml:"StorageClass,omitempty"`
+	// Comment
+	Comment *string `json:"Comment,omitempty" xml:"Comment,omitempty"`
+	// Owner
+	Owner *GetBucketInfoResponseBucketInfoBucketOwner `json:"Owner,omitempty" xml:"Owner,omitempty" require:"true" type:"Struct"`
+	// AccessControlList
+	AccessControlList *GetBucketInfoResponseBucketInfoBucketAccessControlList `json:"AccessControlList,omitempty" xml:"AccessControlList,omitempty" require:"true" type:"Struct"`
 }
 
 func (s GetBucketInfoResponseBucketInfoBucket) String() string {
@@ -6637,8 +7248,10 @@ func (s *GetBucketInfoResponseBucketInfoBucket) SetAccessControlList(v *GetBucke
 }
 
 type GetBucketInfoResponseBucketInfoBucketOwner struct {
-	ID          *string `json:"ID" xml:"ID"`
-	DisplayName *string `json:"DisplayName" xml:"DisplayName"`
+	// ID
+	ID *string `json:"ID,omitempty" xml:"ID,omitempty"`
+	// DisplayName
+	DisplayName *string `json:"DisplayName,omitempty" xml:"DisplayName,omitempty"`
 }
 
 func (s GetBucketInfoResponseBucketInfoBucketOwner) String() string {
@@ -6660,7 +7273,8 @@ func (s *GetBucketInfoResponseBucketInfoBucketOwner) SetDisplayName(v string) *G
 }
 
 type GetBucketInfoResponseBucketInfoBucketAccessControlList struct {
-	Grant *string `json:"Grant" xml:"Grant"`
+	// Grant
+	Grant *string `json:"Grant,omitempty" xml:"Grant,omitempty"`
 }
 
 func (s GetBucketInfoResponseBucketInfoBucketAccessControlList) String() string {
@@ -6677,9 +7291,12 @@ func (s *GetBucketInfoResponseBucketInfoBucketAccessControlList) SetGrant(v stri
 }
 
 type PutLiveChannelStatusRequest struct {
-	BucketName  *string                            `json:"BucketName" xml:"BucketName" require:"true"`
-	ChannelName *string                            `json:"ChannelName" xml:"ChannelName" require:"true"`
-	Filter      *PutLiveChannelStatusRequestFilter `json:"Filter" xml:"Filter" require:"true" type:"Struct"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	// ChannelName
+	ChannelName *string `json:"ChannelName,omitempty" xml:"ChannelName,omitempty" require:"true"`
+	// Filter
+	Filter *PutLiveChannelStatusRequestFilter `json:"Filter,omitempty" xml:"Filter,omitempty" require:"true" type:"Struct"`
 }
 
 func (s PutLiveChannelStatusRequest) String() string {
@@ -6706,7 +7323,8 @@ func (s *PutLiveChannelStatusRequest) SetFilter(v *PutLiveChannelStatusRequestFi
 }
 
 type PutLiveChannelStatusRequestFilter struct {
-	Status *string `json:"status" xml:"status" require:"true" signed:"true"`
+	// status
+	Status *string `json:"status,omitempty" xml:"status,omitempty" require:"true" signed:"true"`
 }
 
 func (s PutLiveChannelStatusRequestFilter) String() string {
@@ -6723,7 +7341,8 @@ func (s *PutLiveChannelStatusRequestFilter) SetStatus(v string) *PutLiveChannelS
 }
 
 type PutLiveChannelStatusResponse struct {
-	RequestId *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
 }
 
 func (s PutLiveChannelStatusResponse) String() string {
@@ -6740,10 +7359,14 @@ func (s *PutLiveChannelStatusResponse) SetRequestId(v string) *PutLiveChannelSta
 }
 
 type InitiateMultipartUploadRequest struct {
-	BucketName *string                               `json:"BucketName" xml:"BucketName" require:"true"`
-	ObjectName *string                               `json:"ObjectName" xml:"ObjectName" require:"true"`
-	Filter     *InitiateMultipartUploadRequestFilter `json:"Filter" xml:"Filter" type:"Struct"`
-	Header     *InitiateMultipartUploadRequestHeader `json:"Header" xml:"Header" type:"Struct"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	// ObjectName
+	ObjectName *string `json:"ObjectName,omitempty" xml:"ObjectName,omitempty" require:"true"`
+	// Filter
+	Filter *InitiateMultipartUploadRequestFilter `json:"Filter,omitempty" xml:"Filter,omitempty" type:"Struct"`
+	// Header
+	Header *InitiateMultipartUploadRequestHeader `json:"Header,omitempty" xml:"Header,omitempty" type:"Struct"`
 }
 
 func (s InitiateMultipartUploadRequest) String() string {
@@ -6775,7 +7398,8 @@ func (s *InitiateMultipartUploadRequest) SetHeader(v *InitiateMultipartUploadReq
 }
 
 type InitiateMultipartUploadRequestFilter struct {
-	EncodingType *string `json:"encoding-type" xml:"encoding-type"`
+	// encoding-type
+	EncodingType *string `json:"encoding-type,omitempty" xml:"encoding-type,omitempty"`
 }
 
 func (s InitiateMultipartUploadRequestFilter) String() string {
@@ -6792,15 +7416,24 @@ func (s *InitiateMultipartUploadRequestFilter) SetEncodingType(v string) *Initia
 }
 
 type InitiateMultipartUploadRequestHeader struct {
-	CacheControl              *string `json:"Cache-Control" xml:"Cache-Control"`
-	ContentDisposition        *string `json:"Content-Disposition" xml:"Content-Disposition"`
-	ContentEncoding           *string `json:"Content-Encoding" xml:"Content-Encoding"`
-	Expires                   *string `json:"Expires" xml:"Expires"`
-	ServerSideEncryption      *string `json:"x-oss-server-side-encryption" xml:"x-oss-server-side-encryption"`
-	ServerSideEncryptionKeyId *string `json:"x-oss-server-side-encryption-key-id" xml:"x-oss-server-side-encryption-key-id"`
-	StorageClass              *string `json:"x-oss-storage-class" xml:"x-oss-storage-class"`
-	Tagging                   *string `json:"x-oss-tagging" xml:"x-oss-tagging"`
-	ContentType               *string `json:"content-type" xml:"content-type"`
+	// Cache-Control
+	CacheControl *string `json:"Cache-Control,omitempty" xml:"Cache-Control,omitempty"`
+	// Content-Disposition
+	ContentDisposition *string `json:"Content-Disposition,omitempty" xml:"Content-Disposition,omitempty"`
+	// Content-Encoding
+	ContentEncoding *string `json:"Content-Encoding,omitempty" xml:"Content-Encoding,omitempty"`
+	// Expires
+	Expires *string `json:"Expires,omitempty" xml:"Expires,omitempty"`
+	// x-oss-server-side-encryption
+	ServerSideEncryption *string `json:"x-oss-server-side-encryption,omitempty" xml:"x-oss-server-side-encryption,omitempty"`
+	// x-oss-server-side-encryption-key-id
+	ServerSideEncryptionKeyId *string `json:"x-oss-server-side-encryption-key-id,omitempty" xml:"x-oss-server-side-encryption-key-id,omitempty"`
+	// x-oss-storage-class
+	StorageClass *string `json:"x-oss-storage-class,omitempty" xml:"x-oss-storage-class,omitempty"`
+	// x-oss-tagging
+	Tagging *string `json:"x-oss-tagging,omitempty" xml:"x-oss-tagging,omitempty"`
+	// content-type
+	ContentType *string `json:"content-type,omitempty" xml:"content-type,omitempty"`
 }
 
 func (s InitiateMultipartUploadRequestHeader) String() string {
@@ -6857,8 +7490,10 @@ func (s *InitiateMultipartUploadRequestHeader) SetContentType(v string) *Initiat
 }
 
 type InitiateMultipartUploadResponse struct {
-	RequestId                     *string                                                       `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
-	InitiateMultipartUploadResult *InitiateMultipartUploadResponseInitiateMultipartUploadResult `json:"InitiateMultipartUploadResult" xml:"InitiateMultipartUploadResult" require:"true" type:"Struct"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
+	// InitiateMultipartUploadResult
+	InitiateMultipartUploadResult *InitiateMultipartUploadResponseInitiateMultipartUploadResult `json:"InitiateMultipartUploadResult,omitempty" xml:"InitiateMultipartUploadResult,omitempty" require:"true" type:"Struct"`
 }
 
 func (s InitiateMultipartUploadResponse) String() string {
@@ -6880,9 +7515,12 @@ func (s *InitiateMultipartUploadResponse) SetInitiateMultipartUploadResult(v *In
 }
 
 type InitiateMultipartUploadResponseInitiateMultipartUploadResult struct {
-	Bucket   *string `json:"Bucket" xml:"Bucket"`
-	Key      *string `json:"Key" xml:"Key"`
-	UploadId *string `json:"UploadId" xml:"UploadId"`
+	// Bucket
+	Bucket *string `json:"Bucket,omitempty" xml:"Bucket,omitempty"`
+	// Key
+	Key *string `json:"Key,omitempty" xml:"Key,omitempty"`
+	// UploadId
+	UploadId *string `json:"UploadId,omitempty" xml:"UploadId,omitempty"`
 }
 
 func (s InitiateMultipartUploadResponseInitiateMultipartUploadResult) String() string {
@@ -6909,9 +7547,12 @@ func (s *InitiateMultipartUploadResponseInitiateMultipartUploadResult) SetUpload
 }
 
 type OptionObjectRequest struct {
-	BucketName *string                    `json:"BucketName" xml:"BucketName" require:"true"`
-	ObjectName *string                    `json:"ObjectName" xml:"ObjectName" require:"true"`
-	Header     *OptionObjectRequestHeader `json:"Header" xml:"Header" require:"true" type:"Struct"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	// ObjectName
+	ObjectName *string `json:"ObjectName,omitempty" xml:"ObjectName,omitempty" require:"true"`
+	// Header
+	Header *OptionObjectRequestHeader `json:"Header,omitempty" xml:"Header,omitempty" require:"true" type:"Struct"`
 }
 
 func (s OptionObjectRequest) String() string {
@@ -6938,9 +7579,12 @@ func (s *OptionObjectRequest) SetHeader(v *OptionObjectRequestHeader) *OptionObj
 }
 
 type OptionObjectRequestHeader struct {
-	Origin                      *string `json:"Origin" xml:"Origin" require:"true"`
-	AccessControlRequestMethod  *string `json:"Access-Control-Request-Method" xml:"Access-Control-Request-Method" require:"true"`
-	AccessControlRequestHeaders *string `json:"Access-Control-Request-Headers" xml:"Access-Control-Request-Headers" require:"true"`
+	// Origin
+	Origin *string `json:"Origin,omitempty" xml:"Origin,omitempty" require:"true"`
+	// Access-Control-Request-Method
+	AccessControlRequestMethod *string `json:"Access-Control-Request-Method,omitempty" xml:"Access-Control-Request-Method,omitempty" require:"true"`
+	// Access-Control-Request-Headers
+	AccessControlRequestHeaders *string `json:"Access-Control-Request-Headers,omitempty" xml:"Access-Control-Request-Headers,omitempty" require:"true"`
 }
 
 func (s OptionObjectRequestHeader) String() string {
@@ -6967,12 +7611,18 @@ func (s *OptionObjectRequestHeader) SetAccessControlRequestHeaders(v string) *Op
 }
 
 type OptionObjectResponse struct {
-	RequestId                  *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
-	AccessControlAllowOrigin   *string `json:"access-control-allow-origin" xml:"access-control-allow-origin" require:"true"`
-	AccessControlAllowMethods  *string `json:"access-control-allow-methods" xml:"access-control-allow-methods" require:"true"`
-	AccessControlAllowHeaders  *string `json:"access-control-allow-headers" xml:"access-control-allow-headers" require:"true"`
-	AccessControlExposeHeaders *string `json:"access-control-expose-headers" xml:"access-control-expose-headers" require:"true"`
-	AccessControlMaxAge        *string `json:"access-control-max-age" xml:"access-control-max-age" require:"true"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
+	// Access-Control-Allow-Origin
+	AccessControlAllowOrigin *string `json:"access-control-allow-origin,omitempty" xml:"access-control-allow-origin,omitempty" require:"true"`
+	// Access-Control-Allow-Methods
+	AccessControlAllowMethods *string `json:"access-control-allow-methods,omitempty" xml:"access-control-allow-methods,omitempty" require:"true"`
+	// Access-Control-Allow-Headers
+	AccessControlAllowHeaders *string `json:"access-control-allow-headers,omitempty" xml:"access-control-allow-headers,omitempty" require:"true"`
+	// Access-Control-Expose-Headers
+	AccessControlExposeHeaders *string `json:"access-control-expose-headers,omitempty" xml:"access-control-expose-headers,omitempty" require:"true"`
+	// Access-Control-Max-Age
+	AccessControlMaxAge *string `json:"access-control-max-age,omitempty" xml:"access-control-max-age,omitempty" require:"true"`
 }
 
 func (s OptionObjectResponse) String() string {
@@ -7014,10 +7664,14 @@ func (s *OptionObjectResponse) SetAccessControlMaxAge(v string) *OptionObjectRes
 }
 
 type PostVodPlaylistRequest struct {
-	BucketName   *string                       `json:"BucketName" xml:"BucketName" require:"true"`
-	ChannelName  *string                       `json:"ChannelName" xml:"ChannelName" require:"true"`
-	PlaylistName *string                       `json:"PlaylistName" xml:"PlaylistName" require:"true"`
-	Filter       *PostVodPlaylistRequestFilter `json:"Filter" xml:"Filter" require:"true" type:"Struct"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	// ChannelName
+	ChannelName *string `json:"ChannelName,omitempty" xml:"ChannelName,omitempty" require:"true"`
+	// PlaylistName
+	PlaylistName *string `json:"PlaylistName,omitempty" xml:"PlaylistName,omitempty" require:"true"`
+	// Filter
+	Filter *PostVodPlaylistRequestFilter `json:"Filter,omitempty" xml:"Filter,omitempty" require:"true" type:"Struct"`
 }
 
 func (s PostVodPlaylistRequest) String() string {
@@ -7049,8 +7703,10 @@ func (s *PostVodPlaylistRequest) SetFilter(v *PostVodPlaylistRequestFilter) *Pos
 }
 
 type PostVodPlaylistRequestFilter struct {
-	EndTime   *string `json:"endTime" xml:"endTime" require:"true" signed:"true"`
-	StartTime *string `json:"startTime" xml:"startTime" require:"true" signed:"true"`
+	// endTime
+	EndTime *string `json:"endTime,omitempty" xml:"endTime,omitempty" require:"true" signed:"true"`
+	// startTime
+	StartTime *string `json:"startTime,omitempty" xml:"startTime,omitempty" require:"true" signed:"true"`
 }
 
 func (s PostVodPlaylistRequestFilter) String() string {
@@ -7072,7 +7728,8 @@ func (s *PostVodPlaylistRequestFilter) SetStartTime(v string) *PostVodPlaylistRe
 }
 
 type PostVodPlaylistResponse struct {
-	RequestId *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
 }
 
 func (s PostVodPlaylistResponse) String() string {
@@ -7089,8 +7746,10 @@ func (s *PostVodPlaylistResponse) SetRequestId(v string) *PostVodPlaylistRespons
 }
 
 type PostObjectRequest struct {
-	BucketName *string                  `json:"BucketName" xml:"BucketName" require:"true"`
-	Header     *PostObjectRequestHeader `json:"header" xml:"header" require:"true" type:"Struct"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	// header
+	Header *PostObjectRequestHeader `json:"header,omitempty" xml:"header,omitempty" require:"true" type:"Struct"`
 }
 
 func (s PostObjectRequest) String() string {
@@ -7112,13 +7771,19 @@ func (s *PostObjectRequest) SetHeader(v *PostObjectRequestHeader) *PostObjectReq
 }
 
 type PostObjectRequestHeader struct {
-	AccessKeyId         *string             `json:"OSSAccessKeyId" xml:"OSSAccessKeyId" require:"true"`
-	Policy              *string             `json:"policy" xml:"policy" require:"true"`
-	Signature           *string             `json:"Signature" xml:"Signature" require:"true"`
-	SuccessActionStatus *string             `json:"success_action_status" xml:"success_action_status"`
-	File                *fileform.FileField `json:"file" xml:"file" require:"true"`
-	Key                 *string             `json:"key" xml:"key" require:"true"`
-	UserMeta            map[string]*string  `json:"UserMeta" xml:"UserMeta"`
+	// OSSAccessKeyId
+	AccessKeyId *string `json:"OSSAccessKeyId,omitempty" xml:"OSSAccessKeyId,omitempty" require:"true"`
+	// policy
+	Policy *string `json:"policy,omitempty" xml:"policy,omitempty" require:"true"`
+	// Signature
+	Signature *string `json:"Signature,omitempty" xml:"Signature,omitempty" require:"true"`
+	// success_action_status
+	SuccessActionStatus *string             `json:"success_action_status,omitempty" xml:"success_action_status,omitempty"`
+	File                *fileform.FileField `json:"file,omitempty" xml:"file,omitempty" require:"true"`
+	// key
+	Key *string `json:"key,omitempty" xml:"key,omitempty" require:"true"`
+	// UserMeta
+	UserMeta map[string]*string `json:"UserMeta,omitempty" xml:"UserMeta,omitempty"`
 }
 
 func (s PostObjectRequestHeader) String() string {
@@ -7165,7 +7830,8 @@ func (s *PostObjectRequestHeader) SetUserMeta(v map[string]*string) *PostObjectR
 }
 
 type PostObjectResponse struct {
-	PostResponse *PostObjectResponsePostResponse `json:"PostResponse" xml:"PostResponse" require:"true" type:"Struct"`
+	// PostResponse
+	PostResponse *PostObjectResponsePostResponse `json:"PostResponse,omitempty" xml:"PostResponse,omitempty" require:"true" type:"Struct"`
 }
 
 func (s PostObjectResponse) String() string {
@@ -7182,9 +7848,12 @@ func (s *PostObjectResponse) SetPostResponse(v *PostObjectResponsePostResponse) 
 }
 
 type PostObjectResponsePostResponse struct {
-	Bucket   *string `json:"Bucket" xml:"Bucket" require:"true"`
-	ETag     *string `json:"ETag" xml:"ETag" require:"true"`
-	Location *string `json:"Location" xml:"Location" require:"true"`
+	// Bucket
+	Bucket *string `json:"Bucket,omitempty" xml:"Bucket,omitempty" require:"true"`
+	// ETag
+	ETag *string `json:"ETag,omitempty" xml:"ETag,omitempty" require:"true"`
+	// Location
+	Location *string `json:"Location,omitempty" xml:"Location,omitempty" require:"true"`
 }
 
 func (s PostObjectResponsePostResponse) String() string {
@@ -7211,9 +7880,12 @@ func (s *PostObjectResponsePostResponse) SetLocation(v string) *PostObjectRespon
 }
 
 type HeadObjectRequest struct {
-	BucketName *string                  `json:"BucketName" xml:"BucketName" require:"true"`
-	ObjectName *string                  `json:"ObjectName" xml:"ObjectName" require:"true"`
-	Header     *HeadObjectRequestHeader `json:"Header" xml:"Header" type:"Struct"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	// ObjectName
+	ObjectName *string `json:"ObjectName,omitempty" xml:"ObjectName,omitempty" require:"true"`
+	// Header
+	Header *HeadObjectRequestHeader `json:"Header,omitempty" xml:"Header,omitempty" type:"Struct"`
 }
 
 func (s HeadObjectRequest) String() string {
@@ -7240,10 +7912,14 @@ func (s *HeadObjectRequest) SetHeader(v *HeadObjectRequestHeader) *HeadObjectReq
 }
 
 type HeadObjectRequestHeader struct {
-	IfModifiedSince   *string `json:"If-Modified-Since" xml:"If-Modified-Since"`
-	IfUnmodifiedSince *string `json:"If-Unmodified-Since" xml:"If-Unmodified-Since"`
-	IfMatch           *string `json:"If-Match" xml:"If-Match"`
-	IfNoneMatch       *string `json:"If-None-Match" xml:"If-None-Match"`
+	// If-Modified-Since
+	IfModifiedSince *string `json:"If-Modified-Since,omitempty" xml:"If-Modified-Since,omitempty"`
+	// If-Unmodified-Since
+	IfUnmodifiedSince *string `json:"If-Unmodified-Since,omitempty" xml:"If-Unmodified-Since,omitempty"`
+	// If-Match
+	IfMatch *string `json:"If-Match,omitempty" xml:"If-Match,omitempty"`
+	// If-None-Match
+	IfNoneMatch *string `json:"If-None-Match,omitempty" xml:"If-None-Match,omitempty"`
 }
 
 func (s HeadObjectRequestHeader) String() string {
@@ -7275,26 +7951,46 @@ func (s *HeadObjectRequestHeader) SetIfNoneMatch(v string) *HeadObjectRequestHea
 }
 
 type HeadObjectResponse struct {
-	RequestId                  *string            `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
-	UserMeta                   map[string]*string `json:"usermeta" xml:"usermeta" require:"true"`
-	ServerSideEncryption       *string            `json:"x-oss-server-side-encryption" xml:"x-oss-server-side-encryption" require:"true"`
-	ServerSideEncryptionKeyId  *string            `json:"x-oss-server-side-encryption-key-id" xml:"x-oss-server-side-encryption-key-id" require:"true"`
-	StorageClass               *string            `json:"x-oss-storage-class" xml:"x-oss-storage-class" require:"true"`
-	ObjectType                 *string            `json:"x-oss-object-type" xml:"x-oss-object-type" require:"true"`
-	NextAppendPosition         *string            `json:"x-oss-next-append-position" xml:"x-oss-next-append-position" require:"true"`
-	HashCrc64ecma              *string            `json:"x-oss-hash-crc64ecma" xml:"x-oss-hash-crc64ecma" require:"true"`
-	Expiration                 *string            `json:"x-oss-expiration" xml:"x-oss-expiration" require:"true"`
-	Restore                    *string            `json:"x-oss-restore" xml:"x-oss-restore" require:"true"`
-	ProcessStatus              *string            `json:"x-oss-process-status" xml:"x-oss-process-status" require:"true"`
-	RequestCharged             *string            `json:"x-oss-request-charged" xml:"x-oss-request-charged" require:"true"`
-	ContentMd5                 *string            `json:"content-md5" xml:"content-md5" require:"true"`
-	LastModified               *string            `json:"last-modified" xml:"last-modified" require:"true"`
-	AccessControlAllowOrigin   *string            `json:"access-control-allow-origin" xml:"access-control-allow-origin" require:"true"`
-	AccessControlAllowMethods  *string            `json:"access-control-allow-methods" xml:"access-control-allow-methods" require:"true"`
-	AccessControlMaxAge        *string            `json:"access-control-max-age" xml:"access-control-max-age" require:"true"`
-	AccessControlAllowHeaders  *string            `json:"access-control-allow-headers" xml:"access-control-allow-headers" require:"true"`
-	AccessControlExposeHeaders *string            `json:"access-control-expose-headers" xml:"access-control-expose-headers" require:"true"`
-	TaggingCount               *string            `json:"x-oss-tagging-count" xml:"x-oss-tagging-count" require:"true"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
+	// usermeta
+	UserMeta map[string]*string `json:"usermeta,omitempty" xml:"usermeta,omitempty" require:"true"`
+	// x-oss-server-side-encryption
+	ServerSideEncryption *string `json:"x-oss-server-side-encryption,omitempty" xml:"x-oss-server-side-encryption,omitempty" require:"true"`
+	// x-oss-server-side-encryption-key-id
+	ServerSideEncryptionKeyId *string `json:"x-oss-server-side-encryption-key-id,omitempty" xml:"x-oss-server-side-encryption-key-id,omitempty" require:"true"`
+	// x-oss-storage-class
+	StorageClass *string `json:"x-oss-storage-class,omitempty" xml:"x-oss-storage-class,omitempty" require:"true"`
+	// x-oss-object-type
+	ObjectType *string `json:"x-oss-object-type,omitempty" xml:"x-oss-object-type,omitempty" require:"true"`
+	// x-oss-next-append-position
+	NextAppendPosition *string `json:"x-oss-next-append-position,omitempty" xml:"x-oss-next-append-position,omitempty" require:"true"`
+	// x-oss-hash-crc64ecma
+	HashCrc64ecma *string `json:"x-oss-hash-crc64ecma,omitempty" xml:"x-oss-hash-crc64ecma,omitempty" require:"true"`
+	// x-oss-expiration
+	Expiration *string `json:"x-oss-expiration,omitempty" xml:"x-oss-expiration,omitempty" require:"true"`
+	// x-oss-restore
+	Restore *string `json:"x-oss-restore,omitempty" xml:"x-oss-restore,omitempty" require:"true"`
+	// x-oss-process-status
+	ProcessStatus *string `json:"x-oss-process-status,omitempty" xml:"x-oss-process-status,omitempty" require:"true"`
+	// x-oss-request-charged
+	RequestCharged *string `json:"x-oss-request-charged,omitempty" xml:"x-oss-request-charged,omitempty" require:"true"`
+	// Content-Md5
+	ContentMd5 *string `json:"content-md5,omitempty" xml:"content-md5,omitempty" require:"true"`
+	// Last-Modified
+	LastModified *string `json:"last-modified,omitempty" xml:"last-modified,omitempty" require:"true"`
+	// Access-Control-Allow-Origin
+	AccessControlAllowOrigin *string `json:"access-control-allow-origin,omitempty" xml:"access-control-allow-origin,omitempty" require:"true"`
+	// Access-Control-Allow-Methods
+	AccessControlAllowMethods *string `json:"access-control-allow-methods,omitempty" xml:"access-control-allow-methods,omitempty" require:"true"`
+	// Access-Control-Max-Age
+	AccessControlMaxAge *string `json:"access-control-max-age,omitempty" xml:"access-control-max-age,omitempty" require:"true"`
+	// Access-Control-Allow-Headers
+	AccessControlAllowHeaders *string `json:"access-control-allow-headers,omitempty" xml:"access-control-allow-headers,omitempty" require:"true"`
+	// Access-Control-Expose-Headers
+	AccessControlExposeHeaders *string `json:"access-control-expose-headers,omitempty" xml:"access-control-expose-headers,omitempty" require:"true"`
+	// x-oss-tagging-count
+	TaggingCount *string `json:"x-oss-tagging-count,omitempty" xml:"x-oss-tagging-count,omitempty" require:"true"`
 }
 
 func (s HeadObjectResponse) String() string {
@@ -7406,8 +8102,10 @@ func (s *HeadObjectResponse) SetTaggingCount(v string) *HeadObjectResponse {
 }
 
 type DeleteObjectTaggingRequest struct {
-	BucketName *string `json:"BucketName" xml:"BucketName" require:"true"`
-	ObjectName *string `json:"ObjectName" xml:"ObjectName" require:"true"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	// ObjectName
+	ObjectName *string `json:"ObjectName,omitempty" xml:"ObjectName,omitempty" require:"true"`
 }
 
 func (s DeleteObjectTaggingRequest) String() string {
@@ -7429,7 +8127,8 @@ func (s *DeleteObjectTaggingRequest) SetObjectName(v string) *DeleteObjectTaggin
 }
 
 type DeleteObjectTaggingResponse struct {
-	RequestId *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
 }
 
 func (s DeleteObjectTaggingResponse) String() string {
@@ -7446,8 +8145,10 @@ func (s *DeleteObjectTaggingResponse) SetRequestId(v string) *DeleteObjectTaggin
 }
 
 type RestoreObjectRequest struct {
-	BucketName *string `json:"BucketName" xml:"BucketName" require:"true"`
-	ObjectName *string `json:"ObjectName" xml:"ObjectName" require:"true"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	// ObjectName
+	ObjectName *string `json:"ObjectName,omitempty" xml:"ObjectName,omitempty" require:"true"`
 }
 
 func (s RestoreObjectRequest) String() string {
@@ -7469,7 +8170,8 @@ func (s *RestoreObjectRequest) SetObjectName(v string) *RestoreObjectRequest {
 }
 
 type RestoreObjectResponse struct {
-	RequestId *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
 }
 
 func (s RestoreObjectResponse) String() string {
@@ -7486,8 +8188,10 @@ func (s *RestoreObjectResponse) SetRequestId(v string) *RestoreObjectResponse {
 }
 
 type GetObjectAclRequest struct {
-	BucketName *string `json:"BucketName" xml:"BucketName" require:"true"`
-	ObjectName *string `json:"ObjectName" xml:"ObjectName" require:"true"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	// ObjectName
+	ObjectName *string `json:"ObjectName,omitempty" xml:"ObjectName,omitempty" require:"true"`
 }
 
 func (s GetObjectAclRequest) String() string {
@@ -7509,8 +8213,10 @@ func (s *GetObjectAclRequest) SetObjectName(v string) *GetObjectAclRequest {
 }
 
 type GetObjectAclResponse struct {
-	RequestId           *string                                  `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
-	AccessControlPolicy *GetObjectAclResponseAccessControlPolicy `json:"AccessControlPolicy" xml:"AccessControlPolicy" require:"true" type:"Struct"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
+	// AccessControlPolicy
+	AccessControlPolicy *GetObjectAclResponseAccessControlPolicy `json:"AccessControlPolicy,omitempty" xml:"AccessControlPolicy,omitempty" require:"true" type:"Struct"`
 }
 
 func (s GetObjectAclResponse) String() string {
@@ -7532,8 +8238,10 @@ func (s *GetObjectAclResponse) SetAccessControlPolicy(v *GetObjectAclResponseAcc
 }
 
 type GetObjectAclResponseAccessControlPolicy struct {
-	Owner             *GetObjectAclResponseAccessControlPolicyOwner             `json:"Owner" xml:"Owner" require:"true" type:"Struct"`
-	AccessControlList *GetObjectAclResponseAccessControlPolicyAccessControlList `json:"AccessControlList" xml:"AccessControlList" require:"true" type:"Struct"`
+	// Owner
+	Owner *GetObjectAclResponseAccessControlPolicyOwner `json:"Owner,omitempty" xml:"Owner,omitempty" require:"true" type:"Struct"`
+	// AccessControlList
+	AccessControlList *GetObjectAclResponseAccessControlPolicyAccessControlList `json:"AccessControlList,omitempty" xml:"AccessControlList,omitempty" require:"true" type:"Struct"`
 }
 
 func (s GetObjectAclResponseAccessControlPolicy) String() string {
@@ -7555,8 +8263,10 @@ func (s *GetObjectAclResponseAccessControlPolicy) SetAccessControlList(v *GetObj
 }
 
 type GetObjectAclResponseAccessControlPolicyOwner struct {
-	ID          *string `json:"ID" xml:"ID"`
-	DisplayName *string `json:"DisplayName" xml:"DisplayName"`
+	// ID
+	ID *string `json:"ID,omitempty" xml:"ID,omitempty"`
+	// DisplayName
+	DisplayName *string `json:"DisplayName,omitempty" xml:"DisplayName,omitempty"`
 }
 
 func (s GetObjectAclResponseAccessControlPolicyOwner) String() string {
@@ -7578,7 +8288,8 @@ func (s *GetObjectAclResponseAccessControlPolicyOwner) SetDisplayName(v string) 
 }
 
 type GetObjectAclResponseAccessControlPolicyAccessControlList struct {
-	Grant *string `json:"Grant" xml:"Grant"`
+	// Grant
+	Grant *string `json:"Grant,omitempty" xml:"Grant,omitempty"`
 }
 
 func (s GetObjectAclResponseAccessControlPolicyAccessControlList) String() string {
@@ -7595,8 +8306,10 @@ func (s *GetObjectAclResponseAccessControlPolicyAccessControlList) SetGrant(v st
 }
 
 type PutBucketAclRequest struct {
-	BucketName *string                    `json:"BucketName" xml:"BucketName" require:"true"`
-	Header     *PutBucketAclRequestHeader `json:"Header" xml:"Header" require:"true" type:"Struct"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	// Header
+	Header *PutBucketAclRequestHeader `json:"Header,omitempty" xml:"Header,omitempty" require:"true" type:"Struct"`
 }
 
 func (s PutBucketAclRequest) String() string {
@@ -7618,7 +8331,8 @@ func (s *PutBucketAclRequest) SetHeader(v *PutBucketAclRequestHeader) *PutBucket
 }
 
 type PutBucketAclRequestHeader struct {
-	Acl *string `json:"x-oss-acl" xml:"x-oss-acl" require:"true"`
+	// x-oss-acl
+	Acl *string `json:"x-oss-acl,omitempty" xml:"x-oss-acl,omitempty" require:"true"`
 }
 
 func (s PutBucketAclRequestHeader) String() string {
@@ -7635,7 +8349,8 @@ func (s *PutBucketAclRequestHeader) SetAcl(v string) *PutBucketAclRequestHeader 
 }
 
 type PutBucketAclResponse struct {
-	RequestId *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
 }
 
 func (s PutBucketAclResponse) String() string {
@@ -7652,7 +8367,8 @@ func (s *PutBucketAclResponse) SetRequestId(v string) *PutBucketAclResponse {
 }
 
 type DeleteBucketRequest struct {
-	BucketName *string `json:"BucketName" xml:"BucketName" require:"true"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
 }
 
 func (s DeleteBucketRequest) String() string {
@@ -7669,7 +8385,8 @@ func (s *DeleteBucketRequest) SetBucketName(v string) *DeleteBucketRequest {
 }
 
 type DeleteBucketResponse struct {
-	RequestId *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
 }
 
 func (s DeleteBucketResponse) String() string {
@@ -7686,11 +8403,16 @@ func (s *DeleteBucketResponse) SetRequestId(v string) *DeleteBucketResponse {
 }
 
 type PutObjectRequest struct {
-	BucketName *string                 `json:"BucketName" xml:"BucketName" require:"true"`
-	ObjectName *string                 `json:"ObjectName" xml:"ObjectName" require:"true"`
-	UserMeta   map[string]*string      `json:"UserMeta" xml:"UserMeta"`
-	Body       io.Reader               `json:"body" xml:"body"`
-	Header     *PutObjectRequestHeader `json:"Header" xml:"Header" type:"Struct"`
+	// BucketName
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	// ObjectName
+	ObjectName *string `json:"ObjectName,omitempty" xml:"ObjectName,omitempty" require:"true"`
+	// UserMeta
+	UserMeta map[string]*string `json:"UserMeta,omitempty" xml:"UserMeta,omitempty"`
+	// body
+	Body io.Reader `json:"body,omitempty" xml:"body,omitempty"`
+	// Header
+	Header *PutObjectRequestHeader `json:"Header,omitempty" xml:"Header,omitempty" type:"Struct"`
 }
 
 func (s PutObjectRequest) String() string {
@@ -7727,20 +8449,34 @@ func (s *PutObjectRequest) SetHeader(v *PutObjectRequestHeader) *PutObjectReques
 }
 
 type PutObjectRequestHeader struct {
-	Authorization             *string `json:"Authorization" xml:"Authorization"`
-	CacheControl              *string `json:"Cache-Control" xml:"Cache-Control"`
-	ContentDisposition        *string `json:"Content-Disposition" xml:"Content-Disposition"`
-	ContentEncoding           *string `json:"Content-Encoding" xml:"Content-Encoding"`
-	ContentMD5                *string `json:"Content-MD5" xml:"Content-MD5"`
-	ContentLength             *string `json:"Content-Length" xml:"Content-Length"`
-	ETag                      *string `json:"CETag" xml:"CETag"`
-	Expires                   *string `json:"Expires" xml:"Expires"`
-	ServerSideEncryption      *string `json:"x-oss-server-side-encryption" xml:"x-oss-server-side-encryption"`
-	ServerSideEncryptionKeyId *string `json:"x-oss-server-side-encryption-key-id" xml:"x-oss-server-side-encryption-key-id"`
-	ObjectAcl                 *string `json:"x-oss-object-acl" xml:"x-oss-object-acl"`
-	StorageClass              *string `json:"x-oss-storage-class" xml:"x-oss-storage-class"`
-	Tagging                   *string `json:"x-oss-tagging" xml:"x-oss-tagging"`
-	ContentType               *string `json:"content-type" xml:"content-type"`
+	// Authorization
+	Authorization *string `json:"Authorization,omitempty" xml:"Authorization,omitempty"`
+	// Cache-Control
+	CacheControl *string `json:"Cache-Control,omitempty" xml:"Cache-Control,omitempty"`
+	// Content-Disposition
+	ContentDisposition *string `json:"Content-Disposition,omitempty" xml:"Content-Disposition,omitempty"`
+	// Content-Encoding
+	ContentEncoding *string `json:"Content-Encoding,omitempty" xml:"Content-Encoding,omitempty"`
+	// Content-MD5
+	ContentMD5 *string `json:"Content-MD5,omitempty" xml:"Content-MD5,omitempty"`
+	// Content-Length
+	ContentLength *string `json:"Content-Length,omitempty" xml:"Content-Length,omitempty"`
+	// CETag
+	ETag *string `json:"CETag,omitempty" xml:"CETag,omitempty"`
+	// Expires
+	Expires *string `json:"Expires,omitempty" xml:"Expires,omitempty"`
+	// x-oss-server-side-encryption
+	ServerSideEncryption *string `json:"x-oss-server-side-encryption,omitempty" xml:"x-oss-server-side-encryption,omitempty"`
+	// x-oss-server-side-encryption-key-id
+	ServerSideEncryptionKeyId *string `json:"x-oss-server-side-encryption-key-id,omitempty" xml:"x-oss-server-side-encryption-key-id,omitempty"`
+	// x-oss-object-acl
+	ObjectAcl *string `json:"x-oss-object-acl,omitempty" xml:"x-oss-object-acl,omitempty"`
+	// x-oss-storage-class
+	StorageClass *string `json:"x-oss-storage-class,omitempty" xml:"x-oss-storage-class,omitempty"`
+	// x-oss-tagging
+	Tagging *string `json:"x-oss-tagging,omitempty" xml:"x-oss-tagging,omitempty"`
+	// content-type
+	ContentType *string `json:"content-type,omitempty" xml:"content-type,omitempty"`
 }
 
 func (s PutObjectRequestHeader) String() string {
@@ -7822,10 +8558,14 @@ func (s *PutObjectRequestHeader) SetContentType(v string) *PutObjectRequestHeade
 }
 
 type PutObjectResponse struct {
-	RequestId     *string `json:"x-oss-request-id" xml:"x-oss-request-id" require:"true"`
-	HashCrc64ecma *string `json:"x-oss-hash-crc64ecma" xml:"x-oss-hash-crc64ecma" require:"true"`
-	ServerTime    *string `json:"x-oss-server-time" xml:"x-oss-server-time" require:"true"`
-	BucketVersion *string `json:"x-oss-bucket-version" xml:"x-oss-bucket-version" require:"true"`
+	// x-oss-request-id
+	RequestId *string `json:"x-oss-request-id,omitempty" xml:"x-oss-request-id,omitempty" require:"true"`
+	// x-oss-hash-crc64ecma
+	HashCrc64ecma *string `json:"x-oss-hash-crc64ecma,omitempty" xml:"x-oss-hash-crc64ecma,omitempty" require:"true"`
+	// x-oss-server-time
+	ServerTime *string `json:"x-oss-server-time,omitempty" xml:"x-oss-server-time,omitempty" require:"true"`
+	// x-oss-bucket-version
+	BucketVersion *string `json:"x-oss-bucket-version,omitempty" xml:"x-oss-bucket-version,omitempty" require:"true"`
 }
 
 func (s PutObjectResponse) String() string {
@@ -15367,6 +16107,7 @@ func (client *Client) GetUserAgent() (_result *string) {
 
 func (client *Client) GetAccessKeyId() (_result *string, _err error) {
 	if tea.BoolValue(util.IsUnset(client.Credential)) {
+		_result = tea.String("")
 		return _result, _err
 	}
 
@@ -15381,6 +16122,7 @@ func (client *Client) GetAccessKeyId() (_result *string, _err error) {
 
 func (client *Client) GetAccessKeySecret() (_result *string, _err error) {
 	if tea.BoolValue(util.IsUnset(client.Credential)) {
+		_result = tea.String("")
 		return _result, _err
 	}
 

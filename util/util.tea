@@ -28,19 +28,19 @@ model RuntimeOptions {
  * Parse msg into a object
  * @return the object
  */
-static function getErrMessage(msg: string): object;
+static function getErrMessage(msg: string): map[string]any;
 
 /**
  * Add prefix string as prefix for keys of val
  * @return the final map[string]string
  */
-static function toMeta(val: object, prefix: string): map[string]string;
+static function toMeta(val: map[string]string, prefix: string): map[string]string;
 
 /**
  * Remove prefix string from keys of val
  * @return the final map[string]string
  */
-static function parseMeta(val: object, prefix: string): map[string]string;
+static function parseMeta(val: map[string]string, prefix: string): map[string]string;
 
 /**
  * Get content type according to the fileName
