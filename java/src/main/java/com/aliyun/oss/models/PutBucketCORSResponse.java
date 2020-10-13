@@ -9,7 +9,7 @@ public class PutBucketCORSResponse extends TeaModel {
     @Validation(required = true)
     public String requestId;
 
-    public static PutBucketCORSResponse build(java.util.Map<String, ?> map) {
+    public static PutBucketCORSResponse build(java.util.Map<String, ?> map) throws Exception {
         PutBucketCORSResponse self = new PutBucketCORSResponse();
         return TeaModel.build(map, self);
     }

@@ -25,7 +25,7 @@ public class Client {
     public String _socks5NetWork;
     public Integer _maxIdleConns;
     public com.aliyun.credentials.Client _credential;
-    public Client(Config config) {
+    public Client(Config config) throws Exception {
         if (com.aliyun.teautil.Common.isUnset(TeaModel.buildMap(config))) {
             throw new TeaException(TeaConverter.buildMap(
                 new TeaPair("name", "ParameterMissing"),
@@ -72,7 +72,7 @@ public class Client {
         this._isEnableCrc = config.isEnableCrc;
     }
 
-    public PutBucketLifecycleResponse putBucketLifecycle(PutBucketLifecycleRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public PutBucketLifecycleResponse putBucketLifecycle(PutBucketLifecycleRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -160,7 +160,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public DeleteMultipleObjectsResponse deleteMultipleObjects(DeleteMultipleObjectsRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public DeleteMultipleObjectsResponse deleteMultipleObjects(DeleteMultipleObjectsRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -262,7 +262,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public PutBucketRefererResponse putBucketReferer(PutBucketRefererRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public PutBucketRefererResponse putBucketReferer(PutBucketRefererRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -350,7 +350,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public PutBucketWebsiteResponse putBucketWebsite(PutBucketWebsiteRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public PutBucketWebsiteResponse putBucketWebsite(PutBucketWebsiteRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -438,7 +438,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public CompleteMultipartUploadResponse completeMultipartUpload(CompleteMultipartUploadRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public CompleteMultipartUploadResponse completeMultipartUpload(CompleteMultipartUploadRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -532,7 +532,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public PutBucketLoggingResponse putBucketLogging(PutBucketLoggingRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public PutBucketLoggingResponse putBucketLogging(PutBucketLoggingRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -620,7 +620,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public PutBucketRequestPaymentResponse putBucketRequestPayment(PutBucketRequestPaymentRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public PutBucketRequestPaymentResponse putBucketRequestPayment(PutBucketRequestPaymentRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -708,7 +708,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public PutBucketEncryptionResponse putBucketEncryption(PutBucketEncryptionRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public PutBucketEncryptionResponse putBucketEncryption(PutBucketEncryptionRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -796,7 +796,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public PutLiveChannelResponse putLiveChannel(PutLiveChannelRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public PutLiveChannelResponse putLiveChannel(PutLiveChannelRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -889,7 +889,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public PutBucketTagsResponse putBucketTags(PutBucketTagsRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public PutBucketTagsResponse putBucketTags(PutBucketTagsRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -977,7 +977,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public PutObjectTaggingResponse putObjectTagging(PutObjectTaggingRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public PutObjectTaggingResponse putObjectTagging(PutObjectTaggingRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -1065,7 +1065,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public SelectObjectResponse selectObject(SelectObjectRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public SelectObjectResponse selectObject(SelectObjectRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -1154,7 +1154,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public PutBucketCORSResponse putBucketCORS(PutBucketCORSRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public PutBucketCORSResponse putBucketCORS(PutBucketCORSRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -1242,7 +1242,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public PutBucketResponse putBucket(PutBucketRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public PutBucketResponse putBucket(PutBucketRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -1333,7 +1333,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public ListMultipartUploadsResponse listMultipartUploads(ListMultipartUploadsRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public ListMultipartUploadsResponse listMultipartUploads(ListMultipartUploadsRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -1425,7 +1425,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public GetBucketRequestPaymentResponse getBucketRequestPayment(GetBucketRequestPaymentRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public GetBucketRequestPaymentResponse getBucketRequestPayment(GetBucketRequestPaymentRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -1516,7 +1516,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public GetBucketEncryptionResponse getBucketEncryption(GetBucketEncryptionRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public GetBucketEncryptionResponse getBucketEncryption(GetBucketEncryptionRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -1607,7 +1607,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public GetBucketTagsResponse getBucketTags(GetBucketTagsRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public GetBucketTagsResponse getBucketTags(GetBucketTagsRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -1698,7 +1698,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public GetServiceResponse getService(GetServiceRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public GetServiceResponse getService(GetServiceRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -1790,7 +1790,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public DeleteBucketEncryptionResponse deleteBucketEncryption(DeleteBucketEncryptionRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public DeleteBucketEncryptionResponse deleteBucketEncryption(DeleteBucketEncryptionRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -1876,7 +1876,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public DeleteBucketTagsResponse deleteBucketTags(DeleteBucketTagsRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public DeleteBucketTagsResponse deleteBucketTags(DeleteBucketTagsRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -1963,7 +1963,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public GetBucketWebsiteResponse getBucketWebsite(GetBucketWebsiteRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public GetBucketWebsiteResponse getBucketWebsite(GetBucketWebsiteRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -2054,7 +2054,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public DeleteLiveChannelResponse deleteLiveChannel(DeleteLiveChannelRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public DeleteLiveChannelResponse deleteLiveChannel(DeleteLiveChannelRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -2140,7 +2140,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public GetBucketLocationResponse getBucketLocation(GetBucketLocationRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public GetBucketLocationResponse getBucketLocation(GetBucketLocationRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -2231,7 +2231,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public ListLiveChannelResponse listLiveChannel(ListLiveChannelRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public ListLiveChannelResponse listLiveChannel(ListLiveChannelRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -2323,7 +2323,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public GetObjectMetaResponse getObjectMeta(GetObjectMetaRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public GetObjectMetaResponse getObjectMeta(GetObjectMetaRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -2409,7 +2409,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public GetBucketAclResponse getBucketAcl(GetBucketAclRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public GetBucketAclResponse getBucketAcl(GetBucketAclRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -2500,7 +2500,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public ListPartsResponse listParts(ListPartsRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public ListPartsResponse listParts(ListPartsRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -2592,7 +2592,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public GetLiveChannelHistoryResponse getLiveChannelHistory(GetLiveChannelHistoryRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public GetLiveChannelHistoryResponse getLiveChannelHistory(GetLiveChannelHistoryRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -2684,7 +2684,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public GetBucketResponse getBucket(GetBucketRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public GetBucketResponse getBucket(GetBucketRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -2776,7 +2776,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public GetLiveChannelInfoResponse getLiveChannelInfo(GetLiveChannelInfoRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public GetLiveChannelInfoResponse getLiveChannelInfo(GetLiveChannelInfoRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -2867,7 +2867,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public GetLiveChannelStatResponse getLiveChannelStat(GetLiveChannelStatRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public GetLiveChannelStatResponse getLiveChannelStat(GetLiveChannelStatRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -2959,7 +2959,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public DeleteObjectResponse deleteObject(DeleteObjectRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public DeleteObjectResponse deleteObject(DeleteObjectRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -3045,7 +3045,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public AbortMultipartUploadResponse abortMultipartUpload(AbortMultipartUploadRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public AbortMultipartUploadResponse abortMultipartUpload(AbortMultipartUploadRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -3132,7 +3132,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public AppendObjectResponse appendObject(AppendObjectRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public AppendObjectResponse appendObject(AppendObjectRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -3251,7 +3251,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public UploadPartCopyResponse uploadPartCopy(UploadPartCopyRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public UploadPartCopyResponse uploadPartCopy(UploadPartCopyRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -3346,7 +3346,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public GetVodPlaylistResponse getVodPlaylist(GetVodPlaylistRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public GetVodPlaylistResponse getVodPlaylist(GetVodPlaylistRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -3433,7 +3433,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public DeleteBucketCORSResponse deleteBucketCORS(DeleteBucketCORSRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public DeleteBucketCORSResponse deleteBucketCORS(DeleteBucketCORSRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -3519,7 +3519,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public GetObjectResponse getObject(GetObjectRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public GetObjectResponse getObject(GetObjectRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -3611,7 +3611,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public UploadPartResponse uploadPart(UploadPartRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public UploadPartResponse uploadPart(UploadPartRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -3720,7 +3720,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public GetBucketCORSResponse getBucketCORS(GetBucketCORSRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public GetBucketCORSResponse getBucketCORS(GetBucketCORSRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -3811,7 +3811,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public CopyObjectResponse copyObject(CopyObjectRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public CopyObjectResponse copyObject(CopyObjectRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -3906,7 +3906,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public GetObjectTaggingResponse getObjectTagging(GetObjectTaggingRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public GetObjectTaggingResponse getObjectTagging(GetObjectTaggingRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -3997,7 +3997,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public DeleteBucketLifecycleResponse deleteBucketLifecycle(DeleteBucketLifecycleRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public DeleteBucketLifecycleResponse deleteBucketLifecycle(DeleteBucketLifecycleRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -4083,7 +4083,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public DeleteBucketLoggingResponse deleteBucketLogging(DeleteBucketLoggingRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public DeleteBucketLoggingResponse deleteBucketLogging(DeleteBucketLoggingRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -4169,7 +4169,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public DeleteBucketWebsiteResponse deleteBucketWebsite(DeleteBucketWebsiteRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public DeleteBucketWebsiteResponse deleteBucketWebsite(DeleteBucketWebsiteRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -4255,7 +4255,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public GetSymlinkResponse getSymlink(GetSymlinkRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public GetSymlinkResponse getSymlink(GetSymlinkRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -4341,7 +4341,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public GetBucketLifecycleResponse getBucketLifecycle(GetBucketLifecycleRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public GetBucketLifecycleResponse getBucketLifecycle(GetBucketLifecycleRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -4432,7 +4432,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public PutSymlinkResponse putSymlink(PutSymlinkRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public PutSymlinkResponse putSymlink(PutSymlinkRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -4521,7 +4521,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public GetBucketRefererResponse getBucketReferer(GetBucketRefererRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public GetBucketRefererResponse getBucketReferer(GetBucketRefererRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -4612,7 +4612,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public CallbackResponse callback(CallbackRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public CallbackResponse callback(CallbackRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -4698,7 +4698,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public GetBucketLoggingResponse getBucketLogging(GetBucketLoggingRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public GetBucketLoggingResponse getBucketLogging(GetBucketLoggingRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -4789,7 +4789,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public PutObjectAclResponse putObjectAcl(PutObjectAclRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public PutObjectAclResponse putObjectAcl(PutObjectAclRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -4878,7 +4878,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public GetBucketInfoResponse getBucketInfo(GetBucketInfoRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public GetBucketInfoResponse getBucketInfo(GetBucketInfoRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -4969,7 +4969,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public PutLiveChannelStatusResponse putLiveChannelStatus(PutLiveChannelStatusRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public PutLiveChannelStatusResponse putLiveChannelStatus(PutLiveChannelStatusRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -5056,7 +5056,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public InitiateMultipartUploadResponse initiateMultipartUpload(InitiateMultipartUploadRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public InitiateMultipartUploadResponse initiateMultipartUpload(InitiateMultipartUploadRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -5157,7 +5157,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public OptionObjectResponse optionObject(OptionObjectRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public OptionObjectResponse optionObject(OptionObjectRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -5246,7 +5246,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public PostVodPlaylistResponse postVodPlaylist(PostVodPlaylistRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public PostVodPlaylistResponse postVodPlaylist(PostVodPlaylistRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -5333,7 +5333,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public PostObjectResponse postObject(PostObjectRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public PostObjectResponse postObject(PostObjectRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -5422,7 +5422,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public HeadObjectResponse headObject(HeadObjectRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public HeadObjectResponse headObject(HeadObjectRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -5514,7 +5514,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public DeleteObjectTaggingResponse deleteObjectTagging(DeleteObjectTaggingRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public DeleteObjectTaggingResponse deleteObjectTagging(DeleteObjectTaggingRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -5600,7 +5600,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public RestoreObjectResponse restoreObject(RestoreObjectRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public RestoreObjectResponse restoreObject(RestoreObjectRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -5686,7 +5686,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public GetObjectAclResponse getObjectAcl(GetObjectAclRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public GetObjectAclResponse getObjectAcl(GetObjectAclRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -5777,7 +5777,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public PutBucketAclResponse putBucketAcl(PutBucketAclRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public PutBucketAclResponse putBucketAcl(PutBucketAclRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -5866,7 +5866,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public DeleteBucketResponse deleteBucket(DeleteBucketRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public DeleteBucketResponse deleteBucket(DeleteBucketRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -5952,7 +5952,7 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public PutObjectResponse putObject(PutObjectRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) {
+    public PutObjectResponse putObject(PutObjectRequest request, com.aliyun.ossutil.models.RuntimeOptions runtime) throws Exception {
         TeaModel.validateParams(request, "request");
         java.util.Map<String, Object> runtime_ = TeaConverter.buildMap(
             new TeaPair("timeouted", "retry"),
@@ -6070,20 +6070,20 @@ public class Client {
         throw new TeaUnretryableException(_lastRequest);
     }
 
-    public void setUserAgent(String userAgent) {
+    public void setUserAgent(String userAgent) throws Exception {
         this._userAgent = userAgent;
     }
 
-    public void appendUserAgent(String userAgent) {
+    public void appendUserAgent(String userAgent) throws Exception {
         this._userAgent = "" + _userAgent + " " + userAgent + "";
     }
 
-    public String getUserAgent() {
+    public String getUserAgent() throws Exception {
         String userAgent = com.aliyun.teautil.Common.getUserAgent(_userAgent);
         return userAgent;
     }
 
-    public String getAccessKeyId() {
+    public String getAccessKeyId() throws Exception {
         if (com.aliyun.teautil.Common.isUnset(_credential)) {
             return "";
         }
@@ -6092,7 +6092,7 @@ public class Client {
         return accessKeyId;
     }
 
-    public String getAccessKeySecret() {
+    public String getAccessKeySecret() throws Exception {
         if (com.aliyun.teautil.Common.isUnset(_credential)) {
             return "";
         }

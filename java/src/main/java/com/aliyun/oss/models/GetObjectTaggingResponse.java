@@ -14,7 +14,7 @@ public class GetObjectTaggingResponse extends TeaModel {
     @Validation(required = true)
     public GetObjectTaggingResponseTagging tagging;
 
-    public static GetObjectTaggingResponse build(java.util.Map<String, ?> map) {
+    public static GetObjectTaggingResponse build(java.util.Map<String, ?> map) throws Exception {
         GetObjectTaggingResponse self = new GetObjectTaggingResponse();
         return TeaModel.build(map, self);
     }
@@ -44,7 +44,7 @@ public class GetObjectTaggingResponse extends TeaModel {
         @NameInMap("Value")
         public String value;
 
-        public static GetObjectTaggingResponseTaggingTagSetTag build(java.util.Map<String, ?> map) {
+        public static GetObjectTaggingResponseTaggingTagSetTag build(java.util.Map<String, ?> map) throws Exception {
             GetObjectTaggingResponseTaggingTagSetTag self = new GetObjectTaggingResponseTaggingTagSetTag();
             return TeaModel.build(map, self);
         }
@@ -72,7 +72,7 @@ public class GetObjectTaggingResponse extends TeaModel {
         @NameInMap("Tag")
         public java.util.List<GetObjectTaggingResponseTaggingTagSetTag> tag;
 
-        public static GetObjectTaggingResponseTaggingTagSet build(java.util.Map<String, ?> map) {
+        public static GetObjectTaggingResponseTaggingTagSet build(java.util.Map<String, ?> map) throws Exception {
             GetObjectTaggingResponseTaggingTagSet self = new GetObjectTaggingResponseTaggingTagSet();
             return TeaModel.build(map, self);
         }
@@ -93,7 +93,7 @@ public class GetObjectTaggingResponse extends TeaModel {
         @Validation(required = true)
         public GetObjectTaggingResponseTaggingTagSet tagSet;
 
-        public static GetObjectTaggingResponseTagging build(java.util.Map<String, ?> map) {
+        public static GetObjectTaggingResponseTagging build(java.util.Map<String, ?> map) throws Exception {
             GetObjectTaggingResponseTagging self = new GetObjectTaggingResponseTagging();
             return TeaModel.build(map, self);
         }

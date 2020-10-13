@@ -6,7 +6,7 @@ import com.aliyun.tea.*;
 public class DeleteObjectRequest extends TeaModel {
     // BucketName
     @NameInMap("BucketName")
-    @Validation(required = true)
+    @Validation(required = true, pattern = "[a-zA-Z0-9\\-\\_]+")
     public String bucketName;
 
     // ObjectName
@@ -14,7 +14,7 @@ public class DeleteObjectRequest extends TeaModel {
     @Validation(required = true)
     public String objectName;
 
-    public static DeleteObjectRequest build(java.util.Map<String, ?> map) {
+    public static DeleteObjectRequest build(java.util.Map<String, ?> map) throws Exception {
         DeleteObjectRequest self = new DeleteObjectRequest();
         return TeaModel.build(map, self);
     }

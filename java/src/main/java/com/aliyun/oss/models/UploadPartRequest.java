@@ -6,7 +6,7 @@ import com.aliyun.tea.*;
 public class UploadPartRequest extends TeaModel {
     // BucketName
     @NameInMap("BucketName")
-    @Validation(required = true)
+    @Validation(required = true, pattern = "[a-zA-Z0-9\\-\\_]+")
     public String bucketName;
 
     // ObjectName
@@ -23,7 +23,7 @@ public class UploadPartRequest extends TeaModel {
     @Validation(required = true)
     public UploadPartRequestFilter filter;
 
-    public static UploadPartRequest build(java.util.Map<String, ?> map) {
+    public static UploadPartRequest build(java.util.Map<String, ?> map) throws Exception {
         UploadPartRequest self = new UploadPartRequest();
         return TeaModel.build(map, self);
     }
@@ -71,7 +71,7 @@ public class UploadPartRequest extends TeaModel {
         @Validation(required = true)
         public String uploadId;
 
-        public static UploadPartRequestFilter build(java.util.Map<String, ?> map) {
+        public static UploadPartRequestFilter build(java.util.Map<String, ?> map) throws Exception {
             UploadPartRequestFilter self = new UploadPartRequestFilter();
             return TeaModel.build(map, self);
         }

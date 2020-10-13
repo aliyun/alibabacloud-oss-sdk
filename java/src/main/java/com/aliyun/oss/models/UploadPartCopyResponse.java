@@ -14,7 +14,7 @@ public class UploadPartCopyResponse extends TeaModel {
     @Validation(required = true)
     public UploadPartCopyResponseCopyPartResult copyPartResult;
 
-    public static UploadPartCopyResponse build(java.util.Map<String, ?> map) {
+    public static UploadPartCopyResponse build(java.util.Map<String, ?> map) throws Exception {
         UploadPartCopyResponse self = new UploadPartCopyResponse();
         return TeaModel.build(map, self);
     }
@@ -44,7 +44,7 @@ public class UploadPartCopyResponse extends TeaModel {
         @NameInMap("ETag")
         public String eTag;
 
-        public static UploadPartCopyResponseCopyPartResult build(java.util.Map<String, ?> map) {
+        public static UploadPartCopyResponseCopyPartResult build(java.util.Map<String, ?> map) throws Exception {
             UploadPartCopyResponseCopyPartResult self = new UploadPartCopyResponseCopyPartResult();
             return TeaModel.build(map, self);
         }

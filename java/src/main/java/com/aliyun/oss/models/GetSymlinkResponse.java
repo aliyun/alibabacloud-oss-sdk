@@ -14,7 +14,7 @@ public class GetSymlinkResponse extends TeaModel {
     @Validation(required = true)
     public String symlinkTarget;
 
-    public static GetSymlinkResponse build(java.util.Map<String, ?> map) {
+    public static GetSymlinkResponse build(java.util.Map<String, ?> map) throws Exception {
         GetSymlinkResponse self = new GetSymlinkResponse();
         return TeaModel.build(map, self);
     }

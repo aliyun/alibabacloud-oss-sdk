@@ -14,7 +14,7 @@ public class GetServiceResponse extends TeaModel {
     @Validation(required = true)
     public GetServiceResponseListAllMyBucketsResult listAllMyBucketsResult;
 
-    public static GetServiceResponse build(java.util.Map<String, ?> map) {
+    public static GetServiceResponse build(java.util.Map<String, ?> map) throws Exception {
         GetServiceResponse self = new GetServiceResponse();
         return TeaModel.build(map, self);
     }
@@ -44,7 +44,7 @@ public class GetServiceResponse extends TeaModel {
         @NameInMap("DisplayName")
         public String displayName;
 
-        public static GetServiceResponseListAllMyBucketsResultOwner build(java.util.Map<String, ?> map) {
+        public static GetServiceResponseListAllMyBucketsResultOwner build(java.util.Map<String, ?> map) throws Exception {
             GetServiceResponseListAllMyBucketsResultOwner self = new GetServiceResponseListAllMyBucketsResultOwner();
             return TeaModel.build(map, self);
         }
@@ -92,7 +92,7 @@ public class GetServiceResponse extends TeaModel {
         @NameInMap("StorageClass")
         public String storageClass;
 
-        public static GetServiceResponseListAllMyBucketsResultBucketsBucket build(java.util.Map<String, ?> map) {
+        public static GetServiceResponseListAllMyBucketsResultBucketsBucket build(java.util.Map<String, ?> map) throws Exception {
             GetServiceResponseListAllMyBucketsResultBucketsBucket self = new GetServiceResponseListAllMyBucketsResultBucketsBucket();
             return TeaModel.build(map, self);
         }
@@ -152,7 +152,7 @@ public class GetServiceResponse extends TeaModel {
         @NameInMap("Bucket")
         public java.util.List<GetServiceResponseListAllMyBucketsResultBucketsBucket> bucket;
 
-        public static GetServiceResponseListAllMyBucketsResultBuckets build(java.util.Map<String, ?> map) {
+        public static GetServiceResponseListAllMyBucketsResultBuckets build(java.util.Map<String, ?> map) throws Exception {
             GetServiceResponseListAllMyBucketsResultBuckets self = new GetServiceResponseListAllMyBucketsResultBuckets();
             return TeaModel.build(map, self);
         }
@@ -198,7 +198,7 @@ public class GetServiceResponse extends TeaModel {
         @Validation(required = true)
         public GetServiceResponseListAllMyBucketsResultBuckets buckets;
 
-        public static GetServiceResponseListAllMyBucketsResult build(java.util.Map<String, ?> map) {
+        public static GetServiceResponseListAllMyBucketsResult build(java.util.Map<String, ?> map) throws Exception {
             GetServiceResponseListAllMyBucketsResult self = new GetServiceResponseListAllMyBucketsResult();
             return TeaModel.build(map, self);
         }

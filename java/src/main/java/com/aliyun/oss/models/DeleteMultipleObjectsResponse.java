@@ -14,7 +14,7 @@ public class DeleteMultipleObjectsResponse extends TeaModel {
     @Validation(required = true)
     public DeleteMultipleObjectsResponseDeleteResult deleteResult;
 
-    public static DeleteMultipleObjectsResponse build(java.util.Map<String, ?> map) {
+    public static DeleteMultipleObjectsResponse build(java.util.Map<String, ?> map) throws Exception {
         DeleteMultipleObjectsResponse self = new DeleteMultipleObjectsResponse();
         return TeaModel.build(map, self);
     }
@@ -40,7 +40,7 @@ public class DeleteMultipleObjectsResponse extends TeaModel {
         @NameInMap("Key")
         public String key;
 
-        public static DeleteMultipleObjectsResponseDeleteResultDeleted build(java.util.Map<String, ?> map) {
+        public static DeleteMultipleObjectsResponseDeleteResultDeleted build(java.util.Map<String, ?> map) throws Exception {
             DeleteMultipleObjectsResponseDeleteResultDeleted self = new DeleteMultipleObjectsResponseDeleteResultDeleted();
             return TeaModel.build(map, self);
         }
@@ -68,7 +68,7 @@ public class DeleteMultipleObjectsResponse extends TeaModel {
         @NameInMap("Deleted")
         public java.util.List<DeleteMultipleObjectsResponseDeleteResultDeleted> deleted;
 
-        public static DeleteMultipleObjectsResponseDeleteResult build(java.util.Map<String, ?> map) {
+        public static DeleteMultipleObjectsResponseDeleteResult build(java.util.Map<String, ?> map) throws Exception {
             DeleteMultipleObjectsResponseDeleteResult self = new DeleteMultipleObjectsResponseDeleteResult();
             return TeaModel.build(map, self);
         }

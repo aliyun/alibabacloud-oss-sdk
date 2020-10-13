@@ -14,7 +14,7 @@ public class GetLiveChannelStatResponse extends TeaModel {
     @Validation(required = true)
     public GetLiveChannelStatResponseLiveChannelStat liveChannelStat;
 
-    public static GetLiveChannelStatResponse build(java.util.Map<String, ?> map) {
+    public static GetLiveChannelStatResponse build(java.util.Map<String, ?> map) throws Exception {
         GetLiveChannelStatResponse self = new GetLiveChannelStatResponse();
         return TeaModel.build(map, self);
     }
@@ -56,7 +56,7 @@ public class GetLiveChannelStatResponse extends TeaModel {
         @NameInMap("Codec")
         public String codec;
 
-        public static GetLiveChannelStatResponseLiveChannelStatVideo build(java.util.Map<String, ?> map) {
+        public static GetLiveChannelStatResponseLiveChannelStatVideo build(java.util.Map<String, ?> map) throws Exception {
             GetLiveChannelStatResponseLiveChannelStatVideo self = new GetLiveChannelStatResponseLiveChannelStatVideo();
             return TeaModel.build(map, self);
         }
@@ -116,7 +116,7 @@ public class GetLiveChannelStatResponse extends TeaModel {
         @NameInMap("Codec")
         public String codec;
 
-        public static GetLiveChannelStatResponseLiveChannelStatAudio build(java.util.Map<String, ?> map) {
+        public static GetLiveChannelStatResponseLiveChannelStatAudio build(java.util.Map<String, ?> map) throws Exception {
             GetLiveChannelStatResponseLiveChannelStatAudio self = new GetLiveChannelStatResponseLiveChannelStatAudio();
             return TeaModel.build(map, self);
         }
@@ -170,7 +170,7 @@ public class GetLiveChannelStatResponse extends TeaModel {
         @Validation(required = true)
         public GetLiveChannelStatResponseLiveChannelStatAudio audio;
 
-        public static GetLiveChannelStatResponseLiveChannelStat build(java.util.Map<String, ?> map) {
+        public static GetLiveChannelStatResponseLiveChannelStat build(java.util.Map<String, ?> map) throws Exception {
             GetLiveChannelStatResponseLiveChannelStat self = new GetLiveChannelStatResponseLiveChannelStat();
             return TeaModel.build(map, self);
         }

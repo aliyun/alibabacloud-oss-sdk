@@ -9,7 +9,7 @@ public class DeleteBucketTagsResponse extends TeaModel {
     @Validation(required = true)
     public String requestId;
 
-    public static DeleteBucketTagsResponse build(java.util.Map<String, ?> map) {
+    public static DeleteBucketTagsResponse build(java.util.Map<String, ?> map) throws Exception {
         DeleteBucketTagsResponse self = new DeleteBucketTagsResponse();
         return TeaModel.build(map, self);
     }

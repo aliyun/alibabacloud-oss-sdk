@@ -6,14 +6,14 @@ import com.aliyun.tea.*;
 public class PutBucketTagsRequest extends TeaModel {
     // BucketName
     @NameInMap("BucketName")
-    @Validation(required = true)
+    @Validation(required = true, pattern = "[a-zA-Z0-9\\-\\_]+")
     public String bucketName;
 
     // Body
     @NameInMap("Body")
     public PutBucketTagsRequestBody body;
 
-    public static PutBucketTagsRequest build(java.util.Map<String, ?> map) {
+    public static PutBucketTagsRequest build(java.util.Map<String, ?> map) throws Exception {
         PutBucketTagsRequest self = new PutBucketTagsRequest();
         return TeaModel.build(map, self);
     }
@@ -43,7 +43,7 @@ public class PutBucketTagsRequest extends TeaModel {
         @NameInMap("Value")
         public String value;
 
-        public static PutBucketTagsRequestBodyTaggingTagSetTag build(java.util.Map<String, ?> map) {
+        public static PutBucketTagsRequestBodyTaggingTagSetTag build(java.util.Map<String, ?> map) throws Exception {
             PutBucketTagsRequestBodyTaggingTagSetTag self = new PutBucketTagsRequestBodyTaggingTagSetTag();
             return TeaModel.build(map, self);
         }
@@ -71,7 +71,7 @@ public class PutBucketTagsRequest extends TeaModel {
         @NameInMap("Tag")
         public java.util.List<PutBucketTagsRequestBodyTaggingTagSetTag> tag;
 
-        public static PutBucketTagsRequestBodyTaggingTagSet build(java.util.Map<String, ?> map) {
+        public static PutBucketTagsRequestBodyTaggingTagSet build(java.util.Map<String, ?> map) throws Exception {
             PutBucketTagsRequestBodyTaggingTagSet self = new PutBucketTagsRequestBodyTaggingTagSet();
             return TeaModel.build(map, self);
         }
@@ -91,7 +91,7 @@ public class PutBucketTagsRequest extends TeaModel {
         @NameInMap("TagSet")
         public PutBucketTagsRequestBodyTaggingTagSet tagSet;
 
-        public static PutBucketTagsRequestBodyTagging build(java.util.Map<String, ?> map) {
+        public static PutBucketTagsRequestBodyTagging build(java.util.Map<String, ?> map) throws Exception {
             PutBucketTagsRequestBodyTagging self = new PutBucketTagsRequestBodyTagging();
             return TeaModel.build(map, self);
         }
@@ -112,7 +112,7 @@ public class PutBucketTagsRequest extends TeaModel {
         @Validation(required = true)
         public PutBucketTagsRequestBodyTagging tagging;
 
-        public static PutBucketTagsRequestBody build(java.util.Map<String, ?> map) {
+        public static PutBucketTagsRequestBody build(java.util.Map<String, ?> map) throws Exception {
             PutBucketTagsRequestBody self = new PutBucketTagsRequestBody();
             return TeaModel.build(map, self);
         }

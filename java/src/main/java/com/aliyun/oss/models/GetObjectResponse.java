@@ -34,7 +34,7 @@ public class GetObjectResponse extends TeaModel {
     @Validation(required = true)
     public java.io.InputStream body;
 
-    public static GetObjectResponse build(java.util.Map<String, ?> map) {
+    public static GetObjectResponse build(java.util.Map<String, ?> map) throws Exception {
         GetObjectResponse self = new GetObjectResponse();
         return TeaModel.build(map, self);
     }

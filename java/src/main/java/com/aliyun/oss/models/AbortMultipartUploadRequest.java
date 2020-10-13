@@ -6,7 +6,7 @@ import com.aliyun.tea.*;
 public class AbortMultipartUploadRequest extends TeaModel {
     // BucketName
     @NameInMap("BucketName")
-    @Validation(required = true)
+    @Validation(required = true, pattern = "[a-zA-Z0-9\\-\\_]+")
     public String bucketName;
 
     // ObjectName
@@ -19,7 +19,7 @@ public class AbortMultipartUploadRequest extends TeaModel {
     @Validation(required = true)
     public AbortMultipartUploadRequestFilter filter;
 
-    public static AbortMultipartUploadRequest build(java.util.Map<String, ?> map) {
+    public static AbortMultipartUploadRequest build(java.util.Map<String, ?> map) throws Exception {
         AbortMultipartUploadRequest self = new AbortMultipartUploadRequest();
         return TeaModel.build(map, self);
     }
@@ -54,7 +54,7 @@ public class AbortMultipartUploadRequest extends TeaModel {
         @Validation(required = true)
         public String uploadId;
 
-        public static AbortMultipartUploadRequestFilter build(java.util.Map<String, ?> map) {
+        public static AbortMultipartUploadRequestFilter build(java.util.Map<String, ?> map) throws Exception {
             AbortMultipartUploadRequestFilter self = new AbortMultipartUploadRequestFilter();
             return TeaModel.build(map, self);
         }

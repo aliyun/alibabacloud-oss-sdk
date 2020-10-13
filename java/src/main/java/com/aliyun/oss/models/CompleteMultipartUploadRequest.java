@@ -6,7 +6,7 @@ import com.aliyun.tea.*;
 public class CompleteMultipartUploadRequest extends TeaModel {
     // BucketName
     @NameInMap("BucketName")
-    @Validation(required = true)
+    @Validation(required = true, pattern = "[a-zA-Z0-9\\-\\_]+")
     public String bucketName;
 
     // ObjectName
@@ -23,7 +23,7 @@ public class CompleteMultipartUploadRequest extends TeaModel {
     @NameInMap("Body")
     public CompleteMultipartUploadRequestBody body;
 
-    public static CompleteMultipartUploadRequest build(java.util.Map<String, ?> map) {
+    public static CompleteMultipartUploadRequest build(java.util.Map<String, ?> map) throws Exception {
         CompleteMultipartUploadRequest self = new CompleteMultipartUploadRequest();
         return TeaModel.build(map, self);
     }
@@ -70,7 +70,7 @@ public class CompleteMultipartUploadRequest extends TeaModel {
         @NameInMap("Encoding-type")
         public String encodingType;
 
-        public static CompleteMultipartUploadRequestFilter build(java.util.Map<String, ?> map) {
+        public static CompleteMultipartUploadRequestFilter build(java.util.Map<String, ?> map) throws Exception {
             CompleteMultipartUploadRequestFilter self = new CompleteMultipartUploadRequestFilter();
             return TeaModel.build(map, self);
         }
@@ -102,7 +102,7 @@ public class CompleteMultipartUploadRequest extends TeaModel {
         @NameInMap("ETag")
         public String eTag;
 
-        public static CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart build(java.util.Map<String, ?> map) {
+        public static CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart build(java.util.Map<String, ?> map) throws Exception {
             CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart self = new CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart();
             return TeaModel.build(map, self);
         }
@@ -130,7 +130,7 @@ public class CompleteMultipartUploadRequest extends TeaModel {
         @NameInMap("Part")
         public java.util.List<CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart> part;
 
-        public static CompleteMultipartUploadRequestBodyCompleteMultipartUpload build(java.util.Map<String, ?> map) {
+        public static CompleteMultipartUploadRequestBodyCompleteMultipartUpload build(java.util.Map<String, ?> map) throws Exception {
             CompleteMultipartUploadRequestBodyCompleteMultipartUpload self = new CompleteMultipartUploadRequestBodyCompleteMultipartUpload();
             return TeaModel.build(map, self);
         }
@@ -151,7 +151,7 @@ public class CompleteMultipartUploadRequest extends TeaModel {
         @Validation(required = true)
         public CompleteMultipartUploadRequestBodyCompleteMultipartUpload completeMultipartUpload;
 
-        public static CompleteMultipartUploadRequestBody build(java.util.Map<String, ?> map) {
+        public static CompleteMultipartUploadRequestBody build(java.util.Map<String, ?> map) throws Exception {
             CompleteMultipartUploadRequestBody self = new CompleteMultipartUploadRequestBody();
             return TeaModel.build(map, self);
         }

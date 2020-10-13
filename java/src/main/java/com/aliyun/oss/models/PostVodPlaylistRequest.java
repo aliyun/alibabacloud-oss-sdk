@@ -6,7 +6,7 @@ import com.aliyun.tea.*;
 public class PostVodPlaylistRequest extends TeaModel {
     // BucketName
     @NameInMap("BucketName")
-    @Validation(required = true)
+    @Validation(required = true, pattern = "[a-zA-Z0-9\\-\\_]+")
     public String bucketName;
 
     // ChannelName
@@ -24,7 +24,7 @@ public class PostVodPlaylistRequest extends TeaModel {
     @Validation(required = true)
     public PostVodPlaylistRequestFilter filter;
 
-    public static PostVodPlaylistRequest build(java.util.Map<String, ?> map) {
+    public static PostVodPlaylistRequest build(java.util.Map<String, ?> map) throws Exception {
         PostVodPlaylistRequest self = new PostVodPlaylistRequest();
         return TeaModel.build(map, self);
     }
@@ -72,7 +72,7 @@ public class PostVodPlaylistRequest extends TeaModel {
         @Validation(required = true)
         public String startTime;
 
-        public static PostVodPlaylistRequestFilter build(java.util.Map<String, ?> map) {
+        public static PostVodPlaylistRequestFilter build(java.util.Map<String, ?> map) throws Exception {
             PostVodPlaylistRequestFilter self = new PostVodPlaylistRequestFilter();
             return TeaModel.build(map, self);
         }

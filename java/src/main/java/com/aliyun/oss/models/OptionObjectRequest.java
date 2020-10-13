@@ -6,7 +6,7 @@ import com.aliyun.tea.*;
 public class OptionObjectRequest extends TeaModel {
     // BucketName
     @NameInMap("BucketName")
-    @Validation(required = true)
+    @Validation(required = true, pattern = "[a-zA-Z0-9\\-\\_]+")
     public String bucketName;
 
     // ObjectName
@@ -19,7 +19,7 @@ public class OptionObjectRequest extends TeaModel {
     @Validation(required = true)
     public OptionObjectRequestHeader header;
 
-    public static OptionObjectRequest build(java.util.Map<String, ?> map) {
+    public static OptionObjectRequest build(java.util.Map<String, ?> map) throws Exception {
         OptionObjectRequest self = new OptionObjectRequest();
         return TeaModel.build(map, self);
     }
@@ -64,7 +64,7 @@ public class OptionObjectRequest extends TeaModel {
         @Validation(required = true)
         public String accessControlRequestHeaders;
 
-        public static OptionObjectRequestHeader build(java.util.Map<String, ?> map) {
+        public static OptionObjectRequestHeader build(java.util.Map<String, ?> map) throws Exception {
             OptionObjectRequestHeader self = new OptionObjectRequestHeader();
             return TeaModel.build(map, self);
         }

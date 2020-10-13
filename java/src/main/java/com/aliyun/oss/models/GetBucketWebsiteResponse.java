@@ -14,7 +14,7 @@ public class GetBucketWebsiteResponse extends TeaModel {
     @Validation(required = true)
     public GetBucketWebsiteResponseWebsiteConfiguration websiteConfiguration;
 
-    public static GetBucketWebsiteResponse build(java.util.Map<String, ?> map) {
+    public static GetBucketWebsiteResponse build(java.util.Map<String, ?> map) throws Exception {
         GetBucketWebsiteResponse self = new GetBucketWebsiteResponse();
         return TeaModel.build(map, self);
     }
@@ -40,7 +40,7 @@ public class GetBucketWebsiteResponse extends TeaModel {
         @NameInMap("Suffix")
         public String suffix;
 
-        public static GetBucketWebsiteResponseWebsiteConfigurationIndexDocument build(java.util.Map<String, ?> map) {
+        public static GetBucketWebsiteResponseWebsiteConfigurationIndexDocument build(java.util.Map<String, ?> map) throws Exception {
             GetBucketWebsiteResponseWebsiteConfigurationIndexDocument self = new GetBucketWebsiteResponseWebsiteConfigurationIndexDocument();
             return TeaModel.build(map, self);
         }
@@ -60,7 +60,7 @@ public class GetBucketWebsiteResponse extends TeaModel {
         @NameInMap("Key")
         public String key;
 
-        public static GetBucketWebsiteResponseWebsiteConfigurationErrorDocument build(java.util.Map<String, ?> map) {
+        public static GetBucketWebsiteResponseWebsiteConfigurationErrorDocument build(java.util.Map<String, ?> map) throws Exception {
             GetBucketWebsiteResponseWebsiteConfigurationErrorDocument self = new GetBucketWebsiteResponseWebsiteConfigurationErrorDocument();
             return TeaModel.build(map, self);
         }
@@ -84,7 +84,7 @@ public class GetBucketWebsiteResponse extends TeaModel {
         @NameInMap("Equals")
         public String equals;
 
-        public static GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader build(java.util.Map<String, ?> map) {
+        public static GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader build(java.util.Map<String, ?> map) throws Exception {
             GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader self = new GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader();
             return TeaModel.build(map, self);
         }
@@ -121,7 +121,7 @@ public class GetBucketWebsiteResponse extends TeaModel {
         @Validation(required = true)
         public GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader includeHeader;
 
-        public static GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleCondition build(java.util.Map<String, ?> map) {
+        public static GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleCondition build(java.util.Map<String, ?> map) throws Exception {
             GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleCondition self = new GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleCondition();
             return TeaModel.build(map, self);
         }
@@ -161,7 +161,7 @@ public class GetBucketWebsiteResponse extends TeaModel {
         @NameInMap("Value")
         public String value;
 
-        public static GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet build(java.util.Map<String, ?> map) {
+        public static GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet build(java.util.Map<String, ?> map) throws Exception {
             GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet self = new GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet();
             return TeaModel.build(map, self);
         }
@@ -202,7 +202,7 @@ public class GetBucketWebsiteResponse extends TeaModel {
         @Validation(required = true)
         public GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet set;
 
-        public static GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders build(java.util.Map<String, ?> map) {
+        public static GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders build(java.util.Map<String, ?> map) throws Exception {
             GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders self = new GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders();
             return TeaModel.build(map, self);
         }
@@ -291,7 +291,7 @@ public class GetBucketWebsiteResponse extends TeaModel {
         @Validation(required = true)
         public GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders mirrorHeaders;
 
-        public static GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect build(java.util.Map<String, ?> map) {
+        public static GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect build(java.util.Map<String, ?> map) throws Exception {
             GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect self = new GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect();
             return TeaModel.build(map, self);
         }
@@ -409,7 +409,7 @@ public class GetBucketWebsiteResponse extends TeaModel {
         @Validation(required = true)
         public GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect redirect;
 
-        public static GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule build(java.util.Map<String, ?> map) {
+        public static GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule build(java.util.Map<String, ?> map) throws Exception {
             GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule self = new GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule();
             return TeaModel.build(map, self);
         }
@@ -445,7 +445,7 @@ public class GetBucketWebsiteResponse extends TeaModel {
         @NameInMap("RoutingRule")
         public java.util.List<GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule> routingRule;
 
-        public static GetBucketWebsiteResponseWebsiteConfigurationRoutingRules build(java.util.Map<String, ?> map) {
+        public static GetBucketWebsiteResponseWebsiteConfigurationRoutingRules build(java.util.Map<String, ?> map) throws Exception {
             GetBucketWebsiteResponseWebsiteConfigurationRoutingRules self = new GetBucketWebsiteResponseWebsiteConfigurationRoutingRules();
             return TeaModel.build(map, self);
         }
@@ -476,7 +476,7 @@ public class GetBucketWebsiteResponse extends TeaModel {
         @Validation(required = true)
         public GetBucketWebsiteResponseWebsiteConfigurationRoutingRules routingRules;
 
-        public static GetBucketWebsiteResponseWebsiteConfiguration build(java.util.Map<String, ?> map) {
+        public static GetBucketWebsiteResponseWebsiteConfiguration build(java.util.Map<String, ?> map) throws Exception {
             GetBucketWebsiteResponseWebsiteConfiguration self = new GetBucketWebsiteResponseWebsiteConfiguration();
             return TeaModel.build(map, self);
         }

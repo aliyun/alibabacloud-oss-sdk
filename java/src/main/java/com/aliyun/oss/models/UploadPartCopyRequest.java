@@ -6,7 +6,7 @@ import com.aliyun.tea.*;
 public class UploadPartCopyRequest extends TeaModel {
     // BucketName
     @NameInMap("BucketName")
-    @Validation(required = true)
+    @Validation(required = true, pattern = "[a-zA-Z0-9\\-\\_]+")
     public String bucketName;
 
     // ObjectName
@@ -24,7 +24,7 @@ public class UploadPartCopyRequest extends TeaModel {
     @Validation(required = true)
     public UploadPartCopyRequestHeader header;
 
-    public static UploadPartCopyRequest build(java.util.Map<String, ?> map) {
+    public static UploadPartCopyRequest build(java.util.Map<String, ?> map) throws Exception {
         UploadPartCopyRequest self = new UploadPartCopyRequest();
         return TeaModel.build(map, self);
     }
@@ -72,7 +72,7 @@ public class UploadPartCopyRequest extends TeaModel {
         @Validation(required = true)
         public String uploadId;
 
-        public static UploadPartCopyRequestFilter build(java.util.Map<String, ?> map) {
+        public static UploadPartCopyRequestFilter build(java.util.Map<String, ?> map) throws Exception {
             UploadPartCopyRequestFilter self = new UploadPartCopyRequestFilter();
             return TeaModel.build(map, self);
         }
@@ -122,7 +122,7 @@ public class UploadPartCopyRequest extends TeaModel {
         @NameInMap("x-oss-copy-source-if-modified-since")
         public String copySourceIfModifiedSince;
 
-        public static UploadPartCopyRequestHeader build(java.util.Map<String, ?> map) {
+        public static UploadPartCopyRequestHeader build(java.util.Map<String, ?> map) throws Exception {
             UploadPartCopyRequestHeader self = new UploadPartCopyRequestHeader();
             return TeaModel.build(map, self);
         }

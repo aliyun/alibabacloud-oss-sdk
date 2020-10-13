@@ -6,10 +6,10 @@ import com.aliyun.tea.*;
 public class GetBucketTagsRequest extends TeaModel {
     // BucketName
     @NameInMap("BucketName")
-    @Validation(required = true)
+    @Validation(required = true, pattern = "[a-zA-Z0-9\\-\\_]+")
     public String bucketName;
 
-    public static GetBucketTagsRequest build(java.util.Map<String, ?> map) {
+    public static GetBucketTagsRequest build(java.util.Map<String, ?> map) throws Exception {
         GetBucketTagsRequest self = new GetBucketTagsRequest();
         return TeaModel.build(map, self);
     }

@@ -19,7 +19,7 @@ public class AppendObjectResponse extends TeaModel {
     @Validation(required = true)
     public String hashCrc64ecma;
 
-    public static AppendObjectResponse build(java.util.Map<String, ?> map) {
+    public static AppendObjectResponse build(java.util.Map<String, ?> map) throws Exception {
         AppendObjectResponse self = new AppendObjectResponse();
         return TeaModel.build(map, self);
     }
