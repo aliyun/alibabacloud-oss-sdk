@@ -9,7 +9,7 @@ public class DeleteBucketCORSResponse extends TeaModel {
     @Validation(required = true)
     public String requestId;
 
-    public static DeleteBucketCORSResponse build(java.util.Map<String, ?> map) {
+    public static DeleteBucketCORSResponse build(java.util.Map<String, ?> map) throws Exception {
         DeleteBucketCORSResponse self = new DeleteBucketCORSResponse();
         return TeaModel.build(map, self);
     }

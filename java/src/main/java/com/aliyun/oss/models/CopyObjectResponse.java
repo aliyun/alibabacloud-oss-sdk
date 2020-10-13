@@ -14,7 +14,7 @@ public class CopyObjectResponse extends TeaModel {
     @Validation(required = true)
     public CopyObjectResponseCopyObjectResult copyObjectResult;
 
-    public static CopyObjectResponse build(java.util.Map<String, ?> map) {
+    public static CopyObjectResponse build(java.util.Map<String, ?> map) throws Exception {
         CopyObjectResponse self = new CopyObjectResponse();
         return TeaModel.build(map, self);
     }
@@ -44,7 +44,7 @@ public class CopyObjectResponse extends TeaModel {
         @NameInMap("ETag")
         public String eTag;
 
-        public static CopyObjectResponseCopyObjectResult build(java.util.Map<String, ?> map) {
+        public static CopyObjectResponseCopyObjectResult build(java.util.Map<String, ?> map) throws Exception {
             CopyObjectResponseCopyObjectResult self = new CopyObjectResponseCopyObjectResult();
             return TeaModel.build(map, self);
         }

@@ -6,7 +6,7 @@ import com.aliyun.tea.*;
 public class PutLiveChannelRequest extends TeaModel {
     // BucketName
     @NameInMap("BucketName")
-    @Validation(required = true)
+    @Validation(required = true, pattern = "[a-zA-Z0-9\\-\\_]+")
     public String bucketName;
 
     // ChannelName
@@ -18,7 +18,7 @@ public class PutLiveChannelRequest extends TeaModel {
     @NameInMap("Body")
     public PutLiveChannelRequestBody body;
 
-    public static PutLiveChannelRequest build(java.util.Map<String, ?> map) {
+    public static PutLiveChannelRequest build(java.util.Map<String, ?> map) throws Exception {
         PutLiveChannelRequest self = new PutLiveChannelRequest();
         return TeaModel.build(map, self);
     }
@@ -64,7 +64,7 @@ public class PutLiveChannelRequest extends TeaModel {
         @NameInMap("PlaylistName")
         public String playlistName;
 
-        public static PutLiveChannelRequestBodyLiveChannelConfigurationTarget build(java.util.Map<String, ?> map) {
+        public static PutLiveChannelRequestBodyLiveChannelConfigurationTarget build(java.util.Map<String, ?> map) throws Exception {
             PutLiveChannelRequestBodyLiveChannelConfigurationTarget self = new PutLiveChannelRequestBodyLiveChannelConfigurationTarget();
             return TeaModel.build(map, self);
         }
@@ -120,7 +120,7 @@ public class PutLiveChannelRequest extends TeaModel {
         @NameInMap("Interval")
         public String interval;
 
-        public static PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot build(java.util.Map<String, ?> map) {
+        public static PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot build(java.util.Map<String, ?> map) throws Exception {
             PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot self = new PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot();
             return TeaModel.build(map, self);
         }
@@ -176,7 +176,7 @@ public class PutLiveChannelRequest extends TeaModel {
         @NameInMap("Status")
         public String status;
 
-        public static PutLiveChannelRequestBodyLiveChannelConfiguration build(java.util.Map<String, ?> map) {
+        public static PutLiveChannelRequestBodyLiveChannelConfiguration build(java.util.Map<String, ?> map) throws Exception {
             PutLiveChannelRequestBodyLiveChannelConfiguration self = new PutLiveChannelRequestBodyLiveChannelConfiguration();
             return TeaModel.build(map, self);
         }
@@ -221,7 +221,7 @@ public class PutLiveChannelRequest extends TeaModel {
         @Validation(required = true)
         public PutLiveChannelRequestBodyLiveChannelConfiguration liveChannelConfiguration;
 
-        public static PutLiveChannelRequestBody build(java.util.Map<String, ?> map) {
+        public static PutLiveChannelRequestBody build(java.util.Map<String, ?> map) throws Exception {
             PutLiveChannelRequestBody self = new PutLiveChannelRequestBody();
             return TeaModel.build(map, self);
         }

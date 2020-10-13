@@ -6,7 +6,7 @@ import com.aliyun.tea.*;
 public class PutBucketAclRequest extends TeaModel {
     // BucketName
     @NameInMap("BucketName")
-    @Validation(required = true)
+    @Validation(required = true, pattern = "[a-zA-Z0-9\\-\\_]+")
     public String bucketName;
 
     // Header
@@ -14,7 +14,7 @@ public class PutBucketAclRequest extends TeaModel {
     @Validation(required = true)
     public PutBucketAclRequestHeader header;
 
-    public static PutBucketAclRequest build(java.util.Map<String, ?> map) {
+    public static PutBucketAclRequest build(java.util.Map<String, ?> map) throws Exception {
         PutBucketAclRequest self = new PutBucketAclRequest();
         return TeaModel.build(map, self);
     }
@@ -41,7 +41,7 @@ public class PutBucketAclRequest extends TeaModel {
         @Validation(required = true)
         public String acl;
 
-        public static PutBucketAclRequestHeader build(java.util.Map<String, ?> map) {
+        public static PutBucketAclRequestHeader build(java.util.Map<String, ?> map) throws Exception {
             PutBucketAclRequestHeader self = new PutBucketAclRequestHeader();
             return TeaModel.build(map, self);
         }

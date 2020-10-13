@@ -14,7 +14,7 @@ public class ListLiveChannelResponse extends TeaModel {
     @Validation(required = true)
     public ListLiveChannelResponseListLiveChannelResult listLiveChannelResult;
 
-    public static ListLiveChannelResponse build(java.util.Map<String, ?> map) {
+    public static ListLiveChannelResponse build(java.util.Map<String, ?> map) throws Exception {
         ListLiveChannelResponse self = new ListLiveChannelResponse();
         return TeaModel.build(map, self);
     }
@@ -40,7 +40,7 @@ public class ListLiveChannelResponse extends TeaModel {
         @NameInMap("Url")
         public String url;
 
-        public static ListLiveChannelResponseListLiveChannelResultLiveChannelPublishUrls build(java.util.Map<String, ?> map) {
+        public static ListLiveChannelResponseListLiveChannelResultLiveChannelPublishUrls build(java.util.Map<String, ?> map) throws Exception {
             ListLiveChannelResponseListLiveChannelResultLiveChannelPublishUrls self = new ListLiveChannelResponseListLiveChannelResultLiveChannelPublishUrls();
             return TeaModel.build(map, self);
         }
@@ -60,7 +60,7 @@ public class ListLiveChannelResponse extends TeaModel {
         @NameInMap("Url")
         public String url;
 
-        public static ListLiveChannelResponseListLiveChannelResultLiveChannelPlayUrls build(java.util.Map<String, ?> map) {
+        public static ListLiveChannelResponseListLiveChannelResultLiveChannelPlayUrls build(java.util.Map<String, ?> map) throws Exception {
             ListLiveChannelResponseListLiveChannelResultLiveChannelPlayUrls self = new ListLiveChannelResponseListLiveChannelResultLiveChannelPlayUrls();
             return TeaModel.build(map, self);
         }
@@ -102,7 +102,7 @@ public class ListLiveChannelResponse extends TeaModel {
         @Validation(required = true)
         public ListLiveChannelResponseListLiveChannelResultLiveChannelPlayUrls playUrls;
 
-        public static ListLiveChannelResponseListLiveChannelResultLiveChannel build(java.util.Map<String, ?> map) {
+        public static ListLiveChannelResponseListLiveChannelResultLiveChannel build(java.util.Map<String, ?> map) throws Exception {
             ListLiveChannelResponseListLiveChannelResultLiveChannel self = new ListLiveChannelResponseListLiveChannelResultLiveChannel();
             return TeaModel.build(map, self);
         }
@@ -183,7 +183,7 @@ public class ListLiveChannelResponse extends TeaModel {
         @Validation(required = true)
         public ListLiveChannelResponseListLiveChannelResultLiveChannel liveChannel;
 
-        public static ListLiveChannelResponseListLiveChannelResult build(java.util.Map<String, ?> map) {
+        public static ListLiveChannelResponseListLiveChannelResult build(java.util.Map<String, ?> map) throws Exception {
             ListLiveChannelResponseListLiveChannelResult self = new ListLiveChannelResponseListLiveChannelResult();
             return TeaModel.build(map, self);
         }

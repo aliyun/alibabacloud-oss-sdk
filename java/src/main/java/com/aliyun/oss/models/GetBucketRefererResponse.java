@@ -14,7 +14,7 @@ public class GetBucketRefererResponse extends TeaModel {
     @Validation(required = true)
     public GetBucketRefererResponseRefererConfiguration refererConfiguration;
 
-    public static GetBucketRefererResponse build(java.util.Map<String, ?> map) {
+    public static GetBucketRefererResponse build(java.util.Map<String, ?> map) throws Exception {
         GetBucketRefererResponse self = new GetBucketRefererResponse();
         return TeaModel.build(map, self);
     }
@@ -40,7 +40,7 @@ public class GetBucketRefererResponse extends TeaModel {
         @NameInMap("Referer")
         public java.util.List<String> referer;
 
-        public static GetBucketRefererResponseRefererConfigurationRefererList build(java.util.Map<String, ?> map) {
+        public static GetBucketRefererResponseRefererConfigurationRefererList build(java.util.Map<String, ?> map) throws Exception {
             GetBucketRefererResponseRefererConfigurationRefererList self = new GetBucketRefererResponseRefererConfigurationRefererList();
             return TeaModel.build(map, self);
         }
@@ -65,7 +65,7 @@ public class GetBucketRefererResponse extends TeaModel {
         @Validation(required = true)
         public GetBucketRefererResponseRefererConfigurationRefererList refererList;
 
-        public static GetBucketRefererResponseRefererConfiguration build(java.util.Map<String, ?> map) {
+        public static GetBucketRefererResponseRefererConfiguration build(java.util.Map<String, ?> map) throws Exception {
             GetBucketRefererResponseRefererConfiguration self = new GetBucketRefererResponseRefererConfiguration();
             return TeaModel.build(map, self);
         }

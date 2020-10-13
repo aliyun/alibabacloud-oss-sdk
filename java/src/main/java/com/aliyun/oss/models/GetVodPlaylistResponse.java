@@ -9,7 +9,7 @@ public class GetVodPlaylistResponse extends TeaModel {
     @Validation(required = true)
     public String requestId;
 
-    public static GetVodPlaylistResponse build(java.util.Map<String, ?> map) {
+    public static GetVodPlaylistResponse build(java.util.Map<String, ?> map) throws Exception {
         GetVodPlaylistResponse self = new GetVodPlaylistResponse();
         return TeaModel.build(map, self);
     }

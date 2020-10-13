@@ -24,7 +24,7 @@ public class GetObjectMetaResponse extends TeaModel {
     @Validation(required = true)
     public String lastModified;
 
-    public static GetObjectMetaResponse build(java.util.Map<String, ?> map) {
+    public static GetObjectMetaResponse build(java.util.Map<String, ?> map) throws Exception {
         GetObjectMetaResponse self = new GetObjectMetaResponse();
         return TeaModel.build(map, self);
     }

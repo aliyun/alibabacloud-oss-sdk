@@ -25,6 +25,7 @@ public class Config extends TeaModel {
     public String protocol;
 
     @NameInMap("regionId")
+    @Validation(pattern = "[a-zA-Z0-9\\-\\_]+")
     public String regionId;
 
     @NameInMap("userAgent")
@@ -72,7 +73,7 @@ public class Config extends TeaModel {
     @NameInMap("addtionalHeaders")
     public java.util.List<String> addtionalHeaders;
 
-    public static Config build(java.util.Map<String, ?> map) {
+    public static Config build(java.util.Map<String, ?> map) throws Exception {
         Config self = new Config();
         return TeaModel.build(map, self);
     }

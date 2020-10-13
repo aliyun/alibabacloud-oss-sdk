@@ -6,14 +6,14 @@ import com.aliyun.tea.*;
 public class PutBucketRequestPaymentRequest extends TeaModel {
     // BucketName
     @NameInMap("BucketName")
-    @Validation(required = true)
+    @Validation(required = true, pattern = "[a-zA-Z0-9\\-\\_]+")
     public String bucketName;
 
     // Body
     @NameInMap("Body")
     public PutBucketRequestPaymentRequestBody body;
 
-    public static PutBucketRequestPaymentRequest build(java.util.Map<String, ?> map) {
+    public static PutBucketRequestPaymentRequest build(java.util.Map<String, ?> map) throws Exception {
         PutBucketRequestPaymentRequest self = new PutBucketRequestPaymentRequest();
         return TeaModel.build(map, self);
     }
@@ -39,7 +39,7 @@ public class PutBucketRequestPaymentRequest extends TeaModel {
         @NameInMap("Payer")
         public String payer;
 
-        public static PutBucketRequestPaymentRequestBodyRequestPaymentConfiguration build(java.util.Map<String, ?> map) {
+        public static PutBucketRequestPaymentRequestBodyRequestPaymentConfiguration build(java.util.Map<String, ?> map) throws Exception {
             PutBucketRequestPaymentRequestBodyRequestPaymentConfiguration self = new PutBucketRequestPaymentRequestBodyRequestPaymentConfiguration();
             return TeaModel.build(map, self);
         }
@@ -60,7 +60,7 @@ public class PutBucketRequestPaymentRequest extends TeaModel {
         @Validation(required = true)
         public PutBucketRequestPaymentRequestBodyRequestPaymentConfiguration requestPaymentConfiguration;
 
-        public static PutBucketRequestPaymentRequestBody build(java.util.Map<String, ?> map) {
+        public static PutBucketRequestPaymentRequestBody build(java.util.Map<String, ?> map) throws Exception {
             PutBucketRequestPaymentRequestBody self = new PutBucketRequestPaymentRequestBody();
             return TeaModel.build(map, self);
         }

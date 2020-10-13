@@ -14,7 +14,7 @@ public class GetLiveChannelHistoryResponse extends TeaModel {
     @Validation(required = true)
     public GetLiveChannelHistoryResponseLiveChannelHistory liveChannelHistory;
 
-    public static GetLiveChannelHistoryResponse build(java.util.Map<String, ?> map) {
+    public static GetLiveChannelHistoryResponse build(java.util.Map<String, ?> map) throws Exception {
         GetLiveChannelHistoryResponse self = new GetLiveChannelHistoryResponse();
         return TeaModel.build(map, self);
     }
@@ -48,7 +48,7 @@ public class GetLiveChannelHistoryResponse extends TeaModel {
         @NameInMap("RemoteAddr")
         public String remoteAddr;
 
-        public static GetLiveChannelHistoryResponseLiveChannelHistoryLiveRecord build(java.util.Map<String, ?> map) {
+        public static GetLiveChannelHistoryResponseLiveChannelHistoryLiveRecord build(java.util.Map<String, ?> map) throws Exception {
             GetLiveChannelHistoryResponseLiveChannelHistoryLiveRecord self = new GetLiveChannelHistoryResponseLiveChannelHistoryLiveRecord();
             return TeaModel.build(map, self);
         }
@@ -84,7 +84,7 @@ public class GetLiveChannelHistoryResponse extends TeaModel {
         @NameInMap("LiveRecord")
         public java.util.List<GetLiveChannelHistoryResponseLiveChannelHistoryLiveRecord> liveRecord;
 
-        public static GetLiveChannelHistoryResponseLiveChannelHistory build(java.util.Map<String, ?> map) {
+        public static GetLiveChannelHistoryResponseLiveChannelHistory build(java.util.Map<String, ?> map) throws Exception {
             GetLiveChannelHistoryResponseLiveChannelHistory self = new GetLiveChannelHistoryResponseLiveChannelHistory();
             return TeaModel.build(map, self);
         }

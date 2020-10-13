@@ -14,7 +14,7 @@ public class GetBucketAclResponse extends TeaModel {
     @Validation(required = true)
     public GetBucketAclResponseAccessControlPolicy accessControlPolicy;
 
-    public static GetBucketAclResponse build(java.util.Map<String, ?> map) {
+    public static GetBucketAclResponse build(java.util.Map<String, ?> map) throws Exception {
         GetBucketAclResponse self = new GetBucketAclResponse();
         return TeaModel.build(map, self);
     }
@@ -44,7 +44,7 @@ public class GetBucketAclResponse extends TeaModel {
         @NameInMap("DisplayName")
         public String displayName;
 
-        public static GetBucketAclResponseAccessControlPolicyOwner build(java.util.Map<String, ?> map) {
+        public static GetBucketAclResponseAccessControlPolicyOwner build(java.util.Map<String, ?> map) throws Exception {
             GetBucketAclResponseAccessControlPolicyOwner self = new GetBucketAclResponseAccessControlPolicyOwner();
             return TeaModel.build(map, self);
         }
@@ -72,7 +72,7 @@ public class GetBucketAclResponse extends TeaModel {
         @NameInMap("Grant")
         public String grant;
 
-        public static GetBucketAclResponseAccessControlPolicyAccessControlList build(java.util.Map<String, ?> map) {
+        public static GetBucketAclResponseAccessControlPolicyAccessControlList build(java.util.Map<String, ?> map) throws Exception {
             GetBucketAclResponseAccessControlPolicyAccessControlList self = new GetBucketAclResponseAccessControlPolicyAccessControlList();
             return TeaModel.build(map, self);
         }
@@ -98,7 +98,7 @@ public class GetBucketAclResponse extends TeaModel {
         @Validation(required = true)
         public GetBucketAclResponseAccessControlPolicyAccessControlList accessControlList;
 
-        public static GetBucketAclResponseAccessControlPolicy build(java.util.Map<String, ?> map) {
+        public static GetBucketAclResponseAccessControlPolicy build(java.util.Map<String, ?> map) throws Exception {
             GetBucketAclResponseAccessControlPolicy self = new GetBucketAclResponseAccessControlPolicy();
             return TeaModel.build(map, self);
         }

@@ -9,7 +9,7 @@ public class UploadPartResponse extends TeaModel {
     @Validation(required = true)
     public String requestId;
 
-    public static UploadPartResponse build(java.util.Map<String, ?> map) {
+    public static UploadPartResponse build(java.util.Map<String, ?> map) throws Exception {
         UploadPartResponse self = new UploadPartResponse();
         return TeaModel.build(map, self);
     }

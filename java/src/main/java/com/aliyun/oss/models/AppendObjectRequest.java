@@ -6,7 +6,7 @@ import com.aliyun.tea.*;
 public class AppendObjectRequest extends TeaModel {
     // BucketName
     @NameInMap("BucketName")
-    @Validation(required = true)
+    @Validation(required = true, pattern = "[a-zA-Z0-9\\-\\_]+")
     public String bucketName;
 
     // ObjectName
@@ -31,7 +31,7 @@ public class AppendObjectRequest extends TeaModel {
     @NameInMap("Header")
     public AppendObjectRequestHeader header;
 
-    public static AppendObjectRequest build(java.util.Map<String, ?> map) {
+    public static AppendObjectRequest build(java.util.Map<String, ?> map) throws Exception {
         AppendObjectRequest self = new AppendObjectRequest();
         return TeaModel.build(map, self);
     }
@@ -90,7 +90,7 @@ public class AppendObjectRequest extends TeaModel {
         @Validation(required = true)
         public String position;
 
-        public static AppendObjectRequestFilter build(java.util.Map<String, ?> map) {
+        public static AppendObjectRequestFilter build(java.util.Map<String, ?> map) throws Exception {
             AppendObjectRequestFilter self = new AppendObjectRequestFilter();
             return TeaModel.build(map, self);
         }
@@ -142,7 +142,7 @@ public class AppendObjectRequest extends TeaModel {
         @NameInMap("content-type")
         public String contentType;
 
-        public static AppendObjectRequestHeader build(java.util.Map<String, ?> map) {
+        public static AppendObjectRequestHeader build(java.util.Map<String, ?> map) throws Exception {
             AppendObjectRequestHeader self = new AppendObjectRequestHeader();
             return TeaModel.build(map, self);
         }

@@ -6,7 +6,7 @@ import com.aliyun.tea.*;
 public class GetObjectTaggingRequest extends TeaModel {
     // BucketName
     @NameInMap("BucketName")
-    @Validation(required = true)
+    @Validation(required = true, pattern = "[a-zA-Z0-9\\-\\_]+")
     public String bucketName;
 
     // ObjectName
@@ -14,7 +14,7 @@ public class GetObjectTaggingRequest extends TeaModel {
     @Validation(required = true)
     public String objectName;
 
-    public static GetObjectTaggingRequest build(java.util.Map<String, ?> map) {
+    public static GetObjectTaggingRequest build(java.util.Map<String, ?> map) throws Exception {
         GetObjectTaggingRequest self = new GetObjectTaggingRequest();
         return TeaModel.build(map, self);
     }

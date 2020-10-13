@@ -6,7 +6,7 @@ import com.aliyun.tea.*;
 public class GetObjectRequest extends TeaModel {
     // BucketName
     @NameInMap("BucketName")
-    @Validation(required = true)
+    @Validation(required = true, pattern = "[a-zA-Z0-9\\-\\_]+")
     public String bucketName;
 
     // ObjectName
@@ -18,7 +18,7 @@ public class GetObjectRequest extends TeaModel {
     @NameInMap("Header")
     public GetObjectRequestHeader header;
 
-    public static GetObjectRequest build(java.util.Map<String, ?> map) {
+    public static GetObjectRequest build(java.util.Map<String, ?> map) throws Exception {
         GetObjectRequest self = new GetObjectRequest();
         return TeaModel.build(map, self);
     }
@@ -96,7 +96,7 @@ public class GetObjectRequest extends TeaModel {
         @NameInMap("Accept-Encoding")
         public String acceptEncoding;
 
-        public static GetObjectRequestHeader build(java.util.Map<String, ?> map) {
+        public static GetObjectRequestHeader build(java.util.Map<String, ?> map) throws Exception {
             GetObjectRequestHeader self = new GetObjectRequestHeader();
             return TeaModel.build(map, self);
         }

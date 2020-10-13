@@ -6,14 +6,14 @@ import com.aliyun.tea.*;
 public class ListMultipartUploadsRequest extends TeaModel {
     // BucketName
     @NameInMap("BucketName")
-    @Validation(required = true)
+    @Validation(required = true, pattern = "[a-zA-Z0-9\\-\\_]+")
     public String bucketName;
 
     // Filter
     @NameInMap("Filter")
     public ListMultipartUploadsRequestFilter filter;
 
-    public static ListMultipartUploadsRequest build(java.util.Map<String, ?> map) {
+    public static ListMultipartUploadsRequest build(java.util.Map<String, ?> map) throws Exception {
         ListMultipartUploadsRequest self = new ListMultipartUploadsRequest();
         return TeaModel.build(map, self);
     }
@@ -59,7 +59,7 @@ public class ListMultipartUploadsRequest extends TeaModel {
         @NameInMap("encoding-type")
         public String encodingType;
 
-        public static ListMultipartUploadsRequestFilter build(java.util.Map<String, ?> map) {
+        public static ListMultipartUploadsRequestFilter build(java.util.Map<String, ?> map) throws Exception {
             ListMultipartUploadsRequestFilter self = new ListMultipartUploadsRequestFilter();
             return TeaModel.build(map, self);
         }

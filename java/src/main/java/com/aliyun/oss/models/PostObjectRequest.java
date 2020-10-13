@@ -6,7 +6,7 @@ import com.aliyun.tea.*;
 public class PostObjectRequest extends TeaModel {
     // BucketName
     @NameInMap("BucketName")
-    @Validation(required = true)
+    @Validation(required = true, pattern = "[a-zA-Z0-9\\-\\_]+")
     public String bucketName;
 
     // header
@@ -14,7 +14,7 @@ public class PostObjectRequest extends TeaModel {
     @Validation(required = true)
     public PostObjectRequestHeader header;
 
-    public static PostObjectRequest build(java.util.Map<String, ?> map) {
+    public static PostObjectRequest build(java.util.Map<String, ?> map) throws Exception {
         PostObjectRequest self = new PostObjectRequest();
         return TeaModel.build(map, self);
     }
@@ -68,7 +68,7 @@ public class PostObjectRequest extends TeaModel {
         @NameInMap("UserMeta")
         public java.util.Map<String, String> userMeta;
 
-        public static PostObjectRequestHeader build(java.util.Map<String, ?> map) {
+        public static PostObjectRequestHeader build(java.util.Map<String, ?> map) throws Exception {
             PostObjectRequestHeader self = new PostObjectRequestHeader();
             return TeaModel.build(map, self);
         }

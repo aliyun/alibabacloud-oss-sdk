@@ -6,7 +6,7 @@ import com.aliyun.tea.*;
 public class HeadObjectRequest extends TeaModel {
     // BucketName
     @NameInMap("BucketName")
-    @Validation(required = true)
+    @Validation(required = true, pattern = "[a-zA-Z0-9\\-\\_]+")
     public String bucketName;
 
     // ObjectName
@@ -18,7 +18,7 @@ public class HeadObjectRequest extends TeaModel {
     @NameInMap("Header")
     public HeadObjectRequestHeader header;
 
-    public static HeadObjectRequest build(java.util.Map<String, ?> map) {
+    public static HeadObjectRequest build(java.util.Map<String, ?> map) throws Exception {
         HeadObjectRequest self = new HeadObjectRequest();
         return TeaModel.build(map, self);
     }
@@ -64,7 +64,7 @@ public class HeadObjectRequest extends TeaModel {
         @NameInMap("If-None-Match")
         public String ifNoneMatch;
 
-        public static HeadObjectRequestHeader build(java.util.Map<String, ?> map) {
+        public static HeadObjectRequestHeader build(java.util.Map<String, ?> map) throws Exception {
             HeadObjectRequestHeader self = new HeadObjectRequestHeader();
             return TeaModel.build(map, self);
         }

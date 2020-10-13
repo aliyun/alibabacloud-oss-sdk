@@ -6,7 +6,7 @@ import com.aliyun.tea.*;
 public class ListPartsRequest extends TeaModel {
     // BucketName
     @NameInMap("BucketName")
-    @Validation(required = true)
+    @Validation(required = true, pattern = "[a-zA-Z0-9\\-\\_]+")
     public String bucketName;
 
     // ObjectName
@@ -19,7 +19,7 @@ public class ListPartsRequest extends TeaModel {
     @Validation(required = true)
     public ListPartsRequestFilter filter;
 
-    public static ListPartsRequest build(java.util.Map<String, ?> map) {
+    public static ListPartsRequest build(java.util.Map<String, ?> map) throws Exception {
         ListPartsRequest self = new ListPartsRequest();
         return TeaModel.build(map, self);
     }
@@ -66,7 +66,7 @@ public class ListPartsRequest extends TeaModel {
         @NameInMap("Encoding-type")
         public String encodingType;
 
-        public static ListPartsRequestFilter build(java.util.Map<String, ?> map) {
+        public static ListPartsRequestFilter build(java.util.Map<String, ?> map) throws Exception {
             ListPartsRequestFilter self = new ListPartsRequestFilter();
             return TeaModel.build(map, self);
         }

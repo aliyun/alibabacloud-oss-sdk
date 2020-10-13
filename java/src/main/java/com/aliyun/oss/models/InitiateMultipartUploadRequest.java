@@ -6,7 +6,7 @@ import com.aliyun.tea.*;
 public class InitiateMultipartUploadRequest extends TeaModel {
     // BucketName
     @NameInMap("BucketName")
-    @Validation(required = true)
+    @Validation(required = true, pattern = "[a-zA-Z0-9\\-\\_]+")
     public String bucketName;
 
     // ObjectName
@@ -22,7 +22,7 @@ public class InitiateMultipartUploadRequest extends TeaModel {
     @NameInMap("Header")
     public InitiateMultipartUploadRequestHeader header;
 
-    public static InitiateMultipartUploadRequest build(java.util.Map<String, ?> map) {
+    public static InitiateMultipartUploadRequest build(java.util.Map<String, ?> map) throws Exception {
         InitiateMultipartUploadRequest self = new InitiateMultipartUploadRequest();
         return TeaModel.build(map, self);
     }
@@ -64,7 +64,7 @@ public class InitiateMultipartUploadRequest extends TeaModel {
         @NameInMap("encoding-type")
         public String encodingType;
 
-        public static InitiateMultipartUploadRequestFilter build(java.util.Map<String, ?> map) {
+        public static InitiateMultipartUploadRequestFilter build(java.util.Map<String, ?> map) throws Exception {
             InitiateMultipartUploadRequestFilter self = new InitiateMultipartUploadRequestFilter();
             return TeaModel.build(map, self);
         }
@@ -116,7 +116,7 @@ public class InitiateMultipartUploadRequest extends TeaModel {
         @NameInMap("content-type")
         public String contentType;
 
-        public static InitiateMultipartUploadRequestHeader build(java.util.Map<String, ?> map) {
+        public static InitiateMultipartUploadRequestHeader build(java.util.Map<String, ?> map) throws Exception {
             InitiateMultipartUploadRequestHeader self = new InitiateMultipartUploadRequestHeader();
             return TeaModel.build(map, self);
         }

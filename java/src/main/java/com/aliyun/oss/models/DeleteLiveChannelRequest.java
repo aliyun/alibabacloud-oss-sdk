@@ -6,7 +6,7 @@ import com.aliyun.tea.*;
 public class DeleteLiveChannelRequest extends TeaModel {
     // BucketName
     @NameInMap("BucketName")
-    @Validation(required = true)
+    @Validation(required = true, pattern = "[a-zA-Z0-9\\-\\_]+")
     public String bucketName;
 
     // ChannelName
@@ -14,7 +14,7 @@ public class DeleteLiveChannelRequest extends TeaModel {
     @Validation(required = true)
     public String channelName;
 
-    public static DeleteLiveChannelRequest build(java.util.Map<String, ?> map) {
+    public static DeleteLiveChannelRequest build(java.util.Map<String, ?> map) throws Exception {
         DeleteLiveChannelRequest self = new DeleteLiveChannelRequest();
         return TeaModel.build(map, self);
     }
