@@ -2,18 +2,16 @@
 # This file is auto-generated, don't edit it. Thanks.
 import time
 
-from alibabacloud_credentials.client import Client as CredentialClient
-from alibabacloud_oss_sdk import models as oss_models
-from alibabacloud_tea_util.client import Client as UtilClient
-from Tea.exceptions import TeaException
-from alibabacloud_credentials import models as credential_models
-from alibabacloud_oss_util import models as ossutil_models
+from Tea.exceptions import TeaException, UnretryableException
 from Tea.request import TeaRequest
 from Tea.core import TeaCore
-from Tea.response import TeaResponse
+
+from alibabacloud_credentials.client import Client as CredentialClient
+from alibabacloud_tea_util.client import Client as UtilClient
+from alibabacloud_credentials import models as credential_models
+from alibabacloud_oss_sdk import models as oss_models
 from alibabacloud_tea_xml.client import Client as XMLClient
 from alibabacloud_oss_util.client import Client as OSSUtilClient
-from Tea.exceptions import UnretryableException
 from alibabacloud_tea_fileform.client import Client as FileFormClient
 
 
@@ -22,10 +20,10 @@ class Client(object):
                  _connect_timeout=None, _signature_version=None, _addtional_headers=None, _local_addr=None, _http_proxy=None,
                  _https_proxy=None, _no_proxy=None, _user_agent=None, _socks_5proxy=None, _is_enable_crc=None,
                  _is_enable_md5=None, _socks_5net_work=None, _max_idle_conns=None, _credential=None):
-        self._endpoint = _endpoint  # type: str
-        self._region_id = _region_id  # type: str
+        self._endpoint = _endpoint      # type: str
+        self._region_id = _region_id    # type: str
         self._host_model = _host_model  # type: str
-        self._protocol = _protocol  # type: str
+        self._protocol = _protocol      # type: str
         self._read_timeout = _read_timeout  # type: int
         self._connect_timeout = _connect_timeout  # type: int
         self._signature_version = _signature_version  # type: str
@@ -33,14 +31,14 @@ class Client(object):
         self._local_addr = _local_addr  # type: str
         self._http_proxy = _http_proxy  # type: str
         self._https_proxy = _https_proxy  # type: str
-        self._no_proxy = _no_proxy  # type: str
+        self._no_proxy = _no_proxy      # type: str
         self._user_agent = _user_agent  # type: str
         self._socks_5proxy = _socks_5proxy  # type: str
         self._is_enable_crc = _is_enable_crc  # type: bool
         self._is_enable_md5 = _is_enable_md5  # type: bool
         self._socks_5net_work = _socks_5net_work  # type: str
         self._max_idle_conns = _max_idle_conns  # type: int
-        self._credential = _credential  # type: Credential
+        self._credential = _credential
         if UtilClient.is_unset(config):
             raise TeaException({
                 "name": "ParameterMissing",
@@ -120,7 +118,7 @@ class Client(object):
                 req_body = XMLClient.to_xml(request.body.to_map())
                 _request.protocol = self._protocol
                 _request.method = "PUT"
-                _request.pathname = "/?lifecycle"
+                _request.pathname = '/?lifecycle'
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -196,7 +194,7 @@ class Client(object):
                 req_body = XMLClient.to_xml(request.body.to_map())
                 _request.protocol = self._protocol
                 _request.method = "POST"
-                _request.pathname = "/?delete"
+                _request.pathname = '/?delete'
                 _request.headers = TeaCore.merge({
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -280,7 +278,7 @@ class Client(object):
                 req_body = XMLClient.to_xml(request.body.to_map())
                 _request.protocol = self._protocol
                 _request.method = "PUT"
-                _request.pathname = "/?referer"
+                _request.pathname = '/?referer'
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -356,7 +354,7 @@ class Client(object):
                 req_body = XMLClient.to_xml(request.body.to_map())
                 _request.protocol = self._protocol
                 _request.method = "PUT"
-                _request.pathname = "/?website"
+                _request.pathname = '/?website'
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -432,7 +430,7 @@ class Client(object):
                 req_body = XMLClient.to_xml(request.body.to_map())
                 _request.protocol = self._protocol
                 _request.method = "POST"
-                _request.pathname = "/" + str(request.object_name) + ""
+                _request.pathname = '/%s' % request.object_name
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -513,7 +511,7 @@ class Client(object):
                 req_body = XMLClient.to_xml(request.body.to_map())
                 _request.protocol = self._protocol
                 _request.method = "PUT"
-                _request.pathname = "/?logging"
+                _request.pathname = '/?logging'
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -589,7 +587,7 @@ class Client(object):
                 req_body = XMLClient.to_xml(request.body.to_map())
                 _request.protocol = self._protocol
                 _request.method = "PUT"
-                _request.pathname = "/?requestPayment"
+                _request.pathname = '/?requestPayment'
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -665,7 +663,7 @@ class Client(object):
                 req_body = XMLClient.to_xml(request.body.to_map())
                 _request.protocol = self._protocol
                 _request.method = "PUT"
-                _request.pathname = "/?encryption"
+                _request.pathname = '/?encryption'
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -741,7 +739,7 @@ class Client(object):
                 req_body = XMLClient.to_xml(request.body.to_map())
                 _request.protocol = self._protocol
                 _request.method = "PUT"
-                _request.pathname = "/" + str(request.channel_name) + "?live"
+                _request.pathname = '/%s?live' % request.channel_name
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -821,7 +819,7 @@ class Client(object):
                 req_body = XMLClient.to_xml(request.body.to_map())
                 _request.protocol = self._protocol
                 _request.method = "PUT"
-                _request.pathname = "/?tagging"
+                _request.pathname = '/?tagging'
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -897,7 +895,7 @@ class Client(object):
                 req_body = XMLClient.to_xml(request.body.to_map())
                 _request.protocol = self._protocol
                 _request.method = "PUT"
-                _request.pathname = "/" + str(request.object_name) + "?tagging"
+                _request.pathname = '/%s?tagging' % request.object_name
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -973,7 +971,7 @@ class Client(object):
                 req_body = XMLClient.to_xml(request.body.to_map())
                 _request.protocol = self._protocol
                 _request.method = "POST"
-                _request.pathname = "/" + str(request.object_name) + ""
+                _request.pathname = '/%s' % request.object_name
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -1050,7 +1048,7 @@ class Client(object):
                 req_body = XMLClient.to_xml(request.body.to_map())
                 _request.protocol = self._protocol
                 _request.method = "PUT"
-                _request.pathname = "/?cors"
+                _request.pathname = '/?cors'
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -1126,7 +1124,7 @@ class Client(object):
                 req_body = XMLClient.to_xml(request.body.to_map())
                 _request.protocol = self._protocol
                 _request.method = "PUT"
-                _request.pathname = "/"
+                _request.pathname = '/'
                 _request.headers = TeaCore.merge({
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -1201,7 +1199,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "GET"
-                _request.pathname = "/?uploads"
+                _request.pathname = '/?uploads'
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -1280,7 +1278,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "GET"
-                _request.pathname = "/?requestPayment"
+                _request.pathname = '/?requestPayment'
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -1358,7 +1356,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "GET"
-                _request.pathname = "/?encryption"
+                _request.pathname = '/?encryption'
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -1436,7 +1434,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "GET"
-                _request.pathname = "/?tagging"
+                _request.pathname = '/?tagging'
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -1514,7 +1512,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "GET"
-                _request.pathname = "/"
+                _request.pathname = '/'
                 _request.headers = {
                     "host": OSSUtilClient.get_host("", self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -1593,7 +1591,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "DELETE"
-                _request.pathname = "/?encryption"
+                _request.pathname = '/?encryption'
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -1667,7 +1665,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "DELETE"
-                _request.pathname = "/"
+                _request.pathname = '/'
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -1742,7 +1740,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "GET"
-                _request.pathname = "/?website"
+                _request.pathname = '/?website'
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -1820,7 +1818,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "DELETE"
-                _request.pathname = "/" + str(request.channel_name) + "?live"
+                _request.pathname = '/%s?live' % request.channel_name
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -1894,7 +1892,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "GET"
-                _request.pathname = "/?location"
+                _request.pathname = '/?location'
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -1972,7 +1970,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "GET"
-                _request.pathname = "/?live"
+                _request.pathname = '/?live'
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -2051,7 +2049,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "HEAD"
-                _request.pathname = "/" + str(request.object_name) + "?objectMeta"
+                _request.pathname = '/%s?objectMeta' % request.object_name
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -2125,7 +2123,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "GET"
-                _request.pathname = "/?acl"
+                _request.pathname = '/?acl'
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -2203,7 +2201,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "GET"
-                _request.pathname = "/" + str(request.object_name) + ""
+                _request.pathname = '/%s' % request.object_name
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -2282,7 +2280,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "GET"
-                _request.pathname = "/" + str(request.channel_name) + "?live"
+                _request.pathname = '/%s?live' % request.channel_name
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -2361,7 +2359,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "GET"
-                _request.pathname = "/"
+                _request.pathname = '/'
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -2440,7 +2438,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "GET"
-                _request.pathname = "/" + str(request.channel_name) + "?live"
+                _request.pathname = '/%s?live' % request.channel_name
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -2518,7 +2516,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "GET"
-                _request.pathname = "/" + str(request.channel_name) + "?live"
+                _request.pathname = '/%s?live' % request.channel_name
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -2597,7 +2595,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "DELETE"
-                _request.pathname = "/" + str(request.object_name) + ""
+                _request.pathname = '/%s' % request.object_name
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -2671,7 +2669,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "DELETE"
-                _request.pathname = "/" + str(request.object_name) + ""
+                _request.pathname = '/%s' % request.object_name
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -2747,7 +2745,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "POST"
-                _request.pathname = "/" + str(request.object_name) + "?append"
+                _request.pathname = '/%s?append' % request.object_name
                 _request.headers = TeaCore.merge({
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -2844,7 +2842,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "PUT"
-                _request.pathname = "/" + str(request.object_name) + ""
+                _request.pathname = '/%s' % request.object_name
                 _request.headers = TeaCore.merge({
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -2923,7 +2921,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "GET"
-                _request.pathname = "/" + str(request.channel_name) + "?vod"
+                _request.pathname = '/%s?vod' % request.channel_name
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -2998,7 +2996,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "DELETE"
-                _request.pathname = "/?cors"
+                _request.pathname = '/?cors'
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -3072,7 +3070,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "GET"
-                _request.pathname = "/" + str(request.object_name) + ""
+                _request.pathname = '/%s' % request.object_name
                 _request.headers = TeaCore.merge({
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -3149,7 +3147,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "PUT"
-                _request.pathname = "/" + str(request.object_name) + ""
+                _request.pathname = '/%s' % request.object_name
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -3241,7 +3239,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "GET"
-                _request.pathname = "/?cors"
+                _request.pathname = '/?cors'
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -3319,7 +3317,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "PUT"
-                _request.pathname = "/" + str(request.dest_object_name) + ""
+                _request.pathname = '/%s' % request.dest_object_name
                 _request.headers = TeaCore.merge({
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -3398,7 +3396,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "GET"
-                _request.pathname = "/" + str(request.object_name) + "?tagging"
+                _request.pathname = '/%s?tagging' % request.object_name
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -3476,7 +3474,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "DELETE"
-                _request.pathname = "/?lifecycle"
+                _request.pathname = '/?lifecycle'
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -3550,7 +3548,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "DELETE"
-                _request.pathname = "/?logging"
+                _request.pathname = '/?logging'
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -3624,7 +3622,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "DELETE"
-                _request.pathname = "/?website"
+                _request.pathname = '/?website'
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -3698,7 +3696,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "GET"
-                _request.pathname = "/" + str(request.object_name) + "?symlink"
+                _request.pathname = '/%s?symlink' % request.object_name
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -3772,7 +3770,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "GET"
-                _request.pathname = "/?lifecycle"
+                _request.pathname = '/?lifecycle'
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -3850,7 +3848,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "PUT"
-                _request.pathname = "/" + str(request.object_name) + "?symlink"
+                _request.pathname = '/%s?symlink' % request.object_name
                 _request.headers = TeaCore.merge({
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -3924,7 +3922,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "GET"
-                _request.pathname = "/?referer"
+                _request.pathname = '/?referer'
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -4002,7 +4000,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "GET"
-                _request.pathname = "/"
+                _request.pathname = '/'
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -4076,7 +4074,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "GET"
-                _request.pathname = "/?logging"
+                _request.pathname = '/?logging'
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -4154,7 +4152,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "PUT"
-                _request.pathname = "/" + str(request.object_name) + "?acl"
+                _request.pathname = '/%s?acl' % request.object_name
                 _request.headers = TeaCore.merge({
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -4228,7 +4226,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "GET"
-                _request.pathname = "/?bucketInfo"
+                _request.pathname = '/?bucketInfo'
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -4306,7 +4304,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "PUT"
-                _request.pathname = "/" + str(request.channel_name) + "?live"
+                _request.pathname = '/%s?live' % request.channel_name
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -4381,7 +4379,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "POST"
-                _request.pathname = "/" + str(request.object_name) + "?uploads"
+                _request.pathname = '/%s?uploads' % request.object_name
                 _request.headers = TeaCore.merge({
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -4464,7 +4462,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "OPTIONS"
-                _request.pathname = "/" + str(request.object_name) + ""
+                _request.pathname = '/%s' % request.object_name
                 _request.headers = TeaCore.merge({
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -4538,7 +4536,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "POST"
-                _request.pathname = "/" + str(request.channel_name) + "/" + str(request.playlist_name) + "?vod"
+                _request.pathname = '/%s/%s?vod' % (request.channel_name, request.playlist_name)
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -4608,13 +4606,13 @@ class Client(object):
                 boundary = FileFormClient.get_boundary()
                 _request.protocol = self._protocol
                 _request.method = "POST"
-                _request.pathname = "/"
+                _request.pathname = '/'
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
                     "user-agent": self.get_user_agent()
                 }
-                _request.headers["content-type"] = "multipart/form-data; boundary=" + str(boundary) + ""
+                _request.headers["content-type"] = 'multipart/form-data; boundary=%s' % boundary
                 form = TeaCore.merge({
                     "OSSAccessKeyId": request.header.access_key_id,
                     "policy": request.header.policy,
@@ -4689,7 +4687,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "HEAD"
-                _request.pathname = "/" + str(request.object_name) + ""
+                _request.pathname = '/%s' % request.object_name
                 _request.headers = TeaCore.merge({
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -4765,7 +4763,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "DELETE"
-                _request.pathname = "/" + str(request.object_name) + "?tagging"
+                _request.pathname = '/%s?tagging' % request.object_name
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -4839,7 +4837,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "POST"
-                _request.pathname = "/" + str(request.object_name) + "?restore"
+                _request.pathname = '/%s?restore' % request.object_name
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -4913,7 +4911,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "GET"
-                _request.pathname = "/" + str(request.object_name) + "?acl"
+                _request.pathname = '/%s?acl' % request.object_name
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -4991,7 +4989,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "PUT"
-                _request.pathname = "/?acl"
+                _request.pathname = '/?acl'
                 _request.headers = TeaCore.merge({
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -5065,7 +5063,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "DELETE"
-                _request.pathname = "/"
+                _request.pathname = '/'
                 _request.headers = {
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -5140,7 +5138,7 @@ class Client(object):
                 token = self._credential.get_security_token()
                 _request.protocol = self._protocol
                 _request.method = "PUT"
-                _request.pathname = "/" + str(request.object_name) + ""
+                _request.pathname = '/%s' % request.object_name
                 _request.headers = TeaCore.merge({
                     "host": OSSUtilClient.get_host(request.bucket_name, self._region_id, self._endpoint, self._host_model),
                     "date": UtilClient.get_date_utcstring(),
@@ -5199,7 +5197,7 @@ class Client(object):
         self._user_agent = user_agent
 
     def append_user_agent(self, user_agent):
-        self._user_agent = "" + str(self._user_agent) + " " + str(user_agent) + ""
+        self._user_agent = '%s %s' % (self._user_agent, user_agent)
 
     def get_user_agent(self):
         user_agent = UtilClient.get_user_agent(self._user_agent)
