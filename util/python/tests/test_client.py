@@ -1,9 +1,11 @@
 import unittest
+import os
 
 from alibabacloud_oss_util.client import Client
 from Tea.request import TeaRequest
 
-file_path = 'test.txt'
+root_path = os.path.dirname(os.path.dirname(__file__))
+file_path = os.path.join(root_path, 'tests/test.txt')
 
 
 class TestClient(unittest.TestCase):
@@ -83,7 +85,7 @@ class TestClient(unittest.TestCase):
         for i in v:
             self.assertEqual('tests test', i)
         v.close()
-        self.assertEqual({'md5': 'WwpvIEGlrSYPX1YJmi0o2A==', 'crc': 146865635.8}, d)
+        self.assertEqual({'md5': 'WwpvIEGlrSYPX1YJmi0o2A==', 'crc': 17540041809663704128}, d)
 
         frb = open(file_path, 'rb')
         d = {}
@@ -91,7 +93,7 @@ class TestClient(unittest.TestCase):
         for i in v2:
             self.assertEqual(b'tests test', i)
         v2.close()
-        self.assertEqual({'md5': 'WwpvIEGlrSYPX1YJmi0o2A==', 'crc': 146865635.8}, d)
+        self.assertEqual({'md5': 'WwpvIEGlrSYPX1YJmi0o2A==', 'crc': 17540041809663704128}, d)
 
     def test_get_signature_v1(self):
         request = TeaRequest()
@@ -107,7 +109,7 @@ class TestClient(unittest.TestCase):
             'location': 'test'
         }
         res = Client.get_signature(request, 'test', "ak", "sk", "v1", None)
-        self.assertEqual('OSS ak:W4SUPcBUAN61lMVICM0Nzy662w0=', res)
+        self.assertEqual('OSS ak:EutyeRVaRDNJSPiaBHmN/Cip8lw=', res)
 
     def test_get_signature_v2(self):
         request = TeaRequest()

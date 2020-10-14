@@ -598,12 +598,14 @@ class Client:
             resource += request.pathname
             if request.query and '?' not in resource:
                 resource += '?'
-            for k, v in request.query.items():
-                if k in Client.SIGN_KEY_LIST and v:
+
+            sorted_query_keys = sorted(list(request.query))
+            for k in sorted_query_keys:
+                if k in Client.SIGN_KEY_LIST and request.query.get(k):
                     if resource.endswith('?'):
-                        resource += '%s=%s' % (k, v)
+                        resource += '%s=%s' % (k, request.query.get(k))
                     else:
-                        resource += '&%s=%s' % (k, v)
+                        resource += '&%s=%s' % (k, request.query.get(k))
             signature = 'OSS %s:%s' % (access_key_id, Client._signature_v1(request, resource, access_key_secret))
         else:
             if addtional_headers:
