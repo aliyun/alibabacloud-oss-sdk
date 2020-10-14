@@ -19,7 +19,7 @@ class TestVerifyStream(unittest.TestCase):
             content += i
         self.assertEqual(b'tests test', content)
         self.assertEqual('WwpvIEGlrSYPX1YJmi0o2A==', res.get('md5'))
-        self.assertEqual(17540041809663704128, res.get('crc'))
+        self.assertEqual('17540041809663704128', res.get('crc'))
 
         content = b''
         while True:
@@ -30,7 +30,7 @@ class TestVerifyStream(unittest.TestCase):
                 break
         self.assertEqual(b'tests test', content)
         self.assertEqual('WwpvIEGlrSYPX1YJmi0o2A==', res.get('md5'))
-        self.assertEqual(17540041809663704128, res.get('crc'))
+        self.assertEqual('17540041809663704128', res.get('crc'))
 
         res = {}
         v = VerifyStream(f, res)
@@ -44,7 +44,7 @@ class TestVerifyStream(unittest.TestCase):
 
         self.assertEqual(b'tests test', content)
         self.assertEqual('WwpvIEGlrSYPX1YJmi0o2A==', res.get('md5'))
-        self.assertEqual(17540041809663704128, res.get('crc'))
+        self.assertEqual('17540041809663704128', res.get('crc'))
         f.close()
 
         io = BytesIO(b'test')
@@ -55,5 +55,5 @@ class TestVerifyStream(unittest.TestCase):
             content += i
         self.assertEqual(b'test', content)
         self.assertEqual('CY9rzUYh03PK3k6DJie09g==', res.get('md5'))
-        self.assertEqual(18020588380933092773, res.get('crc'))
+        self.assertEqual('18020588380933092773', res.get('crc'))
         self.assertEqual(4, v.__len__())

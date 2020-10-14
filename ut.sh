@@ -74,7 +74,7 @@ function run_python {
 
   coverage run --source="../alibabacloud_oss_util" -m pytest tests/test_* || return 126
   cd ../../
-  upload_codecov_report util/python python
+  upload_codecov_report python python
 }
 
 lang=$1

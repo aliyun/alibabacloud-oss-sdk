@@ -28,7 +28,7 @@ class CRC64:
         return table
 
     def get_value(self):
-        return self.value
+        return str(self.value)
 
     def update(self, bt):
         for b in bt:
