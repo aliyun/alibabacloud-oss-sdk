@@ -28,15 +28,3 @@ class TestClient(unittest.TestCase):
         opt.from_map(map)
         self.assertEqual('ignoreSSL', opt.ignore_ssl)
         self.assertEqual(map, opt.to_map())
-
-    def test_ErrorResponse(self):
-        er = models.ErrorResponse(
-            code='200',
-            message='success',
-            request_id='id',
-            host_id='host',
-        )
-        er.validate()
-        self.assertEqual('200', er.to_map()['Code'])
-        er.from_map({})
-        self.assertEqual(None, er.code)

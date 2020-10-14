@@ -5,7 +5,7 @@ import base64
 from xml.etree import ElementTree
 from urllib.parse import quote, unquote
 
-from alibabacloud_oss_util import models, verify_stream
+from alibabacloud_oss_util import verify_stream
 
 
 class Client:
@@ -452,13 +452,13 @@ class Client:
         Parse msg into a object
         @return the object
         """
+        err_fields = ('Code', 'Message', 'RequestId', 'HostId')
+        err_resp = {}
         et = ElementTree.fromstring(msg)
-        err_resp = models.ErrorResponse()
         if et.tag == 'Error':
             for lf in et:
-                if lf.tag in Client._FIELDS_MAP:
-                    key = Client._FIELDS_MAP[lf.tag]
-                    setattr(err_resp, key, lf.text)
+                if lf.tag in err_fields:
+                    err_resp[lf.tag] = lf.text
         return err_resp
 
     @staticmethod

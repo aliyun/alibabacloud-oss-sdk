@@ -64,29 +64,3 @@ class RuntimeOptions(TeaModel):
         self.upload_limit_speed = map.get('uploadLimitSpeed')
         self.listener = map.get('listener')
         return self
-
-
-class ErrorResponse(TeaModel):
-    def __init__(self, code=None, message=None, request_id=None, host_id=None):
-        self.code = code
-        self.message = message
-        self.request_id = request_id
-        self.host_id = host_id
-
-    def validate(self):
-        pass
-
-    def to_map(self):
-        return {
-            'Code': self.code,
-            'Message': self.message,
-            'RequestId': self.request_id,
-            'HostId': self.host_id,
-        }
-
-    def from_map(self, map={}):
-        self.code = map.get('Code')
-        self.message = map.get('Message')
-        self.request_id = map.get('RequestId')
-        self.host_id = map.get('HostId')
-        return self

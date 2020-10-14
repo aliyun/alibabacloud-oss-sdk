@@ -13,11 +13,11 @@ class TestClient(unittest.TestCase):
         message = "<?xml version='1.0' encoding='UTF-8'?><Error><Code>401</Code></Error>"
         result = Client.get_err_message(message)
 
-        self.assertEqual('401', result.code)
+        self.assertEqual('401', result.get('Code'))
 
         message = "<?xml version='1.0' encoding='UTF-8'?><Code>401</Code>"
         result = Client.get_err_message(message)
-        self.assertEqual(None, result.code)
+        self.assertEqual(None, result.get('Code'))
 
     def test_to_meta(self):
         header = {
@@ -85,7 +85,7 @@ class TestClient(unittest.TestCase):
         for i in v:
             self.assertEqual('tests test', i)
         v.close()
-        self.assertEqual({'md5': 'WwpvIEGlrSYPX1YJmi0o2A==', 'crc': 17540041809663704128}, d)
+        self.assertEqual({'md5': 'WwpvIEGlrSYPX1YJmi0o2A==', 'crc': '17540041809663704128'}, d)
 
         frb = open(file_path, 'rb')
         d = {}
@@ -93,7 +93,7 @@ class TestClient(unittest.TestCase):
         for i in v2:
             self.assertEqual(b'tests test', i)
         v2.close()
-        self.assertEqual({'md5': 'WwpvIEGlrSYPX1YJmi0o2A==', 'crc': 17540041809663704128}, d)
+        self.assertEqual({'md5': 'WwpvIEGlrSYPX1YJmi0o2A==', 'crc': '17540041809663704128'}, d)
 
     def test_get_signature_v1(self):
         request = TeaRequest()
