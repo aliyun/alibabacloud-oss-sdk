@@ -1,8 +1,12 @@
 import unittest
 from io import BytesIO
 
-from alibabacloud_oss_util.verify_stream import VerifyStream, CRC64
-file_path = 'test.txt'
+from alibabacloud_oss_util.verify_stream import VerifyStream
+
+import os
+
+root_path = os.path.dirname(os.path.dirname(__file__))
+file_path = os.path.join(root_path, 'tests/test.txt')
 
 
 class TestVerifyStream(unittest.TestCase):
