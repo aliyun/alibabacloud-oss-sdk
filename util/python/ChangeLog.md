@@ -1,4 +1,7 @@
 ### 2020-10-12 Version 0.0.3
+* Fix get_err_message.
+
+### 2020-10-12 Version 0.0.3
 * Fix decode method.
 * Fix CRC.
 
