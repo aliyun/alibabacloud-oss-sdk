@@ -110,6 +110,8 @@ class TestClient(unittest.TestCase):
         }
         res = Client.get_signature(request, 'test', "ak", "sk", "v1", None)
         self.assertEqual('OSS ak:EutyeRVaRDNJSPiaBHmN/Cip8lw=', res)
+        res = Client.get_signature(request, 'test', "ak", "sk", None, None)
+        self.assertEqual('OSS ak:EutyeRVaRDNJSPiaBHmN/Cip8lw=', res)
 
     def test_get_signature_v2(self):
         request = TeaRequest()

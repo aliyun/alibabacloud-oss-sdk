@@ -591,7 +591,15 @@ class Client:
         addtionalHeaders.
         @return the signature string
         """
-        if signature_version.upper() == 'V1':
+        if signature_version and signature_version.upper() == 'V2':
+            if addtional_headers:
+                signature_v2 = Client._signature_v2(request, bucket_name, access_key_secret, addtional_headers)
+                signature = 'OSS2 AccessKeyId:%s,AdditionalHeaders:%s,Signature:%s' % \
+                            (access_key_id, ';'.join(addtional_headers), signature_v2)
+            else:
+                signature_v2 = Client._signature_v2(request, bucket_name, access_key_secret, addtional_headers)
+                signature = 'OSS2 AccessKeyId:%s,Signature:%s' % (access_key_id, signature_v2)
+        else:
             resource = ''
             if bucket_name:
                 resource = '/%s' % bucket_name
@@ -607,15 +615,6 @@ class Client:
                     else:
                         resource += '&%s=%s' % (k, request.query.get(k))
             signature = 'OSS %s:%s' % (access_key_id, Client._signature_v1(request, resource, access_key_secret))
-        else:
-            if addtional_headers:
-                signature_v2 = Client._signature_v2(request, bucket_name, access_key_secret, addtional_headers)
-                signature = 'OSS2 AccessKeyId:%s,AdditionalHeaders:%s,Signature:%s' % \
-                            (access_key_id, ';'.join(addtional_headers), signature_v2)
-            else:
-                signature_v2 = Client._signature_v2(request, bucket_name, access_key_secret, addtional_headers)
-                signature = 'OSS2 AccessKeyId:%s,Signature:%s' % (access_key_id, signature_v2)
-
         return signature
 
     @staticmethod
