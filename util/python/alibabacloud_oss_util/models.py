@@ -5,7 +5,6 @@ class RuntimeOptions(TeaModel):
     def __init__(self, autoretry=False, ignore_ssl=False, max_attempts=0, backoff_policy="", backoff_period=0,
                  read_timeout=0, connect_timeout=0, local_addr="", http_proxy="", https_proxy="", no_proxy="",
                  max_idle_conns=0, socks_5proxy="", socks_5net_work="", upload_limit_speed=0, listener=None):
-        super().__init__()
         self.autoretry = autoretry
         self.ignore_ssl = ignore_ssl
         self.max_attempts = max_attempts
