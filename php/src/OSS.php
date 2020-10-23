@@ -285,7 +285,7 @@ class OSS
                 $accessKeyId        = $this->_credential->getAccessKeyId();
                 $accessKeySecret    = $this->_credential->getAccessKeySecret();
                 $token              = $this->_credential->getSecurityToken();
-                $reqBody            = XML::toXML($request->body->toMap());
+                $reqBody            = XML::toXML(Utils::toMap($request->body));
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'PUT';
                 $_request->pathname = '/?lifecycle';
@@ -389,7 +389,7 @@ class OSS
                 $accessKeyId        = $this->_credential->getAccessKeyId();
                 $accessKeySecret    = $this->_credential->getAccessKeySecret();
                 $token              = $this->_credential->getSecurityToken();
-                $reqBody            = XML::toXML($request->body->toMap());
+                $reqBody            = XML::toXML(Utils::toMap($request->body));
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'POST';
                 $_request->pathname = '/?delete';
@@ -397,7 +397,7 @@ class OSS
                     'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
-                ], Utils::stringifyMapValue($request->header->toMap()));
+                ], Utils::stringifyMapValue(Utils::toMap($request->header)));
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
@@ -502,7 +502,7 @@ class OSS
                 $accessKeyId        = $this->_credential->getAccessKeyId();
                 $accessKeySecret    = $this->_credential->getAccessKeySecret();
                 $token              = $this->_credential->getSecurityToken();
-                $reqBody            = XML::toXML($request->body->toMap());
+                $reqBody            = XML::toXML(Utils::toMap($request->body));
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'PUT';
                 $_request->pathname = '/?referer';
@@ -606,7 +606,7 @@ class OSS
                 $accessKeyId        = $this->_credential->getAccessKeyId();
                 $accessKeySecret    = $this->_credential->getAccessKeySecret();
                 $token              = $this->_credential->getSecurityToken();
-                $reqBody            = XML::toXML($request->body->toMap());
+                $reqBody            = XML::toXML(Utils::toMap($request->body));
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'PUT';
                 $_request->pathname = '/?website';
@@ -710,7 +710,7 @@ class OSS
                 $accessKeyId        = $this->_credential->getAccessKeyId();
                 $accessKeySecret    = $this->_credential->getAccessKeySecret();
                 $token              = $this->_credential->getSecurityToken();
-                $reqBody            = XML::toXML($request->body->toMap());
+                $reqBody            = XML::toXML(Utils::toMap($request->body));
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'POST';
                 $_request->pathname = '/' . $request->objectName . '';
@@ -722,7 +722,7 @@ class OSS
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
-                $_request->query                    = Utils::stringifyMapValue($request->filter->toMap());
+                $_request->query                    = Utils::stringifyMapValue(Utils::toMap($request->filter));
                 $_request->body                     = $reqBody;
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
                 $_lastRequest                       = $_request;
@@ -819,7 +819,7 @@ class OSS
                 $accessKeyId        = $this->_credential->getAccessKeyId();
                 $accessKeySecret    = $this->_credential->getAccessKeySecret();
                 $token              = $this->_credential->getSecurityToken();
-                $reqBody            = XML::toXML($request->body->toMap());
+                $reqBody            = XML::toXML(Utils::toMap($request->body));
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'PUT';
                 $_request->pathname = '/?logging';
@@ -923,7 +923,7 @@ class OSS
                 $accessKeyId        = $this->_credential->getAccessKeyId();
                 $accessKeySecret    = $this->_credential->getAccessKeySecret();
                 $token              = $this->_credential->getSecurityToken();
-                $reqBody            = XML::toXML($request->body->toMap());
+                $reqBody            = XML::toXML(Utils::toMap($request->body));
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'PUT';
                 $_request->pathname = '/?requestPayment';
@@ -1027,7 +1027,7 @@ class OSS
                 $accessKeyId        = $this->_credential->getAccessKeyId();
                 $accessKeySecret    = $this->_credential->getAccessKeySecret();
                 $token              = $this->_credential->getSecurityToken();
-                $reqBody            = XML::toXML($request->body->toMap());
+                $reqBody            = XML::toXML(Utils::toMap($request->body));
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'PUT';
                 $_request->pathname = '/?encryption';
@@ -1131,7 +1131,7 @@ class OSS
                 $accessKeyId        = $this->_credential->getAccessKeyId();
                 $accessKeySecret    = $this->_credential->getAccessKeySecret();
                 $token              = $this->_credential->getSecurityToken();
-                $reqBody            = XML::toXML($request->body->toMap());
+                $reqBody            = XML::toXML(Utils::toMap($request->body));
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'PUT';
                 $_request->pathname = '/' . $request->channelName . '?live';
@@ -1239,7 +1239,7 @@ class OSS
                 $accessKeyId        = $this->_credential->getAccessKeyId();
                 $accessKeySecret    = $this->_credential->getAccessKeySecret();
                 $token              = $this->_credential->getSecurityToken();
-                $reqBody            = XML::toXML($request->body->toMap());
+                $reqBody            = XML::toXML(Utils::toMap($request->body));
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'PUT';
                 $_request->pathname = '/?tagging';
@@ -1343,7 +1343,7 @@ class OSS
                 $accessKeyId        = $this->_credential->getAccessKeyId();
                 $accessKeySecret    = $this->_credential->getAccessKeySecret();
                 $token              = $this->_credential->getSecurityToken();
-                $reqBody            = XML::toXML($request->body->toMap());
+                $reqBody            = XML::toXML(Utils::toMap($request->body));
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'PUT';
                 $_request->pathname = '/' . $request->objectName . '?tagging';
@@ -1447,7 +1447,7 @@ class OSS
                 $accessKeyId        = $this->_credential->getAccessKeyId();
                 $accessKeySecret    = $this->_credential->getAccessKeySecret();
                 $token              = $this->_credential->getSecurityToken();
-                $reqBody            = XML::toXML($request->body->toMap());
+                $reqBody            = XML::toXML(Utils::toMap($request->body));
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'POST';
                 $_request->pathname = '/' . $request->objectName . '';
@@ -1459,7 +1459,7 @@ class OSS
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
-                $_request->query                    = Utils::stringifyMapValue($request->filter->toMap());
+                $_request->query                    = Utils::stringifyMapValue(Utils::toMap($request->filter));
                 $_request->body                     = $reqBody;
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
                 $_lastRequest                       = $_request;
@@ -1552,7 +1552,7 @@ class OSS
                 $accessKeyId        = $this->_credential->getAccessKeyId();
                 $accessKeySecret    = $this->_credential->getAccessKeySecret();
                 $token              = $this->_credential->getSecurityToken();
-                $reqBody            = XML::toXML($request->body->toMap());
+                $reqBody            = XML::toXML(Utils::toMap($request->body));
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'PUT';
                 $_request->pathname = '/?cors';
@@ -1656,7 +1656,7 @@ class OSS
                 $accessKeyId        = $this->_credential->getAccessKeyId();
                 $accessKeySecret    = $this->_credential->getAccessKeySecret();
                 $token              = $this->_credential->getSecurityToken();
-                $reqBody            = XML::toXML($request->body->toMap());
+                $reqBody            = XML::toXML(Utils::toMap($request->body));
                 $_request->protocol = $this->_protocol;
                 $_request->method   = 'PUT';
                 $_request->pathname = '/';
@@ -1664,7 +1664,7 @@ class OSS
                     'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
-                ], Utils::stringifyMapValue($request->header->toMap()));
+                ], Utils::stringifyMapValue(Utils::toMap($request->header)));
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
@@ -1771,7 +1771,7 @@ class OSS
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
-                $_request->query                    = Utils::stringifyMapValue($request->filter->toMap());
+                $_request->query                    = Utils::stringifyMapValue(Utils::toMap($request->filter));
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
                 $_lastRequest                       = $_request;
                 $_response                          = Tea::send($_request, $_runtime);
@@ -2196,7 +2196,7 @@ class OSS
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
-                $_request->query                    = Utils::stringifyMapValue($request->filter->toMap());
+                $_request->query                    = Utils::stringifyMapValue(Utils::toMap($request->filter));
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, '', $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
                 $_lastRequest                       = $_request;
                 $_response                          = Tea::send($_request, $_runtime);
@@ -2405,7 +2405,7 @@ class OSS
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
-                $_request->query                    = Utils::stringifyMapValue($request->filter->toMap());
+                $_request->query                    = Utils::stringifyMapValue(Utils::toMap($request->filter));
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
                 $_lastRequest                       = $_request;
                 $_response                          = Tea::send($_request, $_runtime);
@@ -2822,7 +2822,7 @@ class OSS
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
-                $_request->query                    = Utils::stringifyMapValue($request->filter->toMap());
+                $_request->query                    = Utils::stringifyMapValue(Utils::toMap($request->filter));
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
                 $_lastRequest                       = $_request;
                 $_response                          = Tea::send($_request, $_runtime);
@@ -3137,7 +3137,7 @@ class OSS
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
-                $_request->query                    = Utils::stringifyMapValue($request->filter->toMap());
+                $_request->query                    = Utils::stringifyMapValue(Utils::toMap($request->filter));
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
                 $_lastRequest                       = $_request;
                 $_response                          = Tea::send($_request, $_runtime);
@@ -3244,7 +3244,7 @@ class OSS
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
-                $_request->query                    = Utils::stringifyMapValue($request->filter->toMap());
+                $_request->query                    = Utils::stringifyMapValue(Utils::toMap($request->filter));
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
                 $_lastRequest                       = $_request;
                 $_response                          = Tea::send($_request, $_runtime);
@@ -3351,7 +3351,7 @@ class OSS
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
-                $_request->query                    = Utils::stringifyMapValue($request->filter->toMap());
+                $_request->query                    = Utils::stringifyMapValue(Utils::toMap($request->filter));
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
                 $_lastRequest                       = $_request;
                 $_response                          = Tea::send($_request, $_runtime);
@@ -3564,7 +3564,7 @@ class OSS
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
-                $_request->query                    = Utils::stringifyMapValue($request->filter->toMap());
+                $_request->query                    = Utils::stringifyMapValue(Utils::toMap($request->filter));
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
                 $_lastRequest                       = $_request;
                 $_response                          = Tea::send($_request, $_runtime);
@@ -3773,7 +3773,7 @@ class OSS
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
-                $_request->query                    = Utils::stringifyMapValue($request->filter->toMap());
+                $_request->query                    = Utils::stringifyMapValue(Utils::toMap($request->filter));
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
                 $_lastRequest                       = $_request;
                 $_response                          = Tea::send($_request, $_runtime);
@@ -3873,11 +3873,11 @@ class OSS
                     'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
-                ], Utils::stringifyMapValue($request->header->toMap()), OSSUtils::parseMeta($request->userMeta, 'x-oss-meta-'));
+                ], Utils::stringifyMapValue(Utils::toMap($request->header)), OSSUtils::parseMeta($request->userMeta, 'x-oss-meta-'));
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
-                $_request->query = Utils::stringifyMapValue($request->filter->toMap());
+                $_request->query = Utils::stringifyMapValue(Utils::toMap($request->filter));
                 $_request->body  = OSSUtils::inject($request->body, $ctx);
                 if (!Utils::isUnset($request->header) && !Utils::empty_($request->header->contentType)) {
                     $_request->headers['content-type'] = $request->header->contentType;
@@ -4000,11 +4000,11 @@ class OSS
                     'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
-                ], Utils::stringifyMapValue($request->header->toMap()));
+                ], Utils::stringifyMapValue(Utils::toMap($request->header)));
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
-                $_request->query                    = Utils::stringifyMapValue($request->filter->toMap());
+                $_request->query                    = Utils::stringifyMapValue(Utils::toMap($request->filter));
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
                 $_lastRequest                       = $_request;
                 $_response                          = Tea::send($_request, $_runtime);
@@ -4111,7 +4111,7 @@ class OSS
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
-                $_request->query                    = Utils::stringifyMapValue($request->filter->toMap());
+                $_request->query                    = Utils::stringifyMapValue(Utils::toMap($request->filter));
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
                 $_lastRequest                       = $_request;
                 $_response                          = Tea::send($_request, $_runtime);
@@ -4312,7 +4312,7 @@ class OSS
                     'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
-                ], Utils::stringifyMapValue($request->header->toMap()));
+                ], Utils::stringifyMapValue(Utils::toMap($request->header)));
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
@@ -4421,7 +4421,7 @@ class OSS
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
-                $_request->query                    = Utils::stringifyMapValue($request->filter->toMap());
+                $_request->query                    = Utils::stringifyMapValue(Utils::toMap($request->filter));
                 $_request->body                     = OSSUtils::inject($request->body, $ctx);
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
                 $_lastRequest                       = $_request;
@@ -4645,7 +4645,7 @@ class OSS
                     'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
-                ], Utils::stringifyMapValue($request->header->toMap()));
+                ], Utils::stringifyMapValue(Utils::toMap($request->header)));
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
@@ -5372,7 +5372,7 @@ class OSS
                     'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
-                ], Utils::stringifyMapValue($request->header->toMap()));
+                ], Utils::stringifyMapValue(Utils::toMap($request->header)));
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
@@ -5788,7 +5788,7 @@ class OSS
                     'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
-                ], Utils::stringifyMapValue($request->header->toMap()));
+                ], Utils::stringifyMapValue(Utils::toMap($request->header)));
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
@@ -6000,7 +6000,7 @@ class OSS
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
-                $_request->query                    = Utils::stringifyMapValue($request->filter->toMap());
+                $_request->query                    = Utils::stringifyMapValue(Utils::toMap($request->filter));
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
                 $_lastRequest                       = $_request;
                 $_response                          = Tea::send($_request, $_runtime);
@@ -6099,11 +6099,11 @@ class OSS
                     'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
-                ], Utils::stringifyMapValue($request->header->toMap()));
+                ], Utils::stringifyMapValue(Utils::toMap($request->header)));
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
-                $_request->query = Utils::stringifyMapValue($request->filter->toMap());
+                $_request->query = Utils::stringifyMapValue(Utils::toMap($request->filter));
                 if (!Utils::isUnset($request->header) && !Utils::empty_($request->header->contentType)) {
                     $_request->headers['content-type'] = $request->header->contentType;
                 } else {
@@ -6211,7 +6211,7 @@ class OSS
                     'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
-                ], Utils::stringifyMapValue($request->header->toMap()));
+                ], Utils::stringifyMapValue(Utils::toMap($request->header)));
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
@@ -6317,7 +6317,7 @@ class OSS
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
-                $_request->query                    = Utils::stringifyMapValue($request->filter->toMap());
+                $_request->query                    = Utils::stringifyMapValue(Utils::toMap($request->filter));
                 $_request->headers['authorization'] = OSSUtils::getSignature($_request, $request->bucketName, $accessKeyId, $accessKeySecret, $this->_signatureVersion, $this->_addtionalHeaders);
                 $_lastRequest                       = $_request;
                 $_response                          = Tea::send($_request, $_runtime);
@@ -6519,7 +6519,7 @@ class OSS
                     'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
-                ], Utils::stringifyMapValue($request->header->toMap()));
+                ], Utils::stringifyMapValue(Utils::toMap($request->header)));
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
@@ -6933,7 +6933,7 @@ class OSS
                     'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
-                ], Utils::stringifyMapValue($request->header->toMap()));
+                ], Utils::stringifyMapValue(Utils::toMap($request->header)));
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
@@ -7138,7 +7138,7 @@ class OSS
                     'host'       => OSSUtils::getHost($request->bucketName, $this->_regionId, $this->_endpoint, $this->_hostModel),
                     'date'       => Utils::getDateUTCString(),
                     'user-agent' => $this->getUserAgent(),
-                ], Utils::stringifyMapValue($request->header->toMap()), OSSUtils::parseMeta($request->userMeta, 'x-oss-meta-'));
+                ], Utils::stringifyMapValue(Utils::toMap($request->header)), OSSUtils::parseMeta($request->userMeta, 'x-oss-meta-'));
                 if (!Utils::empty_($token)) {
                     $_request->headers['x-oss-security-token'] = $token;
                 }
