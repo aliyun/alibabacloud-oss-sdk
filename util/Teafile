@@ -1,34 +1,42 @@
 {
-	"scope": "alibabacloud",
-	"name": "OSSUtil",
-	"version": "0.1.3",
-	"main": "./util.tea",
-	"releases": {
-		"go": "github.com/alibabacloud-go/tea-oss-utils/service:v1.1.0",
-		"csharp": "AlibabaCloud.OSSUtil:0.0.3",
-		"ts": "@alicloud/oss-util:0.0.1",
-		"java": "com.aliyun:oss-util:1.0.0",
-		"php": "alibabacloud/tea-oss-utils:^0.2.0",
-		"python": "alibabacloud_oss_util:0.0.5"
-	},
-	"go": {
-		"package": [
-			"io"
-		]
-	},
-	"csharp": {
-		"namespace": "AlibabaCloud.OSSUtil"
-	},
-	"java": {
-		"package": "com.aliyun.ossutil"
-	},
-	"php": {
-		"package": "AlibabaCloud.Tea.OSSUtils",
-		"clientName": "OSSUtils",
-		"modelDirName": "OSSUtils"
-	},
-	"python": {
-		"package": "alibabacloud_oss_util",
-		"clientName": "client"
-	}
+  "scope": "alibabacloud",
+  "name": "OSSUtil",
+  "version": "0.1.4",
+  "main": "./util.tea",
+  "releases": {
+    "go": "github.com/alibabacloud-go/tea-oss-utils/service:v1.1.0",
+    "csharp": "AlibabaCloud.OSSUtil:0.0.3",
+    "ts": "@alicloud/oss-util:0.0.1",
+    "java": "com.aliyun:oss-util:1.0.0",
+    "php": "alibabacloud/tea-oss-utils:^0.2.0",
+    "python": "alibabacloud_oss_util:0.0.5"
+  },
+  "go": {
+    "package": [
+      "io"
+    ]
+  },
+  "csharp": {
+    "namespace": "AlibabaCloud.OSSUtil"
+  },
+  "java": {
+    "package": "com.aliyun.ossutil"
+  },
+  "php": {
+    "package": "AlibabaCloud.Tea.OSSUtils",
+    "clientName": "OSSUtils",
+    "modelDirName": "OSSUtils"
+  },
+  "python": {
+    "package": "alibabacloud_oss_util",
+    "clientName": "client"
+  },
+  "cpp": {
+    "packageInfo": {
+      "git": {
+        "scope": "alibabacloud-sdk-cpp",
+        "project": "oss-util"
+      }
+    }
+  }
 }
