@@ -1,10 +1,50 @@
-English | [简体中文](/README-zh-CN.md)
+English | [简体中文](/README-CN.md)
 
 
 # Alibabacloud OSSUtil SDK for C++
 
 ![](https://aliyunsdk-pages.alicdn.com/icons/AlibabaCloud.svg)
 
+The Alibabacloud OSSUtil SDK is based on the `[Darabonba DSL](https://github.com/aliyun/darabonba)` solution, which is a domain specific language for OpenAPI applications. It can be used to generate multilingual SDKs, code samples, test cases, interface choreography, etc. for any style of API.
+
+## Required Dependency Libraries
+
+- [Boost](https://www.boost.org/users/download/)
+- [CPPRestSDK](https://github.com/microsoft/cpprestsdk/releases)
+- [OpenSSL](https://www.openssl.org/source/)
+
+To use this SDK to access the API, you must first install the required dependency libraries.
+
+- Install with Homebrew
+
+```bash
+brew install boost cpprestsdk openssl
+```
+
+- Install with yum
+
+```bash
+yum install boost-devel openssl-devel
+
+# The cpprestsdk does not support installation with yum.
+```
+
+- Install with api-get
+
+```bash
+# install boost
+sudo add-apt-repository ppa:mhier/libboost-latest -y
+sudo apt-get update
+sudo apt-get install libboost-all-dev
+
+sudo apt-get install libcpprest-dev libcurl4-openssl-dev libssl-dev
+```
+
+- Install with vcpkg
+
+```bash
+vcpkg install boost cpprestsdk openssl-windows
+```
 
 ## Installation
 
@@ -18,14 +58,15 @@ sh scripts/install.sh
 
 ### Windows
 
-1. Run the following command to clone code from Github via git-bash:
+1. Run the following command to clone code from Github via [git-bash](https://git-scm.com/downloads):
 
   ```bash
   git clone https://github.com/alibabacloud-sdk-cpp/oss-util.git
   ```
 2. Build Visual Studio solution
-  * Change directory to source code and make directory `cmake_build`
-  * Open CMake UI and
+  * Install [CMake](https://cmake.org/download/) && [Visual Studio](https://visualstudio.microsoft.com/zh-hans/)
+  * Change directory to source code and make the `cmake_build` folder in the project root directory.
+  * Open [CMake](https://cmake.org/download/) software and
     * `Browse Source` to open source code directory.
     * `Browse build`  to open the created `cmake_build` directory
     * click `configure`

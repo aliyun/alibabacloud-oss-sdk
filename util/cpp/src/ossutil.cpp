@@ -762,14 +762,15 @@ string Alibabacloud_OSSUtil::Client::getSignature(const shared_ptr<Darabonba::Re
                                                   const shared_ptr<string>& signatureVersion,
                                                   const shared_ptr<vector<string>>& addtionalHeaders) {
   string signature;
-  if (!signatureVersion || !request) {
+  if (!request) {
     return signature;
   }
+  string signature_version = !signatureVersion ? "v1" : *signatureVersion;
   Darabonba::Request req = !request ? Darabonba::Request() : *request;
   string ak_id = !accessKeyId ? "" : *accessKeyId;
   string ak_secret = !accessKeySecret? "" : *accessKeySecret;
 
-  if (*signatureVersion == "v1") {
+  if (signature_version == "v1") {
     string resource;
     if (bucketName) {
       resource = "/" + *bucketName;
@@ -826,6 +827,10 @@ string Alibabacloud_OSSUtil::Client::decode(const shared_ptr<string>& val, share
     }
   }
   return strs;
+}
+
+bool Alibabacloud_OSSUtil::VerifyStream::empty() {
+  return _stream->empty();
 }
 
 string Alibabacloud_OSSUtil::VerifyStream::read() {
