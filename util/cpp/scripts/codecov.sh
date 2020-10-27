@@ -7,9 +7,9 @@ cd "$basepath/" || exit
 
 mkdir -p cmake_build/
 cd "cmake_build/" || exit
-cmake -DENABLE_UNIT_TESTS=ON -DENABLE_COVERAGE=ON ..
-cmake --build .
-./tests_alibabacloud_ossutil
+cmake -DENABLE_UNIT_TESTS=ON -DENABLE_COVERAGE=ON .. || exit
+cmake --build . || exit
+./tests_alibabacloud_ossutil || exit
 
 utdir="$basepath/cmake_build"
 

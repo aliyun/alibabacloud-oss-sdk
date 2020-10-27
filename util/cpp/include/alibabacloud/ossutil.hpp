@@ -13,83 +13,116 @@ using namespace std;
 
 namespace Alibabacloud_OSSUtil {
 class RuntimeOptions : public Darabonba::Model {
-protected:
-  void _init(){
-    _name = map<string, string>({
-      {"autoretry" , "autoretry"},
-      {"ignoreSSL" , "ignoreSSL"},
-      {"maxAttempts" , "maxAttempts"},
-      {"backoffPolicy" , "backoffPolicy"},
-      {"backoffPeriod" , "backoffPeriod"},
-      {"readTimeout" , "readTimeout"},
-      {"connectTimeout" , "connectTimeout"},
-      {"localAddr" , "localAddr"},
-      {"httpProxy" , "httpProxy"},
-      {"httpsProxy" , "httpsProxy"},
-      {"noProxy" , "noProxy"},
-      {"maxIdleConns" , "maxIdleConns"},
-      {"socks5Proxy" , "socks5Proxy"},
-      {"socks5NetWork" , "socks5NetWork"},
-      {"uploadLimitSpeed" , "uploadLimitSpeed"},
-      {"listener" , "listener"},
-    });
-  }
 public:
-  RuntimeOptions() {_init();};
-  explicit RuntimeOptions(const std::map<string, boost::any> &config) : Darabonba::Model(config) {_init();};
+  RuntimeOptions() {}
+  explicit RuntimeOptions(const std::map<string, boost::any> &config) : Darabonba::Model(config) {
+    fromMap(config);
+  };
 
+  void validate() override {}
 
-  map<string, boost::any> toMap() {
+  map<string, boost::any> toMap() override {
     map<string, boost::any> res;
-    if (nullptr != autoretry) {
+    if (autoretry) {
       res["autoretry"] = boost::any(*autoretry);
     }
-    if (nullptr != ignoreSSL) {
+    if (ignoreSSL) {
       res["ignoreSSL"] = boost::any(*ignoreSSL);
     }
-    if (nullptr != maxAttempts) {
+    if (maxAttempts) {
       res["maxAttempts"] = boost::any(*maxAttempts);
     }
-    if (nullptr != backoffPolicy) {
+    if (backoffPolicy) {
       res["backoffPolicy"] = boost::any(*backoffPolicy);
     }
-    if (nullptr != backoffPeriod) {
+    if (backoffPeriod) {
       res["backoffPeriod"] = boost::any(*backoffPeriod);
     }
-    if (nullptr != readTimeout) {
+    if (readTimeout) {
       res["readTimeout"] = boost::any(*readTimeout);
     }
-    if (nullptr != connectTimeout) {
+    if (connectTimeout) {
       res["connectTimeout"] = boost::any(*connectTimeout);
     }
-    if (nullptr != localAddr) {
+    if (localAddr) {
       res["localAddr"] = boost::any(*localAddr);
     }
-    if (nullptr != httpProxy) {
+    if (httpProxy) {
       res["httpProxy"] = boost::any(*httpProxy);
     }
-    if (nullptr != httpsProxy) {
+    if (httpsProxy) {
       res["httpsProxy"] = boost::any(*httpsProxy);
     }
-    if (nullptr != noProxy) {
+    if (noProxy) {
       res["noProxy"] = boost::any(*noProxy);
     }
-    if (nullptr != maxIdleConns) {
+    if (maxIdleConns) {
       res["maxIdleConns"] = boost::any(*maxIdleConns);
     }
-    if (nullptr != socks5Proxy) {
+    if (socks5Proxy) {
       res["socks5Proxy"] = boost::any(*socks5Proxy);
     }
-    if (nullptr != socks5NetWork) {
+    if (socks5NetWork) {
       res["socks5NetWork"] = boost::any(*socks5NetWork);
     }
-    if (nullptr != uploadLimitSpeed) {
+    if (uploadLimitSpeed) {
       res["uploadLimitSpeed"] = boost::any(*uploadLimitSpeed);
     }
-    if (nullptr != listener) {
+    if (listener) {
       res["listener"] = boost::any(*listener);
     }
     return res;
+  }
+
+  void fromMap(map<string, boost::any> m) override {
+    if (m.find("autoretry") != m.end()) {
+      autoretry = make_shared<bool>(boost::any_cast<bool>(m["autoretry"]));
+    }
+    if (m.find("ignoreSSL") != m.end()) {
+      ignoreSSL = make_shared<bool>(boost::any_cast<bool>(m["ignoreSSL"]));
+    }
+    if (m.find("maxAttempts") != m.end()) {
+      maxAttempts = make_shared<int>(boost::any_cast<int>(m["maxAttempts"]));
+    }
+    if (m.find("backoffPolicy") != m.end()) {
+      backoffPolicy = make_shared<string>(boost::any_cast<string>(m["backoffPolicy"]));
+    }
+    if (m.find("backoffPeriod") != m.end()) {
+      backoffPeriod = make_shared<int>(boost::any_cast<int>(m["backoffPeriod"]));
+    }
+    if (m.find("readTimeout") != m.end()) {
+      readTimeout = make_shared<int>(boost::any_cast<int>(m["readTimeout"]));
+    }
+    if (m.find("connectTimeout") != m.end()) {
+      connectTimeout = make_shared<int>(boost::any_cast<int>(m["connectTimeout"]));
+    }
+    if (m.find("localAddr") != m.end()) {
+      localAddr = make_shared<string>(boost::any_cast<string>(m["localAddr"]));
+    }
+    if (m.find("httpProxy") != m.end()) {
+      httpProxy = make_shared<string>(boost::any_cast<string>(m["httpProxy"]));
+    }
+    if (m.find("httpsProxy") != m.end()) {
+      httpsProxy = make_shared<string>(boost::any_cast<string>(m["httpsProxy"]));
+    }
+    if (m.find("noProxy") != m.end()) {
+      noProxy = make_shared<string>(boost::any_cast<string>(m["noProxy"]));
+    }
+    if (m.find("maxIdleConns") != m.end()) {
+      maxIdleConns = make_shared<int>(boost::any_cast<int>(m["maxIdleConns"]));
+    }
+    if (m.find("socks5Proxy") != m.end()) {
+      socks5Proxy = make_shared<string>(boost::any_cast<string>(m["socks5Proxy"]));
+    }
+    if (m.find("socks5NetWork") != m.end()) {
+      socks5NetWork = make_shared<string>(boost::any_cast<string>(m["socks5NetWork"]));
+    }
+    if (m.find("uploadLimitSpeed") != m.end()) {
+      uploadLimitSpeed = make_shared<int>(boost::any_cast<int>(m["uploadLimitSpeed"]));
+    }
+    if (m.find("listener") != m.end()) {
+      listener = make_shared<boost::any>(boost::any_cast<boost::any>(m["listener"]));
+    }
   }
 
   shared_ptr<bool> autoretry{};
@@ -109,7 +142,7 @@ public:
   shared_ptr<int> uploadLimitSpeed{};
   shared_ptr<boost::any> listener{};
 
-  ~RuntimeOptions() {};
+  ~RuntimeOptions() = default;
 };
 
 /////////////////////////////
@@ -123,6 +156,7 @@ public:
     _ctx = ctx;
   }
 
+  bool empty() override;
   string read() override;
 
 private:

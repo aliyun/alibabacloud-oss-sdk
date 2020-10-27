@@ -224,4 +224,5 @@ TEST(test_oss, test_inject)
   ASSERT_EQ("test", body->read());
   ASSERT_EQ("CY9rzUYh03PK3k6DJie09g==", ctx->at("md5"));
   ASSERT_EQ("18020588380933092773", ctx->at("crc"));
+  ASSERT_FALSE(body->empty());
 }
