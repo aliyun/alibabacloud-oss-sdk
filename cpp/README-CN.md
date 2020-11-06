@@ -51,7 +51,7 @@ vcpkg install boost openssl-windows cpprestsdk
 ### Linux
 
 ```bash
-git clone https://github.com/alibabacloud/oss.git
+git clone https://github.com/alibabacloud-sdk-cpp/oss.git
 cd oss
 sh scripts/install.sh
 ```
@@ -61,7 +61,7 @@ sh scripts/install.sh
 1. 使用 [git-bash](https://git-scm.com/downloads) 执行以下命令，从 Github 克隆源码
 
   ```bash
-  git clone https://github.com/alibabacloud/oss.git
+  git clone https://github.com/alibabacloud-sdk-cpp/oss.git
   ```
 2. 使用 Visual Studio 进行编译:
   * 安装 [CMake](https://cmake.org/download/) 和 [Visual Studio](https://visualstudio.microsoft.com/zh-hans/)
@@ -80,7 +80,7 @@ sh scripts/install.sh
 
 ## 问题
 
-[提交 Issue](https://github.com/alibabacloud/oss/issues/new/choose)，不符合指南的问题可能会立即关闭。
+[提交 Issue](https://github.com/alibabacloud-sdk-cpp/oss/issues/new/choose)，不符合指南的问题可能会立即关闭。
 
 ## 相关
 
@@ -96,6 +96,6 @@ sh scripts/install.sh
 Copyright (c) 2009-present, Alibaba Cloud All rights reserved.
 
 [open-api]: https://api.aliyun.com
-[latest-release]: https://github.com/alibabacloud/oss/releases
+[latest-release]: https://github.com/alibabacloud-sdk-cpp/oss/releases
 [console]: https://home.console.aliyun.com
 [aliyun]: https://www.aliyun.com
