@@ -55,7 +55,7 @@
 	"cpp": {
 		"packageInfo": {
 			"git": {
-				"scope": "alibabacloud",
+				"scope": "alibabacloud-sdk-cpp",
 				"project": "oss"
 			}
 		}
