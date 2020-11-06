@@ -1,0 +1,7 @@
+message(STATUS "Install libraries")
+add_subdirectory(darabonba_util)
+add_subdirectory(alibabacloud_ossutil)
+add_subdirectory(darabonba_xml)
+add_subdirectory(darabonba_file_form)
+add_subdirectory(alibabacloud_credential)
+add_subdirectory(darabonba_core)

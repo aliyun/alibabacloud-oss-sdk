@@ -52,6 +52,14 @@
 			"email": "alibaba-cloud-sdk-dev-team@list.alibaba-inc.com"
 		}
 	},
+	"cpp": {
+		"packageInfo": {
+			"git": {
+				"scope": "alibabacloud",
+				"project": "oss"
+			}
+		}
+	},
 	"libraries": {
 		"Util": "darabonba:Util:*",
 		"XML": "darabonba:XML:*",
