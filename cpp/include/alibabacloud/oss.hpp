@@ -110,78 +110,80 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("type") != m.end()) {
+    if (m.find("type") != m.end() && !m["type"].empty()) {
       type = make_shared<string>(boost::any_cast<string>(m["type"]));
     }
-    if (m.find("securityToken") != m.end()) {
+    if (m.find("securityToken") != m.end() && !m["securityToken"].empty()) {
       securityToken =
           make_shared<string>(boost::any_cast<string>(m["securityToken"]));
     }
-    if (m.find("accessKeyId") != m.end()) {
+    if (m.find("accessKeyId") != m.end() && !m["accessKeyId"].empty()) {
       accessKeyId =
           make_shared<string>(boost::any_cast<string>(m["accessKeyId"]));
     }
-    if (m.find("accessKeySecret") != m.end()) {
+    if (m.find("accessKeySecret") != m.end() && !m["accessKeySecret"].empty()) {
       accessKeySecret =
           make_shared<string>(boost::any_cast<string>(m["accessKeySecret"]));
     }
-    if (m.find("endpoint") != m.end()) {
+    if (m.find("endpoint") != m.end() && !m["endpoint"].empty()) {
       endpoint = make_shared<string>(boost::any_cast<string>(m["endpoint"]));
     }
-    if (m.find("protocol") != m.end()) {
+    if (m.find("protocol") != m.end() && !m["protocol"].empty()) {
       protocol = make_shared<string>(boost::any_cast<string>(m["protocol"]));
     }
-    if (m.find("regionId") != m.end()) {
+    if (m.find("regionId") != m.end() && !m["regionId"].empty()) {
       regionId = make_shared<string>(boost::any_cast<string>(m["regionId"]));
     }
-    if (m.find("userAgent") != m.end()) {
+    if (m.find("userAgent") != m.end() && !m["userAgent"].empty()) {
       userAgent = make_shared<string>(boost::any_cast<string>(m["userAgent"]));
     }
-    if (m.find("hostModel") != m.end()) {
+    if (m.find("hostModel") != m.end() && !m["hostModel"].empty()) {
       hostModel = make_shared<string>(boost::any_cast<string>(m["hostModel"]));
     }
-    if (m.find("signatureVersion") != m.end()) {
+    if (m.find("signatureVersion") != m.end() &&
+        !m["signatureVersion"].empty()) {
       signatureVersion =
           make_shared<string>(boost::any_cast<string>(m["signatureVersion"]));
     }
-    if (m.find("isEnableMD5") != m.end()) {
+    if (m.find("isEnableMD5") != m.end() && !m["isEnableMD5"].empty()) {
       isEnableMD5 = make_shared<bool>(boost::any_cast<bool>(m["isEnableMD5"]));
     }
-    if (m.find("isEnableCrc") != m.end()) {
+    if (m.find("isEnableCrc") != m.end() && !m["isEnableCrc"].empty()) {
       isEnableCrc = make_shared<bool>(boost::any_cast<bool>(m["isEnableCrc"]));
     }
-    if (m.find("readTimeout") != m.end()) {
+    if (m.find("readTimeout") != m.end() && !m["readTimeout"].empty()) {
       readTimeout = make_shared<int>(boost::any_cast<int>(m["readTimeout"]));
     }
-    if (m.find("connectTimeout") != m.end()) {
+    if (m.find("connectTimeout") != m.end() && !m["connectTimeout"].empty()) {
       connectTimeout =
           make_shared<int>(boost::any_cast<int>(m["connectTimeout"]));
     }
-    if (m.find("localAddr") != m.end()) {
+    if (m.find("localAddr") != m.end() && !m["localAddr"].empty()) {
       localAddr = make_shared<string>(boost::any_cast<string>(m["localAddr"]));
     }
-    if (m.find("httpProxy") != m.end()) {
+    if (m.find("httpProxy") != m.end() && !m["httpProxy"].empty()) {
       httpProxy = make_shared<string>(boost::any_cast<string>(m["httpProxy"]));
     }
-    if (m.find("httpsProxy") != m.end()) {
+    if (m.find("httpsProxy") != m.end() && !m["httpsProxy"].empty()) {
       httpsProxy =
           make_shared<string>(boost::any_cast<string>(m["httpsProxy"]));
     }
-    if (m.find("noProxy") != m.end()) {
+    if (m.find("noProxy") != m.end() && !m["noProxy"].empty()) {
       noProxy = make_shared<string>(boost::any_cast<string>(m["noProxy"]));
     }
-    if (m.find("socks5Proxy") != m.end()) {
+    if (m.find("socks5Proxy") != m.end() && !m["socks5Proxy"].empty()) {
       socks5Proxy =
           make_shared<string>(boost::any_cast<string>(m["socks5Proxy"]));
     }
-    if (m.find("socks5NetWork") != m.end()) {
+    if (m.find("socks5NetWork") != m.end() && !m["socks5NetWork"].empty()) {
       socks5NetWork =
           make_shared<string>(boost::any_cast<string>(m["socks5NetWork"]));
     }
-    if (m.find("maxIdleConns") != m.end()) {
+    if (m.find("maxIdleConns") != m.end() && !m["maxIdleConns"].empty()) {
       maxIdleConns = make_shared<int>(boost::any_cast<int>(m["maxIdleConns"]));
     }
-    if (m.find("addtionalHeaders") != m.end()) {
+    if (m.find("addtionalHeaders") != m.end() &&
+        !m["addtionalHeaders"].empty()) {
       vector<string> toVec1;
       if (typeid(vector<boost::any>).name() ==
           m["addtionalHeaders"].type().name()) {
@@ -244,10 +246,11 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Days") != m.end()) {
+    if (m.find("Days") != m.end() && !m["Days"].empty()) {
       days = make_shared<int>(boost::any_cast<int>(m["Days"]));
     }
-    if (m.find("CreatedBeforeDate") != m.end()) {
+    if (m.find("CreatedBeforeDate") != m.end() &&
+        !m["CreatedBeforeDate"].empty()) {
       createdBeforeDate =
           make_shared<string>(boost::any_cast<string>(m["CreatedBeforeDate"]));
     }
@@ -283,10 +286,10 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Days") != m.end()) {
+    if (m.find("Days") != m.end() && !m["Days"].empty()) {
       days = make_shared<int>(boost::any_cast<int>(m["Days"]));
     }
-    if (m.find("StorageClass") != m.end()) {
+    if (m.find("StorageClass") != m.end() && !m["StorageClass"].empty()) {
       storageClass =
           make_shared<string>(boost::any_cast<string>(m["StorageClass"]));
     }
@@ -324,10 +327,11 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Days") != m.end()) {
+    if (m.find("Days") != m.end() && !m["Days"].empty()) {
       days = make_shared<int>(boost::any_cast<int>(m["Days"]));
     }
-    if (m.find("CreatedBeforeDate") != m.end()) {
+    if (m.find("CreatedBeforeDate") != m.end() &&
+        !m["CreatedBeforeDate"].empty()) {
       createdBeforeDate =
           make_shared<string>(boost::any_cast<string>(m["CreatedBeforeDate"]));
     }
@@ -363,10 +367,10 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Key") != m.end()) {
+    if (m.find("Key") != m.end() && !m["Key"].empty()) {
       key = make_shared<string>(boost::any_cast<string>(m["Key"]));
     }
-    if (m.find("Value") != m.end()) {
+    if (m.find("Value") != m.end() && !m["Value"].empty()) {
       value = make_shared<string>(boost::any_cast<string>(m["Value"]));
     }
   }
@@ -420,7 +424,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Expiration") != m.end()) {
+    if (m.find("Expiration") != m.end() && !m["Expiration"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["Expiration"].type().name()) {
         PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration
@@ -432,7 +436,7 @@ public:
             model1);
       }
     }
-    if (m.find("Transition") != m.end()) {
+    if (m.find("Transition") != m.end() && !m["Transition"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["Transition"].type().name()) {
         PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition
@@ -444,7 +448,8 @@ public:
             model1);
       }
     }
-    if (m.find("AbortMultipartUpload") != m.end()) {
+    if (m.find("AbortMultipartUpload") != m.end() &&
+        !m["AbortMultipartUpload"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["AbortMultipartUpload"].type().name()) {
         PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUpload
@@ -456,7 +461,7 @@ public:
             model1);
       }
     }
-    if (m.find("Tag") != m.end()) {
+    if (m.find("Tag") != m.end() && !m["Tag"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Tag"].type().name()) {
         PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Tag"]));
@@ -464,13 +469,13 @@ public:
             PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag>(model1);
       }
     }
-    if (m.find("ID") != m.end()) {
+    if (m.find("ID") != m.end() && !m["ID"].empty()) {
       iD = make_shared<string>(boost::any_cast<string>(m["ID"]));
     }
-    if (m.find("Prefix") != m.end()) {
+    if (m.find("Prefix") != m.end() && !m["Prefix"].empty()) {
       prefix = make_shared<string>(boost::any_cast<string>(m["Prefix"]));
     }
-    if (m.find("Status") != m.end()) {
+    if (m.find("Status") != m.end() && !m["Status"].empty()) {
       status = make_shared<string>(boost::any_cast<string>(m["Status"]));
     }
   }
@@ -514,7 +519,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Rule") != m.end()) {
+    if (m.find("Rule") != m.end() && !m["Rule"].empty()) {
       if (typeid(vector<boost::any>).name() == m["Rule"].type().name()) {
         vector<PutBucketLifecycleRequestBodyLifecycleConfigurationRule> expect1;
         for (auto item1 : boost::any_cast<vector<boost::any>>(m["Rule"])) {
@@ -563,7 +568,8 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("LifecycleConfiguration") != m.end()) {
+    if (m.find("LifecycleConfiguration") != m.end() &&
+        !m["LifecycleConfiguration"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["LifecycleConfiguration"].type().name()) {
         PutBucketLifecycleRequestBodyLifecycleConfiguration model1;
@@ -611,11 +617,11 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
-    if (m.find("Body") != m.end()) {
+    if (m.find("Body") != m.end() && !m["Body"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Body"].type().name()) {
         PutBucketLifecycleRequestBody model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Body"]));
@@ -654,7 +660,8 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
@@ -684,7 +691,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Key") != m.end()) {
+    if (m.find("Key") != m.end() && !m["Key"].empty()) {
       key = make_shared<string>(boost::any_cast<string>(m["Key"]));
     }
   }
@@ -720,7 +727,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Object") != m.end()) {
+    if (m.find("Object") != m.end() && !m["Object"].empty()) {
       if (typeid(vector<boost::any>).name() == m["Object"].type().name()) {
         vector<DeleteMultipleObjectsRequestBodyDeleteObject> expect1;
         for (auto item1 : boost::any_cast<vector<boost::any>>(m["Object"])) {
@@ -735,7 +742,7 @@ public:
                 expect1);
       }
     }
-    if (m.find("Quiet") != m.end()) {
+    if (m.find("Quiet") != m.end() && !m["Quiet"].empty()) {
       quiet = make_shared<string>(boost::any_cast<string>(m["Quiet"]));
     }
   }
@@ -771,7 +778,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Delete") != m.end()) {
+    if (m.find("Delete") != m.end() && !m["Delete"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Delete"].type().name()) {
         DeleteMultipleObjectsRequestBodyDelete model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Delete"]));
@@ -819,15 +826,15 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Encoding-type") != m.end()) {
+    if (m.find("Encoding-type") != m.end() && !m["Encoding-type"].empty()) {
       encodingType =
           make_shared<string>(boost::any_cast<string>(m["Encoding-type"]));
     }
-    if (m.find("Content-Length") != m.end()) {
+    if (m.find("Content-Length") != m.end() && !m["Content-Length"].empty()) {
       contentLength =
           make_shared<string>(boost::any_cast<string>(m["Content-Length"]));
     }
-    if (m.find("Content-MD5") != m.end()) {
+    if (m.find("Content-MD5") != m.end() && !m["Content-MD5"].empty()) {
       contentMD5 =
           make_shared<string>(boost::any_cast<string>(m["Content-MD5"]));
     }
@@ -878,18 +885,18 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
-    if (m.find("Body") != m.end()) {
+    if (m.find("Body") != m.end() && !m["Body"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Body"].type().name()) {
         DeleteMultipleObjectsRequestBody model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Body"]));
         body = make_shared<DeleteMultipleObjectsRequestBody>(model1);
       }
     }
-    if (m.find("Header") != m.end()) {
+    if (m.find("Header") != m.end() && !m["Header"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Header"].type().name()) {
         DeleteMultipleObjectsRequestHeader model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Header"]));
@@ -925,7 +932,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Key") != m.end()) {
+    if (m.find("Key") != m.end() && !m["Key"].empty()) {
       key = make_shared<string>(boost::any_cast<string>(m["Key"]));
     }
   }
@@ -964,14 +971,14 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Quiet") != m.end()) {
+    if (m.find("Quiet") != m.end() && !m["Quiet"].empty()) {
       quiet = make_shared<string>(boost::any_cast<string>(m["Quiet"]));
     }
-    if (m.find("EncodingType") != m.end()) {
+    if (m.find("EncodingType") != m.end() && !m["EncodingType"].empty()) {
       encodingType =
           make_shared<string>(boost::any_cast<string>(m["EncodingType"]));
     }
-    if (m.find("Deleted") != m.end()) {
+    if (m.find("Deleted") != m.end() && !m["Deleted"].empty()) {
       if (typeid(vector<boost::any>).name() == m["Deleted"].type().name()) {
         vector<DeleteMultipleObjectsResponseDeleteResultDeleted> expect1;
         for (auto item1 : boost::any_cast<vector<boost::any>>(m["Deleted"])) {
@@ -1028,11 +1035,12 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
-    if (m.find("DeleteResult") != m.end()) {
+    if (m.find("DeleteResult") != m.end() && !m["DeleteResult"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["DeleteResult"].type().name()) {
         DeleteMultipleObjectsResponseDeleteResult model1;
@@ -1070,7 +1078,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Referer") != m.end()) {
+    if (m.find("Referer") != m.end() && !m["Referer"].empty()) {
       vector<string> toVec1;
       if (typeid(vector<boost::any>).name() == m["Referer"].type().name()) {
         vector<boost::any> vec1 =
@@ -1113,7 +1121,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("RefererList") != m.end()) {
+    if (m.find("RefererList") != m.end() && !m["RefererList"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["RefererList"].type().name()) {
         PutBucketRefererRequestBodyRefererConfigurationRefererList model1;
@@ -1123,7 +1131,8 @@ public:
             PutBucketRefererRequestBodyRefererConfigurationRefererList>(model1);
       }
     }
-    if (m.find("AllowEmptyReferer") != m.end()) {
+    if (m.find("AllowEmptyReferer") != m.end() &&
+        !m["AllowEmptyReferer"].empty()) {
       allowEmptyReferer =
           make_shared<bool>(boost::any_cast<bool>(m["AllowEmptyReferer"]));
     }
@@ -1162,7 +1171,8 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("RefererConfiguration") != m.end()) {
+    if (m.find("RefererConfiguration") != m.end() &&
+        !m["RefererConfiguration"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["RefererConfiguration"].type().name()) {
         PutBucketRefererRequestBodyRefererConfiguration model1;
@@ -1210,11 +1220,11 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
-    if (m.find("Body") != m.end()) {
+    if (m.find("Body") != m.end() && !m["Body"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Body"].type().name()) {
         PutBucketRefererRequestBody model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Body"]));
@@ -1252,7 +1262,8 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
@@ -1283,7 +1294,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Suffix") != m.end()) {
+    if (m.find("Suffix") != m.end() && !m["Suffix"].empty()) {
       suffix = make_shared<string>(boost::any_cast<string>(m["Suffix"]));
     }
   }
@@ -1313,7 +1324,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Key") != m.end()) {
+    if (m.find("Key") != m.end() && !m["Key"].empty()) {
       key = make_shared<string>(boost::any_cast<string>(m["Key"]));
     }
   }
@@ -1348,10 +1359,10 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Key") != m.end()) {
+    if (m.find("Key") != m.end() && !m["Key"].empty()) {
       key = make_shared<string>(boost::any_cast<string>(m["Key"]));
     }
-    if (m.find("Equals") != m.end()) {
+    if (m.find("Equals") != m.end() && !m["Equals"].empty()) {
       equals = make_shared<string>(boost::any_cast<string>(m["Equals"]));
     }
   }
@@ -1394,7 +1405,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("IncludeHeader") != m.end()) {
+    if (m.find("IncludeHeader") != m.end() && !m["IncludeHeader"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["IncludeHeader"].type().name()) {
         PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader
@@ -1406,11 +1417,12 @@ public:
             model1);
       }
     }
-    if (m.find("KeyPrefixEquals") != m.end()) {
+    if (m.find("KeyPrefixEquals") != m.end() && !m["KeyPrefixEquals"].empty()) {
       keyPrefixEquals =
           make_shared<string>(boost::any_cast<string>(m["KeyPrefixEquals"]));
     }
-    if (m.find("HttpErrorCodeReturnedEquals") != m.end()) {
+    if (m.find("HttpErrorCodeReturnedEquals") != m.end() &&
+        !m["HttpErrorCodeReturnedEquals"].empty()) {
       httpErrorCodeReturnedEquals = make_shared<string>(
           boost::any_cast<string>(m["HttpErrorCodeReturnedEquals"]));
     }
@@ -1451,10 +1463,10 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Key") != m.end()) {
+    if (m.find("Key") != m.end() && !m["Key"].empty()) {
       key = make_shared<string>(boost::any_cast<string>(m["Key"]));
     }
-    if (m.find("Value") != m.end()) {
+    if (m.find("Value") != m.end() && !m["Value"].empty()) {
       value = make_shared<string>(boost::any_cast<string>(m["Value"]));
     }
   }
@@ -1498,7 +1510,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Set") != m.end()) {
+    if (m.find("Set") != m.end() && !m["Set"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Set"].type().name()) {
         PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet
             model1;
@@ -1508,13 +1520,13 @@ public:
             model1);
       }
     }
-    if (m.find("PassAll") != m.end()) {
+    if (m.find("PassAll") != m.end() && !m["PassAll"].empty()) {
       passAll = make_shared<bool>(boost::any_cast<bool>(m["PassAll"]));
     }
-    if (m.find("Pass") != m.end()) {
+    if (m.find("Pass") != m.end() && !m["Pass"].empty()) {
       pass = make_shared<string>(boost::any_cast<string>(m["Pass"]));
     }
-    if (m.find("Remove") != m.end()) {
+    if (m.find("Remove") != m.end() && !m["Remove"].empty()) {
       remove = make_shared<string>(boost::any_cast<string>(m["Remove"]));
     }
   }
@@ -1587,7 +1599,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("MirrorHeaders") != m.end()) {
+    if (m.find("MirrorHeaders") != m.end() && !m["MirrorHeaders"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["MirrorHeaders"].type().name()) {
         PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders
@@ -1599,44 +1611,48 @@ public:
             model1);
       }
     }
-    if (m.find("RedirectType") != m.end()) {
+    if (m.find("RedirectType") != m.end() && !m["RedirectType"].empty()) {
       redirectType =
           make_shared<string>(boost::any_cast<string>(m["RedirectType"]));
     }
-    if (m.find("PassQueryString") != m.end()) {
+    if (m.find("PassQueryString") != m.end() && !m["PassQueryString"].empty()) {
       passQueryString =
           make_shared<bool>(boost::any_cast<bool>(m["PassQueryString"]));
     }
-    if (m.find("MirrorURL") != m.end()) {
+    if (m.find("MirrorURL") != m.end() && !m["MirrorURL"].empty()) {
       mirrorURL = make_shared<string>(boost::any_cast<string>(m["MirrorURL"]));
     }
-    if (m.find("MirrorPassQueryString") != m.end()) {
+    if (m.find("MirrorPassQueryString") != m.end() &&
+        !m["MirrorPassQueryString"].empty()) {
       mirrorPassQueryString =
           make_shared<bool>(boost::any_cast<bool>(m["MirrorPassQueryString"]));
     }
-    if (m.find("MirrorFollowRedirect") != m.end()) {
+    if (m.find("MirrorFollowRedirect") != m.end() &&
+        !m["MirrorFollowRedirect"].empty()) {
       mirrorFollowRedirect =
           make_shared<bool>(boost::any_cast<bool>(m["MirrorFollowRedirect"]));
     }
-    if (m.find("MirrorCheckMd5") != m.end()) {
+    if (m.find("MirrorCheckMd5") != m.end() && !m["MirrorCheckMd5"].empty()) {
       mirrorCheckMd5 =
           make_shared<bool>(boost::any_cast<bool>(m["MirrorCheckMd5"]));
     }
-    if (m.find("Protocol") != m.end()) {
+    if (m.find("Protocol") != m.end() && !m["Protocol"].empty()) {
       protocol = make_shared<string>(boost::any_cast<string>(m["Protocol"]));
     }
-    if (m.find("HostName") != m.end()) {
+    if (m.find("HostName") != m.end() && !m["HostName"].empty()) {
       hostName = make_shared<string>(boost::any_cast<string>(m["HostName"]));
     }
-    if (m.find("HttpRedirectCode") != m.end()) {
+    if (m.find("HttpRedirectCode") != m.end() &&
+        !m["HttpRedirectCode"].empty()) {
       httpRedirectCode =
           make_shared<string>(boost::any_cast<string>(m["HttpRedirectCode"]));
     }
-    if (m.find("ReplaceKeyPrefixWith") != m.end()) {
+    if (m.find("ReplaceKeyPrefixWith") != m.end() &&
+        !m["ReplaceKeyPrefixWith"].empty()) {
       replaceKeyPrefixWith = make_shared<string>(
           boost::any_cast<string>(m["ReplaceKeyPrefixWith"]));
     }
-    if (m.find("ReplaceKeyWith") != m.end()) {
+    if (m.find("ReplaceKeyWith") != m.end() && !m["ReplaceKeyWith"].empty()) {
       replaceKeyWith =
           make_shared<string>(boost::any_cast<string>(m["ReplaceKeyWith"]));
     }
@@ -1689,7 +1705,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Condition") != m.end()) {
+    if (m.find("Condition") != m.end() && !m["Condition"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["Condition"].type().name()) {
         PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCondition
@@ -1701,7 +1717,7 @@ public:
             model1);
       }
     }
-    if (m.find("Redirect") != m.end()) {
+    if (m.find("Redirect") != m.end() && !m["Redirect"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["Redirect"].type().name()) {
         PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect
@@ -1712,7 +1728,7 @@ public:
             model1);
       }
     }
-    if (m.find("RuleNumber") != m.end()) {
+    if (m.find("RuleNumber") != m.end() && !m["RuleNumber"].empty()) {
       ruleNumber = make_shared<int>(boost::any_cast<int>(m["RuleNumber"]));
     }
   }
@@ -1753,7 +1769,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("RoutingRule") != m.end()) {
+    if (m.find("RoutingRule") != m.end() && !m["RoutingRule"].empty()) {
       if (typeid(vector<boost::any>).name() == m["RoutingRule"].type().name()) {
         vector<
             PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule>
@@ -1813,7 +1829,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("IndexDocument") != m.end()) {
+    if (m.find("IndexDocument") != m.end() && !m["IndexDocument"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["IndexDocument"].type().name()) {
         PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument model1;
@@ -1824,7 +1840,7 @@ public:
             model1);
       }
     }
-    if (m.find("ErrorDocument") != m.end()) {
+    if (m.find("ErrorDocument") != m.end() && !m["ErrorDocument"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["ErrorDocument"].type().name()) {
         PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument model1;
@@ -1835,7 +1851,7 @@ public:
             model1);
       }
     }
-    if (m.find("RoutingRules") != m.end()) {
+    if (m.find("RoutingRules") != m.end() && !m["RoutingRules"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["RoutingRules"].type().name()) {
         PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules model1;
@@ -1884,7 +1900,8 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("WebsiteConfiguration") != m.end()) {
+    if (m.find("WebsiteConfiguration") != m.end() &&
+        !m["WebsiteConfiguration"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["WebsiteConfiguration"].type().name()) {
         PutBucketWebsiteRequestBodyWebsiteConfiguration model1;
@@ -1932,11 +1949,11 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
-    if (m.find("Body") != m.end()) {
+    if (m.find("Body") != m.end() && !m["Body"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Body"].type().name()) {
         PutBucketWebsiteRequestBody model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Body"]));
@@ -1974,7 +1991,8 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
@@ -2012,10 +2030,10 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("uploadId") != m.end()) {
+    if (m.find("uploadId") != m.end() && !m["uploadId"].empty()) {
       uploadId = make_shared<string>(boost::any_cast<string>(m["uploadId"]));
     }
-    if (m.find("Encoding-type") != m.end()) {
+    if (m.find("Encoding-type") != m.end() && !m["Encoding-type"].empty()) {
       encodingType =
           make_shared<string>(boost::any_cast<string>(m["Encoding-type"]));
     }
@@ -2050,11 +2068,11 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("PartNumber") != m.end()) {
+    if (m.find("PartNumber") != m.end() && !m["PartNumber"].empty()) {
       partNumber =
           make_shared<string>(boost::any_cast<string>(m["PartNumber"]));
     }
-    if (m.find("ETag") != m.end()) {
+    if (m.find("ETag") != m.end() && !m["ETag"].empty()) {
       eTag = make_shared<string>(boost::any_cast<string>(m["ETag"]));
     }
   }
@@ -2089,7 +2107,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Part") != m.end()) {
+    if (m.find("Part") != m.end() && !m["Part"].empty()) {
       if (typeid(vector<boost::any>).name() == m["Part"].type().name()) {
         vector<CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart>
             expect1;
@@ -2141,7 +2159,8 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("CompleteMultipartUpload") != m.end()) {
+    if (m.find("CompleteMultipartUpload") != m.end() &&
+        !m["CompleteMultipartUpload"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["CompleteMultipartUpload"].type().name()) {
         CompleteMultipartUploadRequestBodyCompleteMultipartUpload model1;
@@ -2204,22 +2223,22 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
-    if (m.find("ObjectName") != m.end()) {
+    if (m.find("ObjectName") != m.end() && !m["ObjectName"].empty()) {
       objectName =
           make_shared<string>(boost::any_cast<string>(m["ObjectName"]));
     }
-    if (m.find("Filter") != m.end()) {
+    if (m.find("Filter") != m.end() && !m["Filter"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Filter"].type().name()) {
         CompleteMultipartUploadRequestFilter model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Filter"]));
         filter = make_shared<CompleteMultipartUploadRequestFilter>(model1);
       }
     }
-    if (m.find("Body") != m.end()) {
+    if (m.find("Body") != m.end() && !m["Body"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Body"].type().name()) {
         CompleteMultipartUploadRequestBody model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Body"]));
@@ -2268,19 +2287,19 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Bucket") != m.end()) {
+    if (m.find("Bucket") != m.end() && !m["Bucket"].empty()) {
       bucket = make_shared<string>(boost::any_cast<string>(m["Bucket"]));
     }
-    if (m.find("ETag") != m.end()) {
+    if (m.find("ETag") != m.end() && !m["ETag"].empty()) {
       eTag = make_shared<string>(boost::any_cast<string>(m["ETag"]));
     }
-    if (m.find("Location") != m.end()) {
+    if (m.find("Location") != m.end() && !m["Location"].empty()) {
       location = make_shared<string>(boost::any_cast<string>(m["Location"]));
     }
-    if (m.find("Key") != m.end()) {
+    if (m.find("Key") != m.end() && !m["Key"].empty()) {
       key = make_shared<string>(boost::any_cast<string>(m["Key"]));
     }
-    if (m.find("EncodingType") != m.end()) {
+    if (m.find("EncodingType") != m.end() && !m["EncodingType"].empty()) {
       encodingType =
           make_shared<string>(boost::any_cast<string>(m["EncodingType"]));
     }
@@ -2329,11 +2348,13 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
-    if (m.find("CompleteMultipartUploadResult") != m.end()) {
+    if (m.find("CompleteMultipartUploadResult") != m.end() &&
+        !m["CompleteMultipartUploadResult"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["CompleteMultipartUploadResult"].type().name()) {
         CompleteMultipartUploadResponseCompleteMultipartUploadResult model1;
@@ -2376,11 +2397,11 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("TargetBucket") != m.end()) {
+    if (m.find("TargetBucket") != m.end() && !m["TargetBucket"].empty()) {
       targetBucket =
           make_shared<string>(boost::any_cast<string>(m["TargetBucket"]));
     }
-    if (m.find("TargetPrefix") != m.end()) {
+    if (m.find("TargetPrefix") != m.end() && !m["TargetPrefix"].empty()) {
       targetPrefix =
           make_shared<string>(boost::any_cast<string>(m["TargetPrefix"]));
     }
@@ -2413,7 +2434,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("LoggingEnabled") != m.end()) {
+    if (m.find("LoggingEnabled") != m.end() && !m["LoggingEnabled"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["LoggingEnabled"].type().name()) {
         PutBucketLoggingRequestBodyBucketLoggingStatusLoggingEnabled model1;
@@ -2458,7 +2479,8 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketLoggingStatus") != m.end()) {
+    if (m.find("BucketLoggingStatus") != m.end() &&
+        !m["BucketLoggingStatus"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["BucketLoggingStatus"].type().name()) {
         PutBucketLoggingRequestBodyBucketLoggingStatus model1;
@@ -2505,11 +2527,11 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
-    if (m.find("Body") != m.end()) {
+    if (m.find("Body") != m.end() && !m["Body"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Body"].type().name()) {
         PutBucketLoggingRequestBody model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Body"]));
@@ -2547,7 +2569,8 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
@@ -2578,7 +2601,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Payer") != m.end()) {
+    if (m.find("Payer") != m.end() && !m["Payer"].empty()) {
       payer = make_shared<string>(boost::any_cast<string>(m["Payer"]));
     }
   }
@@ -2615,7 +2638,8 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("RequestPaymentConfiguration") != m.end()) {
+    if (m.find("RequestPaymentConfiguration") != m.end() &&
+        !m["RequestPaymentConfiguration"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["RequestPaymentConfiguration"].type().name()) {
         PutBucketRequestPaymentRequestBodyRequestPaymentConfiguration model1;
@@ -2664,11 +2688,11 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
-    if (m.find("Body") != m.end()) {
+    if (m.find("Body") != m.end() && !m["Body"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Body"].type().name()) {
         PutBucketRequestPaymentRequestBody model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Body"]));
@@ -2707,7 +2731,8 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
@@ -2743,11 +2768,11 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("SSEAlgorithm") != m.end()) {
+    if (m.find("SSEAlgorithm") != m.end() && !m["SSEAlgorithm"].empty()) {
       sSEAlgorithm =
           make_shared<string>(boost::any_cast<string>(m["SSEAlgorithm"]));
     }
-    if (m.find("KMSMasterKeyID") != m.end()) {
+    if (m.find("KMSMasterKeyID") != m.end() && !m["KMSMasterKeyID"].empty()) {
       kMSMasterKeyID =
           make_shared<string>(boost::any_cast<string>(m["KMSMasterKeyID"]));
     }
@@ -2783,7 +2808,8 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("ApplyServerSideEncryptionByDefault") != m.end()) {
+    if (m.find("ApplyServerSideEncryptionByDefault") != m.end() &&
+        !m["ApplyServerSideEncryptionByDefault"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["ApplyServerSideEncryptionByDefault"].type().name()) {
         PutBucketEncryptionRequestBodyServerSideEncryptionRuleApplyServerSideEncryptionByDefault
@@ -2831,7 +2857,8 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("ServerSideEncryptionRule") != m.end()) {
+    if (m.find("ServerSideEncryptionRule") != m.end() &&
+        !m["ServerSideEncryptionRule"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["ServerSideEncryptionRule"].type().name()) {
         PutBucketEncryptionRequestBodyServerSideEncryptionRule model1;
@@ -2880,11 +2907,11 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
-    if (m.find("Body") != m.end()) {
+    if (m.find("Body") != m.end() && !m["Body"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Body"].type().name()) {
         PutBucketEncryptionRequestBody model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Body"]));
@@ -2923,7 +2950,8 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
@@ -2963,17 +2991,17 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Type") != m.end()) {
+    if (m.find("Type") != m.end() && !m["Type"].empty()) {
       type = make_shared<string>(boost::any_cast<string>(m["Type"]));
     }
-    if (m.find("FragDuration") != m.end()) {
+    if (m.find("FragDuration") != m.end() && !m["FragDuration"].empty()) {
       fragDuration =
           make_shared<string>(boost::any_cast<string>(m["FragDuration"]));
     }
-    if (m.find("FragCount") != m.end()) {
+    if (m.find("FragCount") != m.end() && !m["FragCount"].empty()) {
       fragCount = make_shared<string>(boost::any_cast<string>(m["FragCount"]));
     }
-    if (m.find("PlaylistName") != m.end()) {
+    if (m.find("PlaylistName") != m.end() && !m["PlaylistName"].empty()) {
       playlistName =
           make_shared<string>(boost::any_cast<string>(m["PlaylistName"]));
     }
@@ -3016,18 +3044,18 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("RoleName") != m.end()) {
+    if (m.find("RoleName") != m.end() && !m["RoleName"].empty()) {
       roleName = make_shared<string>(boost::any_cast<string>(m["RoleName"]));
     }
-    if (m.find("DestBucket") != m.end()) {
+    if (m.find("DestBucket") != m.end() && !m["DestBucket"].empty()) {
       destBucket =
           make_shared<string>(boost::any_cast<string>(m["DestBucket"]));
     }
-    if (m.find("NotifyTopic") != m.end()) {
+    if (m.find("NotifyTopic") != m.end() && !m["NotifyTopic"].empty()) {
       notifyTopic =
           make_shared<string>(boost::any_cast<string>(m["NotifyTopic"]));
     }
-    if (m.find("Interval") != m.end()) {
+    if (m.find("Interval") != m.end() && !m["Interval"].empty()) {
       interval = make_shared<string>(boost::any_cast<string>(m["Interval"]));
     }
   }
@@ -3071,7 +3099,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Target") != m.end()) {
+    if (m.find("Target") != m.end() && !m["Target"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Target"].type().name()) {
         PutLiveChannelRequestBodyLiveChannelConfigurationTarget model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Target"]));
@@ -3079,7 +3107,7 @@ public:
             PutLiveChannelRequestBodyLiveChannelConfigurationTarget>(model1);
       }
     }
-    if (m.find("Snapshot") != m.end()) {
+    if (m.find("Snapshot") != m.end() && !m["Snapshot"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["Snapshot"].type().name()) {
         PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot model1;
@@ -3088,11 +3116,11 @@ public:
             PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot>(model1);
       }
     }
-    if (m.find("Description") != m.end()) {
+    if (m.find("Description") != m.end() && !m["Description"].empty()) {
       description =
           make_shared<string>(boost::any_cast<string>(m["Description"]));
     }
-    if (m.find("Status") != m.end()) {
+    if (m.find("Status") != m.end() && !m["Status"].empty()) {
       status = make_shared<string>(boost::any_cast<string>(m["Status"]));
     }
   }
@@ -3132,7 +3160,8 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("LiveChannelConfiguration") != m.end()) {
+    if (m.find("LiveChannelConfiguration") != m.end() &&
+        !m["LiveChannelConfiguration"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["LiveChannelConfiguration"].type().name()) {
         PutLiveChannelRequestBodyLiveChannelConfiguration model1;
@@ -3187,15 +3216,15 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
-    if (m.find("ChannelName") != m.end()) {
+    if (m.find("ChannelName") != m.end() && !m["ChannelName"].empty()) {
       channelName =
           make_shared<string>(boost::any_cast<string>(m["ChannelName"]));
     }
-    if (m.find("Body") != m.end()) {
+    if (m.find("Body") != m.end() && !m["Body"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Body"].type().name()) {
         PutLiveChannelRequestBody model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Body"]));
@@ -3231,7 +3260,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Url") != m.end()) {
+    if (m.find("Url") != m.end() && !m["Url"].empty()) {
       url = make_shared<string>(boost::any_cast<string>(m["Url"]));
     }
   }
@@ -3261,7 +3290,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Url") != m.end()) {
+    if (m.find("Url") != m.end() && !m["Url"].empty()) {
       url = make_shared<string>(boost::any_cast<string>(m["Url"]));
     }
   }
@@ -3305,7 +3334,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("PublishUrls") != m.end()) {
+    if (m.find("PublishUrls") != m.end() && !m["PublishUrls"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["PublishUrls"].type().name()) {
         PutLiveChannelResponseCreateLiveChannelResultPublishUrls model1;
@@ -3315,7 +3344,7 @@ public:
             PutLiveChannelResponseCreateLiveChannelResultPublishUrls>(model1);
       }
     }
-    if (m.find("PlayUrls") != m.end()) {
+    if (m.find("PlayUrls") != m.end() && !m["PlayUrls"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["PlayUrls"].type().name()) {
         PutLiveChannelResponseCreateLiveChannelResultPlayUrls model1;
@@ -3366,11 +3395,13 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
-    if (m.find("CreateLiveChannelResult") != m.end()) {
+    if (m.find("CreateLiveChannelResult") != m.end() &&
+        !m["CreateLiveChannelResult"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["CreateLiveChannelResult"].type().name()) {
         PutLiveChannelResponseCreateLiveChannelResult model1;
@@ -3411,10 +3442,10 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Key") != m.end()) {
+    if (m.find("Key") != m.end() && !m["Key"].empty()) {
       key = make_shared<string>(boost::any_cast<string>(m["Key"]));
     }
-    if (m.find("Value") != m.end()) {
+    if (m.find("Value") != m.end() && !m["Value"].empty()) {
       value = make_shared<string>(boost::any_cast<string>(m["Value"]));
     }
   }
@@ -3448,7 +3479,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Tag") != m.end()) {
+    if (m.find("Tag") != m.end() && !m["Tag"].empty()) {
       if (typeid(vector<boost::any>).name() == m["Tag"].type().name()) {
         vector<PutBucketTagsRequestBodyTaggingTagSetTag> expect1;
         for (auto item1 : boost::any_cast<vector<boost::any>>(m["Tag"])) {
@@ -3489,7 +3520,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("TagSet") != m.end()) {
+    if (m.find("TagSet") != m.end() && !m["TagSet"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["TagSet"].type().name()) {
         PutBucketTagsRequestBodyTaggingTagSet model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["TagSet"]));
@@ -3527,7 +3558,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Tagging") != m.end()) {
+    if (m.find("Tagging") != m.end() && !m["Tagging"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["Tagging"].type().name()) {
         PutBucketTagsRequestBodyTagging model1;
@@ -3571,11 +3602,11 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
-    if (m.find("Body") != m.end()) {
+    if (m.find("Body") != m.end() && !m["Body"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Body"].type().name()) {
         PutBucketTagsRequestBody model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Body"]));
@@ -3613,7 +3644,8 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
@@ -3646,10 +3678,10 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Key") != m.end()) {
+    if (m.find("Key") != m.end() && !m["Key"].empty()) {
       key = make_shared<string>(boost::any_cast<string>(m["Key"]));
     }
-    if (m.find("Value") != m.end()) {
+    if (m.find("Value") != m.end() && !m["Value"].empty()) {
       value = make_shared<string>(boost::any_cast<string>(m["Value"]));
     }
   }
@@ -3683,7 +3715,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Tag") != m.end()) {
+    if (m.find("Tag") != m.end() && !m["Tag"].empty()) {
       if (typeid(vector<boost::any>).name() == m["Tag"].type().name()) {
         vector<PutObjectTaggingRequestBodyTaggingTagSetTag> expect1;
         for (auto item1 : boost::any_cast<vector<boost::any>>(m["Tag"])) {
@@ -3724,7 +3756,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("TagSet") != m.end()) {
+    if (m.find("TagSet") != m.end() && !m["TagSet"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["TagSet"].type().name()) {
         PutObjectTaggingRequestBodyTaggingTagSet model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["TagSet"]));
@@ -3763,7 +3795,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Tagging") != m.end()) {
+    if (m.find("Tagging") != m.end() && !m["Tagging"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["Tagging"].type().name()) {
         PutObjectTaggingRequestBodyTagging model1;
@@ -3814,15 +3846,15 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
-    if (m.find("ObjectName") != m.end()) {
+    if (m.find("ObjectName") != m.end() && !m["ObjectName"].empty()) {
       objectName =
           make_shared<string>(boost::any_cast<string>(m["ObjectName"]));
     }
-    if (m.find("Body") != m.end()) {
+    if (m.find("Body") != m.end() && !m["Body"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Body"].type().name()) {
         PutObjectTaggingRequestBody model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Body"]));
@@ -3861,7 +3893,8 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
@@ -3895,7 +3928,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-process") != m.end()) {
+    if (m.find("x-oss-process") != m.end() && !m["x-oss-process"].empty()) {
       porcess =
           make_shared<string>(boost::any_cast<string>(m["x-oss-process"]));
     }
@@ -3941,27 +3974,28 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("FileHeaderInfo") != m.end()) {
+    if (m.find("FileHeaderInfo") != m.end() && !m["FileHeaderInfo"].empty()) {
       fileHeaderInfo =
           make_shared<string>(boost::any_cast<string>(m["FileHeaderInfo"]));
     }
-    if (m.find("RecordDelimiter") != m.end()) {
+    if (m.find("RecordDelimiter") != m.end() && !m["RecordDelimiter"].empty()) {
       recordDelimiter =
           make_shared<string>(boost::any_cast<string>(m["RecordDelimiter"]));
     }
-    if (m.find("FieldDelimiter") != m.end()) {
+    if (m.find("FieldDelimiter") != m.end() && !m["FieldDelimiter"].empty()) {
       fieldDelimiter =
           make_shared<string>(boost::any_cast<string>(m["FieldDelimiter"]));
     }
-    if (m.find("QuoteCharacter") != m.end()) {
+    if (m.find("QuoteCharacter") != m.end() && !m["QuoteCharacter"].empty()) {
       quoteCharacter =
           make_shared<string>(boost::any_cast<string>(m["QuoteCharacter"]));
     }
-    if (m.find("CommentCharacter") != m.end()) {
+    if (m.find("CommentCharacter") != m.end() &&
+        !m["CommentCharacter"].empty()) {
       commentCharacter =
           make_shared<string>(boost::any_cast<string>(m["CommentCharacter"]));
     }
-    if (m.find("Range") != m.end()) {
+    if (m.find("Range") != m.end() && !m["Range"].empty()) {
       range = make_shared<string>(boost::any_cast<string>(m["Range"]));
     }
   }
@@ -4000,7 +4034,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("CSV") != m.end()) {
+    if (m.find("CSV") != m.end() && !m["CSV"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["CSV"].type().name()) {
         SelectObjectRequestBodySelectRequestInputSerializationCSV model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["CSV"]));
@@ -4008,7 +4042,7 @@ public:
             SelectObjectRequestBodySelectRequestInputSerializationCSV>(model1);
       }
     }
-    if (m.find("CompressionType") != m.end()) {
+    if (m.find("CompressionType") != m.end() && !m["CompressionType"].empty()) {
       compressionType =
           make_shared<string>(boost::any_cast<string>(m["CompressionType"]));
     }
@@ -4043,11 +4077,11 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("RecordDelimiter") != m.end()) {
+    if (m.find("RecordDelimiter") != m.end() && !m["RecordDelimiter"].empty()) {
       recordDelimiter =
           make_shared<string>(boost::any_cast<string>(m["RecordDelimiter"]));
     }
-    if (m.find("FieldDelimiter") != m.end()) {
+    if (m.find("FieldDelimiter") != m.end() && !m["FieldDelimiter"].empty()) {
       fieldDelimiter =
           make_shared<string>(boost::any_cast<string>(m["FieldDelimiter"]));
     }
@@ -4092,7 +4126,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("CSV") != m.end()) {
+    if (m.find("CSV") != m.end() && !m["CSV"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["CSV"].type().name()) {
         SelectObjectRequestBodySelectRequestOutputSerializationCSV model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["CSV"]));
@@ -4100,19 +4134,20 @@ public:
             SelectObjectRequestBodySelectRequestOutputSerializationCSV>(model1);
       }
     }
-    if (m.find("KeepAllColumns") != m.end()) {
+    if (m.find("KeepAllColumns") != m.end() && !m["KeepAllColumns"].empty()) {
       keepAllColumns =
           make_shared<string>(boost::any_cast<string>(m["KeepAllColumns"]));
     }
-    if (m.find("OutputRawData") != m.end()) {
+    if (m.find("OutputRawData") != m.end() && !m["OutputRawData"].empty()) {
       outputRawData =
           make_shared<string>(boost::any_cast<string>(m["OutputRawData"]));
     }
-    if (m.find("EnablePayloadCrc") != m.end()) {
+    if (m.find("EnablePayloadCrc") != m.end() &&
+        !m["EnablePayloadCrc"].empty()) {
       enablePayloadCrc =
           make_shared<string>(boost::any_cast<string>(m["EnablePayloadCrc"]));
     }
-    if (m.find("OutputHeader") != m.end()) {
+    if (m.find("OutputHeader") != m.end() && !m["OutputHeader"].empty()) {
       outputHeader =
           make_shared<string>(boost::any_cast<string>(m["OutputHeader"]));
     }
@@ -4149,11 +4184,13 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("SkipPartialDataRecord") != m.end()) {
+    if (m.find("SkipPartialDataRecord") != m.end() &&
+        !m["SkipPartialDataRecord"].empty()) {
       skipPartialDataRecord = make_shared<string>(
           boost::any_cast<string>(m["SkipPartialDataRecord"]));
     }
-    if (m.find("MaxSkippedRecordsAllowed") != m.end()) {
+    if (m.find("MaxSkippedRecordsAllowed") != m.end() &&
+        !m["MaxSkippedRecordsAllowed"].empty()) {
       maxSkippedRecordsAllowed = make_shared<string>(
           boost::any_cast<string>(m["MaxSkippedRecordsAllowed"]));
     }
@@ -4198,7 +4235,8 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("InputSerialization") != m.end()) {
+    if (m.find("InputSerialization") != m.end() &&
+        !m["InputSerialization"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["InputSerialization"].type().name()) {
         SelectObjectRequestBodySelectRequestInputSerialization model1;
@@ -4209,7 +4247,8 @@ public:
                 model1);
       }
     }
-    if (m.find("OutputSerialization") != m.end()) {
+    if (m.find("OutputSerialization") != m.end() &&
+        !m["OutputSerialization"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["OutputSerialization"].type().name()) {
         SelectObjectRequestBodySelectRequestOutputSerialization model1;
@@ -4219,7 +4258,7 @@ public:
             SelectObjectRequestBodySelectRequestOutputSerialization>(model1);
       }
     }
-    if (m.find("Options") != m.end()) {
+    if (m.find("Options") != m.end() && !m["Options"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["Options"].type().name()) {
         SelectObjectRequestBodySelectRequestOptions model1;
@@ -4228,7 +4267,7 @@ public:
             make_shared<SelectObjectRequestBodySelectRequestOptions>(model1);
       }
     }
-    if (m.find("Expression") != m.end()) {
+    if (m.find("Expression") != m.end() && !m["Expression"].empty()) {
       expression =
           make_shared<string>(boost::any_cast<string>(m["Expression"]));
     }
@@ -4269,7 +4308,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("SelectRequest") != m.end()) {
+    if (m.find("SelectRequest") != m.end() && !m["SelectRequest"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["SelectRequest"].type().name()) {
         SelectObjectRequestBodySelectRequest model1;
@@ -4330,22 +4369,22 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
-    if (m.find("ObjectName") != m.end()) {
+    if (m.find("ObjectName") != m.end() && !m["ObjectName"].empty()) {
       objectName =
           make_shared<string>(boost::any_cast<string>(m["ObjectName"]));
     }
-    if (m.find("Filter") != m.end()) {
+    if (m.find("Filter") != m.end() && !m["Filter"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Filter"].type().name()) {
         SelectObjectRequestFilter model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Filter"]));
         filter = make_shared<SelectObjectRequestFilter>(model1);
       }
     }
-    if (m.find("Body") != m.end()) {
+    if (m.find("Body") != m.end() && !m["Body"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Body"].type().name()) {
         SelectObjectRequestBody model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Body"]));
@@ -4385,7 +4424,8 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
@@ -4428,7 +4468,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("AllowedOrigin") != m.end()) {
+    if (m.find("AllowedOrigin") != m.end() && !m["AllowedOrigin"].empty()) {
       vector<string> toVec1;
       if (typeid(vector<boost::any>).name() ==
           m["AllowedOrigin"].type().name()) {
@@ -4440,7 +4480,7 @@ public:
       }
       allowedOrigin = make_shared<vector<string>>(toVec1);
     }
-    if (m.find("AllowedMethod") != m.end()) {
+    if (m.find("AllowedMethod") != m.end() && !m["AllowedMethod"].empty()) {
       vector<string> toVec1;
       if (typeid(vector<boost::any>).name() ==
           m["AllowedMethod"].type().name()) {
@@ -4452,7 +4492,7 @@ public:
       }
       allowedMethod = make_shared<vector<string>>(toVec1);
     }
-    if (m.find("AllowedHeader") != m.end()) {
+    if (m.find("AllowedHeader") != m.end() && !m["AllowedHeader"].empty()) {
       vector<string> toVec1;
       if (typeid(vector<boost::any>).name() ==
           m["AllowedHeader"].type().name()) {
@@ -4464,7 +4504,7 @@ public:
       }
       allowedHeader = make_shared<vector<string>>(toVec1);
     }
-    if (m.find("ExposeHeader") != m.end()) {
+    if (m.find("ExposeHeader") != m.end() && !m["ExposeHeader"].empty()) {
       vector<string> toVec1;
       if (typeid(vector<boost::any>).name() ==
           m["ExposeHeader"].type().name()) {
@@ -4476,7 +4516,7 @@ public:
       }
       exposeHeader = make_shared<vector<string>>(toVec1);
     }
-    if (m.find("MaxAgeSeconds") != m.end()) {
+    if (m.find("MaxAgeSeconds") != m.end() && !m["MaxAgeSeconds"].empty()) {
       maxAgeSeconds =
           make_shared<string>(boost::any_cast<string>(m["MaxAgeSeconds"]));
     }
@@ -4514,7 +4554,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("CORSRule") != m.end()) {
+    if (m.find("CORSRule") != m.end() && !m["CORSRule"].empty()) {
       if (typeid(vector<boost::any>).name() == m["CORSRule"].type().name()) {
         vector<PutBucketCORSRequestBodyCORSConfigurationCORSRule> expect1;
         for (auto item1 : boost::any_cast<vector<boost::any>>(m["CORSRule"])) {
@@ -4561,7 +4601,8 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("CORSConfiguration") != m.end()) {
+    if (m.find("CORSConfiguration") != m.end() &&
+        !m["CORSConfiguration"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["CORSConfiguration"].type().name()) {
         PutBucketCORSRequestBodyCORSConfiguration model1;
@@ -4607,11 +4648,11 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
-    if (m.find("Body") != m.end()) {
+    if (m.find("Body") != m.end() && !m["Body"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Body"].type().name()) {
         PutBucketCORSRequestBody model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Body"]));
@@ -4649,7 +4690,8 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
@@ -4682,11 +4724,12 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("StorageClass") != m.end()) {
+    if (m.find("StorageClass") != m.end() && !m["StorageClass"].empty()) {
       storageClass =
           make_shared<string>(boost::any_cast<string>(m["StorageClass"]));
     }
-    if (m.find("DataRedundancyType") != m.end()) {
+    if (m.find("DataRedundancyType") != m.end() &&
+        !m["DataRedundancyType"].empty()) {
       dataRedundancyType =
           make_shared<string>(boost::any_cast<string>(m["DataRedundancyType"]));
     }
@@ -4724,7 +4767,8 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("CreateBucketConfiguration") != m.end()) {
+    if (m.find("CreateBucketConfiguration") != m.end() &&
+        !m["CreateBucketConfiguration"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["CreateBucketConfiguration"].type().name()) {
         PutBucketRequestBodyCreateBucketConfiguration model1;
@@ -4760,7 +4804,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-acl") != m.end()) {
+    if (m.find("x-oss-acl") != m.end() && !m["x-oss-acl"].empty()) {
       acl = make_shared<string>(boost::any_cast<string>(m["x-oss-acl"]));
     }
   }
@@ -4803,18 +4847,18 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
-    if (m.find("Body") != m.end()) {
+    if (m.find("Body") != m.end() && !m["Body"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Body"].type().name()) {
         PutBucketRequestBody model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Body"]));
         body = make_shared<PutBucketRequestBody>(model1);
       }
     }
-    if (m.find("Header") != m.end()) {
+    if (m.find("Header") != m.end() && !m["Header"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Header"].type().name()) {
         PutBucketRequestHeader model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Header"]));
@@ -4853,7 +4897,8 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
@@ -4898,24 +4943,25 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("delimiter") != m.end()) {
+    if (m.find("delimiter") != m.end() && !m["delimiter"].empty()) {
       delimiter = make_shared<string>(boost::any_cast<string>(m["delimiter"]));
     }
-    if (m.find("max-uploads") != m.end()) {
+    if (m.find("max-uploads") != m.end() && !m["max-uploads"].empty()) {
       maxUploads =
           make_shared<string>(boost::any_cast<string>(m["max-uploads"]));
     }
-    if (m.find("key-marker") != m.end()) {
+    if (m.find("key-marker") != m.end() && !m["key-marker"].empty()) {
       keyMarker = make_shared<string>(boost::any_cast<string>(m["key-marker"]));
     }
-    if (m.find("prefix") != m.end()) {
+    if (m.find("prefix") != m.end() && !m["prefix"].empty()) {
       prefix = make_shared<string>(boost::any_cast<string>(m["prefix"]));
     }
-    if (m.find("upload-id-marker") != m.end()) {
+    if (m.find("upload-id-marker") != m.end() &&
+        !m["upload-id-marker"].empty()) {
       uploadIdMarker =
           make_shared<string>(boost::any_cast<string>(m["upload-id-marker"]));
     }
-    if (m.find("encoding-type") != m.end()) {
+    if (m.find("encoding-type") != m.end() && !m["encoding-type"].empty()) {
       encodingType =
           make_shared<string>(boost::any_cast<string>(m["encoding-type"]));
     }
@@ -4961,11 +5007,11 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
-    if (m.find("Filter") != m.end()) {
+    if (m.find("Filter") != m.end() && !m["Filter"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Filter"].type().name()) {
         ListMultipartUploadsRequestFilter model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Filter"]));
@@ -5006,13 +5052,13 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Key") != m.end()) {
+    if (m.find("Key") != m.end() && !m["Key"].empty()) {
       key = make_shared<string>(boost::any_cast<string>(m["Key"]));
     }
-    if (m.find("UploadId") != m.end()) {
+    if (m.find("UploadId") != m.end() && !m["UploadId"].empty()) {
       uploadId = make_shared<string>(boost::any_cast<string>(m["UploadId"]));
     }
-    if (m.find("Initiated") != m.end()) {
+    if (m.find("Initiated") != m.end() && !m["Initiated"].empty()) {
       initiated = make_shared<string>(boost::any_cast<string>(m["Initiated"]));
     }
   }
@@ -5075,40 +5121,41 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Bucket") != m.end()) {
+    if (m.find("Bucket") != m.end() && !m["Bucket"].empty()) {
       bucket = make_shared<string>(boost::any_cast<string>(m["Bucket"]));
     }
-    if (m.find("EncodingType") != m.end()) {
+    if (m.find("EncodingType") != m.end() && !m["EncodingType"].empty()) {
       encodingType =
           make_shared<string>(boost::any_cast<string>(m["EncodingType"]));
     }
-    if (m.find("KeyMarker") != m.end()) {
+    if (m.find("KeyMarker") != m.end() && !m["KeyMarker"].empty()) {
       keyMarker = make_shared<string>(boost::any_cast<string>(m["KeyMarker"]));
     }
-    if (m.find("UploadIdMarker") != m.end()) {
+    if (m.find("UploadIdMarker") != m.end() && !m["UploadIdMarker"].empty()) {
       uploadIdMarker =
           make_shared<string>(boost::any_cast<string>(m["UploadIdMarker"]));
     }
-    if (m.find("NextKeyMarker") != m.end()) {
+    if (m.find("NextKeyMarker") != m.end() && !m["NextKeyMarker"].empty()) {
       nextKeyMarker =
           make_shared<string>(boost::any_cast<string>(m["NextKeyMarker"]));
     }
-    if (m.find("NextUploadIdMarker") != m.end()) {
+    if (m.find("NextUploadIdMarker") != m.end() &&
+        !m["NextUploadIdMarker"].empty()) {
       nextUploadIdMarker =
           make_shared<string>(boost::any_cast<string>(m["NextUploadIdMarker"]));
     }
-    if (m.find("Delimiter") != m.end()) {
+    if (m.find("Delimiter") != m.end() && !m["Delimiter"].empty()) {
       delimiter = make_shared<string>(boost::any_cast<string>(m["Delimiter"]));
     }
-    if (m.find("MaxUploads") != m.end()) {
+    if (m.find("MaxUploads") != m.end() && !m["MaxUploads"].empty()) {
       maxUploads =
           make_shared<string>(boost::any_cast<string>(m["MaxUploads"]));
     }
-    if (m.find("IsTruncated") != m.end()) {
+    if (m.find("IsTruncated") != m.end() && !m["IsTruncated"].empty()) {
       isTruncated =
           make_shared<string>(boost::any_cast<string>(m["IsTruncated"]));
     }
-    if (m.find("Upload") != m.end()) {
+    if (m.find("Upload") != m.end() && !m["Upload"].empty()) {
       if (typeid(vector<boost::any>).name() == m["Upload"].type().name()) {
         vector<ListMultipartUploadsResponseListMultipartUploadsResultUpload>
             expect1;
@@ -5176,11 +5223,13 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
-    if (m.find("ListMultipartUploadsResult") != m.end()) {
+    if (m.find("ListMultipartUploadsResult") != m.end() &&
+        !m["ListMultipartUploadsResult"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["ListMultipartUploadsResult"].type().name()) {
         ListMultipartUploadsResponseListMultipartUploadsResult model1;
@@ -5226,7 +5275,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
@@ -5257,7 +5306,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Payer") != m.end()) {
+    if (m.find("Payer") != m.end() && !m["Payer"].empty()) {
       payer = make_shared<string>(boost::any_cast<string>(m["Payer"]));
     }
   }
@@ -5301,11 +5350,13 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
-    if (m.find("RequestPaymentConfiguration") != m.end()) {
+    if (m.find("RequestPaymentConfiguration") != m.end() &&
+        !m["RequestPaymentConfiguration"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["RequestPaymentConfiguration"].type().name()) {
         GetBucketRequestPaymentResponseRequestPaymentConfiguration model1;
@@ -5350,7 +5401,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
@@ -5386,11 +5437,11 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("SSEAlgorithm") != m.end()) {
+    if (m.find("SSEAlgorithm") != m.end() && !m["SSEAlgorithm"].empty()) {
       sSEAlgorithm =
           make_shared<string>(boost::any_cast<string>(m["SSEAlgorithm"]));
     }
-    if (m.find("KMSMasterKeyID") != m.end()) {
+    if (m.find("KMSMasterKeyID") != m.end() && !m["KMSMasterKeyID"].empty()) {
       kMSMasterKeyID =
           make_shared<string>(boost::any_cast<string>(m["KMSMasterKeyID"]));
     }
@@ -5431,7 +5482,8 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("ApplyServerSideEncryptionByDefault") != m.end()) {
+    if (m.find("ApplyServerSideEncryptionByDefault") != m.end() &&
+        !m["ApplyServerSideEncryptionByDefault"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["ApplyServerSideEncryptionByDefault"].type().name()) {
         GetBucketEncryptionResponseServerSideEncryptionRuleApplyServerSideEncryptionByDefault
@@ -5486,11 +5538,13 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
-    if (m.find("ServerSideEncryptionRule") != m.end()) {
+    if (m.find("ServerSideEncryptionRule") != m.end() &&
+        !m["ServerSideEncryptionRule"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["ServerSideEncryptionRule"].type().name()) {
         GetBucketEncryptionResponseServerSideEncryptionRule model1;
@@ -5535,7 +5589,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
@@ -5568,10 +5622,10 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Key") != m.end()) {
+    if (m.find("Key") != m.end() && !m["Key"].empty()) {
       key = make_shared<string>(boost::any_cast<string>(m["Key"]));
     }
-    if (m.find("Value") != m.end()) {
+    if (m.find("Value") != m.end() && !m["Value"].empty()) {
       value = make_shared<string>(boost::any_cast<string>(m["Value"]));
     }
   }
@@ -5605,7 +5659,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Tag") != m.end()) {
+    if (m.find("Tag") != m.end() && !m["Tag"].empty()) {
       if (typeid(vector<boost::any>).name() == m["Tag"].type().name()) {
         vector<GetBucketTagsResponseTaggingTagSetTag> expect1;
         for (auto item1 : boost::any_cast<vector<boost::any>>(m["Tag"])) {
@@ -5651,7 +5705,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("TagSet") != m.end()) {
+    if (m.find("TagSet") != m.end() && !m["TagSet"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["TagSet"].type().name()) {
         GetBucketTagsResponseTaggingTagSet model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["TagSet"]));
@@ -5696,11 +5750,12 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
-    if (m.find("Tagging") != m.end()) {
+    if (m.find("Tagging") != m.end() && !m["Tagging"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["Tagging"].type().name()) {
         GetBucketTagsResponseTagging model1;
@@ -5740,13 +5795,13 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("prefix") != m.end()) {
+    if (m.find("prefix") != m.end() && !m["prefix"].empty()) {
       prefix = make_shared<string>(boost::any_cast<string>(m["prefix"]));
     }
-    if (m.find("marker") != m.end()) {
+    if (m.find("marker") != m.end() && !m["marker"].empty()) {
       marker = make_shared<string>(boost::any_cast<string>(m["marker"]));
     }
-    if (m.find("max-keys") != m.end()) {
+    if (m.find("max-keys") != m.end() && !m["max-keys"].empty()) {
       maxKeys = make_shared<string>(boost::any_cast<string>(m["max-keys"]));
     }
   }
@@ -5777,7 +5832,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Filter") != m.end()) {
+    if (m.find("Filter") != m.end() && !m["Filter"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Filter"].type().name()) {
         GetServiceRequestFilter model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Filter"]));
@@ -5813,10 +5868,10 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("ID") != m.end()) {
+    if (m.find("ID") != m.end() && !m["ID"].empty()) {
       iD = make_shared<string>(boost::any_cast<string>(m["ID"]));
     }
-    if (m.find("DisplayName") != m.end()) {
+    if (m.find("DisplayName") != m.end() && !m["DisplayName"].empty()) {
       displayName =
           make_shared<string>(boost::any_cast<string>(m["DisplayName"]));
     }
@@ -5863,25 +5918,27 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Name") != m.end()) {
+    if (m.find("Name") != m.end() && !m["Name"].empty()) {
       name = make_shared<string>(boost::any_cast<string>(m["Name"]));
     }
-    if (m.find("CreateDate") != m.end()) {
+    if (m.find("CreateDate") != m.end() && !m["CreateDate"].empty()) {
       createDate =
           make_shared<string>(boost::any_cast<string>(m["CreateDate"]));
     }
-    if (m.find("Location") != m.end()) {
+    if (m.find("Location") != m.end() && !m["Location"].empty()) {
       location = make_shared<string>(boost::any_cast<string>(m["Location"]));
     }
-    if (m.find("ExtranetEndpoint") != m.end()) {
+    if (m.find("ExtranetEndpoint") != m.end() &&
+        !m["ExtranetEndpoint"].empty()) {
       extranetEndpoint =
           make_shared<string>(boost::any_cast<string>(m["ExtranetEndpoint"]));
     }
-    if (m.find("IntranetEndpoint") != m.end()) {
+    if (m.find("IntranetEndpoint") != m.end() &&
+        !m["IntranetEndpoint"].empty()) {
       intranetEndpoint =
           make_shared<string>(boost::any_cast<string>(m["IntranetEndpoint"]));
     }
-    if (m.find("StorageClass") != m.end()) {
+    if (m.find("StorageClass") != m.end() && !m["StorageClass"].empty()) {
       storageClass =
           make_shared<string>(boost::any_cast<string>(m["StorageClass"]));
     }
@@ -5921,7 +5978,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Bucket") != m.end()) {
+    if (m.find("Bucket") != m.end() && !m["Bucket"].empty()) {
       if (typeid(vector<boost::any>).name() == m["Bucket"].type().name()) {
         vector<GetServiceResponseListAllMyBucketsResultBucketsBucket> expect1;
         for (auto item1 : boost::any_cast<vector<boost::any>>(m["Bucket"])) {
@@ -5992,24 +6049,24 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Prefix") != m.end()) {
+    if (m.find("Prefix") != m.end() && !m["Prefix"].empty()) {
       prefix = make_shared<string>(boost::any_cast<string>(m["Prefix"]));
     }
-    if (m.find("Marker") != m.end()) {
+    if (m.find("Marker") != m.end() && !m["Marker"].empty()) {
       marker = make_shared<string>(boost::any_cast<string>(m["Marker"]));
     }
-    if (m.find("MaxKeys") != m.end()) {
+    if (m.find("MaxKeys") != m.end() && !m["MaxKeys"].empty()) {
       maxKeys = make_shared<string>(boost::any_cast<string>(m["MaxKeys"]));
     }
-    if (m.find("IsTruncated") != m.end()) {
+    if (m.find("IsTruncated") != m.end() && !m["IsTruncated"].empty()) {
       isTruncated =
           make_shared<string>(boost::any_cast<string>(m["IsTruncated"]));
     }
-    if (m.find("NextMarker") != m.end()) {
+    if (m.find("NextMarker") != m.end() && !m["NextMarker"].empty()) {
       nextMarker =
           make_shared<string>(boost::any_cast<string>(m["NextMarker"]));
     }
-    if (m.find("Owner") != m.end()) {
+    if (m.find("Owner") != m.end() && !m["Owner"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Owner"].type().name()) {
         GetServiceResponseListAllMyBucketsResultOwner model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Owner"]));
@@ -6017,7 +6074,7 @@ public:
             make_shared<GetServiceResponseListAllMyBucketsResultOwner>(model1);
       }
     }
-    if (m.find("Buckets") != m.end()) {
+    if (m.find("Buckets") != m.end() && !m["Buckets"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["Buckets"].type().name()) {
         GetServiceResponseListAllMyBucketsResultBuckets model1;
@@ -6071,11 +6128,13 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
-    if (m.find("ListAllMyBucketsResult") != m.end()) {
+    if (m.find("ListAllMyBucketsResult") != m.end() &&
+        !m["ListAllMyBucketsResult"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["ListAllMyBucketsResult"].type().name()) {
         GetServiceResponseListAllMyBucketsResult model1;
@@ -6119,7 +6178,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
@@ -6154,7 +6213,8 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
@@ -6189,7 +6249,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("tagging") != m.end()) {
+    if (m.find("tagging") != m.end() && !m["tagging"].empty()) {
       tagging = make_shared<string>(boost::any_cast<string>(m["tagging"]));
     }
   }
@@ -6232,11 +6292,11 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
-    if (m.find("Filter") != m.end()) {
+    if (m.find("Filter") != m.end() && !m["Filter"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Filter"].type().name()) {
         DeleteBucketTagsRequestFilter model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Filter"]));
@@ -6274,7 +6334,8 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
@@ -6310,7 +6371,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
@@ -6341,7 +6402,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Suffix") != m.end()) {
+    if (m.find("Suffix") != m.end() && !m["Suffix"].empty()) {
       suffix = make_shared<string>(boost::any_cast<string>(m["Suffix"]));
     }
   }
@@ -6371,7 +6432,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Key") != m.end()) {
+    if (m.find("Key") != m.end() && !m["Key"].empty()) {
       key = make_shared<string>(boost::any_cast<string>(m["Key"]));
     }
   }
@@ -6406,10 +6467,10 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Key") != m.end()) {
+    if (m.find("Key") != m.end() && !m["Key"].empty()) {
       key = make_shared<string>(boost::any_cast<string>(m["Key"]));
     }
-    if (m.find("Equals") != m.end()) {
+    if (m.find("Equals") != m.end() && !m["Equals"].empty()) {
       equals = make_shared<string>(boost::any_cast<string>(m["Equals"]));
     }
   }
@@ -6457,15 +6518,16 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("KeyPrefixEquals") != m.end()) {
+    if (m.find("KeyPrefixEquals") != m.end() && !m["KeyPrefixEquals"].empty()) {
       keyPrefixEquals =
           make_shared<string>(boost::any_cast<string>(m["KeyPrefixEquals"]));
     }
-    if (m.find("HttpErrorCodeReturnedEquals") != m.end()) {
+    if (m.find("HttpErrorCodeReturnedEquals") != m.end() &&
+        !m["HttpErrorCodeReturnedEquals"].empty()) {
       httpErrorCodeReturnedEquals = make_shared<string>(
           boost::any_cast<string>(m["HttpErrorCodeReturnedEquals"]));
     }
-    if (m.find("IncludeHeader") != m.end()) {
+    if (m.find("IncludeHeader") != m.end() && !m["IncludeHeader"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["IncludeHeader"].type().name()) {
         GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader
@@ -6514,10 +6576,10 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Key") != m.end()) {
+    if (m.find("Key") != m.end() && !m["Key"].empty()) {
       key = make_shared<string>(boost::any_cast<string>(m["Key"]));
     }
-    if (m.find("Value") != m.end()) {
+    if (m.find("Value") != m.end() && !m["Value"].empty()) {
       value = make_shared<string>(boost::any_cast<string>(m["Value"]));
     }
   }
@@ -6566,16 +6628,16 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("PassAll") != m.end()) {
+    if (m.find("PassAll") != m.end() && !m["PassAll"].empty()) {
       passAll = make_shared<bool>(boost::any_cast<bool>(m["PassAll"]));
     }
-    if (m.find("Pass") != m.end()) {
+    if (m.find("Pass") != m.end() && !m["Pass"].empty()) {
       pass = make_shared<string>(boost::any_cast<string>(m["Pass"]));
     }
-    if (m.find("Remove") != m.end()) {
+    if (m.find("Remove") != m.end() && !m["Remove"].empty()) {
       remove = make_shared<string>(boost::any_cast<string>(m["Remove"]));
     }
-    if (m.find("Set") != m.end()) {
+    if (m.find("Set") != m.end() && !m["Set"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Set"].type().name()) {
         GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet
             model1;
@@ -6660,48 +6722,52 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("RedirectType") != m.end()) {
+    if (m.find("RedirectType") != m.end() && !m["RedirectType"].empty()) {
       redirectType =
           make_shared<string>(boost::any_cast<string>(m["RedirectType"]));
     }
-    if (m.find("PassQueryString") != m.end()) {
+    if (m.find("PassQueryString") != m.end() && !m["PassQueryString"].empty()) {
       passQueryString =
           make_shared<bool>(boost::any_cast<bool>(m["PassQueryString"]));
     }
-    if (m.find("MirrorURL") != m.end()) {
+    if (m.find("MirrorURL") != m.end() && !m["MirrorURL"].empty()) {
       mirrorURL = make_shared<string>(boost::any_cast<string>(m["MirrorURL"]));
     }
-    if (m.find("MirrorPassQueryString") != m.end()) {
+    if (m.find("MirrorPassQueryString") != m.end() &&
+        !m["MirrorPassQueryString"].empty()) {
       mirrorPassQueryString =
           make_shared<bool>(boost::any_cast<bool>(m["MirrorPassQueryString"]));
     }
-    if (m.find("MirrorFollowRedirect") != m.end()) {
+    if (m.find("MirrorFollowRedirect") != m.end() &&
+        !m["MirrorFollowRedirect"].empty()) {
       mirrorFollowRedirect =
           make_shared<bool>(boost::any_cast<bool>(m["MirrorFollowRedirect"]));
     }
-    if (m.find("MirrorCheckMd5") != m.end()) {
+    if (m.find("MirrorCheckMd5") != m.end() && !m["MirrorCheckMd5"].empty()) {
       mirrorCheckMd5 =
           make_shared<bool>(boost::any_cast<bool>(m["MirrorCheckMd5"]));
     }
-    if (m.find("Protocol") != m.end()) {
+    if (m.find("Protocol") != m.end() && !m["Protocol"].empty()) {
       protocol = make_shared<string>(boost::any_cast<string>(m["Protocol"]));
     }
-    if (m.find("HostName") != m.end()) {
+    if (m.find("HostName") != m.end() && !m["HostName"].empty()) {
       hostName = make_shared<string>(boost::any_cast<string>(m["HostName"]));
     }
-    if (m.find("HttpRedirectCode") != m.end()) {
+    if (m.find("HttpRedirectCode") != m.end() &&
+        !m["HttpRedirectCode"].empty()) {
       httpRedirectCode =
           make_shared<string>(boost::any_cast<string>(m["HttpRedirectCode"]));
     }
-    if (m.find("ReplaceKeyPrefixWith") != m.end()) {
+    if (m.find("ReplaceKeyPrefixWith") != m.end() &&
+        !m["ReplaceKeyPrefixWith"].empty()) {
       replaceKeyPrefixWith = make_shared<string>(
           boost::any_cast<string>(m["ReplaceKeyPrefixWith"]));
     }
-    if (m.find("ReplaceKeyWith") != m.end()) {
+    if (m.find("ReplaceKeyWith") != m.end() && !m["ReplaceKeyWith"].empty()) {
       replaceKeyWith =
           make_shared<string>(boost::any_cast<string>(m["ReplaceKeyWith"]));
     }
-    if (m.find("MirrorHeaders") != m.end()) {
+    if (m.find("MirrorHeaders") != m.end() && !m["MirrorHeaders"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["MirrorHeaders"].type().name()) {
         GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders
@@ -6771,10 +6837,10 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("RuleNumber") != m.end()) {
+    if (m.find("RuleNumber") != m.end() && !m["RuleNumber"].empty()) {
       ruleNumber = make_shared<int>(boost::any_cast<int>(m["RuleNumber"]));
     }
-    if (m.find("Condition") != m.end()) {
+    if (m.find("Condition") != m.end() && !m["Condition"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["Condition"].type().name()) {
         GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleCondition
@@ -6786,7 +6852,7 @@ public:
             model1);
       }
     }
-    if (m.find("Redirect") != m.end()) {
+    if (m.find("Redirect") != m.end() && !m["Redirect"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["Redirect"].type().name()) {
         GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect
@@ -6835,7 +6901,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("RoutingRule") != m.end()) {
+    if (m.find("RoutingRule") != m.end() && !m["RoutingRule"].empty()) {
       if (typeid(vector<boost::any>).name() == m["RoutingRule"].type().name()) {
         vector<
             GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule>
@@ -6907,7 +6973,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("IndexDocument") != m.end()) {
+    if (m.find("IndexDocument") != m.end() && !m["IndexDocument"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["IndexDocument"].type().name()) {
         GetBucketWebsiteResponseWebsiteConfigurationIndexDocument model1;
@@ -6917,7 +6983,7 @@ public:
             GetBucketWebsiteResponseWebsiteConfigurationIndexDocument>(model1);
       }
     }
-    if (m.find("ErrorDocument") != m.end()) {
+    if (m.find("ErrorDocument") != m.end() && !m["ErrorDocument"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["ErrorDocument"].type().name()) {
         GetBucketWebsiteResponseWebsiteConfigurationErrorDocument model1;
@@ -6927,7 +6993,7 @@ public:
             GetBucketWebsiteResponseWebsiteConfigurationErrorDocument>(model1);
       }
     }
-    if (m.find("RoutingRules") != m.end()) {
+    if (m.find("RoutingRules") != m.end() && !m["RoutingRules"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["RoutingRules"].type().name()) {
         GetBucketWebsiteResponseWebsiteConfigurationRoutingRules model1;
@@ -6981,11 +7047,13 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
-    if (m.find("WebsiteConfiguration") != m.end()) {
+    if (m.find("WebsiteConfiguration") != m.end() &&
+        !m["WebsiteConfiguration"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["WebsiteConfiguration"].type().name()) {
         GetBucketWebsiteResponseWebsiteConfiguration model1;
@@ -7036,11 +7104,11 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
-    if (m.find("ChannelName") != m.end()) {
+    if (m.find("ChannelName") != m.end() && !m["ChannelName"].empty()) {
       channelName =
           make_shared<string>(boost::any_cast<string>(m["ChannelName"]));
     }
@@ -7075,7 +7143,8 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
@@ -7111,7 +7180,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
@@ -7152,11 +7221,13 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
-    if (m.find("LocationConstraint") != m.end()) {
+    if (m.find("LocationConstraint") != m.end() &&
+        !m["LocationConstraint"].empty()) {
       locationConstraint =
           make_shared<string>(boost::any_cast<string>(m["LocationConstraint"]));
     }
@@ -7193,13 +7264,13 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("marker") != m.end()) {
+    if (m.find("marker") != m.end() && !m["marker"].empty()) {
       marker = make_shared<string>(boost::any_cast<string>(m["marker"]));
     }
-    if (m.find("max-keys") != m.end()) {
+    if (m.find("max-keys") != m.end() && !m["max-keys"].empty()) {
       maxKeys = make_shared<string>(boost::any_cast<string>(m["max-keys"]));
     }
-    if (m.find("prefix") != m.end()) {
+    if (m.find("prefix") != m.end() && !m["prefix"].empty()) {
       prefix = make_shared<string>(boost::any_cast<string>(m["prefix"]));
     }
   }
@@ -7240,11 +7311,11 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
-    if (m.find("Filter") != m.end()) {
+    if (m.find("Filter") != m.end() && !m["Filter"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Filter"].type().name()) {
         ListLiveChannelRequestFilter model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Filter"]));
@@ -7279,7 +7350,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Url") != m.end()) {
+    if (m.find("Url") != m.end() && !m["Url"].empty()) {
       url = make_shared<string>(boost::any_cast<string>(m["Url"]));
     }
   }
@@ -7310,7 +7381,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Url") != m.end()) {
+    if (m.find("Url") != m.end() && !m["Url"].empty()) {
       url = make_shared<string>(boost::any_cast<string>(m["Url"]));
     }
   }
@@ -7367,21 +7438,21 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Name") != m.end()) {
+    if (m.find("Name") != m.end() && !m["Name"].empty()) {
       name = make_shared<string>(boost::any_cast<string>(m["Name"]));
     }
-    if (m.find("Description") != m.end()) {
+    if (m.find("Description") != m.end() && !m["Description"].empty()) {
       description =
           make_shared<string>(boost::any_cast<string>(m["Description"]));
     }
-    if (m.find("Status") != m.end()) {
+    if (m.find("Status") != m.end() && !m["Status"].empty()) {
       status = make_shared<string>(boost::any_cast<string>(m["Status"]));
     }
-    if (m.find("LastModified") != m.end()) {
+    if (m.find("LastModified") != m.end() && !m["LastModified"].empty()) {
       lastModified =
           make_shared<string>(boost::any_cast<string>(m["LastModified"]));
     }
-    if (m.find("PublishUrls") != m.end()) {
+    if (m.find("PublishUrls") != m.end() && !m["PublishUrls"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["PublishUrls"].type().name()) {
         ListLiveChannelResponseListLiveChannelResultLiveChannelPublishUrls
@@ -7393,7 +7464,7 @@ public:
             model1);
       }
     }
-    if (m.find("PlayUrls") != m.end()) {
+    if (m.find("PlayUrls") != m.end() && !m["PlayUrls"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["PlayUrls"].type().name()) {
         ListLiveChannelResponseListLiveChannelResultLiveChannelPlayUrls model1;
@@ -7458,24 +7529,24 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Prefix") != m.end()) {
+    if (m.find("Prefix") != m.end() && !m["Prefix"].empty()) {
       prefix = make_shared<string>(boost::any_cast<string>(m["Prefix"]));
     }
-    if (m.find("Marker") != m.end()) {
+    if (m.find("Marker") != m.end() && !m["Marker"].empty()) {
       marker = make_shared<string>(boost::any_cast<string>(m["Marker"]));
     }
-    if (m.find("MaxKeys") != m.end()) {
+    if (m.find("MaxKeys") != m.end() && !m["MaxKeys"].empty()) {
       maxKeys = make_shared<string>(boost::any_cast<string>(m["MaxKeys"]));
     }
-    if (m.find("IsTruncated") != m.end()) {
+    if (m.find("IsTruncated") != m.end() && !m["IsTruncated"].empty()) {
       isTruncated =
           make_shared<string>(boost::any_cast<string>(m["IsTruncated"]));
     }
-    if (m.find("NextMarker") != m.end()) {
+    if (m.find("NextMarker") != m.end() && !m["NextMarker"].empty()) {
       nextMarker =
           make_shared<string>(boost::any_cast<string>(m["NextMarker"]));
     }
-    if (m.find("LiveChannel") != m.end()) {
+    if (m.find("LiveChannel") != m.end() && !m["LiveChannel"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["LiveChannel"].type().name()) {
         ListLiveChannelResponseListLiveChannelResultLiveChannel model1;
@@ -7530,11 +7601,13 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
-    if (m.find("ListLiveChannelResult") != m.end()) {
+    if (m.find("ListLiveChannelResult") != m.end() &&
+        !m["ListLiveChannelResult"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["ListLiveChannelResult"].type().name()) {
         ListLiveChannelResponseListLiveChannelResult model1;
@@ -7585,11 +7658,11 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
-    if (m.find("ObjectName") != m.end()) {
+    if (m.find("ObjectName") != m.end() && !m["ObjectName"].empty()) {
       objectName =
           make_shared<string>(boost::any_cast<string>(m["ObjectName"]));
     }
@@ -7645,18 +7718,19 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
-    if (m.find("etag") != m.end()) {
+    if (m.find("etag") != m.end() && !m["etag"].empty()) {
       eTag = make_shared<string>(boost::any_cast<string>(m["etag"]));
     }
-    if (m.find("content-length") != m.end()) {
+    if (m.find("content-length") != m.end() && !m["content-length"].empty()) {
       contentLength =
           make_shared<string>(boost::any_cast<string>(m["content-length"]));
     }
-    if (m.find("last-modified") != m.end()) {
+    if (m.find("last-modified") != m.end() && !m["last-modified"].empty()) {
       lastModified =
           make_shared<string>(boost::any_cast<string>(m["last-modified"]));
     }
@@ -7695,7 +7769,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
@@ -7728,10 +7802,10 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("ID") != m.end()) {
+    if (m.find("ID") != m.end() && !m["ID"].empty()) {
       iD = make_shared<string>(boost::any_cast<string>(m["ID"]));
     }
-    if (m.find("DisplayName") != m.end()) {
+    if (m.find("DisplayName") != m.end() && !m["DisplayName"].empty()) {
       displayName =
           make_shared<string>(boost::any_cast<string>(m["DisplayName"]));
     }
@@ -7763,7 +7837,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Grant") != m.end()) {
+    if (m.find("Grant") != m.end() && !m["Grant"].empty()) {
       grant = make_shared<string>(boost::any_cast<string>(m["Grant"]));
     }
   }
@@ -7807,7 +7881,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Owner") != m.end()) {
+    if (m.find("Owner") != m.end() && !m["Owner"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Owner"].type().name()) {
         GetBucketAclResponseAccessControlPolicyOwner model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Owner"]));
@@ -7815,7 +7889,8 @@ public:
             make_shared<GetBucketAclResponseAccessControlPolicyOwner>(model1);
       }
     }
-    if (m.find("AccessControlList") != m.end()) {
+    if (m.find("AccessControlList") != m.end() &&
+        !m["AccessControlList"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["AccessControlList"].type().name()) {
         GetBucketAclResponseAccessControlPolicyAccessControlList model1;
@@ -7866,11 +7941,13 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
-    if (m.find("AccessControlPolicy") != m.end()) {
+    if (m.find("AccessControlPolicy") != m.end() &&
+        !m["AccessControlPolicy"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["AccessControlPolicy"].type().name()) {
         GetBucketAclResponseAccessControlPolicy model1;
@@ -7920,17 +7997,18 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("uploadId") != m.end()) {
+    if (m.find("uploadId") != m.end() && !m["uploadId"].empty()) {
       uploadId = make_shared<string>(boost::any_cast<string>(m["uploadId"]));
     }
-    if (m.find("max-parts") != m.end()) {
+    if (m.find("max-parts") != m.end() && !m["max-parts"].empty()) {
       maxParts = make_shared<int>(boost::any_cast<int>(m["max-parts"]));
     }
-    if (m.find("part-number-marker") != m.end()) {
+    if (m.find("part-number-marker") != m.end() &&
+        !m["part-number-marker"].empty()) {
       partNumberMarker =
           make_shared<int>(boost::any_cast<int>(m["part-number-marker"]));
     }
-    if (m.find("Encoding-type") != m.end()) {
+    if (m.find("Encoding-type") != m.end() && !m["Encoding-type"].empty()) {
       encodingType =
           make_shared<string>(boost::any_cast<string>(m["Encoding-type"]));
     }
@@ -7984,15 +8062,15 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
-    if (m.find("ObjectName") != m.end()) {
+    if (m.find("ObjectName") != m.end() && !m["ObjectName"].empty()) {
       objectName =
           make_shared<string>(boost::any_cast<string>(m["ObjectName"]));
     }
-    if (m.find("Filter") != m.end()) {
+    if (m.find("Filter") != m.end() && !m["Filter"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Filter"].type().name()) {
         ListPartsRequestFilter model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Filter"]));
@@ -8036,18 +8114,18 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("PartNumber") != m.end()) {
+    if (m.find("PartNumber") != m.end() && !m["PartNumber"].empty()) {
       partNumber =
           make_shared<string>(boost::any_cast<string>(m["PartNumber"]));
     }
-    if (m.find("LastModified") != m.end()) {
+    if (m.find("LastModified") != m.end() && !m["LastModified"].empty()) {
       lastModified =
           make_shared<string>(boost::any_cast<string>(m["LastModified"]));
     }
-    if (m.find("ETag") != m.end()) {
+    if (m.find("ETag") != m.end() && !m["ETag"].empty()) {
       eTag = make_shared<string>(boost::any_cast<string>(m["ETag"]));
     }
-    if (m.find("Size") != m.end()) {
+    if (m.find("Size") != m.end() && !m["Size"].empty()) {
       size = make_shared<string>(boost::any_cast<string>(m["Size"]));
     }
   }
@@ -8107,35 +8185,37 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Bucket") != m.end()) {
+    if (m.find("Bucket") != m.end() && !m["Bucket"].empty()) {
       bucket = make_shared<string>(boost::any_cast<string>(m["Bucket"]));
     }
-    if (m.find("EncodingType") != m.end()) {
+    if (m.find("EncodingType") != m.end() && !m["EncodingType"].empty()) {
       encodingType =
           make_shared<string>(boost::any_cast<string>(m["EncodingType"]));
     }
-    if (m.find("Key") != m.end()) {
+    if (m.find("Key") != m.end() && !m["Key"].empty()) {
       key = make_shared<string>(boost::any_cast<string>(m["Key"]));
     }
-    if (m.find("UploadId") != m.end()) {
+    if (m.find("UploadId") != m.end() && !m["UploadId"].empty()) {
       uploadId = make_shared<string>(boost::any_cast<string>(m["UploadId"]));
     }
-    if (m.find("PartNumberMarker") != m.end()) {
+    if (m.find("PartNumberMarker") != m.end() &&
+        !m["PartNumberMarker"].empty()) {
       partNumberMarker =
           make_shared<string>(boost::any_cast<string>(m["PartNumberMarker"]));
     }
-    if (m.find("NextPartNumberMarker") != m.end()) {
+    if (m.find("NextPartNumberMarker") != m.end() &&
+        !m["NextPartNumberMarker"].empty()) {
       nextPartNumberMarker = make_shared<string>(
           boost::any_cast<string>(m["NextPartNumberMarker"]));
     }
-    if (m.find("MaxParts") != m.end()) {
+    if (m.find("MaxParts") != m.end() && !m["MaxParts"].empty()) {
       maxParts = make_shared<string>(boost::any_cast<string>(m["MaxParts"]));
     }
-    if (m.find("IsTruncated") != m.end()) {
+    if (m.find("IsTruncated") != m.end() && !m["IsTruncated"].empty()) {
       isTruncated =
           make_shared<string>(boost::any_cast<string>(m["IsTruncated"]));
     }
-    if (m.find("Part") != m.end()) {
+    if (m.find("Part") != m.end() && !m["Part"].empty()) {
       if (typeid(vector<boost::any>).name() == m["Part"].type().name()) {
         vector<ListPartsResponseListPartsResultPart> expect1;
         for (auto item1 : boost::any_cast<vector<boost::any>>(m["Part"])) {
@@ -8196,11 +8276,12 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
-    if (m.find("ListPartsResult") != m.end()) {
+    if (m.find("ListPartsResult") != m.end() && !m["ListPartsResult"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["ListPartsResult"].type().name()) {
         ListPartsResponseListPartsResult model1;
@@ -8236,7 +8317,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("comp") != m.end()) {
+    if (m.find("comp") != m.end() && !m["comp"].empty()) {
       comp = make_shared<string>(boost::any_cast<string>(m["comp"]));
     }
   }
@@ -8283,15 +8364,15 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
-    if (m.find("ChannelName") != m.end()) {
+    if (m.find("ChannelName") != m.end() && !m["ChannelName"].empty()) {
       channelName =
           make_shared<string>(boost::any_cast<string>(m["ChannelName"]));
     }
-    if (m.find("Filter") != m.end()) {
+    if (m.find("Filter") != m.end() && !m["Filter"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Filter"].type().name()) {
         GetLiveChannelHistoryRequestFilter model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Filter"]));
@@ -8333,13 +8414,13 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("StartTime") != m.end()) {
+    if (m.find("StartTime") != m.end() && !m["StartTime"].empty()) {
       startTime = make_shared<string>(boost::any_cast<string>(m["StartTime"]));
     }
-    if (m.find("EndTime") != m.end()) {
+    if (m.find("EndTime") != m.end() && !m["EndTime"].empty()) {
       endTime = make_shared<string>(boost::any_cast<string>(m["EndTime"]));
     }
-    if (m.find("RemoteAddr") != m.end()) {
+    if (m.find("RemoteAddr") != m.end() && !m["RemoteAddr"].empty()) {
       remoteAddr =
           make_shared<string>(boost::any_cast<string>(m["RemoteAddr"]));
     }
@@ -8376,7 +8457,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("LiveRecord") != m.end()) {
+    if (m.find("LiveRecord") != m.end() && !m["LiveRecord"].empty()) {
       if (typeid(vector<boost::any>).name() == m["LiveRecord"].type().name()) {
         vector<GetLiveChannelHistoryResponseLiveChannelHistoryLiveRecord>
             expect1;
@@ -8434,11 +8515,13 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
-    if (m.find("LiveChannelHistory") != m.end()) {
+    if (m.find("LiveChannelHistory") != m.end() &&
+        !m["LiveChannelHistory"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["LiveChannelHistory"].type().name()) {
         GetLiveChannelHistoryResponseLiveChannelHistory model1;
@@ -8488,19 +8571,19 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("delimiter") != m.end()) {
+    if (m.find("delimiter") != m.end() && !m["delimiter"].empty()) {
       delimiter = make_shared<string>(boost::any_cast<string>(m["delimiter"]));
     }
-    if (m.find("marker") != m.end()) {
+    if (m.find("marker") != m.end() && !m["marker"].empty()) {
       marker = make_shared<string>(boost::any_cast<string>(m["marker"]));
     }
-    if (m.find("max-keys") != m.end()) {
+    if (m.find("max-keys") != m.end() && !m["max-keys"].empty()) {
       maxKeys = make_shared<string>(boost::any_cast<string>(m["max-keys"]));
     }
-    if (m.find("prefix") != m.end()) {
+    if (m.find("prefix") != m.end() && !m["prefix"].empty()) {
       prefix = make_shared<string>(boost::any_cast<string>(m["prefix"]));
     }
-    if (m.find("encoding-type") != m.end()) {
+    if (m.find("encoding-type") != m.end() && !m["encoding-type"].empty()) {
       encodingType =
           make_shared<string>(boost::any_cast<string>(m["encoding-type"]));
     }
@@ -8544,11 +8627,11 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
-    if (m.find("Filter") != m.end()) {
+    if (m.find("Filter") != m.end() && !m["Filter"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Filter"].type().name()) {
         GetBucketRequestFilter model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Filter"]));
@@ -8585,10 +8668,10 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("ID") != m.end()) {
+    if (m.find("ID") != m.end() && !m["ID"].empty()) {
       iD = make_shared<string>(boost::any_cast<string>(m["ID"]));
     }
-    if (m.find("DisplayName") != m.end()) {
+    if (m.find("DisplayName") != m.end() && !m["DisplayName"].empty()) {
       displayName =
           make_shared<string>(boost::any_cast<string>(m["DisplayName"]));
     }
@@ -8640,24 +8723,24 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Key") != m.end()) {
+    if (m.find("Key") != m.end() && !m["Key"].empty()) {
       key = make_shared<string>(boost::any_cast<string>(m["Key"]));
     }
-    if (m.find("ETag") != m.end()) {
+    if (m.find("ETag") != m.end() && !m["ETag"].empty()) {
       eTag = make_shared<string>(boost::any_cast<string>(m["ETag"]));
     }
-    if (m.find("LastModified") != m.end()) {
+    if (m.find("LastModified") != m.end() && !m["LastModified"].empty()) {
       lastModified =
           make_shared<string>(boost::any_cast<string>(m["LastModified"]));
     }
-    if (m.find("Size") != m.end()) {
+    if (m.find("Size") != m.end() && !m["Size"].empty()) {
       size = make_shared<string>(boost::any_cast<string>(m["Size"]));
     }
-    if (m.find("StorageClass") != m.end()) {
+    if (m.find("StorageClass") != m.end() && !m["StorageClass"].empty()) {
       storageClass =
           make_shared<string>(boost::any_cast<string>(m["StorageClass"]));
     }
-    if (m.find("Owner") != m.end()) {
+    if (m.find("Owner") != m.end() && !m["Owner"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Owner"].type().name()) {
         GetBucketResponseListBucketResultContentsOwner model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Owner"]));
@@ -8724,34 +8807,34 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Name") != m.end()) {
+    if (m.find("Name") != m.end() && !m["Name"].empty()) {
       name = make_shared<string>(boost::any_cast<string>(m["Name"]));
     }
-    if (m.find("Prefix") != m.end()) {
+    if (m.find("Prefix") != m.end() && !m["Prefix"].empty()) {
       prefix = make_shared<string>(boost::any_cast<string>(m["Prefix"]));
     }
-    if (m.find("Marker") != m.end()) {
+    if (m.find("Marker") != m.end() && !m["Marker"].empty()) {
       marker = make_shared<string>(boost::any_cast<string>(m["Marker"]));
     }
-    if (m.find("MaxKeys") != m.end()) {
+    if (m.find("MaxKeys") != m.end() && !m["MaxKeys"].empty()) {
       maxKeys = make_shared<string>(boost::any_cast<string>(m["MaxKeys"]));
     }
-    if (m.find("Delimiter") != m.end()) {
+    if (m.find("Delimiter") != m.end() && !m["Delimiter"].empty()) {
       delimiter = make_shared<string>(boost::any_cast<string>(m["Delimiter"]));
     }
-    if (m.find("IsTruncated") != m.end()) {
+    if (m.find("IsTruncated") != m.end() && !m["IsTruncated"].empty()) {
       isTruncated =
           make_shared<string>(boost::any_cast<string>(m["IsTruncated"]));
     }
-    if (m.find("EncodingType") != m.end()) {
+    if (m.find("EncodingType") != m.end() && !m["EncodingType"].empty()) {
       encodingType =
           make_shared<string>(boost::any_cast<string>(m["EncodingType"]));
     }
-    if (m.find("CommonPrefixes") != m.end()) {
+    if (m.find("CommonPrefixes") != m.end() && !m["CommonPrefixes"].empty()) {
       commonPrefixes =
           make_shared<string>(boost::any_cast<string>(m["CommonPrefixes"]));
     }
-    if (m.find("Contents") != m.end()) {
+    if (m.find("Contents") != m.end() && !m["Contents"].empty()) {
       if (typeid(vector<boost::any>).name() == m["Contents"].type().name()) {
         vector<GetBucketResponseListBucketResultContents> expect1;
         for (auto item1 : boost::any_cast<vector<boost::any>>(m["Contents"])) {
@@ -8813,11 +8896,13 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
-    if (m.find("ListBucketResult") != m.end()) {
+    if (m.find("ListBucketResult") != m.end() &&
+        !m["ListBucketResult"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["ListBucketResult"].type().name()) {
         GetBucketResponseListBucketResult model1;
@@ -8867,11 +8952,11 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
-    if (m.find("ChannelName") != m.end()) {
+    if (m.find("ChannelName") != m.end() && !m["ChannelName"].empty()) {
       channelName =
           make_shared<string>(boost::any_cast<string>(m["ChannelName"]));
     }
@@ -8912,17 +8997,17 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Type") != m.end()) {
+    if (m.find("Type") != m.end() && !m["Type"].empty()) {
       type = make_shared<string>(boost::any_cast<string>(m["Type"]));
     }
-    if (m.find("FragDuration") != m.end()) {
+    if (m.find("FragDuration") != m.end() && !m["FragDuration"].empty()) {
       fragDuration =
           make_shared<string>(boost::any_cast<string>(m["FragDuration"]));
     }
-    if (m.find("FragCount") != m.end()) {
+    if (m.find("FragCount") != m.end() && !m["FragCount"].empty()) {
       fragCount = make_shared<string>(boost::any_cast<string>(m["FragCount"]));
     }
-    if (m.find("PlaylistName") != m.end()) {
+    if (m.find("PlaylistName") != m.end() && !m["PlaylistName"].empty()) {
       playlistName =
           make_shared<string>(boost::any_cast<string>(m["PlaylistName"]));
     }
@@ -8968,14 +9053,14 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Description") != m.end()) {
+    if (m.find("Description") != m.end() && !m["Description"].empty()) {
       description =
           make_shared<string>(boost::any_cast<string>(m["Description"]));
     }
-    if (m.find("Status") != m.end()) {
+    if (m.find("Status") != m.end() && !m["Status"].empty()) {
       status = make_shared<string>(boost::any_cast<string>(m["Status"]));
     }
-    if (m.find("Target") != m.end()) {
+    if (m.find("Target") != m.end() && !m["Target"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Target"].type().name()) {
         GetLiveChannelInfoResponseLiveChannelConfigurationTarget model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Target"]));
@@ -9026,11 +9111,13 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
-    if (m.find("LiveChannelConfiguration") != m.end()) {
+    if (m.find("LiveChannelConfiguration") != m.end() &&
+        !m["LiveChannelConfiguration"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["LiveChannelConfiguration"].type().name()) {
         GetLiveChannelInfoResponseLiveChannelConfiguration model1;
@@ -9069,7 +9156,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("comp") != m.end()) {
+    if (m.find("comp") != m.end() && !m["comp"].empty()) {
       comp = make_shared<string>(boost::any_cast<string>(m["comp"]));
     }
   }
@@ -9115,15 +9202,15 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
-    if (m.find("ChannelName") != m.end()) {
+    if (m.find("ChannelName") != m.end() && !m["ChannelName"].empty()) {
       channelName =
           make_shared<string>(boost::any_cast<string>(m["ChannelName"]));
     }
-    if (m.find("Filter") != m.end()) {
+    if (m.find("Filter") != m.end() && !m["Filter"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Filter"].type().name()) {
         GetLiveChannelStatRequestFilter model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Filter"]));
@@ -9170,19 +9257,19 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Width") != m.end()) {
+    if (m.find("Width") != m.end() && !m["Width"].empty()) {
       width = make_shared<string>(boost::any_cast<string>(m["Width"]));
     }
-    if (m.find("Height") != m.end()) {
+    if (m.find("Height") != m.end() && !m["Height"].empty()) {
       height = make_shared<string>(boost::any_cast<string>(m["Height"]));
     }
-    if (m.find("FrameRate") != m.end()) {
+    if (m.find("FrameRate") != m.end() && !m["FrameRate"].empty()) {
       frameRate = make_shared<string>(boost::any_cast<string>(m["FrameRate"]));
     }
-    if (m.find("Bandwidth") != m.end()) {
+    if (m.find("Bandwidth") != m.end() && !m["Bandwidth"].empty()) {
       bandwidth = make_shared<string>(boost::any_cast<string>(m["Bandwidth"]));
     }
-    if (m.find("Codec") != m.end()) {
+    if (m.find("Codec") != m.end() && !m["Codec"].empty()) {
       codec = make_shared<string>(boost::any_cast<string>(m["Codec"]));
     }
   }
@@ -9221,14 +9308,14 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Bandwidth") != m.end()) {
+    if (m.find("Bandwidth") != m.end() && !m["Bandwidth"].empty()) {
       bandwidth = make_shared<string>(boost::any_cast<string>(m["Bandwidth"]));
     }
-    if (m.find("SampleRate") != m.end()) {
+    if (m.find("SampleRate") != m.end() && !m["SampleRate"].empty()) {
       sampleRate =
           make_shared<string>(boost::any_cast<string>(m["SampleRate"]));
     }
-    if (m.find("Codec") != m.end()) {
+    if (m.find("Codec") != m.end() && !m["Codec"].empty()) {
       codec = make_shared<string>(boost::any_cast<string>(m["Codec"]));
     }
   }
@@ -9282,18 +9369,18 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Status") != m.end()) {
+    if (m.find("Status") != m.end() && !m["Status"].empty()) {
       status = make_shared<string>(boost::any_cast<string>(m["Status"]));
     }
-    if (m.find("ConnectedTime") != m.end()) {
+    if (m.find("ConnectedTime") != m.end() && !m["ConnectedTime"].empty()) {
       connectedTime =
           make_shared<string>(boost::any_cast<string>(m["ConnectedTime"]));
     }
-    if (m.find("RemoteAddr") != m.end()) {
+    if (m.find("RemoteAddr") != m.end() && !m["RemoteAddr"].empty()) {
       remoteAddr =
           make_shared<string>(boost::any_cast<string>(m["RemoteAddr"]));
     }
-    if (m.find("Video") != m.end()) {
+    if (m.find("Video") != m.end() && !m["Video"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Video"].type().name()) {
         GetLiveChannelStatResponseLiveChannelStatVideo model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Video"]));
@@ -9301,7 +9388,7 @@ public:
             make_shared<GetLiveChannelStatResponseLiveChannelStatVideo>(model1);
       }
     }
-    if (m.find("Audio") != m.end()) {
+    if (m.find("Audio") != m.end() && !m["Audio"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Audio"].type().name()) {
         GetLiveChannelStatResponseLiveChannelStatAudio model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Audio"]));
@@ -9353,11 +9440,12 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
-    if (m.find("LiveChannelStat") != m.end()) {
+    if (m.find("LiveChannelStat") != m.end() && !m["LiveChannelStat"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["LiveChannelStat"].type().name()) {
         GetLiveChannelStatResponseLiveChannelStat model1;
@@ -9407,11 +9495,11 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
-    if (m.find("ObjectName") != m.end()) {
+    if (m.find("ObjectName") != m.end() && !m["ObjectName"].empty()) {
       objectName =
           make_shared<string>(boost::any_cast<string>(m["ObjectName"]));
     }
@@ -9446,7 +9534,8 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
@@ -9481,7 +9570,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("uploadId") != m.end()) {
+    if (m.find("uploadId") != m.end() && !m["uploadId"].empty()) {
       uploadId = make_shared<string>(boost::any_cast<string>(m["uploadId"]));
     }
   }
@@ -9532,15 +9621,15 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
-    if (m.find("ObjectName") != m.end()) {
+    if (m.find("ObjectName") != m.end() && !m["ObjectName"].empty()) {
       objectName =
           make_shared<string>(boost::any_cast<string>(m["ObjectName"]));
     }
-    if (m.find("Filter") != m.end()) {
+    if (m.find("Filter") != m.end() && !m["Filter"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Filter"].type().name()) {
         AbortMultipartUploadRequestFilter model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Filter"]));
@@ -9580,7 +9669,8 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
@@ -9614,7 +9704,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("position") != m.end()) {
+    if (m.find("position") != m.end() && !m["position"].empty()) {
       position = make_shared<string>(boost::any_cast<string>(m["position"]));
     }
   }
@@ -9666,38 +9756,43 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Cache-Control") != m.end()) {
+    if (m.find("Cache-Control") != m.end() && !m["Cache-Control"].empty()) {
       cacheControl =
           make_shared<string>(boost::any_cast<string>(m["Cache-Control"]));
     }
-    if (m.find("Content-Disposition") != m.end()) {
+    if (m.find("Content-Disposition") != m.end() &&
+        !m["Content-Disposition"].empty()) {
       contentDisposition = make_shared<string>(
           boost::any_cast<string>(m["Content-Disposition"]));
     }
-    if (m.find("Content-Encoding") != m.end()) {
+    if (m.find("Content-Encoding") != m.end() &&
+        !m["Content-Encoding"].empty()) {
       contentEncoding =
           make_shared<string>(boost::any_cast<string>(m["Content-Encoding"]));
     }
-    if (m.find("Content-MD5") != m.end()) {
+    if (m.find("Content-MD5") != m.end() && !m["Content-MD5"].empty()) {
       contentMD5 =
           make_shared<string>(boost::any_cast<string>(m["Content-MD5"]));
     }
-    if (m.find("Expires") != m.end()) {
+    if (m.find("Expires") != m.end() && !m["Expires"].empty()) {
       expires = make_shared<string>(boost::any_cast<string>(m["Expires"]));
     }
-    if (m.find("x-oss-server-side-encryption") != m.end()) {
+    if (m.find("x-oss-server-side-encryption") != m.end() &&
+        !m["x-oss-server-side-encryption"].empty()) {
       serverSideEncryption = make_shared<string>(
           boost::any_cast<string>(m["x-oss-server-side-encryption"]));
     }
-    if (m.find("x-oss-object-acl") != m.end()) {
+    if (m.find("x-oss-object-acl") != m.end() &&
+        !m["x-oss-object-acl"].empty()) {
       objectAcl =
           make_shared<string>(boost::any_cast<string>(m["x-oss-object-acl"]));
     }
-    if (m.find("x-oss-storage-class") != m.end()) {
+    if (m.find("x-oss-storage-class") != m.end() &&
+        !m["x-oss-storage-class"].empty()) {
       storageClass = make_shared<string>(
           boost::any_cast<string>(m["x-oss-storage-class"]));
     }
-    if (m.find("content-type") != m.end()) {
+    if (m.find("content-type") != m.end() && !m["content-type"].empty()) {
       contentType =
           make_shared<string>(boost::any_cast<string>(m["content-type"]));
     }
@@ -9766,35 +9861,35 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
-    if (m.find("ObjectName") != m.end()) {
+    if (m.find("ObjectName") != m.end() && !m["ObjectName"].empty()) {
       objectName =
           make_shared<string>(boost::any_cast<string>(m["ObjectName"]));
     }
-    if (m.find("UserMeta") != m.end()) {
-      map<string, boost::any> map1 =
-          boost::any_cast<map<string, boost::any>>(m["UserMeta"]);
+    if (m.find("UserMeta") != m.end() && !m["UserMeta"].empty()) {
+      map<string, string> map1 =
+          boost::any_cast<map<string, string>>(m["UserMeta"]);
       map<string, string> toMap1;
       for (auto item : map1) {
-        toMap1[item.first] = boost::any_cast<string>(item.second);
+        toMap1[item.first] = item.second;
       }
       userMeta = make_shared<map<string, string>>(toMap1);
     }
-    if (m.find("body") != m.end()) {
+    if (m.find("body") != m.end() && !m["body"].empty()) {
       body = make_shared<Darabonba::Stream>(
           boost::any_cast<Darabonba::Stream>(m["body"]));
     }
-    if (m.find("Filter") != m.end()) {
+    if (m.find("Filter") != m.end() && !m["Filter"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Filter"].type().name()) {
         AppendObjectRequestFilter model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Filter"]));
         filter = make_shared<AppendObjectRequestFilter>(model1);
       }
     }
-    if (m.find("Header") != m.end()) {
+    if (m.find("Header") != m.end() && !m["Header"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Header"].type().name()) {
         AppendObjectRequestHeader model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Header"]));
@@ -9850,15 +9945,18 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
-    if (m.find("x-oss-next-append-position") != m.end()) {
+    if (m.find("x-oss-next-append-position") != m.end() &&
+        !m["x-oss-next-append-position"].empty()) {
       nextAppendPosition = make_shared<string>(
           boost::any_cast<string>(m["x-oss-next-append-position"]));
     }
-    if (m.find("x-oss-hash-crc64ecma") != m.end()) {
+    if (m.find("x-oss-hash-crc64ecma") != m.end() &&
+        !m["x-oss-hash-crc64ecma"].empty()) {
       hashCrc64ecma = make_shared<string>(
           boost::any_cast<string>(m["x-oss-hash-crc64ecma"]));
     }
@@ -9902,11 +10000,11 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("partNumber") != m.end()) {
+    if (m.find("partNumber") != m.end() && !m["partNumber"].empty()) {
       partNumber =
           make_shared<string>(boost::any_cast<string>(m["partNumber"]));
     }
-    if (m.find("uploadId") != m.end()) {
+    if (m.find("uploadId") != m.end() && !m["uploadId"].empty()) {
       uploadId = make_shared<string>(boost::any_cast<string>(m["uploadId"]));
     }
   }
@@ -9963,27 +10061,33 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-copy-source") != m.end()) {
+    if (m.find("x-oss-copy-source") != m.end() &&
+        !m["x-oss-copy-source"].empty()) {
       copySource =
           make_shared<string>(boost::any_cast<string>(m["x-oss-copy-source"]));
     }
-    if (m.find("x-oss-copy-source-range") != m.end()) {
+    if (m.find("x-oss-copy-source-range") != m.end() &&
+        !m["x-oss-copy-source-range"].empty()) {
       copySourceRange = make_shared<string>(
           boost::any_cast<string>(m["x-oss-copy-source-range"]));
     }
-    if (m.find("x-oss-copy-source-if-match") != m.end()) {
+    if (m.find("x-oss-copy-source-if-match") != m.end() &&
+        !m["x-oss-copy-source-if-match"].empty()) {
       copySourceIfMatch = make_shared<string>(
           boost::any_cast<string>(m["x-oss-copy-source-if-match"]));
     }
-    if (m.find("x-oss-copy-source-if-none-match") != m.end()) {
+    if (m.find("x-oss-copy-source-if-none-match") != m.end() &&
+        !m["x-oss-copy-source-if-none-match"].empty()) {
       copySourceIfNoneMatch = make_shared<string>(
           boost::any_cast<string>(m["x-oss-copy-source-if-none-match"]));
     }
-    if (m.find("x-oss-copy-source-if-unmodified-since") != m.end()) {
+    if (m.find("x-oss-copy-source-if-unmodified-since") != m.end() &&
+        !m["x-oss-copy-source-if-unmodified-since"].empty()) {
       copySourceIfUnmodifiedSince = make_shared<string>(
           boost::any_cast<string>(m["x-oss-copy-source-if-unmodified-since"]));
     }
-    if (m.find("x-oss-copy-source-if-modified-since") != m.end()) {
+    if (m.find("x-oss-copy-source-if-modified-since") != m.end() &&
+        !m["x-oss-copy-source-if-modified-since"].empty()) {
       copySourceIfModifiedSince = make_shared<string>(
           boost::any_cast<string>(m["x-oss-copy-source-if-modified-since"]));
     }
@@ -10047,22 +10151,22 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
-    if (m.find("ObjectName") != m.end()) {
+    if (m.find("ObjectName") != m.end() && !m["ObjectName"].empty()) {
       objectName =
           make_shared<string>(boost::any_cast<string>(m["ObjectName"]));
     }
-    if (m.find("Filter") != m.end()) {
+    if (m.find("Filter") != m.end() && !m["Filter"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Filter"].type().name()) {
         UploadPartCopyRequestFilter model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Filter"]));
         filter = make_shared<UploadPartCopyRequestFilter>(model1);
       }
     }
-    if (m.find("Header") != m.end()) {
+    if (m.find("Header") != m.end() && !m["Header"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Header"].type().name()) {
         UploadPartCopyRequestHeader model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Header"]));
@@ -10101,11 +10205,11 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("LastModified") != m.end()) {
+    if (m.find("LastModified") != m.end() && !m["LastModified"].empty()) {
       lastModified =
           make_shared<string>(boost::any_cast<string>(m["LastModified"]));
     }
-    if (m.find("ETag") != m.end()) {
+    if (m.find("ETag") != m.end() && !m["ETag"].empty()) {
       eTag = make_shared<string>(boost::any_cast<string>(m["ETag"]));
     }
   }
@@ -10148,11 +10252,12 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
-    if (m.find("CopyPartResult") != m.end()) {
+    if (m.find("CopyPartResult") != m.end() && !m["CopyPartResult"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["CopyPartResult"].type().name()) {
         UploadPartCopyResponseCopyPartResult model1;
@@ -10201,10 +10306,10 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("endTime") != m.end()) {
+    if (m.find("endTime") != m.end() && !m["endTime"].empty()) {
       endTime = make_shared<string>(boost::any_cast<string>(m["endTime"]));
     }
-    if (m.find("startTime") != m.end()) {
+    if (m.find("startTime") != m.end() && !m["startTime"].empty()) {
       startTime = make_shared<string>(boost::any_cast<string>(m["startTime"]));
     }
   }
@@ -10255,15 +10360,15 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
-    if (m.find("ChannelName") != m.end()) {
+    if (m.find("ChannelName") != m.end() && !m["ChannelName"].empty()) {
       channelName =
           make_shared<string>(boost::any_cast<string>(m["ChannelName"]));
     }
-    if (m.find("Filter") != m.end()) {
+    if (m.find("Filter") != m.end() && !m["Filter"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Filter"].type().name()) {
         GetVodPlaylistRequestFilter model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Filter"]));
@@ -10302,7 +10407,8 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
@@ -10338,7 +10444,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
@@ -10372,7 +10478,8 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
@@ -10435,49 +10542,57 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("response-content-type") != m.end()) {
+    if (m.find("response-content-type") != m.end() &&
+        !m["response-content-type"].empty()) {
       responseContentType = make_shared<string>(
           boost::any_cast<string>(m["response-content-type"]));
     }
-    if (m.find("response-content-language") != m.end()) {
+    if (m.find("response-content-language") != m.end() &&
+        !m["response-content-language"].empty()) {
       responseContentLanguage = make_shared<string>(
           boost::any_cast<string>(m["response-content-language"]));
     }
-    if (m.find("response-expires") != m.end()) {
+    if (m.find("response-expires") != m.end() &&
+        !m["response-expires"].empty()) {
       responseExpires =
           make_shared<string>(boost::any_cast<string>(m["response-expires"]));
     }
-    if (m.find("response-cache-control") != m.end()) {
+    if (m.find("response-cache-control") != m.end() &&
+        !m["response-cache-control"].empty()) {
       responseCacheControl = make_shared<string>(
           boost::any_cast<string>(m["response-cache-control"]));
     }
-    if (m.find("response-content-disposition") != m.end()) {
+    if (m.find("response-content-disposition") != m.end() &&
+        !m["response-content-disposition"].empty()) {
       responseContentDisposition = make_shared<string>(
           boost::any_cast<string>(m["response-content-disposition"]));
     }
-    if (m.find("response-content-encoding") != m.end()) {
+    if (m.find("response-content-encoding") != m.end() &&
+        !m["response-content-encoding"].empty()) {
       responseContentEncoding = make_shared<string>(
           boost::any_cast<string>(m["response-content-encoding"]));
     }
-    if (m.find("Range") != m.end()) {
+    if (m.find("Range") != m.end() && !m["Range"].empty()) {
       range = make_shared<string>(boost::any_cast<string>(m["Range"]));
     }
-    if (m.find("If-Modified-Since") != m.end()) {
+    if (m.find("If-Modified-Since") != m.end() &&
+        !m["If-Modified-Since"].empty()) {
       ifModifiedSince =
           make_shared<string>(boost::any_cast<string>(m["If-Modified-Since"]));
     }
-    if (m.find("If-Unmodified-Since") != m.end()) {
+    if (m.find("If-Unmodified-Since") != m.end() &&
+        !m["If-Unmodified-Since"].empty()) {
       ifUnmodifiedSince = make_shared<string>(
           boost::any_cast<string>(m["If-Unmodified-Since"]));
     }
-    if (m.find("If-Match") != m.end()) {
+    if (m.find("If-Match") != m.end() && !m["If-Match"].empty()) {
       ifMatch = make_shared<string>(boost::any_cast<string>(m["If-Match"]));
     }
-    if (m.find("If-None-Match") != m.end()) {
+    if (m.find("If-None-Match") != m.end() && !m["If-None-Match"].empty()) {
       ifNoneMatch =
           make_shared<string>(boost::any_cast<string>(m["If-None-Match"]));
     }
-    if (m.find("Accept-Encoding") != m.end()) {
+    if (m.find("Accept-Encoding") != m.end() && !m["Accept-Encoding"].empty()) {
       acceptEncoding =
           make_shared<string>(boost::any_cast<string>(m["Accept-Encoding"]));
     }
@@ -10535,15 +10650,15 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
-    if (m.find("ObjectName") != m.end()) {
+    if (m.find("ObjectName") != m.end() && !m["ObjectName"].empty()) {
       objectName =
           make_shared<string>(boost::any_cast<string>(m["ObjectName"]));
     }
-    if (m.find("Header") != m.end()) {
+    if (m.find("Header") != m.end() && !m["Header"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Header"].type().name()) {
         GetObjectRequestHeader model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Header"]));
@@ -10617,27 +10732,31 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
-    if (m.find("x-oss-object-type") != m.end()) {
+    if (m.find("x-oss-object-type") != m.end() &&
+        !m["x-oss-object-type"].empty()) {
       objectType =
           make_shared<string>(boost::any_cast<string>(m["x-oss-object-type"]));
     }
-    if (m.find("x-oss-server-side-encryption") != m.end()) {
+    if (m.find("x-oss-server-side-encryption") != m.end() &&
+        !m["x-oss-server-side-encryption"].empty()) {
       serverSideEncryption = make_shared<string>(
           boost::any_cast<string>(m["x-oss-server-side-encryption"]));
     }
-    if (m.find("x-oss-tagging-count") != m.end()) {
+    if (m.find("x-oss-tagging-count") != m.end() &&
+        !m["x-oss-tagging-count"].empty()) {
       taggingCount = make_shared<string>(
           boost::any_cast<string>(m["x-oss-tagging-count"]));
     }
-    if (m.find("x-oss-restore") != m.end()) {
+    if (m.find("x-oss-restore") != m.end() && !m["x-oss-restore"].empty()) {
       restore =
           make_shared<string>(boost::any_cast<string>(m["x-oss-restore"]));
     }
-    if (m.find("body") != m.end()) {
+    if (m.find("body") != m.end() && !m["body"].empty()) {
       body = make_shared<Darabonba::Stream>(
           boost::any_cast<Darabonba::Stream>(m["body"]));
     }
@@ -10683,11 +10802,11 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("partNumber") != m.end()) {
+    if (m.find("partNumber") != m.end() && !m["partNumber"].empty()) {
       partNumber =
           make_shared<string>(boost::any_cast<string>(m["partNumber"]));
     }
-    if (m.find("uploadId") != m.end()) {
+    if (m.find("uploadId") != m.end() && !m["uploadId"].empty()) {
       uploadId = make_shared<string>(boost::any_cast<string>(m["uploadId"]));
     }
   }
@@ -10741,19 +10860,19 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
-    if (m.find("ObjectName") != m.end()) {
+    if (m.find("ObjectName") != m.end() && !m["ObjectName"].empty()) {
       objectName =
           make_shared<string>(boost::any_cast<string>(m["ObjectName"]));
     }
-    if (m.find("body") != m.end()) {
+    if (m.find("body") != m.end() && !m["body"].empty()) {
       body = make_shared<Darabonba::Stream>(
           boost::any_cast<Darabonba::Stream>(m["body"]));
     }
-    if (m.find("Filter") != m.end()) {
+    if (m.find("Filter") != m.end() && !m["Filter"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Filter"].type().name()) {
         UploadPartRequestFilter model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Filter"]));
@@ -10793,7 +10912,8 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
@@ -10829,7 +10949,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
@@ -10859,7 +10979,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("MaxAgeSeconds") != m.end()) {
+    if (m.find("MaxAgeSeconds") != m.end() && !m["MaxAgeSeconds"].empty()) {
       maxAgeSeconds =
           make_shared<string>(boost::any_cast<string>(m["MaxAgeSeconds"]));
     }
@@ -10893,7 +11013,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("CORSRule") != m.end()) {
+    if (m.find("CORSRule") != m.end() && !m["CORSRule"].empty()) {
       if (typeid(vector<boost::any>).name() == m["CORSRule"].type().name()) {
         vector<GetBucketCORSResponseCORSConfigurationCORSRule> expect1;
         for (auto item1 : boost::any_cast<vector<boost::any>>(m["CORSRule"])) {
@@ -10947,11 +11067,13 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
-    if (m.find("CORSConfiguration") != m.end()) {
+    if (m.find("CORSConfiguration") != m.end() &&
+        !m["CORSConfiguration"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["CORSConfiguration"].type().name()) {
         GetBucketCORSResponseCORSConfiguration model1;
@@ -11029,51 +11151,62 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-copy-source") != m.end()) {
+    if (m.find("x-oss-copy-source") != m.end() &&
+        !m["x-oss-copy-source"].empty()) {
       copySource =
           make_shared<string>(boost::any_cast<string>(m["x-oss-copy-source"]));
     }
-    if (m.find("x-oss-copy-source-if-match") != m.end()) {
+    if (m.find("x-oss-copy-source-if-match") != m.end() &&
+        !m["x-oss-copy-source-if-match"].empty()) {
       copySourceIfMatch = make_shared<string>(
           boost::any_cast<string>(m["x-oss-copy-source-if-match"]));
     }
-    if (m.find("x-oss-copy-source-if-none-match") != m.end()) {
+    if (m.find("x-oss-copy-source-if-none-match") != m.end() &&
+        !m["x-oss-copy-source-if-none-match"].empty()) {
       copySourceIfNoneMatch = make_shared<string>(
           boost::any_cast<string>(m["x-oss-copy-source-if-none-match"]));
     }
-    if (m.find("x-oss-copy-source-if-unmodified-since") != m.end()) {
+    if (m.find("x-oss-copy-source-if-unmodified-since") != m.end() &&
+        !m["x-oss-copy-source-if-unmodified-since"].empty()) {
       copySourceIfUnmodifiedSince = make_shared<string>(
           boost::any_cast<string>(m["x-oss-copy-source-if-unmodified-since"]));
     }
-    if (m.find("x-oss-copy-source-if-modified-since") != m.end()) {
+    if (m.find("x-oss-copy-source-if-modified-since") != m.end() &&
+        !m["x-oss-copy-source-if-modified-since"].empty()) {
       copySourceIfModifiedSince = make_shared<string>(
           boost::any_cast<string>(m["x-oss-copy-source-if-modified-since"]));
     }
-    if (m.find("x-oss-metadata-directive") != m.end()) {
+    if (m.find("x-oss-metadata-directive") != m.end() &&
+        !m["x-oss-metadata-directive"].empty()) {
       metadataDirective = make_shared<string>(
           boost::any_cast<string>(m["x-oss-metadata-directive"]));
     }
-    if (m.find("x-oss-server-side-encryption") != m.end()) {
+    if (m.find("x-oss-server-side-encryption") != m.end() &&
+        !m["x-oss-server-side-encryption"].empty()) {
       serverSideEncryption = make_shared<string>(
           boost::any_cast<string>(m["x-oss-server-side-encryption"]));
     }
-    if (m.find("x-oss-server-side-encryption-key-id") != m.end()) {
+    if (m.find("x-oss-server-side-encryption-key-id") != m.end() &&
+        !m["x-oss-server-side-encryption-key-id"].empty()) {
       serverSideEncryptionKeyId = make_shared<string>(
           boost::any_cast<string>(m["x-oss-server-side-encryption-key-id"]));
     }
-    if (m.find("x-oss-object-acl") != m.end()) {
+    if (m.find("x-oss-object-acl") != m.end() &&
+        !m["x-oss-object-acl"].empty()) {
       objectAcl =
           make_shared<string>(boost::any_cast<string>(m["x-oss-object-acl"]));
     }
-    if (m.find("x-oss-storage-class") != m.end()) {
+    if (m.find("x-oss-storage-class") != m.end() &&
+        !m["x-oss-storage-class"].empty()) {
       storageClass = make_shared<string>(
           boost::any_cast<string>(m["x-oss-storage-class"]));
     }
-    if (m.find("x-oss-tagging") != m.end()) {
+    if (m.find("x-oss-tagging") != m.end() && !m["x-oss-tagging"].empty()) {
       tagging =
           make_shared<string>(boost::any_cast<string>(m["x-oss-tagging"]));
     }
-    if (m.find("x-oss-tagging-directive") != m.end()) {
+    if (m.find("x-oss-tagging-directive") != m.end() &&
+        !m["x-oss-tagging-directive"].empty()) {
       taggingDirective = make_shared<string>(
           boost::any_cast<string>(m["x-oss-tagging-directive"]));
     }
@@ -11135,15 +11268,15 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
-    if (m.find("DestObjectName") != m.end()) {
+    if (m.find("DestObjectName") != m.end() && !m["DestObjectName"].empty()) {
       destObjectName =
           make_shared<string>(boost::any_cast<string>(m["DestObjectName"]));
     }
-    if (m.find("Header") != m.end()) {
+    if (m.find("Header") != m.end() && !m["Header"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Header"].type().name()) {
         CopyObjectRequestHeader model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Header"]));
@@ -11181,11 +11314,11 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("LastModified") != m.end()) {
+    if (m.find("LastModified") != m.end() && !m["LastModified"].empty()) {
       lastModified =
           make_shared<string>(boost::any_cast<string>(m["LastModified"]));
     }
-    if (m.find("ETag") != m.end()) {
+    if (m.find("ETag") != m.end() && !m["ETag"].empty()) {
       eTag = make_shared<string>(boost::any_cast<string>(m["ETag"]));
     }
   }
@@ -11228,11 +11361,13 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
-    if (m.find("CopyObjectResult") != m.end()) {
+    if (m.find("CopyObjectResult") != m.end() &&
+        !m["CopyObjectResult"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["CopyObjectResult"].type().name()) {
         CopyObjectResponseCopyObjectResult model1;
@@ -11282,11 +11417,11 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
-    if (m.find("ObjectName") != m.end()) {
+    if (m.find("ObjectName") != m.end() && !m["ObjectName"].empty()) {
       objectName =
           make_shared<string>(boost::any_cast<string>(m["ObjectName"]));
     }
@@ -11320,10 +11455,10 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Key") != m.end()) {
+    if (m.find("Key") != m.end() && !m["Key"].empty()) {
       key = make_shared<string>(boost::any_cast<string>(m["Key"]));
     }
-    if (m.find("Value") != m.end()) {
+    if (m.find("Value") != m.end() && !m["Value"].empty()) {
       value = make_shared<string>(boost::any_cast<string>(m["Value"]));
     }
   }
@@ -11357,7 +11492,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Tag") != m.end()) {
+    if (m.find("Tag") != m.end() && !m["Tag"].empty()) {
       if (typeid(vector<boost::any>).name() == m["Tag"].type().name()) {
         vector<GetObjectTaggingResponseTaggingTagSetTag> expect1;
         for (auto item1 : boost::any_cast<vector<boost::any>>(m["Tag"])) {
@@ -11403,7 +11538,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("TagSet") != m.end()) {
+    if (m.find("TagSet") != m.end() && !m["TagSet"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["TagSet"].type().name()) {
         GetObjectTaggingResponseTaggingTagSet model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["TagSet"]));
@@ -11448,11 +11583,12 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
-    if (m.find("Tagging") != m.end()) {
+    if (m.find("Tagging") != m.end() && !m["Tagging"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["Tagging"].type().name()) {
         GetObjectTaggingResponseTagging model1;
@@ -11494,7 +11630,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
@@ -11529,7 +11665,8 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
@@ -11566,7 +11703,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
@@ -11601,7 +11738,8 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
@@ -11638,7 +11776,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
@@ -11673,7 +11811,8 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
@@ -11716,11 +11855,11 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
-    if (m.find("ObjectName") != m.end()) {
+    if (m.find("ObjectName") != m.end() && !m["ObjectName"].empty()) {
       objectName =
           make_shared<string>(boost::any_cast<string>(m["ObjectName"]));
     }
@@ -11762,11 +11901,13 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
-    if (m.find("x-oss-symlink-target") != m.end()) {
+    if (m.find("x-oss-symlink-target") != m.end() &&
+        !m["x-oss-symlink-target"].empty()) {
       symlinkTarget = make_shared<string>(
           boost::any_cast<string>(m["x-oss-symlink-target"]));
     }
@@ -11803,7 +11944,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
@@ -11837,10 +11978,11 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Days") != m.end()) {
+    if (m.find("Days") != m.end() && !m["Days"].empty()) {
       days = make_shared<int>(boost::any_cast<int>(m["Days"]));
     }
-    if (m.find("CreatedBeforeDate") != m.end()) {
+    if (m.find("CreatedBeforeDate") != m.end() &&
+        !m["CreatedBeforeDate"].empty()) {
       createdBeforeDate =
           make_shared<string>(boost::any_cast<string>(m["CreatedBeforeDate"]));
     }
@@ -11875,10 +12017,10 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Days") != m.end()) {
+    if (m.find("Days") != m.end() && !m["Days"].empty()) {
       days = make_shared<int>(boost::any_cast<int>(m["Days"]));
     }
-    if (m.find("StorageClass") != m.end()) {
+    if (m.find("StorageClass") != m.end() && !m["StorageClass"].empty()) {
       storageClass =
           make_shared<string>(boost::any_cast<string>(m["StorageClass"]));
     }
@@ -11913,10 +12055,11 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Days") != m.end()) {
+    if (m.find("Days") != m.end() && !m["Days"].empty()) {
       days = make_shared<int>(boost::any_cast<int>(m["Days"]));
     }
-    if (m.find("CreatedBeforeDate") != m.end()) {
+    if (m.find("CreatedBeforeDate") != m.end() &&
+        !m["CreatedBeforeDate"].empty()) {
       createdBeforeDate =
           make_shared<string>(boost::any_cast<string>(m["CreatedBeforeDate"]));
     }
@@ -11952,10 +12095,10 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Key") != m.end()) {
+    if (m.find("Key") != m.end() && !m["Key"].empty()) {
       key = make_shared<string>(boost::any_cast<string>(m["Key"]));
     }
-    if (m.find("Value") != m.end()) {
+    if (m.find("Value") != m.end() && !m["Value"].empty()) {
       value = make_shared<string>(boost::any_cast<string>(m["Value"]));
     }
   }
@@ -12026,16 +12169,16 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("ID") != m.end()) {
+    if (m.find("ID") != m.end() && !m["ID"].empty()) {
       iD = make_shared<string>(boost::any_cast<string>(m["ID"]));
     }
-    if (m.find("Prefix") != m.end()) {
+    if (m.find("Prefix") != m.end() && !m["Prefix"].empty()) {
       prefix = make_shared<string>(boost::any_cast<string>(m["Prefix"]));
     }
-    if (m.find("Status") != m.end()) {
+    if (m.find("Status") != m.end() && !m["Status"].empty()) {
       status = make_shared<string>(boost::any_cast<string>(m["Status"]));
     }
-    if (m.find("Expiration") != m.end()) {
+    if (m.find("Expiration") != m.end() && !m["Expiration"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["Expiration"].type().name()) {
         GetBucketLifecycleResponseLifecycleConfigurationRuleExpiration model1;
@@ -12046,7 +12189,7 @@ public:
             model1);
       }
     }
-    if (m.find("Transition") != m.end()) {
+    if (m.find("Transition") != m.end() && !m["Transition"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["Transition"].type().name()) {
         GetBucketLifecycleResponseLifecycleConfigurationRuleTransition model1;
@@ -12057,7 +12200,8 @@ public:
             model1);
       }
     }
-    if (m.find("AbortMultipartUpload") != m.end()) {
+    if (m.find("AbortMultipartUpload") != m.end() &&
+        !m["AbortMultipartUpload"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["AbortMultipartUpload"].type().name()) {
         GetBucketLifecycleResponseLifecycleConfigurationRuleAbortMultipartUpload
@@ -12069,7 +12213,7 @@ public:
             model1);
       }
     }
-    if (m.find("Tag") != m.end()) {
+    if (m.find("Tag") != m.end() && !m["Tag"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Tag"].type().name()) {
         GetBucketLifecycleResponseLifecycleConfigurationRuleTag model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Tag"]));
@@ -12118,7 +12262,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Rule") != m.end()) {
+    if (m.find("Rule") != m.end() && !m["Rule"].empty()) {
       if (typeid(vector<boost::any>).name() == m["Rule"].type().name()) {
         vector<GetBucketLifecycleResponseLifecycleConfigurationRule> expect1;
         for (auto item1 : boost::any_cast<vector<boost::any>>(m["Rule"])) {
@@ -12174,11 +12318,13 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
-    if (m.find("LifecycleConfiguration") != m.end()) {
+    if (m.find("LifecycleConfiguration") != m.end() &&
+        !m["LifecycleConfiguration"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["LifecycleConfiguration"].type().name()) {
         GetBucketLifecycleResponseLifecycleConfiguration model1;
@@ -12224,11 +12370,13 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-symlink-target") != m.end()) {
+    if (m.find("x-oss-symlink-target") != m.end() &&
+        !m["x-oss-symlink-target"].empty()) {
       symlinkTarget = make_shared<string>(
           boost::any_cast<string>(m["x-oss-symlink-target"]));
     }
-    if (m.find("x-oss-storage-class") != m.end()) {
+    if (m.find("x-oss-storage-class") != m.end() &&
+        !m["x-oss-storage-class"].empty()) {
       storageClass = make_shared<string>(
           boost::any_cast<string>(m["x-oss-storage-class"]));
     }
@@ -12280,15 +12428,15 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
-    if (m.find("ObjectName") != m.end()) {
+    if (m.find("ObjectName") != m.end() && !m["ObjectName"].empty()) {
       objectName =
           make_shared<string>(boost::any_cast<string>(m["ObjectName"]));
     }
-    if (m.find("Header") != m.end()) {
+    if (m.find("Header") != m.end() && !m["Header"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Header"].type().name()) {
         PutSymlinkRequestHeader model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Header"]));
@@ -12327,7 +12475,8 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
@@ -12363,7 +12512,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
@@ -12394,7 +12543,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Referer") != m.end()) {
+    if (m.find("Referer") != m.end() && !m["Referer"].empty()) {
       vector<string> toVec1;
       if (typeid(vector<boost::any>).name() == m["Referer"].type().name()) {
         vector<boost::any> vec1 =
@@ -12441,11 +12590,12 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("AllowEmptyReferer") != m.end()) {
+    if (m.find("AllowEmptyReferer") != m.end() &&
+        !m["AllowEmptyReferer"].empty()) {
       allowEmptyReferer =
           make_shared<bool>(boost::any_cast<bool>(m["AllowEmptyReferer"]));
     }
-    if (m.find("RefererList") != m.end()) {
+    if (m.find("RefererList") != m.end() && !m["RefererList"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["RefererList"].type().name()) {
         GetBucketRefererResponseRefererConfigurationRefererList model1;
@@ -12496,11 +12646,13 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
-    if (m.find("RefererConfiguration") != m.end()) {
+    if (m.find("RefererConfiguration") != m.end() &&
+        !m["RefererConfiguration"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["RefererConfiguration"].type().name()) {
         GetBucketRefererResponseRefererConfiguration model1;
@@ -12544,7 +12696,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
@@ -12578,7 +12730,8 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
@@ -12614,7 +12767,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
@@ -12648,11 +12801,11 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("TargetBucket") != m.end()) {
+    if (m.find("TargetBucket") != m.end() && !m["TargetBucket"].empty()) {
       targetBucket =
           make_shared<string>(boost::any_cast<string>(m["TargetBucket"]));
     }
-    if (m.find("TargetPrefix") != m.end()) {
+    if (m.find("TargetPrefix") != m.end() && !m["TargetPrefix"].empty()) {
       targetPrefix =
           make_shared<string>(boost::any_cast<string>(m["TargetPrefix"]));
     }
@@ -12690,7 +12843,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("LoggingEnabled") != m.end()) {
+    if (m.find("LoggingEnabled") != m.end() && !m["LoggingEnabled"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["LoggingEnabled"].type().name()) {
         GetBucketLoggingResponseBucketLoggingStatusLoggingEnabled model1;
@@ -12740,11 +12893,13 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
-    if (m.find("BucketLoggingStatus") != m.end()) {
+    if (m.find("BucketLoggingStatus") != m.end() &&
+        !m["BucketLoggingStatus"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["BucketLoggingStatus"].type().name()) {
         GetBucketLoggingResponseBucketLoggingStatus model1;
@@ -12785,7 +12940,8 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-object-acl") != m.end()) {
+    if (m.find("x-oss-object-acl") != m.end() &&
+        !m["x-oss-object-acl"].empty()) {
       objectAcl =
           make_shared<string>(boost::any_cast<string>(m["x-oss-object-acl"]));
     }
@@ -12836,15 +12992,15 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
-    if (m.find("ObjectName") != m.end()) {
+    if (m.find("ObjectName") != m.end() && !m["ObjectName"].empty()) {
       objectName =
           make_shared<string>(boost::any_cast<string>(m["ObjectName"]));
     }
-    if (m.find("Header") != m.end()) {
+    if (m.find("Header") != m.end() && !m["Header"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Header"].type().name()) {
         PutObjectAclRequestHeader model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Header"]));
@@ -12883,7 +13039,8 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
@@ -12919,7 +13076,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
@@ -12952,10 +13109,10 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("ID") != m.end()) {
+    if (m.find("ID") != m.end() && !m["ID"].empty()) {
       iD = make_shared<string>(boost::any_cast<string>(m["ID"]));
     }
-    if (m.find("DisplayName") != m.end()) {
+    if (m.find("DisplayName") != m.end() && !m["DisplayName"].empty()) {
       displayName =
           make_shared<string>(boost::any_cast<string>(m["DisplayName"]));
     }
@@ -12987,7 +13144,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Grant") != m.end()) {
+    if (m.find("Grant") != m.end() && !m["Grant"].empty()) {
       grant = make_shared<string>(boost::any_cast<string>(m["Grant"]));
     }
   }
@@ -13055,43 +13212,47 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("CreationDate") != m.end()) {
+    if (m.find("CreationDate") != m.end() && !m["CreationDate"].empty()) {
       creationDate =
           make_shared<string>(boost::any_cast<string>(m["CreationDate"]));
     }
-    if (m.find("ExtranetEndpoint") != m.end()) {
+    if (m.find("ExtranetEndpoint") != m.end() &&
+        !m["ExtranetEndpoint"].empty()) {
       extranetEndpoint =
           make_shared<string>(boost::any_cast<string>(m["ExtranetEndpoint"]));
     }
-    if (m.find("IntranetEndpoint") != m.end()) {
+    if (m.find("IntranetEndpoint") != m.end() &&
+        !m["IntranetEndpoint"].empty()) {
       intranetEndpoint =
           make_shared<string>(boost::any_cast<string>(m["IntranetEndpoint"]));
     }
-    if (m.find("Location") != m.end()) {
+    if (m.find("Location") != m.end() && !m["Location"].empty()) {
       location = make_shared<string>(boost::any_cast<string>(m["Location"]));
     }
-    if (m.find("Name") != m.end()) {
+    if (m.find("Name") != m.end() && !m["Name"].empty()) {
       name = make_shared<string>(boost::any_cast<string>(m["Name"]));
     }
-    if (m.find("DataRedundancyType") != m.end()) {
+    if (m.find("DataRedundancyType") != m.end() &&
+        !m["DataRedundancyType"].empty()) {
       dataRedundancyType =
           make_shared<string>(boost::any_cast<string>(m["DataRedundancyType"]));
     }
-    if (m.find("StorageClass") != m.end()) {
+    if (m.find("StorageClass") != m.end() && !m["StorageClass"].empty()) {
       storageClass =
           make_shared<string>(boost::any_cast<string>(m["StorageClass"]));
     }
-    if (m.find("Comment") != m.end()) {
+    if (m.find("Comment") != m.end() && !m["Comment"].empty()) {
       comment = make_shared<string>(boost::any_cast<string>(m["Comment"]));
     }
-    if (m.find("Owner") != m.end()) {
+    if (m.find("Owner") != m.end() && !m["Owner"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Owner"].type().name()) {
         GetBucketInfoResponseBucketInfoBucketOwner model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Owner"]));
         owner = make_shared<GetBucketInfoResponseBucketInfoBucketOwner>(model1);
       }
     }
-    if (m.find("AccessControlList") != m.end()) {
+    if (m.find("AccessControlList") != m.end() &&
+        !m["AccessControlList"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["AccessControlList"].type().name()) {
         GetBucketInfoResponseBucketInfoBucketAccessControlList model1;
@@ -13144,7 +13305,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Bucket") != m.end()) {
+    if (m.find("Bucket") != m.end() && !m["Bucket"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Bucket"].type().name()) {
         GetBucketInfoResponseBucketInfoBucket model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Bucket"]));
@@ -13189,11 +13350,12 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
-    if (m.find("BucketInfo") != m.end()) {
+    if (m.find("BucketInfo") != m.end() && !m["BucketInfo"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["BucketInfo"].type().name()) {
         GetBucketInfoResponseBucketInfo model1;
@@ -13234,7 +13396,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("status") != m.end()) {
+    if (m.find("status") != m.end() && !m["status"].empty()) {
       status = make_shared<string>(boost::any_cast<string>(m["status"]));
     }
   }
@@ -13285,15 +13447,15 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
-    if (m.find("ChannelName") != m.end()) {
+    if (m.find("ChannelName") != m.end() && !m["ChannelName"].empty()) {
       channelName =
           make_shared<string>(boost::any_cast<string>(m["ChannelName"]));
     }
-    if (m.find("Filter") != m.end()) {
+    if (m.find("Filter") != m.end() && !m["Filter"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Filter"].type().name()) {
         PutLiveChannelStatusRequestFilter model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Filter"]));
@@ -13333,7 +13495,8 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
@@ -13363,7 +13526,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("encoding-type") != m.end()) {
+    if (m.find("encoding-type") != m.end() && !m["encoding-type"].empty()) {
       encodingType =
           make_shared<string>(boost::any_cast<string>(m["encoding-type"]));
     }
@@ -13418,38 +13581,43 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Cache-Control") != m.end()) {
+    if (m.find("Cache-Control") != m.end() && !m["Cache-Control"].empty()) {
       cacheControl =
           make_shared<string>(boost::any_cast<string>(m["Cache-Control"]));
     }
-    if (m.find("Content-Disposition") != m.end()) {
+    if (m.find("Content-Disposition") != m.end() &&
+        !m["Content-Disposition"].empty()) {
       contentDisposition = make_shared<string>(
           boost::any_cast<string>(m["Content-Disposition"]));
     }
-    if (m.find("Content-Encoding") != m.end()) {
+    if (m.find("Content-Encoding") != m.end() &&
+        !m["Content-Encoding"].empty()) {
       contentEncoding =
           make_shared<string>(boost::any_cast<string>(m["Content-Encoding"]));
     }
-    if (m.find("Expires") != m.end()) {
+    if (m.find("Expires") != m.end() && !m["Expires"].empty()) {
       expires = make_shared<string>(boost::any_cast<string>(m["Expires"]));
     }
-    if (m.find("x-oss-server-side-encryption") != m.end()) {
+    if (m.find("x-oss-server-side-encryption") != m.end() &&
+        !m["x-oss-server-side-encryption"].empty()) {
       serverSideEncryption = make_shared<string>(
           boost::any_cast<string>(m["x-oss-server-side-encryption"]));
     }
-    if (m.find("x-oss-server-side-encryption-key-id") != m.end()) {
+    if (m.find("x-oss-server-side-encryption-key-id") != m.end() &&
+        !m["x-oss-server-side-encryption-key-id"].empty()) {
       serverSideEncryptionKeyId = make_shared<string>(
           boost::any_cast<string>(m["x-oss-server-side-encryption-key-id"]));
     }
-    if (m.find("x-oss-storage-class") != m.end()) {
+    if (m.find("x-oss-storage-class") != m.end() &&
+        !m["x-oss-storage-class"].empty()) {
       storageClass = make_shared<string>(
           boost::any_cast<string>(m["x-oss-storage-class"]));
     }
-    if (m.find("x-oss-tagging") != m.end()) {
+    if (m.find("x-oss-tagging") != m.end() && !m["x-oss-tagging"].empty()) {
       tagging =
           make_shared<string>(boost::any_cast<string>(m["x-oss-tagging"]));
     }
-    if (m.find("content-type") != m.end()) {
+    if (m.find("content-type") != m.end() && !m["content-type"].empty()) {
       contentType =
           make_shared<string>(boost::any_cast<string>(m["content-type"]));
     }
@@ -13509,22 +13677,22 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
-    if (m.find("ObjectName") != m.end()) {
+    if (m.find("ObjectName") != m.end() && !m["ObjectName"].empty()) {
       objectName =
           make_shared<string>(boost::any_cast<string>(m["ObjectName"]));
     }
-    if (m.find("Filter") != m.end()) {
+    if (m.find("Filter") != m.end() && !m["Filter"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Filter"].type().name()) {
         InitiateMultipartUploadRequestFilter model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Filter"]));
         filter = make_shared<InitiateMultipartUploadRequestFilter>(model1);
       }
     }
-    if (m.find("Header") != m.end()) {
+    if (m.find("Header") != m.end() && !m["Header"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Header"].type().name()) {
         InitiateMultipartUploadRequestHeader model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Header"]));
@@ -13567,13 +13735,13 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Bucket") != m.end()) {
+    if (m.find("Bucket") != m.end() && !m["Bucket"].empty()) {
       bucket = make_shared<string>(boost::any_cast<string>(m["Bucket"]));
     }
-    if (m.find("Key") != m.end()) {
+    if (m.find("Key") != m.end() && !m["Key"].empty()) {
       key = make_shared<string>(boost::any_cast<string>(m["Key"]));
     }
-    if (m.find("UploadId") != m.end()) {
+    if (m.find("UploadId") != m.end() && !m["UploadId"].empty()) {
       uploadId = make_shared<string>(boost::any_cast<string>(m["UploadId"]));
     }
   }
@@ -13619,11 +13787,13 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
-    if (m.find("InitiateMultipartUploadResult") != m.end()) {
+    if (m.find("InitiateMultipartUploadResult") != m.end() &&
+        !m["InitiateMultipartUploadResult"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["InitiateMultipartUploadResult"].type().name()) {
         InitiateMultipartUploadResponseInitiateMultipartUploadResult model1;
@@ -13682,14 +13852,16 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Origin") != m.end()) {
+    if (m.find("Origin") != m.end() && !m["Origin"].empty()) {
       origin = make_shared<string>(boost::any_cast<string>(m["Origin"]));
     }
-    if (m.find("Access-Control-Request-Method") != m.end()) {
+    if (m.find("Access-Control-Request-Method") != m.end() &&
+        !m["Access-Control-Request-Method"].empty()) {
       accessControlRequestMethod = make_shared<string>(
           boost::any_cast<string>(m["Access-Control-Request-Method"]));
     }
-    if (m.find("Access-Control-Request-Headers") != m.end()) {
+    if (m.find("Access-Control-Request-Headers") != m.end() &&
+        !m["Access-Control-Request-Headers"].empty()) {
       accessControlRequestHeaders = make_shared<string>(
           boost::any_cast<string>(m["Access-Control-Request-Headers"]));
     }
@@ -13742,15 +13914,15 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
-    if (m.find("ObjectName") != m.end()) {
+    if (m.find("ObjectName") != m.end() && !m["ObjectName"].empty()) {
       objectName =
           make_shared<string>(boost::any_cast<string>(m["ObjectName"]));
     }
-    if (m.find("Header") != m.end()) {
+    if (m.find("Header") != m.end() && !m["Header"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Header"].type().name()) {
         OptionObjectRequestHeader model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Header"]));
@@ -13828,27 +14000,33 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
-    if (m.find("access-control-allow-origin") != m.end()) {
+    if (m.find("access-control-allow-origin") != m.end() &&
+        !m["access-control-allow-origin"].empty()) {
       accessControlAllowOrigin = make_shared<string>(
           boost::any_cast<string>(m["access-control-allow-origin"]));
     }
-    if (m.find("access-control-allow-methods") != m.end()) {
+    if (m.find("access-control-allow-methods") != m.end() &&
+        !m["access-control-allow-methods"].empty()) {
       accessControlAllowMethods = make_shared<string>(
           boost::any_cast<string>(m["access-control-allow-methods"]));
     }
-    if (m.find("access-control-allow-headers") != m.end()) {
+    if (m.find("access-control-allow-headers") != m.end() &&
+        !m["access-control-allow-headers"].empty()) {
       accessControlAllowHeaders = make_shared<string>(
           boost::any_cast<string>(m["access-control-allow-headers"]));
     }
-    if (m.find("access-control-expose-headers") != m.end()) {
+    if (m.find("access-control-expose-headers") != m.end() &&
+        !m["access-control-expose-headers"].empty()) {
       accessControlExposeHeaders = make_shared<string>(
           boost::any_cast<string>(m["access-control-expose-headers"]));
     }
-    if (m.find("access-control-max-age") != m.end()) {
+    if (m.find("access-control-max-age") != m.end() &&
+        !m["access-control-max-age"].empty()) {
       accessControlMaxAge = make_shared<string>(
           boost::any_cast<string>(m["access-control-max-age"]));
     }
@@ -13895,10 +14073,10 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("endTime") != m.end()) {
+    if (m.find("endTime") != m.end() && !m["endTime"].empty()) {
       endTime = make_shared<string>(boost::any_cast<string>(m["endTime"]));
     }
-    if (m.find("startTime") != m.end()) {
+    if (m.find("startTime") != m.end() && !m["startTime"].empty()) {
       startTime = make_shared<string>(boost::any_cast<string>(m["startTime"]));
     }
   }
@@ -13956,19 +14134,19 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
-    if (m.find("ChannelName") != m.end()) {
+    if (m.find("ChannelName") != m.end() && !m["ChannelName"].empty()) {
       channelName =
           make_shared<string>(boost::any_cast<string>(m["ChannelName"]));
     }
-    if (m.find("PlaylistName") != m.end()) {
+    if (m.find("PlaylistName") != m.end() && !m["PlaylistName"].empty()) {
       playlistName =
           make_shared<string>(boost::any_cast<string>(m["PlaylistName"]));
     }
-    if (m.find("Filter") != m.end()) {
+    if (m.find("Filter") != m.end() && !m["Filter"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Filter"].type().name()) {
         PostVodPlaylistRequestFilter model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Filter"]));
@@ -14008,7 +14186,8 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
@@ -14077,36 +14256,37 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("OSSAccessKeyId") != m.end()) {
+    if (m.find("OSSAccessKeyId") != m.end() && !m["OSSAccessKeyId"].empty()) {
       accessKeyId =
           make_shared<string>(boost::any_cast<string>(m["OSSAccessKeyId"]));
     }
-    if (m.find("policy") != m.end()) {
+    if (m.find("policy") != m.end() && !m["policy"].empty()) {
       policy = make_shared<string>(boost::any_cast<string>(m["policy"]));
     }
-    if (m.find("Signature") != m.end()) {
+    if (m.find("Signature") != m.end() && !m["Signature"].empty()) {
       signature = make_shared<string>(boost::any_cast<string>(m["Signature"]));
     }
-    if (m.find("success_action_status") != m.end()) {
+    if (m.find("success_action_status") != m.end() &&
+        !m["success_action_status"].empty()) {
       successActionStatus = make_shared<string>(
           boost::any_cast<string>(m["success_action_status"]));
     }
-    if (m.find("file") != m.end()) {
+    if (m.find("file") != m.end() && !m["file"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["file"].type().name()) {
         Darabonba_FileForm::FileField model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["file"]));
         file = make_shared<Darabonba_FileForm::FileField>(model1);
       }
     }
-    if (m.find("key") != m.end()) {
+    if (m.find("key") != m.end() && !m["key"].empty()) {
       key = make_shared<string>(boost::any_cast<string>(m["key"]));
     }
-    if (m.find("UserMeta") != m.end()) {
-      map<string, boost::any> map1 =
-          boost::any_cast<map<string, boost::any>>(m["UserMeta"]);
+    if (m.find("UserMeta") != m.end() && !m["UserMeta"].empty()) {
+      map<string, string> map1 =
+          boost::any_cast<map<string, string>>(m["UserMeta"]);
       map<string, string> toMap1;
       for (auto item : map1) {
-        toMap1[item.first] = boost::any_cast<string>(item.second);
+        toMap1[item.first] = item.second;
       }
       userMeta = make_shared<map<string, string>>(toMap1);
     }
@@ -14156,11 +14336,11 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
-    if (m.find("header") != m.end()) {
+    if (m.find("header") != m.end() && !m["header"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["header"].type().name()) {
         PostObjectRequestHeader model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["header"]));
@@ -14213,13 +14393,13 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Bucket") != m.end()) {
+    if (m.find("Bucket") != m.end() && !m["Bucket"].empty()) {
       bucket = make_shared<string>(boost::any_cast<string>(m["Bucket"]));
     }
-    if (m.find("ETag") != m.end()) {
+    if (m.find("ETag") != m.end() && !m["ETag"].empty()) {
       eTag = make_shared<string>(boost::any_cast<string>(m["ETag"]));
     }
-    if (m.find("Location") != m.end()) {
+    if (m.find("Location") != m.end() && !m["Location"].empty()) {
       location = make_shared<string>(boost::any_cast<string>(m["Location"]));
     }
   }
@@ -14256,7 +14436,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("PostResponse") != m.end()) {
+    if (m.find("PostResponse") != m.end() && !m["PostResponse"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["PostResponse"].type().name()) {
         PostObjectResponsePostResponse model1;
@@ -14299,18 +14479,20 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("If-Modified-Since") != m.end()) {
+    if (m.find("If-Modified-Since") != m.end() &&
+        !m["If-Modified-Since"].empty()) {
       ifModifiedSince =
           make_shared<string>(boost::any_cast<string>(m["If-Modified-Since"]));
     }
-    if (m.find("If-Unmodified-Since") != m.end()) {
+    if (m.find("If-Unmodified-Since") != m.end() &&
+        !m["If-Unmodified-Since"].empty()) {
       ifUnmodifiedSince = make_shared<string>(
           boost::any_cast<string>(m["If-Unmodified-Since"]));
     }
-    if (m.find("If-Match") != m.end()) {
+    if (m.find("If-Match") != m.end() && !m["If-Match"].empty()) {
       ifMatch = make_shared<string>(boost::any_cast<string>(m["If-Match"]));
     }
-    if (m.find("If-None-Match") != m.end()) {
+    if (m.find("If-None-Match") != m.end() && !m["If-None-Match"].empty()) {
       ifNoneMatch =
           make_shared<string>(boost::any_cast<string>(m["If-None-Match"]));
     }
@@ -14360,15 +14542,15 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
-    if (m.find("ObjectName") != m.end()) {
+    if (m.find("ObjectName") != m.end() && !m["ObjectName"].empty()) {
       objectName =
           make_shared<string>(boost::any_cast<string>(m["ObjectName"]));
     }
-    if (m.find("Header") != m.end()) {
+    if (m.find("Header") != m.end() && !m["Header"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Header"].type().name()) {
         HeadObjectRequestHeader model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Header"]));
@@ -14545,88 +14727,104 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
-    if (m.find("usermeta") != m.end()) {
-      map<string, boost::any> map1 =
-          boost::any_cast<map<string, boost::any>>(m["usermeta"]);
+    if (m.find("usermeta") != m.end() && !m["usermeta"].empty()) {
+      map<string, string> map1 =
+          boost::any_cast<map<string, string>>(m["usermeta"]);
       map<string, string> toMap1;
       for (auto item : map1) {
-        toMap1[item.first] = boost::any_cast<string>(item.second);
+        toMap1[item.first] = item.second;
       }
       userMeta = make_shared<map<string, string>>(toMap1);
     }
-    if (m.find("x-oss-server-side-encryption") != m.end()) {
+    if (m.find("x-oss-server-side-encryption") != m.end() &&
+        !m["x-oss-server-side-encryption"].empty()) {
       serverSideEncryption = make_shared<string>(
           boost::any_cast<string>(m["x-oss-server-side-encryption"]));
     }
-    if (m.find("x-oss-server-side-encryption-key-id") != m.end()) {
+    if (m.find("x-oss-server-side-encryption-key-id") != m.end() &&
+        !m["x-oss-server-side-encryption-key-id"].empty()) {
       serverSideEncryptionKeyId = make_shared<string>(
           boost::any_cast<string>(m["x-oss-server-side-encryption-key-id"]));
     }
-    if (m.find("x-oss-storage-class") != m.end()) {
+    if (m.find("x-oss-storage-class") != m.end() &&
+        !m["x-oss-storage-class"].empty()) {
       storageClass = make_shared<string>(
           boost::any_cast<string>(m["x-oss-storage-class"]));
     }
-    if (m.find("x-oss-object-type") != m.end()) {
+    if (m.find("x-oss-object-type") != m.end() &&
+        !m["x-oss-object-type"].empty()) {
       objectType =
           make_shared<string>(boost::any_cast<string>(m["x-oss-object-type"]));
     }
-    if (m.find("x-oss-next-append-position") != m.end()) {
+    if (m.find("x-oss-next-append-position") != m.end() &&
+        !m["x-oss-next-append-position"].empty()) {
       nextAppendPosition = make_shared<string>(
           boost::any_cast<string>(m["x-oss-next-append-position"]));
     }
-    if (m.find("x-oss-hash-crc64ecma") != m.end()) {
+    if (m.find("x-oss-hash-crc64ecma") != m.end() &&
+        !m["x-oss-hash-crc64ecma"].empty()) {
       hashCrc64ecma = make_shared<string>(
           boost::any_cast<string>(m["x-oss-hash-crc64ecma"]));
     }
-    if (m.find("x-oss-expiration") != m.end()) {
+    if (m.find("x-oss-expiration") != m.end() &&
+        !m["x-oss-expiration"].empty()) {
       expiration =
           make_shared<string>(boost::any_cast<string>(m["x-oss-expiration"]));
     }
-    if (m.find("x-oss-restore") != m.end()) {
+    if (m.find("x-oss-restore") != m.end() && !m["x-oss-restore"].empty()) {
       restore =
           make_shared<string>(boost::any_cast<string>(m["x-oss-restore"]));
     }
-    if (m.find("x-oss-process-status") != m.end()) {
+    if (m.find("x-oss-process-status") != m.end() &&
+        !m["x-oss-process-status"].empty()) {
       processStatus = make_shared<string>(
           boost::any_cast<string>(m["x-oss-process-status"]));
     }
-    if (m.find("x-oss-request-charged") != m.end()) {
+    if (m.find("x-oss-request-charged") != m.end() &&
+        !m["x-oss-request-charged"].empty()) {
       requestCharged = make_shared<string>(
           boost::any_cast<string>(m["x-oss-request-charged"]));
     }
-    if (m.find("content-md5") != m.end()) {
+    if (m.find("content-md5") != m.end() && !m["content-md5"].empty()) {
       contentMd5 =
           make_shared<string>(boost::any_cast<string>(m["content-md5"]));
     }
-    if (m.find("last-modified") != m.end()) {
+    if (m.find("last-modified") != m.end() && !m["last-modified"].empty()) {
       lastModified =
           make_shared<string>(boost::any_cast<string>(m["last-modified"]));
     }
-    if (m.find("access-control-allow-origin") != m.end()) {
+    if (m.find("access-control-allow-origin") != m.end() &&
+        !m["access-control-allow-origin"].empty()) {
       accessControlAllowOrigin = make_shared<string>(
           boost::any_cast<string>(m["access-control-allow-origin"]));
     }
-    if (m.find("access-control-allow-methods") != m.end()) {
+    if (m.find("access-control-allow-methods") != m.end() &&
+        !m["access-control-allow-methods"].empty()) {
       accessControlAllowMethods = make_shared<string>(
           boost::any_cast<string>(m["access-control-allow-methods"]));
     }
-    if (m.find("access-control-max-age") != m.end()) {
+    if (m.find("access-control-max-age") != m.end() &&
+        !m["access-control-max-age"].empty()) {
       accessControlMaxAge = make_shared<string>(
           boost::any_cast<string>(m["access-control-max-age"]));
     }
-    if (m.find("access-control-allow-headers") != m.end()) {
+    if (m.find("access-control-allow-headers") != m.end() &&
+        !m["access-control-allow-headers"].empty()) {
       accessControlAllowHeaders = make_shared<string>(
           boost::any_cast<string>(m["access-control-allow-headers"]));
     }
-    if (m.find("access-control-expose-headers") != m.end()) {
+    if (m.find("access-control-expose-headers") != m.end() &&
+        !m["access-control-expose-headers"].empty()) {
       accessControlExposeHeaders = make_shared<string>(
           boost::any_cast<string>(m["access-control-expose-headers"]));
     }
-    if (m.find("x-oss-tagging-count") != m.end()) {
+    if (m.find("x-oss-tagging-count") != m.end() &&
+        !m["x-oss-tagging-count"].empty()) {
       taggingCount = make_shared<string>(
           boost::any_cast<string>(m["x-oss-tagging-count"]));
     }
@@ -14689,11 +14887,11 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
-    if (m.find("ObjectName") != m.end()) {
+    if (m.find("ObjectName") != m.end() && !m["ObjectName"].empty()) {
       objectName =
           make_shared<string>(boost::any_cast<string>(m["ObjectName"]));
     }
@@ -14729,7 +14927,8 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
@@ -14772,11 +14971,11 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
-    if (m.find("ObjectName") != m.end()) {
+    if (m.find("ObjectName") != m.end() && !m["ObjectName"].empty()) {
       objectName =
           make_shared<string>(boost::any_cast<string>(m["ObjectName"]));
     }
@@ -14811,7 +15010,8 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
@@ -14854,11 +15054,11 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
-    if (m.find("ObjectName") != m.end()) {
+    if (m.find("ObjectName") != m.end() && !m["ObjectName"].empty()) {
       objectName =
           make_shared<string>(boost::any_cast<string>(m["ObjectName"]));
     }
@@ -14892,10 +15092,10 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("ID") != m.end()) {
+    if (m.find("ID") != m.end() && !m["ID"].empty()) {
       iD = make_shared<string>(boost::any_cast<string>(m["ID"]));
     }
-    if (m.find("DisplayName") != m.end()) {
+    if (m.find("DisplayName") != m.end() && !m["DisplayName"].empty()) {
       displayName =
           make_shared<string>(boost::any_cast<string>(m["DisplayName"]));
     }
@@ -14927,7 +15127,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Grant") != m.end()) {
+    if (m.find("Grant") != m.end() && !m["Grant"].empty()) {
       grant = make_shared<string>(boost::any_cast<string>(m["Grant"]));
     }
   }
@@ -14971,7 +15171,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Owner") != m.end()) {
+    if (m.find("Owner") != m.end() && !m["Owner"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Owner"].type().name()) {
         GetObjectAclResponseAccessControlPolicyOwner model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Owner"]));
@@ -14979,7 +15179,8 @@ public:
             make_shared<GetObjectAclResponseAccessControlPolicyOwner>(model1);
       }
     }
-    if (m.find("AccessControlList") != m.end()) {
+    if (m.find("AccessControlList") != m.end() &&
+        !m["AccessControlList"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["AccessControlList"].type().name()) {
         GetObjectAclResponseAccessControlPolicyAccessControlList model1;
@@ -15030,11 +15231,13 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
-    if (m.find("AccessControlPolicy") != m.end()) {
+    if (m.find("AccessControlPolicy") != m.end() &&
+        !m["AccessControlPolicy"].empty()) {
       if (typeid(map<string, boost::any>).name() ==
           m["AccessControlPolicy"].type().name()) {
         GetObjectAclResponseAccessControlPolicy model1;
@@ -15075,7 +15278,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-acl") != m.end()) {
+    if (m.find("x-oss-acl") != m.end() && !m["x-oss-acl"].empty()) {
       acl = make_shared<string>(boost::any_cast<string>(m["x-oss-acl"]));
     }
   }
@@ -15118,11 +15321,11 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
-    if (m.find("Header") != m.end()) {
+    if (m.find("Header") != m.end() && !m["Header"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Header"].type().name()) {
         PutBucketAclRequestHeader model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Header"]));
@@ -15160,7 +15363,8 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
@@ -15196,7 +15400,7 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
@@ -15230,7 +15434,8 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
@@ -15299,57 +15504,63 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("Authorization") != m.end()) {
+    if (m.find("Authorization") != m.end() && !m["Authorization"].empty()) {
       authorization =
           make_shared<string>(boost::any_cast<string>(m["Authorization"]));
     }
-    if (m.find("Cache-Control") != m.end()) {
+    if (m.find("Cache-Control") != m.end() && !m["Cache-Control"].empty()) {
       cacheControl =
           make_shared<string>(boost::any_cast<string>(m["Cache-Control"]));
     }
-    if (m.find("Content-Disposition") != m.end()) {
+    if (m.find("Content-Disposition") != m.end() &&
+        !m["Content-Disposition"].empty()) {
       contentDisposition = make_shared<string>(
           boost::any_cast<string>(m["Content-Disposition"]));
     }
-    if (m.find("Content-Encoding") != m.end()) {
+    if (m.find("Content-Encoding") != m.end() &&
+        !m["Content-Encoding"].empty()) {
       contentEncoding =
           make_shared<string>(boost::any_cast<string>(m["Content-Encoding"]));
     }
-    if (m.find("Content-MD5") != m.end()) {
+    if (m.find("Content-MD5") != m.end() && !m["Content-MD5"].empty()) {
       contentMD5 =
           make_shared<string>(boost::any_cast<string>(m["Content-MD5"]));
     }
-    if (m.find("Content-Length") != m.end()) {
+    if (m.find("Content-Length") != m.end() && !m["Content-Length"].empty()) {
       contentLength =
           make_shared<string>(boost::any_cast<string>(m["Content-Length"]));
     }
-    if (m.find("CETag") != m.end()) {
+    if (m.find("CETag") != m.end() && !m["CETag"].empty()) {
       eTag = make_shared<string>(boost::any_cast<string>(m["CETag"]));
     }
-    if (m.find("Expires") != m.end()) {
+    if (m.find("Expires") != m.end() && !m["Expires"].empty()) {
       expires = make_shared<string>(boost::any_cast<string>(m["Expires"]));
     }
-    if (m.find("x-oss-server-side-encryption") != m.end()) {
+    if (m.find("x-oss-server-side-encryption") != m.end() &&
+        !m["x-oss-server-side-encryption"].empty()) {
       serverSideEncryption = make_shared<string>(
           boost::any_cast<string>(m["x-oss-server-side-encryption"]));
     }
-    if (m.find("x-oss-server-side-encryption-key-id") != m.end()) {
+    if (m.find("x-oss-server-side-encryption-key-id") != m.end() &&
+        !m["x-oss-server-side-encryption-key-id"].empty()) {
       serverSideEncryptionKeyId = make_shared<string>(
           boost::any_cast<string>(m["x-oss-server-side-encryption-key-id"]));
     }
-    if (m.find("x-oss-object-acl") != m.end()) {
+    if (m.find("x-oss-object-acl") != m.end() &&
+        !m["x-oss-object-acl"].empty()) {
       objectAcl =
           make_shared<string>(boost::any_cast<string>(m["x-oss-object-acl"]));
     }
-    if (m.find("x-oss-storage-class") != m.end()) {
+    if (m.find("x-oss-storage-class") != m.end() &&
+        !m["x-oss-storage-class"].empty()) {
       storageClass = make_shared<string>(
           boost::any_cast<string>(m["x-oss-storage-class"]));
     }
-    if (m.find("x-oss-tagging") != m.end()) {
+    if (m.find("x-oss-tagging") != m.end() && !m["x-oss-tagging"].empty()) {
       tagging =
           make_shared<string>(boost::any_cast<string>(m["x-oss-tagging"]));
     }
-    if (m.find("content-type") != m.end()) {
+    if (m.find("content-type") != m.end() && !m["content-type"].empty()) {
       contentType =
           make_shared<string>(boost::any_cast<string>(m["content-type"]));
     }
@@ -15415,28 +15626,28 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("BucketName") != m.end()) {
+    if (m.find("BucketName") != m.end() && !m["BucketName"].empty()) {
       bucketName =
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
-    if (m.find("ObjectName") != m.end()) {
+    if (m.find("ObjectName") != m.end() && !m["ObjectName"].empty()) {
       objectName =
           make_shared<string>(boost::any_cast<string>(m["ObjectName"]));
     }
-    if (m.find("UserMeta") != m.end()) {
-      map<string, boost::any> map1 =
-          boost::any_cast<map<string, boost::any>>(m["UserMeta"]);
+    if (m.find("UserMeta") != m.end() && !m["UserMeta"].empty()) {
+      map<string, string> map1 =
+          boost::any_cast<map<string, string>>(m["UserMeta"]);
       map<string, string> toMap1;
       for (auto item : map1) {
-        toMap1[item.first] = boost::any_cast<string>(item.second);
+        toMap1[item.first] = item.second;
       }
       userMeta = make_shared<map<string, string>>(toMap1);
     }
-    if (m.find("body") != m.end()) {
+    if (m.find("body") != m.end() && !m["body"].empty()) {
       body = make_shared<Darabonba::Stream>(
           boost::any_cast<Darabonba::Stream>(m["body"]));
     }
-    if (m.find("Header") != m.end()) {
+    if (m.find("Header") != m.end() && !m["Header"].empty()) {
       if (typeid(map<string, boost::any>).name() == m["Header"].type().name()) {
         PutObjectRequestHeader model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Header"]));
@@ -15498,19 +15709,23 @@ public:
   }
 
   void fromMap(map<string, boost::any> m) override {
-    if (m.find("x-oss-request-id") != m.end()) {
+    if (m.find("x-oss-request-id") != m.end() &&
+        !m["x-oss-request-id"].empty()) {
       requestId =
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
-    if (m.find("x-oss-hash-crc64ecma") != m.end()) {
+    if (m.find("x-oss-hash-crc64ecma") != m.end() &&
+        !m["x-oss-hash-crc64ecma"].empty()) {
       hashCrc64ecma = make_shared<string>(
           boost::any_cast<string>(m["x-oss-hash-crc64ecma"]));
     }
-    if (m.find("x-oss-server-time") != m.end()) {
+    if (m.find("x-oss-server-time") != m.end() &&
+        !m["x-oss-server-time"].empty()) {
       serverTime =
           make_shared<string>(boost::any_cast<string>(m["x-oss-server-time"]));
     }
-    if (m.find("x-oss-bucket-version") != m.end()) {
+    if (m.find("x-oss-bucket-version") != m.end() &&
+        !m["x-oss-bucket-version"].empty()) {
       bucketVersion = make_shared<string>(
           boost::any_cast<string>(m["x-oss-bucket-version"]));
     }
