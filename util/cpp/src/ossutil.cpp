@@ -524,9 +524,10 @@ string Alibabacloud_OSSUtil::Client::getContentType(const shared_ptr<string>& fi
 string Alibabacloud_OSSUtil::Client::getContentMD5(const shared_ptr<string>& body,
                                                    const shared_ptr<bool>& isEnableMD5) {
   if (isEnableMD5 && body && *isEnableMD5) {
-    string md5_val = md5(*body);
-
-    return base64::encode_from_string(md5_val);
+    MD5 md5 = MD5(*body);
+    uint8_t buf[16];
+    md5.get_digest(buf);
+    return base64::encode_from_array(buf, 16);
   } else {
     return "";
   }
@@ -840,6 +841,9 @@ string Alibabacloud_OSSUtil::VerifyStream::read() {
   crc64.process_bytes(result.c_str(), result.size());
 
   _ctx->insert(make_pair("crc", to_string(crc64.checksum())));
-  _ctx->insert(make_pair("md5", base64::encode_from_string(md5(result))));
+  MD5 md5 = MD5(result);
+  uint8_t buf[16];
+  md5.get_digest(buf);
+  _ctx->insert(make_pair("md5", base64::encode_from_array(buf, 16)));
   return result;
 }

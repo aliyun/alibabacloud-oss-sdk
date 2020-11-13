@@ -158,9 +158,11 @@ public:
     return std::string(buf);
   }
 
-  std::string get_digest() const
+  void get_digest(uint8_t * buf) const
   {
-    return std::string(reinterpret_cast<char const *>(digest));
+    for (int i=0; i<16; i++) {
+      buf[i] = digest[i];
+    }
   }
 
   friend std::ostream& operator<<(std::ostream&, MD5 md5);
@@ -335,11 +337,6 @@ private:
   static inline void II(uint4 &a, uint4 b, uint4 c, uint4 d, uint4 x, uint4 s, uint4 ac){
     a = rotate_left(a + I(b,c,d) + x + ac, s) + b;
   };
-};
-
-std::string md5(const std::string str){
-  MD5 md5 = MD5(str);
-  return md5.get_digest();
 };
 
 #endif
