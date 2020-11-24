@@ -25,7 +25,7 @@ from setuptools import setup, find_packages
 """
 setup module for alibabacloud_oss_sdk.
 
-Created on 13/10/2020
+Created on 24/11/2020
 
 @author: Alibaba Cloud
 """
@@ -36,11 +36,13 @@ DESCRIPTION = "Aliyun Tea OSS SDK Library for Python"
 AUTHOR = "Alibaba Cloud"
 AUTHOR_EMAIL = "alibaba-cloud-sdk-dev-team@list.alibaba-inc.com"
 URL = "https://github.com/aliyun/alibabacloud-oss-sdk/tree/master/python"
-REQUIRES = ["alibabacloud_tea_util>=0.2.0, <1.0.0",
-            "alibabacloud_oss_util>=0.0.2, <1.0.0",
-            "alibabacloud_tea_xml>=0.0.2, <1.0.0",
-            "alibabacloud_tea_fileform>=0.0.3, <1.0.0",
-            "alibabacloud_credentials>=0.0.5, <1.0.0"]
+REQUIRES = [
+    "alibabacloud_tea_util>=0.2.0, <1.0.0",
+    "alibabacloud_oss_util>=0.0.5, <1.0.0",
+    "alibabacloud_tea_xml>=0.0.2, <1.0.0",
+    "alibabacloud_tea_fileform>=0.0.3, <1.0.0",
+    "alibabacloud_credentials>=0.0.5, <1.0.0"
+]
 VERSION = __import__(PACKAGE).__version__
 
 

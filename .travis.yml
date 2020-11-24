@@ -52,12 +52,6 @@ jobs:
       python: 3.5
       env: TEA_UTIL_ENV="python"
     - language: python
-      python: 3.6
-      env: TEA_UTIL_ENV="python"
-    - language: python
-      python: 3.7
-      env: TEA_UTIL_ENV="python"
-    - language: python
       python: 3.8
       env: TEA_UTIL_ENV="python"
     
