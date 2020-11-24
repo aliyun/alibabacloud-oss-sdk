@@ -45,53 +45,97 @@ class Config(TeaModel):
 
     def to_map(self):
         result = {}
-        result['type'] = self.type
-        result['securityToken'] = self.security_token
-        result['accessKeyId'] = self.access_key_id
-        result['accessKeySecret'] = self.access_key_secret
-        result['endpoint'] = self.endpoint
-        result['protocol'] = self.protocol
-        result['regionId'] = self.region_id
-        result['userAgent'] = self.user_agent
-        result['hostModel'] = self.host_model
-        result['signatureVersion'] = self.signature_version
-        result['isEnableMD5'] = self.is_enable_md5
-        result['isEnableCrc'] = self.is_enable_crc
-        result['readTimeout'] = self.read_timeout
-        result['connectTimeout'] = self.connect_timeout
-        result['localAddr'] = self.local_addr
-        result['httpProxy'] = self.http_proxy
-        result['httpsProxy'] = self.https_proxy
-        result['noProxy'] = self.no_proxy
-        result['socks5Proxy'] = self.socks_5proxy
-        result['socks5NetWork'] = self.socks_5net_work
-        result['maxIdleConns'] = self.max_idle_conns
-        result['addtionalHeaders'] = self.addtional_headers
+        if self.type is not None:
+            result['type'] = self.type
+        if self.security_token is not None:
+            result['securityToken'] = self.security_token
+        if self.access_key_id is not None:
+            result['accessKeyId'] = self.access_key_id
+        if self.access_key_secret is not None:
+            result['accessKeySecret'] = self.access_key_secret
+        if self.endpoint is not None:
+            result['endpoint'] = self.endpoint
+        if self.protocol is not None:
+            result['protocol'] = self.protocol
+        if self.region_id is not None:
+            result['regionId'] = self.region_id
+        if self.user_agent is not None:
+            result['userAgent'] = self.user_agent
+        if self.host_model is not None:
+            result['hostModel'] = self.host_model
+        if self.signature_version is not None:
+            result['signatureVersion'] = self.signature_version
+        if self.is_enable_md5 is not None:
+            result['isEnableMD5'] = self.is_enable_md5
+        if self.is_enable_crc is not None:
+            result['isEnableCrc'] = self.is_enable_crc
+        if self.read_timeout is not None:
+            result['readTimeout'] = self.read_timeout
+        if self.connect_timeout is not None:
+            result['connectTimeout'] = self.connect_timeout
+        if self.local_addr is not None:
+            result['localAddr'] = self.local_addr
+        if self.http_proxy is not None:
+            result['httpProxy'] = self.http_proxy
+        if self.https_proxy is not None:
+            result['httpsProxy'] = self.https_proxy
+        if self.no_proxy is not None:
+            result['noProxy'] = self.no_proxy
+        if self.socks_5proxy is not None:
+            result['socks5Proxy'] = self.socks_5proxy
+        if self.socks_5net_work is not None:
+            result['socks5NetWork'] = self.socks_5net_work
+        if self.max_idle_conns is not None:
+            result['maxIdleConns'] = self.max_idle_conns
+        if self.addtional_headers is not None:
+            result['addtionalHeaders'] = self.addtional_headers
         return result
 
     def from_map(self, map={}):
-        self.type = map.get('type')
-        self.security_token = map.get('securityToken')
-        self.access_key_id = map.get('accessKeyId')
-        self.access_key_secret = map.get('accessKeySecret')
-        self.endpoint = map.get('endpoint')
-        self.protocol = map.get('protocol')
-        self.region_id = map.get('regionId')
-        self.user_agent = map.get('userAgent')
-        self.host_model = map.get('hostModel')
-        self.signature_version = map.get('signatureVersion')
-        self.is_enable_md5 = map.get('isEnableMD5')
-        self.is_enable_crc = map.get('isEnableCrc')
-        self.read_timeout = map.get('readTimeout')
-        self.connect_timeout = map.get('connectTimeout')
-        self.local_addr = map.get('localAddr')
-        self.http_proxy = map.get('httpProxy')
-        self.https_proxy = map.get('httpsProxy')
-        self.no_proxy = map.get('noProxy')
-        self.socks_5proxy = map.get('socks5Proxy')
-        self.socks_5net_work = map.get('socks5NetWork')
-        self.max_idle_conns = map.get('maxIdleConns')
-        self.addtional_headers = map.get('addtionalHeaders')
+        if map.get('type') is not None:
+            self.type = map.get('type')
+        if map.get('securityToken') is not None:
+            self.security_token = map.get('securityToken')
+        if map.get('accessKeyId') is not None:
+            self.access_key_id = map.get('accessKeyId')
+        if map.get('accessKeySecret') is not None:
+            self.access_key_secret = map.get('accessKeySecret')
+        if map.get('endpoint') is not None:
+            self.endpoint = map.get('endpoint')
+        if map.get('protocol') is not None:
+            self.protocol = map.get('protocol')
+        if map.get('regionId') is not None:
+            self.region_id = map.get('regionId')
+        if map.get('userAgent') is not None:
+            self.user_agent = map.get('userAgent')
+        if map.get('hostModel') is not None:
+            self.host_model = map.get('hostModel')
+        if map.get('signatureVersion') is not None:
+            self.signature_version = map.get('signatureVersion')
+        if map.get('isEnableMD5') is not None:
+            self.is_enable_md5 = map.get('isEnableMD5')
+        if map.get('isEnableCrc') is not None:
+            self.is_enable_crc = map.get('isEnableCrc')
+        if map.get('readTimeout') is not None:
+            self.read_timeout = map.get('readTimeout')
+        if map.get('connectTimeout') is not None:
+            self.connect_timeout = map.get('connectTimeout')
+        if map.get('localAddr') is not None:
+            self.local_addr = map.get('localAddr')
+        if map.get('httpProxy') is not None:
+            self.http_proxy = map.get('httpProxy')
+        if map.get('httpsProxy') is not None:
+            self.https_proxy = map.get('httpsProxy')
+        if map.get('noProxy') is not None:
+            self.no_proxy = map.get('noProxy')
+        if map.get('socks5Proxy') is not None:
+            self.socks_5proxy = map.get('socks5Proxy')
+        if map.get('socks5NetWork') is not None:
+            self.socks_5net_work = map.get('socks5NetWork')
+        if map.get('maxIdleConns') is not None:
+            self.max_idle_conns = map.get('maxIdleConns')
+        if map.get('addtionalHeaders') is not None:
+            self.addtional_headers = map.get('addtionalHeaders')
         return self
 
 
@@ -111,20 +155,18 @@ class PutBucketLifecycleRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
         if self.body is not None:
             result['Body'] = self.body.to_map()
-        else:
-            result['Body'] = None
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
         if map.get('Body') is not None:
             temp_model = PutBucketLifecycleRequestBody()
             self.body = temp_model.from_map(map['Body'])
-        else:
-            self.body = None
         return self
 
 
@@ -140,13 +182,17 @@ class PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration(TeaModel
 
     def to_map(self):
         result = {}
-        result['Days'] = self.days
-        result['CreatedBeforeDate'] = self.created_before_date
+        if self.days is not None:
+            result['Days'] = self.days
+        if self.created_before_date is not None:
+            result['CreatedBeforeDate'] = self.created_before_date
         return result
 
     def from_map(self, map={}):
-        self.days = map.get('Days')
-        self.created_before_date = map.get('CreatedBeforeDate')
+        if map.get('Days') is not None:
+            self.days = map.get('Days')
+        if map.get('CreatedBeforeDate') is not None:
+            self.created_before_date = map.get('CreatedBeforeDate')
         return self
 
 
@@ -162,13 +208,17 @@ class PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition(TeaModel
 
     def to_map(self):
         result = {}
-        result['Days'] = self.days
-        result['StorageClass'] = self.storage_class
+        if self.days is not None:
+            result['Days'] = self.days
+        if self.storage_class is not None:
+            result['StorageClass'] = self.storage_class
         return result
 
     def from_map(self, map={}):
-        self.days = map.get('Days')
-        self.storage_class = map.get('StorageClass')
+        if map.get('Days') is not None:
+            self.days = map.get('Days')
+        if map.get('StorageClass') is not None:
+            self.storage_class = map.get('StorageClass')
         return self
 
 
@@ -184,13 +234,17 @@ class PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUploa
 
     def to_map(self):
         result = {}
-        result['Days'] = self.days
-        result['CreatedBeforeDate'] = self.created_before_date
+        if self.days is not None:
+            result['Days'] = self.days
+        if self.created_before_date is not None:
+            result['CreatedBeforeDate'] = self.created_before_date
         return result
 
     def from_map(self, map={}):
-        self.days = map.get('Days')
-        self.created_before_date = map.get('CreatedBeforeDate')
+        if map.get('Days') is not None:
+            self.days = map.get('Days')
+        if map.get('CreatedBeforeDate') is not None:
+            self.created_before_date = map.get('CreatedBeforeDate')
         return self
 
 
@@ -206,13 +260,17 @@ class PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag(TeaModel):
 
     def to_map(self):
         result = {}
-        result['Key'] = self.key
-        result['Value'] = self.value
+        if self.key is not None:
+            result['Key'] = self.key
+        if self.value is not None:
+            result['Value'] = self.value
         return result
 
     def from_map(self, map={}):
-        self.key = map.get('Key')
-        self.value = map.get('Value')
+        if map.get('Key') is not None:
+            self.key = map.get('Key')
+        if map.get('Value') is not None:
+            self.value = map.get('Value')
         return self
 
 
@@ -248,49 +306,39 @@ class PutBucketLifecycleRequestBodyLifecycleConfigurationRule(TeaModel):
         result = {}
         if self.expiration is not None:
             result['Expiration'] = self.expiration.to_map()
-        else:
-            result['Expiration'] = None
         if self.transition is not None:
             result['Transition'] = self.transition.to_map()
-        else:
-            result['Transition'] = None
         if self.abort_multipart_upload is not None:
             result['AbortMultipartUpload'] = self.abort_multipart_upload.to_map()
-        else:
-            result['AbortMultipartUpload'] = None
         if self.tag is not None:
             result['Tag'] = self.tag.to_map()
-        else:
-            result['Tag'] = None
-        result['ID'] = self.i_d
-        result['Prefix'] = self.prefix
-        result['Status'] = self.status
+        if self.i_d is not None:
+            result['ID'] = self.i_d
+        if self.prefix is not None:
+            result['Prefix'] = self.prefix
+        if self.status is not None:
+            result['Status'] = self.status
         return result
 
     def from_map(self, map={}):
         if map.get('Expiration') is not None:
             temp_model = PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration()
             self.expiration = temp_model.from_map(map['Expiration'])
-        else:
-            self.expiration = None
         if map.get('Transition') is not None:
             temp_model = PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition()
             self.transition = temp_model.from_map(map['Transition'])
-        else:
-            self.transition = None
         if map.get('AbortMultipartUpload') is not None:
             temp_model = PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUpload()
             self.abort_multipart_upload = temp_model.from_map(map['AbortMultipartUpload'])
-        else:
-            self.abort_multipart_upload = None
         if map.get('Tag') is not None:
             temp_model = PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag()
             self.tag = temp_model.from_map(map['Tag'])
-        else:
-            self.tag = None
-        self.i_d = map.get('ID')
-        self.prefix = map.get('Prefix')
-        self.status = map.get('Status')
+        if map.get('ID') is not None:
+            self.i_d = map.get('ID')
+        if map.get('Prefix') is not None:
+            self.prefix = map.get('Prefix')
+        if map.get('Status') is not None:
+            self.status = map.get('Status')
         return self
 
 
@@ -311,8 +359,6 @@ class PutBucketLifecycleRequestBodyLifecycleConfiguration(TeaModel):
         if self.rule is not None:
             for k in self.rule:
                 result['Rule'].append(k.to_map() if k else None)
-        else:
-            result['Rule'] = None
         return result
 
     def from_map(self, map={}):
@@ -321,8 +367,6 @@ class PutBucketLifecycleRequestBodyLifecycleConfiguration(TeaModel):
             for k in map.get('Rule'):
                 temp_model = PutBucketLifecycleRequestBodyLifecycleConfigurationRule()
                 self.rule.append(temp_model.from_map(k))
-        else:
-            self.rule = None
         return self
 
 
@@ -340,16 +384,12 @@ class PutBucketLifecycleRequestBody(TeaModel):
         result = {}
         if self.lifecycle_configuration is not None:
             result['LifecycleConfiguration'] = self.lifecycle_configuration.to_map()
-        else:
-            result['LifecycleConfiguration'] = None
         return result
 
     def from_map(self, map={}):
         if map.get('LifecycleConfiguration') is not None:
             temp_model = PutBucketLifecycleRequestBodyLifecycleConfiguration()
             self.lifecycle_configuration = temp_model.from_map(map['LifecycleConfiguration'])
-        else:
-            self.lifecycle_configuration = None
         return self
 
 
@@ -363,11 +403,13 @@ class PutBucketLifecycleResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         return self
 
 
@@ -392,29 +434,23 @@ class DeleteMultipleObjectsRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
         if self.body is not None:
             result['Body'] = self.body.to_map()
-        else:
-            result['Body'] = None
         if self.header is not None:
             result['Header'] = self.header.to_map()
-        else:
-            result['Header'] = None
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
         if map.get('Body') is not None:
             temp_model = DeleteMultipleObjectsRequestBody()
             self.body = temp_model.from_map(map['Body'])
-        else:
-            self.body = None
         if map.get('Header') is not None:
             temp_model = DeleteMultipleObjectsRequestHeader()
             self.header = temp_model.from_map(map['Header'])
-        else:
-            self.header = None
         return self
 
 
@@ -428,11 +464,13 @@ class DeleteMultipleObjectsRequestBodyDeleteObject(TeaModel):
 
     def to_map(self):
         result = {}
-        result['Key'] = self.key
+        if self.key is not None:
+            result['Key'] = self.key
         return result
 
     def from_map(self, map={}):
-        self.key = map.get('Key')
+        if map.get('Key') is not None:
+            self.key = map.get('Key')
         return self
 
 
@@ -455,9 +493,8 @@ class DeleteMultipleObjectsRequestBodyDelete(TeaModel):
         if self.object is not None:
             for k in self.object:
                 result['Object'].append(k.to_map() if k else None)
-        else:
-            result['Object'] = None
-        result['Quiet'] = self.quiet
+        if self.quiet is not None:
+            result['Quiet'] = self.quiet
         return result
 
     def from_map(self, map={}):
@@ -466,9 +503,8 @@ class DeleteMultipleObjectsRequestBodyDelete(TeaModel):
             for k in map.get('Object'):
                 temp_model = DeleteMultipleObjectsRequestBodyDeleteObject()
                 self.object.append(temp_model.from_map(k))
-        else:
-            self.object = None
-        self.quiet = map.get('Quiet')
+        if map.get('Quiet') is not None:
+            self.quiet = map.get('Quiet')
         return self
 
 
@@ -486,16 +522,12 @@ class DeleteMultipleObjectsRequestBody(TeaModel):
         result = {}
         if self.delete is not None:
             result['Delete'] = self.delete.to_map()
-        else:
-            result['Delete'] = None
         return result
 
     def from_map(self, map={}):
         if map.get('Delete') is not None:
             temp_model = DeleteMultipleObjectsRequestBodyDelete()
             self.delete = temp_model.from_map(map['Delete'])
-        else:
-            self.delete = None
         return self
 
 
@@ -514,15 +546,21 @@ class DeleteMultipleObjectsRequestHeader(TeaModel):
 
     def to_map(self):
         result = {}
-        result['Encoding-type'] = self.encoding_type
-        result['Content-Length'] = self.content_length
-        result['Content-MD5'] = self.content_md5
+        if self.encoding_type is not None:
+            result['Encoding-type'] = self.encoding_type
+        if self.content_length is not None:
+            result['Content-Length'] = self.content_length
+        if self.content_md5 is not None:
+            result['Content-MD5'] = self.content_md5
         return result
 
     def from_map(self, map={}):
-        self.encoding_type = map.get('Encoding-type')
-        self.content_length = map.get('Content-Length')
-        self.content_md5 = map.get('Content-MD5')
+        if map.get('Encoding-type') is not None:
+            self.encoding_type = map.get('Encoding-type')
+        if map.get('Content-Length') is not None:
+            self.content_length = map.get('Content-Length')
+        if map.get('Content-MD5') is not None:
+            self.content_md5 = map.get('Content-MD5')
         return self
 
 
@@ -541,20 +579,18 @@ class DeleteMultipleObjectsResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         if self.delete_result is not None:
             result['DeleteResult'] = self.delete_result.to_map()
-        else:
-            result['DeleteResult'] = None
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         if map.get('DeleteResult') is not None:
             temp_model = DeleteMultipleObjectsResponseDeleteResult()
             self.delete_result = temp_model.from_map(map['DeleteResult'])
-        else:
-            self.delete_result = None
         return self
 
 
@@ -568,11 +604,13 @@ class DeleteMultipleObjectsResponseDeleteResultDeleted(TeaModel):
 
     def to_map(self):
         result = {}
-        result['Key'] = self.key
+        if self.key is not None:
+            result['Key'] = self.key
         return result
 
     def from_map(self, map={}):
-        self.key = map.get('Key')
+        if map.get('Key') is not None:
+            self.key = map.get('Key')
         return self
 
 
@@ -593,26 +631,26 @@ class DeleteMultipleObjectsResponseDeleteResult(TeaModel):
 
     def to_map(self):
         result = {}
-        result['Quiet'] = self.quiet
-        result['EncodingType'] = self.encoding_type
+        if self.quiet is not None:
+            result['Quiet'] = self.quiet
+        if self.encoding_type is not None:
+            result['EncodingType'] = self.encoding_type
         result['Deleted'] = []
         if self.deleted is not None:
             for k in self.deleted:
                 result['Deleted'].append(k.to_map() if k else None)
-        else:
-            result['Deleted'] = None
         return result
 
     def from_map(self, map={}):
-        self.quiet = map.get('Quiet')
-        self.encoding_type = map.get('EncodingType')
+        if map.get('Quiet') is not None:
+            self.quiet = map.get('Quiet')
+        if map.get('EncodingType') is not None:
+            self.encoding_type = map.get('EncodingType')
         self.deleted = []
         if map.get('Deleted') is not None:
             for k in map.get('Deleted'):
                 temp_model = DeleteMultipleObjectsResponseDeleteResultDeleted()
                 self.deleted.append(temp_model.from_map(k))
-        else:
-            self.deleted = None
         return self
 
 
@@ -632,20 +670,18 @@ class PutBucketRefererRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
         if self.body is not None:
             result['Body'] = self.body.to_map()
-        else:
-            result['Body'] = None
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
         if map.get('Body') is not None:
             temp_model = PutBucketRefererRequestBody()
             self.body = temp_model.from_map(map['Body'])
-        else:
-            self.body = None
         return self
 
 
@@ -659,11 +695,13 @@ class PutBucketRefererRequestBodyRefererConfigurationRefererList(TeaModel):
 
     def to_map(self):
         result = {}
-        result['Referer'] = self.referer
+        if self.referer is not None:
+            result['Referer'] = self.referer
         return result
 
     def from_map(self, map={}):
-        self.referer = map.get('Referer')
+        if map.get('Referer') is not None:
+            self.referer = map.get('Referer')
         return self
 
 
@@ -682,18 +720,16 @@ class PutBucketRefererRequestBodyRefererConfiguration(TeaModel):
         result = {}
         if self.referer_list is not None:
             result['RefererList'] = self.referer_list.to_map()
-        else:
-            result['RefererList'] = None
-        result['AllowEmptyReferer'] = self.allow_empty_referer
+        if self.allow_empty_referer is not None:
+            result['AllowEmptyReferer'] = self.allow_empty_referer
         return result
 
     def from_map(self, map={}):
         if map.get('RefererList') is not None:
             temp_model = PutBucketRefererRequestBodyRefererConfigurationRefererList()
             self.referer_list = temp_model.from_map(map['RefererList'])
-        else:
-            self.referer_list = None
-        self.allow_empty_referer = map.get('AllowEmptyReferer')
+        if map.get('AllowEmptyReferer') is not None:
+            self.allow_empty_referer = map.get('AllowEmptyReferer')
         return self
 
 
@@ -711,16 +747,12 @@ class PutBucketRefererRequestBody(TeaModel):
         result = {}
         if self.referer_configuration is not None:
             result['RefererConfiguration'] = self.referer_configuration.to_map()
-        else:
-            result['RefererConfiguration'] = None
         return result
 
     def from_map(self, map={}):
         if map.get('RefererConfiguration') is not None:
             temp_model = PutBucketRefererRequestBodyRefererConfiguration()
             self.referer_configuration = temp_model.from_map(map['RefererConfiguration'])
-        else:
-            self.referer_configuration = None
         return self
 
 
@@ -734,11 +766,13 @@ class PutBucketRefererResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         return self
 
 
@@ -758,20 +792,18 @@ class PutBucketWebsiteRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
         if self.body is not None:
             result['Body'] = self.body.to_map()
-        else:
-            result['Body'] = None
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
         if map.get('Body') is not None:
             temp_model = PutBucketWebsiteRequestBody()
             self.body = temp_model.from_map(map['Body'])
-        else:
-            self.body = None
         return self
 
 
@@ -785,11 +817,13 @@ class PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument(TeaModel):
 
     def to_map(self):
         result = {}
-        result['Suffix'] = self.suffix
+        if self.suffix is not None:
+            result['Suffix'] = self.suffix
         return result
 
     def from_map(self, map={}):
-        self.suffix = map.get('Suffix')
+        if map.get('Suffix') is not None:
+            self.suffix = map.get('Suffix')
         return self
 
 
@@ -803,11 +837,13 @@ class PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument(TeaModel):
 
     def to_map(self):
         result = {}
-        result['Key'] = self.key
+        if self.key is not None:
+            result['Key'] = self.key
         return result
 
     def from_map(self, map={}):
-        self.key = map.get('Key')
+        if map.get('Key') is not None:
+            self.key = map.get('Key')
         return self
 
 
@@ -823,13 +859,17 @@ class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCond
 
     def to_map(self):
         result = {}
-        result['Key'] = self.key
-        result['Equals'] = self.equals
+        if self.key is not None:
+            result['Key'] = self.key
+        if self.equals is not None:
+            result['Equals'] = self.equals
         return result
 
     def from_map(self, map={}):
-        self.key = map.get('Key')
-        self.equals = map.get('Equals')
+        if map.get('Key') is not None:
+            self.key = map.get('Key')
+        if map.get('Equals') is not None:
+            self.equals = map.get('Equals')
         return self
 
 
@@ -850,20 +890,20 @@ class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCond
         result = {}
         if self.include_header is not None:
             result['IncludeHeader'] = self.include_header.to_map()
-        else:
-            result['IncludeHeader'] = None
-        result['KeyPrefixEquals'] = self.key_prefix_equals
-        result['HttpErrorCodeReturnedEquals'] = self.http_error_code_returned_equals
+        if self.key_prefix_equals is not None:
+            result['KeyPrefixEquals'] = self.key_prefix_equals
+        if self.http_error_code_returned_equals is not None:
+            result['HttpErrorCodeReturnedEquals'] = self.http_error_code_returned_equals
         return result
 
     def from_map(self, map={}):
         if map.get('IncludeHeader') is not None:
             temp_model = PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader()
             self.include_header = temp_model.from_map(map['IncludeHeader'])
-        else:
-            self.include_header = None
-        self.key_prefix_equals = map.get('KeyPrefixEquals')
-        self.http_error_code_returned_equals = map.get('HttpErrorCodeReturnedEquals')
+        if map.get('KeyPrefixEquals') is not None:
+            self.key_prefix_equals = map.get('KeyPrefixEquals')
+        if map.get('HttpErrorCodeReturnedEquals') is not None:
+            self.http_error_code_returned_equals = map.get('HttpErrorCodeReturnedEquals')
         return self
 
 
@@ -879,13 +919,17 @@ class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedi
 
     def to_map(self):
         result = {}
-        result['Key'] = self.key
-        result['Value'] = self.value
+        if self.key is not None:
+            result['Key'] = self.key
+        if self.value is not None:
+            result['Value'] = self.value
         return result
 
     def from_map(self, map={}):
-        self.key = map.get('Key')
-        self.value = map.get('Value')
+        if map.get('Key') is not None:
+            self.key = map.get('Key')
+        if map.get('Value') is not None:
+            self.value = map.get('Value')
         return self
 
 
@@ -908,22 +952,24 @@ class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedi
         result = {}
         if self.set is not None:
             result['Set'] = self.set.to_map()
-        else:
-            result['Set'] = None
-        result['PassAll'] = self.pass_all
-        result['Pass'] = self.pass_
-        result['Remove'] = self.remove
+        if self.pass_all is not None:
+            result['PassAll'] = self.pass_all
+        if self.pass_ is not None:
+            result['Pass'] = self.pass_
+        if self.remove is not None:
+            result['Remove'] = self.remove
         return result
 
     def from_map(self, map={}):
         if map.get('Set') is not None:
             temp_model = PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet()
             self.set = temp_model.from_map(map['Set'])
-        else:
-            self.set = None
-        self.pass_all = map.get('PassAll')
-        self.pass_ = map.get('Pass')
-        self.remove = map.get('Remove')
+        if map.get('PassAll') is not None:
+            self.pass_all = map.get('PassAll')
+        if map.get('Pass') is not None:
+            self.pass_ = map.get('Pass')
+        if map.get('Remove') is not None:
+            self.remove = map.get('Remove')
         return self
 
 
@@ -964,38 +1010,56 @@ class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedi
         result = {}
         if self.mirror_headers is not None:
             result['MirrorHeaders'] = self.mirror_headers.to_map()
-        else:
-            result['MirrorHeaders'] = None
-        result['RedirectType'] = self.redirect_type
-        result['PassQueryString'] = self.pass_query_string
-        result['MirrorURL'] = self.mirror_url
-        result['MirrorPassQueryString'] = self.mirror_pass_query_string
-        result['MirrorFollowRedirect'] = self.mirror_follow_redirect
-        result['MirrorCheckMd5'] = self.mirror_check_md_5
-        result['Protocol'] = self.protocol
-        result['HostName'] = self.host_name
-        result['HttpRedirectCode'] = self.http_redirect_code
-        result['ReplaceKeyPrefixWith'] = self.replace_key_prefix_with
-        result['ReplaceKeyWith'] = self.replace_key_with
+        if self.redirect_type is not None:
+            result['RedirectType'] = self.redirect_type
+        if self.pass_query_string is not None:
+            result['PassQueryString'] = self.pass_query_string
+        if self.mirror_url is not None:
+            result['MirrorURL'] = self.mirror_url
+        if self.mirror_pass_query_string is not None:
+            result['MirrorPassQueryString'] = self.mirror_pass_query_string
+        if self.mirror_follow_redirect is not None:
+            result['MirrorFollowRedirect'] = self.mirror_follow_redirect
+        if self.mirror_check_md_5 is not None:
+            result['MirrorCheckMd5'] = self.mirror_check_md_5
+        if self.protocol is not None:
+            result['Protocol'] = self.protocol
+        if self.host_name is not None:
+            result['HostName'] = self.host_name
+        if self.http_redirect_code is not None:
+            result['HttpRedirectCode'] = self.http_redirect_code
+        if self.replace_key_prefix_with is not None:
+            result['ReplaceKeyPrefixWith'] = self.replace_key_prefix_with
+        if self.replace_key_with is not None:
+            result['ReplaceKeyWith'] = self.replace_key_with
         return result
 
     def from_map(self, map={}):
         if map.get('MirrorHeaders') is not None:
             temp_model = PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders()
             self.mirror_headers = temp_model.from_map(map['MirrorHeaders'])
-        else:
-            self.mirror_headers = None
-        self.redirect_type = map.get('RedirectType')
-        self.pass_query_string = map.get('PassQueryString')
-        self.mirror_url = map.get('MirrorURL')
-        self.mirror_pass_query_string = map.get('MirrorPassQueryString')
-        self.mirror_follow_redirect = map.get('MirrorFollowRedirect')
-        self.mirror_check_md_5 = map.get('MirrorCheckMd5')
-        self.protocol = map.get('Protocol')
-        self.host_name = map.get('HostName')
-        self.http_redirect_code = map.get('HttpRedirectCode')
-        self.replace_key_prefix_with = map.get('ReplaceKeyPrefixWith')
-        self.replace_key_with = map.get('ReplaceKeyWith')
+        if map.get('RedirectType') is not None:
+            self.redirect_type = map.get('RedirectType')
+        if map.get('PassQueryString') is not None:
+            self.pass_query_string = map.get('PassQueryString')
+        if map.get('MirrorURL') is not None:
+            self.mirror_url = map.get('MirrorURL')
+        if map.get('MirrorPassQueryString') is not None:
+            self.mirror_pass_query_string = map.get('MirrorPassQueryString')
+        if map.get('MirrorFollowRedirect') is not None:
+            self.mirror_follow_redirect = map.get('MirrorFollowRedirect')
+        if map.get('MirrorCheckMd5') is not None:
+            self.mirror_check_md_5 = map.get('MirrorCheckMd5')
+        if map.get('Protocol') is not None:
+            self.protocol = map.get('Protocol')
+        if map.get('HostName') is not None:
+            self.host_name = map.get('HostName')
+        if map.get('HttpRedirectCode') is not None:
+            self.http_redirect_code = map.get('HttpRedirectCode')
+        if map.get('ReplaceKeyPrefixWith') is not None:
+            self.replace_key_prefix_with = map.get('ReplaceKeyPrefixWith')
+        if map.get('ReplaceKeyWith') is not None:
+            self.replace_key_with = map.get('ReplaceKeyWith')
         return self
 
 
@@ -1018,27 +1082,21 @@ class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule(Tea
         result = {}
         if self.condition is not None:
             result['Condition'] = self.condition.to_map()
-        else:
-            result['Condition'] = None
         if self.redirect is not None:
             result['Redirect'] = self.redirect.to_map()
-        else:
-            result['Redirect'] = None
-        result['RuleNumber'] = self.rule_number
+        if self.rule_number is not None:
+            result['RuleNumber'] = self.rule_number
         return result
 
     def from_map(self, map={}):
         if map.get('Condition') is not None:
             temp_model = PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCondition()
             self.condition = temp_model.from_map(map['Condition'])
-        else:
-            self.condition = None
         if map.get('Redirect') is not None:
             temp_model = PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect()
             self.redirect = temp_model.from_map(map['Redirect'])
-        else:
-            self.redirect = None
-        self.rule_number = map.get('RuleNumber')
+        if map.get('RuleNumber') is not None:
+            self.rule_number = map.get('RuleNumber')
         return self
 
 
@@ -1059,8 +1117,6 @@ class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules(TeaModel):
         if self.routing_rule is not None:
             for k in self.routing_rule:
                 result['RoutingRule'].append(k.to_map() if k else None)
-        else:
-            result['RoutingRule'] = None
         return result
 
     def from_map(self, map={}):
@@ -1069,8 +1125,6 @@ class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules(TeaModel):
             for k in map.get('RoutingRule'):
                 temp_model = PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule()
                 self.routing_rule.append(temp_model.from_map(k))
-        else:
-            self.routing_rule = None
         return self
 
 
@@ -1095,34 +1149,22 @@ class PutBucketWebsiteRequestBodyWebsiteConfiguration(TeaModel):
         result = {}
         if self.index_document is not None:
             result['IndexDocument'] = self.index_document.to_map()
-        else:
-            result['IndexDocument'] = None
         if self.error_document is not None:
             result['ErrorDocument'] = self.error_document.to_map()
-        else:
-            result['ErrorDocument'] = None
         if self.routing_rules is not None:
             result['RoutingRules'] = self.routing_rules.to_map()
-        else:
-            result['RoutingRules'] = None
         return result
 
     def from_map(self, map={}):
         if map.get('IndexDocument') is not None:
             temp_model = PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument()
             self.index_document = temp_model.from_map(map['IndexDocument'])
-        else:
-            self.index_document = None
         if map.get('ErrorDocument') is not None:
             temp_model = PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument()
             self.error_document = temp_model.from_map(map['ErrorDocument'])
-        else:
-            self.error_document = None
         if map.get('RoutingRules') is not None:
             temp_model = PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules()
             self.routing_rules = temp_model.from_map(map['RoutingRules'])
-        else:
-            self.routing_rules = None
         return self
 
 
@@ -1140,16 +1182,12 @@ class PutBucketWebsiteRequestBody(TeaModel):
         result = {}
         if self.website_configuration is not None:
             result['WebsiteConfiguration'] = self.website_configuration.to_map()
-        else:
-            result['WebsiteConfiguration'] = None
         return result
 
     def from_map(self, map={}):
         if map.get('WebsiteConfiguration') is not None:
             temp_model = PutBucketWebsiteRequestBodyWebsiteConfiguration()
             self.website_configuration = temp_model.from_map(map['WebsiteConfiguration'])
-        else:
-            self.website_configuration = None
         return self
 
 
@@ -1163,11 +1201,13 @@ class PutBucketWebsiteResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         return self
 
 
@@ -1195,31 +1235,27 @@ class CompleteMultipartUploadRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
-        result['ObjectName'] = self.object_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
+        if self.object_name is not None:
+            result['ObjectName'] = self.object_name
         if self.filter is not None:
             result['Filter'] = self.filter.to_map()
-        else:
-            result['Filter'] = None
         if self.body is not None:
             result['Body'] = self.body.to_map()
-        else:
-            result['Body'] = None
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
-        self.object_name = map.get('ObjectName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
+        if map.get('ObjectName') is not None:
+            self.object_name = map.get('ObjectName')
         if map.get('Filter') is not None:
             temp_model = CompleteMultipartUploadRequestFilter()
             self.filter = temp_model.from_map(map['Filter'])
-        else:
-            self.filter = None
         if map.get('Body') is not None:
             temp_model = CompleteMultipartUploadRequestBody()
             self.body = temp_model.from_map(map['Body'])
-        else:
-            self.body = None
         return self
 
 
@@ -1235,13 +1271,17 @@ class CompleteMultipartUploadRequestFilter(TeaModel):
 
     def to_map(self):
         result = {}
-        result['uploadId'] = self.upload_id
-        result['Encoding-type'] = self.encoding_type
+        if self.upload_id is not None:
+            result['uploadId'] = self.upload_id
+        if self.encoding_type is not None:
+            result['Encoding-type'] = self.encoding_type
         return result
 
     def from_map(self, map={}):
-        self.upload_id = map.get('uploadId')
-        self.encoding_type = map.get('Encoding-type')
+        if map.get('uploadId') is not None:
+            self.upload_id = map.get('uploadId')
+        if map.get('Encoding-type') is not None:
+            self.encoding_type = map.get('Encoding-type')
         return self
 
 
@@ -1257,13 +1297,17 @@ class CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart(TeaModel):
 
     def to_map(self):
         result = {}
-        result['PartNumber'] = self.part_number
-        result['ETag'] = self.e_tag
+        if self.part_number is not None:
+            result['PartNumber'] = self.part_number
+        if self.e_tag is not None:
+            result['ETag'] = self.e_tag
         return result
 
     def from_map(self, map={}):
-        self.part_number = map.get('PartNumber')
-        self.e_tag = map.get('ETag')
+        if map.get('PartNumber') is not None:
+            self.part_number = map.get('PartNumber')
+        if map.get('ETag') is not None:
+            self.e_tag = map.get('ETag')
         return self
 
 
@@ -1284,8 +1328,6 @@ class CompleteMultipartUploadRequestBodyCompleteMultipartUpload(TeaModel):
         if self.part is not None:
             for k in self.part:
                 result['Part'].append(k.to_map() if k else None)
-        else:
-            result['Part'] = None
         return result
 
     def from_map(self, map={}):
@@ -1294,8 +1336,6 @@ class CompleteMultipartUploadRequestBodyCompleteMultipartUpload(TeaModel):
             for k in map.get('Part'):
                 temp_model = CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart()
                 self.part.append(temp_model.from_map(k))
-        else:
-            self.part = None
         return self
 
 
@@ -1313,16 +1353,12 @@ class CompleteMultipartUploadRequestBody(TeaModel):
         result = {}
         if self.complete_multipart_upload is not None:
             result['CompleteMultipartUpload'] = self.complete_multipart_upload.to_map()
-        else:
-            result['CompleteMultipartUpload'] = None
         return result
 
     def from_map(self, map={}):
         if map.get('CompleteMultipartUpload') is not None:
             temp_model = CompleteMultipartUploadRequestBodyCompleteMultipartUpload()
             self.complete_multipart_upload = temp_model.from_map(map['CompleteMultipartUpload'])
-        else:
-            self.complete_multipart_upload = None
         return self
 
 
@@ -1341,20 +1377,18 @@ class CompleteMultipartUploadResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         if self.complete_multipart_upload_result is not None:
             result['CompleteMultipartUploadResult'] = self.complete_multipart_upload_result.to_map()
-        else:
-            result['CompleteMultipartUploadResult'] = None
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         if map.get('CompleteMultipartUploadResult') is not None:
             temp_model = CompleteMultipartUploadResponseCompleteMultipartUploadResult()
             self.complete_multipart_upload_result = temp_model.from_map(map['CompleteMultipartUploadResult'])
-        else:
-            self.complete_multipart_upload_result = None
         return self
 
 
@@ -1376,19 +1410,29 @@ class CompleteMultipartUploadResponseCompleteMultipartUploadResult(TeaModel):
 
     def to_map(self):
         result = {}
-        result['Bucket'] = self.bucket
-        result['ETag'] = self.e_tag
-        result['Location'] = self.location
-        result['Key'] = self.key
-        result['EncodingType'] = self.encoding_type
+        if self.bucket is not None:
+            result['Bucket'] = self.bucket
+        if self.e_tag is not None:
+            result['ETag'] = self.e_tag
+        if self.location is not None:
+            result['Location'] = self.location
+        if self.key is not None:
+            result['Key'] = self.key
+        if self.encoding_type is not None:
+            result['EncodingType'] = self.encoding_type
         return result
 
     def from_map(self, map={}):
-        self.bucket = map.get('Bucket')
-        self.e_tag = map.get('ETag')
-        self.location = map.get('Location')
-        self.key = map.get('Key')
-        self.encoding_type = map.get('EncodingType')
+        if map.get('Bucket') is not None:
+            self.bucket = map.get('Bucket')
+        if map.get('ETag') is not None:
+            self.e_tag = map.get('ETag')
+        if map.get('Location') is not None:
+            self.location = map.get('Location')
+        if map.get('Key') is not None:
+            self.key = map.get('Key')
+        if map.get('EncodingType') is not None:
+            self.encoding_type = map.get('EncodingType')
         return self
 
 
@@ -1408,20 +1452,18 @@ class PutBucketLoggingRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
         if self.body is not None:
             result['Body'] = self.body.to_map()
-        else:
-            result['Body'] = None
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
         if map.get('Body') is not None:
             temp_model = PutBucketLoggingRequestBody()
             self.body = temp_model.from_map(map['Body'])
-        else:
-            self.body = None
         return self
 
 
@@ -1437,13 +1479,17 @@ class PutBucketLoggingRequestBodyBucketLoggingStatusLoggingEnabled(TeaModel):
 
     def to_map(self):
         result = {}
-        result['TargetBucket'] = self.target_bucket
-        result['TargetPrefix'] = self.target_prefix
+        if self.target_bucket is not None:
+            result['TargetBucket'] = self.target_bucket
+        if self.target_prefix is not None:
+            result['TargetPrefix'] = self.target_prefix
         return result
 
     def from_map(self, map={}):
-        self.target_bucket = map.get('TargetBucket')
-        self.target_prefix = map.get('TargetPrefix')
+        if map.get('TargetBucket') is not None:
+            self.target_bucket = map.get('TargetBucket')
+        if map.get('TargetPrefix') is not None:
+            self.target_prefix = map.get('TargetPrefix')
         return self
 
 
@@ -1460,16 +1506,12 @@ class PutBucketLoggingRequestBodyBucketLoggingStatus(TeaModel):
         result = {}
         if self.logging_enabled is not None:
             result['LoggingEnabled'] = self.logging_enabled.to_map()
-        else:
-            result['LoggingEnabled'] = None
         return result
 
     def from_map(self, map={}):
         if map.get('LoggingEnabled') is not None:
             temp_model = PutBucketLoggingRequestBodyBucketLoggingStatusLoggingEnabled()
             self.logging_enabled = temp_model.from_map(map['LoggingEnabled'])
-        else:
-            self.logging_enabled = None
         return self
 
 
@@ -1487,16 +1529,12 @@ class PutBucketLoggingRequestBody(TeaModel):
         result = {}
         if self.bucket_logging_status is not None:
             result['BucketLoggingStatus'] = self.bucket_logging_status.to_map()
-        else:
-            result['BucketLoggingStatus'] = None
         return result
 
     def from_map(self, map={}):
         if map.get('BucketLoggingStatus') is not None:
             temp_model = PutBucketLoggingRequestBodyBucketLoggingStatus()
             self.bucket_logging_status = temp_model.from_map(map['BucketLoggingStatus'])
-        else:
-            self.bucket_logging_status = None
         return self
 
 
@@ -1510,11 +1548,13 @@ class PutBucketLoggingResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         return self
 
 
@@ -1534,20 +1574,18 @@ class PutBucketRequestPaymentRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
         if self.body is not None:
             result['Body'] = self.body.to_map()
-        else:
-            result['Body'] = None
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
         if map.get('Body') is not None:
             temp_model = PutBucketRequestPaymentRequestBody()
             self.body = temp_model.from_map(map['Body'])
-        else:
-            self.body = None
         return self
 
 
@@ -1561,11 +1599,13 @@ class PutBucketRequestPaymentRequestBodyRequestPaymentConfiguration(TeaModel):
 
     def to_map(self):
         result = {}
-        result['Payer'] = self.payer
+        if self.payer is not None:
+            result['Payer'] = self.payer
         return result
 
     def from_map(self, map={}):
-        self.payer = map.get('Payer')
+        if map.get('Payer') is not None:
+            self.payer = map.get('Payer')
         return self
 
 
@@ -1583,16 +1623,12 @@ class PutBucketRequestPaymentRequestBody(TeaModel):
         result = {}
         if self.request_payment_configuration is not None:
             result['RequestPaymentConfiguration'] = self.request_payment_configuration.to_map()
-        else:
-            result['RequestPaymentConfiguration'] = None
         return result
 
     def from_map(self, map={}):
         if map.get('RequestPaymentConfiguration') is not None:
             temp_model = PutBucketRequestPaymentRequestBodyRequestPaymentConfiguration()
             self.request_payment_configuration = temp_model.from_map(map['RequestPaymentConfiguration'])
-        else:
-            self.request_payment_configuration = None
         return self
 
 
@@ -1606,11 +1642,13 @@ class PutBucketRequestPaymentResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         return self
 
 
@@ -1630,20 +1668,18 @@ class PutBucketEncryptionRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
         if self.body is not None:
             result['Body'] = self.body.to_map()
-        else:
-            result['Body'] = None
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
         if map.get('Body') is not None:
             temp_model = PutBucketEncryptionRequestBody()
             self.body = temp_model.from_map(map['Body'])
-        else:
-            self.body = None
         return self
 
 
@@ -1659,13 +1695,17 @@ class PutBucketEncryptionRequestBodyServerSideEncryptionRuleApplyServerSideEncry
 
     def to_map(self):
         result = {}
-        result['SSEAlgorithm'] = self.s_sealgorithm
-        result['KMSMasterKeyID'] = self.k_msmaster_key_id
+        if self.s_sealgorithm is not None:
+            result['SSEAlgorithm'] = self.s_sealgorithm
+        if self.k_msmaster_key_id is not None:
+            result['KMSMasterKeyID'] = self.k_msmaster_key_id
         return result
 
     def from_map(self, map={}):
-        self.s_sealgorithm = map.get('SSEAlgorithm')
-        self.k_msmaster_key_id = map.get('KMSMasterKeyID')
+        if map.get('SSEAlgorithm') is not None:
+            self.s_sealgorithm = map.get('SSEAlgorithm')
+        if map.get('KMSMasterKeyID') is not None:
+            self.k_msmaster_key_id = map.get('KMSMasterKeyID')
         return self
 
 
@@ -1682,16 +1722,12 @@ class PutBucketEncryptionRequestBodyServerSideEncryptionRule(TeaModel):
         result = {}
         if self.apply_server_side_encryption_by_default is not None:
             result['ApplyServerSideEncryptionByDefault'] = self.apply_server_side_encryption_by_default.to_map()
-        else:
-            result['ApplyServerSideEncryptionByDefault'] = None
         return result
 
     def from_map(self, map={}):
         if map.get('ApplyServerSideEncryptionByDefault') is not None:
             temp_model = PutBucketEncryptionRequestBodyServerSideEncryptionRuleApplyServerSideEncryptionByDefault()
             self.apply_server_side_encryption_by_default = temp_model.from_map(map['ApplyServerSideEncryptionByDefault'])
-        else:
-            self.apply_server_side_encryption_by_default = None
         return self
 
 
@@ -1709,16 +1745,12 @@ class PutBucketEncryptionRequestBody(TeaModel):
         result = {}
         if self.server_side_encryption_rule is not None:
             result['ServerSideEncryptionRule'] = self.server_side_encryption_rule.to_map()
-        else:
-            result['ServerSideEncryptionRule'] = None
         return result
 
     def from_map(self, map={}):
         if map.get('ServerSideEncryptionRule') is not None:
             temp_model = PutBucketEncryptionRequestBodyServerSideEncryptionRule()
             self.server_side_encryption_rule = temp_model.from_map(map['ServerSideEncryptionRule'])
-        else:
-            self.server_side_encryption_rule = None
         return self
 
 
@@ -1732,11 +1764,13 @@ class PutBucketEncryptionResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         return self
 
 
@@ -1759,22 +1793,22 @@ class PutLiveChannelRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
-        result['ChannelName'] = self.channel_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
+        if self.channel_name is not None:
+            result['ChannelName'] = self.channel_name
         if self.body is not None:
             result['Body'] = self.body.to_map()
-        else:
-            result['Body'] = None
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
-        self.channel_name = map.get('ChannelName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
+        if map.get('ChannelName') is not None:
+            self.channel_name = map.get('ChannelName')
         if map.get('Body') is not None:
             temp_model = PutLiveChannelRequestBody()
             self.body = temp_model.from_map(map['Body'])
-        else:
-            self.body = None
         return self
 
 
@@ -1794,17 +1828,25 @@ class PutLiveChannelRequestBodyLiveChannelConfigurationTarget(TeaModel):
 
     def to_map(self):
         result = {}
-        result['Type'] = self.type
-        result['FragDuration'] = self.frag_duration
-        result['FragCount'] = self.frag_count
-        result['PlaylistName'] = self.playlist_name
+        if self.type is not None:
+            result['Type'] = self.type
+        if self.frag_duration is not None:
+            result['FragDuration'] = self.frag_duration
+        if self.frag_count is not None:
+            result['FragCount'] = self.frag_count
+        if self.playlist_name is not None:
+            result['PlaylistName'] = self.playlist_name
         return result
 
     def from_map(self, map={}):
-        self.type = map.get('Type')
-        self.frag_duration = map.get('FragDuration')
-        self.frag_count = map.get('FragCount')
-        self.playlist_name = map.get('PlaylistName')
+        if map.get('Type') is not None:
+            self.type = map.get('Type')
+        if map.get('FragDuration') is not None:
+            self.frag_duration = map.get('FragDuration')
+        if map.get('FragCount') is not None:
+            self.frag_count = map.get('FragCount')
+        if map.get('PlaylistName') is not None:
+            self.playlist_name = map.get('PlaylistName')
         return self
 
 
@@ -1824,17 +1866,25 @@ class PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot(TeaModel):
 
     def to_map(self):
         result = {}
-        result['RoleName'] = self.role_name
-        result['DestBucket'] = self.dest_bucket
-        result['NotifyTopic'] = self.notify_topic
-        result['Interval'] = self.interval
+        if self.role_name is not None:
+            result['RoleName'] = self.role_name
+        if self.dest_bucket is not None:
+            result['DestBucket'] = self.dest_bucket
+        if self.notify_topic is not None:
+            result['NotifyTopic'] = self.notify_topic
+        if self.interval is not None:
+            result['Interval'] = self.interval
         return result
 
     def from_map(self, map={}):
-        self.role_name = map.get('RoleName')
-        self.dest_bucket = map.get('DestBucket')
-        self.notify_topic = map.get('NotifyTopic')
-        self.interval = map.get('Interval')
+        if map.get('RoleName') is not None:
+            self.role_name = map.get('RoleName')
+        if map.get('DestBucket') is not None:
+            self.dest_bucket = map.get('DestBucket')
+        if map.get('NotifyTopic') is not None:
+            self.notify_topic = map.get('NotifyTopic')
+        if map.get('Interval') is not None:
+            self.interval = map.get('Interval')
         return self
 
 
@@ -1859,29 +1909,25 @@ class PutLiveChannelRequestBodyLiveChannelConfiguration(TeaModel):
         result = {}
         if self.target is not None:
             result['Target'] = self.target.to_map()
-        else:
-            result['Target'] = None
         if self.snapshot is not None:
             result['Snapshot'] = self.snapshot.to_map()
-        else:
-            result['Snapshot'] = None
-        result['Description'] = self.description
-        result['Status'] = self.status
+        if self.description is not None:
+            result['Description'] = self.description
+        if self.status is not None:
+            result['Status'] = self.status
         return result
 
     def from_map(self, map={}):
         if map.get('Target') is not None:
             temp_model = PutLiveChannelRequestBodyLiveChannelConfigurationTarget()
             self.target = temp_model.from_map(map['Target'])
-        else:
-            self.target = None
         if map.get('Snapshot') is not None:
             temp_model = PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot()
             self.snapshot = temp_model.from_map(map['Snapshot'])
-        else:
-            self.snapshot = None
-        self.description = map.get('Description')
-        self.status = map.get('Status')
+        if map.get('Description') is not None:
+            self.description = map.get('Description')
+        if map.get('Status') is not None:
+            self.status = map.get('Status')
         return self
 
 
@@ -1899,16 +1945,12 @@ class PutLiveChannelRequestBody(TeaModel):
         result = {}
         if self.live_channel_configuration is not None:
             result['LiveChannelConfiguration'] = self.live_channel_configuration.to_map()
-        else:
-            result['LiveChannelConfiguration'] = None
         return result
 
     def from_map(self, map={}):
         if map.get('LiveChannelConfiguration') is not None:
             temp_model = PutLiveChannelRequestBodyLiveChannelConfiguration()
             self.live_channel_configuration = temp_model.from_map(map['LiveChannelConfiguration'])
-        else:
-            self.live_channel_configuration = None
         return self
 
 
@@ -1927,20 +1969,18 @@ class PutLiveChannelResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         if self.create_live_channel_result is not None:
             result['CreateLiveChannelResult'] = self.create_live_channel_result.to_map()
-        else:
-            result['CreateLiveChannelResult'] = None
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         if map.get('CreateLiveChannelResult') is not None:
             temp_model = PutLiveChannelResponseCreateLiveChannelResult()
             self.create_live_channel_result = temp_model.from_map(map['CreateLiveChannelResult'])
-        else:
-            self.create_live_channel_result = None
         return self
 
 
@@ -1954,11 +1994,13 @@ class PutLiveChannelResponseCreateLiveChannelResultPublishUrls(TeaModel):
 
     def to_map(self):
         result = {}
-        result['Url'] = self.url
+        if self.url is not None:
+            result['Url'] = self.url
         return result
 
     def from_map(self, map={}):
-        self.url = map.get('Url')
+        if map.get('Url') is not None:
+            self.url = map.get('Url')
         return self
 
 
@@ -1972,11 +2014,13 @@ class PutLiveChannelResponseCreateLiveChannelResultPlayUrls(TeaModel):
 
     def to_map(self):
         result = {}
-        result['Url'] = self.url
+        if self.url is not None:
+            result['Url'] = self.url
         return result
 
     def from_map(self, map={}):
-        self.url = map.get('Url')
+        if map.get('Url') is not None:
+            self.url = map.get('Url')
         return self
 
 
@@ -1999,25 +2043,17 @@ class PutLiveChannelResponseCreateLiveChannelResult(TeaModel):
         result = {}
         if self.publish_urls is not None:
             result['PublishUrls'] = self.publish_urls.to_map()
-        else:
-            result['PublishUrls'] = None
         if self.play_urls is not None:
             result['PlayUrls'] = self.play_urls.to_map()
-        else:
-            result['PlayUrls'] = None
         return result
 
     def from_map(self, map={}):
         if map.get('PublishUrls') is not None:
             temp_model = PutLiveChannelResponseCreateLiveChannelResultPublishUrls()
             self.publish_urls = temp_model.from_map(map['PublishUrls'])
-        else:
-            self.publish_urls = None
         if map.get('PlayUrls') is not None:
             temp_model = PutLiveChannelResponseCreateLiveChannelResultPlayUrls()
             self.play_urls = temp_model.from_map(map['PlayUrls'])
-        else:
-            self.play_urls = None
         return self
 
 
@@ -2037,20 +2073,18 @@ class PutBucketTagsRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
         if self.body is not None:
             result['Body'] = self.body.to_map()
-        else:
-            result['Body'] = None
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
         if map.get('Body') is not None:
             temp_model = PutBucketTagsRequestBody()
             self.body = temp_model.from_map(map['Body'])
-        else:
-            self.body = None
         return self
 
 
@@ -2066,13 +2100,17 @@ class PutBucketTagsRequestBodyTaggingTagSetTag(TeaModel):
 
     def to_map(self):
         result = {}
-        result['Key'] = self.key
-        result['Value'] = self.value
+        if self.key is not None:
+            result['Key'] = self.key
+        if self.value is not None:
+            result['Value'] = self.value
         return result
 
     def from_map(self, map={}):
-        self.key = map.get('Key')
-        self.value = map.get('Value')
+        if map.get('Key') is not None:
+            self.key = map.get('Key')
+        if map.get('Value') is not None:
+            self.value = map.get('Value')
         return self
 
 
@@ -2093,8 +2131,6 @@ class PutBucketTagsRequestBodyTaggingTagSet(TeaModel):
         if self.tag is not None:
             for k in self.tag:
                 result['Tag'].append(k.to_map() if k else None)
-        else:
-            result['Tag'] = None
         return result
 
     def from_map(self, map={}):
@@ -2103,8 +2139,6 @@ class PutBucketTagsRequestBodyTaggingTagSet(TeaModel):
             for k in map.get('Tag'):
                 temp_model = PutBucketTagsRequestBodyTaggingTagSetTag()
                 self.tag.append(temp_model.from_map(k))
-        else:
-            self.tag = None
         return self
 
 
@@ -2121,16 +2155,12 @@ class PutBucketTagsRequestBodyTagging(TeaModel):
         result = {}
         if self.tag_set is not None:
             result['TagSet'] = self.tag_set.to_map()
-        else:
-            result['TagSet'] = None
         return result
 
     def from_map(self, map={}):
         if map.get('TagSet') is not None:
             temp_model = PutBucketTagsRequestBodyTaggingTagSet()
             self.tag_set = temp_model.from_map(map['TagSet'])
-        else:
-            self.tag_set = None
         return self
 
 
@@ -2148,16 +2178,12 @@ class PutBucketTagsRequestBody(TeaModel):
         result = {}
         if self.tagging is not None:
             result['Tagging'] = self.tagging.to_map()
-        else:
-            result['Tagging'] = None
         return result
 
     def from_map(self, map={}):
         if map.get('Tagging') is not None:
             temp_model = PutBucketTagsRequestBodyTagging()
             self.tagging = temp_model.from_map(map['Tagging'])
-        else:
-            self.tagging = None
         return self
 
 
@@ -2171,11 +2197,13 @@ class PutBucketTagsResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         return self
 
 
@@ -2198,22 +2226,22 @@ class PutObjectTaggingRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
-        result['ObjectName'] = self.object_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
+        if self.object_name is not None:
+            result['ObjectName'] = self.object_name
         if self.body is not None:
             result['Body'] = self.body.to_map()
-        else:
-            result['Body'] = None
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
-        self.object_name = map.get('ObjectName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
+        if map.get('ObjectName') is not None:
+            self.object_name = map.get('ObjectName')
         if map.get('Body') is not None:
             temp_model = PutObjectTaggingRequestBody()
             self.body = temp_model.from_map(map['Body'])
-        else:
-            self.body = None
         return self
 
 
@@ -2229,13 +2257,17 @@ class PutObjectTaggingRequestBodyTaggingTagSetTag(TeaModel):
 
     def to_map(self):
         result = {}
-        result['Key'] = self.key
-        result['Value'] = self.value
+        if self.key is not None:
+            result['Key'] = self.key
+        if self.value is not None:
+            result['Value'] = self.value
         return result
 
     def from_map(self, map={}):
-        self.key = map.get('Key')
-        self.value = map.get('Value')
+        if map.get('Key') is not None:
+            self.key = map.get('Key')
+        if map.get('Value') is not None:
+            self.value = map.get('Value')
         return self
 
 
@@ -2256,8 +2288,6 @@ class PutObjectTaggingRequestBodyTaggingTagSet(TeaModel):
         if self.tag is not None:
             for k in self.tag:
                 result['Tag'].append(k.to_map() if k else None)
-        else:
-            result['Tag'] = None
         return result
 
     def from_map(self, map={}):
@@ -2266,8 +2296,6 @@ class PutObjectTaggingRequestBodyTaggingTagSet(TeaModel):
             for k in map.get('Tag'):
                 temp_model = PutObjectTaggingRequestBodyTaggingTagSetTag()
                 self.tag.append(temp_model.from_map(k))
-        else:
-            self.tag = None
         return self
 
 
@@ -2284,16 +2312,12 @@ class PutObjectTaggingRequestBodyTagging(TeaModel):
         result = {}
         if self.tag_set is not None:
             result['TagSet'] = self.tag_set.to_map()
-        else:
-            result['TagSet'] = None
         return result
 
     def from_map(self, map={}):
         if map.get('TagSet') is not None:
             temp_model = PutObjectTaggingRequestBodyTaggingTagSet()
             self.tag_set = temp_model.from_map(map['TagSet'])
-        else:
-            self.tag_set = None
         return self
 
 
@@ -2311,16 +2335,12 @@ class PutObjectTaggingRequestBody(TeaModel):
         result = {}
         if self.tagging is not None:
             result['Tagging'] = self.tagging.to_map()
-        else:
-            result['Tagging'] = None
         return result
 
     def from_map(self, map={}):
         if map.get('Tagging') is not None:
             temp_model = PutObjectTaggingRequestBodyTagging()
             self.tagging = temp_model.from_map(map['Tagging'])
-        else:
-            self.tagging = None
         return self
 
 
@@ -2334,11 +2354,13 @@ class PutObjectTaggingResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         return self
 
 
@@ -2366,31 +2388,27 @@ class SelectObjectRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
-        result['ObjectName'] = self.object_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
+        if self.object_name is not None:
+            result['ObjectName'] = self.object_name
         if self.filter is not None:
             result['Filter'] = self.filter.to_map()
-        else:
-            result['Filter'] = None
         if self.body is not None:
             result['Body'] = self.body.to_map()
-        else:
-            result['Body'] = None
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
-        self.object_name = map.get('ObjectName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
+        if map.get('ObjectName') is not None:
+            self.object_name = map.get('ObjectName')
         if map.get('Filter') is not None:
             temp_model = SelectObjectRequestFilter()
             self.filter = temp_model.from_map(map['Filter'])
-        else:
-            self.filter = None
         if map.get('Body') is not None:
             temp_model = SelectObjectRequestBody()
             self.body = temp_model.from_map(map['Body'])
-        else:
-            self.body = None
         return self
 
 
@@ -2404,11 +2422,13 @@ class SelectObjectRequestFilter(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-process'] = self.porcess
+        if self.porcess is not None:
+            result['x-oss-process'] = self.porcess
         return result
 
     def from_map(self, map={}):
-        self.porcess = map.get('x-oss-process')
+        if map.get('x-oss-process') is not None:
+            self.porcess = map.get('x-oss-process')
         return self
 
 
@@ -2433,21 +2453,33 @@ class SelectObjectRequestBodySelectRequestInputSerializationCSV(TeaModel):
 
     def to_map(self):
         result = {}
-        result['FileHeaderInfo'] = self.file_header_info
-        result['RecordDelimiter'] = self.record_delimiter
-        result['FieldDelimiter'] = self.field_delimiter
-        result['QuoteCharacter'] = self.quote_character
-        result['CommentCharacter'] = self.comment_character
-        result['Range'] = self.range
+        if self.file_header_info is not None:
+            result['FileHeaderInfo'] = self.file_header_info
+        if self.record_delimiter is not None:
+            result['RecordDelimiter'] = self.record_delimiter
+        if self.field_delimiter is not None:
+            result['FieldDelimiter'] = self.field_delimiter
+        if self.quote_character is not None:
+            result['QuoteCharacter'] = self.quote_character
+        if self.comment_character is not None:
+            result['CommentCharacter'] = self.comment_character
+        if self.range is not None:
+            result['Range'] = self.range
         return result
 
     def from_map(self, map={}):
-        self.file_header_info = map.get('FileHeaderInfo')
-        self.record_delimiter = map.get('RecordDelimiter')
-        self.field_delimiter = map.get('FieldDelimiter')
-        self.quote_character = map.get('QuoteCharacter')
-        self.comment_character = map.get('CommentCharacter')
-        self.range = map.get('Range')
+        if map.get('FileHeaderInfo') is not None:
+            self.file_header_info = map.get('FileHeaderInfo')
+        if map.get('RecordDelimiter') is not None:
+            self.record_delimiter = map.get('RecordDelimiter')
+        if map.get('FieldDelimiter') is not None:
+            self.field_delimiter = map.get('FieldDelimiter')
+        if map.get('QuoteCharacter') is not None:
+            self.quote_character = map.get('QuoteCharacter')
+        if map.get('CommentCharacter') is not None:
+            self.comment_character = map.get('CommentCharacter')
+        if map.get('Range') is not None:
+            self.range = map.get('Range')
         return self
 
 
@@ -2466,18 +2498,16 @@ class SelectObjectRequestBodySelectRequestInputSerialization(TeaModel):
         result = {}
         if self.c_sv is not None:
             result['CSV'] = self.c_sv.to_map()
-        else:
-            result['CSV'] = None
-        result['CompressionType'] = self.compression_type
+        if self.compression_type is not None:
+            result['CompressionType'] = self.compression_type
         return result
 
     def from_map(self, map={}):
         if map.get('CSV') is not None:
             temp_model = SelectObjectRequestBodySelectRequestInputSerializationCSV()
             self.c_sv = temp_model.from_map(map['CSV'])
-        else:
-            self.c_sv = None
-        self.compression_type = map.get('CompressionType')
+        if map.get('CompressionType') is not None:
+            self.compression_type = map.get('CompressionType')
         return self
 
 
@@ -2493,13 +2523,17 @@ class SelectObjectRequestBodySelectRequestOutputSerializationCSV(TeaModel):
 
     def to_map(self):
         result = {}
-        result['RecordDelimiter'] = self.record_delimiter
-        result['FieldDelimiter'] = self.field_delimiter
+        if self.record_delimiter is not None:
+            result['RecordDelimiter'] = self.record_delimiter
+        if self.field_delimiter is not None:
+            result['FieldDelimiter'] = self.field_delimiter
         return result
 
     def from_map(self, map={}):
-        self.record_delimiter = map.get('RecordDelimiter')
-        self.field_delimiter = map.get('FieldDelimiter')
+        if map.get('RecordDelimiter') is not None:
+            self.record_delimiter = map.get('RecordDelimiter')
+        if map.get('FieldDelimiter') is not None:
+            self.field_delimiter = map.get('FieldDelimiter')
         return self
 
 
@@ -2525,24 +2559,28 @@ class SelectObjectRequestBodySelectRequestOutputSerialization(TeaModel):
         result = {}
         if self.c_sv is not None:
             result['CSV'] = self.c_sv.to_map()
-        else:
-            result['CSV'] = None
-        result['KeepAllColumns'] = self.keep_all_columns
-        result['OutputRawData'] = self.output_raw_data
-        result['EnablePayloadCrc'] = self.enable_payload_crc
-        result['OutputHeader'] = self.output_header
+        if self.keep_all_columns is not None:
+            result['KeepAllColumns'] = self.keep_all_columns
+        if self.output_raw_data is not None:
+            result['OutputRawData'] = self.output_raw_data
+        if self.enable_payload_crc is not None:
+            result['EnablePayloadCrc'] = self.enable_payload_crc
+        if self.output_header is not None:
+            result['OutputHeader'] = self.output_header
         return result
 
     def from_map(self, map={}):
         if map.get('CSV') is not None:
             temp_model = SelectObjectRequestBodySelectRequestOutputSerializationCSV()
             self.c_sv = temp_model.from_map(map['CSV'])
-        else:
-            self.c_sv = None
-        self.keep_all_columns = map.get('KeepAllColumns')
-        self.output_raw_data = map.get('OutputRawData')
-        self.enable_payload_crc = map.get('EnablePayloadCrc')
-        self.output_header = map.get('OutputHeader')
+        if map.get('KeepAllColumns') is not None:
+            self.keep_all_columns = map.get('KeepAllColumns')
+        if map.get('OutputRawData') is not None:
+            self.output_raw_data = map.get('OutputRawData')
+        if map.get('EnablePayloadCrc') is not None:
+            self.enable_payload_crc = map.get('EnablePayloadCrc')
+        if map.get('OutputHeader') is not None:
+            self.output_header = map.get('OutputHeader')
         return self
 
 
@@ -2558,13 +2596,17 @@ class SelectObjectRequestBodySelectRequestOptions(TeaModel):
 
     def to_map(self):
         result = {}
-        result['SkipPartialDataRecord'] = self.skip_partial_data_record
-        result['MaxSkippedRecordsAllowed'] = self.max_skipped_records_allowed
+        if self.skip_partial_data_record is not None:
+            result['SkipPartialDataRecord'] = self.skip_partial_data_record
+        if self.max_skipped_records_allowed is not None:
+            result['MaxSkippedRecordsAllowed'] = self.max_skipped_records_allowed
         return result
 
     def from_map(self, map={}):
-        self.skip_partial_data_record = map.get('SkipPartialDataRecord')
-        self.max_skipped_records_allowed = map.get('MaxSkippedRecordsAllowed')
+        if map.get('SkipPartialDataRecord') is not None:
+            self.skip_partial_data_record = map.get('SkipPartialDataRecord')
+        if map.get('MaxSkippedRecordsAllowed') is not None:
+            self.max_skipped_records_allowed = map.get('MaxSkippedRecordsAllowed')
         return self
 
 
@@ -2591,36 +2633,26 @@ class SelectObjectRequestBodySelectRequest(TeaModel):
         result = {}
         if self.input_serialization is not None:
             result['InputSerialization'] = self.input_serialization.to_map()
-        else:
-            result['InputSerialization'] = None
         if self.output_serialization is not None:
             result['OutputSerialization'] = self.output_serialization.to_map()
-        else:
-            result['OutputSerialization'] = None
         if self.options is not None:
             result['Options'] = self.options.to_map()
-        else:
-            result['Options'] = None
-        result['Expression'] = self.expression
+        if self.expression is not None:
+            result['Expression'] = self.expression
         return result
 
     def from_map(self, map={}):
         if map.get('InputSerialization') is not None:
             temp_model = SelectObjectRequestBodySelectRequestInputSerialization()
             self.input_serialization = temp_model.from_map(map['InputSerialization'])
-        else:
-            self.input_serialization = None
         if map.get('OutputSerialization') is not None:
             temp_model = SelectObjectRequestBodySelectRequestOutputSerialization()
             self.output_serialization = temp_model.from_map(map['OutputSerialization'])
-        else:
-            self.output_serialization = None
         if map.get('Options') is not None:
             temp_model = SelectObjectRequestBodySelectRequestOptions()
             self.options = temp_model.from_map(map['Options'])
-        else:
-            self.options = None
-        self.expression = map.get('Expression')
+        if map.get('Expression') is not None:
+            self.expression = map.get('Expression')
         return self
 
 
@@ -2638,16 +2670,12 @@ class SelectObjectRequestBody(TeaModel):
         result = {}
         if self.select_request is not None:
             result['SelectRequest'] = self.select_request.to_map()
-        else:
-            result['SelectRequest'] = None
         return result
 
     def from_map(self, map={}):
         if map.get('SelectRequest') is not None:
             temp_model = SelectObjectRequestBodySelectRequest()
             self.select_request = temp_model.from_map(map['SelectRequest'])
-        else:
-            self.select_request = None
         return self
 
 
@@ -2661,11 +2689,13 @@ class SelectObjectResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         return self
 
 
@@ -2685,20 +2715,18 @@ class PutBucketCORSRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
         if self.body is not None:
             result['Body'] = self.body.to_map()
-        else:
-            result['Body'] = None
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
         if map.get('Body') is not None:
             temp_model = PutBucketCORSRequestBody()
             self.body = temp_model.from_map(map['Body'])
-        else:
-            self.body = None
         return self
 
 
@@ -2721,19 +2749,29 @@ class PutBucketCORSRequestBodyCORSConfigurationCORSRule(TeaModel):
 
     def to_map(self):
         result = {}
-        result['AllowedOrigin'] = self.allowed_origin
-        result['AllowedMethod'] = self.allowed_method
-        result['AllowedHeader'] = self.allowed_header
-        result['ExposeHeader'] = self.expose_header
-        result['MaxAgeSeconds'] = self.max_age_seconds
+        if self.allowed_origin is not None:
+            result['AllowedOrigin'] = self.allowed_origin
+        if self.allowed_method is not None:
+            result['AllowedMethod'] = self.allowed_method
+        if self.allowed_header is not None:
+            result['AllowedHeader'] = self.allowed_header
+        if self.expose_header is not None:
+            result['ExposeHeader'] = self.expose_header
+        if self.max_age_seconds is not None:
+            result['MaxAgeSeconds'] = self.max_age_seconds
         return result
 
     def from_map(self, map={}):
-        self.allowed_origin = map.get('AllowedOrigin')
-        self.allowed_method = map.get('AllowedMethod')
-        self.allowed_header = map.get('AllowedHeader')
-        self.expose_header = map.get('ExposeHeader')
-        self.max_age_seconds = map.get('MaxAgeSeconds')
+        if map.get('AllowedOrigin') is not None:
+            self.allowed_origin = map.get('AllowedOrigin')
+        if map.get('AllowedMethod') is not None:
+            self.allowed_method = map.get('AllowedMethod')
+        if map.get('AllowedHeader') is not None:
+            self.allowed_header = map.get('AllowedHeader')
+        if map.get('ExposeHeader') is not None:
+            self.expose_header = map.get('ExposeHeader')
+        if map.get('MaxAgeSeconds') is not None:
+            self.max_age_seconds = map.get('MaxAgeSeconds')
         return self
 
 
@@ -2754,8 +2792,6 @@ class PutBucketCORSRequestBodyCORSConfiguration(TeaModel):
         if self.c_orsrule is not None:
             for k in self.c_orsrule:
                 result['CORSRule'].append(k.to_map() if k else None)
-        else:
-            result['CORSRule'] = None
         return result
 
     def from_map(self, map={}):
@@ -2764,8 +2800,6 @@ class PutBucketCORSRequestBodyCORSConfiguration(TeaModel):
             for k in map.get('CORSRule'):
                 temp_model = PutBucketCORSRequestBodyCORSConfigurationCORSRule()
                 self.c_orsrule.append(temp_model.from_map(k))
-        else:
-            self.c_orsrule = None
         return self
 
 
@@ -2783,16 +2817,12 @@ class PutBucketCORSRequestBody(TeaModel):
         result = {}
         if self.c_orsconfiguration is not None:
             result['CORSConfiguration'] = self.c_orsconfiguration.to_map()
-        else:
-            result['CORSConfiguration'] = None
         return result
 
     def from_map(self, map={}):
         if map.get('CORSConfiguration') is not None:
             temp_model = PutBucketCORSRequestBodyCORSConfiguration()
             self.c_orsconfiguration = temp_model.from_map(map['CORSConfiguration'])
-        else:
-            self.c_orsconfiguration = None
         return self
 
 
@@ -2806,11 +2836,13 @@ class PutBucketCORSResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         return self
 
 
@@ -2834,29 +2866,23 @@ class PutBucketRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
         if self.body is not None:
             result['Body'] = self.body.to_map()
-        else:
-            result['Body'] = None
         if self.header is not None:
             result['Header'] = self.header.to_map()
-        else:
-            result['Header'] = None
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
         if map.get('Body') is not None:
             temp_model = PutBucketRequestBody()
             self.body = temp_model.from_map(map['Body'])
-        else:
-            self.body = None
         if map.get('Header') is not None:
             temp_model = PutBucketRequestHeader()
             self.header = temp_model.from_map(map['Header'])
-        else:
-            self.header = None
         return self
 
 
@@ -2872,13 +2898,17 @@ class PutBucketRequestBodyCreateBucketConfiguration(TeaModel):
 
     def to_map(self):
         result = {}
-        result['StorageClass'] = self.storage_class
-        result['DataRedundancyType'] = self.data_redundancy_type
+        if self.storage_class is not None:
+            result['StorageClass'] = self.storage_class
+        if self.data_redundancy_type is not None:
+            result['DataRedundancyType'] = self.data_redundancy_type
         return result
 
     def from_map(self, map={}):
-        self.storage_class = map.get('StorageClass')
-        self.data_redundancy_type = map.get('DataRedundancyType')
+        if map.get('StorageClass') is not None:
+            self.storage_class = map.get('StorageClass')
+        if map.get('DataRedundancyType') is not None:
+            self.data_redundancy_type = map.get('DataRedundancyType')
         return self
 
 
@@ -2896,16 +2926,12 @@ class PutBucketRequestBody(TeaModel):
         result = {}
         if self.create_bucket_configuration is not None:
             result['CreateBucketConfiguration'] = self.create_bucket_configuration.to_map()
-        else:
-            result['CreateBucketConfiguration'] = None
         return result
 
     def from_map(self, map={}):
         if map.get('CreateBucketConfiguration') is not None:
             temp_model = PutBucketRequestBodyCreateBucketConfiguration()
             self.create_bucket_configuration = temp_model.from_map(map['CreateBucketConfiguration'])
-        else:
-            self.create_bucket_configuration = None
         return self
 
 
@@ -2919,11 +2945,13 @@ class PutBucketRequestHeader(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-acl'] = self.acl
+        if self.acl is not None:
+            result['x-oss-acl'] = self.acl
         return result
 
     def from_map(self, map={}):
-        self.acl = map.get('x-oss-acl')
+        if map.get('x-oss-acl') is not None:
+            self.acl = map.get('x-oss-acl')
         return self
 
 
@@ -2937,11 +2965,13 @@ class PutBucketResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         return self
 
 
@@ -2961,20 +2991,18 @@ class ListMultipartUploadsRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
         if self.filter is not None:
             result['Filter'] = self.filter.to_map()
-        else:
-            result['Filter'] = None
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
         if map.get('Filter') is not None:
             temp_model = ListMultipartUploadsRequestFilter()
             self.filter = temp_model.from_map(map['Filter'])
-        else:
-            self.filter = None
         return self
 
 
@@ -2999,21 +3027,33 @@ class ListMultipartUploadsRequestFilter(TeaModel):
 
     def to_map(self):
         result = {}
-        result['delimiter'] = self.delimiter
-        result['max-uploads'] = self.max_uploads
-        result['key-marker'] = self.key_marker
-        result['prefix'] = self.prefix
-        result['upload-id-marker'] = self.upload_id_marker
-        result['encoding-type'] = self.encoding_type
+        if self.delimiter is not None:
+            result['delimiter'] = self.delimiter
+        if self.max_uploads is not None:
+            result['max-uploads'] = self.max_uploads
+        if self.key_marker is not None:
+            result['key-marker'] = self.key_marker
+        if self.prefix is not None:
+            result['prefix'] = self.prefix
+        if self.upload_id_marker is not None:
+            result['upload-id-marker'] = self.upload_id_marker
+        if self.encoding_type is not None:
+            result['encoding-type'] = self.encoding_type
         return result
 
     def from_map(self, map={}):
-        self.delimiter = map.get('delimiter')
-        self.max_uploads = map.get('max-uploads')
-        self.key_marker = map.get('key-marker')
-        self.prefix = map.get('prefix')
-        self.upload_id_marker = map.get('upload-id-marker')
-        self.encoding_type = map.get('encoding-type')
+        if map.get('delimiter') is not None:
+            self.delimiter = map.get('delimiter')
+        if map.get('max-uploads') is not None:
+            self.max_uploads = map.get('max-uploads')
+        if map.get('key-marker') is not None:
+            self.key_marker = map.get('key-marker')
+        if map.get('prefix') is not None:
+            self.prefix = map.get('prefix')
+        if map.get('upload-id-marker') is not None:
+            self.upload_id_marker = map.get('upload-id-marker')
+        if map.get('encoding-type') is not None:
+            self.encoding_type = map.get('encoding-type')
         return self
 
 
@@ -3032,20 +3072,18 @@ class ListMultipartUploadsResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         if self.list_multipart_uploads_result is not None:
             result['ListMultipartUploadsResult'] = self.list_multipart_uploads_result.to_map()
-        else:
-            result['ListMultipartUploadsResult'] = None
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         if map.get('ListMultipartUploadsResult') is not None:
             temp_model = ListMultipartUploadsResponseListMultipartUploadsResult()
             self.list_multipart_uploads_result = temp_model.from_map(map['ListMultipartUploadsResult'])
-        else:
-            self.list_multipart_uploads_result = None
         return self
 
 
@@ -3063,15 +3101,21 @@ class ListMultipartUploadsResponseListMultipartUploadsResultUpload(TeaModel):
 
     def to_map(self):
         result = {}
-        result['Key'] = self.key
-        result['UploadId'] = self.upload_id
-        result['Initiated'] = self.initiated
+        if self.key is not None:
+            result['Key'] = self.key
+        if self.upload_id is not None:
+            result['UploadId'] = self.upload_id
+        if self.initiated is not None:
+            result['Initiated'] = self.initiated
         return result
 
     def from_map(self, map={}):
-        self.key = map.get('Key')
-        self.upload_id = map.get('UploadId')
-        self.initiated = map.get('Initiated')
+        if map.get('Key') is not None:
+            self.key = map.get('Key')
+        if map.get('UploadId') is not None:
+            self.upload_id = map.get('UploadId')
+        if map.get('Initiated') is not None:
+            self.initiated = map.get('Initiated')
         return self
 
 
@@ -3107,40 +3151,54 @@ class ListMultipartUploadsResponseListMultipartUploadsResult(TeaModel):
 
     def to_map(self):
         result = {}
-        result['Bucket'] = self.bucket
-        result['EncodingType'] = self.encoding_type
-        result['KeyMarker'] = self.key_marker
-        result['UploadIdMarker'] = self.upload_id_marker
-        result['NextKeyMarker'] = self.next_key_marker
-        result['NextUploadIdMarker'] = self.next_upload_id_marker
-        result['Delimiter'] = self.delimiter
-        result['MaxUploads'] = self.max_uploads
-        result['IsTruncated'] = self.is_truncated
+        if self.bucket is not None:
+            result['Bucket'] = self.bucket
+        if self.encoding_type is not None:
+            result['EncodingType'] = self.encoding_type
+        if self.key_marker is not None:
+            result['KeyMarker'] = self.key_marker
+        if self.upload_id_marker is not None:
+            result['UploadIdMarker'] = self.upload_id_marker
+        if self.next_key_marker is not None:
+            result['NextKeyMarker'] = self.next_key_marker
+        if self.next_upload_id_marker is not None:
+            result['NextUploadIdMarker'] = self.next_upload_id_marker
+        if self.delimiter is not None:
+            result['Delimiter'] = self.delimiter
+        if self.max_uploads is not None:
+            result['MaxUploads'] = self.max_uploads
+        if self.is_truncated is not None:
+            result['IsTruncated'] = self.is_truncated
         result['Upload'] = []
         if self.upload is not None:
             for k in self.upload:
                 result['Upload'].append(k.to_map() if k else None)
-        else:
-            result['Upload'] = None
         return result
 
     def from_map(self, map={}):
-        self.bucket = map.get('Bucket')
-        self.encoding_type = map.get('EncodingType')
-        self.key_marker = map.get('KeyMarker')
-        self.upload_id_marker = map.get('UploadIdMarker')
-        self.next_key_marker = map.get('NextKeyMarker')
-        self.next_upload_id_marker = map.get('NextUploadIdMarker')
-        self.delimiter = map.get('Delimiter')
-        self.max_uploads = map.get('MaxUploads')
-        self.is_truncated = map.get('IsTruncated')
+        if map.get('Bucket') is not None:
+            self.bucket = map.get('Bucket')
+        if map.get('EncodingType') is not None:
+            self.encoding_type = map.get('EncodingType')
+        if map.get('KeyMarker') is not None:
+            self.key_marker = map.get('KeyMarker')
+        if map.get('UploadIdMarker') is not None:
+            self.upload_id_marker = map.get('UploadIdMarker')
+        if map.get('NextKeyMarker') is not None:
+            self.next_key_marker = map.get('NextKeyMarker')
+        if map.get('NextUploadIdMarker') is not None:
+            self.next_upload_id_marker = map.get('NextUploadIdMarker')
+        if map.get('Delimiter') is not None:
+            self.delimiter = map.get('Delimiter')
+        if map.get('MaxUploads') is not None:
+            self.max_uploads = map.get('MaxUploads')
+        if map.get('IsTruncated') is not None:
+            self.is_truncated = map.get('IsTruncated')
         self.upload = []
         if map.get('Upload') is not None:
             for k in map.get('Upload'):
                 temp_model = ListMultipartUploadsResponseListMultipartUploadsResultUpload()
                 self.upload.append(temp_model.from_map(k))
-        else:
-            self.upload = None
         return self
 
 
@@ -3156,11 +3214,13 @@ class GetBucketRequestPaymentRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
         return self
 
 
@@ -3179,20 +3239,18 @@ class GetBucketRequestPaymentResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         if self.request_payment_configuration is not None:
             result['RequestPaymentConfiguration'] = self.request_payment_configuration.to_map()
-        else:
-            result['RequestPaymentConfiguration'] = None
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         if map.get('RequestPaymentConfiguration') is not None:
             temp_model = GetBucketRequestPaymentResponseRequestPaymentConfiguration()
             self.request_payment_configuration = temp_model.from_map(map['RequestPaymentConfiguration'])
-        else:
-            self.request_payment_configuration = None
         return self
 
 
@@ -3206,11 +3264,13 @@ class GetBucketRequestPaymentResponseRequestPaymentConfiguration(TeaModel):
 
     def to_map(self):
         result = {}
-        result['Payer'] = self.payer
+        if self.payer is not None:
+            result['Payer'] = self.payer
         return result
 
     def from_map(self, map={}):
-        self.payer = map.get('Payer')
+        if map.get('Payer') is not None:
+            self.payer = map.get('Payer')
         return self
 
 
@@ -3226,11 +3286,13 @@ class GetBucketEncryptionRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
         return self
 
 
@@ -3249,20 +3311,18 @@ class GetBucketEncryptionResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         if self.server_side_encryption_rule is not None:
             result['ServerSideEncryptionRule'] = self.server_side_encryption_rule.to_map()
-        else:
-            result['ServerSideEncryptionRule'] = None
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         if map.get('ServerSideEncryptionRule') is not None:
             temp_model = GetBucketEncryptionResponseServerSideEncryptionRule()
             self.server_side_encryption_rule = temp_model.from_map(map['ServerSideEncryptionRule'])
-        else:
-            self.server_side_encryption_rule = None
         return self
 
 
@@ -3278,13 +3338,17 @@ class GetBucketEncryptionResponseServerSideEncryptionRuleApplyServerSideEncrypti
 
     def to_map(self):
         result = {}
-        result['SSEAlgorithm'] = self.s_sealgorithm
-        result['KMSMasterKeyID'] = self.k_msmaster_key_id
+        if self.s_sealgorithm is not None:
+            result['SSEAlgorithm'] = self.s_sealgorithm
+        if self.k_msmaster_key_id is not None:
+            result['KMSMasterKeyID'] = self.k_msmaster_key_id
         return result
 
     def from_map(self, map={}):
-        self.s_sealgorithm = map.get('SSEAlgorithm')
-        self.k_msmaster_key_id = map.get('KMSMasterKeyID')
+        if map.get('SSEAlgorithm') is not None:
+            self.s_sealgorithm = map.get('SSEAlgorithm')
+        if map.get('KMSMasterKeyID') is not None:
+            self.k_msmaster_key_id = map.get('KMSMasterKeyID')
         return self
 
 
@@ -3302,16 +3366,12 @@ class GetBucketEncryptionResponseServerSideEncryptionRule(TeaModel):
         result = {}
         if self.apply_server_side_encryption_by_default is not None:
             result['ApplyServerSideEncryptionByDefault'] = self.apply_server_side_encryption_by_default.to_map()
-        else:
-            result['ApplyServerSideEncryptionByDefault'] = None
         return result
 
     def from_map(self, map={}):
         if map.get('ApplyServerSideEncryptionByDefault') is not None:
             temp_model = GetBucketEncryptionResponseServerSideEncryptionRuleApplyServerSideEncryptionByDefault()
             self.apply_server_side_encryption_by_default = temp_model.from_map(map['ApplyServerSideEncryptionByDefault'])
-        else:
-            self.apply_server_side_encryption_by_default = None
         return self
 
 
@@ -3327,11 +3387,13 @@ class GetBucketTagsRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
         return self
 
 
@@ -3350,20 +3412,18 @@ class GetBucketTagsResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         if self.tagging is not None:
             result['Tagging'] = self.tagging.to_map()
-        else:
-            result['Tagging'] = None
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         if map.get('Tagging') is not None:
             temp_model = GetBucketTagsResponseTagging()
             self.tagging = temp_model.from_map(map['Tagging'])
-        else:
-            self.tagging = None
         return self
 
 
@@ -3379,13 +3439,17 @@ class GetBucketTagsResponseTaggingTagSetTag(TeaModel):
 
     def to_map(self):
         result = {}
-        result['Key'] = self.key
-        result['Value'] = self.value
+        if self.key is not None:
+            result['Key'] = self.key
+        if self.value is not None:
+            result['Value'] = self.value
         return result
 
     def from_map(self, map={}):
-        self.key = map.get('Key')
-        self.value = map.get('Value')
+        if map.get('Key') is not None:
+            self.key = map.get('Key')
+        if map.get('Value') is not None:
+            self.value = map.get('Value')
         return self
 
 
@@ -3406,8 +3470,6 @@ class GetBucketTagsResponseTaggingTagSet(TeaModel):
         if self.tag is not None:
             for k in self.tag:
                 result['Tag'].append(k.to_map() if k else None)
-        else:
-            result['Tag'] = None
         return result
 
     def from_map(self, map={}):
@@ -3416,8 +3478,6 @@ class GetBucketTagsResponseTaggingTagSet(TeaModel):
             for k in map.get('Tag'):
                 temp_model = GetBucketTagsResponseTaggingTagSetTag()
                 self.tag.append(temp_model.from_map(k))
-        else:
-            self.tag = None
         return self
 
 
@@ -3435,16 +3495,12 @@ class GetBucketTagsResponseTagging(TeaModel):
         result = {}
         if self.tag_set is not None:
             result['TagSet'] = self.tag_set.to_map()
-        else:
-            result['TagSet'] = None
         return result
 
     def from_map(self, map={}):
         if map.get('TagSet') is not None:
             temp_model = GetBucketTagsResponseTaggingTagSet()
             self.tag_set = temp_model.from_map(map['TagSet'])
-        else:
-            self.tag_set = None
         return self
 
 
@@ -3461,16 +3517,12 @@ class GetServiceRequest(TeaModel):
         result = {}
         if self.filter is not None:
             result['Filter'] = self.filter.to_map()
-        else:
-            result['Filter'] = None
         return result
 
     def from_map(self, map={}):
         if map.get('Filter') is not None:
             temp_model = GetServiceRequestFilter()
             self.filter = temp_model.from_map(map['Filter'])
-        else:
-            self.filter = None
         return self
 
 
@@ -3488,15 +3540,21 @@ class GetServiceRequestFilter(TeaModel):
 
     def to_map(self):
         result = {}
-        result['prefix'] = self.prefix
-        result['marker'] = self.marker
-        result['max-keys'] = self.max_keys
+        if self.prefix is not None:
+            result['prefix'] = self.prefix
+        if self.marker is not None:
+            result['marker'] = self.marker
+        if self.max_keys is not None:
+            result['max-keys'] = self.max_keys
         return result
 
     def from_map(self, map={}):
-        self.prefix = map.get('prefix')
-        self.marker = map.get('marker')
-        self.max_keys = map.get('max-keys')
+        if map.get('prefix') is not None:
+            self.prefix = map.get('prefix')
+        if map.get('marker') is not None:
+            self.marker = map.get('marker')
+        if map.get('max-keys') is not None:
+            self.max_keys = map.get('max-keys')
         return self
 
 
@@ -3515,20 +3573,18 @@ class GetServiceResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         if self.list_all_my_buckets_result is not None:
             result['ListAllMyBucketsResult'] = self.list_all_my_buckets_result.to_map()
-        else:
-            result['ListAllMyBucketsResult'] = None
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         if map.get('ListAllMyBucketsResult') is not None:
             temp_model = GetServiceResponseListAllMyBucketsResult()
             self.list_all_my_buckets_result = temp_model.from_map(map['ListAllMyBucketsResult'])
-        else:
-            self.list_all_my_buckets_result = None
         return self
 
 
@@ -3544,13 +3600,17 @@ class GetServiceResponseListAllMyBucketsResultOwner(TeaModel):
 
     def to_map(self):
         result = {}
-        result['ID'] = self.i_d
-        result['DisplayName'] = self.display_name
+        if self.i_d is not None:
+            result['ID'] = self.i_d
+        if self.display_name is not None:
+            result['DisplayName'] = self.display_name
         return result
 
     def from_map(self, map={}):
-        self.i_d = map.get('ID')
-        self.display_name = map.get('DisplayName')
+        if map.get('ID') is not None:
+            self.i_d = map.get('ID')
+        if map.get('DisplayName') is not None:
+            self.display_name = map.get('DisplayName')
         return self
 
 
@@ -3575,21 +3635,33 @@ class GetServiceResponseListAllMyBucketsResultBucketsBucket(TeaModel):
 
     def to_map(self):
         result = {}
-        result['Name'] = self.name
-        result['CreateDate'] = self.create_date
-        result['Location'] = self.location
-        result['ExtranetEndpoint'] = self.extranet_endpoint
-        result['IntranetEndpoint'] = self.intranet_endpoint
-        result['StorageClass'] = self.storage_class
+        if self.name is not None:
+            result['Name'] = self.name
+        if self.create_date is not None:
+            result['CreateDate'] = self.create_date
+        if self.location is not None:
+            result['Location'] = self.location
+        if self.extranet_endpoint is not None:
+            result['ExtranetEndpoint'] = self.extranet_endpoint
+        if self.intranet_endpoint is not None:
+            result['IntranetEndpoint'] = self.intranet_endpoint
+        if self.storage_class is not None:
+            result['StorageClass'] = self.storage_class
         return result
 
     def from_map(self, map={}):
-        self.name = map.get('Name')
-        self.create_date = map.get('CreateDate')
-        self.location = map.get('Location')
-        self.extranet_endpoint = map.get('ExtranetEndpoint')
-        self.intranet_endpoint = map.get('IntranetEndpoint')
-        self.storage_class = map.get('StorageClass')
+        if map.get('Name') is not None:
+            self.name = map.get('Name')
+        if map.get('CreateDate') is not None:
+            self.create_date = map.get('CreateDate')
+        if map.get('Location') is not None:
+            self.location = map.get('Location')
+        if map.get('ExtranetEndpoint') is not None:
+            self.extranet_endpoint = map.get('ExtranetEndpoint')
+        if map.get('IntranetEndpoint') is not None:
+            self.intranet_endpoint = map.get('IntranetEndpoint')
+        if map.get('StorageClass') is not None:
+            self.storage_class = map.get('StorageClass')
         return self
 
 
@@ -3610,8 +3682,6 @@ class GetServiceResponseListAllMyBucketsResultBuckets(TeaModel):
         if self.bucket is not None:
             for k in self.bucket:
                 result['Bucket'].append(k.to_map() if k else None)
-        else:
-            result['Bucket'] = None
         return result
 
     def from_map(self, map={}):
@@ -3620,8 +3690,6 @@ class GetServiceResponseListAllMyBucketsResultBuckets(TeaModel):
             for k in map.get('Bucket'):
                 temp_model = GetServiceResponseListAllMyBucketsResultBucketsBucket()
                 self.bucket.append(temp_model.from_map(k))
-        else:
-            self.bucket = None
         return self
 
 
@@ -3653,37 +3721,39 @@ class GetServiceResponseListAllMyBucketsResult(TeaModel):
 
     def to_map(self):
         result = {}
-        result['Prefix'] = self.prefix
-        result['Marker'] = self.marker
-        result['MaxKeys'] = self.max_keys
-        result['IsTruncated'] = self.is_truncated
-        result['NextMarker'] = self.next_marker
+        if self.prefix is not None:
+            result['Prefix'] = self.prefix
+        if self.marker is not None:
+            result['Marker'] = self.marker
+        if self.max_keys is not None:
+            result['MaxKeys'] = self.max_keys
+        if self.is_truncated is not None:
+            result['IsTruncated'] = self.is_truncated
+        if self.next_marker is not None:
+            result['NextMarker'] = self.next_marker
         if self.owner is not None:
             result['Owner'] = self.owner.to_map()
-        else:
-            result['Owner'] = None
         if self.buckets is not None:
             result['Buckets'] = self.buckets.to_map()
-        else:
-            result['Buckets'] = None
         return result
 
     def from_map(self, map={}):
-        self.prefix = map.get('Prefix')
-        self.marker = map.get('Marker')
-        self.max_keys = map.get('MaxKeys')
-        self.is_truncated = map.get('IsTruncated')
-        self.next_marker = map.get('NextMarker')
+        if map.get('Prefix') is not None:
+            self.prefix = map.get('Prefix')
+        if map.get('Marker') is not None:
+            self.marker = map.get('Marker')
+        if map.get('MaxKeys') is not None:
+            self.max_keys = map.get('MaxKeys')
+        if map.get('IsTruncated') is not None:
+            self.is_truncated = map.get('IsTruncated')
+        if map.get('NextMarker') is not None:
+            self.next_marker = map.get('NextMarker')
         if map.get('Owner') is not None:
             temp_model = GetServiceResponseListAllMyBucketsResultOwner()
             self.owner = temp_model.from_map(map['Owner'])
-        else:
-            self.owner = None
         if map.get('Buckets') is not None:
             temp_model = GetServiceResponseListAllMyBucketsResultBuckets()
             self.buckets = temp_model.from_map(map['Buckets'])
-        else:
-            self.buckets = None
         return self
 
 
@@ -3699,11 +3769,13 @@ class DeleteBucketEncryptionRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
         return self
 
 
@@ -3717,11 +3789,13 @@ class DeleteBucketEncryptionResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         return self
 
 
@@ -3742,20 +3816,18 @@ class DeleteBucketTagsRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
         if self.filter is not None:
             result['Filter'] = self.filter.to_map()
-        else:
-            result['Filter'] = None
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
         if map.get('Filter') is not None:
             temp_model = DeleteBucketTagsRequestFilter()
             self.filter = temp_model.from_map(map['Filter'])
-        else:
-            self.filter = None
         return self
 
 
@@ -3769,11 +3841,13 @@ class DeleteBucketTagsRequestFilter(TeaModel):
 
     def to_map(self):
         result = {}
-        result['tagging'] = self.tagging
+        if self.tagging is not None:
+            result['tagging'] = self.tagging
         return result
 
     def from_map(self, map={}):
-        self.tagging = map.get('tagging')
+        if map.get('tagging') is not None:
+            self.tagging = map.get('tagging')
         return self
 
 
@@ -3787,11 +3861,13 @@ class DeleteBucketTagsResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         return self
 
 
@@ -3807,11 +3883,13 @@ class GetBucketWebsiteRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
         return self
 
 
@@ -3830,20 +3908,18 @@ class GetBucketWebsiteResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         if self.website_configuration is not None:
             result['WebsiteConfiguration'] = self.website_configuration.to_map()
-        else:
-            result['WebsiteConfiguration'] = None
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         if map.get('WebsiteConfiguration') is not None:
             temp_model = GetBucketWebsiteResponseWebsiteConfiguration()
             self.website_configuration = temp_model.from_map(map['WebsiteConfiguration'])
-        else:
-            self.website_configuration = None
         return self
 
 
@@ -3857,11 +3933,13 @@ class GetBucketWebsiteResponseWebsiteConfigurationIndexDocument(TeaModel):
 
     def to_map(self):
         result = {}
-        result['Suffix'] = self.suffix
+        if self.suffix is not None:
+            result['Suffix'] = self.suffix
         return result
 
     def from_map(self, map={}):
-        self.suffix = map.get('Suffix')
+        if map.get('Suffix') is not None:
+            self.suffix = map.get('Suffix')
         return self
 
 
@@ -3875,11 +3953,13 @@ class GetBucketWebsiteResponseWebsiteConfigurationErrorDocument(TeaModel):
 
     def to_map(self):
         result = {}
-        result['Key'] = self.key
+        if self.key is not None:
+            result['Key'] = self.key
         return result
 
     def from_map(self, map={}):
-        self.key = map.get('Key')
+        if map.get('Key') is not None:
+            self.key = map.get('Key')
         return self
 
 
@@ -3895,13 +3975,17 @@ class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditi
 
     def to_map(self):
         result = {}
-        result['Key'] = self.key
-        result['Equals'] = self.equals
+        if self.key is not None:
+            result['Key'] = self.key
+        if self.equals is not None:
+            result['Equals'] = self.equals
         return result
 
     def from_map(self, map={}):
-        self.key = map.get('Key')
-        self.equals = map.get('Equals')
+        if map.get('Key') is not None:
+            self.key = map.get('Key')
+        if map.get('Equals') is not None:
+            self.equals = map.get('Equals')
         return self
 
 
@@ -3921,22 +4005,22 @@ class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditi
 
     def to_map(self):
         result = {}
-        result['KeyPrefixEquals'] = self.key_prefix_equals
-        result['HttpErrorCodeReturnedEquals'] = self.http_error_code_returned_equals
+        if self.key_prefix_equals is not None:
+            result['KeyPrefixEquals'] = self.key_prefix_equals
+        if self.http_error_code_returned_equals is not None:
+            result['HttpErrorCodeReturnedEquals'] = self.http_error_code_returned_equals
         if self.include_header is not None:
             result['IncludeHeader'] = self.include_header.to_map()
-        else:
-            result['IncludeHeader'] = None
         return result
 
     def from_map(self, map={}):
-        self.key_prefix_equals = map.get('KeyPrefixEquals')
-        self.http_error_code_returned_equals = map.get('HttpErrorCodeReturnedEquals')
+        if map.get('KeyPrefixEquals') is not None:
+            self.key_prefix_equals = map.get('KeyPrefixEquals')
+        if map.get('HttpErrorCodeReturnedEquals') is not None:
+            self.http_error_code_returned_equals = map.get('HttpErrorCodeReturnedEquals')
         if map.get('IncludeHeader') is not None:
             temp_model = GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader()
             self.include_header = temp_model.from_map(map['IncludeHeader'])
-        else:
-            self.include_header = None
         return self
 
 
@@ -3952,13 +4036,17 @@ class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirec
 
     def to_map(self):
         result = {}
-        result['Key'] = self.key
-        result['Value'] = self.value
+        if self.key is not None:
+            result['Key'] = self.key
+        if self.value is not None:
+            result['Value'] = self.value
         return result
 
     def from_map(self, map={}):
-        self.key = map.get('Key')
-        self.value = map.get('Value')
+        if map.get('Key') is not None:
+            self.key = map.get('Key')
+        if map.get('Value') is not None:
+            self.value = map.get('Value')
         return self
 
 
@@ -3980,24 +4068,26 @@ class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirec
 
     def to_map(self):
         result = {}
-        result['PassAll'] = self.pass_all
-        result['Pass'] = self.pass_
-        result['Remove'] = self.remove
+        if self.pass_all is not None:
+            result['PassAll'] = self.pass_all
+        if self.pass_ is not None:
+            result['Pass'] = self.pass_
+        if self.remove is not None:
+            result['Remove'] = self.remove
         if self.set is not None:
             result['Set'] = self.set.to_map()
-        else:
-            result['Set'] = None
         return result
 
     def from_map(self, map={}):
-        self.pass_all = map.get('PassAll')
-        self.pass_ = map.get('Pass')
-        self.remove = map.get('Remove')
+        if map.get('PassAll') is not None:
+            self.pass_all = map.get('PassAll')
+        if map.get('Pass') is not None:
+            self.pass_ = map.get('Pass')
+        if map.get('Remove') is not None:
+            self.remove = map.get('Remove')
         if map.get('Set') is not None:
             temp_model = GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet()
             self.set = temp_model.from_map(map['Set'])
-        else:
-            self.set = None
         return self
 
 
@@ -4037,40 +4127,58 @@ class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirec
 
     def to_map(self):
         result = {}
-        result['RedirectType'] = self.redirect_type
-        result['PassQueryString'] = self.pass_query_string
-        result['MirrorURL'] = self.mirror_url
-        result['MirrorPassQueryString'] = self.mirror_pass_query_string
-        result['MirrorFollowRedirect'] = self.mirror_follow_redirect
-        result['MirrorCheckMd5'] = self.mirror_check_md_5
-        result['Protocol'] = self.protocol
-        result['HostName'] = self.host_name
-        result['HttpRedirectCode'] = self.http_redirect_code
-        result['ReplaceKeyPrefixWith'] = self.replace_key_prefix_with
-        result['ReplaceKeyWith'] = self.replace_key_with
+        if self.redirect_type is not None:
+            result['RedirectType'] = self.redirect_type
+        if self.pass_query_string is not None:
+            result['PassQueryString'] = self.pass_query_string
+        if self.mirror_url is not None:
+            result['MirrorURL'] = self.mirror_url
+        if self.mirror_pass_query_string is not None:
+            result['MirrorPassQueryString'] = self.mirror_pass_query_string
+        if self.mirror_follow_redirect is not None:
+            result['MirrorFollowRedirect'] = self.mirror_follow_redirect
+        if self.mirror_check_md_5 is not None:
+            result['MirrorCheckMd5'] = self.mirror_check_md_5
+        if self.protocol is not None:
+            result['Protocol'] = self.protocol
+        if self.host_name is not None:
+            result['HostName'] = self.host_name
+        if self.http_redirect_code is not None:
+            result['HttpRedirectCode'] = self.http_redirect_code
+        if self.replace_key_prefix_with is not None:
+            result['ReplaceKeyPrefixWith'] = self.replace_key_prefix_with
+        if self.replace_key_with is not None:
+            result['ReplaceKeyWith'] = self.replace_key_with
         if self.mirror_headers is not None:
             result['MirrorHeaders'] = self.mirror_headers.to_map()
-        else:
-            result['MirrorHeaders'] = None
         return result
 
     def from_map(self, map={}):
-        self.redirect_type = map.get('RedirectType')
-        self.pass_query_string = map.get('PassQueryString')
-        self.mirror_url = map.get('MirrorURL')
-        self.mirror_pass_query_string = map.get('MirrorPassQueryString')
-        self.mirror_follow_redirect = map.get('MirrorFollowRedirect')
-        self.mirror_check_md_5 = map.get('MirrorCheckMd5')
-        self.protocol = map.get('Protocol')
-        self.host_name = map.get('HostName')
-        self.http_redirect_code = map.get('HttpRedirectCode')
-        self.replace_key_prefix_with = map.get('ReplaceKeyPrefixWith')
-        self.replace_key_with = map.get('ReplaceKeyWith')
+        if map.get('RedirectType') is not None:
+            self.redirect_type = map.get('RedirectType')
+        if map.get('PassQueryString') is not None:
+            self.pass_query_string = map.get('PassQueryString')
+        if map.get('MirrorURL') is not None:
+            self.mirror_url = map.get('MirrorURL')
+        if map.get('MirrorPassQueryString') is not None:
+            self.mirror_pass_query_string = map.get('MirrorPassQueryString')
+        if map.get('MirrorFollowRedirect') is not None:
+            self.mirror_follow_redirect = map.get('MirrorFollowRedirect')
+        if map.get('MirrorCheckMd5') is not None:
+            self.mirror_check_md_5 = map.get('MirrorCheckMd5')
+        if map.get('Protocol') is not None:
+            self.protocol = map.get('Protocol')
+        if map.get('HostName') is not None:
+            self.host_name = map.get('HostName')
+        if map.get('HttpRedirectCode') is not None:
+            self.http_redirect_code = map.get('HttpRedirectCode')
+        if map.get('ReplaceKeyPrefixWith') is not None:
+            self.replace_key_prefix_with = map.get('ReplaceKeyPrefixWith')
+        if map.get('ReplaceKeyWith') is not None:
+            self.replace_key_with = map.get('ReplaceKeyWith')
         if map.get('MirrorHeaders') is not None:
             temp_model = GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders()
             self.mirror_headers = temp_model.from_map(map['MirrorHeaders'])
-        else:
-            self.mirror_headers = None
         return self
 
 
@@ -4093,29 +4201,23 @@ class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule(TeaMod
 
     def to_map(self):
         result = {}
-        result['RuleNumber'] = self.rule_number
+        if self.rule_number is not None:
+            result['RuleNumber'] = self.rule_number
         if self.condition is not None:
             result['Condition'] = self.condition.to_map()
-        else:
-            result['Condition'] = None
         if self.redirect is not None:
             result['Redirect'] = self.redirect.to_map()
-        else:
-            result['Redirect'] = None
         return result
 
     def from_map(self, map={}):
-        self.rule_number = map.get('RuleNumber')
+        if map.get('RuleNumber') is not None:
+            self.rule_number = map.get('RuleNumber')
         if map.get('Condition') is not None:
             temp_model = GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleCondition()
             self.condition = temp_model.from_map(map['Condition'])
-        else:
-            self.condition = None
         if map.get('Redirect') is not None:
             temp_model = GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect()
             self.redirect = temp_model.from_map(map['Redirect'])
-        else:
-            self.redirect = None
         return self
 
 
@@ -4136,8 +4238,6 @@ class GetBucketWebsiteResponseWebsiteConfigurationRoutingRules(TeaModel):
         if self.routing_rule is not None:
             for k in self.routing_rule:
                 result['RoutingRule'].append(k.to_map() if k else None)
-        else:
-            result['RoutingRule'] = None
         return result
 
     def from_map(self, map={}):
@@ -4146,8 +4246,6 @@ class GetBucketWebsiteResponseWebsiteConfigurationRoutingRules(TeaModel):
             for k in map.get('RoutingRule'):
                 temp_model = GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule()
                 self.routing_rule.append(temp_model.from_map(k))
-        else:
-            self.routing_rule = None
         return self
 
 
@@ -4175,34 +4273,22 @@ class GetBucketWebsiteResponseWebsiteConfiguration(TeaModel):
         result = {}
         if self.index_document is not None:
             result['IndexDocument'] = self.index_document.to_map()
-        else:
-            result['IndexDocument'] = None
         if self.error_document is not None:
             result['ErrorDocument'] = self.error_document.to_map()
-        else:
-            result['ErrorDocument'] = None
         if self.routing_rules is not None:
             result['RoutingRules'] = self.routing_rules.to_map()
-        else:
-            result['RoutingRules'] = None
         return result
 
     def from_map(self, map={}):
         if map.get('IndexDocument') is not None:
             temp_model = GetBucketWebsiteResponseWebsiteConfigurationIndexDocument()
             self.index_document = temp_model.from_map(map['IndexDocument'])
-        else:
-            self.index_document = None
         if map.get('ErrorDocument') is not None:
             temp_model = GetBucketWebsiteResponseWebsiteConfigurationErrorDocument()
             self.error_document = temp_model.from_map(map['ErrorDocument'])
-        else:
-            self.error_document = None
         if map.get('RoutingRules') is not None:
             temp_model = GetBucketWebsiteResponseWebsiteConfigurationRoutingRules()
             self.routing_rules = temp_model.from_map(map['RoutingRules'])
-        else:
-            self.routing_rules = None
         return self
 
 
@@ -4221,13 +4307,17 @@ class DeleteLiveChannelRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
-        result['ChannelName'] = self.channel_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
+        if self.channel_name is not None:
+            result['ChannelName'] = self.channel_name
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
-        self.channel_name = map.get('ChannelName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
+        if map.get('ChannelName') is not None:
+            self.channel_name = map.get('ChannelName')
         return self
 
 
@@ -4241,11 +4331,13 @@ class DeleteLiveChannelResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         return self
 
 
@@ -4261,11 +4353,13 @@ class GetBucketLocationRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
         return self
 
 
@@ -4282,13 +4376,17 @@ class GetBucketLocationResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
-        result['LocationConstraint'] = self.location_constraint
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
+        if self.location_constraint is not None:
+            result['LocationConstraint'] = self.location_constraint
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
-        self.location_constraint = map.get('LocationConstraint')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
+        if map.get('LocationConstraint') is not None:
+            self.location_constraint = map.get('LocationConstraint')
         return self
 
 
@@ -4308,20 +4406,18 @@ class ListLiveChannelRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
         if self.filter is not None:
             result['Filter'] = self.filter.to_map()
-        else:
-            result['Filter'] = None
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
         if map.get('Filter') is not None:
             temp_model = ListLiveChannelRequestFilter()
             self.filter = temp_model.from_map(map['Filter'])
-        else:
-            self.filter = None
         return self
 
 
@@ -4339,15 +4435,21 @@ class ListLiveChannelRequestFilter(TeaModel):
 
     def to_map(self):
         result = {}
-        result['marker'] = self.marker
-        result['max-keys'] = self.max_keys
-        result['prefix'] = self.prefix
+        if self.marker is not None:
+            result['marker'] = self.marker
+        if self.max_keys is not None:
+            result['max-keys'] = self.max_keys
+        if self.prefix is not None:
+            result['prefix'] = self.prefix
         return result
 
     def from_map(self, map={}):
-        self.marker = map.get('marker')
-        self.max_keys = map.get('max-keys')
-        self.prefix = map.get('prefix')
+        if map.get('marker') is not None:
+            self.marker = map.get('marker')
+        if map.get('max-keys') is not None:
+            self.max_keys = map.get('max-keys')
+        if map.get('prefix') is not None:
+            self.prefix = map.get('prefix')
         return self
 
 
@@ -4366,20 +4468,18 @@ class ListLiveChannelResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         if self.list_live_channel_result is not None:
             result['ListLiveChannelResult'] = self.list_live_channel_result.to_map()
-        else:
-            result['ListLiveChannelResult'] = None
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         if map.get('ListLiveChannelResult') is not None:
             temp_model = ListLiveChannelResponseListLiveChannelResult()
             self.list_live_channel_result = temp_model.from_map(map['ListLiveChannelResult'])
-        else:
-            self.list_live_channel_result = None
         return self
 
 
@@ -4393,11 +4493,13 @@ class ListLiveChannelResponseListLiveChannelResultLiveChannelPublishUrls(TeaMode
 
     def to_map(self):
         result = {}
-        result['Url'] = self.url
+        if self.url is not None:
+            result['Url'] = self.url
         return result
 
     def from_map(self, map={}):
-        self.url = map.get('Url')
+        if map.get('Url') is not None:
+            self.url = map.get('Url')
         return self
 
 
@@ -4411,11 +4513,13 @@ class ListLiveChannelResponseListLiveChannelResultLiveChannelPlayUrls(TeaModel):
 
     def to_map(self):
         result = {}
-        result['Url'] = self.url
+        if self.url is not None:
+            result['Url'] = self.url
         return result
 
     def from_map(self, map={}):
-        self.url = map.get('Url')
+        if map.get('Url') is not None:
+            self.url = map.get('Url')
         return self
 
 
@@ -4445,35 +4549,35 @@ class ListLiveChannelResponseListLiveChannelResultLiveChannel(TeaModel):
 
     def to_map(self):
         result = {}
-        result['Name'] = self.name
-        result['Description'] = self.description
-        result['Status'] = self.status
-        result['LastModified'] = self.last_modified
+        if self.name is not None:
+            result['Name'] = self.name
+        if self.description is not None:
+            result['Description'] = self.description
+        if self.status is not None:
+            result['Status'] = self.status
+        if self.last_modified is not None:
+            result['LastModified'] = self.last_modified
         if self.publish_urls is not None:
             result['PublishUrls'] = self.publish_urls.to_map()
-        else:
-            result['PublishUrls'] = None
         if self.play_urls is not None:
             result['PlayUrls'] = self.play_urls.to_map()
-        else:
-            result['PlayUrls'] = None
         return result
 
     def from_map(self, map={}):
-        self.name = map.get('Name')
-        self.description = map.get('Description')
-        self.status = map.get('Status')
-        self.last_modified = map.get('LastModified')
+        if map.get('Name') is not None:
+            self.name = map.get('Name')
+        if map.get('Description') is not None:
+            self.description = map.get('Description')
+        if map.get('Status') is not None:
+            self.status = map.get('Status')
+        if map.get('LastModified') is not None:
+            self.last_modified = map.get('LastModified')
         if map.get('PublishUrls') is not None:
             temp_model = ListLiveChannelResponseListLiveChannelResultLiveChannelPublishUrls()
             self.publish_urls = temp_model.from_map(map['PublishUrls'])
-        else:
-            self.publish_urls = None
         if map.get('PlayUrls') is not None:
             temp_model = ListLiveChannelResponseListLiveChannelResultLiveChannelPlayUrls()
             self.play_urls = temp_model.from_map(map['PlayUrls'])
-        else:
-            self.play_urls = None
         return self
 
 
@@ -4500,28 +4604,34 @@ class ListLiveChannelResponseListLiveChannelResult(TeaModel):
 
     def to_map(self):
         result = {}
-        result['Prefix'] = self.prefix
-        result['Marker'] = self.marker
-        result['MaxKeys'] = self.max_keys
-        result['IsTruncated'] = self.is_truncated
-        result['NextMarker'] = self.next_marker
+        if self.prefix is not None:
+            result['Prefix'] = self.prefix
+        if self.marker is not None:
+            result['Marker'] = self.marker
+        if self.max_keys is not None:
+            result['MaxKeys'] = self.max_keys
+        if self.is_truncated is not None:
+            result['IsTruncated'] = self.is_truncated
+        if self.next_marker is not None:
+            result['NextMarker'] = self.next_marker
         if self.live_channel is not None:
             result['LiveChannel'] = self.live_channel.to_map()
-        else:
-            result['LiveChannel'] = None
         return result
 
     def from_map(self, map={}):
-        self.prefix = map.get('Prefix')
-        self.marker = map.get('Marker')
-        self.max_keys = map.get('MaxKeys')
-        self.is_truncated = map.get('IsTruncated')
-        self.next_marker = map.get('NextMarker')
+        if map.get('Prefix') is not None:
+            self.prefix = map.get('Prefix')
+        if map.get('Marker') is not None:
+            self.marker = map.get('Marker')
+        if map.get('MaxKeys') is not None:
+            self.max_keys = map.get('MaxKeys')
+        if map.get('IsTruncated') is not None:
+            self.is_truncated = map.get('IsTruncated')
+        if map.get('NextMarker') is not None:
+            self.next_marker = map.get('NextMarker')
         if map.get('LiveChannel') is not None:
             temp_model = ListLiveChannelResponseListLiveChannelResultLiveChannel()
             self.live_channel = temp_model.from_map(map['LiveChannel'])
-        else:
-            self.live_channel = None
         return self
 
 
@@ -4540,13 +4650,17 @@ class GetObjectMetaRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
-        result['ObjectName'] = self.object_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
+        if self.object_name is not None:
+            result['ObjectName'] = self.object_name
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
-        self.object_name = map.get('ObjectName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
+        if map.get('ObjectName') is not None:
+            self.object_name = map.get('ObjectName')
         return self
 
 
@@ -4569,17 +4683,25 @@ class GetObjectMetaResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
-        result['etag'] = self.e_tag
-        result['content-length'] = self.content_length
-        result['last-modified'] = self.last_modified
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
+        if self.e_tag is not None:
+            result['etag'] = self.e_tag
+        if self.content_length is not None:
+            result['content-length'] = self.content_length
+        if self.last_modified is not None:
+            result['last-modified'] = self.last_modified
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
-        self.e_tag = map.get('etag')
-        self.content_length = map.get('content-length')
-        self.last_modified = map.get('last-modified')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
+        if map.get('etag') is not None:
+            self.e_tag = map.get('etag')
+        if map.get('content-length') is not None:
+            self.content_length = map.get('content-length')
+        if map.get('last-modified') is not None:
+            self.last_modified = map.get('last-modified')
         return self
 
 
@@ -4595,11 +4717,13 @@ class GetBucketAclRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
         return self
 
 
@@ -4618,20 +4742,18 @@ class GetBucketAclResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         if self.access_control_policy is not None:
             result['AccessControlPolicy'] = self.access_control_policy.to_map()
-        else:
-            result['AccessControlPolicy'] = None
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         if map.get('AccessControlPolicy') is not None:
             temp_model = GetBucketAclResponseAccessControlPolicy()
             self.access_control_policy = temp_model.from_map(map['AccessControlPolicy'])
-        else:
-            self.access_control_policy = None
         return self
 
 
@@ -4647,13 +4769,17 @@ class GetBucketAclResponseAccessControlPolicyOwner(TeaModel):
 
     def to_map(self):
         result = {}
-        result['ID'] = self.i_d
-        result['DisplayName'] = self.display_name
+        if self.i_d is not None:
+            result['ID'] = self.i_d
+        if self.display_name is not None:
+            result['DisplayName'] = self.display_name
         return result
 
     def from_map(self, map={}):
-        self.i_d = map.get('ID')
-        self.display_name = map.get('DisplayName')
+        if map.get('ID') is not None:
+            self.i_d = map.get('ID')
+        if map.get('DisplayName') is not None:
+            self.display_name = map.get('DisplayName')
         return self
 
 
@@ -4667,11 +4793,13 @@ class GetBucketAclResponseAccessControlPolicyAccessControlList(TeaModel):
 
     def to_map(self):
         result = {}
-        result['Grant'] = self.grant
+        if self.grant is not None:
+            result['Grant'] = self.grant
         return result
 
     def from_map(self, map={}):
-        self.grant = map.get('Grant')
+        if map.get('Grant') is not None:
+            self.grant = map.get('Grant')
         return self
 
 
@@ -4694,25 +4822,17 @@ class GetBucketAclResponseAccessControlPolicy(TeaModel):
         result = {}
         if self.owner is not None:
             result['Owner'] = self.owner.to_map()
-        else:
-            result['Owner'] = None
         if self.access_control_list is not None:
             result['AccessControlList'] = self.access_control_list.to_map()
-        else:
-            result['AccessControlList'] = None
         return result
 
     def from_map(self, map={}):
         if map.get('Owner') is not None:
             temp_model = GetBucketAclResponseAccessControlPolicyOwner()
             self.owner = temp_model.from_map(map['Owner'])
-        else:
-            self.owner = None
         if map.get('AccessControlList') is not None:
             temp_model = GetBucketAclResponseAccessControlPolicyAccessControlList()
             self.access_control_list = temp_model.from_map(map['AccessControlList'])
-        else:
-            self.access_control_list = None
         return self
 
 
@@ -4736,22 +4856,22 @@ class ListPartsRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
-        result['ObjectName'] = self.object_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
+        if self.object_name is not None:
+            result['ObjectName'] = self.object_name
         if self.filter is not None:
             result['Filter'] = self.filter.to_map()
-        else:
-            result['Filter'] = None
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
-        self.object_name = map.get('ObjectName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
+        if map.get('ObjectName') is not None:
+            self.object_name = map.get('ObjectName')
         if map.get('Filter') is not None:
             temp_model = ListPartsRequestFilter()
             self.filter = temp_model.from_map(map['Filter'])
-        else:
-            self.filter = None
         return self
 
 
@@ -4771,17 +4891,25 @@ class ListPartsRequestFilter(TeaModel):
 
     def to_map(self):
         result = {}
-        result['uploadId'] = self.upload_id
-        result['max-parts'] = self.max_parts
-        result['part-number-marker'] = self.part_number_marker
-        result['Encoding-type'] = self.encoding_type
+        if self.upload_id is not None:
+            result['uploadId'] = self.upload_id
+        if self.max_parts is not None:
+            result['max-parts'] = self.max_parts
+        if self.part_number_marker is not None:
+            result['part-number-marker'] = self.part_number_marker
+        if self.encoding_type is not None:
+            result['Encoding-type'] = self.encoding_type
         return result
 
     def from_map(self, map={}):
-        self.upload_id = map.get('uploadId')
-        self.max_parts = map.get('max-parts')
-        self.part_number_marker = map.get('part-number-marker')
-        self.encoding_type = map.get('Encoding-type')
+        if map.get('uploadId') is not None:
+            self.upload_id = map.get('uploadId')
+        if map.get('max-parts') is not None:
+            self.max_parts = map.get('max-parts')
+        if map.get('part-number-marker') is not None:
+            self.part_number_marker = map.get('part-number-marker')
+        if map.get('Encoding-type') is not None:
+            self.encoding_type = map.get('Encoding-type')
         return self
 
 
@@ -4800,20 +4928,18 @@ class ListPartsResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         if self.list_parts_result is not None:
             result['ListPartsResult'] = self.list_parts_result.to_map()
-        else:
-            result['ListPartsResult'] = None
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         if map.get('ListPartsResult') is not None:
             temp_model = ListPartsResponseListPartsResult()
             self.list_parts_result = temp_model.from_map(map['ListPartsResult'])
-        else:
-            self.list_parts_result = None
         return self
 
 
@@ -4833,17 +4959,25 @@ class ListPartsResponseListPartsResultPart(TeaModel):
 
     def to_map(self):
         result = {}
-        result['PartNumber'] = self.part_number
-        result['LastModified'] = self.last_modified
-        result['ETag'] = self.e_tag
-        result['Size'] = self.size
+        if self.part_number is not None:
+            result['PartNumber'] = self.part_number
+        if self.last_modified is not None:
+            result['LastModified'] = self.last_modified
+        if self.e_tag is not None:
+            result['ETag'] = self.e_tag
+        if self.size is not None:
+            result['Size'] = self.size
         return result
 
     def from_map(self, map={}):
-        self.part_number = map.get('PartNumber')
-        self.last_modified = map.get('LastModified')
-        self.e_tag = map.get('ETag')
-        self.size = map.get('Size')
+        if map.get('PartNumber') is not None:
+            self.part_number = map.get('PartNumber')
+        if map.get('LastModified') is not None:
+            self.last_modified = map.get('LastModified')
+        if map.get('ETag') is not None:
+            self.e_tag = map.get('ETag')
+        if map.get('Size') is not None:
+            self.size = map.get('Size')
         return self
 
 
@@ -4877,38 +5011,50 @@ class ListPartsResponseListPartsResult(TeaModel):
 
     def to_map(self):
         result = {}
-        result['Bucket'] = self.bucket
-        result['EncodingType'] = self.encoding_type
-        result['Key'] = self.key
-        result['UploadId'] = self.upload_id
-        result['PartNumberMarker'] = self.part_number_marker
-        result['NextPartNumberMarker'] = self.next_part_number_marker
-        result['MaxParts'] = self.max_parts
-        result['IsTruncated'] = self.is_truncated
+        if self.bucket is not None:
+            result['Bucket'] = self.bucket
+        if self.encoding_type is not None:
+            result['EncodingType'] = self.encoding_type
+        if self.key is not None:
+            result['Key'] = self.key
+        if self.upload_id is not None:
+            result['UploadId'] = self.upload_id
+        if self.part_number_marker is not None:
+            result['PartNumberMarker'] = self.part_number_marker
+        if self.next_part_number_marker is not None:
+            result['NextPartNumberMarker'] = self.next_part_number_marker
+        if self.max_parts is not None:
+            result['MaxParts'] = self.max_parts
+        if self.is_truncated is not None:
+            result['IsTruncated'] = self.is_truncated
         result['Part'] = []
         if self.part is not None:
             for k in self.part:
                 result['Part'].append(k.to_map() if k else None)
-        else:
-            result['Part'] = None
         return result
 
     def from_map(self, map={}):
-        self.bucket = map.get('Bucket')
-        self.encoding_type = map.get('EncodingType')
-        self.key = map.get('Key')
-        self.upload_id = map.get('UploadId')
-        self.part_number_marker = map.get('PartNumberMarker')
-        self.next_part_number_marker = map.get('NextPartNumberMarker')
-        self.max_parts = map.get('MaxParts')
-        self.is_truncated = map.get('IsTruncated')
+        if map.get('Bucket') is not None:
+            self.bucket = map.get('Bucket')
+        if map.get('EncodingType') is not None:
+            self.encoding_type = map.get('EncodingType')
+        if map.get('Key') is not None:
+            self.key = map.get('Key')
+        if map.get('UploadId') is not None:
+            self.upload_id = map.get('UploadId')
+        if map.get('PartNumberMarker') is not None:
+            self.part_number_marker = map.get('PartNumberMarker')
+        if map.get('NextPartNumberMarker') is not None:
+            self.next_part_number_marker = map.get('NextPartNumberMarker')
+        if map.get('MaxParts') is not None:
+            self.max_parts = map.get('MaxParts')
+        if map.get('IsTruncated') is not None:
+            self.is_truncated = map.get('IsTruncated')
         self.part = []
         if map.get('Part') is not None:
             for k in map.get('Part'):
                 temp_model = ListPartsResponseListPartsResultPart()
                 self.part.append(temp_model.from_map(k))
-        else:
-            self.part = None
         return self
 
 
@@ -4931,22 +5077,22 @@ class GetLiveChannelHistoryRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
-        result['ChannelName'] = self.channel_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
+        if self.channel_name is not None:
+            result['ChannelName'] = self.channel_name
         if self.filter is not None:
             result['Filter'] = self.filter.to_map()
-        else:
-            result['Filter'] = None
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
-        self.channel_name = map.get('ChannelName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
+        if map.get('ChannelName') is not None:
+            self.channel_name = map.get('ChannelName')
         if map.get('Filter') is not None:
             temp_model = GetLiveChannelHistoryRequestFilter()
             self.filter = temp_model.from_map(map['Filter'])
-        else:
-            self.filter = None
         return self
 
 
@@ -4960,11 +5106,13 @@ class GetLiveChannelHistoryRequestFilter(TeaModel):
 
     def to_map(self):
         result = {}
-        result['comp'] = self.comp
+        if self.comp is not None:
+            result['comp'] = self.comp
         return result
 
     def from_map(self, map={}):
-        self.comp = map.get('comp')
+        if map.get('comp') is not None:
+            self.comp = map.get('comp')
         return self
 
 
@@ -4983,20 +5131,18 @@ class GetLiveChannelHistoryResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         if self.live_channel_history is not None:
             result['LiveChannelHistory'] = self.live_channel_history.to_map()
-        else:
-            result['LiveChannelHistory'] = None
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         if map.get('LiveChannelHistory') is not None:
             temp_model = GetLiveChannelHistoryResponseLiveChannelHistory()
             self.live_channel_history = temp_model.from_map(map['LiveChannelHistory'])
-        else:
-            self.live_channel_history = None
         return self
 
 
@@ -5014,15 +5160,21 @@ class GetLiveChannelHistoryResponseLiveChannelHistoryLiveRecord(TeaModel):
 
     def to_map(self):
         result = {}
-        result['StartTime'] = self.start_time
-        result['EndTime'] = self.end_time
-        result['RemoteAddr'] = self.remote_addr
+        if self.start_time is not None:
+            result['StartTime'] = self.start_time
+        if self.end_time is not None:
+            result['EndTime'] = self.end_time
+        if self.remote_addr is not None:
+            result['RemoteAddr'] = self.remote_addr
         return result
 
     def from_map(self, map={}):
-        self.start_time = map.get('StartTime')
-        self.end_time = map.get('EndTime')
-        self.remote_addr = map.get('RemoteAddr')
+        if map.get('StartTime') is not None:
+            self.start_time = map.get('StartTime')
+        if map.get('EndTime') is not None:
+            self.end_time = map.get('EndTime')
+        if map.get('RemoteAddr') is not None:
+            self.remote_addr = map.get('RemoteAddr')
         return self
 
 
@@ -5043,8 +5195,6 @@ class GetLiveChannelHistoryResponseLiveChannelHistory(TeaModel):
         if self.live_record is not None:
             for k in self.live_record:
                 result['LiveRecord'].append(k.to_map() if k else None)
-        else:
-            result['LiveRecord'] = None
         return result
 
     def from_map(self, map={}):
@@ -5053,8 +5203,6 @@ class GetLiveChannelHistoryResponseLiveChannelHistory(TeaModel):
             for k in map.get('LiveRecord'):
                 temp_model = GetLiveChannelHistoryResponseLiveChannelHistoryLiveRecord()
                 self.live_record.append(temp_model.from_map(k))
-        else:
-            self.live_record = None
         return self
 
 
@@ -5074,20 +5222,18 @@ class GetBucketRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
         if self.filter is not None:
             result['Filter'] = self.filter.to_map()
-        else:
-            result['Filter'] = None
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
         if map.get('Filter') is not None:
             temp_model = GetBucketRequestFilter()
             self.filter = temp_model.from_map(map['Filter'])
-        else:
-            self.filter = None
         return self
 
 
@@ -5109,19 +5255,29 @@ class GetBucketRequestFilter(TeaModel):
 
     def to_map(self):
         result = {}
-        result['delimiter'] = self.delimiter
-        result['marker'] = self.marker
-        result['max-keys'] = self.max_keys
-        result['prefix'] = self.prefix
-        result['encoding-type'] = self.encoding_type
+        if self.delimiter is not None:
+            result['delimiter'] = self.delimiter
+        if self.marker is not None:
+            result['marker'] = self.marker
+        if self.max_keys is not None:
+            result['max-keys'] = self.max_keys
+        if self.prefix is not None:
+            result['prefix'] = self.prefix
+        if self.encoding_type is not None:
+            result['encoding-type'] = self.encoding_type
         return result
 
     def from_map(self, map={}):
-        self.delimiter = map.get('delimiter')
-        self.marker = map.get('marker')
-        self.max_keys = map.get('max-keys')
-        self.prefix = map.get('prefix')
-        self.encoding_type = map.get('encoding-type')
+        if map.get('delimiter') is not None:
+            self.delimiter = map.get('delimiter')
+        if map.get('marker') is not None:
+            self.marker = map.get('marker')
+        if map.get('max-keys') is not None:
+            self.max_keys = map.get('max-keys')
+        if map.get('prefix') is not None:
+            self.prefix = map.get('prefix')
+        if map.get('encoding-type') is not None:
+            self.encoding_type = map.get('encoding-type')
         return self
 
 
@@ -5140,20 +5296,18 @@ class GetBucketResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         if self.list_bucket_result is not None:
             result['ListBucketResult'] = self.list_bucket_result.to_map()
-        else:
-            result['ListBucketResult'] = None
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         if map.get('ListBucketResult') is not None:
             temp_model = GetBucketResponseListBucketResult()
             self.list_bucket_result = temp_model.from_map(map['ListBucketResult'])
-        else:
-            self.list_bucket_result = None
         return self
 
 
@@ -5169,13 +5323,17 @@ class GetBucketResponseListBucketResultContentsOwner(TeaModel):
 
     def to_map(self):
         result = {}
-        result['ID'] = self.i_d
-        result['DisplayName'] = self.display_name
+        if self.i_d is not None:
+            result['ID'] = self.i_d
+        if self.display_name is not None:
+            result['DisplayName'] = self.display_name
         return result
 
     def from_map(self, map={}):
-        self.i_d = map.get('ID')
-        self.display_name = map.get('DisplayName')
+        if map.get('ID') is not None:
+            self.i_d = map.get('ID')
+        if map.get('DisplayName') is not None:
+            self.display_name = map.get('DisplayName')
         return self
 
 
@@ -5201,28 +5359,34 @@ class GetBucketResponseListBucketResultContents(TeaModel):
 
     def to_map(self):
         result = {}
-        result['Key'] = self.key
-        result['ETag'] = self.e_tag
-        result['LastModified'] = self.last_modified
-        result['Size'] = self.size
-        result['StorageClass'] = self.storage_class
+        if self.key is not None:
+            result['Key'] = self.key
+        if self.e_tag is not None:
+            result['ETag'] = self.e_tag
+        if self.last_modified is not None:
+            result['LastModified'] = self.last_modified
+        if self.size is not None:
+            result['Size'] = self.size
+        if self.storage_class is not None:
+            result['StorageClass'] = self.storage_class
         if self.owner is not None:
             result['Owner'] = self.owner.to_map()
-        else:
-            result['Owner'] = None
         return result
 
     def from_map(self, map={}):
-        self.key = map.get('Key')
-        self.e_tag = map.get('ETag')
-        self.last_modified = map.get('LastModified')
-        self.size = map.get('Size')
-        self.storage_class = map.get('StorageClass')
+        if map.get('Key') is not None:
+            self.key = map.get('Key')
+        if map.get('ETag') is not None:
+            self.e_tag = map.get('ETag')
+        if map.get('LastModified') is not None:
+            self.last_modified = map.get('LastModified')
+        if map.get('Size') is not None:
+            self.size = map.get('Size')
+        if map.get('StorageClass') is not None:
+            self.storage_class = map.get('StorageClass')
         if map.get('Owner') is not None:
             temp_model = GetBucketResponseListBucketResultContentsOwner()
             self.owner = temp_model.from_map(map['Owner'])
-        else:
-            self.owner = None
         return self
 
 
@@ -5256,38 +5420,50 @@ class GetBucketResponseListBucketResult(TeaModel):
 
     def to_map(self):
         result = {}
-        result['Name'] = self.name
-        result['Prefix'] = self.prefix
-        result['Marker'] = self.marker
-        result['MaxKeys'] = self.max_keys
-        result['Delimiter'] = self.delimiter
-        result['IsTruncated'] = self.is_truncated
-        result['EncodingType'] = self.encoding_type
-        result['CommonPrefixes'] = self.common_prefixes
+        if self.name is not None:
+            result['Name'] = self.name
+        if self.prefix is not None:
+            result['Prefix'] = self.prefix
+        if self.marker is not None:
+            result['Marker'] = self.marker
+        if self.max_keys is not None:
+            result['MaxKeys'] = self.max_keys
+        if self.delimiter is not None:
+            result['Delimiter'] = self.delimiter
+        if self.is_truncated is not None:
+            result['IsTruncated'] = self.is_truncated
+        if self.encoding_type is not None:
+            result['EncodingType'] = self.encoding_type
+        if self.common_prefixes is not None:
+            result['CommonPrefixes'] = self.common_prefixes
         result['Contents'] = []
         if self.contents is not None:
             for k in self.contents:
                 result['Contents'].append(k.to_map() if k else None)
-        else:
-            result['Contents'] = None
         return result
 
     def from_map(self, map={}):
-        self.name = map.get('Name')
-        self.prefix = map.get('Prefix')
-        self.marker = map.get('Marker')
-        self.max_keys = map.get('MaxKeys')
-        self.delimiter = map.get('Delimiter')
-        self.is_truncated = map.get('IsTruncated')
-        self.encoding_type = map.get('EncodingType')
-        self.common_prefixes = map.get('CommonPrefixes')
+        if map.get('Name') is not None:
+            self.name = map.get('Name')
+        if map.get('Prefix') is not None:
+            self.prefix = map.get('Prefix')
+        if map.get('Marker') is not None:
+            self.marker = map.get('Marker')
+        if map.get('MaxKeys') is not None:
+            self.max_keys = map.get('MaxKeys')
+        if map.get('Delimiter') is not None:
+            self.delimiter = map.get('Delimiter')
+        if map.get('IsTruncated') is not None:
+            self.is_truncated = map.get('IsTruncated')
+        if map.get('EncodingType') is not None:
+            self.encoding_type = map.get('EncodingType')
+        if map.get('CommonPrefixes') is not None:
+            self.common_prefixes = map.get('CommonPrefixes')
         self.contents = []
         if map.get('Contents') is not None:
             for k in map.get('Contents'):
                 temp_model = GetBucketResponseListBucketResultContents()
                 self.contents.append(temp_model.from_map(k))
-        else:
-            self.contents = None
         return self
 
 
@@ -5306,13 +5482,17 @@ class GetLiveChannelInfoRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
-        result['ChannelName'] = self.channel_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
+        if self.channel_name is not None:
+            result['ChannelName'] = self.channel_name
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
-        self.channel_name = map.get('ChannelName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
+        if map.get('ChannelName') is not None:
+            self.channel_name = map.get('ChannelName')
         return self
 
 
@@ -5331,20 +5511,18 @@ class GetLiveChannelInfoResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         if self.live_channel_configuration is not None:
             result['LiveChannelConfiguration'] = self.live_channel_configuration.to_map()
-        else:
-            result['LiveChannelConfiguration'] = None
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         if map.get('LiveChannelConfiguration') is not None:
             temp_model = GetLiveChannelInfoResponseLiveChannelConfiguration()
             self.live_channel_configuration = temp_model.from_map(map['LiveChannelConfiguration'])
-        else:
-            self.live_channel_configuration = None
         return self
 
 
@@ -5364,17 +5542,25 @@ class GetLiveChannelInfoResponseLiveChannelConfigurationTarget(TeaModel):
 
     def to_map(self):
         result = {}
-        result['Type'] = self.type
-        result['FragDuration'] = self.frag_duration
-        result['FragCount'] = self.frag_count
-        result['PlaylistName'] = self.playlist_name
+        if self.type is not None:
+            result['Type'] = self.type
+        if self.frag_duration is not None:
+            result['FragDuration'] = self.frag_duration
+        if self.frag_count is not None:
+            result['FragCount'] = self.frag_count
+        if self.playlist_name is not None:
+            result['PlaylistName'] = self.playlist_name
         return result
 
     def from_map(self, map={}):
-        self.type = map.get('Type')
-        self.frag_duration = map.get('FragDuration')
-        self.frag_count = map.get('FragCount')
-        self.playlist_name = map.get('PlaylistName')
+        if map.get('Type') is not None:
+            self.type = map.get('Type')
+        if map.get('FragDuration') is not None:
+            self.frag_duration = map.get('FragDuration')
+        if map.get('FragCount') is not None:
+            self.frag_count = map.get('FragCount')
+        if map.get('PlaylistName') is not None:
+            self.playlist_name = map.get('PlaylistName')
         return self
 
 
@@ -5394,22 +5580,22 @@ class GetLiveChannelInfoResponseLiveChannelConfiguration(TeaModel):
 
     def to_map(self):
         result = {}
-        result['Description'] = self.description
-        result['Status'] = self.status
+        if self.description is not None:
+            result['Description'] = self.description
+        if self.status is not None:
+            result['Status'] = self.status
         if self.target is not None:
             result['Target'] = self.target.to_map()
-        else:
-            result['Target'] = None
         return result
 
     def from_map(self, map={}):
-        self.description = map.get('Description')
-        self.status = map.get('Status')
+        if map.get('Description') is not None:
+            self.description = map.get('Description')
+        if map.get('Status') is not None:
+            self.status = map.get('Status')
         if map.get('Target') is not None:
             temp_model = GetLiveChannelInfoResponseLiveChannelConfigurationTarget()
             self.target = temp_model.from_map(map['Target'])
-        else:
-            self.target = None
         return self
 
 
@@ -5432,22 +5618,22 @@ class GetLiveChannelStatRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
-        result['ChannelName'] = self.channel_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
+        if self.channel_name is not None:
+            result['ChannelName'] = self.channel_name
         if self.filter is not None:
             result['Filter'] = self.filter.to_map()
-        else:
-            result['Filter'] = None
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
-        self.channel_name = map.get('ChannelName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
+        if map.get('ChannelName') is not None:
+            self.channel_name = map.get('ChannelName')
         if map.get('Filter') is not None:
             temp_model = GetLiveChannelStatRequestFilter()
             self.filter = temp_model.from_map(map['Filter'])
-        else:
-            self.filter = None
         return self
 
 
@@ -5461,11 +5647,13 @@ class GetLiveChannelStatRequestFilter(TeaModel):
 
     def to_map(self):
         result = {}
-        result['comp'] = self.comp
+        if self.comp is not None:
+            result['comp'] = self.comp
         return result
 
     def from_map(self, map={}):
-        self.comp = map.get('comp')
+        if map.get('comp') is not None:
+            self.comp = map.get('comp')
         return self
 
 
@@ -5484,20 +5672,18 @@ class GetLiveChannelStatResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         if self.live_channel_stat is not None:
             result['LiveChannelStat'] = self.live_channel_stat.to_map()
-        else:
-            result['LiveChannelStat'] = None
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         if map.get('LiveChannelStat') is not None:
             temp_model = GetLiveChannelStatResponseLiveChannelStat()
             self.live_channel_stat = temp_model.from_map(map['LiveChannelStat'])
-        else:
-            self.live_channel_stat = None
         return self
 
 
@@ -5519,19 +5705,29 @@ class GetLiveChannelStatResponseLiveChannelStatVideo(TeaModel):
 
     def to_map(self):
         result = {}
-        result['Width'] = self.width
-        result['Height'] = self.height
-        result['FrameRate'] = self.frame_rate
-        result['Bandwidth'] = self.bandwidth
-        result['Codec'] = self.codec
+        if self.width is not None:
+            result['Width'] = self.width
+        if self.height is not None:
+            result['Height'] = self.height
+        if self.frame_rate is not None:
+            result['FrameRate'] = self.frame_rate
+        if self.bandwidth is not None:
+            result['Bandwidth'] = self.bandwidth
+        if self.codec is not None:
+            result['Codec'] = self.codec
         return result
 
     def from_map(self, map={}):
-        self.width = map.get('Width')
-        self.height = map.get('Height')
-        self.frame_rate = map.get('FrameRate')
-        self.bandwidth = map.get('Bandwidth')
-        self.codec = map.get('Codec')
+        if map.get('Width') is not None:
+            self.width = map.get('Width')
+        if map.get('Height') is not None:
+            self.height = map.get('Height')
+        if map.get('FrameRate') is not None:
+            self.frame_rate = map.get('FrameRate')
+        if map.get('Bandwidth') is not None:
+            self.bandwidth = map.get('Bandwidth')
+        if map.get('Codec') is not None:
+            self.codec = map.get('Codec')
         return self
 
 
@@ -5549,15 +5745,21 @@ class GetLiveChannelStatResponseLiveChannelStatAudio(TeaModel):
 
     def to_map(self):
         result = {}
-        result['Bandwidth'] = self.bandwidth
-        result['SampleRate'] = self.sample_rate
-        result['Codec'] = self.codec
+        if self.bandwidth is not None:
+            result['Bandwidth'] = self.bandwidth
+        if self.sample_rate is not None:
+            result['SampleRate'] = self.sample_rate
+        if self.codec is not None:
+            result['Codec'] = self.codec
         return result
 
     def from_map(self, map={}):
-        self.bandwidth = map.get('Bandwidth')
-        self.sample_rate = map.get('SampleRate')
-        self.codec = map.get('Codec')
+        if map.get('Bandwidth') is not None:
+            self.bandwidth = map.get('Bandwidth')
+        if map.get('SampleRate') is not None:
+            self.sample_rate = map.get('SampleRate')
+        if map.get('Codec') is not None:
+            self.codec = map.get('Codec')
         return self
 
 
@@ -5584,33 +5786,31 @@ class GetLiveChannelStatResponseLiveChannelStat(TeaModel):
 
     def to_map(self):
         result = {}
-        result['Status'] = self.status
-        result['ConnectedTime'] = self.connected_time
-        result['RemoteAddr'] = self.remote_addr
+        if self.status is not None:
+            result['Status'] = self.status
+        if self.connected_time is not None:
+            result['ConnectedTime'] = self.connected_time
+        if self.remote_addr is not None:
+            result['RemoteAddr'] = self.remote_addr
         if self.video is not None:
             result['Video'] = self.video.to_map()
-        else:
-            result['Video'] = None
         if self.audio is not None:
             result['Audio'] = self.audio.to_map()
-        else:
-            result['Audio'] = None
         return result
 
     def from_map(self, map={}):
-        self.status = map.get('Status')
-        self.connected_time = map.get('ConnectedTime')
-        self.remote_addr = map.get('RemoteAddr')
+        if map.get('Status') is not None:
+            self.status = map.get('Status')
+        if map.get('ConnectedTime') is not None:
+            self.connected_time = map.get('ConnectedTime')
+        if map.get('RemoteAddr') is not None:
+            self.remote_addr = map.get('RemoteAddr')
         if map.get('Video') is not None:
             temp_model = GetLiveChannelStatResponseLiveChannelStatVideo()
             self.video = temp_model.from_map(map['Video'])
-        else:
-            self.video = None
         if map.get('Audio') is not None:
             temp_model = GetLiveChannelStatResponseLiveChannelStatAudio()
             self.audio = temp_model.from_map(map['Audio'])
-        else:
-            self.audio = None
         return self
 
 
@@ -5629,13 +5829,17 @@ class DeleteObjectRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
-        result['ObjectName'] = self.object_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
+        if self.object_name is not None:
+            result['ObjectName'] = self.object_name
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
-        self.object_name = map.get('ObjectName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
+        if map.get('ObjectName') is not None:
+            self.object_name = map.get('ObjectName')
         return self
 
 
@@ -5649,11 +5853,13 @@ class DeleteObjectResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         return self
 
 
@@ -5677,22 +5883,22 @@ class AbortMultipartUploadRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
-        result['ObjectName'] = self.object_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
+        if self.object_name is not None:
+            result['ObjectName'] = self.object_name
         if self.filter is not None:
             result['Filter'] = self.filter.to_map()
-        else:
-            result['Filter'] = None
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
-        self.object_name = map.get('ObjectName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
+        if map.get('ObjectName') is not None:
+            self.object_name = map.get('ObjectName')
         if map.get('Filter') is not None:
             temp_model = AbortMultipartUploadRequestFilter()
             self.filter = temp_model.from_map(map['Filter'])
-        else:
-            self.filter = None
         return self
 
 
@@ -5706,11 +5912,13 @@ class AbortMultipartUploadRequestFilter(TeaModel):
 
     def to_map(self):
         result = {}
-        result['uploadId'] = self.upload_id
+        if self.upload_id is not None:
+            result['uploadId'] = self.upload_id
         return result
 
     def from_map(self, map={}):
-        self.upload_id = map.get('uploadId')
+        if map.get('uploadId') is not None:
+            self.upload_id = map.get('uploadId')
         return self
 
 
@@ -5724,11 +5932,13 @@ class AbortMultipartUploadResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         return self
 
 
@@ -5760,35 +5970,35 @@ class AppendObjectRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
-        result['ObjectName'] = self.object_name
-        result['UserMeta'] = self.user_meta
-        result['body'] = self.body
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
+        if self.object_name is not None:
+            result['ObjectName'] = self.object_name
+        if self.user_meta is not None:
+            result['UserMeta'] = self.user_meta
+        if self.body is not None:
+            result['body'] = self.body
         if self.filter is not None:
             result['Filter'] = self.filter.to_map()
-        else:
-            result['Filter'] = None
         if self.header is not None:
             result['Header'] = self.header.to_map()
-        else:
-            result['Header'] = None
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
-        self.object_name = map.get('ObjectName')
-        self.user_meta = map.get('UserMeta')
-        self.body = map.get('body')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
+        if map.get('ObjectName') is not None:
+            self.object_name = map.get('ObjectName')
+        if map.get('UserMeta') is not None:
+            self.user_meta = map.get('UserMeta')
+        if map.get('body') is not None:
+            self.body = map.get('body')
         if map.get('Filter') is not None:
             temp_model = AppendObjectRequestFilter()
             self.filter = temp_model.from_map(map['Filter'])
-        else:
-            self.filter = None
         if map.get('Header') is not None:
             temp_model = AppendObjectRequestHeader()
             self.header = temp_model.from_map(map['Header'])
-        else:
-            self.header = None
         return self
 
 
@@ -5802,11 +6012,13 @@ class AppendObjectRequestFilter(TeaModel):
 
     def to_map(self):
         result = {}
-        result['position'] = self.position
+        if self.position is not None:
+            result['position'] = self.position
         return result
 
     def from_map(self, map={}):
-        self.position = map.get('position')
+        if map.get('position') is not None:
+            self.position = map.get('position')
         return self
 
 
@@ -5837,27 +6049,45 @@ class AppendObjectRequestHeader(TeaModel):
 
     def to_map(self):
         result = {}
-        result['Cache-Control'] = self.cache_control
-        result['Content-Disposition'] = self.content_disposition
-        result['Content-Encoding'] = self.content_encoding
-        result['Content-MD5'] = self.content_md5
-        result['Expires'] = self.expires
-        result['x-oss-server-side-encryption'] = self.server_side_encryption
-        result['x-oss-object-acl'] = self.object_acl
-        result['x-oss-storage-class'] = self.storage_class
-        result['content-type'] = self.content_type
+        if self.cache_control is not None:
+            result['Cache-Control'] = self.cache_control
+        if self.content_disposition is not None:
+            result['Content-Disposition'] = self.content_disposition
+        if self.content_encoding is not None:
+            result['Content-Encoding'] = self.content_encoding
+        if self.content_md5 is not None:
+            result['Content-MD5'] = self.content_md5
+        if self.expires is not None:
+            result['Expires'] = self.expires
+        if self.server_side_encryption is not None:
+            result['x-oss-server-side-encryption'] = self.server_side_encryption
+        if self.object_acl is not None:
+            result['x-oss-object-acl'] = self.object_acl
+        if self.storage_class is not None:
+            result['x-oss-storage-class'] = self.storage_class
+        if self.content_type is not None:
+            result['content-type'] = self.content_type
         return result
 
     def from_map(self, map={}):
-        self.cache_control = map.get('Cache-Control')
-        self.content_disposition = map.get('Content-Disposition')
-        self.content_encoding = map.get('Content-Encoding')
-        self.content_md5 = map.get('Content-MD5')
-        self.expires = map.get('Expires')
-        self.server_side_encryption = map.get('x-oss-server-side-encryption')
-        self.object_acl = map.get('x-oss-object-acl')
-        self.storage_class = map.get('x-oss-storage-class')
-        self.content_type = map.get('content-type')
+        if map.get('Cache-Control') is not None:
+            self.cache_control = map.get('Cache-Control')
+        if map.get('Content-Disposition') is not None:
+            self.content_disposition = map.get('Content-Disposition')
+        if map.get('Content-Encoding') is not None:
+            self.content_encoding = map.get('Content-Encoding')
+        if map.get('Content-MD5') is not None:
+            self.content_md5 = map.get('Content-MD5')
+        if map.get('Expires') is not None:
+            self.expires = map.get('Expires')
+        if map.get('x-oss-server-side-encryption') is not None:
+            self.server_side_encryption = map.get('x-oss-server-side-encryption')
+        if map.get('x-oss-object-acl') is not None:
+            self.object_acl = map.get('x-oss-object-acl')
+        if map.get('x-oss-storage-class') is not None:
+            self.storage_class = map.get('x-oss-storage-class')
+        if map.get('content-type') is not None:
+            self.content_type = map.get('content-type')
         return self
 
 
@@ -5877,15 +6107,21 @@ class AppendObjectResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
-        result['x-oss-next-append-position'] = self.next_append_position
-        result['x-oss-hash-crc64ecma'] = self.hash_crc_64ecma
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
+        if self.next_append_position is not None:
+            result['x-oss-next-append-position'] = self.next_append_position
+        if self.hash_crc_64ecma is not None:
+            result['x-oss-hash-crc64ecma'] = self.hash_crc_64ecma
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
-        self.next_append_position = map.get('x-oss-next-append-position')
-        self.hash_crc_64ecma = map.get('x-oss-hash-crc64ecma')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-next-append-position') is not None:
+            self.next_append_position = map.get('x-oss-next-append-position')
+        if map.get('x-oss-hash-crc64ecma') is not None:
+            self.hash_crc_64ecma = map.get('x-oss-hash-crc64ecma')
         return self
 
 
@@ -5914,31 +6150,27 @@ class UploadPartCopyRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
-        result['ObjectName'] = self.object_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
+        if self.object_name is not None:
+            result['ObjectName'] = self.object_name
         if self.filter is not None:
             result['Filter'] = self.filter.to_map()
-        else:
-            result['Filter'] = None
         if self.header is not None:
             result['Header'] = self.header.to_map()
-        else:
-            result['Header'] = None
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
-        self.object_name = map.get('ObjectName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
+        if map.get('ObjectName') is not None:
+            self.object_name = map.get('ObjectName')
         if map.get('Filter') is not None:
             temp_model = UploadPartCopyRequestFilter()
             self.filter = temp_model.from_map(map['Filter'])
-        else:
-            self.filter = None
         if map.get('Header') is not None:
             temp_model = UploadPartCopyRequestHeader()
             self.header = temp_model.from_map(map['Header'])
-        else:
-            self.header = None
         return self
 
 
@@ -5955,13 +6187,17 @@ class UploadPartCopyRequestFilter(TeaModel):
 
     def to_map(self):
         result = {}
-        result['partNumber'] = self.part_number
-        result['uploadId'] = self.upload_id
+        if self.part_number is not None:
+            result['partNumber'] = self.part_number
+        if self.upload_id is not None:
+            result['uploadId'] = self.upload_id
         return result
 
     def from_map(self, map={}):
-        self.part_number = map.get('partNumber')
-        self.upload_id = map.get('uploadId')
+        if map.get('partNumber') is not None:
+            self.part_number = map.get('partNumber')
+        if map.get('uploadId') is not None:
+            self.upload_id = map.get('uploadId')
         return self
 
 
@@ -5987,21 +6223,33 @@ class UploadPartCopyRequestHeader(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-copy-source'] = self.copy_source
-        result['x-oss-copy-source-range'] = self.copy_source_range
-        result['x-oss-copy-source-if-match'] = self.copy_source_if_match
-        result['x-oss-copy-source-if-none-match'] = self.copy_source_if_none_match
-        result['x-oss-copy-source-if-unmodified-since'] = self.copy_source_if_unmodified_since
-        result['x-oss-copy-source-if-modified-since'] = self.copy_source_if_modified_since
+        if self.copy_source is not None:
+            result['x-oss-copy-source'] = self.copy_source
+        if self.copy_source_range is not None:
+            result['x-oss-copy-source-range'] = self.copy_source_range
+        if self.copy_source_if_match is not None:
+            result['x-oss-copy-source-if-match'] = self.copy_source_if_match
+        if self.copy_source_if_none_match is not None:
+            result['x-oss-copy-source-if-none-match'] = self.copy_source_if_none_match
+        if self.copy_source_if_unmodified_since is not None:
+            result['x-oss-copy-source-if-unmodified-since'] = self.copy_source_if_unmodified_since
+        if self.copy_source_if_modified_since is not None:
+            result['x-oss-copy-source-if-modified-since'] = self.copy_source_if_modified_since
         return result
 
     def from_map(self, map={}):
-        self.copy_source = map.get('x-oss-copy-source')
-        self.copy_source_range = map.get('x-oss-copy-source-range')
-        self.copy_source_if_match = map.get('x-oss-copy-source-if-match')
-        self.copy_source_if_none_match = map.get('x-oss-copy-source-if-none-match')
-        self.copy_source_if_unmodified_since = map.get('x-oss-copy-source-if-unmodified-since')
-        self.copy_source_if_modified_since = map.get('x-oss-copy-source-if-modified-since')
+        if map.get('x-oss-copy-source') is not None:
+            self.copy_source = map.get('x-oss-copy-source')
+        if map.get('x-oss-copy-source-range') is not None:
+            self.copy_source_range = map.get('x-oss-copy-source-range')
+        if map.get('x-oss-copy-source-if-match') is not None:
+            self.copy_source_if_match = map.get('x-oss-copy-source-if-match')
+        if map.get('x-oss-copy-source-if-none-match') is not None:
+            self.copy_source_if_none_match = map.get('x-oss-copy-source-if-none-match')
+        if map.get('x-oss-copy-source-if-unmodified-since') is not None:
+            self.copy_source_if_unmodified_since = map.get('x-oss-copy-source-if-unmodified-since')
+        if map.get('x-oss-copy-source-if-modified-since') is not None:
+            self.copy_source_if_modified_since = map.get('x-oss-copy-source-if-modified-since')
         return self
 
 
@@ -6020,20 +6268,18 @@ class UploadPartCopyResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         if self.copy_part_result is not None:
             result['CopyPartResult'] = self.copy_part_result.to_map()
-        else:
-            result['CopyPartResult'] = None
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         if map.get('CopyPartResult') is not None:
             temp_model = UploadPartCopyResponseCopyPartResult()
             self.copy_part_result = temp_model.from_map(map['CopyPartResult'])
-        else:
-            self.copy_part_result = None
         return self
 
 
@@ -6049,13 +6295,17 @@ class UploadPartCopyResponseCopyPartResult(TeaModel):
 
     def to_map(self):
         result = {}
-        result['LastModified'] = self.last_modified
-        result['ETag'] = self.e_tag
+        if self.last_modified is not None:
+            result['LastModified'] = self.last_modified
+        if self.e_tag is not None:
+            result['ETag'] = self.e_tag
         return result
 
     def from_map(self, map={}):
-        self.last_modified = map.get('LastModified')
-        self.e_tag = map.get('ETag')
+        if map.get('LastModified') is not None:
+            self.last_modified = map.get('LastModified')
+        if map.get('ETag') is not None:
+            self.e_tag = map.get('ETag')
         return self
 
 
@@ -6079,22 +6329,22 @@ class GetVodPlaylistRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
-        result['ChannelName'] = self.channel_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
+        if self.channel_name is not None:
+            result['ChannelName'] = self.channel_name
         if self.filter is not None:
             result['Filter'] = self.filter.to_map()
-        else:
-            result['Filter'] = None
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
-        self.channel_name = map.get('ChannelName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
+        if map.get('ChannelName') is not None:
+            self.channel_name = map.get('ChannelName')
         if map.get('Filter') is not None:
             temp_model = GetVodPlaylistRequestFilter()
             self.filter = temp_model.from_map(map['Filter'])
-        else:
-            self.filter = None
         return self
 
 
@@ -6111,13 +6361,17 @@ class GetVodPlaylistRequestFilter(TeaModel):
 
     def to_map(self):
         result = {}
-        result['endTime'] = self.end_time
-        result['startTime'] = self.start_time
+        if self.end_time is not None:
+            result['endTime'] = self.end_time
+        if self.start_time is not None:
+            result['startTime'] = self.start_time
         return result
 
     def from_map(self, map={}):
-        self.end_time = map.get('endTime')
-        self.start_time = map.get('startTime')
+        if map.get('endTime') is not None:
+            self.end_time = map.get('endTime')
+        if map.get('startTime') is not None:
+            self.start_time = map.get('startTime')
         return self
 
 
@@ -6131,11 +6385,13 @@ class GetVodPlaylistResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         return self
 
 
@@ -6151,11 +6407,13 @@ class DeleteBucketCORSRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
         return self
 
 
@@ -6169,11 +6427,13 @@ class DeleteBucketCORSResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         return self
 
 
@@ -6196,22 +6456,22 @@ class GetObjectRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
-        result['ObjectName'] = self.object_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
+        if self.object_name is not None:
+            result['ObjectName'] = self.object_name
         if self.header is not None:
             result['Header'] = self.header.to_map()
-        else:
-            result['Header'] = None
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
-        self.object_name = map.get('ObjectName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
+        if map.get('ObjectName') is not None:
+            self.object_name = map.get('ObjectName')
         if map.get('Header') is not None:
             temp_model = GetObjectRequestHeader()
             self.header = temp_model.from_map(map['Header'])
-        else:
-            self.header = None
         return self
 
 
@@ -6249,33 +6509,57 @@ class GetObjectRequestHeader(TeaModel):
 
     def to_map(self):
         result = {}
-        result['response-content-type'] = self.response_content_type
-        result['response-content-language'] = self.response_content_language
-        result['response-expires'] = self.response_expires
-        result['response-cache-control'] = self.response_cache_control
-        result['response-content-disposition'] = self.response_content_disposition
-        result['response-content-encoding'] = self.response_content_encoding
-        result['Range'] = self.range
-        result['If-Modified-Since'] = self.if_modified_since
-        result['If-Unmodified-Since'] = self.if_unmodified_since
-        result['If-Match'] = self.if_match
-        result['If-None-Match'] = self.if_none_match
-        result['Accept-Encoding'] = self.accept_encoding
+        if self.response_content_type is not None:
+            result['response-content-type'] = self.response_content_type
+        if self.response_content_language is not None:
+            result['response-content-language'] = self.response_content_language
+        if self.response_expires is not None:
+            result['response-expires'] = self.response_expires
+        if self.response_cache_control is not None:
+            result['response-cache-control'] = self.response_cache_control
+        if self.response_content_disposition is not None:
+            result['response-content-disposition'] = self.response_content_disposition
+        if self.response_content_encoding is not None:
+            result['response-content-encoding'] = self.response_content_encoding
+        if self.range is not None:
+            result['Range'] = self.range
+        if self.if_modified_since is not None:
+            result['If-Modified-Since'] = self.if_modified_since
+        if self.if_unmodified_since is not None:
+            result['If-Unmodified-Since'] = self.if_unmodified_since
+        if self.if_match is not None:
+            result['If-Match'] = self.if_match
+        if self.if_none_match is not None:
+            result['If-None-Match'] = self.if_none_match
+        if self.accept_encoding is not None:
+            result['Accept-Encoding'] = self.accept_encoding
         return result
 
     def from_map(self, map={}):
-        self.response_content_type = map.get('response-content-type')
-        self.response_content_language = map.get('response-content-language')
-        self.response_expires = map.get('response-expires')
-        self.response_cache_control = map.get('response-cache-control')
-        self.response_content_disposition = map.get('response-content-disposition')
-        self.response_content_encoding = map.get('response-content-encoding')
-        self.range = map.get('Range')
-        self.if_modified_since = map.get('If-Modified-Since')
-        self.if_unmodified_since = map.get('If-Unmodified-Since')
-        self.if_match = map.get('If-Match')
-        self.if_none_match = map.get('If-None-Match')
-        self.accept_encoding = map.get('Accept-Encoding')
+        if map.get('response-content-type') is not None:
+            self.response_content_type = map.get('response-content-type')
+        if map.get('response-content-language') is not None:
+            self.response_content_language = map.get('response-content-language')
+        if map.get('response-expires') is not None:
+            self.response_expires = map.get('response-expires')
+        if map.get('response-cache-control') is not None:
+            self.response_cache_control = map.get('response-cache-control')
+        if map.get('response-content-disposition') is not None:
+            self.response_content_disposition = map.get('response-content-disposition')
+        if map.get('response-content-encoding') is not None:
+            self.response_content_encoding = map.get('response-content-encoding')
+        if map.get('Range') is not None:
+            self.range = map.get('Range')
+        if map.get('If-Modified-Since') is not None:
+            self.if_modified_since = map.get('If-Modified-Since')
+        if map.get('If-Unmodified-Since') is not None:
+            self.if_unmodified_since = map.get('If-Unmodified-Since')
+        if map.get('If-Match') is not None:
+            self.if_match = map.get('If-Match')
+        if map.get('If-None-Match') is not None:
+            self.if_none_match = map.get('If-None-Match')
+        if map.get('Accept-Encoding') is not None:
+            self.accept_encoding = map.get('Accept-Encoding')
         return self
 
 
@@ -6305,21 +6589,33 @@ class GetObjectResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
-        result['x-oss-object-type'] = self.object_type
-        result['x-oss-server-side-encryption'] = self.server_side_encryption
-        result['x-oss-tagging-count'] = self.tagging_count
-        result['x-oss-restore'] = self.restore
-        result['body'] = self.body
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
+        if self.object_type is not None:
+            result['x-oss-object-type'] = self.object_type
+        if self.server_side_encryption is not None:
+            result['x-oss-server-side-encryption'] = self.server_side_encryption
+        if self.tagging_count is not None:
+            result['x-oss-tagging-count'] = self.tagging_count
+        if self.restore is not None:
+            result['x-oss-restore'] = self.restore
+        if self.body is not None:
+            result['body'] = self.body
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
-        self.object_type = map.get('x-oss-object-type')
-        self.server_side_encryption = map.get('x-oss-server-side-encryption')
-        self.tagging_count = map.get('x-oss-tagging-count')
-        self.restore = map.get('x-oss-restore')
-        self.body = map.get('body')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-object-type') is not None:
+            self.object_type = map.get('x-oss-object-type')
+        if map.get('x-oss-server-side-encryption') is not None:
+            self.server_side_encryption = map.get('x-oss-server-side-encryption')
+        if map.get('x-oss-tagging-count') is not None:
+            self.tagging_count = map.get('x-oss-tagging-count')
+        if map.get('x-oss-restore') is not None:
+            self.restore = map.get('x-oss-restore')
+        if map.get('body') is not None:
+            self.body = map.get('body')
         return self
 
 
@@ -6345,24 +6641,26 @@ class UploadPartRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
-        result['ObjectName'] = self.object_name
-        result['body'] = self.body
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
+        if self.object_name is not None:
+            result['ObjectName'] = self.object_name
+        if self.body is not None:
+            result['body'] = self.body
         if self.filter is not None:
             result['Filter'] = self.filter.to_map()
-        else:
-            result['Filter'] = None
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
-        self.object_name = map.get('ObjectName')
-        self.body = map.get('body')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
+        if map.get('ObjectName') is not None:
+            self.object_name = map.get('ObjectName')
+        if map.get('body') is not None:
+            self.body = map.get('body')
         if map.get('Filter') is not None:
             temp_model = UploadPartRequestFilter()
             self.filter = temp_model.from_map(map['Filter'])
-        else:
-            self.filter = None
         return self
 
 
@@ -6379,13 +6677,17 @@ class UploadPartRequestFilter(TeaModel):
 
     def to_map(self):
         result = {}
-        result['partNumber'] = self.part_number
-        result['uploadId'] = self.upload_id
+        if self.part_number is not None:
+            result['partNumber'] = self.part_number
+        if self.upload_id is not None:
+            result['uploadId'] = self.upload_id
         return result
 
     def from_map(self, map={}):
-        self.part_number = map.get('partNumber')
-        self.upload_id = map.get('uploadId')
+        if map.get('partNumber') is not None:
+            self.part_number = map.get('partNumber')
+        if map.get('uploadId') is not None:
+            self.upload_id = map.get('uploadId')
         return self
 
 
@@ -6399,11 +6701,13 @@ class UploadPartResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         return self
 
 
@@ -6419,11 +6723,13 @@ class GetBucketCORSRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
         return self
 
 
@@ -6442,20 +6748,18 @@ class GetBucketCORSResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         if self.c_orsconfiguration is not None:
             result['CORSConfiguration'] = self.c_orsconfiguration.to_map()
-        else:
-            result['CORSConfiguration'] = None
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         if map.get('CORSConfiguration') is not None:
             temp_model = GetBucketCORSResponseCORSConfiguration()
             self.c_orsconfiguration = temp_model.from_map(map['CORSConfiguration'])
-        else:
-            self.c_orsconfiguration = None
         return self
 
 
@@ -6469,11 +6773,13 @@ class GetBucketCORSResponseCORSConfigurationCORSRule(TeaModel):
 
     def to_map(self):
         result = {}
-        result['MaxAgeSeconds'] = self.max_age_seconds
+        if self.max_age_seconds is not None:
+            result['MaxAgeSeconds'] = self.max_age_seconds
         return result
 
     def from_map(self, map={}):
-        self.max_age_seconds = map.get('MaxAgeSeconds')
+        if map.get('MaxAgeSeconds') is not None:
+            self.max_age_seconds = map.get('MaxAgeSeconds')
         return self
 
 
@@ -6494,8 +6800,6 @@ class GetBucketCORSResponseCORSConfiguration(TeaModel):
         if self.c_orsrule is not None:
             for k in self.c_orsrule:
                 result['CORSRule'].append(k.to_map() if k else None)
-        else:
-            result['CORSRule'] = None
         return result
 
     def from_map(self, map={}):
@@ -6504,8 +6808,6 @@ class GetBucketCORSResponseCORSConfiguration(TeaModel):
             for k in map.get('CORSRule'):
                 temp_model = GetBucketCORSResponseCORSConfigurationCORSRule()
                 self.c_orsrule.append(temp_model.from_map(k))
-        else:
-            self.c_orsrule = None
         return self
 
 
@@ -6529,22 +6831,22 @@ class CopyObjectRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
-        result['DestObjectName'] = self.dest_object_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
+        if self.dest_object_name is not None:
+            result['DestObjectName'] = self.dest_object_name
         if self.header is not None:
             result['Header'] = self.header.to_map()
-        else:
-            result['Header'] = None
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
-        self.dest_object_name = map.get('DestObjectName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
+        if map.get('DestObjectName') is not None:
+            self.dest_object_name = map.get('DestObjectName')
         if map.get('Header') is not None:
             temp_model = CopyObjectRequestHeader()
             self.header = temp_model.from_map(map['Header'])
-        else:
-            self.header = None
         return self
 
 
@@ -6582,33 +6884,57 @@ class CopyObjectRequestHeader(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-copy-source'] = self.copy_source
-        result['x-oss-copy-source-if-match'] = self.copy_source_if_match
-        result['x-oss-copy-source-if-none-match'] = self.copy_source_if_none_match
-        result['x-oss-copy-source-if-unmodified-since'] = self.copy_source_if_unmodified_since
-        result['x-oss-copy-source-if-modified-since'] = self.copy_source_if_modified_since
-        result['x-oss-metadata-directive'] = self.metadata_directive
-        result['x-oss-server-side-encryption'] = self.server_side_encryption
-        result['x-oss-server-side-encryption-key-id'] = self.server_side_encryption_key_id
-        result['x-oss-object-acl'] = self.object_acl
-        result['x-oss-storage-class'] = self.storage_class
-        result['x-oss-tagging'] = self.tagging
-        result['x-oss-tagging-directive'] = self.tagging_directive
+        if self.copy_source is not None:
+            result['x-oss-copy-source'] = self.copy_source
+        if self.copy_source_if_match is not None:
+            result['x-oss-copy-source-if-match'] = self.copy_source_if_match
+        if self.copy_source_if_none_match is not None:
+            result['x-oss-copy-source-if-none-match'] = self.copy_source_if_none_match
+        if self.copy_source_if_unmodified_since is not None:
+            result['x-oss-copy-source-if-unmodified-since'] = self.copy_source_if_unmodified_since
+        if self.copy_source_if_modified_since is not None:
+            result['x-oss-copy-source-if-modified-since'] = self.copy_source_if_modified_since
+        if self.metadata_directive is not None:
+            result['x-oss-metadata-directive'] = self.metadata_directive
+        if self.server_side_encryption is not None:
+            result['x-oss-server-side-encryption'] = self.server_side_encryption
+        if self.server_side_encryption_key_id is not None:
+            result['x-oss-server-side-encryption-key-id'] = self.server_side_encryption_key_id
+        if self.object_acl is not None:
+            result['x-oss-object-acl'] = self.object_acl
+        if self.storage_class is not None:
+            result['x-oss-storage-class'] = self.storage_class
+        if self.tagging is not None:
+            result['x-oss-tagging'] = self.tagging
+        if self.tagging_directive is not None:
+            result['x-oss-tagging-directive'] = self.tagging_directive
         return result
 
     def from_map(self, map={}):
-        self.copy_source = map.get('x-oss-copy-source')
-        self.copy_source_if_match = map.get('x-oss-copy-source-if-match')
-        self.copy_source_if_none_match = map.get('x-oss-copy-source-if-none-match')
-        self.copy_source_if_unmodified_since = map.get('x-oss-copy-source-if-unmodified-since')
-        self.copy_source_if_modified_since = map.get('x-oss-copy-source-if-modified-since')
-        self.metadata_directive = map.get('x-oss-metadata-directive')
-        self.server_side_encryption = map.get('x-oss-server-side-encryption')
-        self.server_side_encryption_key_id = map.get('x-oss-server-side-encryption-key-id')
-        self.object_acl = map.get('x-oss-object-acl')
-        self.storage_class = map.get('x-oss-storage-class')
-        self.tagging = map.get('x-oss-tagging')
-        self.tagging_directive = map.get('x-oss-tagging-directive')
+        if map.get('x-oss-copy-source') is not None:
+            self.copy_source = map.get('x-oss-copy-source')
+        if map.get('x-oss-copy-source-if-match') is not None:
+            self.copy_source_if_match = map.get('x-oss-copy-source-if-match')
+        if map.get('x-oss-copy-source-if-none-match') is not None:
+            self.copy_source_if_none_match = map.get('x-oss-copy-source-if-none-match')
+        if map.get('x-oss-copy-source-if-unmodified-since') is not None:
+            self.copy_source_if_unmodified_since = map.get('x-oss-copy-source-if-unmodified-since')
+        if map.get('x-oss-copy-source-if-modified-since') is not None:
+            self.copy_source_if_modified_since = map.get('x-oss-copy-source-if-modified-since')
+        if map.get('x-oss-metadata-directive') is not None:
+            self.metadata_directive = map.get('x-oss-metadata-directive')
+        if map.get('x-oss-server-side-encryption') is not None:
+            self.server_side_encryption = map.get('x-oss-server-side-encryption')
+        if map.get('x-oss-server-side-encryption-key-id') is not None:
+            self.server_side_encryption_key_id = map.get('x-oss-server-side-encryption-key-id')
+        if map.get('x-oss-object-acl') is not None:
+            self.object_acl = map.get('x-oss-object-acl')
+        if map.get('x-oss-storage-class') is not None:
+            self.storage_class = map.get('x-oss-storage-class')
+        if map.get('x-oss-tagging') is not None:
+            self.tagging = map.get('x-oss-tagging')
+        if map.get('x-oss-tagging-directive') is not None:
+            self.tagging_directive = map.get('x-oss-tagging-directive')
         return self
 
 
@@ -6627,20 +6953,18 @@ class CopyObjectResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         if self.copy_object_result is not None:
             result['CopyObjectResult'] = self.copy_object_result.to_map()
-        else:
-            result['CopyObjectResult'] = None
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         if map.get('CopyObjectResult') is not None:
             temp_model = CopyObjectResponseCopyObjectResult()
             self.copy_object_result = temp_model.from_map(map['CopyObjectResult'])
-        else:
-            self.copy_object_result = None
         return self
 
 
@@ -6656,13 +6980,17 @@ class CopyObjectResponseCopyObjectResult(TeaModel):
 
     def to_map(self):
         result = {}
-        result['LastModified'] = self.last_modified
-        result['ETag'] = self.e_tag
+        if self.last_modified is not None:
+            result['LastModified'] = self.last_modified
+        if self.e_tag is not None:
+            result['ETag'] = self.e_tag
         return result
 
     def from_map(self, map={}):
-        self.last_modified = map.get('LastModified')
-        self.e_tag = map.get('ETag')
+        if map.get('LastModified') is not None:
+            self.last_modified = map.get('LastModified')
+        if map.get('ETag') is not None:
+            self.e_tag = map.get('ETag')
         return self
 
 
@@ -6681,13 +7009,17 @@ class GetObjectTaggingRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
-        result['ObjectName'] = self.object_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
+        if self.object_name is not None:
+            result['ObjectName'] = self.object_name
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
-        self.object_name = map.get('ObjectName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
+        if map.get('ObjectName') is not None:
+            self.object_name = map.get('ObjectName')
         return self
 
 
@@ -6706,20 +7038,18 @@ class GetObjectTaggingResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         if self.tagging is not None:
             result['Tagging'] = self.tagging.to_map()
-        else:
-            result['Tagging'] = None
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         if map.get('Tagging') is not None:
             temp_model = GetObjectTaggingResponseTagging()
             self.tagging = temp_model.from_map(map['Tagging'])
-        else:
-            self.tagging = None
         return self
 
 
@@ -6735,13 +7065,17 @@ class GetObjectTaggingResponseTaggingTagSetTag(TeaModel):
 
     def to_map(self):
         result = {}
-        result['Key'] = self.key
-        result['Value'] = self.value
+        if self.key is not None:
+            result['Key'] = self.key
+        if self.value is not None:
+            result['Value'] = self.value
         return result
 
     def from_map(self, map={}):
-        self.key = map.get('Key')
-        self.value = map.get('Value')
+        if map.get('Key') is not None:
+            self.key = map.get('Key')
+        if map.get('Value') is not None:
+            self.value = map.get('Value')
         return self
 
 
@@ -6762,8 +7096,6 @@ class GetObjectTaggingResponseTaggingTagSet(TeaModel):
         if self.tag is not None:
             for k in self.tag:
                 result['Tag'].append(k.to_map() if k else None)
-        else:
-            result['Tag'] = None
         return result
 
     def from_map(self, map={}):
@@ -6772,8 +7104,6 @@ class GetObjectTaggingResponseTaggingTagSet(TeaModel):
             for k in map.get('Tag'):
                 temp_model = GetObjectTaggingResponseTaggingTagSetTag()
                 self.tag.append(temp_model.from_map(k))
-        else:
-            self.tag = None
         return self
 
 
@@ -6791,16 +7121,12 @@ class GetObjectTaggingResponseTagging(TeaModel):
         result = {}
         if self.tag_set is not None:
             result['TagSet'] = self.tag_set.to_map()
-        else:
-            result['TagSet'] = None
         return result
 
     def from_map(self, map={}):
         if map.get('TagSet') is not None:
             temp_model = GetObjectTaggingResponseTaggingTagSet()
             self.tag_set = temp_model.from_map(map['TagSet'])
-        else:
-            self.tag_set = None
         return self
 
 
@@ -6816,11 +7142,13 @@ class DeleteBucketLifecycleRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
         return self
 
 
@@ -6834,11 +7162,13 @@ class DeleteBucketLifecycleResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         return self
 
 
@@ -6854,11 +7184,13 @@ class DeleteBucketLoggingRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
         return self
 
 
@@ -6872,11 +7204,13 @@ class DeleteBucketLoggingResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         return self
 
 
@@ -6892,11 +7226,13 @@ class DeleteBucketWebsiteRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
         return self
 
 
@@ -6910,11 +7246,13 @@ class DeleteBucketWebsiteResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         return self
 
 
@@ -6933,13 +7271,17 @@ class GetSymlinkRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
-        result['ObjectName'] = self.object_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
+        if self.object_name is not None:
+            result['ObjectName'] = self.object_name
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
-        self.object_name = map.get('ObjectName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
+        if map.get('ObjectName') is not None:
+            self.object_name = map.get('ObjectName')
         return self
 
 
@@ -6956,13 +7298,17 @@ class GetSymlinkResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
-        result['x-oss-symlink-target'] = self.symlink_target
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
+        if self.symlink_target is not None:
+            result['x-oss-symlink-target'] = self.symlink_target
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
-        self.symlink_target = map.get('x-oss-symlink-target')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-symlink-target') is not None:
+            self.symlink_target = map.get('x-oss-symlink-target')
         return self
 
 
@@ -6978,11 +7324,13 @@ class GetBucketLifecycleRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
         return self
 
 
@@ -7001,20 +7349,18 @@ class GetBucketLifecycleResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         if self.lifecycle_configuration is not None:
             result['LifecycleConfiguration'] = self.lifecycle_configuration.to_map()
-        else:
-            result['LifecycleConfiguration'] = None
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         if map.get('LifecycleConfiguration') is not None:
             temp_model = GetBucketLifecycleResponseLifecycleConfiguration()
             self.lifecycle_configuration = temp_model.from_map(map['LifecycleConfiguration'])
-        else:
-            self.lifecycle_configuration = None
         return self
 
 
@@ -7030,13 +7376,17 @@ class GetBucketLifecycleResponseLifecycleConfigurationRuleExpiration(TeaModel):
 
     def to_map(self):
         result = {}
-        result['Days'] = self.days
-        result['CreatedBeforeDate'] = self.created_before_date
+        if self.days is not None:
+            result['Days'] = self.days
+        if self.created_before_date is not None:
+            result['CreatedBeforeDate'] = self.created_before_date
         return result
 
     def from_map(self, map={}):
-        self.days = map.get('Days')
-        self.created_before_date = map.get('CreatedBeforeDate')
+        if map.get('Days') is not None:
+            self.days = map.get('Days')
+        if map.get('CreatedBeforeDate') is not None:
+            self.created_before_date = map.get('CreatedBeforeDate')
         return self
 
 
@@ -7052,13 +7402,17 @@ class GetBucketLifecycleResponseLifecycleConfigurationRuleTransition(TeaModel):
 
     def to_map(self):
         result = {}
-        result['Days'] = self.days
-        result['StorageClass'] = self.storage_class
+        if self.days is not None:
+            result['Days'] = self.days
+        if self.storage_class is not None:
+            result['StorageClass'] = self.storage_class
         return result
 
     def from_map(self, map={}):
-        self.days = map.get('Days')
-        self.storage_class = map.get('StorageClass')
+        if map.get('Days') is not None:
+            self.days = map.get('Days')
+        if map.get('StorageClass') is not None:
+            self.storage_class = map.get('StorageClass')
         return self
 
 
@@ -7074,13 +7428,17 @@ class GetBucketLifecycleResponseLifecycleConfigurationRuleAbortMultipartUpload(T
 
     def to_map(self):
         result = {}
-        result['Days'] = self.days
-        result['CreatedBeforeDate'] = self.created_before_date
+        if self.days is not None:
+            result['Days'] = self.days
+        if self.created_before_date is not None:
+            result['CreatedBeforeDate'] = self.created_before_date
         return result
 
     def from_map(self, map={}):
-        self.days = map.get('Days')
-        self.created_before_date = map.get('CreatedBeforeDate')
+        if map.get('Days') is not None:
+            self.days = map.get('Days')
+        if map.get('CreatedBeforeDate') is not None:
+            self.created_before_date = map.get('CreatedBeforeDate')
         return self
 
 
@@ -7096,13 +7454,17 @@ class GetBucketLifecycleResponseLifecycleConfigurationRuleTag(TeaModel):
 
     def to_map(self):
         result = {}
-        result['Key'] = self.key
-        result['Value'] = self.value
+        if self.key is not None:
+            result['Key'] = self.key
+        if self.value is not None:
+            result['Value'] = self.value
         return result
 
     def from_map(self, map={}):
-        self.key = map.get('Key')
-        self.value = map.get('Value')
+        if map.get('Key') is not None:
+            self.key = map.get('Key')
+        if map.get('Value') is not None:
+            self.value = map.get('Value')
         return self
 
 
@@ -7140,51 +7502,41 @@ class GetBucketLifecycleResponseLifecycleConfigurationRule(TeaModel):
 
     def to_map(self):
         result = {}
-        result['ID'] = self.i_d
-        result['Prefix'] = self.prefix
-        result['Status'] = self.status
+        if self.i_d is not None:
+            result['ID'] = self.i_d
+        if self.prefix is not None:
+            result['Prefix'] = self.prefix
+        if self.status is not None:
+            result['Status'] = self.status
         if self.expiration is not None:
             result['Expiration'] = self.expiration.to_map()
-        else:
-            result['Expiration'] = None
         if self.transition is not None:
             result['Transition'] = self.transition.to_map()
-        else:
-            result['Transition'] = None
         if self.abort_multipart_upload is not None:
             result['AbortMultipartUpload'] = self.abort_multipart_upload.to_map()
-        else:
-            result['AbortMultipartUpload'] = None
         if self.tag is not None:
             result['Tag'] = self.tag.to_map()
-        else:
-            result['Tag'] = None
         return result
 
     def from_map(self, map={}):
-        self.i_d = map.get('ID')
-        self.prefix = map.get('Prefix')
-        self.status = map.get('Status')
+        if map.get('ID') is not None:
+            self.i_d = map.get('ID')
+        if map.get('Prefix') is not None:
+            self.prefix = map.get('Prefix')
+        if map.get('Status') is not None:
+            self.status = map.get('Status')
         if map.get('Expiration') is not None:
             temp_model = GetBucketLifecycleResponseLifecycleConfigurationRuleExpiration()
             self.expiration = temp_model.from_map(map['Expiration'])
-        else:
-            self.expiration = None
         if map.get('Transition') is not None:
             temp_model = GetBucketLifecycleResponseLifecycleConfigurationRuleTransition()
             self.transition = temp_model.from_map(map['Transition'])
-        else:
-            self.transition = None
         if map.get('AbortMultipartUpload') is not None:
             temp_model = GetBucketLifecycleResponseLifecycleConfigurationRuleAbortMultipartUpload()
             self.abort_multipart_upload = temp_model.from_map(map['AbortMultipartUpload'])
-        else:
-            self.abort_multipart_upload = None
         if map.get('Tag') is not None:
             temp_model = GetBucketLifecycleResponseLifecycleConfigurationRuleTag()
             self.tag = temp_model.from_map(map['Tag'])
-        else:
-            self.tag = None
         return self
 
 
@@ -7205,8 +7557,6 @@ class GetBucketLifecycleResponseLifecycleConfiguration(TeaModel):
         if self.rule is not None:
             for k in self.rule:
                 result['Rule'].append(k.to_map() if k else None)
-        else:
-            result['Rule'] = None
         return result
 
     def from_map(self, map={}):
@@ -7215,8 +7565,6 @@ class GetBucketLifecycleResponseLifecycleConfiguration(TeaModel):
             for k in map.get('Rule'):
                 temp_model = GetBucketLifecycleResponseLifecycleConfigurationRule()
                 self.rule.append(temp_model.from_map(k))
-        else:
-            self.rule = None
         return self
 
 
@@ -7240,22 +7588,22 @@ class PutSymlinkRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
-        result['ObjectName'] = self.object_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
+        if self.object_name is not None:
+            result['ObjectName'] = self.object_name
         if self.header is not None:
             result['Header'] = self.header.to_map()
-        else:
-            result['Header'] = None
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
-        self.object_name = map.get('ObjectName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
+        if map.get('ObjectName') is not None:
+            self.object_name = map.get('ObjectName')
         if map.get('Header') is not None:
             temp_model = PutSymlinkRequestHeader()
             self.header = temp_model.from_map(map['Header'])
-        else:
-            self.header = None
         return self
 
 
@@ -7271,13 +7619,17 @@ class PutSymlinkRequestHeader(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-symlink-target'] = self.symlink_target
-        result['x-oss-storage-class'] = self.storage_class
+        if self.symlink_target is not None:
+            result['x-oss-symlink-target'] = self.symlink_target
+        if self.storage_class is not None:
+            result['x-oss-storage-class'] = self.storage_class
         return result
 
     def from_map(self, map={}):
-        self.symlink_target = map.get('x-oss-symlink-target')
-        self.storage_class = map.get('x-oss-storage-class')
+        if map.get('x-oss-symlink-target') is not None:
+            self.symlink_target = map.get('x-oss-symlink-target')
+        if map.get('x-oss-storage-class') is not None:
+            self.storage_class = map.get('x-oss-storage-class')
         return self
 
 
@@ -7291,11 +7643,13 @@ class PutSymlinkResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         return self
 
 
@@ -7311,11 +7665,13 @@ class GetBucketRefererRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
         return self
 
 
@@ -7334,20 +7690,18 @@ class GetBucketRefererResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         if self.referer_configuration is not None:
             result['RefererConfiguration'] = self.referer_configuration.to_map()
-        else:
-            result['RefererConfiguration'] = None
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         if map.get('RefererConfiguration') is not None:
             temp_model = GetBucketRefererResponseRefererConfiguration()
             self.referer_configuration = temp_model.from_map(map['RefererConfiguration'])
-        else:
-            self.referer_configuration = None
         return self
 
 
@@ -7361,11 +7715,13 @@ class GetBucketRefererResponseRefererConfigurationRefererList(TeaModel):
 
     def to_map(self):
         result = {}
-        result['Referer'] = self.referer
+        if self.referer is not None:
+            result['Referer'] = self.referer
         return result
 
     def from_map(self, map={}):
-        self.referer = map.get('Referer')
+        if map.get('Referer') is not None:
+            self.referer = map.get('Referer')
         return self
 
 
@@ -7383,20 +7739,18 @@ class GetBucketRefererResponseRefererConfiguration(TeaModel):
 
     def to_map(self):
         result = {}
-        result['AllowEmptyReferer'] = self.allow_empty_referer
+        if self.allow_empty_referer is not None:
+            result['AllowEmptyReferer'] = self.allow_empty_referer
         if self.referer_list is not None:
             result['RefererList'] = self.referer_list.to_map()
-        else:
-            result['RefererList'] = None
         return result
 
     def from_map(self, map={}):
-        self.allow_empty_referer = map.get('AllowEmptyReferer')
+        if map.get('AllowEmptyReferer') is not None:
+            self.allow_empty_referer = map.get('AllowEmptyReferer')
         if map.get('RefererList') is not None:
             temp_model = GetBucketRefererResponseRefererConfigurationRefererList()
             self.referer_list = temp_model.from_map(map['RefererList'])
-        else:
-            self.referer_list = None
         return self
 
 
@@ -7412,11 +7766,13 @@ class CallbackRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
         return self
 
 
@@ -7430,11 +7786,13 @@ class CallbackResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         return self
 
 
@@ -7450,11 +7808,13 @@ class GetBucketLoggingRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
         return self
 
 
@@ -7473,20 +7833,18 @@ class GetBucketLoggingResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         if self.bucket_logging_status is not None:
             result['BucketLoggingStatus'] = self.bucket_logging_status.to_map()
-        else:
-            result['BucketLoggingStatus'] = None
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         if map.get('BucketLoggingStatus') is not None:
             temp_model = GetBucketLoggingResponseBucketLoggingStatus()
             self.bucket_logging_status = temp_model.from_map(map['BucketLoggingStatus'])
-        else:
-            self.bucket_logging_status = None
         return self
 
 
@@ -7502,13 +7860,17 @@ class GetBucketLoggingResponseBucketLoggingStatusLoggingEnabled(TeaModel):
 
     def to_map(self):
         result = {}
-        result['TargetBucket'] = self.target_bucket
-        result['TargetPrefix'] = self.target_prefix
+        if self.target_bucket is not None:
+            result['TargetBucket'] = self.target_bucket
+        if self.target_prefix is not None:
+            result['TargetPrefix'] = self.target_prefix
         return result
 
     def from_map(self, map={}):
-        self.target_bucket = map.get('TargetBucket')
-        self.target_prefix = map.get('TargetPrefix')
+        if map.get('TargetBucket') is not None:
+            self.target_bucket = map.get('TargetBucket')
+        if map.get('TargetPrefix') is not None:
+            self.target_prefix = map.get('TargetPrefix')
         return self
 
 
@@ -7526,16 +7888,12 @@ class GetBucketLoggingResponseBucketLoggingStatus(TeaModel):
         result = {}
         if self.logging_enabled is not None:
             result['LoggingEnabled'] = self.logging_enabled.to_map()
-        else:
-            result['LoggingEnabled'] = None
         return result
 
     def from_map(self, map={}):
         if map.get('LoggingEnabled') is not None:
             temp_model = GetBucketLoggingResponseBucketLoggingStatusLoggingEnabled()
             self.logging_enabled = temp_model.from_map(map['LoggingEnabled'])
-        else:
-            self.logging_enabled = None
         return self
 
 
@@ -7559,22 +7917,22 @@ class PutObjectAclRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
-        result['ObjectName'] = self.object_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
+        if self.object_name is not None:
+            result['ObjectName'] = self.object_name
         if self.header is not None:
             result['Header'] = self.header.to_map()
-        else:
-            result['Header'] = None
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
-        self.object_name = map.get('ObjectName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
+        if map.get('ObjectName') is not None:
+            self.object_name = map.get('ObjectName')
         if map.get('Header') is not None:
             temp_model = PutObjectAclRequestHeader()
             self.header = temp_model.from_map(map['Header'])
-        else:
-            self.header = None
         return self
 
 
@@ -7588,11 +7946,13 @@ class PutObjectAclRequestHeader(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-object-acl'] = self.object_acl
+        if self.object_acl is not None:
+            result['x-oss-object-acl'] = self.object_acl
         return result
 
     def from_map(self, map={}):
-        self.object_acl = map.get('x-oss-object-acl')
+        if map.get('x-oss-object-acl') is not None:
+            self.object_acl = map.get('x-oss-object-acl')
         return self
 
 
@@ -7606,11 +7966,13 @@ class PutObjectAclResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         return self
 
 
@@ -7626,11 +7988,13 @@ class GetBucketInfoRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
         return self
 
 
@@ -7649,20 +8013,18 @@ class GetBucketInfoResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         if self.bucket_info is not None:
             result['BucketInfo'] = self.bucket_info.to_map()
-        else:
-            result['BucketInfo'] = None
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         if map.get('BucketInfo') is not None:
             temp_model = GetBucketInfoResponseBucketInfo()
             self.bucket_info = temp_model.from_map(map['BucketInfo'])
-        else:
-            self.bucket_info = None
         return self
 
 
@@ -7678,13 +8040,17 @@ class GetBucketInfoResponseBucketInfoBucketOwner(TeaModel):
 
     def to_map(self):
         result = {}
-        result['ID'] = self.i_d
-        result['DisplayName'] = self.display_name
+        if self.i_d is not None:
+            result['ID'] = self.i_d
+        if self.display_name is not None:
+            result['DisplayName'] = self.display_name
         return result
 
     def from_map(self, map={}):
-        self.i_d = map.get('ID')
-        self.display_name = map.get('DisplayName')
+        if map.get('ID') is not None:
+            self.i_d = map.get('ID')
+        if map.get('DisplayName') is not None:
+            self.display_name = map.get('DisplayName')
         return self
 
 
@@ -7698,11 +8064,13 @@ class GetBucketInfoResponseBucketInfoBucketAccessControlList(TeaModel):
 
     def to_map(self):
         result = {}
-        result['Grant'] = self.grant
+        if self.grant is not None:
+            result['Grant'] = self.grant
         return result
 
     def from_map(self, map={}):
-        self.grant = map.get('Grant')
+        if map.get('Grant') is not None:
+            self.grant = map.get('Grant')
         return self
 
 
@@ -7740,43 +8108,51 @@ class GetBucketInfoResponseBucketInfoBucket(TeaModel):
 
     def to_map(self):
         result = {}
-        result['CreationDate'] = self.creation_date
-        result['ExtranetEndpoint'] = self.extranet_endpoint
-        result['IntranetEndpoint'] = self.intranet_endpoint
-        result['Location'] = self.location
-        result['Name'] = self.name
-        result['DataRedundancyType'] = self.data_redundancy_type
-        result['StorageClass'] = self.storage_class
-        result['Comment'] = self.comment
+        if self.creation_date is not None:
+            result['CreationDate'] = self.creation_date
+        if self.extranet_endpoint is not None:
+            result['ExtranetEndpoint'] = self.extranet_endpoint
+        if self.intranet_endpoint is not None:
+            result['IntranetEndpoint'] = self.intranet_endpoint
+        if self.location is not None:
+            result['Location'] = self.location
+        if self.name is not None:
+            result['Name'] = self.name
+        if self.data_redundancy_type is not None:
+            result['DataRedundancyType'] = self.data_redundancy_type
+        if self.storage_class is not None:
+            result['StorageClass'] = self.storage_class
+        if self.comment is not None:
+            result['Comment'] = self.comment
         if self.owner is not None:
             result['Owner'] = self.owner.to_map()
-        else:
-            result['Owner'] = None
         if self.access_control_list is not None:
             result['AccessControlList'] = self.access_control_list.to_map()
-        else:
-            result['AccessControlList'] = None
         return result
 
     def from_map(self, map={}):
-        self.creation_date = map.get('CreationDate')
-        self.extranet_endpoint = map.get('ExtranetEndpoint')
-        self.intranet_endpoint = map.get('IntranetEndpoint')
-        self.location = map.get('Location')
-        self.name = map.get('Name')
-        self.data_redundancy_type = map.get('DataRedundancyType')
-        self.storage_class = map.get('StorageClass')
-        self.comment = map.get('Comment')
+        if map.get('CreationDate') is not None:
+            self.creation_date = map.get('CreationDate')
+        if map.get('ExtranetEndpoint') is not None:
+            self.extranet_endpoint = map.get('ExtranetEndpoint')
+        if map.get('IntranetEndpoint') is not None:
+            self.intranet_endpoint = map.get('IntranetEndpoint')
+        if map.get('Location') is not None:
+            self.location = map.get('Location')
+        if map.get('Name') is not None:
+            self.name = map.get('Name')
+        if map.get('DataRedundancyType') is not None:
+            self.data_redundancy_type = map.get('DataRedundancyType')
+        if map.get('StorageClass') is not None:
+            self.storage_class = map.get('StorageClass')
+        if map.get('Comment') is not None:
+            self.comment = map.get('Comment')
         if map.get('Owner') is not None:
             temp_model = GetBucketInfoResponseBucketInfoBucketOwner()
             self.owner = temp_model.from_map(map['Owner'])
-        else:
-            self.owner = None
         if map.get('AccessControlList') is not None:
             temp_model = GetBucketInfoResponseBucketInfoBucketAccessControlList()
             self.access_control_list = temp_model.from_map(map['AccessControlList'])
-        else:
-            self.access_control_list = None
         return self
 
 
@@ -7794,16 +8170,12 @@ class GetBucketInfoResponseBucketInfo(TeaModel):
         result = {}
         if self.bucket is not None:
             result['Bucket'] = self.bucket.to_map()
-        else:
-            result['Bucket'] = None
         return result
 
     def from_map(self, map={}):
         if map.get('Bucket') is not None:
             temp_model = GetBucketInfoResponseBucketInfoBucket()
             self.bucket = temp_model.from_map(map['Bucket'])
-        else:
-            self.bucket = None
         return self
 
 
@@ -7827,22 +8199,22 @@ class PutLiveChannelStatusRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
-        result['ChannelName'] = self.channel_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
+        if self.channel_name is not None:
+            result['ChannelName'] = self.channel_name
         if self.filter is not None:
             result['Filter'] = self.filter.to_map()
-        else:
-            result['Filter'] = None
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
-        self.channel_name = map.get('ChannelName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
+        if map.get('ChannelName') is not None:
+            self.channel_name = map.get('ChannelName')
         if map.get('Filter') is not None:
             temp_model = PutLiveChannelStatusRequestFilter()
             self.filter = temp_model.from_map(map['Filter'])
-        else:
-            self.filter = None
         return self
 
 
@@ -7856,11 +8228,13 @@ class PutLiveChannelStatusRequestFilter(TeaModel):
 
     def to_map(self):
         result = {}
-        result['status'] = self.status
+        if self.status is not None:
+            result['status'] = self.status
         return result
 
     def from_map(self, map={}):
-        self.status = map.get('status')
+        if map.get('status') is not None:
+            self.status = map.get('status')
         return self
 
 
@@ -7874,11 +8248,13 @@ class PutLiveChannelStatusResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         return self
 
 
@@ -7905,31 +8281,27 @@ class InitiateMultipartUploadRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
-        result['ObjectName'] = self.object_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
+        if self.object_name is not None:
+            result['ObjectName'] = self.object_name
         if self.filter is not None:
             result['Filter'] = self.filter.to_map()
-        else:
-            result['Filter'] = None
         if self.header is not None:
             result['Header'] = self.header.to_map()
-        else:
-            result['Header'] = None
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
-        self.object_name = map.get('ObjectName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
+        if map.get('ObjectName') is not None:
+            self.object_name = map.get('ObjectName')
         if map.get('Filter') is not None:
             temp_model = InitiateMultipartUploadRequestFilter()
             self.filter = temp_model.from_map(map['Filter'])
-        else:
-            self.filter = None
         if map.get('Header') is not None:
             temp_model = InitiateMultipartUploadRequestHeader()
             self.header = temp_model.from_map(map['Header'])
-        else:
-            self.header = None
         return self
 
 
@@ -7943,11 +8315,13 @@ class InitiateMultipartUploadRequestFilter(TeaModel):
 
     def to_map(self):
         result = {}
-        result['encoding-type'] = self.encoding_type
+        if self.encoding_type is not None:
+            result['encoding-type'] = self.encoding_type
         return result
 
     def from_map(self, map={}):
-        self.encoding_type = map.get('encoding-type')
+        if map.get('encoding-type') is not None:
+            self.encoding_type = map.get('encoding-type')
         return self
 
 
@@ -7978,27 +8352,45 @@ class InitiateMultipartUploadRequestHeader(TeaModel):
 
     def to_map(self):
         result = {}
-        result['Cache-Control'] = self.cache_control
-        result['Content-Disposition'] = self.content_disposition
-        result['Content-Encoding'] = self.content_encoding
-        result['Expires'] = self.expires
-        result['x-oss-server-side-encryption'] = self.server_side_encryption
-        result['x-oss-server-side-encryption-key-id'] = self.server_side_encryption_key_id
-        result['x-oss-storage-class'] = self.storage_class
-        result['x-oss-tagging'] = self.tagging
-        result['content-type'] = self.content_type
+        if self.cache_control is not None:
+            result['Cache-Control'] = self.cache_control
+        if self.content_disposition is not None:
+            result['Content-Disposition'] = self.content_disposition
+        if self.content_encoding is not None:
+            result['Content-Encoding'] = self.content_encoding
+        if self.expires is not None:
+            result['Expires'] = self.expires
+        if self.server_side_encryption is not None:
+            result['x-oss-server-side-encryption'] = self.server_side_encryption
+        if self.server_side_encryption_key_id is not None:
+            result['x-oss-server-side-encryption-key-id'] = self.server_side_encryption_key_id
+        if self.storage_class is not None:
+            result['x-oss-storage-class'] = self.storage_class
+        if self.tagging is not None:
+            result['x-oss-tagging'] = self.tagging
+        if self.content_type is not None:
+            result['content-type'] = self.content_type
         return result
 
     def from_map(self, map={}):
-        self.cache_control = map.get('Cache-Control')
-        self.content_disposition = map.get('Content-Disposition')
-        self.content_encoding = map.get('Content-Encoding')
-        self.expires = map.get('Expires')
-        self.server_side_encryption = map.get('x-oss-server-side-encryption')
-        self.server_side_encryption_key_id = map.get('x-oss-server-side-encryption-key-id')
-        self.storage_class = map.get('x-oss-storage-class')
-        self.tagging = map.get('x-oss-tagging')
-        self.content_type = map.get('content-type')
+        if map.get('Cache-Control') is not None:
+            self.cache_control = map.get('Cache-Control')
+        if map.get('Content-Disposition') is not None:
+            self.content_disposition = map.get('Content-Disposition')
+        if map.get('Content-Encoding') is not None:
+            self.content_encoding = map.get('Content-Encoding')
+        if map.get('Expires') is not None:
+            self.expires = map.get('Expires')
+        if map.get('x-oss-server-side-encryption') is not None:
+            self.server_side_encryption = map.get('x-oss-server-side-encryption')
+        if map.get('x-oss-server-side-encryption-key-id') is not None:
+            self.server_side_encryption_key_id = map.get('x-oss-server-side-encryption-key-id')
+        if map.get('x-oss-storage-class') is not None:
+            self.storage_class = map.get('x-oss-storage-class')
+        if map.get('x-oss-tagging') is not None:
+            self.tagging = map.get('x-oss-tagging')
+        if map.get('content-type') is not None:
+            self.content_type = map.get('content-type')
         return self
 
 
@@ -8017,20 +8409,18 @@ class InitiateMultipartUploadResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         if self.initiate_multipart_upload_result is not None:
             result['InitiateMultipartUploadResult'] = self.initiate_multipart_upload_result.to_map()
-        else:
-            result['InitiateMultipartUploadResult'] = None
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         if map.get('InitiateMultipartUploadResult') is not None:
             temp_model = InitiateMultipartUploadResponseInitiateMultipartUploadResult()
             self.initiate_multipart_upload_result = temp_model.from_map(map['InitiateMultipartUploadResult'])
-        else:
-            self.initiate_multipart_upload_result = None
         return self
 
 
@@ -8048,15 +8438,21 @@ class InitiateMultipartUploadResponseInitiateMultipartUploadResult(TeaModel):
 
     def to_map(self):
         result = {}
-        result['Bucket'] = self.bucket
-        result['Key'] = self.key
-        result['UploadId'] = self.upload_id
+        if self.bucket is not None:
+            result['Bucket'] = self.bucket
+        if self.key is not None:
+            result['Key'] = self.key
+        if self.upload_id is not None:
+            result['UploadId'] = self.upload_id
         return result
 
     def from_map(self, map={}):
-        self.bucket = map.get('Bucket')
-        self.key = map.get('Key')
-        self.upload_id = map.get('UploadId')
+        if map.get('Bucket') is not None:
+            self.bucket = map.get('Bucket')
+        if map.get('Key') is not None:
+            self.key = map.get('Key')
+        if map.get('UploadId') is not None:
+            self.upload_id = map.get('UploadId')
         return self
 
 
@@ -8080,22 +8476,22 @@ class OptionObjectRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
-        result['ObjectName'] = self.object_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
+        if self.object_name is not None:
+            result['ObjectName'] = self.object_name
         if self.header is not None:
             result['Header'] = self.header.to_map()
-        else:
-            result['Header'] = None
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
-        self.object_name = map.get('ObjectName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
+        if map.get('ObjectName') is not None:
+            self.object_name = map.get('ObjectName')
         if map.get('Header') is not None:
             temp_model = OptionObjectRequestHeader()
             self.header = temp_model.from_map(map['Header'])
-        else:
-            self.header = None
         return self
 
 
@@ -8115,15 +8511,21 @@ class OptionObjectRequestHeader(TeaModel):
 
     def to_map(self):
         result = {}
-        result['Origin'] = self.origin
-        result['Access-Control-Request-Method'] = self.access_control_request_method
-        result['Access-Control-Request-Headers'] = self.access_control_request_headers
+        if self.origin is not None:
+            result['Origin'] = self.origin
+        if self.access_control_request_method is not None:
+            result['Access-Control-Request-Method'] = self.access_control_request_method
+        if self.access_control_request_headers is not None:
+            result['Access-Control-Request-Headers'] = self.access_control_request_headers
         return result
 
     def from_map(self, map={}):
-        self.origin = map.get('Origin')
-        self.access_control_request_method = map.get('Access-Control-Request-Method')
-        self.access_control_request_headers = map.get('Access-Control-Request-Headers')
+        if map.get('Origin') is not None:
+            self.origin = map.get('Origin')
+        if map.get('Access-Control-Request-Method') is not None:
+            self.access_control_request_method = map.get('Access-Control-Request-Method')
+        if map.get('Access-Control-Request-Headers') is not None:
+            self.access_control_request_headers = map.get('Access-Control-Request-Headers')
         return self
 
 
@@ -8153,21 +8555,33 @@ class OptionObjectResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
-        result['access-control-allow-origin'] = self.access_control_allow_origin
-        result['access-control-allow-methods'] = self.access_control_allow_methods
-        result['access-control-allow-headers'] = self.access_control_allow_headers
-        result['access-control-expose-headers'] = self.access_control_expose_headers
-        result['access-control-max-age'] = self.access_control_max_age
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
+        if self.access_control_allow_origin is not None:
+            result['access-control-allow-origin'] = self.access_control_allow_origin
+        if self.access_control_allow_methods is not None:
+            result['access-control-allow-methods'] = self.access_control_allow_methods
+        if self.access_control_allow_headers is not None:
+            result['access-control-allow-headers'] = self.access_control_allow_headers
+        if self.access_control_expose_headers is not None:
+            result['access-control-expose-headers'] = self.access_control_expose_headers
+        if self.access_control_max_age is not None:
+            result['access-control-max-age'] = self.access_control_max_age
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
-        self.access_control_allow_origin = map.get('access-control-allow-origin')
-        self.access_control_allow_methods = map.get('access-control-allow-methods')
-        self.access_control_allow_headers = map.get('access-control-allow-headers')
-        self.access_control_expose_headers = map.get('access-control-expose-headers')
-        self.access_control_max_age = map.get('access-control-max-age')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
+        if map.get('access-control-allow-origin') is not None:
+            self.access_control_allow_origin = map.get('access-control-allow-origin')
+        if map.get('access-control-allow-methods') is not None:
+            self.access_control_allow_methods = map.get('access-control-allow-methods')
+        if map.get('access-control-allow-headers') is not None:
+            self.access_control_allow_headers = map.get('access-control-allow-headers')
+        if map.get('access-control-expose-headers') is not None:
+            self.access_control_expose_headers = map.get('access-control-expose-headers')
+        if map.get('access-control-max-age') is not None:
+            self.access_control_max_age = map.get('access-control-max-age')
         return self
 
 
@@ -8194,24 +8608,26 @@ class PostVodPlaylistRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
-        result['ChannelName'] = self.channel_name
-        result['PlaylistName'] = self.playlist_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
+        if self.channel_name is not None:
+            result['ChannelName'] = self.channel_name
+        if self.playlist_name is not None:
+            result['PlaylistName'] = self.playlist_name
         if self.filter is not None:
             result['Filter'] = self.filter.to_map()
-        else:
-            result['Filter'] = None
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
-        self.channel_name = map.get('ChannelName')
-        self.playlist_name = map.get('PlaylistName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
+        if map.get('ChannelName') is not None:
+            self.channel_name = map.get('ChannelName')
+        if map.get('PlaylistName') is not None:
+            self.playlist_name = map.get('PlaylistName')
         if map.get('Filter') is not None:
             temp_model = PostVodPlaylistRequestFilter()
             self.filter = temp_model.from_map(map['Filter'])
-        else:
-            self.filter = None
         return self
 
 
@@ -8228,13 +8644,17 @@ class PostVodPlaylistRequestFilter(TeaModel):
 
     def to_map(self):
         result = {}
-        result['endTime'] = self.end_time
-        result['startTime'] = self.start_time
+        if self.end_time is not None:
+            result['endTime'] = self.end_time
+        if self.start_time is not None:
+            result['startTime'] = self.start_time
         return result
 
     def from_map(self, map={}):
-        self.end_time = map.get('endTime')
-        self.start_time = map.get('startTime')
+        if map.get('endTime') is not None:
+            self.end_time = map.get('endTime')
+        if map.get('startTime') is not None:
+            self.start_time = map.get('startTime')
         return self
 
 
@@ -8248,11 +8668,13 @@ class PostVodPlaylistResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         return self
 
 
@@ -8273,20 +8695,18 @@ class PostObjectRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
         if self.header is not None:
             result['header'] = self.header.to_map()
-        else:
-            result['header'] = None
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
         if map.get('header') is not None:
             temp_model = PostObjectRequestHeader()
             self.header = temp_model.from_map(map['header'])
-        else:
-            self.header = None
         return self
 
 
@@ -8318,30 +8738,38 @@ class PostObjectRequestHeader(TeaModel):
 
     def to_map(self):
         result = {}
-        result['OSSAccessKeyId'] = self.access_key_id
-        result['policy'] = self.policy
-        result['Signature'] = self.signature
-        result['success_action_status'] = self.success_action_status
+        if self.access_key_id is not None:
+            result['OSSAccessKeyId'] = self.access_key_id
+        if self.policy is not None:
+            result['policy'] = self.policy
+        if self.signature is not None:
+            result['Signature'] = self.signature
+        if self.success_action_status is not None:
+            result['success_action_status'] = self.success_action_status
         if self.file is not None:
             result['file'] = self.file.to_map()
-        else:
-            result['file'] = None
-        result['key'] = self.key
-        result['UserMeta'] = self.user_meta
+        if self.key is not None:
+            result['key'] = self.key
+        if self.user_meta is not None:
+            result['UserMeta'] = self.user_meta
         return result
 
     def from_map(self, map={}):
-        self.access_key_id = map.get('OSSAccessKeyId')
-        self.policy = map.get('policy')
-        self.signature = map.get('Signature')
-        self.success_action_status = map.get('success_action_status')
+        if map.get('OSSAccessKeyId') is not None:
+            self.access_key_id = map.get('OSSAccessKeyId')
+        if map.get('policy') is not None:
+            self.policy = map.get('policy')
+        if map.get('Signature') is not None:
+            self.signature = map.get('Signature')
+        if map.get('success_action_status') is not None:
+            self.success_action_status = map.get('success_action_status')
         if map.get('file') is not None:
             temp_model = file_form_models.FileField()
             self.file = temp_model.from_map(map['file'])
-        else:
-            self.file = None
-        self.key = map.get('key')
-        self.user_meta = map.get('UserMeta')
+        if map.get('key') is not None:
+            self.key = map.get('key')
+        if map.get('UserMeta') is not None:
+            self.user_meta = map.get('UserMeta')
         return self
 
 
@@ -8359,16 +8787,12 @@ class PostObjectResponse(TeaModel):
         result = {}
         if self.post_response is not None:
             result['PostResponse'] = self.post_response.to_map()
-        else:
-            result['PostResponse'] = None
         return result
 
     def from_map(self, map={}):
         if map.get('PostResponse') is not None:
             temp_model = PostObjectResponsePostResponse()
             self.post_response = temp_model.from_map(map['PostResponse'])
-        else:
-            self.post_response = None
         return self
 
 
@@ -8388,15 +8812,21 @@ class PostObjectResponsePostResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['Bucket'] = self.bucket
-        result['ETag'] = self.e_tag
-        result['Location'] = self.location
+        if self.bucket is not None:
+            result['Bucket'] = self.bucket
+        if self.e_tag is not None:
+            result['ETag'] = self.e_tag
+        if self.location is not None:
+            result['Location'] = self.location
         return result
 
     def from_map(self, map={}):
-        self.bucket = map.get('Bucket')
-        self.e_tag = map.get('ETag')
-        self.location = map.get('Location')
+        if map.get('Bucket') is not None:
+            self.bucket = map.get('Bucket')
+        if map.get('ETag') is not None:
+            self.e_tag = map.get('ETag')
+        if map.get('Location') is not None:
+            self.location = map.get('Location')
         return self
 
 
@@ -8419,22 +8849,22 @@ class HeadObjectRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
-        result['ObjectName'] = self.object_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
+        if self.object_name is not None:
+            result['ObjectName'] = self.object_name
         if self.header is not None:
             result['Header'] = self.header.to_map()
-        else:
-            result['Header'] = None
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
-        self.object_name = map.get('ObjectName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
+        if map.get('ObjectName') is not None:
+            self.object_name = map.get('ObjectName')
         if map.get('Header') is not None:
             temp_model = HeadObjectRequestHeader()
             self.header = temp_model.from_map(map['Header'])
-        else:
-            self.header = None
         return self
 
 
@@ -8454,17 +8884,25 @@ class HeadObjectRequestHeader(TeaModel):
 
     def to_map(self):
         result = {}
-        result['If-Modified-Since'] = self.if_modified_since
-        result['If-Unmodified-Since'] = self.if_unmodified_since
-        result['If-Match'] = self.if_match
-        result['If-None-Match'] = self.if_none_match
+        if self.if_modified_since is not None:
+            result['If-Modified-Since'] = self.if_modified_since
+        if self.if_unmodified_since is not None:
+            result['If-Unmodified-Since'] = self.if_unmodified_since
+        if self.if_match is not None:
+            result['If-Match'] = self.if_match
+        if self.if_none_match is not None:
+            result['If-None-Match'] = self.if_none_match
         return result
 
     def from_map(self, map={}):
-        self.if_modified_since = map.get('If-Modified-Since')
-        self.if_unmodified_since = map.get('If-Unmodified-Since')
-        self.if_match = map.get('If-Match')
-        self.if_none_match = map.get('If-None-Match')
+        if map.get('If-Modified-Since') is not None:
+            self.if_modified_since = map.get('If-Modified-Since')
+        if map.get('If-Unmodified-Since') is not None:
+            self.if_unmodified_since = map.get('If-Unmodified-Since')
+        if map.get('If-Match') is not None:
+            self.if_match = map.get('If-Match')
+        if map.get('If-None-Match') is not None:
+            self.if_none_match = map.get('If-None-Match')
         return self
 
 
@@ -8539,49 +8977,89 @@ class HeadObjectResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
-        result['usermeta'] = self.user_meta
-        result['x-oss-server-side-encryption'] = self.server_side_encryption
-        result['x-oss-server-side-encryption-key-id'] = self.server_side_encryption_key_id
-        result['x-oss-storage-class'] = self.storage_class
-        result['x-oss-object-type'] = self.object_type
-        result['x-oss-next-append-position'] = self.next_append_position
-        result['x-oss-hash-crc64ecma'] = self.hash_crc_64ecma
-        result['x-oss-expiration'] = self.expiration
-        result['x-oss-restore'] = self.restore
-        result['x-oss-process-status'] = self.process_status
-        result['x-oss-request-charged'] = self.request_charged
-        result['content-md5'] = self.content_md_5
-        result['last-modified'] = self.last_modified
-        result['access-control-allow-origin'] = self.access_control_allow_origin
-        result['access-control-allow-methods'] = self.access_control_allow_methods
-        result['access-control-max-age'] = self.access_control_max_age
-        result['access-control-allow-headers'] = self.access_control_allow_headers
-        result['access-control-expose-headers'] = self.access_control_expose_headers
-        result['x-oss-tagging-count'] = self.tagging_count
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
+        if self.user_meta is not None:
+            result['usermeta'] = self.user_meta
+        if self.server_side_encryption is not None:
+            result['x-oss-server-side-encryption'] = self.server_side_encryption
+        if self.server_side_encryption_key_id is not None:
+            result['x-oss-server-side-encryption-key-id'] = self.server_side_encryption_key_id
+        if self.storage_class is not None:
+            result['x-oss-storage-class'] = self.storage_class
+        if self.object_type is not None:
+            result['x-oss-object-type'] = self.object_type
+        if self.next_append_position is not None:
+            result['x-oss-next-append-position'] = self.next_append_position
+        if self.hash_crc_64ecma is not None:
+            result['x-oss-hash-crc64ecma'] = self.hash_crc_64ecma
+        if self.expiration is not None:
+            result['x-oss-expiration'] = self.expiration
+        if self.restore is not None:
+            result['x-oss-restore'] = self.restore
+        if self.process_status is not None:
+            result['x-oss-process-status'] = self.process_status
+        if self.request_charged is not None:
+            result['x-oss-request-charged'] = self.request_charged
+        if self.content_md_5 is not None:
+            result['content-md5'] = self.content_md_5
+        if self.last_modified is not None:
+            result['last-modified'] = self.last_modified
+        if self.access_control_allow_origin is not None:
+            result['access-control-allow-origin'] = self.access_control_allow_origin
+        if self.access_control_allow_methods is not None:
+            result['access-control-allow-methods'] = self.access_control_allow_methods
+        if self.access_control_max_age is not None:
+            result['access-control-max-age'] = self.access_control_max_age
+        if self.access_control_allow_headers is not None:
+            result['access-control-allow-headers'] = self.access_control_allow_headers
+        if self.access_control_expose_headers is not None:
+            result['access-control-expose-headers'] = self.access_control_expose_headers
+        if self.tagging_count is not None:
+            result['x-oss-tagging-count'] = self.tagging_count
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
-        self.user_meta = map.get('usermeta')
-        self.server_side_encryption = map.get('x-oss-server-side-encryption')
-        self.server_side_encryption_key_id = map.get('x-oss-server-side-encryption-key-id')
-        self.storage_class = map.get('x-oss-storage-class')
-        self.object_type = map.get('x-oss-object-type')
-        self.next_append_position = map.get('x-oss-next-append-position')
-        self.hash_crc_64ecma = map.get('x-oss-hash-crc64ecma')
-        self.expiration = map.get('x-oss-expiration')
-        self.restore = map.get('x-oss-restore')
-        self.process_status = map.get('x-oss-process-status')
-        self.request_charged = map.get('x-oss-request-charged')
-        self.content_md_5 = map.get('content-md5')
-        self.last_modified = map.get('last-modified')
-        self.access_control_allow_origin = map.get('access-control-allow-origin')
-        self.access_control_allow_methods = map.get('access-control-allow-methods')
-        self.access_control_max_age = map.get('access-control-max-age')
-        self.access_control_allow_headers = map.get('access-control-allow-headers')
-        self.access_control_expose_headers = map.get('access-control-expose-headers')
-        self.tagging_count = map.get('x-oss-tagging-count')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
+        if map.get('usermeta') is not None:
+            self.user_meta = map.get('usermeta')
+        if map.get('x-oss-server-side-encryption') is not None:
+            self.server_side_encryption = map.get('x-oss-server-side-encryption')
+        if map.get('x-oss-server-side-encryption-key-id') is not None:
+            self.server_side_encryption_key_id = map.get('x-oss-server-side-encryption-key-id')
+        if map.get('x-oss-storage-class') is not None:
+            self.storage_class = map.get('x-oss-storage-class')
+        if map.get('x-oss-object-type') is not None:
+            self.object_type = map.get('x-oss-object-type')
+        if map.get('x-oss-next-append-position') is not None:
+            self.next_append_position = map.get('x-oss-next-append-position')
+        if map.get('x-oss-hash-crc64ecma') is not None:
+            self.hash_crc_64ecma = map.get('x-oss-hash-crc64ecma')
+        if map.get('x-oss-expiration') is not None:
+            self.expiration = map.get('x-oss-expiration')
+        if map.get('x-oss-restore') is not None:
+            self.restore = map.get('x-oss-restore')
+        if map.get('x-oss-process-status') is not None:
+            self.process_status = map.get('x-oss-process-status')
+        if map.get('x-oss-request-charged') is not None:
+            self.request_charged = map.get('x-oss-request-charged')
+        if map.get('content-md5') is not None:
+            self.content_md_5 = map.get('content-md5')
+        if map.get('last-modified') is not None:
+            self.last_modified = map.get('last-modified')
+        if map.get('access-control-allow-origin') is not None:
+            self.access_control_allow_origin = map.get('access-control-allow-origin')
+        if map.get('access-control-allow-methods') is not None:
+            self.access_control_allow_methods = map.get('access-control-allow-methods')
+        if map.get('access-control-max-age') is not None:
+            self.access_control_max_age = map.get('access-control-max-age')
+        if map.get('access-control-allow-headers') is not None:
+            self.access_control_allow_headers = map.get('access-control-allow-headers')
+        if map.get('access-control-expose-headers') is not None:
+            self.access_control_expose_headers = map.get('access-control-expose-headers')
+        if map.get('x-oss-tagging-count') is not None:
+            self.tagging_count = map.get('x-oss-tagging-count')
         return self
 
 
@@ -8600,13 +9078,17 @@ class DeleteObjectTaggingRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
-        result['ObjectName'] = self.object_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
+        if self.object_name is not None:
+            result['ObjectName'] = self.object_name
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
-        self.object_name = map.get('ObjectName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
+        if map.get('ObjectName') is not None:
+            self.object_name = map.get('ObjectName')
         return self
 
 
@@ -8620,11 +9102,13 @@ class DeleteObjectTaggingResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         return self
 
 
@@ -8643,13 +9127,17 @@ class RestoreObjectRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
-        result['ObjectName'] = self.object_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
+        if self.object_name is not None:
+            result['ObjectName'] = self.object_name
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
-        self.object_name = map.get('ObjectName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
+        if map.get('ObjectName') is not None:
+            self.object_name = map.get('ObjectName')
         return self
 
 
@@ -8663,11 +9151,13 @@ class RestoreObjectResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         return self
 
 
@@ -8686,13 +9176,17 @@ class GetObjectAclRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
-        result['ObjectName'] = self.object_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
+        if self.object_name is not None:
+            result['ObjectName'] = self.object_name
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
-        self.object_name = map.get('ObjectName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
+        if map.get('ObjectName') is not None:
+            self.object_name = map.get('ObjectName')
         return self
 
 
@@ -8711,20 +9205,18 @@ class GetObjectAclResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         if self.access_control_policy is not None:
             result['AccessControlPolicy'] = self.access_control_policy.to_map()
-        else:
-            result['AccessControlPolicy'] = None
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         if map.get('AccessControlPolicy') is not None:
             temp_model = GetObjectAclResponseAccessControlPolicy()
             self.access_control_policy = temp_model.from_map(map['AccessControlPolicy'])
-        else:
-            self.access_control_policy = None
         return self
 
 
@@ -8740,13 +9232,17 @@ class GetObjectAclResponseAccessControlPolicyOwner(TeaModel):
 
     def to_map(self):
         result = {}
-        result['ID'] = self.i_d
-        result['DisplayName'] = self.display_name
+        if self.i_d is not None:
+            result['ID'] = self.i_d
+        if self.display_name is not None:
+            result['DisplayName'] = self.display_name
         return result
 
     def from_map(self, map={}):
-        self.i_d = map.get('ID')
-        self.display_name = map.get('DisplayName')
+        if map.get('ID') is not None:
+            self.i_d = map.get('ID')
+        if map.get('DisplayName') is not None:
+            self.display_name = map.get('DisplayName')
         return self
 
 
@@ -8760,11 +9256,13 @@ class GetObjectAclResponseAccessControlPolicyAccessControlList(TeaModel):
 
     def to_map(self):
         result = {}
-        result['Grant'] = self.grant
+        if self.grant is not None:
+            result['Grant'] = self.grant
         return result
 
     def from_map(self, map={}):
-        self.grant = map.get('Grant')
+        if map.get('Grant') is not None:
+            self.grant = map.get('Grant')
         return self
 
 
@@ -8787,25 +9285,17 @@ class GetObjectAclResponseAccessControlPolicy(TeaModel):
         result = {}
         if self.owner is not None:
             result['Owner'] = self.owner.to_map()
-        else:
-            result['Owner'] = None
         if self.access_control_list is not None:
             result['AccessControlList'] = self.access_control_list.to_map()
-        else:
-            result['AccessControlList'] = None
         return result
 
     def from_map(self, map={}):
         if map.get('Owner') is not None:
             temp_model = GetObjectAclResponseAccessControlPolicyOwner()
             self.owner = temp_model.from_map(map['Owner'])
-        else:
-            self.owner = None
         if map.get('AccessControlList') is not None:
             temp_model = GetObjectAclResponseAccessControlPolicyAccessControlList()
             self.access_control_list = temp_model.from_map(map['AccessControlList'])
-        else:
-            self.access_control_list = None
         return self
 
 
@@ -8826,20 +9316,18 @@ class PutBucketAclRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
         if self.header is not None:
             result['Header'] = self.header.to_map()
-        else:
-            result['Header'] = None
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
         if map.get('Header') is not None:
             temp_model = PutBucketAclRequestHeader()
             self.header = temp_model.from_map(map['Header'])
-        else:
-            self.header = None
         return self
 
 
@@ -8853,11 +9341,13 @@ class PutBucketAclRequestHeader(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-acl'] = self.acl
+        if self.acl is not None:
+            result['x-oss-acl'] = self.acl
         return result
 
     def from_map(self, map={}):
-        self.acl = map.get('x-oss-acl')
+        if map.get('x-oss-acl') is not None:
+            self.acl = map.get('x-oss-acl')
         return self
 
 
@@ -8871,11 +9361,13 @@ class PutBucketAclResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         return self
 
 
@@ -8891,11 +9383,13 @@ class DeleteBucketRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
         return self
 
 
@@ -8909,11 +9403,13 @@ class DeleteBucketResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
         return self
 
 
@@ -8940,26 +9436,30 @@ class PutObjectRequest(TeaModel):
 
     def to_map(self):
         result = {}
-        result['BucketName'] = self.bucket_name
-        result['ObjectName'] = self.object_name
-        result['UserMeta'] = self.user_meta
-        result['body'] = self.body
+        if self.bucket_name is not None:
+            result['BucketName'] = self.bucket_name
+        if self.object_name is not None:
+            result['ObjectName'] = self.object_name
+        if self.user_meta is not None:
+            result['UserMeta'] = self.user_meta
+        if self.body is not None:
+            result['body'] = self.body
         if self.header is not None:
             result['Header'] = self.header.to_map()
-        else:
-            result['Header'] = None
         return result
 
     def from_map(self, map={}):
-        self.bucket_name = map.get('BucketName')
-        self.object_name = map.get('ObjectName')
-        self.user_meta = map.get('UserMeta')
-        self.body = map.get('body')
+        if map.get('BucketName') is not None:
+            self.bucket_name = map.get('BucketName')
+        if map.get('ObjectName') is not None:
+            self.object_name = map.get('ObjectName')
+        if map.get('UserMeta') is not None:
+            self.user_meta = map.get('UserMeta')
+        if map.get('body') is not None:
+            self.body = map.get('body')
         if map.get('Header') is not None:
             temp_model = PutObjectRequestHeader()
             self.header = temp_model.from_map(map['Header'])
-        else:
-            self.header = None
         return self
 
 
@@ -9001,37 +9501,65 @@ class PutObjectRequestHeader(TeaModel):
 
     def to_map(self):
         result = {}
-        result['Authorization'] = self.authorization
-        result['Cache-Control'] = self.cache_control
-        result['Content-Disposition'] = self.content_disposition
-        result['Content-Encoding'] = self.content_encoding
-        result['Content-MD5'] = self.content_md5
-        result['Content-Length'] = self.content_length
-        result['CETag'] = self.e_tag
-        result['Expires'] = self.expires
-        result['x-oss-server-side-encryption'] = self.server_side_encryption
-        result['x-oss-server-side-encryption-key-id'] = self.server_side_encryption_key_id
-        result['x-oss-object-acl'] = self.object_acl
-        result['x-oss-storage-class'] = self.storage_class
-        result['x-oss-tagging'] = self.tagging
-        result['content-type'] = self.content_type
+        if self.authorization is not None:
+            result['Authorization'] = self.authorization
+        if self.cache_control is not None:
+            result['Cache-Control'] = self.cache_control
+        if self.content_disposition is not None:
+            result['Content-Disposition'] = self.content_disposition
+        if self.content_encoding is not None:
+            result['Content-Encoding'] = self.content_encoding
+        if self.content_md5 is not None:
+            result['Content-MD5'] = self.content_md5
+        if self.content_length is not None:
+            result['Content-Length'] = self.content_length
+        if self.e_tag is not None:
+            result['CETag'] = self.e_tag
+        if self.expires is not None:
+            result['Expires'] = self.expires
+        if self.server_side_encryption is not None:
+            result['x-oss-server-side-encryption'] = self.server_side_encryption
+        if self.server_side_encryption_key_id is not None:
+            result['x-oss-server-side-encryption-key-id'] = self.server_side_encryption_key_id
+        if self.object_acl is not None:
+            result['x-oss-object-acl'] = self.object_acl
+        if self.storage_class is not None:
+            result['x-oss-storage-class'] = self.storage_class
+        if self.tagging is not None:
+            result['x-oss-tagging'] = self.tagging
+        if self.content_type is not None:
+            result['content-type'] = self.content_type
         return result
 
     def from_map(self, map={}):
-        self.authorization = map.get('Authorization')
-        self.cache_control = map.get('Cache-Control')
-        self.content_disposition = map.get('Content-Disposition')
-        self.content_encoding = map.get('Content-Encoding')
-        self.content_md5 = map.get('Content-MD5')
-        self.content_length = map.get('Content-Length')
-        self.e_tag = map.get('CETag')
-        self.expires = map.get('Expires')
-        self.server_side_encryption = map.get('x-oss-server-side-encryption')
-        self.server_side_encryption_key_id = map.get('x-oss-server-side-encryption-key-id')
-        self.object_acl = map.get('x-oss-object-acl')
-        self.storage_class = map.get('x-oss-storage-class')
-        self.tagging = map.get('x-oss-tagging')
-        self.content_type = map.get('content-type')
+        if map.get('Authorization') is not None:
+            self.authorization = map.get('Authorization')
+        if map.get('Cache-Control') is not None:
+            self.cache_control = map.get('Cache-Control')
+        if map.get('Content-Disposition') is not None:
+            self.content_disposition = map.get('Content-Disposition')
+        if map.get('Content-Encoding') is not None:
+            self.content_encoding = map.get('Content-Encoding')
+        if map.get('Content-MD5') is not None:
+            self.content_md5 = map.get('Content-MD5')
+        if map.get('Content-Length') is not None:
+            self.content_length = map.get('Content-Length')
+        if map.get('CETag') is not None:
+            self.e_tag = map.get('CETag')
+        if map.get('Expires') is not None:
+            self.expires = map.get('Expires')
+        if map.get('x-oss-server-side-encryption') is not None:
+            self.server_side_encryption = map.get('x-oss-server-side-encryption')
+        if map.get('x-oss-server-side-encryption-key-id') is not None:
+            self.server_side_encryption_key_id = map.get('x-oss-server-side-encryption-key-id')
+        if map.get('x-oss-object-acl') is not None:
+            self.object_acl = map.get('x-oss-object-acl')
+        if map.get('x-oss-storage-class') is not None:
+            self.storage_class = map.get('x-oss-storage-class')
+        if map.get('x-oss-tagging') is not None:
+            self.tagging = map.get('x-oss-tagging')
+        if map.get('content-type') is not None:
+            self.content_type = map.get('content-type')
         return self
 
 
@@ -9054,15 +9582,23 @@ class PutObjectResponse(TeaModel):
 
     def to_map(self):
         result = {}
-        result['x-oss-request-id'] = self.request_id
-        result['x-oss-hash-crc64ecma'] = self.hash_crc_64ecma
-        result['x-oss-server-time'] = self.server_time
-        result['x-oss-bucket-version'] = self.bucket_version
+        if self.request_id is not None:
+            result['x-oss-request-id'] = self.request_id
+        if self.hash_crc_64ecma is not None:
+            result['x-oss-hash-crc64ecma'] = self.hash_crc_64ecma
+        if self.server_time is not None:
+            result['x-oss-server-time'] = self.server_time
+        if self.bucket_version is not None:
+            result['x-oss-bucket-version'] = self.bucket_version
         return result
 
     def from_map(self, map={}):
-        self.request_id = map.get('x-oss-request-id')
-        self.hash_crc_64ecma = map.get('x-oss-hash-crc64ecma')
-        self.server_time = map.get('x-oss-server-time')
-        self.bucket_version = map.get('x-oss-bucket-version')
+        if map.get('x-oss-request-id') is not None:
+            self.request_id = map.get('x-oss-request-id')
+        if map.get('x-oss-hash-crc64ecma') is not None:
+            self.hash_crc_64ecma = map.get('x-oss-hash-crc64ecma')
+        if map.get('x-oss-server-time') is not None:
+            self.server_time = map.get('x-oss-server-time')
+        if map.get('x-oss-bucket-version') is not None:
+            self.bucket_version = map.get('x-oss-bucket-version')
         return self
