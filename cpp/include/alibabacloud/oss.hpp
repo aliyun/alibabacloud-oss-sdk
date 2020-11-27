@@ -8,8 +8,6 @@
 #include <boost/throw_exception.hpp>
 #include <darabonba/core.hpp>
 #include <darabonba/file_form.hpp>
-#include <darabonba/util.hpp>
-#include <darabonba/xml.hpp>
 #include <iostream>
 #include <map>
 #include <vector>
@@ -19,7 +17,31 @@ using namespace std;
 namespace Alibabacloud_OSS {
 class Config : public Darabonba::Model {
 public:
+  shared_ptr<string> type{};
+  shared_ptr<string> securityToken{};
+  shared_ptr<string> accessKeyId{};
+  shared_ptr<string> accessKeySecret{};
+  shared_ptr<string> endpoint{};
+  shared_ptr<string> protocol{};
+  shared_ptr<string> regionId{};
+  shared_ptr<string> userAgent{};
+  shared_ptr<string> hostModel{};
+  shared_ptr<string> signatureVersion{};
+  shared_ptr<bool> isEnableMD5{};
+  shared_ptr<bool> isEnableCrc{};
+  shared_ptr<int> readTimeout{};
+  shared_ptr<int> connectTimeout{};
+  shared_ptr<string> localAddr{};
+  shared_ptr<string> httpProxy{};
+  shared_ptr<string> httpsProxy{};
+  shared_ptr<string> noProxy{};
+  shared_ptr<string> socks5Proxy{};
+  shared_ptr<string> socks5NetWork{};
+  shared_ptr<int> maxIdleConns{};
+  shared_ptr<vector<string>> addtionalHeaders{};
+
   Config() {}
+
   explicit Config(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -185,8 +207,7 @@ public:
     if (m.find("addtionalHeaders") != m.end() &&
         !m["addtionalHeaders"].empty()) {
       vector<string> toVec1;
-      if (typeid(vector<boost::any>).name() ==
-          m["addtionalHeaders"].type().name()) {
+      if (typeid(vector<boost::any>) == m["addtionalHeaders"].type()) {
         vector<boost::any> vec1 =
             boost::any_cast<vector<boost::any>>(m["addtionalHeaders"]);
         for (auto item : vec1) {
@@ -197,35 +218,16 @@ public:
     }
   }
 
-  shared_ptr<string> type{};
-  shared_ptr<string> securityToken{};
-  shared_ptr<string> accessKeyId{};
-  shared_ptr<string> accessKeySecret{};
-  shared_ptr<string> endpoint{};
-  shared_ptr<string> protocol{};
-  shared_ptr<string> regionId{};
-  shared_ptr<string> userAgent{};
-  shared_ptr<string> hostModel{};
-  shared_ptr<string> signatureVersion{};
-  shared_ptr<bool> isEnableMD5{};
-  shared_ptr<bool> isEnableCrc{};
-  shared_ptr<int> readTimeout{};
-  shared_ptr<int> connectTimeout{};
-  shared_ptr<string> localAddr{};
-  shared_ptr<string> httpProxy{};
-  shared_ptr<string> httpsProxy{};
-  shared_ptr<string> noProxy{};
-  shared_ptr<string> socks5Proxy{};
-  shared_ptr<string> socks5NetWork{};
-  shared_ptr<int> maxIdleConns{};
-  shared_ptr<vector<string>> addtionalHeaders{};
-
-  ~Config() = default;
+  virtual ~Config() = default;
 };
 class PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration
     : public Darabonba::Model {
 public:
+  shared_ptr<int> days{};
+  shared_ptr<string> createdBeforeDate{};
+
   PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration() {}
+
   explicit PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -256,16 +258,17 @@ public:
     }
   }
 
-  shared_ptr<int> days{};
-  shared_ptr<string> createdBeforeDate{};
-
-  ~PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration() =
+  virtual ~PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration() =
       default;
 };
 class PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition
     : public Darabonba::Model {
 public:
+  shared_ptr<int> days{};
+  shared_ptr<string> storageClass{};
+
   PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition() {}
+
   explicit PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -295,18 +298,19 @@ public:
     }
   }
 
-  shared_ptr<int> days{};
-  shared_ptr<string> storageClass{};
-
-  ~PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition() =
+  virtual ~PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition() =
       default;
 };
 class
     PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUpload
     : public Darabonba::Model {
 public:
+  shared_ptr<int> days{};
+  shared_ptr<string> createdBeforeDate{};
+
   PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUpload() {
   }
+
   explicit PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUpload(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -337,16 +341,17 @@ public:
     }
   }
 
-  shared_ptr<int> days{};
-  shared_ptr<string> createdBeforeDate{};
-
-  ~PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUpload() =
+  virtual ~PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUpload() =
       default;
 };
 class PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag
     : public Darabonba::Model {
 public:
+  shared_ptr<string> key{};
+  shared_ptr<string> value{};
+
   PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag() {}
+
   explicit PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -375,15 +380,26 @@ public:
     }
   }
 
-  shared_ptr<string> key{};
-  shared_ptr<string> value{};
-
-  ~PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag() = default;
+  virtual ~PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag() =
+      default;
 };
 class PutBucketLifecycleRequestBodyLifecycleConfigurationRule
     : public Darabonba::Model {
 public:
+  shared_ptr<PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration>
+      expiration{};
+  shared_ptr<PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition>
+      transition{};
+  shared_ptr<
+      PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUpload>
+      abortMultipartUpload{};
+  shared_ptr<PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag> tag{};
+  shared_ptr<string> iD{};
+  shared_ptr<string> prefix{};
+  shared_ptr<string> status{};
+
   PutBucketLifecycleRequestBodyLifecycleConfigurationRule() {}
+
   explicit PutBucketLifecycleRequestBodyLifecycleConfigurationRule(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -425,8 +441,7 @@ public:
 
   void fromMap(map<string, boost::any> m) override {
     if (m.find("Expiration") != m.end() && !m["Expiration"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["Expiration"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Expiration"].type()) {
         PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration
             model1;
         model1.fromMap(
@@ -437,8 +452,7 @@ public:
       }
     }
     if (m.find("Transition") != m.end() && !m["Transition"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["Transition"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Transition"].type()) {
         PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition
             model1;
         model1.fromMap(
@@ -450,8 +464,7 @@ public:
     }
     if (m.find("AbortMultipartUpload") != m.end() &&
         !m["AbortMultipartUpload"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["AbortMultipartUpload"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["AbortMultipartUpload"].type()) {
         PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUpload
             model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(
@@ -462,7 +475,7 @@ public:
       }
     }
     if (m.find("Tag") != m.end() && !m["Tag"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Tag"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Tag"].type()) {
         PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Tag"]));
         tag = make_shared<
@@ -480,24 +493,16 @@ public:
     }
   }
 
-  shared_ptr<PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration>
-      expiration{};
-  shared_ptr<PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition>
-      transition{};
-  shared_ptr<
-      PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUpload>
-      abortMultipartUpload{};
-  shared_ptr<PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag> tag{};
-  shared_ptr<string> iD{};
-  shared_ptr<string> prefix{};
-  shared_ptr<string> status{};
-
-  ~PutBucketLifecycleRequestBodyLifecycleConfigurationRule() = default;
+  virtual ~PutBucketLifecycleRequestBodyLifecycleConfigurationRule() = default;
 };
 class PutBucketLifecycleRequestBodyLifecycleConfiguration
     : public Darabonba::Model {
 public:
+  shared_ptr<vector<PutBucketLifecycleRequestBodyLifecycleConfigurationRule>>
+      rule{};
+
   PutBucketLifecycleRequestBodyLifecycleConfiguration() {}
+
   explicit PutBucketLifecycleRequestBodyLifecycleConfiguration(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -520,10 +525,10 @@ public:
 
   void fromMap(map<string, boost::any> m) override {
     if (m.find("Rule") != m.end() && !m["Rule"].empty()) {
-      if (typeid(vector<boost::any>).name() == m["Rule"].type().name()) {
+      if (typeid(vector<boost::any>) == m["Rule"].type()) {
         vector<PutBucketLifecycleRequestBodyLifecycleConfigurationRule> expect1;
         for (auto item1 : boost::any_cast<vector<boost::any>>(m["Rule"])) {
-          if (typeid(map<string, boost::any>).name() == item1.type().name()) {
+          if (typeid(map<string, boost::any>) == item1.type()) {
             PutBucketLifecycleRequestBodyLifecycleConfigurationRule model2;
             model2.fromMap(boost::any_cast<map<string, boost::any>>(item1));
             expect1.push_back(model2);
@@ -536,14 +541,15 @@ public:
     }
   }
 
-  shared_ptr<vector<PutBucketLifecycleRequestBodyLifecycleConfigurationRule>>
-      rule{};
-
-  ~PutBucketLifecycleRequestBodyLifecycleConfiguration() = default;
+  virtual ~PutBucketLifecycleRequestBodyLifecycleConfiguration() = default;
 };
 class PutBucketLifecycleRequestBody : public Darabonba::Model {
 public:
+  shared_ptr<PutBucketLifecycleRequestBodyLifecycleConfiguration>
+      lifecycleConfiguration{};
+
   PutBucketLifecycleRequestBody() {}
+
   explicit PutBucketLifecycleRequestBody(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -570,8 +576,8 @@ public:
   void fromMap(map<string, boost::any> m) override {
     if (m.find("LifecycleConfiguration") != m.end() &&
         !m["LifecycleConfiguration"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["LifecycleConfiguration"].type().name()) {
+      if (typeid(map<string, boost::any>) ==
+          m["LifecycleConfiguration"].type()) {
         PutBucketLifecycleRequestBodyLifecycleConfiguration model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(
             m["LifecycleConfiguration"]));
@@ -582,14 +588,15 @@ public:
     }
   }
 
-  shared_ptr<PutBucketLifecycleRequestBodyLifecycleConfiguration>
-      lifecycleConfiguration{};
-
-  ~PutBucketLifecycleRequestBody() = default;
+  virtual ~PutBucketLifecycleRequestBody() = default;
 };
 class PutBucketLifecycleRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+  shared_ptr<PutBucketLifecycleRequestBody> body{};
+
   PutBucketLifecycleRequest() {}
+
   explicit PutBucketLifecycleRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -622,7 +629,7 @@ public:
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
     if (m.find("Body") != m.end() && !m["Body"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Body"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Body"].type()) {
         PutBucketLifecycleRequestBody model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Body"]));
         body = make_shared<PutBucketLifecycleRequestBody>(model1);
@@ -630,14 +637,14 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-  shared_ptr<PutBucketLifecycleRequestBody> body{};
-
-  ~PutBucketLifecycleRequest() = default;
+  virtual ~PutBucketLifecycleRequest() = default;
 };
 class PutBucketLifecycleResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+
   PutBucketLifecycleResponse() {}
+
   explicit PutBucketLifecycleResponse(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -667,13 +674,14 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-
-  ~PutBucketLifecycleResponse() = default;
+  virtual ~PutBucketLifecycleResponse() = default;
 };
 class DeleteMultipleObjectsRequestBodyDeleteObject : public Darabonba::Model {
 public:
+  shared_ptr<string> key{};
+
   DeleteMultipleObjectsRequestBodyDeleteObject() {}
+
   explicit DeleteMultipleObjectsRequestBodyDeleteObject(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -696,13 +704,15 @@ public:
     }
   }
 
-  shared_ptr<string> key{};
-
-  ~DeleteMultipleObjectsRequestBodyDeleteObject() = default;
+  virtual ~DeleteMultipleObjectsRequestBodyDeleteObject() = default;
 };
 class DeleteMultipleObjectsRequestBodyDelete : public Darabonba::Model {
 public:
+  shared_ptr<vector<DeleteMultipleObjectsRequestBodyDeleteObject>> object{};
+  shared_ptr<string> quiet{};
+
   DeleteMultipleObjectsRequestBodyDelete() {}
+
   explicit DeleteMultipleObjectsRequestBodyDelete(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -728,10 +738,10 @@ public:
 
   void fromMap(map<string, boost::any> m) override {
     if (m.find("Object") != m.end() && !m["Object"].empty()) {
-      if (typeid(vector<boost::any>).name() == m["Object"].type().name()) {
+      if (typeid(vector<boost::any>) == m["Object"].type()) {
         vector<DeleteMultipleObjectsRequestBodyDeleteObject> expect1;
         for (auto item1 : boost::any_cast<vector<boost::any>>(m["Object"])) {
-          if (typeid(map<string, boost::any>).name() == item1.type().name()) {
+          if (typeid(map<string, boost::any>) == item1.type()) {
             DeleteMultipleObjectsRequestBodyDeleteObject model2;
             model2.fromMap(boost::any_cast<map<string, boost::any>>(item1));
             expect1.push_back(model2);
@@ -747,14 +757,14 @@ public:
     }
   }
 
-  shared_ptr<vector<DeleteMultipleObjectsRequestBodyDeleteObject>> object{};
-  shared_ptr<string> quiet{};
-
-  ~DeleteMultipleObjectsRequestBodyDelete() = default;
+  virtual ~DeleteMultipleObjectsRequestBodyDelete() = default;
 };
 class DeleteMultipleObjectsRequestBody : public Darabonba::Model {
 public:
+  shared_ptr<DeleteMultipleObjectsRequestBodyDelete> delete_{};
+
   DeleteMultipleObjectsRequestBody() {}
+
   explicit DeleteMultipleObjectsRequestBody(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -779,7 +789,7 @@ public:
 
   void fromMap(map<string, boost::any> m) override {
     if (m.find("Delete") != m.end() && !m["Delete"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Delete"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Delete"].type()) {
         DeleteMultipleObjectsRequestBodyDelete model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Delete"]));
         delete_ = make_shared<DeleteMultipleObjectsRequestBodyDelete>(model1);
@@ -787,13 +797,16 @@ public:
     }
   }
 
-  shared_ptr<DeleteMultipleObjectsRequestBodyDelete> delete_{};
-
-  ~DeleteMultipleObjectsRequestBody() = default;
+  virtual ~DeleteMultipleObjectsRequestBody() = default;
 };
 class DeleteMultipleObjectsRequestHeader : public Darabonba::Model {
 public:
+  shared_ptr<string> encodingType{};
+  shared_ptr<string> contentLength{};
+  shared_ptr<string> contentMD5{};
+
   DeleteMultipleObjectsRequestHeader() {}
+
   explicit DeleteMultipleObjectsRequestHeader(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -840,15 +853,16 @@ public:
     }
   }
 
-  shared_ptr<string> encodingType{};
-  shared_ptr<string> contentLength{};
-  shared_ptr<string> contentMD5{};
-
-  ~DeleteMultipleObjectsRequestHeader() = default;
+  virtual ~DeleteMultipleObjectsRequestHeader() = default;
 };
 class DeleteMultipleObjectsRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+  shared_ptr<DeleteMultipleObjectsRequestBody> body{};
+  shared_ptr<DeleteMultipleObjectsRequestHeader> header{};
+
   DeleteMultipleObjectsRequest() {}
+
   explicit DeleteMultipleObjectsRequest(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -890,14 +904,14 @@ public:
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
     if (m.find("Body") != m.end() && !m["Body"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Body"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Body"].type()) {
         DeleteMultipleObjectsRequestBody model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Body"]));
         body = make_shared<DeleteMultipleObjectsRequestBody>(model1);
       }
     }
     if (m.find("Header") != m.end() && !m["Header"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Header"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Header"].type()) {
         DeleteMultipleObjectsRequestHeader model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Header"]));
         header = make_shared<DeleteMultipleObjectsRequestHeader>(model1);
@@ -905,16 +919,15 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-  shared_ptr<DeleteMultipleObjectsRequestBody> body{};
-  shared_ptr<DeleteMultipleObjectsRequestHeader> header{};
-
-  ~DeleteMultipleObjectsRequest() = default;
+  virtual ~DeleteMultipleObjectsRequest() = default;
 };
 class DeleteMultipleObjectsResponseDeleteResultDeleted
     : public Darabonba::Model {
 public:
+  shared_ptr<string> key{};
+
   DeleteMultipleObjectsResponseDeleteResultDeleted() {}
+
   explicit DeleteMultipleObjectsResponseDeleteResultDeleted(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -937,13 +950,17 @@ public:
     }
   }
 
-  shared_ptr<string> key{};
-
-  ~DeleteMultipleObjectsResponseDeleteResultDeleted() = default;
+  virtual ~DeleteMultipleObjectsResponseDeleteResultDeleted() = default;
 };
 class DeleteMultipleObjectsResponseDeleteResult : public Darabonba::Model {
 public:
+  shared_ptr<string> quiet{};
+  shared_ptr<string> encodingType{};
+  shared_ptr<vector<DeleteMultipleObjectsResponseDeleteResultDeleted>>
+      deleted{};
+
   DeleteMultipleObjectsResponseDeleteResult() {}
+
   explicit DeleteMultipleObjectsResponseDeleteResult(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -979,10 +996,10 @@ public:
           make_shared<string>(boost::any_cast<string>(m["EncodingType"]));
     }
     if (m.find("Deleted") != m.end() && !m["Deleted"].empty()) {
-      if (typeid(vector<boost::any>).name() == m["Deleted"].type().name()) {
+      if (typeid(vector<boost::any>) == m["Deleted"].type()) {
         vector<DeleteMultipleObjectsResponseDeleteResultDeleted> expect1;
         for (auto item1 : boost::any_cast<vector<boost::any>>(m["Deleted"])) {
-          if (typeid(map<string, boost::any>).name() == item1.type().name()) {
+          if (typeid(map<string, boost::any>) == item1.type()) {
             DeleteMultipleObjectsResponseDeleteResultDeleted model2;
             model2.fromMap(boost::any_cast<map<string, boost::any>>(item1));
             expect1.push_back(model2);
@@ -994,16 +1011,15 @@ public:
     }
   }
 
-  shared_ptr<string> quiet{};
-  shared_ptr<string> encodingType{};
-  shared_ptr<vector<DeleteMultipleObjectsResponseDeleteResultDeleted>>
-      deleted{};
-
-  ~DeleteMultipleObjectsResponseDeleteResult() = default;
+  virtual ~DeleteMultipleObjectsResponseDeleteResult() = default;
 };
 class DeleteMultipleObjectsResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+  shared_ptr<DeleteMultipleObjectsResponseDeleteResult> deleteResult{};
+
   DeleteMultipleObjectsResponse() {}
+
   explicit DeleteMultipleObjectsResponse(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -1041,8 +1057,7 @@ public:
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
     if (m.find("DeleteResult") != m.end() && !m["DeleteResult"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["DeleteResult"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["DeleteResult"].type()) {
         DeleteMultipleObjectsResponseDeleteResult model1;
         model1.fromMap(
             boost::any_cast<map<string, boost::any>>(m["DeleteResult"]));
@@ -1052,15 +1067,15 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-  shared_ptr<DeleteMultipleObjectsResponseDeleteResult> deleteResult{};
-
-  ~DeleteMultipleObjectsResponse() = default;
+  virtual ~DeleteMultipleObjectsResponse() = default;
 };
 class PutBucketRefererRequestBodyRefererConfigurationRefererList
     : public Darabonba::Model {
 public:
+  shared_ptr<vector<string>> referer{};
+
   PutBucketRefererRequestBodyRefererConfigurationRefererList() {}
+
   explicit PutBucketRefererRequestBodyRefererConfigurationRefererList(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -1080,7 +1095,7 @@ public:
   void fromMap(map<string, boost::any> m) override {
     if (m.find("Referer") != m.end() && !m["Referer"].empty()) {
       vector<string> toVec1;
-      if (typeid(vector<boost::any>).name() == m["Referer"].type().name()) {
+      if (typeid(vector<boost::any>) == m["Referer"].type()) {
         vector<boost::any> vec1 =
             boost::any_cast<vector<boost::any>>(m["Referer"]);
         for (auto item : vec1) {
@@ -1091,14 +1106,18 @@ public:
     }
   }
 
-  shared_ptr<vector<string>> referer{};
-
-  ~PutBucketRefererRequestBodyRefererConfigurationRefererList() = default;
+  virtual ~PutBucketRefererRequestBodyRefererConfigurationRefererList() =
+      default;
 };
 class PutBucketRefererRequestBodyRefererConfiguration
     : public Darabonba::Model {
 public:
+  shared_ptr<PutBucketRefererRequestBodyRefererConfigurationRefererList>
+      refererList{};
+  shared_ptr<bool> allowEmptyReferer{};
+
   PutBucketRefererRequestBodyRefererConfiguration() {}
+
   explicit PutBucketRefererRequestBodyRefererConfiguration(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -1122,8 +1141,7 @@ public:
 
   void fromMap(map<string, boost::any> m) override {
     if (m.find("RefererList") != m.end() && !m["RefererList"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["RefererList"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["RefererList"].type()) {
         PutBucketRefererRequestBodyRefererConfigurationRefererList model1;
         model1.fromMap(
             boost::any_cast<map<string, boost::any>>(m["RefererList"]));
@@ -1138,15 +1156,15 @@ public:
     }
   }
 
-  shared_ptr<PutBucketRefererRequestBodyRefererConfigurationRefererList>
-      refererList{};
-  shared_ptr<bool> allowEmptyReferer{};
-
-  ~PutBucketRefererRequestBodyRefererConfiguration() = default;
+  virtual ~PutBucketRefererRequestBodyRefererConfiguration() = default;
 };
 class PutBucketRefererRequestBody : public Darabonba::Model {
 public:
+  shared_ptr<PutBucketRefererRequestBodyRefererConfiguration>
+      refererConfiguration{};
+
   PutBucketRefererRequestBody() {}
+
   explicit PutBucketRefererRequestBody(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -1173,8 +1191,7 @@ public:
   void fromMap(map<string, boost::any> m) override {
     if (m.find("RefererConfiguration") != m.end() &&
         !m["RefererConfiguration"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["RefererConfiguration"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["RefererConfiguration"].type()) {
         PutBucketRefererRequestBodyRefererConfiguration model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(
             m["RefererConfiguration"]));
@@ -1185,14 +1202,15 @@ public:
     }
   }
 
-  shared_ptr<PutBucketRefererRequestBodyRefererConfiguration>
-      refererConfiguration{};
-
-  ~PutBucketRefererRequestBody() = default;
+  virtual ~PutBucketRefererRequestBody() = default;
 };
 class PutBucketRefererRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+  shared_ptr<PutBucketRefererRequestBody> body{};
+
   PutBucketRefererRequest() {}
+
   explicit PutBucketRefererRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -1225,7 +1243,7 @@ public:
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
     if (m.find("Body") != m.end() && !m["Body"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Body"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Body"].type()) {
         PutBucketRefererRequestBody model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Body"]));
         body = make_shared<PutBucketRefererRequestBody>(model1);
@@ -1233,14 +1251,14 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-  shared_ptr<PutBucketRefererRequestBody> body{};
-
-  ~PutBucketRefererRequest() = default;
+  virtual ~PutBucketRefererRequest() = default;
 };
 class PutBucketRefererResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+
   PutBucketRefererResponse() {}
+
   explicit PutBucketRefererResponse(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -1269,14 +1287,15 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-
-  ~PutBucketRefererResponse() = default;
+  virtual ~PutBucketRefererResponse() = default;
 };
 class PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument
     : public Darabonba::Model {
 public:
+  shared_ptr<string> suffix{};
+
   PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument() {}
+
   explicit PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -1299,14 +1318,16 @@ public:
     }
   }
 
-  shared_ptr<string> suffix{};
-
-  ~PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument() = default;
+  virtual ~PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument() =
+      default;
 };
 class PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument
     : public Darabonba::Model {
 public:
+  shared_ptr<string> key{};
+
   PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument() {}
+
   explicit PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -1329,16 +1350,19 @@ public:
     }
   }
 
-  shared_ptr<string> key{};
-
-  ~PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument() = default;
+  virtual ~PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument() =
+      default;
 };
 class
     PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader
     : public Darabonba::Model {
 public:
+  shared_ptr<string> key{};
+  shared_ptr<string> equals{};
+
   PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader() {
   }
+
   explicit PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -1367,18 +1391,22 @@ public:
     }
   }
 
-  shared_ptr<string> key{};
-  shared_ptr<string> equals{};
-
-  ~PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader() =
+  virtual ~PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader() =
       default;
 };
 class
     PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCondition
     : public Darabonba::Model {
 public:
+  shared_ptr<
+      PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader>
+      includeHeader{};
+  shared_ptr<string> keyPrefixEquals{};
+  shared_ptr<string> httpErrorCodeReturnedEquals{};
+
   PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCondition() {
   }
+
   explicit PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCondition(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -1406,8 +1434,7 @@ public:
 
   void fromMap(map<string, boost::any> m) override {
     if (m.find("IncludeHeader") != m.end() && !m["IncludeHeader"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["IncludeHeader"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["IncludeHeader"].type()) {
         PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader
             model1;
         model1.fromMap(
@@ -1428,21 +1455,19 @@ public:
     }
   }
 
-  shared_ptr<
-      PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader>
-      includeHeader{};
-  shared_ptr<string> keyPrefixEquals{};
-  shared_ptr<string> httpErrorCodeReturnedEquals{};
-
-  ~PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCondition() =
+  virtual ~PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCondition() =
       default;
 };
 class
     PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet
     : public Darabonba::Model {
 public:
+  shared_ptr<string> key{};
+  shared_ptr<string> value{};
+
   PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet() {
   }
+
   explicit PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -1471,18 +1496,23 @@ public:
     }
   }
 
-  shared_ptr<string> key{};
-  shared_ptr<string> value{};
-
-  ~PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet() =
+  virtual ~PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet() =
       default;
 };
 class
     PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders
     : public Darabonba::Model {
 public:
+  shared_ptr<
+      PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet>
+      set{};
+  shared_ptr<bool> passAll{};
+  shared_ptr<string> pass{};
+  shared_ptr<string> remove{};
+
   PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders() {
   }
+
   explicit PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -1511,7 +1541,7 @@ public:
 
   void fromMap(map<string, boost::any> m) override {
     if (m.find("Set") != m.end() && !m["Set"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Set"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Set"].type()) {
         PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet
             model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Set"]));
@@ -1531,22 +1561,31 @@ public:
     }
   }
 
-  shared_ptr<
-      PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet>
-      set{};
-  shared_ptr<bool> passAll{};
-  shared_ptr<string> pass{};
-  shared_ptr<string> remove{};
-
-  ~PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders() =
+  virtual ~PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders() =
       default;
 };
 class
     PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect
     : public Darabonba::Model {
 public:
+  shared_ptr<
+      PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders>
+      mirrorHeaders{};
+  shared_ptr<string> redirectType{};
+  shared_ptr<bool> passQueryString{};
+  shared_ptr<string> mirrorURL{};
+  shared_ptr<bool> mirrorPassQueryString{};
+  shared_ptr<bool> mirrorFollowRedirect{};
+  shared_ptr<bool> mirrorCheckMd5{};
+  shared_ptr<string> protocol{};
+  shared_ptr<string> hostName{};
+  shared_ptr<string> httpRedirectCode{};
+  shared_ptr<string> replaceKeyPrefixWith{};
+  shared_ptr<string> replaceKeyWith{};
+
   PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect() {
   }
+
   explicit PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -1600,8 +1639,7 @@ public:
 
   void fromMap(map<string, boost::any> m) override {
     if (m.find("MirrorHeaders") != m.end() && !m["MirrorHeaders"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["MirrorHeaders"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["MirrorHeaders"].type()) {
         PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders
             model1;
         model1.fromMap(
@@ -1658,28 +1696,22 @@ public:
     }
   }
 
-  shared_ptr<
-      PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders>
-      mirrorHeaders{};
-  shared_ptr<string> redirectType{};
-  shared_ptr<bool> passQueryString{};
-  shared_ptr<string> mirrorURL{};
-  shared_ptr<bool> mirrorPassQueryString{};
-  shared_ptr<bool> mirrorFollowRedirect{};
-  shared_ptr<bool> mirrorCheckMd5{};
-  shared_ptr<string> protocol{};
-  shared_ptr<string> hostName{};
-  shared_ptr<string> httpRedirectCode{};
-  shared_ptr<string> replaceKeyPrefixWith{};
-  shared_ptr<string> replaceKeyWith{};
-
-  ~PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect() =
+  virtual ~PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect() =
       default;
 };
 class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule
     : public Darabonba::Model {
 public:
+  shared_ptr<
+      PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCondition>
+      condition{};
+  shared_ptr<
+      PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect>
+      redirect{};
+  shared_ptr<int> ruleNumber{};
+
   PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule() {}
+
   explicit PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -1706,8 +1738,7 @@ public:
 
   void fromMap(map<string, boost::any> m) override {
     if (m.find("Condition") != m.end() && !m["Condition"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["Condition"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Condition"].type()) {
         PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCondition
             model1;
         model1.fromMap(
@@ -1718,8 +1749,7 @@ public:
       }
     }
     if (m.find("Redirect") != m.end() && !m["Redirect"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["Redirect"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Redirect"].type()) {
         PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect
             model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Redirect"]));
@@ -1733,21 +1763,18 @@ public:
     }
   }
 
-  shared_ptr<
-      PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCondition>
-      condition{};
-  shared_ptr<
-      PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirect>
-      redirect{};
-  shared_ptr<int> ruleNumber{};
-
-  ~PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule() =
+  virtual ~PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule() =
       default;
 };
 class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules
     : public Darabonba::Model {
 public:
+  shared_ptr<vector<
+      PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule>>
+      routingRule{};
+
   PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules() {}
+
   explicit PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -1770,13 +1797,13 @@ public:
 
   void fromMap(map<string, boost::any> m) override {
     if (m.find("RoutingRule") != m.end() && !m["RoutingRule"].empty()) {
-      if (typeid(vector<boost::any>).name() == m["RoutingRule"].type().name()) {
+      if (typeid(vector<boost::any>) == m["RoutingRule"].type()) {
         vector<
             PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule>
             expect1;
         for (auto item1 :
              boost::any_cast<vector<boost::any>>(m["RoutingRule"])) {
-          if (typeid(map<string, boost::any>).name() == item1.type().name()) {
+          if (typeid(map<string, boost::any>) == item1.type()) {
             PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule
                 model2;
             model2.fromMap(boost::any_cast<map<string, boost::any>>(item1));
@@ -1790,16 +1817,21 @@ public:
     }
   }
 
-  shared_ptr<vector<
-      PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRule>>
-      routingRule{};
-
-  ~PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules() = default;
+  virtual ~PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules() =
+      default;
 };
 class PutBucketWebsiteRequestBodyWebsiteConfiguration
     : public Darabonba::Model {
 public:
+  shared_ptr<PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument>
+      indexDocument{};
+  shared_ptr<PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument>
+      errorDocument{};
+  shared_ptr<PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules>
+      routingRules{};
+
   PutBucketWebsiteRequestBodyWebsiteConfiguration() {}
+
   explicit PutBucketWebsiteRequestBodyWebsiteConfiguration(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -1830,8 +1862,7 @@ public:
 
   void fromMap(map<string, boost::any> m) override {
     if (m.find("IndexDocument") != m.end() && !m["IndexDocument"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["IndexDocument"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["IndexDocument"].type()) {
         PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument model1;
         model1.fromMap(
             boost::any_cast<map<string, boost::any>>(m["IndexDocument"]));
@@ -1841,8 +1872,7 @@ public:
       }
     }
     if (m.find("ErrorDocument") != m.end() && !m["ErrorDocument"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["ErrorDocument"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["ErrorDocument"].type()) {
         PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument model1;
         model1.fromMap(
             boost::any_cast<map<string, boost::any>>(m["ErrorDocument"]));
@@ -1852,8 +1882,7 @@ public:
       }
     }
     if (m.find("RoutingRules") != m.end() && !m["RoutingRules"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["RoutingRules"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["RoutingRules"].type()) {
         PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules model1;
         model1.fromMap(
             boost::any_cast<map<string, boost::any>>(m["RoutingRules"]));
@@ -1864,18 +1893,15 @@ public:
     }
   }
 
-  shared_ptr<PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument>
-      indexDocument{};
-  shared_ptr<PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument>
-      errorDocument{};
-  shared_ptr<PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRules>
-      routingRules{};
-
-  ~PutBucketWebsiteRequestBodyWebsiteConfiguration() = default;
+  virtual ~PutBucketWebsiteRequestBodyWebsiteConfiguration() = default;
 };
 class PutBucketWebsiteRequestBody : public Darabonba::Model {
 public:
+  shared_ptr<PutBucketWebsiteRequestBodyWebsiteConfiguration>
+      websiteConfiguration{};
+
   PutBucketWebsiteRequestBody() {}
+
   explicit PutBucketWebsiteRequestBody(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -1902,8 +1928,7 @@ public:
   void fromMap(map<string, boost::any> m) override {
     if (m.find("WebsiteConfiguration") != m.end() &&
         !m["WebsiteConfiguration"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["WebsiteConfiguration"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["WebsiteConfiguration"].type()) {
         PutBucketWebsiteRequestBodyWebsiteConfiguration model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(
             m["WebsiteConfiguration"]));
@@ -1914,14 +1939,15 @@ public:
     }
   }
 
-  shared_ptr<PutBucketWebsiteRequestBodyWebsiteConfiguration>
-      websiteConfiguration{};
-
-  ~PutBucketWebsiteRequestBody() = default;
+  virtual ~PutBucketWebsiteRequestBody() = default;
 };
 class PutBucketWebsiteRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+  shared_ptr<PutBucketWebsiteRequestBody> body{};
+
   PutBucketWebsiteRequest() {}
+
   explicit PutBucketWebsiteRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -1954,7 +1980,7 @@ public:
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
     if (m.find("Body") != m.end() && !m["Body"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Body"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Body"].type()) {
         PutBucketWebsiteRequestBody model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Body"]));
         body = make_shared<PutBucketWebsiteRequestBody>(model1);
@@ -1962,14 +1988,14 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-  shared_ptr<PutBucketWebsiteRequestBody> body{};
-
-  ~PutBucketWebsiteRequest() = default;
+  virtual ~PutBucketWebsiteRequest() = default;
 };
 class PutBucketWebsiteResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+
   PutBucketWebsiteResponse() {}
+
   explicit PutBucketWebsiteResponse(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -1998,13 +2024,15 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-
-  ~PutBucketWebsiteResponse() = default;
+  virtual ~PutBucketWebsiteResponse() = default;
 };
 class CompleteMultipartUploadRequestFilter : public Darabonba::Model {
 public:
+  shared_ptr<string> uploadId{};
+  shared_ptr<string> encodingType{};
+
   CompleteMultipartUploadRequestFilter() {}
+
   explicit CompleteMultipartUploadRequestFilter(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -2039,15 +2067,16 @@ public:
     }
   }
 
-  shared_ptr<string> uploadId{};
-  shared_ptr<string> encodingType{};
-
-  ~CompleteMultipartUploadRequestFilter() = default;
+  virtual ~CompleteMultipartUploadRequestFilter() = default;
 };
 class CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart
     : public Darabonba::Model {
 public:
+  shared_ptr<string> partNumber{};
+  shared_ptr<string> eTag{};
+
   CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart() {}
+
   explicit CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -2077,15 +2106,18 @@ public:
     }
   }
 
-  shared_ptr<string> partNumber{};
-  shared_ptr<string> eTag{};
-
-  ~CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart() = default;
+  virtual ~CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart() =
+      default;
 };
 class CompleteMultipartUploadRequestBodyCompleteMultipartUpload
     : public Darabonba::Model {
 public:
+  shared_ptr<
+      vector<CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart>>
+      part{};
+
   CompleteMultipartUploadRequestBodyCompleteMultipartUpload() {}
+
   explicit CompleteMultipartUploadRequestBodyCompleteMultipartUpload(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -2108,11 +2140,11 @@ public:
 
   void fromMap(map<string, boost::any> m) override {
     if (m.find("Part") != m.end() && !m["Part"].empty()) {
-      if (typeid(vector<boost::any>).name() == m["Part"].type().name()) {
+      if (typeid(vector<boost::any>) == m["Part"].type()) {
         vector<CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart>
             expect1;
         for (auto item1 : boost::any_cast<vector<boost::any>>(m["Part"])) {
-          if (typeid(map<string, boost::any>).name() == item1.type().name()) {
+          if (typeid(map<string, boost::any>) == item1.type()) {
             CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart
                 model2;
             model2.fromMap(boost::any_cast<map<string, boost::any>>(item1));
@@ -2126,15 +2158,16 @@ public:
     }
   }
 
-  shared_ptr<
-      vector<CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart>>
-      part{};
-
-  ~CompleteMultipartUploadRequestBodyCompleteMultipartUpload() = default;
+  virtual ~CompleteMultipartUploadRequestBodyCompleteMultipartUpload() =
+      default;
 };
 class CompleteMultipartUploadRequestBody : public Darabonba::Model {
 public:
+  shared_ptr<CompleteMultipartUploadRequestBodyCompleteMultipartUpload>
+      completeMultipartUpload{};
+
   CompleteMultipartUploadRequestBody() {}
+
   explicit CompleteMultipartUploadRequestBody(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -2161,8 +2194,8 @@ public:
   void fromMap(map<string, boost::any> m) override {
     if (m.find("CompleteMultipartUpload") != m.end() &&
         !m["CompleteMultipartUpload"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["CompleteMultipartUpload"].type().name()) {
+      if (typeid(map<string, boost::any>) ==
+          m["CompleteMultipartUpload"].type()) {
         CompleteMultipartUploadRequestBodyCompleteMultipartUpload model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(
             m["CompleteMultipartUpload"]));
@@ -2172,14 +2205,17 @@ public:
     }
   }
 
-  shared_ptr<CompleteMultipartUploadRequestBodyCompleteMultipartUpload>
-      completeMultipartUpload{};
-
-  ~CompleteMultipartUploadRequestBody() = default;
+  virtual ~CompleteMultipartUploadRequestBody() = default;
 };
 class CompleteMultipartUploadRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+  shared_ptr<string> objectName{};
+  shared_ptr<CompleteMultipartUploadRequestFilter> filter{};
+  shared_ptr<CompleteMultipartUploadRequestBody> body{};
+
   CompleteMultipartUploadRequest() {}
+
   explicit CompleteMultipartUploadRequest(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -2232,14 +2268,14 @@ public:
           make_shared<string>(boost::any_cast<string>(m["ObjectName"]));
     }
     if (m.find("Filter") != m.end() && !m["Filter"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Filter"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Filter"].type()) {
         CompleteMultipartUploadRequestFilter model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Filter"]));
         filter = make_shared<CompleteMultipartUploadRequestFilter>(model1);
       }
     }
     if (m.find("Body") != m.end() && !m["Body"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Body"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Body"].type()) {
         CompleteMultipartUploadRequestBody model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Body"]));
         body = make_shared<CompleteMultipartUploadRequestBody>(model1);
@@ -2247,17 +2283,19 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-  shared_ptr<string> objectName{};
-  shared_ptr<CompleteMultipartUploadRequestFilter> filter{};
-  shared_ptr<CompleteMultipartUploadRequestBody> body{};
-
-  ~CompleteMultipartUploadRequest() = default;
+  virtual ~CompleteMultipartUploadRequest() = default;
 };
 class CompleteMultipartUploadResponseCompleteMultipartUploadResult
     : public Darabonba::Model {
 public:
+  shared_ptr<string> bucket{};
+  shared_ptr<string> eTag{};
+  shared_ptr<string> location{};
+  shared_ptr<string> key{};
+  shared_ptr<string> encodingType{};
+
   CompleteMultipartUploadResponseCompleteMultipartUploadResult() {}
+
   explicit CompleteMultipartUploadResponseCompleteMultipartUploadResult(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -2305,17 +2343,17 @@ public:
     }
   }
 
-  shared_ptr<string> bucket{};
-  shared_ptr<string> eTag{};
-  shared_ptr<string> location{};
-  shared_ptr<string> key{};
-  shared_ptr<string> encodingType{};
-
-  ~CompleteMultipartUploadResponseCompleteMultipartUploadResult() = default;
+  virtual ~CompleteMultipartUploadResponseCompleteMultipartUploadResult() =
+      default;
 };
 class CompleteMultipartUploadResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+  shared_ptr<CompleteMultipartUploadResponseCompleteMultipartUploadResult>
+      completeMultipartUploadResult{};
+
   CompleteMultipartUploadResponse() {}
+
   explicit CompleteMultipartUploadResponse(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -2355,8 +2393,8 @@ public:
     }
     if (m.find("CompleteMultipartUploadResult") != m.end() &&
         !m["CompleteMultipartUploadResult"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["CompleteMultipartUploadResult"].type().name()) {
+      if (typeid(map<string, boost::any>) ==
+          m["CompleteMultipartUploadResult"].type()) {
         CompleteMultipartUploadResponseCompleteMultipartUploadResult model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(
             m["CompleteMultipartUploadResult"]));
@@ -2367,16 +2405,16 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-  shared_ptr<CompleteMultipartUploadResponseCompleteMultipartUploadResult>
-      completeMultipartUploadResult{};
-
-  ~CompleteMultipartUploadResponse() = default;
+  virtual ~CompleteMultipartUploadResponse() = default;
 };
 class PutBucketLoggingRequestBodyBucketLoggingStatusLoggingEnabled
     : public Darabonba::Model {
 public:
+  shared_ptr<string> targetBucket{};
+  shared_ptr<string> targetPrefix{};
+
   PutBucketLoggingRequestBodyBucketLoggingStatusLoggingEnabled() {}
+
   explicit PutBucketLoggingRequestBodyBucketLoggingStatusLoggingEnabled(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -2407,14 +2445,16 @@ public:
     }
   }
 
-  shared_ptr<string> targetBucket{};
-  shared_ptr<string> targetPrefix{};
-
-  ~PutBucketLoggingRequestBodyBucketLoggingStatusLoggingEnabled() = default;
+  virtual ~PutBucketLoggingRequestBodyBucketLoggingStatusLoggingEnabled() =
+      default;
 };
 class PutBucketLoggingRequestBodyBucketLoggingStatus : public Darabonba::Model {
 public:
+  shared_ptr<PutBucketLoggingRequestBodyBucketLoggingStatusLoggingEnabled>
+      loggingEnabled{};
+
   PutBucketLoggingRequestBodyBucketLoggingStatus() {}
+
   explicit PutBucketLoggingRequestBodyBucketLoggingStatus(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -2435,8 +2475,7 @@ public:
 
   void fromMap(map<string, boost::any> m) override {
     if (m.find("LoggingEnabled") != m.end() && !m["LoggingEnabled"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["LoggingEnabled"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["LoggingEnabled"].type()) {
         PutBucketLoggingRequestBodyBucketLoggingStatusLoggingEnabled model1;
         model1.fromMap(
             boost::any_cast<map<string, boost::any>>(m["LoggingEnabled"]));
@@ -2447,14 +2486,15 @@ public:
     }
   }
 
-  shared_ptr<PutBucketLoggingRequestBodyBucketLoggingStatusLoggingEnabled>
-      loggingEnabled{};
-
-  ~PutBucketLoggingRequestBodyBucketLoggingStatus() = default;
+  virtual ~PutBucketLoggingRequestBodyBucketLoggingStatus() = default;
 };
 class PutBucketLoggingRequestBody : public Darabonba::Model {
 public:
+  shared_ptr<PutBucketLoggingRequestBodyBucketLoggingStatus>
+      bucketLoggingStatus{};
+
   PutBucketLoggingRequestBody() {}
+
   explicit PutBucketLoggingRequestBody(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -2481,8 +2521,7 @@ public:
   void fromMap(map<string, boost::any> m) override {
     if (m.find("BucketLoggingStatus") != m.end() &&
         !m["BucketLoggingStatus"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["BucketLoggingStatus"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["BucketLoggingStatus"].type()) {
         PutBucketLoggingRequestBodyBucketLoggingStatus model1;
         model1.fromMap(
             boost::any_cast<map<string, boost::any>>(m["BucketLoggingStatus"]));
@@ -2492,14 +2531,15 @@ public:
     }
   }
 
-  shared_ptr<PutBucketLoggingRequestBodyBucketLoggingStatus>
-      bucketLoggingStatus{};
-
-  ~PutBucketLoggingRequestBody() = default;
+  virtual ~PutBucketLoggingRequestBody() = default;
 };
 class PutBucketLoggingRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+  shared_ptr<PutBucketLoggingRequestBody> body{};
+
   PutBucketLoggingRequest() {}
+
   explicit PutBucketLoggingRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -2532,7 +2572,7 @@ public:
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
     if (m.find("Body") != m.end() && !m["Body"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Body"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Body"].type()) {
         PutBucketLoggingRequestBody model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Body"]));
         body = make_shared<PutBucketLoggingRequestBody>(model1);
@@ -2540,14 +2580,14 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-  shared_ptr<PutBucketLoggingRequestBody> body{};
-
-  ~PutBucketLoggingRequest() = default;
+  virtual ~PutBucketLoggingRequest() = default;
 };
 class PutBucketLoggingResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+
   PutBucketLoggingResponse() {}
+
   explicit PutBucketLoggingResponse(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -2576,14 +2616,15 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-
-  ~PutBucketLoggingResponse() = default;
+  virtual ~PutBucketLoggingResponse() = default;
 };
 class PutBucketRequestPaymentRequestBodyRequestPaymentConfiguration
     : public Darabonba::Model {
 public:
+  shared_ptr<string> payer{};
+
   PutBucketRequestPaymentRequestBodyRequestPaymentConfiguration() {}
+
   explicit PutBucketRequestPaymentRequestBodyRequestPaymentConfiguration(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -2606,13 +2647,16 @@ public:
     }
   }
 
-  shared_ptr<string> payer{};
-
-  ~PutBucketRequestPaymentRequestBodyRequestPaymentConfiguration() = default;
+  virtual ~PutBucketRequestPaymentRequestBodyRequestPaymentConfiguration() =
+      default;
 };
 class PutBucketRequestPaymentRequestBody : public Darabonba::Model {
 public:
+  shared_ptr<PutBucketRequestPaymentRequestBodyRequestPaymentConfiguration>
+      requestPaymentConfiguration{};
+
   PutBucketRequestPaymentRequestBody() {}
+
   explicit PutBucketRequestPaymentRequestBody(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -2640,8 +2684,8 @@ public:
   void fromMap(map<string, boost::any> m) override {
     if (m.find("RequestPaymentConfiguration") != m.end() &&
         !m["RequestPaymentConfiguration"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["RequestPaymentConfiguration"].type().name()) {
+      if (typeid(map<string, boost::any>) ==
+          m["RequestPaymentConfiguration"].type()) {
         PutBucketRequestPaymentRequestBodyRequestPaymentConfiguration model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(
             m["RequestPaymentConfiguration"]));
@@ -2652,14 +2696,15 @@ public:
     }
   }
 
-  shared_ptr<PutBucketRequestPaymentRequestBodyRequestPaymentConfiguration>
-      requestPaymentConfiguration{};
-
-  ~PutBucketRequestPaymentRequestBody() = default;
+  virtual ~PutBucketRequestPaymentRequestBody() = default;
 };
 class PutBucketRequestPaymentRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+  shared_ptr<PutBucketRequestPaymentRequestBody> body{};
+
   PutBucketRequestPaymentRequest() {}
+
   explicit PutBucketRequestPaymentRequest(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -2693,7 +2738,7 @@ public:
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
     if (m.find("Body") != m.end() && !m["Body"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Body"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Body"].type()) {
         PutBucketRequestPaymentRequestBody model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Body"]));
         body = make_shared<PutBucketRequestPaymentRequestBody>(model1);
@@ -2701,14 +2746,14 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-  shared_ptr<PutBucketRequestPaymentRequestBody> body{};
-
-  ~PutBucketRequestPaymentRequest() = default;
+  virtual ~PutBucketRequestPaymentRequest() = default;
 };
 class PutBucketRequestPaymentResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+
   PutBucketRequestPaymentResponse() {}
+
   explicit PutBucketRequestPaymentResponse(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -2738,16 +2783,18 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-
-  ~PutBucketRequestPaymentResponse() = default;
+  virtual ~PutBucketRequestPaymentResponse() = default;
 };
 class
     PutBucketEncryptionRequestBodyServerSideEncryptionRuleApplyServerSideEncryptionByDefault
     : public Darabonba::Model {
 public:
+  shared_ptr<string> sSEAlgorithm{};
+  shared_ptr<string> kMSMasterKeyID{};
+
   PutBucketEncryptionRequestBodyServerSideEncryptionRuleApplyServerSideEncryptionByDefault() {
   }
+
   explicit PutBucketEncryptionRequestBodyServerSideEncryptionRuleApplyServerSideEncryptionByDefault(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -2778,16 +2825,18 @@ public:
     }
   }
 
-  shared_ptr<string> sSEAlgorithm{};
-  shared_ptr<string> kMSMasterKeyID{};
-
-  ~PutBucketEncryptionRequestBodyServerSideEncryptionRuleApplyServerSideEncryptionByDefault() =
+  virtual ~PutBucketEncryptionRequestBodyServerSideEncryptionRuleApplyServerSideEncryptionByDefault() =
       default;
 };
 class PutBucketEncryptionRequestBodyServerSideEncryptionRule
     : public Darabonba::Model {
 public:
+  shared_ptr<
+      PutBucketEncryptionRequestBodyServerSideEncryptionRuleApplyServerSideEncryptionByDefault>
+      applyServerSideEncryptionByDefault{};
+
   PutBucketEncryptionRequestBodyServerSideEncryptionRule() {}
+
   explicit PutBucketEncryptionRequestBodyServerSideEncryptionRule(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -2810,8 +2859,8 @@ public:
   void fromMap(map<string, boost::any> m) override {
     if (m.find("ApplyServerSideEncryptionByDefault") != m.end() &&
         !m["ApplyServerSideEncryptionByDefault"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["ApplyServerSideEncryptionByDefault"].type().name()) {
+      if (typeid(map<string, boost::any>) ==
+          m["ApplyServerSideEncryptionByDefault"].type()) {
         PutBucketEncryptionRequestBodyServerSideEncryptionRuleApplyServerSideEncryptionByDefault
             model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(
@@ -2823,15 +2872,15 @@ public:
     }
   }
 
-  shared_ptr<
-      PutBucketEncryptionRequestBodyServerSideEncryptionRuleApplyServerSideEncryptionByDefault>
-      applyServerSideEncryptionByDefault{};
-
-  ~PutBucketEncryptionRequestBodyServerSideEncryptionRule() = default;
+  virtual ~PutBucketEncryptionRequestBodyServerSideEncryptionRule() = default;
 };
 class PutBucketEncryptionRequestBody : public Darabonba::Model {
 public:
+  shared_ptr<PutBucketEncryptionRequestBodyServerSideEncryptionRule>
+      serverSideEncryptionRule{};
+
   PutBucketEncryptionRequestBody() {}
+
   explicit PutBucketEncryptionRequestBody(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -2859,8 +2908,8 @@ public:
   void fromMap(map<string, boost::any> m) override {
     if (m.find("ServerSideEncryptionRule") != m.end() &&
         !m["ServerSideEncryptionRule"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["ServerSideEncryptionRule"].type().name()) {
+      if (typeid(map<string, boost::any>) ==
+          m["ServerSideEncryptionRule"].type()) {
         PutBucketEncryptionRequestBodyServerSideEncryptionRule model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(
             m["ServerSideEncryptionRule"]));
@@ -2871,14 +2920,15 @@ public:
     }
   }
 
-  shared_ptr<PutBucketEncryptionRequestBodyServerSideEncryptionRule>
-      serverSideEncryptionRule{};
-
-  ~PutBucketEncryptionRequestBody() = default;
+  virtual ~PutBucketEncryptionRequestBody() = default;
 };
 class PutBucketEncryptionRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+  shared_ptr<PutBucketEncryptionRequestBody> body{};
+
   PutBucketEncryptionRequest() {}
+
   explicit PutBucketEncryptionRequest(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -2912,7 +2962,7 @@ public:
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
     if (m.find("Body") != m.end() && !m["Body"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Body"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Body"].type()) {
         PutBucketEncryptionRequestBody model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Body"]));
         body = make_shared<PutBucketEncryptionRequestBody>(model1);
@@ -2920,14 +2970,14 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-  shared_ptr<PutBucketEncryptionRequestBody> body{};
-
-  ~PutBucketEncryptionRequest() = default;
+  virtual ~PutBucketEncryptionRequest() = default;
 };
 class PutBucketEncryptionResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+
   PutBucketEncryptionResponse() {}
+
   explicit PutBucketEncryptionResponse(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -2957,14 +3007,18 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-
-  ~PutBucketEncryptionResponse() = default;
+  virtual ~PutBucketEncryptionResponse() = default;
 };
 class PutLiveChannelRequestBodyLiveChannelConfigurationTarget
     : public Darabonba::Model {
 public:
+  shared_ptr<string> type{};
+  shared_ptr<string> fragDuration{};
+  shared_ptr<string> fragCount{};
+  shared_ptr<string> playlistName{};
+
   PutLiveChannelRequestBodyLiveChannelConfigurationTarget() {}
+
   explicit PutLiveChannelRequestBodyLiveChannelConfigurationTarget(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -3007,17 +3061,18 @@ public:
     }
   }
 
-  shared_ptr<string> type{};
-  shared_ptr<string> fragDuration{};
-  shared_ptr<string> fragCount{};
-  shared_ptr<string> playlistName{};
-
-  ~PutLiveChannelRequestBodyLiveChannelConfigurationTarget() = default;
+  virtual ~PutLiveChannelRequestBodyLiveChannelConfigurationTarget() = default;
 };
 class PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot
     : public Darabonba::Model {
 public:
+  shared_ptr<string> roleName{};
+  shared_ptr<string> destBucket{};
+  shared_ptr<string> notifyTopic{};
+  shared_ptr<string> interval{};
+
   PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot() {}
+
   explicit PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -3060,17 +3115,20 @@ public:
     }
   }
 
-  shared_ptr<string> roleName{};
-  shared_ptr<string> destBucket{};
-  shared_ptr<string> notifyTopic{};
-  shared_ptr<string> interval{};
-
-  ~PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot() = default;
+  virtual ~PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot() =
+      default;
 };
 class PutLiveChannelRequestBodyLiveChannelConfiguration
     : public Darabonba::Model {
 public:
+  shared_ptr<PutLiveChannelRequestBodyLiveChannelConfigurationTarget> target{};
+  shared_ptr<PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot>
+      snapshot{};
+  shared_ptr<string> description{};
+  shared_ptr<string> status{};
+
   PutLiveChannelRequestBodyLiveChannelConfiguration() {}
+
   explicit PutLiveChannelRequestBodyLiveChannelConfiguration(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -3100,7 +3158,7 @@ public:
 
   void fromMap(map<string, boost::any> m) override {
     if (m.find("Target") != m.end() && !m["Target"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Target"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Target"].type()) {
         PutLiveChannelRequestBodyLiveChannelConfigurationTarget model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Target"]));
         target = make_shared<
@@ -3108,8 +3166,7 @@ public:
       }
     }
     if (m.find("Snapshot") != m.end() && !m["Snapshot"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["Snapshot"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Snapshot"].type()) {
         PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Snapshot"]));
         snapshot = make_shared<
@@ -3125,17 +3182,15 @@ public:
     }
   }
 
-  shared_ptr<PutLiveChannelRequestBodyLiveChannelConfigurationTarget> target{};
-  shared_ptr<PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot>
-      snapshot{};
-  shared_ptr<string> description{};
-  shared_ptr<string> status{};
-
-  ~PutLiveChannelRequestBodyLiveChannelConfiguration() = default;
+  virtual ~PutLiveChannelRequestBodyLiveChannelConfiguration() = default;
 };
 class PutLiveChannelRequestBody : public Darabonba::Model {
 public:
+  shared_ptr<PutLiveChannelRequestBodyLiveChannelConfiguration>
+      liveChannelConfiguration{};
+
   PutLiveChannelRequestBody() {}
+
   explicit PutLiveChannelRequestBody(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -3162,8 +3217,8 @@ public:
   void fromMap(map<string, boost::any> m) override {
     if (m.find("LiveChannelConfiguration") != m.end() &&
         !m["LiveChannelConfiguration"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["LiveChannelConfiguration"].type().name()) {
+      if (typeid(map<string, boost::any>) ==
+          m["LiveChannelConfiguration"].type()) {
         PutLiveChannelRequestBodyLiveChannelConfiguration model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(
             m["LiveChannelConfiguration"]));
@@ -3174,14 +3229,16 @@ public:
     }
   }
 
-  shared_ptr<PutLiveChannelRequestBodyLiveChannelConfiguration>
-      liveChannelConfiguration{};
-
-  ~PutLiveChannelRequestBody() = default;
+  virtual ~PutLiveChannelRequestBody() = default;
 };
 class PutLiveChannelRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+  shared_ptr<string> channelName{};
+  shared_ptr<PutLiveChannelRequestBody> body{};
+
   PutLiveChannelRequest() {}
+
   explicit PutLiveChannelRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -3225,7 +3282,7 @@ public:
           make_shared<string>(boost::any_cast<string>(m["ChannelName"]));
     }
     if (m.find("Body") != m.end() && !m["Body"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Body"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Body"].type()) {
         PutLiveChannelRequestBody model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Body"]));
         body = make_shared<PutLiveChannelRequestBody>(model1);
@@ -3233,16 +3290,15 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-  shared_ptr<string> channelName{};
-  shared_ptr<PutLiveChannelRequestBody> body{};
-
-  ~PutLiveChannelRequest() = default;
+  virtual ~PutLiveChannelRequest() = default;
 };
 class PutLiveChannelResponseCreateLiveChannelResultPublishUrls
     : public Darabonba::Model {
 public:
+  shared_ptr<string> url{};
+
   PutLiveChannelResponseCreateLiveChannelResultPublishUrls() {}
+
   explicit PutLiveChannelResponseCreateLiveChannelResultPublishUrls(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -3265,14 +3321,15 @@ public:
     }
   }
 
-  shared_ptr<string> url{};
-
-  ~PutLiveChannelResponseCreateLiveChannelResultPublishUrls() = default;
+  virtual ~PutLiveChannelResponseCreateLiveChannelResultPublishUrls() = default;
 };
 class PutLiveChannelResponseCreateLiveChannelResultPlayUrls
     : public Darabonba::Model {
 public:
+  shared_ptr<string> url{};
+
   PutLiveChannelResponseCreateLiveChannelResultPlayUrls() {}
+
   explicit PutLiveChannelResponseCreateLiveChannelResultPlayUrls(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -3295,13 +3352,16 @@ public:
     }
   }
 
-  shared_ptr<string> url{};
-
-  ~PutLiveChannelResponseCreateLiveChannelResultPlayUrls() = default;
+  virtual ~PutLiveChannelResponseCreateLiveChannelResultPlayUrls() = default;
 };
 class PutLiveChannelResponseCreateLiveChannelResult : public Darabonba::Model {
 public:
+  shared_ptr<PutLiveChannelResponseCreateLiveChannelResultPublishUrls>
+      publishUrls{};
+  shared_ptr<PutLiveChannelResponseCreateLiveChannelResultPlayUrls> playUrls{};
+
   PutLiveChannelResponseCreateLiveChannelResult() {}
+
   explicit PutLiveChannelResponseCreateLiveChannelResult(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -3335,8 +3395,7 @@ public:
 
   void fromMap(map<string, boost::any> m) override {
     if (m.find("PublishUrls") != m.end() && !m["PublishUrls"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["PublishUrls"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["PublishUrls"].type()) {
         PutLiveChannelResponseCreateLiveChannelResultPublishUrls model1;
         model1.fromMap(
             boost::any_cast<map<string, boost::any>>(m["PublishUrls"]));
@@ -3345,8 +3404,7 @@ public:
       }
     }
     if (m.find("PlayUrls") != m.end() && !m["PlayUrls"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["PlayUrls"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["PlayUrls"].type()) {
         PutLiveChannelResponseCreateLiveChannelResultPlayUrls model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["PlayUrls"]));
         playUrls =
@@ -3356,15 +3414,16 @@ public:
     }
   }
 
-  shared_ptr<PutLiveChannelResponseCreateLiveChannelResultPublishUrls>
-      publishUrls{};
-  shared_ptr<PutLiveChannelResponseCreateLiveChannelResultPlayUrls> playUrls{};
-
-  ~PutLiveChannelResponseCreateLiveChannelResult() = default;
+  virtual ~PutLiveChannelResponseCreateLiveChannelResult() = default;
 };
 class PutLiveChannelResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+  shared_ptr<PutLiveChannelResponseCreateLiveChannelResult>
+      createLiveChannelResult{};
+
   PutLiveChannelResponse() {}
+
   explicit PutLiveChannelResponse(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -3402,8 +3461,8 @@ public:
     }
     if (m.find("CreateLiveChannelResult") != m.end() &&
         !m["CreateLiveChannelResult"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["CreateLiveChannelResult"].type().name()) {
+      if (typeid(map<string, boost::any>) ==
+          m["CreateLiveChannelResult"].type()) {
         PutLiveChannelResponseCreateLiveChannelResult model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(
             m["CreateLiveChannelResult"]));
@@ -3413,15 +3472,15 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-  shared_ptr<PutLiveChannelResponseCreateLiveChannelResult>
-      createLiveChannelResult{};
-
-  ~PutLiveChannelResponse() = default;
+  virtual ~PutLiveChannelResponse() = default;
 };
 class PutBucketTagsRequestBodyTaggingTagSetTag : public Darabonba::Model {
 public:
+  shared_ptr<string> key{};
+  shared_ptr<string> value{};
+
   PutBucketTagsRequestBodyTaggingTagSetTag() {}
+
   explicit PutBucketTagsRequestBodyTaggingTagSetTag(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -3450,14 +3509,14 @@ public:
     }
   }
 
-  shared_ptr<string> key{};
-  shared_ptr<string> value{};
-
-  ~PutBucketTagsRequestBodyTaggingTagSetTag() = default;
+  virtual ~PutBucketTagsRequestBodyTaggingTagSetTag() = default;
 };
 class PutBucketTagsRequestBodyTaggingTagSet : public Darabonba::Model {
 public:
+  shared_ptr<vector<PutBucketTagsRequestBodyTaggingTagSetTag>> tag{};
+
   PutBucketTagsRequestBodyTaggingTagSet() {}
+
   explicit PutBucketTagsRequestBodyTaggingTagSet(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -3480,10 +3539,10 @@ public:
 
   void fromMap(map<string, boost::any> m) override {
     if (m.find("Tag") != m.end() && !m["Tag"].empty()) {
-      if (typeid(vector<boost::any>).name() == m["Tag"].type().name()) {
+      if (typeid(vector<boost::any>) == m["Tag"].type()) {
         vector<PutBucketTagsRequestBodyTaggingTagSetTag> expect1;
         for (auto item1 : boost::any_cast<vector<boost::any>>(m["Tag"])) {
-          if (typeid(map<string, boost::any>).name() == item1.type().name()) {
+          if (typeid(map<string, boost::any>) == item1.type()) {
             PutBucketTagsRequestBodyTaggingTagSetTag model2;
             model2.fromMap(boost::any_cast<map<string, boost::any>>(item1));
             expect1.push_back(model2);
@@ -3495,13 +3554,14 @@ public:
     }
   }
 
-  shared_ptr<vector<PutBucketTagsRequestBodyTaggingTagSetTag>> tag{};
-
-  ~PutBucketTagsRequestBodyTaggingTagSet() = default;
+  virtual ~PutBucketTagsRequestBodyTaggingTagSet() = default;
 };
 class PutBucketTagsRequestBodyTagging : public Darabonba::Model {
 public:
+  shared_ptr<PutBucketTagsRequestBodyTaggingTagSet> tagSet{};
+
   PutBucketTagsRequestBodyTagging() {}
+
   explicit PutBucketTagsRequestBodyTagging(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -3521,7 +3581,7 @@ public:
 
   void fromMap(map<string, boost::any> m) override {
     if (m.find("TagSet") != m.end() && !m["TagSet"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["TagSet"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["TagSet"].type()) {
         PutBucketTagsRequestBodyTaggingTagSet model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["TagSet"]));
         tagSet = make_shared<PutBucketTagsRequestBodyTaggingTagSet>(model1);
@@ -3529,13 +3589,14 @@ public:
     }
   }
 
-  shared_ptr<PutBucketTagsRequestBodyTaggingTagSet> tagSet{};
-
-  ~PutBucketTagsRequestBodyTagging() = default;
+  virtual ~PutBucketTagsRequestBodyTagging() = default;
 };
 class PutBucketTagsRequestBody : public Darabonba::Model {
 public:
+  shared_ptr<PutBucketTagsRequestBodyTagging> tagging{};
+
   PutBucketTagsRequestBody() {}
+
   explicit PutBucketTagsRequestBody(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -3559,8 +3620,7 @@ public:
 
   void fromMap(map<string, boost::any> m) override {
     if (m.find("Tagging") != m.end() && !m["Tagging"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["Tagging"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Tagging"].type()) {
         PutBucketTagsRequestBodyTagging model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Tagging"]));
         tagging = make_shared<PutBucketTagsRequestBodyTagging>(model1);
@@ -3568,13 +3628,15 @@ public:
     }
   }
 
-  shared_ptr<PutBucketTagsRequestBodyTagging> tagging{};
-
-  ~PutBucketTagsRequestBody() = default;
+  virtual ~PutBucketTagsRequestBody() = default;
 };
 class PutBucketTagsRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+  shared_ptr<PutBucketTagsRequestBody> body{};
+
   PutBucketTagsRequest() {}
+
   explicit PutBucketTagsRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -3607,7 +3669,7 @@ public:
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
     if (m.find("Body") != m.end() && !m["Body"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Body"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Body"].type()) {
         PutBucketTagsRequestBody model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Body"]));
         body = make_shared<PutBucketTagsRequestBody>(model1);
@@ -3615,14 +3677,14 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-  shared_ptr<PutBucketTagsRequestBody> body{};
-
-  ~PutBucketTagsRequest() = default;
+  virtual ~PutBucketTagsRequest() = default;
 };
 class PutBucketTagsResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+
   PutBucketTagsResponse() {}
+
   explicit PutBucketTagsResponse(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -3651,13 +3713,15 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-
-  ~PutBucketTagsResponse() = default;
+  virtual ~PutBucketTagsResponse() = default;
 };
 class PutObjectTaggingRequestBodyTaggingTagSetTag : public Darabonba::Model {
 public:
+  shared_ptr<string> key{};
+  shared_ptr<string> value{};
+
   PutObjectTaggingRequestBodyTaggingTagSetTag() {}
+
   explicit PutObjectTaggingRequestBodyTaggingTagSetTag(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -3686,14 +3750,14 @@ public:
     }
   }
 
-  shared_ptr<string> key{};
-  shared_ptr<string> value{};
-
-  ~PutObjectTaggingRequestBodyTaggingTagSetTag() = default;
+  virtual ~PutObjectTaggingRequestBodyTaggingTagSetTag() = default;
 };
 class PutObjectTaggingRequestBodyTaggingTagSet : public Darabonba::Model {
 public:
+  shared_ptr<vector<PutObjectTaggingRequestBodyTaggingTagSetTag>> tag{};
+
   PutObjectTaggingRequestBodyTaggingTagSet() {}
+
   explicit PutObjectTaggingRequestBodyTaggingTagSet(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -3716,10 +3780,10 @@ public:
 
   void fromMap(map<string, boost::any> m) override {
     if (m.find("Tag") != m.end() && !m["Tag"].empty()) {
-      if (typeid(vector<boost::any>).name() == m["Tag"].type().name()) {
+      if (typeid(vector<boost::any>) == m["Tag"].type()) {
         vector<PutObjectTaggingRequestBodyTaggingTagSetTag> expect1;
         for (auto item1 : boost::any_cast<vector<boost::any>>(m["Tag"])) {
-          if (typeid(map<string, boost::any>).name() == item1.type().name()) {
+          if (typeid(map<string, boost::any>) == item1.type()) {
             PutObjectTaggingRequestBodyTaggingTagSetTag model2;
             model2.fromMap(boost::any_cast<map<string, boost::any>>(item1));
             expect1.push_back(model2);
@@ -3731,13 +3795,14 @@ public:
     }
   }
 
-  shared_ptr<vector<PutObjectTaggingRequestBodyTaggingTagSetTag>> tag{};
-
-  ~PutObjectTaggingRequestBodyTaggingTagSet() = default;
+  virtual ~PutObjectTaggingRequestBodyTaggingTagSet() = default;
 };
 class PutObjectTaggingRequestBodyTagging : public Darabonba::Model {
 public:
+  shared_ptr<PutObjectTaggingRequestBodyTaggingTagSet> tagSet{};
+
   PutObjectTaggingRequestBodyTagging() {}
+
   explicit PutObjectTaggingRequestBodyTagging(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -3757,7 +3822,7 @@ public:
 
   void fromMap(map<string, boost::any> m) override {
     if (m.find("TagSet") != m.end() && !m["TagSet"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["TagSet"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["TagSet"].type()) {
         PutObjectTaggingRequestBodyTaggingTagSet model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["TagSet"]));
         tagSet = make_shared<PutObjectTaggingRequestBodyTaggingTagSet>(model1);
@@ -3765,13 +3830,14 @@ public:
     }
   }
 
-  shared_ptr<PutObjectTaggingRequestBodyTaggingTagSet> tagSet{};
-
-  ~PutObjectTaggingRequestBodyTagging() = default;
+  virtual ~PutObjectTaggingRequestBodyTagging() = default;
 };
 class PutObjectTaggingRequestBody : public Darabonba::Model {
 public:
+  shared_ptr<PutObjectTaggingRequestBodyTagging> tagging{};
+
   PutObjectTaggingRequestBody() {}
+
   explicit PutObjectTaggingRequestBody(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -3796,8 +3862,7 @@ public:
 
   void fromMap(map<string, boost::any> m) override {
     if (m.find("Tagging") != m.end() && !m["Tagging"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["Tagging"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Tagging"].type()) {
         PutObjectTaggingRequestBodyTagging model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Tagging"]));
         tagging = make_shared<PutObjectTaggingRequestBodyTagging>(model1);
@@ -3805,13 +3870,16 @@ public:
     }
   }
 
-  shared_ptr<PutObjectTaggingRequestBodyTagging> tagging{};
-
-  ~PutObjectTaggingRequestBody() = default;
+  virtual ~PutObjectTaggingRequestBody() = default;
 };
 class PutObjectTaggingRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+  shared_ptr<string> objectName{};
+  shared_ptr<PutObjectTaggingRequestBody> body{};
+
   PutObjectTaggingRequest() {}
+
   explicit PutObjectTaggingRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -3855,7 +3923,7 @@ public:
           make_shared<string>(boost::any_cast<string>(m["ObjectName"]));
     }
     if (m.find("Body") != m.end() && !m["Body"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Body"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Body"].type()) {
         PutObjectTaggingRequestBody model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Body"]));
         body = make_shared<PutObjectTaggingRequestBody>(model1);
@@ -3863,15 +3931,14 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-  shared_ptr<string> objectName{};
-  shared_ptr<PutObjectTaggingRequestBody> body{};
-
-  ~PutObjectTaggingRequest() = default;
+  virtual ~PutObjectTaggingRequest() = default;
 };
 class PutObjectTaggingResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+
   PutObjectTaggingResponse() {}
+
   explicit PutObjectTaggingResponse(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -3900,13 +3967,14 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-
-  ~PutObjectTaggingResponse() = default;
+  virtual ~PutObjectTaggingResponse() = default;
 };
 class SelectObjectRequestFilter : public Darabonba::Model {
 public:
+  shared_ptr<string> porcess{};
+
   SelectObjectRequestFilter() {}
+
   explicit SelectObjectRequestFilter(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -3934,14 +4002,20 @@ public:
     }
   }
 
-  shared_ptr<string> porcess{};
-
-  ~SelectObjectRequestFilter() = default;
+  virtual ~SelectObjectRequestFilter() = default;
 };
 class SelectObjectRequestBodySelectRequestInputSerializationCSV
     : public Darabonba::Model {
 public:
+  shared_ptr<string> fileHeaderInfo{};
+  shared_ptr<string> recordDelimiter{};
+  shared_ptr<string> fieldDelimiter{};
+  shared_ptr<string> quoteCharacter{};
+  shared_ptr<string> commentCharacter{};
+  shared_ptr<string> range{};
+
   SelectObjectRequestBodySelectRequestInputSerializationCSV() {}
+
   explicit SelectObjectRequestBodySelectRequestInputSerializationCSV(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -4000,19 +4074,17 @@ public:
     }
   }
 
-  shared_ptr<string> fileHeaderInfo{};
-  shared_ptr<string> recordDelimiter{};
-  shared_ptr<string> fieldDelimiter{};
-  shared_ptr<string> quoteCharacter{};
-  shared_ptr<string> commentCharacter{};
-  shared_ptr<string> range{};
-
-  ~SelectObjectRequestBodySelectRequestInputSerializationCSV() = default;
+  virtual ~SelectObjectRequestBodySelectRequestInputSerializationCSV() =
+      default;
 };
 class SelectObjectRequestBodySelectRequestInputSerialization
     : public Darabonba::Model {
 public:
+  shared_ptr<SelectObjectRequestBodySelectRequestInputSerializationCSV> cSV{};
+  shared_ptr<string> compressionType{};
+
   SelectObjectRequestBodySelectRequestInputSerialization() {}
+
   explicit SelectObjectRequestBodySelectRequestInputSerialization(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -4035,7 +4107,7 @@ public:
 
   void fromMap(map<string, boost::any> m) override {
     if (m.find("CSV") != m.end() && !m["CSV"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["CSV"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["CSV"].type()) {
         SelectObjectRequestBodySelectRequestInputSerializationCSV model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["CSV"]));
         cSV = make_shared<
@@ -4048,15 +4120,16 @@ public:
     }
   }
 
-  shared_ptr<SelectObjectRequestBodySelectRequestInputSerializationCSV> cSV{};
-  shared_ptr<string> compressionType{};
-
-  ~SelectObjectRequestBodySelectRequestInputSerialization() = default;
+  virtual ~SelectObjectRequestBodySelectRequestInputSerialization() = default;
 };
 class SelectObjectRequestBodySelectRequestOutputSerializationCSV
     : public Darabonba::Model {
 public:
+  shared_ptr<string> recordDelimiter{};
+  shared_ptr<string> fieldDelimiter{};
+
   SelectObjectRequestBodySelectRequestOutputSerializationCSV() {}
+
   explicit SelectObjectRequestBodySelectRequestOutputSerializationCSV(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -4087,15 +4160,20 @@ public:
     }
   }
 
-  shared_ptr<string> recordDelimiter{};
-  shared_ptr<string> fieldDelimiter{};
-
-  ~SelectObjectRequestBodySelectRequestOutputSerializationCSV() = default;
+  virtual ~SelectObjectRequestBodySelectRequestOutputSerializationCSV() =
+      default;
 };
 class SelectObjectRequestBodySelectRequestOutputSerialization
     : public Darabonba::Model {
 public:
+  shared_ptr<SelectObjectRequestBodySelectRequestOutputSerializationCSV> cSV{};
+  shared_ptr<string> keepAllColumns{};
+  shared_ptr<string> outputRawData{};
+  shared_ptr<string> enablePayloadCrc{};
+  shared_ptr<string> outputHeader{};
+
   SelectObjectRequestBodySelectRequestOutputSerialization() {}
+
   explicit SelectObjectRequestBodySelectRequestOutputSerialization(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -4127,7 +4205,7 @@ public:
 
   void fromMap(map<string, boost::any> m) override {
     if (m.find("CSV") != m.end() && !m["CSV"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["CSV"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["CSV"].type()) {
         SelectObjectRequestBodySelectRequestOutputSerializationCSV model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["CSV"]));
         cSV = make_shared<
@@ -4153,17 +4231,15 @@ public:
     }
   }
 
-  shared_ptr<SelectObjectRequestBodySelectRequestOutputSerializationCSV> cSV{};
-  shared_ptr<string> keepAllColumns{};
-  shared_ptr<string> outputRawData{};
-  shared_ptr<string> enablePayloadCrc{};
-  shared_ptr<string> outputHeader{};
-
-  ~SelectObjectRequestBodySelectRequestOutputSerialization() = default;
+  virtual ~SelectObjectRequestBodySelectRequestOutputSerialization() = default;
 };
 class SelectObjectRequestBodySelectRequestOptions : public Darabonba::Model {
 public:
+  shared_ptr<string> skipPartialDataRecord{};
+  shared_ptr<string> maxSkippedRecordsAllowed{};
+
   SelectObjectRequestBodySelectRequestOptions() {}
+
   explicit SelectObjectRequestBodySelectRequestOptions(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -4196,14 +4272,19 @@ public:
     }
   }
 
-  shared_ptr<string> skipPartialDataRecord{};
-  shared_ptr<string> maxSkippedRecordsAllowed{};
-
-  ~SelectObjectRequestBodySelectRequestOptions() = default;
+  virtual ~SelectObjectRequestBodySelectRequestOptions() = default;
 };
 class SelectObjectRequestBodySelectRequest : public Darabonba::Model {
 public:
+  shared_ptr<SelectObjectRequestBodySelectRequestInputSerialization>
+      inputSerialization{};
+  shared_ptr<SelectObjectRequestBodySelectRequestOutputSerialization>
+      outputSerialization{};
+  shared_ptr<SelectObjectRequestBodySelectRequestOptions> options{};
+  shared_ptr<string> expression{};
+
   SelectObjectRequestBodySelectRequest() {}
+
   explicit SelectObjectRequestBodySelectRequest(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -4237,8 +4318,7 @@ public:
   void fromMap(map<string, boost::any> m) override {
     if (m.find("InputSerialization") != m.end() &&
         !m["InputSerialization"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["InputSerialization"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["InputSerialization"].type()) {
         SelectObjectRequestBodySelectRequestInputSerialization model1;
         model1.fromMap(
             boost::any_cast<map<string, boost::any>>(m["InputSerialization"]));
@@ -4249,8 +4329,7 @@ public:
     }
     if (m.find("OutputSerialization") != m.end() &&
         !m["OutputSerialization"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["OutputSerialization"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["OutputSerialization"].type()) {
         SelectObjectRequestBodySelectRequestOutputSerialization model1;
         model1.fromMap(
             boost::any_cast<map<string, boost::any>>(m["OutputSerialization"]));
@@ -4259,8 +4338,7 @@ public:
       }
     }
     if (m.find("Options") != m.end() && !m["Options"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["Options"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Options"].type()) {
         SelectObjectRequestBodySelectRequestOptions model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Options"]));
         options =
@@ -4273,18 +4351,14 @@ public:
     }
   }
 
-  shared_ptr<SelectObjectRequestBodySelectRequestInputSerialization>
-      inputSerialization{};
-  shared_ptr<SelectObjectRequestBodySelectRequestOutputSerialization>
-      outputSerialization{};
-  shared_ptr<SelectObjectRequestBodySelectRequestOptions> options{};
-  shared_ptr<string> expression{};
-
-  ~SelectObjectRequestBodySelectRequest() = default;
+  virtual ~SelectObjectRequestBodySelectRequest() = default;
 };
 class SelectObjectRequestBody : public Darabonba::Model {
 public:
+  shared_ptr<SelectObjectRequestBodySelectRequest> selectRequest{};
+
   SelectObjectRequestBody() {}
+
   explicit SelectObjectRequestBody(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -4309,8 +4383,7 @@ public:
 
   void fromMap(map<string, boost::any> m) override {
     if (m.find("SelectRequest") != m.end() && !m["SelectRequest"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["SelectRequest"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["SelectRequest"].type()) {
         SelectObjectRequestBodySelectRequest model1;
         model1.fromMap(
             boost::any_cast<map<string, boost::any>>(m["SelectRequest"]));
@@ -4320,13 +4393,17 @@ public:
     }
   }
 
-  shared_ptr<SelectObjectRequestBodySelectRequest> selectRequest{};
-
-  ~SelectObjectRequestBody() = default;
+  virtual ~SelectObjectRequestBody() = default;
 };
 class SelectObjectRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+  shared_ptr<string> objectName{};
+  shared_ptr<SelectObjectRequestFilter> filter{};
+  shared_ptr<SelectObjectRequestBody> body{};
+
   SelectObjectRequest() {}
+
   explicit SelectObjectRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -4378,14 +4455,14 @@ public:
           make_shared<string>(boost::any_cast<string>(m["ObjectName"]));
     }
     if (m.find("Filter") != m.end() && !m["Filter"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Filter"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Filter"].type()) {
         SelectObjectRequestFilter model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Filter"]));
         filter = make_shared<SelectObjectRequestFilter>(model1);
       }
     }
     if (m.find("Body") != m.end() && !m["Body"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Body"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Body"].type()) {
         SelectObjectRequestBody model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Body"]));
         body = make_shared<SelectObjectRequestBody>(model1);
@@ -4393,16 +4470,14 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-  shared_ptr<string> objectName{};
-  shared_ptr<SelectObjectRequestFilter> filter{};
-  shared_ptr<SelectObjectRequestBody> body{};
-
-  ~SelectObjectRequest() = default;
+  virtual ~SelectObjectRequest() = default;
 };
 class SelectObjectResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+
   SelectObjectResponse() {}
+
   explicit SelectObjectResponse(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -4431,14 +4506,19 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-
-  ~SelectObjectResponse() = default;
+  virtual ~SelectObjectResponse() = default;
 };
 class PutBucketCORSRequestBodyCORSConfigurationCORSRule
     : public Darabonba::Model {
 public:
+  shared_ptr<vector<string>> allowedOrigin{};
+  shared_ptr<vector<string>> allowedMethod{};
+  shared_ptr<vector<string>> allowedHeader{};
+  shared_ptr<vector<string>> exposeHeader{};
+  shared_ptr<string> maxAgeSeconds{};
+
   PutBucketCORSRequestBodyCORSConfigurationCORSRule() {}
+
   explicit PutBucketCORSRequestBodyCORSConfigurationCORSRule(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -4470,8 +4550,7 @@ public:
   void fromMap(map<string, boost::any> m) override {
     if (m.find("AllowedOrigin") != m.end() && !m["AllowedOrigin"].empty()) {
       vector<string> toVec1;
-      if (typeid(vector<boost::any>).name() ==
-          m["AllowedOrigin"].type().name()) {
+      if (typeid(vector<boost::any>) == m["AllowedOrigin"].type()) {
         vector<boost::any> vec1 =
             boost::any_cast<vector<boost::any>>(m["AllowedOrigin"]);
         for (auto item : vec1) {
@@ -4482,8 +4561,7 @@ public:
     }
     if (m.find("AllowedMethod") != m.end() && !m["AllowedMethod"].empty()) {
       vector<string> toVec1;
-      if (typeid(vector<boost::any>).name() ==
-          m["AllowedMethod"].type().name()) {
+      if (typeid(vector<boost::any>) == m["AllowedMethod"].type()) {
         vector<boost::any> vec1 =
             boost::any_cast<vector<boost::any>>(m["AllowedMethod"]);
         for (auto item : vec1) {
@@ -4494,8 +4572,7 @@ public:
     }
     if (m.find("AllowedHeader") != m.end() && !m["AllowedHeader"].empty()) {
       vector<string> toVec1;
-      if (typeid(vector<boost::any>).name() ==
-          m["AllowedHeader"].type().name()) {
+      if (typeid(vector<boost::any>) == m["AllowedHeader"].type()) {
         vector<boost::any> vec1 =
             boost::any_cast<vector<boost::any>>(m["AllowedHeader"]);
         for (auto item : vec1) {
@@ -4506,8 +4583,7 @@ public:
     }
     if (m.find("ExposeHeader") != m.end() && !m["ExposeHeader"].empty()) {
       vector<string> toVec1;
-      if (typeid(vector<boost::any>).name() ==
-          m["ExposeHeader"].type().name()) {
+      if (typeid(vector<boost::any>) == m["ExposeHeader"].type()) {
         vector<boost::any> vec1 =
             boost::any_cast<vector<boost::any>>(m["ExposeHeader"]);
         for (auto item : vec1) {
@@ -4522,17 +4598,15 @@ public:
     }
   }
 
-  shared_ptr<vector<string>> allowedOrigin{};
-  shared_ptr<vector<string>> allowedMethod{};
-  shared_ptr<vector<string>> allowedHeader{};
-  shared_ptr<vector<string>> exposeHeader{};
-  shared_ptr<string> maxAgeSeconds{};
-
-  ~PutBucketCORSRequestBodyCORSConfigurationCORSRule() = default;
+  virtual ~PutBucketCORSRequestBodyCORSConfigurationCORSRule() = default;
 };
 class PutBucketCORSRequestBodyCORSConfiguration : public Darabonba::Model {
 public:
+  shared_ptr<vector<PutBucketCORSRequestBodyCORSConfigurationCORSRule>>
+      cORSRule{};
+
   PutBucketCORSRequestBodyCORSConfiguration() {}
+
   explicit PutBucketCORSRequestBodyCORSConfiguration(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -4555,10 +4629,10 @@ public:
 
   void fromMap(map<string, boost::any> m) override {
     if (m.find("CORSRule") != m.end() && !m["CORSRule"].empty()) {
-      if (typeid(vector<boost::any>).name() == m["CORSRule"].type().name()) {
+      if (typeid(vector<boost::any>) == m["CORSRule"].type()) {
         vector<PutBucketCORSRequestBodyCORSConfigurationCORSRule> expect1;
         for (auto item1 : boost::any_cast<vector<boost::any>>(m["CORSRule"])) {
-          if (typeid(map<string, boost::any>).name() == item1.type().name()) {
+          if (typeid(map<string, boost::any>) == item1.type()) {
             PutBucketCORSRequestBodyCORSConfigurationCORSRule model2;
             model2.fromMap(boost::any_cast<map<string, boost::any>>(item1));
             expect1.push_back(model2);
@@ -4570,14 +4644,14 @@ public:
     }
   }
 
-  shared_ptr<vector<PutBucketCORSRequestBodyCORSConfigurationCORSRule>>
-      cORSRule{};
-
-  ~PutBucketCORSRequestBodyCORSConfiguration() = default;
+  virtual ~PutBucketCORSRequestBodyCORSConfiguration() = default;
 };
 class PutBucketCORSRequestBody : public Darabonba::Model {
 public:
+  shared_ptr<PutBucketCORSRequestBodyCORSConfiguration> cORSConfiguration{};
+
   PutBucketCORSRequestBody() {}
+
   explicit PutBucketCORSRequestBody(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -4603,8 +4677,7 @@ public:
   void fromMap(map<string, boost::any> m) override {
     if (m.find("CORSConfiguration") != m.end() &&
         !m["CORSConfiguration"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["CORSConfiguration"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["CORSConfiguration"].type()) {
         PutBucketCORSRequestBodyCORSConfiguration model1;
         model1.fromMap(
             boost::any_cast<map<string, boost::any>>(m["CORSConfiguration"]));
@@ -4614,13 +4687,15 @@ public:
     }
   }
 
-  shared_ptr<PutBucketCORSRequestBodyCORSConfiguration> cORSConfiguration{};
-
-  ~PutBucketCORSRequestBody() = default;
+  virtual ~PutBucketCORSRequestBody() = default;
 };
 class PutBucketCORSRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+  shared_ptr<PutBucketCORSRequestBody> body{};
+
   PutBucketCORSRequest() {}
+
   explicit PutBucketCORSRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -4653,7 +4728,7 @@ public:
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
     if (m.find("Body") != m.end() && !m["Body"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Body"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Body"].type()) {
         PutBucketCORSRequestBody model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Body"]));
         body = make_shared<PutBucketCORSRequestBody>(model1);
@@ -4661,14 +4736,14 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-  shared_ptr<PutBucketCORSRequestBody> body{};
-
-  ~PutBucketCORSRequest() = default;
+  virtual ~PutBucketCORSRequest() = default;
 };
 class PutBucketCORSResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+
   PutBucketCORSResponse() {}
+
   explicit PutBucketCORSResponse(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -4697,13 +4772,15 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-
-  ~PutBucketCORSResponse() = default;
+  virtual ~PutBucketCORSResponse() = default;
 };
 class PutBucketRequestBodyCreateBucketConfiguration : public Darabonba::Model {
 public:
+  shared_ptr<string> storageClass{};
+  shared_ptr<string> dataRedundancyType{};
+
   PutBucketRequestBodyCreateBucketConfiguration() {}
+
   explicit PutBucketRequestBodyCreateBucketConfiguration(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -4735,14 +4812,15 @@ public:
     }
   }
 
-  shared_ptr<string> storageClass{};
-  shared_ptr<string> dataRedundancyType{};
-
-  ~PutBucketRequestBodyCreateBucketConfiguration() = default;
+  virtual ~PutBucketRequestBodyCreateBucketConfiguration() = default;
 };
 class PutBucketRequestBody : public Darabonba::Model {
 public:
+  shared_ptr<PutBucketRequestBodyCreateBucketConfiguration>
+      createBucketConfiguration{};
+
   PutBucketRequestBody() {}
+
   explicit PutBucketRequestBody(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -4769,8 +4847,8 @@ public:
   void fromMap(map<string, boost::any> m) override {
     if (m.find("CreateBucketConfiguration") != m.end() &&
         !m["CreateBucketConfiguration"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["CreateBucketConfiguration"].type().name()) {
+      if (typeid(map<string, boost::any>) ==
+          m["CreateBucketConfiguration"].type()) {
         PutBucketRequestBodyCreateBucketConfiguration model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(
             m["CreateBucketConfiguration"]));
@@ -4780,14 +4858,14 @@ public:
     }
   }
 
-  shared_ptr<PutBucketRequestBodyCreateBucketConfiguration>
-      createBucketConfiguration{};
-
-  ~PutBucketRequestBody() = default;
+  virtual ~PutBucketRequestBody() = default;
 };
 class PutBucketRequestHeader : public Darabonba::Model {
 public:
+  shared_ptr<string> acl{};
+
   PutBucketRequestHeader() {}
+
   explicit PutBucketRequestHeader(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -4809,13 +4887,16 @@ public:
     }
   }
 
-  shared_ptr<string> acl{};
-
-  ~PutBucketRequestHeader() = default;
+  virtual ~PutBucketRequestHeader() = default;
 };
 class PutBucketRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+  shared_ptr<PutBucketRequestBody> body{};
+  shared_ptr<PutBucketRequestHeader> header{};
+
   PutBucketRequest() {}
+
   explicit PutBucketRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -4852,14 +4933,14 @@ public:
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
     if (m.find("Body") != m.end() && !m["Body"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Body"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Body"].type()) {
         PutBucketRequestBody model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Body"]));
         body = make_shared<PutBucketRequestBody>(model1);
       }
     }
     if (m.find("Header") != m.end() && !m["Header"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Header"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Header"].type()) {
         PutBucketRequestHeader model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Header"]));
         header = make_shared<PutBucketRequestHeader>(model1);
@@ -4867,15 +4948,14 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-  shared_ptr<PutBucketRequestBody> body{};
-  shared_ptr<PutBucketRequestHeader> header{};
-
-  ~PutBucketRequest() = default;
+  virtual ~PutBucketRequest() = default;
 };
 class PutBucketResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+
   PutBucketResponse() {}
+
   explicit PutBucketResponse(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -4904,13 +4984,19 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-
-  ~PutBucketResponse() = default;
+  virtual ~PutBucketResponse() = default;
 };
 class ListMultipartUploadsRequestFilter : public Darabonba::Model {
 public:
+  shared_ptr<string> delimiter{};
+  shared_ptr<string> maxUploads{};
+  shared_ptr<string> keyMarker{};
+  shared_ptr<string> prefix{};
+  shared_ptr<string> uploadIdMarker{};
+  shared_ptr<string> encodingType{};
+
   ListMultipartUploadsRequestFilter() {}
+
   explicit ListMultipartUploadsRequestFilter(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -4967,18 +5053,15 @@ public:
     }
   }
 
-  shared_ptr<string> delimiter{};
-  shared_ptr<string> maxUploads{};
-  shared_ptr<string> keyMarker{};
-  shared_ptr<string> prefix{};
-  shared_ptr<string> uploadIdMarker{};
-  shared_ptr<string> encodingType{};
-
-  ~ListMultipartUploadsRequestFilter() = default;
+  virtual ~ListMultipartUploadsRequestFilter() = default;
 };
 class ListMultipartUploadsRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+  shared_ptr<ListMultipartUploadsRequestFilter> filter{};
+
   ListMultipartUploadsRequest() {}
+
   explicit ListMultipartUploadsRequest(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -5012,7 +5095,7 @@ public:
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
     if (m.find("Filter") != m.end() && !m["Filter"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Filter"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Filter"].type()) {
         ListMultipartUploadsRequestFilter model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Filter"]));
         filter = make_shared<ListMultipartUploadsRequestFilter>(model1);
@@ -5020,15 +5103,17 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-  shared_ptr<ListMultipartUploadsRequestFilter> filter{};
-
-  ~ListMultipartUploadsRequest() = default;
+  virtual ~ListMultipartUploadsRequest() = default;
 };
 class ListMultipartUploadsResponseListMultipartUploadsResultUpload
     : public Darabonba::Model {
 public:
+  shared_ptr<string> key{};
+  shared_ptr<string> uploadId{};
+  shared_ptr<string> initiated{};
+
   ListMultipartUploadsResponseListMultipartUploadsResultUpload() {}
+
   explicit ListMultipartUploadsResponseListMultipartUploadsResultUpload(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -5063,16 +5148,27 @@ public:
     }
   }
 
-  shared_ptr<string> key{};
-  shared_ptr<string> uploadId{};
-  shared_ptr<string> initiated{};
-
-  ~ListMultipartUploadsResponseListMultipartUploadsResultUpload() = default;
+  virtual ~ListMultipartUploadsResponseListMultipartUploadsResultUpload() =
+      default;
 };
 class ListMultipartUploadsResponseListMultipartUploadsResult
     : public Darabonba::Model {
 public:
+  shared_ptr<string> bucket{};
+  shared_ptr<string> encodingType{};
+  shared_ptr<string> keyMarker{};
+  shared_ptr<string> uploadIdMarker{};
+  shared_ptr<string> nextKeyMarker{};
+  shared_ptr<string> nextUploadIdMarker{};
+  shared_ptr<string> delimiter{};
+  shared_ptr<string> maxUploads{};
+  shared_ptr<string> isTruncated{};
+  shared_ptr<
+      vector<ListMultipartUploadsResponseListMultipartUploadsResultUpload>>
+      upload{};
+
   ListMultipartUploadsResponseListMultipartUploadsResult() {}
+
   explicit ListMultipartUploadsResponseListMultipartUploadsResult(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -5156,11 +5252,11 @@ public:
           make_shared<string>(boost::any_cast<string>(m["IsTruncated"]));
     }
     if (m.find("Upload") != m.end() && !m["Upload"].empty()) {
-      if (typeid(vector<boost::any>).name() == m["Upload"].type().name()) {
+      if (typeid(vector<boost::any>) == m["Upload"].type()) {
         vector<ListMultipartUploadsResponseListMultipartUploadsResultUpload>
             expect1;
         for (auto item1 : boost::any_cast<vector<boost::any>>(m["Upload"])) {
-          if (typeid(map<string, boost::any>).name() == item1.type().name()) {
+          if (typeid(map<string, boost::any>) == item1.type()) {
             ListMultipartUploadsResponseListMultipartUploadsResultUpload model2;
             model2.fromMap(boost::any_cast<map<string, boost::any>>(item1));
             expect1.push_back(model2);
@@ -5173,24 +5269,16 @@ public:
     }
   }
 
-  shared_ptr<string> bucket{};
-  shared_ptr<string> encodingType{};
-  shared_ptr<string> keyMarker{};
-  shared_ptr<string> uploadIdMarker{};
-  shared_ptr<string> nextKeyMarker{};
-  shared_ptr<string> nextUploadIdMarker{};
-  shared_ptr<string> delimiter{};
-  shared_ptr<string> maxUploads{};
-  shared_ptr<string> isTruncated{};
-  shared_ptr<
-      vector<ListMultipartUploadsResponseListMultipartUploadsResultUpload>>
-      upload{};
-
-  ~ListMultipartUploadsResponseListMultipartUploadsResult() = default;
+  virtual ~ListMultipartUploadsResponseListMultipartUploadsResult() = default;
 };
 class ListMultipartUploadsResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+  shared_ptr<ListMultipartUploadsResponseListMultipartUploadsResult>
+      listMultipartUploadsResult{};
+
   ListMultipartUploadsResponse() {}
+
   explicit ListMultipartUploadsResponse(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -5230,8 +5318,8 @@ public:
     }
     if (m.find("ListMultipartUploadsResult") != m.end() &&
         !m["ListMultipartUploadsResult"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["ListMultipartUploadsResult"].type().name()) {
+      if (typeid(map<string, boost::any>) ==
+          m["ListMultipartUploadsResult"].type()) {
         ListMultipartUploadsResponseListMultipartUploadsResult model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(
             m["ListMultipartUploadsResult"]));
@@ -5242,15 +5330,14 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-  shared_ptr<ListMultipartUploadsResponseListMultipartUploadsResult>
-      listMultipartUploadsResult{};
-
-  ~ListMultipartUploadsResponse() = default;
+  virtual ~ListMultipartUploadsResponse() = default;
 };
 class GetBucketRequestPaymentRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+
   GetBucketRequestPaymentRequest() {}
+
   explicit GetBucketRequestPaymentRequest(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -5281,14 +5368,15 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-
-  ~GetBucketRequestPaymentRequest() = default;
+  virtual ~GetBucketRequestPaymentRequest() = default;
 };
 class GetBucketRequestPaymentResponseRequestPaymentConfiguration
     : public Darabonba::Model {
 public:
+  shared_ptr<string> payer{};
+
   GetBucketRequestPaymentResponseRequestPaymentConfiguration() {}
+
   explicit GetBucketRequestPaymentResponseRequestPaymentConfiguration(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -5311,13 +5399,17 @@ public:
     }
   }
 
-  shared_ptr<string> payer{};
-
-  ~GetBucketRequestPaymentResponseRequestPaymentConfiguration() = default;
+  virtual ~GetBucketRequestPaymentResponseRequestPaymentConfiguration() =
+      default;
 };
 class GetBucketRequestPaymentResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+  shared_ptr<GetBucketRequestPaymentResponseRequestPaymentConfiguration>
+      requestPaymentConfiguration{};
+
   GetBucketRequestPaymentResponse() {}
+
   explicit GetBucketRequestPaymentResponse(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -5357,8 +5449,8 @@ public:
     }
     if (m.find("RequestPaymentConfiguration") != m.end() &&
         !m["RequestPaymentConfiguration"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["RequestPaymentConfiguration"].type().name()) {
+      if (typeid(map<string, boost::any>) ==
+          m["RequestPaymentConfiguration"].type()) {
         GetBucketRequestPaymentResponseRequestPaymentConfiguration model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(
             m["RequestPaymentConfiguration"]));
@@ -5368,15 +5460,14 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-  shared_ptr<GetBucketRequestPaymentResponseRequestPaymentConfiguration>
-      requestPaymentConfiguration{};
-
-  ~GetBucketRequestPaymentResponse() = default;
+  virtual ~GetBucketRequestPaymentResponse() = default;
 };
 class GetBucketEncryptionRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+
   GetBucketEncryptionRequest() {}
+
   explicit GetBucketEncryptionRequest(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -5407,16 +5498,18 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-
-  ~GetBucketEncryptionRequest() = default;
+  virtual ~GetBucketEncryptionRequest() = default;
 };
 class
     GetBucketEncryptionResponseServerSideEncryptionRuleApplyServerSideEncryptionByDefault
     : public Darabonba::Model {
 public:
+  shared_ptr<string> sSEAlgorithm{};
+  shared_ptr<string> kMSMasterKeyID{};
+
   GetBucketEncryptionResponseServerSideEncryptionRuleApplyServerSideEncryptionByDefault() {
   }
+
   explicit GetBucketEncryptionResponseServerSideEncryptionRuleApplyServerSideEncryptionByDefault(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -5447,16 +5540,18 @@ public:
     }
   }
 
-  shared_ptr<string> sSEAlgorithm{};
-  shared_ptr<string> kMSMasterKeyID{};
-
-  ~GetBucketEncryptionResponseServerSideEncryptionRuleApplyServerSideEncryptionByDefault() =
+  virtual ~GetBucketEncryptionResponseServerSideEncryptionRuleApplyServerSideEncryptionByDefault() =
       default;
 };
 class GetBucketEncryptionResponseServerSideEncryptionRule
     : public Darabonba::Model {
 public:
+  shared_ptr<
+      GetBucketEncryptionResponseServerSideEncryptionRuleApplyServerSideEncryptionByDefault>
+      applyServerSideEncryptionByDefault{};
+
   GetBucketEncryptionResponseServerSideEncryptionRule() {}
+
   explicit GetBucketEncryptionResponseServerSideEncryptionRule(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -5484,8 +5579,8 @@ public:
   void fromMap(map<string, boost::any> m) override {
     if (m.find("ApplyServerSideEncryptionByDefault") != m.end() &&
         !m["ApplyServerSideEncryptionByDefault"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["ApplyServerSideEncryptionByDefault"].type().name()) {
+      if (typeid(map<string, boost::any>) ==
+          m["ApplyServerSideEncryptionByDefault"].type()) {
         GetBucketEncryptionResponseServerSideEncryptionRuleApplyServerSideEncryptionByDefault
             model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(
@@ -5497,15 +5592,16 @@ public:
     }
   }
 
-  shared_ptr<
-      GetBucketEncryptionResponseServerSideEncryptionRuleApplyServerSideEncryptionByDefault>
-      applyServerSideEncryptionByDefault{};
-
-  ~GetBucketEncryptionResponseServerSideEncryptionRule() = default;
+  virtual ~GetBucketEncryptionResponseServerSideEncryptionRule() = default;
 };
 class GetBucketEncryptionResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+  shared_ptr<GetBucketEncryptionResponseServerSideEncryptionRule>
+      serverSideEncryptionRule{};
+
   GetBucketEncryptionResponse() {}
+
   explicit GetBucketEncryptionResponse(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -5545,8 +5641,8 @@ public:
     }
     if (m.find("ServerSideEncryptionRule") != m.end() &&
         !m["ServerSideEncryptionRule"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["ServerSideEncryptionRule"].type().name()) {
+      if (typeid(map<string, boost::any>) ==
+          m["ServerSideEncryptionRule"].type()) {
         GetBucketEncryptionResponseServerSideEncryptionRule model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(
             m["ServerSideEncryptionRule"]));
@@ -5557,15 +5653,14 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-  shared_ptr<GetBucketEncryptionResponseServerSideEncryptionRule>
-      serverSideEncryptionRule{};
-
-  ~GetBucketEncryptionResponse() = default;
+  virtual ~GetBucketEncryptionResponse() = default;
 };
 class GetBucketTagsRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+
   GetBucketTagsRequest() {}
+
   explicit GetBucketTagsRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -5595,13 +5690,15 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-
-  ~GetBucketTagsRequest() = default;
+  virtual ~GetBucketTagsRequest() = default;
 };
 class GetBucketTagsResponseTaggingTagSetTag : public Darabonba::Model {
 public:
+  shared_ptr<string> key{};
+  shared_ptr<string> value{};
+
   GetBucketTagsResponseTaggingTagSetTag() {}
+
   explicit GetBucketTagsResponseTaggingTagSetTag(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -5630,14 +5727,14 @@ public:
     }
   }
 
-  shared_ptr<string> key{};
-  shared_ptr<string> value{};
-
-  ~GetBucketTagsResponseTaggingTagSetTag() = default;
+  virtual ~GetBucketTagsResponseTaggingTagSetTag() = default;
 };
 class GetBucketTagsResponseTaggingTagSet : public Darabonba::Model {
 public:
+  shared_ptr<vector<GetBucketTagsResponseTaggingTagSetTag>> tag{};
+
   GetBucketTagsResponseTaggingTagSet() {}
+
   explicit GetBucketTagsResponseTaggingTagSet(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -5660,10 +5757,10 @@ public:
 
   void fromMap(map<string, boost::any> m) override {
     if (m.find("Tag") != m.end() && !m["Tag"].empty()) {
-      if (typeid(vector<boost::any>).name() == m["Tag"].type().name()) {
+      if (typeid(vector<boost::any>) == m["Tag"].type()) {
         vector<GetBucketTagsResponseTaggingTagSetTag> expect1;
         for (auto item1 : boost::any_cast<vector<boost::any>>(m["Tag"])) {
-          if (typeid(map<string, boost::any>).name() == item1.type().name()) {
+          if (typeid(map<string, boost::any>) == item1.type()) {
             GetBucketTagsResponseTaggingTagSetTag model2;
             model2.fromMap(boost::any_cast<map<string, boost::any>>(item1));
             expect1.push_back(model2);
@@ -5675,13 +5772,14 @@ public:
     }
   }
 
-  shared_ptr<vector<GetBucketTagsResponseTaggingTagSetTag>> tag{};
-
-  ~GetBucketTagsResponseTaggingTagSet() = default;
+  virtual ~GetBucketTagsResponseTaggingTagSet() = default;
 };
 class GetBucketTagsResponseTagging : public Darabonba::Model {
 public:
+  shared_ptr<GetBucketTagsResponseTaggingTagSet> tagSet{};
+
   GetBucketTagsResponseTagging() {}
+
   explicit GetBucketTagsResponseTagging(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -5706,7 +5804,7 @@ public:
 
   void fromMap(map<string, boost::any> m) override {
     if (m.find("TagSet") != m.end() && !m["TagSet"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["TagSet"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["TagSet"].type()) {
         GetBucketTagsResponseTaggingTagSet model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["TagSet"]));
         tagSet = make_shared<GetBucketTagsResponseTaggingTagSet>(model1);
@@ -5714,13 +5812,15 @@ public:
     }
   }
 
-  shared_ptr<GetBucketTagsResponseTaggingTagSet> tagSet{};
-
-  ~GetBucketTagsResponseTagging() = default;
+  virtual ~GetBucketTagsResponseTagging() = default;
 };
 class GetBucketTagsResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+  shared_ptr<GetBucketTagsResponseTagging> tagging{};
+
   GetBucketTagsResponse() {}
+
   explicit GetBucketTagsResponse(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -5756,8 +5856,7 @@ public:
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
     if (m.find("Tagging") != m.end() && !m["Tagging"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["Tagging"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Tagging"].type()) {
         GetBucketTagsResponseTagging model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Tagging"]));
         tagging = make_shared<GetBucketTagsResponseTagging>(model1);
@@ -5765,14 +5864,16 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-  shared_ptr<GetBucketTagsResponseTagging> tagging{};
-
-  ~GetBucketTagsResponse() = default;
+  virtual ~GetBucketTagsResponse() = default;
 };
 class GetServiceRequestFilter : public Darabonba::Model {
 public:
+  shared_ptr<string> prefix{};
+  shared_ptr<string> marker{};
+  shared_ptr<string> maxKeys{};
+
   GetServiceRequestFilter() {}
+
   explicit GetServiceRequestFilter(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -5806,15 +5907,14 @@ public:
     }
   }
 
-  shared_ptr<string> prefix{};
-  shared_ptr<string> marker{};
-  shared_ptr<string> maxKeys{};
-
-  ~GetServiceRequestFilter() = default;
+  virtual ~GetServiceRequestFilter() = default;
 };
 class GetServiceRequest : public Darabonba::Model {
 public:
+  shared_ptr<GetServiceRequestFilter> filter{};
+
   GetServiceRequest() {}
+
   explicit GetServiceRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -5833,7 +5933,7 @@ public:
 
   void fromMap(map<string, boost::any> m) override {
     if (m.find("Filter") != m.end() && !m["Filter"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Filter"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Filter"].type()) {
         GetServiceRequestFilter model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Filter"]));
         filter = make_shared<GetServiceRequestFilter>(model1);
@@ -5841,13 +5941,15 @@ public:
     }
   }
 
-  shared_ptr<GetServiceRequestFilter> filter{};
-
-  ~GetServiceRequest() = default;
+  virtual ~GetServiceRequest() = default;
 };
 class GetServiceResponseListAllMyBucketsResultOwner : public Darabonba::Model {
 public:
+  shared_ptr<string> iD{};
+  shared_ptr<string> displayName{};
+
   GetServiceResponseListAllMyBucketsResultOwner() {}
+
   explicit GetServiceResponseListAllMyBucketsResultOwner(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -5877,15 +5979,20 @@ public:
     }
   }
 
-  shared_ptr<string> iD{};
-  shared_ptr<string> displayName{};
-
-  ~GetServiceResponseListAllMyBucketsResultOwner() = default;
+  virtual ~GetServiceResponseListAllMyBucketsResultOwner() = default;
 };
 class GetServiceResponseListAllMyBucketsResultBucketsBucket
     : public Darabonba::Model {
 public:
+  shared_ptr<string> name{};
+  shared_ptr<string> createDate{};
+  shared_ptr<string> location{};
+  shared_ptr<string> extranetEndpoint{};
+  shared_ptr<string> intranetEndpoint{};
+  shared_ptr<string> storageClass{};
+
   GetServiceResponseListAllMyBucketsResultBucketsBucket() {}
+
   explicit GetServiceResponseListAllMyBucketsResultBucketsBucket(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -5944,19 +6051,16 @@ public:
     }
   }
 
-  shared_ptr<string> name{};
-  shared_ptr<string> createDate{};
-  shared_ptr<string> location{};
-  shared_ptr<string> extranetEndpoint{};
-  shared_ptr<string> intranetEndpoint{};
-  shared_ptr<string> storageClass{};
-
-  ~GetServiceResponseListAllMyBucketsResultBucketsBucket() = default;
+  virtual ~GetServiceResponseListAllMyBucketsResultBucketsBucket() = default;
 };
 class GetServiceResponseListAllMyBucketsResultBuckets
     : public Darabonba::Model {
 public:
+  shared_ptr<vector<GetServiceResponseListAllMyBucketsResultBucketsBucket>>
+      bucket{};
+
   GetServiceResponseListAllMyBucketsResultBuckets() {}
+
   explicit GetServiceResponseListAllMyBucketsResultBuckets(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -5979,10 +6083,10 @@ public:
 
   void fromMap(map<string, boost::any> m) override {
     if (m.find("Bucket") != m.end() && !m["Bucket"].empty()) {
-      if (typeid(vector<boost::any>).name() == m["Bucket"].type().name()) {
+      if (typeid(vector<boost::any>) == m["Bucket"].type()) {
         vector<GetServiceResponseListAllMyBucketsResultBucketsBucket> expect1;
         for (auto item1 : boost::any_cast<vector<boost::any>>(m["Bucket"])) {
-          if (typeid(map<string, boost::any>).name() == item1.type().name()) {
+          if (typeid(map<string, boost::any>) == item1.type()) {
             GetServiceResponseListAllMyBucketsResultBucketsBucket model2;
             model2.fromMap(boost::any_cast<map<string, boost::any>>(item1));
             expect1.push_back(model2);
@@ -5995,14 +6099,20 @@ public:
     }
   }
 
-  shared_ptr<vector<GetServiceResponseListAllMyBucketsResultBucketsBucket>>
-      bucket{};
-
-  ~GetServiceResponseListAllMyBucketsResultBuckets() = default;
+  virtual ~GetServiceResponseListAllMyBucketsResultBuckets() = default;
 };
 class GetServiceResponseListAllMyBucketsResult : public Darabonba::Model {
 public:
+  shared_ptr<string> prefix{};
+  shared_ptr<string> marker{};
+  shared_ptr<string> maxKeys{};
+  shared_ptr<string> isTruncated{};
+  shared_ptr<string> nextMarker{};
+  shared_ptr<GetServiceResponseListAllMyBucketsResultOwner> owner{};
+  shared_ptr<GetServiceResponseListAllMyBucketsResultBuckets> buckets{};
+
   GetServiceResponseListAllMyBucketsResult() {}
+
   explicit GetServiceResponseListAllMyBucketsResult(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -6067,7 +6177,7 @@ public:
           make_shared<string>(boost::any_cast<string>(m["NextMarker"]));
     }
     if (m.find("Owner") != m.end() && !m["Owner"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Owner"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Owner"].type()) {
         GetServiceResponseListAllMyBucketsResultOwner model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Owner"]));
         owner =
@@ -6075,8 +6185,7 @@ public:
       }
     }
     if (m.find("Buckets") != m.end() && !m["Buckets"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["Buckets"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Buckets"].type()) {
         GetServiceResponseListAllMyBucketsResultBuckets model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Buckets"]));
         buckets = make_shared<GetServiceResponseListAllMyBucketsResultBuckets>(
@@ -6085,19 +6194,15 @@ public:
     }
   }
 
-  shared_ptr<string> prefix{};
-  shared_ptr<string> marker{};
-  shared_ptr<string> maxKeys{};
-  shared_ptr<string> isTruncated{};
-  shared_ptr<string> nextMarker{};
-  shared_ptr<GetServiceResponseListAllMyBucketsResultOwner> owner{};
-  shared_ptr<GetServiceResponseListAllMyBucketsResultBuckets> buckets{};
-
-  ~GetServiceResponseListAllMyBucketsResult() = default;
+  virtual ~GetServiceResponseListAllMyBucketsResult() = default;
 };
 class GetServiceResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+  shared_ptr<GetServiceResponseListAllMyBucketsResult> listAllMyBucketsResult{};
+
   GetServiceResponse() {}
+
   explicit GetServiceResponse(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -6135,8 +6240,8 @@ public:
     }
     if (m.find("ListAllMyBucketsResult") != m.end() &&
         !m["ListAllMyBucketsResult"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["ListAllMyBucketsResult"].type().name()) {
+      if (typeid(map<string, boost::any>) ==
+          m["ListAllMyBucketsResult"].type()) {
         GetServiceResponseListAllMyBucketsResult model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(
             m["ListAllMyBucketsResult"]));
@@ -6146,14 +6251,14 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-  shared_ptr<GetServiceResponseListAllMyBucketsResult> listAllMyBucketsResult{};
-
-  ~GetServiceResponse() = default;
+  virtual ~GetServiceResponse() = default;
 };
 class DeleteBucketEncryptionRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+
   DeleteBucketEncryptionRequest() {}
+
   explicit DeleteBucketEncryptionRequest(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -6184,13 +6289,14 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-
-  ~DeleteBucketEncryptionRequest() = default;
+  virtual ~DeleteBucketEncryptionRequest() = default;
 };
 class DeleteBucketEncryptionResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+
   DeleteBucketEncryptionResponse() {}
+
   explicit DeleteBucketEncryptionResponse(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -6220,13 +6326,14 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-
-  ~DeleteBucketEncryptionResponse() = default;
+  virtual ~DeleteBucketEncryptionResponse() = default;
 };
 class DeleteBucketTagsRequestFilter : public Darabonba::Model {
 public:
+  shared_ptr<string> tagging{};
+
   DeleteBucketTagsRequestFilter() {}
+
   explicit DeleteBucketTagsRequestFilter(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -6254,13 +6361,15 @@ public:
     }
   }
 
-  shared_ptr<string> tagging{};
-
-  ~DeleteBucketTagsRequestFilter() = default;
+  virtual ~DeleteBucketTagsRequestFilter() = default;
 };
 class DeleteBucketTagsRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+  shared_ptr<DeleteBucketTagsRequestFilter> filter{};
+
   DeleteBucketTagsRequest() {}
+
   explicit DeleteBucketTagsRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -6297,7 +6406,7 @@ public:
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
     if (m.find("Filter") != m.end() && !m["Filter"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Filter"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Filter"].type()) {
         DeleteBucketTagsRequestFilter model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Filter"]));
         filter = make_shared<DeleteBucketTagsRequestFilter>(model1);
@@ -6305,14 +6414,14 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-  shared_ptr<DeleteBucketTagsRequestFilter> filter{};
-
-  ~DeleteBucketTagsRequest() = default;
+  virtual ~DeleteBucketTagsRequest() = default;
 };
 class DeleteBucketTagsResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+
   DeleteBucketTagsResponse() {}
+
   explicit DeleteBucketTagsResponse(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -6341,13 +6450,14 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-
-  ~DeleteBucketTagsResponse() = default;
+  virtual ~DeleteBucketTagsResponse() = default;
 };
 class GetBucketWebsiteRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+
   GetBucketWebsiteRequest() {}
+
   explicit GetBucketWebsiteRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -6377,14 +6487,15 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-
-  ~GetBucketWebsiteRequest() = default;
+  virtual ~GetBucketWebsiteRequest() = default;
 };
 class GetBucketWebsiteResponseWebsiteConfigurationIndexDocument
     : public Darabonba::Model {
 public:
+  shared_ptr<string> suffix{};
+
   GetBucketWebsiteResponseWebsiteConfigurationIndexDocument() {}
+
   explicit GetBucketWebsiteResponseWebsiteConfigurationIndexDocument(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -6407,14 +6518,16 @@ public:
     }
   }
 
-  shared_ptr<string> suffix{};
-
-  ~GetBucketWebsiteResponseWebsiteConfigurationIndexDocument() = default;
+  virtual ~GetBucketWebsiteResponseWebsiteConfigurationIndexDocument() =
+      default;
 };
 class GetBucketWebsiteResponseWebsiteConfigurationErrorDocument
     : public Darabonba::Model {
 public:
+  shared_ptr<string> key{};
+
   GetBucketWebsiteResponseWebsiteConfigurationErrorDocument() {}
+
   explicit GetBucketWebsiteResponseWebsiteConfigurationErrorDocument(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -6437,16 +6550,19 @@ public:
     }
   }
 
-  shared_ptr<string> key{};
-
-  ~GetBucketWebsiteResponseWebsiteConfigurationErrorDocument() = default;
+  virtual ~GetBucketWebsiteResponseWebsiteConfigurationErrorDocument() =
+      default;
 };
 class
     GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader
     : public Darabonba::Model {
 public:
+  shared_ptr<string> key{};
+  shared_ptr<string> equals{};
+
   GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader() {
   }
+
   explicit GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -6475,18 +6591,22 @@ public:
     }
   }
 
-  shared_ptr<string> key{};
-  shared_ptr<string> equals{};
-
-  ~GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader() =
+  virtual ~GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader() =
       default;
 };
 class
     GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleCondition
     : public Darabonba::Model {
 public:
+  shared_ptr<string> keyPrefixEquals{};
+  shared_ptr<string> httpErrorCodeReturnedEquals{};
+  shared_ptr<
+      GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader>
+      includeHeader{};
+
   GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleCondition() {
   }
+
   explicit GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleCondition(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -6528,8 +6648,7 @@ public:
           boost::any_cast<string>(m["HttpErrorCodeReturnedEquals"]));
     }
     if (m.find("IncludeHeader") != m.end() && !m["IncludeHeader"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["IncludeHeader"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["IncludeHeader"].type()) {
         GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader
             model1;
         model1.fromMap(
@@ -6541,21 +6660,19 @@ public:
     }
   }
 
-  shared_ptr<string> keyPrefixEquals{};
-  shared_ptr<string> httpErrorCodeReturnedEquals{};
-  shared_ptr<
-      GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader>
-      includeHeader{};
-
-  ~GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleCondition() =
+  virtual ~GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleCondition() =
       default;
 };
 class
     GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet
     : public Darabonba::Model {
 public:
+  shared_ptr<string> key{};
+  shared_ptr<string> value{};
+
   GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet() {
   }
+
   explicit GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -6584,18 +6701,23 @@ public:
     }
   }
 
-  shared_ptr<string> key{};
-  shared_ptr<string> value{};
-
-  ~GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet() =
+  virtual ~GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet() =
       default;
 };
 class
     GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders
     : public Darabonba::Model {
 public:
+  shared_ptr<bool> passAll{};
+  shared_ptr<string> pass{};
+  shared_ptr<string> remove{};
+  shared_ptr<
+      GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet>
+      set{};
+
   GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders() {
   }
+
   explicit GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -6638,7 +6760,7 @@ public:
       remove = make_shared<string>(boost::any_cast<string>(m["Remove"]));
     }
     if (m.find("Set") != m.end() && !m["Set"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Set"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Set"].type()) {
         GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet
             model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Set"]));
@@ -6649,22 +6771,31 @@ public:
     }
   }
 
-  shared_ptr<bool> passAll{};
-  shared_ptr<string> pass{};
-  shared_ptr<string> remove{};
-  shared_ptr<
-      GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet>
-      set{};
-
-  ~GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders() =
+  virtual ~GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders() =
       default;
 };
 class
     GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect
     : public Darabonba::Model {
 public:
+  shared_ptr<string> redirectType{};
+  shared_ptr<bool> passQueryString{};
+  shared_ptr<string> mirrorURL{};
+  shared_ptr<bool> mirrorPassQueryString{};
+  shared_ptr<bool> mirrorFollowRedirect{};
+  shared_ptr<bool> mirrorCheckMd5{};
+  shared_ptr<string> protocol{};
+  shared_ptr<string> hostName{};
+  shared_ptr<string> httpRedirectCode{};
+  shared_ptr<string> replaceKeyPrefixWith{};
+  shared_ptr<string> replaceKeyWith{};
+  shared_ptr<
+      GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders>
+      mirrorHeaders{};
+
   GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect() {
   }
+
   explicit GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -6768,8 +6899,7 @@ public:
           make_shared<string>(boost::any_cast<string>(m["ReplaceKeyWith"]));
     }
     if (m.find("MirrorHeaders") != m.end() && !m["MirrorHeaders"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["MirrorHeaders"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["MirrorHeaders"].type()) {
         GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders
             model1;
         model1.fromMap(
@@ -6781,28 +6911,22 @@ public:
     }
   }
 
-  shared_ptr<string> redirectType{};
-  shared_ptr<bool> passQueryString{};
-  shared_ptr<string> mirrorURL{};
-  shared_ptr<bool> mirrorPassQueryString{};
-  shared_ptr<bool> mirrorFollowRedirect{};
-  shared_ptr<bool> mirrorCheckMd5{};
-  shared_ptr<string> protocol{};
-  shared_ptr<string> hostName{};
-  shared_ptr<string> httpRedirectCode{};
-  shared_ptr<string> replaceKeyPrefixWith{};
-  shared_ptr<string> replaceKeyWith{};
-  shared_ptr<
-      GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders>
-      mirrorHeaders{};
-
-  ~GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect() =
+  virtual ~GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect() =
       default;
 };
 class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule
     : public Darabonba::Model {
 public:
+  shared_ptr<int> ruleNumber{};
+  shared_ptr<
+      GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleCondition>
+      condition{};
+  shared_ptr<
+      GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect>
+      redirect{};
+
   GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule() {}
+
   explicit GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -6841,8 +6965,7 @@ public:
       ruleNumber = make_shared<int>(boost::any_cast<int>(m["RuleNumber"]));
     }
     if (m.find("Condition") != m.end() && !m["Condition"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["Condition"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Condition"].type()) {
         GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleCondition
             model1;
         model1.fromMap(
@@ -6853,8 +6976,7 @@ public:
       }
     }
     if (m.find("Redirect") != m.end() && !m["Redirect"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["Redirect"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Redirect"].type()) {
         GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect
             model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Redirect"]));
@@ -6865,21 +6987,18 @@ public:
     }
   }
 
-  shared_ptr<int> ruleNumber{};
-  shared_ptr<
-      GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleCondition>
-      condition{};
-  shared_ptr<
-      GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirect>
-      redirect{};
-
-  ~GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule() =
+  virtual ~GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule() =
       default;
 };
 class GetBucketWebsiteResponseWebsiteConfigurationRoutingRules
     : public Darabonba::Model {
 public:
+  shared_ptr<vector<
+      GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule>>
+      routingRule{};
+
   GetBucketWebsiteResponseWebsiteConfigurationRoutingRules() {}
+
   explicit GetBucketWebsiteResponseWebsiteConfigurationRoutingRules(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -6902,13 +7021,13 @@ public:
 
   void fromMap(map<string, boost::any> m) override {
     if (m.find("RoutingRule") != m.end() && !m["RoutingRule"].empty()) {
-      if (typeid(vector<boost::any>).name() == m["RoutingRule"].type().name()) {
+      if (typeid(vector<boost::any>) == m["RoutingRule"].type()) {
         vector<
             GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule>
             expect1;
         for (auto item1 :
              boost::any_cast<vector<boost::any>>(m["RoutingRule"])) {
-          if (typeid(map<string, boost::any>).name() == item1.type().name()) {
+          if (typeid(map<string, boost::any>) == item1.type()) {
             GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule
                 model2;
             model2.fromMap(boost::any_cast<map<string, boost::any>>(item1));
@@ -6922,15 +7041,19 @@ public:
     }
   }
 
-  shared_ptr<vector<
-      GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRule>>
-      routingRule{};
-
-  ~GetBucketWebsiteResponseWebsiteConfigurationRoutingRules() = default;
+  virtual ~GetBucketWebsiteResponseWebsiteConfigurationRoutingRules() = default;
 };
 class GetBucketWebsiteResponseWebsiteConfiguration : public Darabonba::Model {
 public:
+  shared_ptr<GetBucketWebsiteResponseWebsiteConfigurationIndexDocument>
+      indexDocument{};
+  shared_ptr<GetBucketWebsiteResponseWebsiteConfigurationErrorDocument>
+      errorDocument{};
+  shared_ptr<GetBucketWebsiteResponseWebsiteConfigurationRoutingRules>
+      routingRules{};
+
   GetBucketWebsiteResponseWebsiteConfiguration() {}
+
   explicit GetBucketWebsiteResponseWebsiteConfiguration(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -6974,8 +7097,7 @@ public:
 
   void fromMap(map<string, boost::any> m) override {
     if (m.find("IndexDocument") != m.end() && !m["IndexDocument"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["IndexDocument"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["IndexDocument"].type()) {
         GetBucketWebsiteResponseWebsiteConfigurationIndexDocument model1;
         model1.fromMap(
             boost::any_cast<map<string, boost::any>>(m["IndexDocument"]));
@@ -6984,8 +7106,7 @@ public:
       }
     }
     if (m.find("ErrorDocument") != m.end() && !m["ErrorDocument"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["ErrorDocument"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["ErrorDocument"].type()) {
         GetBucketWebsiteResponseWebsiteConfigurationErrorDocument model1;
         model1.fromMap(
             boost::any_cast<map<string, boost::any>>(m["ErrorDocument"]));
@@ -6994,8 +7115,7 @@ public:
       }
     }
     if (m.find("RoutingRules") != m.end() && !m["RoutingRules"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["RoutingRules"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["RoutingRules"].type()) {
         GetBucketWebsiteResponseWebsiteConfigurationRoutingRules model1;
         model1.fromMap(
             boost::any_cast<map<string, boost::any>>(m["RoutingRules"]));
@@ -7005,18 +7125,16 @@ public:
     }
   }
 
-  shared_ptr<GetBucketWebsiteResponseWebsiteConfigurationIndexDocument>
-      indexDocument{};
-  shared_ptr<GetBucketWebsiteResponseWebsiteConfigurationErrorDocument>
-      errorDocument{};
-  shared_ptr<GetBucketWebsiteResponseWebsiteConfigurationRoutingRules>
-      routingRules{};
-
-  ~GetBucketWebsiteResponseWebsiteConfiguration() = default;
+  virtual ~GetBucketWebsiteResponseWebsiteConfiguration() = default;
 };
 class GetBucketWebsiteResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+  shared_ptr<GetBucketWebsiteResponseWebsiteConfiguration>
+      websiteConfiguration{};
+
   GetBucketWebsiteResponse() {}
+
   explicit GetBucketWebsiteResponse(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -7054,8 +7172,7 @@ public:
     }
     if (m.find("WebsiteConfiguration") != m.end() &&
         !m["WebsiteConfiguration"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["WebsiteConfiguration"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["WebsiteConfiguration"].type()) {
         GetBucketWebsiteResponseWebsiteConfiguration model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(
             m["WebsiteConfiguration"]));
@@ -7065,15 +7182,15 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-  shared_ptr<GetBucketWebsiteResponseWebsiteConfiguration>
-      websiteConfiguration{};
-
-  ~GetBucketWebsiteResponse() = default;
+  virtual ~GetBucketWebsiteResponse() = default;
 };
 class DeleteLiveChannelRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+  shared_ptr<string> channelName{};
+
   DeleteLiveChannelRequest() {}
+
   explicit DeleteLiveChannelRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -7114,14 +7231,14 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-  shared_ptr<string> channelName{};
-
-  ~DeleteLiveChannelRequest() = default;
+  virtual ~DeleteLiveChannelRequest() = default;
 };
 class DeleteLiveChannelResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+
   DeleteLiveChannelResponse() {}
+
   explicit DeleteLiveChannelResponse(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -7150,13 +7267,14 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-
-  ~DeleteLiveChannelResponse() = default;
+  virtual ~DeleteLiveChannelResponse() = default;
 };
 class GetBucketLocationRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+
   GetBucketLocationRequest() {}
+
   explicit GetBucketLocationRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -7186,13 +7304,15 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-
-  ~GetBucketLocationRequest() = default;
+  virtual ~GetBucketLocationRequest() = default;
 };
 class GetBucketLocationResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+  shared_ptr<string> locationConstraint{};
+
   GetBucketLocationResponse() {}
+
   explicit GetBucketLocationResponse(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -7233,14 +7353,16 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-  shared_ptr<string> locationConstraint{};
-
-  ~GetBucketLocationResponse() = default;
+  virtual ~GetBucketLocationResponse() = default;
 };
 class ListLiveChannelRequestFilter : public Darabonba::Model {
 public:
+  shared_ptr<string> marker{};
+  shared_ptr<string> maxKeys{};
+  shared_ptr<string> prefix{};
+
   ListLiveChannelRequestFilter() {}
+
   explicit ListLiveChannelRequestFilter(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -7275,15 +7397,15 @@ public:
     }
   }
 
-  shared_ptr<string> marker{};
-  shared_ptr<string> maxKeys{};
-  shared_ptr<string> prefix{};
-
-  ~ListLiveChannelRequestFilter() = default;
+  virtual ~ListLiveChannelRequestFilter() = default;
 };
 class ListLiveChannelRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+  shared_ptr<ListLiveChannelRequestFilter> filter{};
+
   ListLiveChannelRequest() {}
+
   explicit ListLiveChannelRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -7316,7 +7438,7 @@ public:
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
     if (m.find("Filter") != m.end() && !m["Filter"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Filter"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Filter"].type()) {
         ListLiveChannelRequestFilter model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Filter"]));
         filter = make_shared<ListLiveChannelRequestFilter>(model1);
@@ -7324,15 +7446,15 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-  shared_ptr<ListLiveChannelRequestFilter> filter{};
-
-  ~ListLiveChannelRequest() = default;
+  virtual ~ListLiveChannelRequest() = default;
 };
 class ListLiveChannelResponseListLiveChannelResultLiveChannelPublishUrls
     : public Darabonba::Model {
 public:
+  shared_ptr<string> url{};
+
   ListLiveChannelResponseListLiveChannelResultLiveChannelPublishUrls() {}
+
   explicit ListLiveChannelResponseListLiveChannelResultLiveChannelPublishUrls(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -7355,15 +7477,16 @@ public:
     }
   }
 
-  shared_ptr<string> url{};
-
-  ~ListLiveChannelResponseListLiveChannelResultLiveChannelPublishUrls() =
+  virtual ~ListLiveChannelResponseListLiveChannelResultLiveChannelPublishUrls() =
       default;
 };
 class ListLiveChannelResponseListLiveChannelResultLiveChannelPlayUrls
     : public Darabonba::Model {
 public:
+  shared_ptr<string> url{};
+
   ListLiveChannelResponseListLiveChannelResultLiveChannelPlayUrls() {}
+
   explicit ListLiveChannelResponseListLiveChannelResultLiveChannelPlayUrls(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -7386,14 +7509,23 @@ public:
     }
   }
 
-  shared_ptr<string> url{};
-
-  ~ListLiveChannelResponseListLiveChannelResultLiveChannelPlayUrls() = default;
+  virtual ~ListLiveChannelResponseListLiveChannelResultLiveChannelPlayUrls() =
+      default;
 };
 class ListLiveChannelResponseListLiveChannelResultLiveChannel
     : public Darabonba::Model {
 public:
+  shared_ptr<string> name{};
+  shared_ptr<string> description{};
+  shared_ptr<string> status{};
+  shared_ptr<string> lastModified{};
+  shared_ptr<ListLiveChannelResponseListLiveChannelResultLiveChannelPublishUrls>
+      publishUrls{};
+  shared_ptr<ListLiveChannelResponseListLiveChannelResultLiveChannelPlayUrls>
+      playUrls{};
+
   ListLiveChannelResponseListLiveChannelResultLiveChannel() {}
+
   explicit ListLiveChannelResponseListLiveChannelResultLiveChannel(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -7453,8 +7585,7 @@ public:
           make_shared<string>(boost::any_cast<string>(m["LastModified"]));
     }
     if (m.find("PublishUrls") != m.end() && !m["PublishUrls"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["PublishUrls"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["PublishUrls"].type()) {
         ListLiveChannelResponseListLiveChannelResultLiveChannelPublishUrls
             model1;
         model1.fromMap(
@@ -7465,8 +7596,7 @@ public:
       }
     }
     if (m.find("PlayUrls") != m.end() && !m["PlayUrls"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["PlayUrls"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["PlayUrls"].type()) {
         ListLiveChannelResponseListLiveChannelResultLiveChannelPlayUrls model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["PlayUrls"]));
         playUrls = make_shared<
@@ -7476,20 +7606,20 @@ public:
     }
   }
 
-  shared_ptr<string> name{};
-  shared_ptr<string> description{};
-  shared_ptr<string> status{};
-  shared_ptr<string> lastModified{};
-  shared_ptr<ListLiveChannelResponseListLiveChannelResultLiveChannelPublishUrls>
-      publishUrls{};
-  shared_ptr<ListLiveChannelResponseListLiveChannelResultLiveChannelPlayUrls>
-      playUrls{};
-
-  ~ListLiveChannelResponseListLiveChannelResultLiveChannel() = default;
+  virtual ~ListLiveChannelResponseListLiveChannelResultLiveChannel() = default;
 };
 class ListLiveChannelResponseListLiveChannelResult : public Darabonba::Model {
 public:
+  shared_ptr<string> prefix{};
+  shared_ptr<string> marker{};
+  shared_ptr<string> maxKeys{};
+  shared_ptr<string> isTruncated{};
+  shared_ptr<string> nextMarker{};
+  shared_ptr<ListLiveChannelResponseListLiveChannelResultLiveChannel>
+      liveChannel{};
+
   ListLiveChannelResponseListLiveChannelResult() {}
+
   explicit ListLiveChannelResponseListLiveChannelResult(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -7547,8 +7677,7 @@ public:
           make_shared<string>(boost::any_cast<string>(m["NextMarker"]));
     }
     if (m.find("LiveChannel") != m.end() && !m["LiveChannel"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["LiveChannel"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["LiveChannel"].type()) {
         ListLiveChannelResponseListLiveChannelResultLiveChannel model1;
         model1.fromMap(
             boost::any_cast<map<string, boost::any>>(m["LiveChannel"]));
@@ -7558,19 +7687,16 @@ public:
     }
   }
 
-  shared_ptr<string> prefix{};
-  shared_ptr<string> marker{};
-  shared_ptr<string> maxKeys{};
-  shared_ptr<string> isTruncated{};
-  shared_ptr<string> nextMarker{};
-  shared_ptr<ListLiveChannelResponseListLiveChannelResultLiveChannel>
-      liveChannel{};
-
-  ~ListLiveChannelResponseListLiveChannelResult() = default;
+  virtual ~ListLiveChannelResponseListLiveChannelResult() = default;
 };
 class ListLiveChannelResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+  shared_ptr<ListLiveChannelResponseListLiveChannelResult>
+      listLiveChannelResult{};
+
   ListLiveChannelResponse() {}
+
   explicit ListLiveChannelResponse(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -7608,8 +7734,8 @@ public:
     }
     if (m.find("ListLiveChannelResult") != m.end() &&
         !m["ListLiveChannelResult"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["ListLiveChannelResult"].type().name()) {
+      if (typeid(map<string, boost::any>) ==
+          m["ListLiveChannelResult"].type()) {
         ListLiveChannelResponseListLiveChannelResult model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(
             m["ListLiveChannelResult"]));
@@ -7619,15 +7745,15 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-  shared_ptr<ListLiveChannelResponseListLiveChannelResult>
-      listLiveChannelResult{};
-
-  ~ListLiveChannelResponse() = default;
+  virtual ~ListLiveChannelResponse() = default;
 };
 class GetObjectMetaRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+  shared_ptr<string> objectName{};
+
   GetObjectMetaRequest() {}
+
   explicit GetObjectMetaRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -7668,14 +7794,17 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-  shared_ptr<string> objectName{};
-
-  ~GetObjectMetaRequest() = default;
+  virtual ~GetObjectMetaRequest() = default;
 };
 class GetObjectMetaResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+  shared_ptr<string> eTag{};
+  shared_ptr<string> contentLength{};
+  shared_ptr<string> lastModified{};
+
   GetObjectMetaResponse() {}
+
   explicit GetObjectMetaResponse(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -7736,16 +7865,14 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-  shared_ptr<string> eTag{};
-  shared_ptr<string> contentLength{};
-  shared_ptr<string> lastModified{};
-
-  ~GetObjectMetaResponse() = default;
+  virtual ~GetObjectMetaResponse() = default;
 };
 class GetBucketAclRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+
   GetBucketAclRequest() {}
+
   explicit GetBucketAclRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -7775,13 +7902,15 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-
-  ~GetBucketAclRequest() = default;
+  virtual ~GetBucketAclRequest() = default;
 };
 class GetBucketAclResponseAccessControlPolicyOwner : public Darabonba::Model {
 public:
+  shared_ptr<string> iD{};
+  shared_ptr<string> displayName{};
+
   GetBucketAclResponseAccessControlPolicyOwner() {}
+
   explicit GetBucketAclResponseAccessControlPolicyOwner(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -7811,15 +7940,15 @@ public:
     }
   }
 
-  shared_ptr<string> iD{};
-  shared_ptr<string> displayName{};
-
-  ~GetBucketAclResponseAccessControlPolicyOwner() = default;
+  virtual ~GetBucketAclResponseAccessControlPolicyOwner() = default;
 };
 class GetBucketAclResponseAccessControlPolicyAccessControlList
     : public Darabonba::Model {
 public:
+  shared_ptr<string> grant{};
+
   GetBucketAclResponseAccessControlPolicyAccessControlList() {}
+
   explicit GetBucketAclResponseAccessControlPolicyAccessControlList(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -7842,13 +7971,16 @@ public:
     }
   }
 
-  shared_ptr<string> grant{};
-
-  ~GetBucketAclResponseAccessControlPolicyAccessControlList() = default;
+  virtual ~GetBucketAclResponseAccessControlPolicyAccessControlList() = default;
 };
 class GetBucketAclResponseAccessControlPolicy : public Darabonba::Model {
 public:
+  shared_ptr<GetBucketAclResponseAccessControlPolicyOwner> owner{};
+  shared_ptr<GetBucketAclResponseAccessControlPolicyAccessControlList>
+      accessControlList{};
+
   GetBucketAclResponseAccessControlPolicy() {}
+
   explicit GetBucketAclResponseAccessControlPolicy(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -7882,7 +8014,7 @@ public:
 
   void fromMap(map<string, boost::any> m) override {
     if (m.find("Owner") != m.end() && !m["Owner"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Owner"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Owner"].type()) {
         GetBucketAclResponseAccessControlPolicyOwner model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Owner"]));
         owner =
@@ -7891,8 +8023,7 @@ public:
     }
     if (m.find("AccessControlList") != m.end() &&
         !m["AccessControlList"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["AccessControlList"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["AccessControlList"].type()) {
         GetBucketAclResponseAccessControlPolicyAccessControlList model1;
         model1.fromMap(
             boost::any_cast<map<string, boost::any>>(m["AccessControlList"]));
@@ -7902,15 +8033,15 @@ public:
     }
   }
 
-  shared_ptr<GetBucketAclResponseAccessControlPolicyOwner> owner{};
-  shared_ptr<GetBucketAclResponseAccessControlPolicyAccessControlList>
-      accessControlList{};
-
-  ~GetBucketAclResponseAccessControlPolicy() = default;
+  virtual ~GetBucketAclResponseAccessControlPolicy() = default;
 };
 class GetBucketAclResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+  shared_ptr<GetBucketAclResponseAccessControlPolicy> accessControlPolicy{};
+
   GetBucketAclResponse() {}
+
   explicit GetBucketAclResponse(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -7948,8 +8079,7 @@ public:
     }
     if (m.find("AccessControlPolicy") != m.end() &&
         !m["AccessControlPolicy"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["AccessControlPolicy"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["AccessControlPolicy"].type()) {
         GetBucketAclResponseAccessControlPolicy model1;
         model1.fromMap(
             boost::any_cast<map<string, boost::any>>(m["AccessControlPolicy"]));
@@ -7959,14 +8089,17 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-  shared_ptr<GetBucketAclResponseAccessControlPolicy> accessControlPolicy{};
-
-  ~GetBucketAclResponse() = default;
+  virtual ~GetBucketAclResponse() = default;
 };
 class ListPartsRequestFilter : public Darabonba::Model {
 public:
+  shared_ptr<string> uploadId{};
+  shared_ptr<int> maxParts{};
+  shared_ptr<int> partNumberMarker{};
+  shared_ptr<string> encodingType{};
+
   ListPartsRequestFilter() {}
+
   explicit ListPartsRequestFilter(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -8014,16 +8147,16 @@ public:
     }
   }
 
-  shared_ptr<string> uploadId{};
-  shared_ptr<int> maxParts{};
-  shared_ptr<int> partNumberMarker{};
-  shared_ptr<string> encodingType{};
-
-  ~ListPartsRequestFilter() = default;
+  virtual ~ListPartsRequestFilter() = default;
 };
 class ListPartsRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+  shared_ptr<string> objectName{};
+  shared_ptr<ListPartsRequestFilter> filter{};
+
   ListPartsRequest() {}
+
   explicit ListPartsRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -8071,7 +8204,7 @@ public:
           make_shared<string>(boost::any_cast<string>(m["ObjectName"]));
     }
     if (m.find("Filter") != m.end() && !m["Filter"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Filter"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Filter"].type()) {
         ListPartsRequestFilter model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Filter"]));
         filter = make_shared<ListPartsRequestFilter>(model1);
@@ -8079,15 +8212,17 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-  shared_ptr<string> objectName{};
-  shared_ptr<ListPartsRequestFilter> filter{};
-
-  ~ListPartsRequest() = default;
+  virtual ~ListPartsRequest() = default;
 };
 class ListPartsResponseListPartsResultPart : public Darabonba::Model {
 public:
+  shared_ptr<string> partNumber{};
+  shared_ptr<string> lastModified{};
+  shared_ptr<string> eTag{};
+  shared_ptr<string> size{};
+
   ListPartsResponseListPartsResultPart() {}
+
   explicit ListPartsResponseListPartsResultPart(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -8130,16 +8265,22 @@ public:
     }
   }
 
-  shared_ptr<string> partNumber{};
-  shared_ptr<string> lastModified{};
-  shared_ptr<string> eTag{};
-  shared_ptr<string> size{};
-
-  ~ListPartsResponseListPartsResultPart() = default;
+  virtual ~ListPartsResponseListPartsResultPart() = default;
 };
 class ListPartsResponseListPartsResult : public Darabonba::Model {
 public:
+  shared_ptr<string> bucket{};
+  shared_ptr<string> encodingType{};
+  shared_ptr<string> key{};
+  shared_ptr<string> uploadId{};
+  shared_ptr<string> partNumberMarker{};
+  shared_ptr<string> nextPartNumberMarker{};
+  shared_ptr<string> maxParts{};
+  shared_ptr<string> isTruncated{};
+  shared_ptr<vector<ListPartsResponseListPartsResultPart>> part{};
+
   ListPartsResponseListPartsResult() {}
+
   explicit ListPartsResponseListPartsResult(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -8216,10 +8357,10 @@ public:
           make_shared<string>(boost::any_cast<string>(m["IsTruncated"]));
     }
     if (m.find("Part") != m.end() && !m["Part"].empty()) {
-      if (typeid(vector<boost::any>).name() == m["Part"].type().name()) {
+      if (typeid(vector<boost::any>) == m["Part"].type()) {
         vector<ListPartsResponseListPartsResultPart> expect1;
         for (auto item1 : boost::any_cast<vector<boost::any>>(m["Part"])) {
-          if (typeid(map<string, boost::any>).name() == item1.type().name()) {
+          if (typeid(map<string, boost::any>) == item1.type()) {
             ListPartsResponseListPartsResultPart model2;
             model2.fromMap(boost::any_cast<map<string, boost::any>>(item1));
             expect1.push_back(model2);
@@ -8231,21 +8372,15 @@ public:
     }
   }
 
-  shared_ptr<string> bucket{};
-  shared_ptr<string> encodingType{};
-  shared_ptr<string> key{};
-  shared_ptr<string> uploadId{};
-  shared_ptr<string> partNumberMarker{};
-  shared_ptr<string> nextPartNumberMarker{};
-  shared_ptr<string> maxParts{};
-  shared_ptr<string> isTruncated{};
-  shared_ptr<vector<ListPartsResponseListPartsResultPart>> part{};
-
-  ~ListPartsResponseListPartsResult() = default;
+  virtual ~ListPartsResponseListPartsResult() = default;
 };
 class ListPartsResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+  shared_ptr<ListPartsResponseListPartsResult> listPartsResult{};
+
   ListPartsResponse() {}
+
   explicit ListPartsResponse(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -8282,8 +8417,7 @@ public:
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
     if (m.find("ListPartsResult") != m.end() && !m["ListPartsResult"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["ListPartsResult"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["ListPartsResult"].type()) {
         ListPartsResponseListPartsResult model1;
         model1.fromMap(
             boost::any_cast<map<string, boost::any>>(m["ListPartsResult"]));
@@ -8292,14 +8426,14 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-  shared_ptr<ListPartsResponseListPartsResult> listPartsResult{};
-
-  ~ListPartsResponse() = default;
+  virtual ~ListPartsResponse() = default;
 };
 class GetLiveChannelHistoryRequestFilter : public Darabonba::Model {
 public:
+  shared_ptr<string> comp{};
+
   GetLiveChannelHistoryRequestFilter() {}
+
   explicit GetLiveChannelHistoryRequestFilter(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -8322,13 +8456,16 @@ public:
     }
   }
 
-  shared_ptr<string> comp{};
-
-  ~GetLiveChannelHistoryRequestFilter() = default;
+  virtual ~GetLiveChannelHistoryRequestFilter() = default;
 };
 class GetLiveChannelHistoryRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+  shared_ptr<string> channelName{};
+  shared_ptr<GetLiveChannelHistoryRequestFilter> filter{};
+
   GetLiveChannelHistoryRequest() {}
+
   explicit GetLiveChannelHistoryRequest(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -8373,7 +8510,7 @@ public:
           make_shared<string>(boost::any_cast<string>(m["ChannelName"]));
     }
     if (m.find("Filter") != m.end() && !m["Filter"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Filter"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Filter"].type()) {
         GetLiveChannelHistoryRequestFilter model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Filter"]));
         filter = make_shared<GetLiveChannelHistoryRequestFilter>(model1);
@@ -8381,16 +8518,17 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-  shared_ptr<string> channelName{};
-  shared_ptr<GetLiveChannelHistoryRequestFilter> filter{};
-
-  ~GetLiveChannelHistoryRequest() = default;
+  virtual ~GetLiveChannelHistoryRequest() = default;
 };
 class GetLiveChannelHistoryResponseLiveChannelHistoryLiveRecord
     : public Darabonba::Model {
 public:
+  shared_ptr<string> startTime{};
+  shared_ptr<string> endTime{};
+  shared_ptr<string> remoteAddr{};
+
   GetLiveChannelHistoryResponseLiveChannelHistoryLiveRecord() {}
+
   explicit GetLiveChannelHistoryResponseLiveChannelHistoryLiveRecord(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -8426,16 +8564,17 @@ public:
     }
   }
 
-  shared_ptr<string> startTime{};
-  shared_ptr<string> endTime{};
-  shared_ptr<string> remoteAddr{};
-
-  ~GetLiveChannelHistoryResponseLiveChannelHistoryLiveRecord() = default;
+  virtual ~GetLiveChannelHistoryResponseLiveChannelHistoryLiveRecord() =
+      default;
 };
 class GetLiveChannelHistoryResponseLiveChannelHistory
     : public Darabonba::Model {
 public:
+  shared_ptr<vector<GetLiveChannelHistoryResponseLiveChannelHistoryLiveRecord>>
+      liveRecord{};
+
   GetLiveChannelHistoryResponseLiveChannelHistory() {}
+
   explicit GetLiveChannelHistoryResponseLiveChannelHistory(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -8458,12 +8597,12 @@ public:
 
   void fromMap(map<string, boost::any> m) override {
     if (m.find("LiveRecord") != m.end() && !m["LiveRecord"].empty()) {
-      if (typeid(vector<boost::any>).name() == m["LiveRecord"].type().name()) {
+      if (typeid(vector<boost::any>) == m["LiveRecord"].type()) {
         vector<GetLiveChannelHistoryResponseLiveChannelHistoryLiveRecord>
             expect1;
         for (auto item1 :
              boost::any_cast<vector<boost::any>>(m["LiveRecord"])) {
-          if (typeid(map<string, boost::any>).name() == item1.type().name()) {
+          if (typeid(map<string, boost::any>) == item1.type()) {
             GetLiveChannelHistoryResponseLiveChannelHistoryLiveRecord model2;
             model2.fromMap(boost::any_cast<map<string, boost::any>>(item1));
             expect1.push_back(model2);
@@ -8476,14 +8615,16 @@ public:
     }
   }
 
-  shared_ptr<vector<GetLiveChannelHistoryResponseLiveChannelHistoryLiveRecord>>
-      liveRecord{};
-
-  ~GetLiveChannelHistoryResponseLiveChannelHistory() = default;
+  virtual ~GetLiveChannelHistoryResponseLiveChannelHistory() = default;
 };
 class GetLiveChannelHistoryResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+  shared_ptr<GetLiveChannelHistoryResponseLiveChannelHistory>
+      liveChannelHistory{};
+
   GetLiveChannelHistoryResponse() {}
+
   explicit GetLiveChannelHistoryResponse(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -8522,8 +8663,7 @@ public:
     }
     if (m.find("LiveChannelHistory") != m.end() &&
         !m["LiveChannelHistory"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["LiveChannelHistory"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["LiveChannelHistory"].type()) {
         GetLiveChannelHistoryResponseLiveChannelHistory model1;
         model1.fromMap(
             boost::any_cast<map<string, boost::any>>(m["LiveChannelHistory"]));
@@ -8534,15 +8674,18 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-  shared_ptr<GetLiveChannelHistoryResponseLiveChannelHistory>
-      liveChannelHistory{};
-
-  ~GetLiveChannelHistoryResponse() = default;
+  virtual ~GetLiveChannelHistoryResponse() = default;
 };
 class GetBucketRequestFilter : public Darabonba::Model {
 public:
+  shared_ptr<string> delimiter{};
+  shared_ptr<string> marker{};
+  shared_ptr<string> maxKeys{};
+  shared_ptr<string> prefix{};
+  shared_ptr<string> encodingType{};
+
   GetBucketRequestFilter() {}
+
   explicit GetBucketRequestFilter(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -8589,17 +8732,15 @@ public:
     }
   }
 
-  shared_ptr<string> delimiter{};
-  shared_ptr<string> marker{};
-  shared_ptr<string> maxKeys{};
-  shared_ptr<string> prefix{};
-  shared_ptr<string> encodingType{};
-
-  ~GetBucketRequestFilter() = default;
+  virtual ~GetBucketRequestFilter() = default;
 };
 class GetBucketRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+  shared_ptr<GetBucketRequestFilter> filter{};
+
   GetBucketRequest() {}
+
   explicit GetBucketRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -8632,7 +8773,7 @@ public:
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
     if (m.find("Filter") != m.end() && !m["Filter"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Filter"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Filter"].type()) {
         GetBucketRequestFilter model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Filter"]));
         filter = make_shared<GetBucketRequestFilter>(model1);
@@ -8640,14 +8781,15 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-  shared_ptr<GetBucketRequestFilter> filter{};
-
-  ~GetBucketRequest() = default;
+  virtual ~GetBucketRequest() = default;
 };
 class GetBucketResponseListBucketResultContentsOwner : public Darabonba::Model {
 public:
+  shared_ptr<string> iD{};
+  shared_ptr<string> displayName{};
+
   GetBucketResponseListBucketResultContentsOwner() {}
+
   explicit GetBucketResponseListBucketResultContentsOwner(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -8677,14 +8819,19 @@ public:
     }
   }
 
-  shared_ptr<string> iD{};
-  shared_ptr<string> displayName{};
-
-  ~GetBucketResponseListBucketResultContentsOwner() = default;
+  virtual ~GetBucketResponseListBucketResultContentsOwner() = default;
 };
 class GetBucketResponseListBucketResultContents : public Darabonba::Model {
 public:
+  shared_ptr<string> key{};
+  shared_ptr<string> eTag{};
+  shared_ptr<string> lastModified{};
+  shared_ptr<string> size{};
+  shared_ptr<string> storageClass{};
+  shared_ptr<GetBucketResponseListBucketResultContentsOwner> owner{};
+
   GetBucketResponseListBucketResultContents() {}
+
   explicit GetBucketResponseListBucketResultContents(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -8741,7 +8888,7 @@ public:
           make_shared<string>(boost::any_cast<string>(m["StorageClass"]));
     }
     if (m.find("Owner") != m.end() && !m["Owner"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Owner"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Owner"].type()) {
         GetBucketResponseListBucketResultContentsOwner model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Owner"]));
         owner =
@@ -8750,18 +8897,22 @@ public:
     }
   }
 
-  shared_ptr<string> key{};
-  shared_ptr<string> eTag{};
-  shared_ptr<string> lastModified{};
-  shared_ptr<string> size{};
-  shared_ptr<string> storageClass{};
-  shared_ptr<GetBucketResponseListBucketResultContentsOwner> owner{};
-
-  ~GetBucketResponseListBucketResultContents() = default;
+  virtual ~GetBucketResponseListBucketResultContents() = default;
 };
 class GetBucketResponseListBucketResult : public Darabonba::Model {
 public:
+  shared_ptr<string> name{};
+  shared_ptr<string> prefix{};
+  shared_ptr<string> marker{};
+  shared_ptr<string> maxKeys{};
+  shared_ptr<string> delimiter{};
+  shared_ptr<string> isTruncated{};
+  shared_ptr<string> encodingType{};
+  shared_ptr<string> commonPrefixes{};
+  shared_ptr<vector<GetBucketResponseListBucketResultContents>> contents{};
+
   GetBucketResponseListBucketResult() {}
+
   explicit GetBucketResponseListBucketResult(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -8835,10 +8986,10 @@ public:
           make_shared<string>(boost::any_cast<string>(m["CommonPrefixes"]));
     }
     if (m.find("Contents") != m.end() && !m["Contents"].empty()) {
-      if (typeid(vector<boost::any>).name() == m["Contents"].type().name()) {
+      if (typeid(vector<boost::any>) == m["Contents"].type()) {
         vector<GetBucketResponseListBucketResultContents> expect1;
         for (auto item1 : boost::any_cast<vector<boost::any>>(m["Contents"])) {
-          if (typeid(map<string, boost::any>).name() == item1.type().name()) {
+          if (typeid(map<string, boost::any>) == item1.type()) {
             GetBucketResponseListBucketResultContents model2;
             model2.fromMap(boost::any_cast<map<string, boost::any>>(item1));
             expect1.push_back(model2);
@@ -8851,21 +9002,15 @@ public:
     }
   }
 
-  shared_ptr<string> name{};
-  shared_ptr<string> prefix{};
-  shared_ptr<string> marker{};
-  shared_ptr<string> maxKeys{};
-  shared_ptr<string> delimiter{};
-  shared_ptr<string> isTruncated{};
-  shared_ptr<string> encodingType{};
-  shared_ptr<string> commonPrefixes{};
-  shared_ptr<vector<GetBucketResponseListBucketResultContents>> contents{};
-
-  ~GetBucketResponseListBucketResult() = default;
+  virtual ~GetBucketResponseListBucketResult() = default;
 };
 class GetBucketResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+  shared_ptr<GetBucketResponseListBucketResult> listBucketResult{};
+
   GetBucketResponse() {}
+
   explicit GetBucketResponse(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -8903,8 +9048,7 @@ public:
     }
     if (m.find("ListBucketResult") != m.end() &&
         !m["ListBucketResult"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["ListBucketResult"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["ListBucketResult"].type()) {
         GetBucketResponseListBucketResult model1;
         model1.fromMap(
             boost::any_cast<map<string, boost::any>>(m["ListBucketResult"]));
@@ -8914,14 +9058,15 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-  shared_ptr<GetBucketResponseListBucketResult> listBucketResult{};
-
-  ~GetBucketResponse() = default;
+  virtual ~GetBucketResponse() = default;
 };
 class GetLiveChannelInfoRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+  shared_ptr<string> channelName{};
+
   GetLiveChannelInfoRequest() {}
+
   explicit GetLiveChannelInfoRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -8962,15 +9107,18 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-  shared_ptr<string> channelName{};
-
-  ~GetLiveChannelInfoRequest() = default;
+  virtual ~GetLiveChannelInfoRequest() = default;
 };
 class GetLiveChannelInfoResponseLiveChannelConfigurationTarget
     : public Darabonba::Model {
 public:
+  shared_ptr<string> type{};
+  shared_ptr<string> fragDuration{};
+  shared_ptr<string> fragCount{};
+  shared_ptr<string> playlistName{};
+
   GetLiveChannelInfoResponseLiveChannelConfigurationTarget() {}
+
   explicit GetLiveChannelInfoResponseLiveChannelConfigurationTarget(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -9013,17 +9161,17 @@ public:
     }
   }
 
-  shared_ptr<string> type{};
-  shared_ptr<string> fragDuration{};
-  shared_ptr<string> fragCount{};
-  shared_ptr<string> playlistName{};
-
-  ~GetLiveChannelInfoResponseLiveChannelConfigurationTarget() = default;
+  virtual ~GetLiveChannelInfoResponseLiveChannelConfigurationTarget() = default;
 };
 class GetLiveChannelInfoResponseLiveChannelConfiguration
     : public Darabonba::Model {
 public:
+  shared_ptr<string> description{};
+  shared_ptr<string> status{};
+  shared_ptr<GetLiveChannelInfoResponseLiveChannelConfigurationTarget> target{};
+
   GetLiveChannelInfoResponseLiveChannelConfiguration() {}
+
   explicit GetLiveChannelInfoResponseLiveChannelConfiguration(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -9061,7 +9209,7 @@ public:
       status = make_shared<string>(boost::any_cast<string>(m["Status"]));
     }
     if (m.find("Target") != m.end() && !m["Target"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Target"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Target"].type()) {
         GetLiveChannelInfoResponseLiveChannelConfigurationTarget model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Target"]));
         target = make_shared<
@@ -9070,15 +9218,16 @@ public:
     }
   }
 
-  shared_ptr<string> description{};
-  shared_ptr<string> status{};
-  shared_ptr<GetLiveChannelInfoResponseLiveChannelConfigurationTarget> target{};
-
-  ~GetLiveChannelInfoResponseLiveChannelConfiguration() = default;
+  virtual ~GetLiveChannelInfoResponseLiveChannelConfiguration() = default;
 };
 class GetLiveChannelInfoResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+  shared_ptr<GetLiveChannelInfoResponseLiveChannelConfiguration>
+      liveChannelConfiguration{};
+
   GetLiveChannelInfoResponse() {}
+
   explicit GetLiveChannelInfoResponse(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -9118,8 +9267,8 @@ public:
     }
     if (m.find("LiveChannelConfiguration") != m.end() &&
         !m["LiveChannelConfiguration"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["LiveChannelConfiguration"].type().name()) {
+      if (typeid(map<string, boost::any>) ==
+          m["LiveChannelConfiguration"].type()) {
         GetLiveChannelInfoResponseLiveChannelConfiguration model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(
             m["LiveChannelConfiguration"]));
@@ -9130,15 +9279,14 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-  shared_ptr<GetLiveChannelInfoResponseLiveChannelConfiguration>
-      liveChannelConfiguration{};
-
-  ~GetLiveChannelInfoResponse() = default;
+  virtual ~GetLiveChannelInfoResponse() = default;
 };
 class GetLiveChannelStatRequestFilter : public Darabonba::Model {
 public:
+  shared_ptr<string> comp{};
+
   GetLiveChannelStatRequestFilter() {}
+
   explicit GetLiveChannelStatRequestFilter(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -9161,13 +9309,16 @@ public:
     }
   }
 
-  shared_ptr<string> comp{};
-
-  ~GetLiveChannelStatRequestFilter() = default;
+  virtual ~GetLiveChannelStatRequestFilter() = default;
 };
 class GetLiveChannelStatRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+  shared_ptr<string> channelName{};
+  shared_ptr<GetLiveChannelStatRequestFilter> filter{};
+
   GetLiveChannelStatRequest() {}
+
   explicit GetLiveChannelStatRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -9211,7 +9362,7 @@ public:
           make_shared<string>(boost::any_cast<string>(m["ChannelName"]));
     }
     if (m.find("Filter") != m.end() && !m["Filter"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Filter"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Filter"].type()) {
         GetLiveChannelStatRequestFilter model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Filter"]));
         filter = make_shared<GetLiveChannelStatRequestFilter>(model1);
@@ -9219,15 +9370,18 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-  shared_ptr<string> channelName{};
-  shared_ptr<GetLiveChannelStatRequestFilter> filter{};
-
-  ~GetLiveChannelStatRequest() = default;
+  virtual ~GetLiveChannelStatRequest() = default;
 };
 class GetLiveChannelStatResponseLiveChannelStatVideo : public Darabonba::Model {
 public:
+  shared_ptr<string> width{};
+  shared_ptr<string> height{};
+  shared_ptr<string> frameRate{};
+  shared_ptr<string> bandwidth{};
+  shared_ptr<string> codec{};
+
   GetLiveChannelStatResponseLiveChannelStatVideo() {}
+
   explicit GetLiveChannelStatResponseLiveChannelStatVideo(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -9274,17 +9428,16 @@ public:
     }
   }
 
-  shared_ptr<string> width{};
-  shared_ptr<string> height{};
-  shared_ptr<string> frameRate{};
-  shared_ptr<string> bandwidth{};
-  shared_ptr<string> codec{};
-
-  ~GetLiveChannelStatResponseLiveChannelStatVideo() = default;
+  virtual ~GetLiveChannelStatResponseLiveChannelStatVideo() = default;
 };
 class GetLiveChannelStatResponseLiveChannelStatAudio : public Darabonba::Model {
 public:
+  shared_ptr<string> bandwidth{};
+  shared_ptr<string> sampleRate{};
+  shared_ptr<string> codec{};
+
   GetLiveChannelStatResponseLiveChannelStatAudio() {}
+
   explicit GetLiveChannelStatResponseLiveChannelStatAudio(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -9320,15 +9473,18 @@ public:
     }
   }
 
-  shared_ptr<string> bandwidth{};
-  shared_ptr<string> sampleRate{};
-  shared_ptr<string> codec{};
-
-  ~GetLiveChannelStatResponseLiveChannelStatAudio() = default;
+  virtual ~GetLiveChannelStatResponseLiveChannelStatAudio() = default;
 };
 class GetLiveChannelStatResponseLiveChannelStat : public Darabonba::Model {
 public:
+  shared_ptr<string> status{};
+  shared_ptr<string> connectedTime{};
+  shared_ptr<string> remoteAddr{};
+  shared_ptr<GetLiveChannelStatResponseLiveChannelStatVideo> video{};
+  shared_ptr<GetLiveChannelStatResponseLiveChannelStatAudio> audio{};
+
   GetLiveChannelStatResponseLiveChannelStat() {}
+
   explicit GetLiveChannelStatResponseLiveChannelStat(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -9381,7 +9537,7 @@ public:
           make_shared<string>(boost::any_cast<string>(m["RemoteAddr"]));
     }
     if (m.find("Video") != m.end() && !m["Video"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Video"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Video"].type()) {
         GetLiveChannelStatResponseLiveChannelStatVideo model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Video"]));
         video =
@@ -9389,7 +9545,7 @@ public:
       }
     }
     if (m.find("Audio") != m.end() && !m["Audio"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Audio"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Audio"].type()) {
         GetLiveChannelStatResponseLiveChannelStatAudio model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Audio"]));
         audio =
@@ -9398,17 +9554,15 @@ public:
     }
   }
 
-  shared_ptr<string> status{};
-  shared_ptr<string> connectedTime{};
-  shared_ptr<string> remoteAddr{};
-  shared_ptr<GetLiveChannelStatResponseLiveChannelStatVideo> video{};
-  shared_ptr<GetLiveChannelStatResponseLiveChannelStatAudio> audio{};
-
-  ~GetLiveChannelStatResponseLiveChannelStat() = default;
+  virtual ~GetLiveChannelStatResponseLiveChannelStat() = default;
 };
 class GetLiveChannelStatResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+  shared_ptr<GetLiveChannelStatResponseLiveChannelStat> liveChannelStat{};
+
   GetLiveChannelStatResponse() {}
+
   explicit GetLiveChannelStatResponse(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -9446,8 +9600,7 @@ public:
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
     if (m.find("LiveChannelStat") != m.end() && !m["LiveChannelStat"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["LiveChannelStat"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["LiveChannelStat"].type()) {
         GetLiveChannelStatResponseLiveChannelStat model1;
         model1.fromMap(
             boost::any_cast<map<string, boost::any>>(m["LiveChannelStat"]));
@@ -9457,14 +9610,15 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-  shared_ptr<GetLiveChannelStatResponseLiveChannelStat> liveChannelStat{};
-
-  ~GetLiveChannelStatResponse() = default;
+  virtual ~GetLiveChannelStatResponse() = default;
 };
 class DeleteObjectRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+  shared_ptr<string> objectName{};
+
   DeleteObjectRequest() {}
+
   explicit DeleteObjectRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -9505,14 +9659,14 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-  shared_ptr<string> objectName{};
-
-  ~DeleteObjectRequest() = default;
+  virtual ~DeleteObjectRequest() = default;
 };
 class DeleteObjectResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+
   DeleteObjectResponse() {}
+
   explicit DeleteObjectResponse(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -9541,13 +9695,14 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-
-  ~DeleteObjectResponse() = default;
+  virtual ~DeleteObjectResponse() = default;
 };
 class AbortMultipartUploadRequestFilter : public Darabonba::Model {
 public:
+  shared_ptr<string> uploadId{};
+
   AbortMultipartUploadRequestFilter() {}
+
   explicit AbortMultipartUploadRequestFilter(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -9575,13 +9730,16 @@ public:
     }
   }
 
-  shared_ptr<string> uploadId{};
-
-  ~AbortMultipartUploadRequestFilter() = default;
+  virtual ~AbortMultipartUploadRequestFilter() = default;
 };
 class AbortMultipartUploadRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+  shared_ptr<string> objectName{};
+  shared_ptr<AbortMultipartUploadRequestFilter> filter{};
+
   AbortMultipartUploadRequest() {}
+
   explicit AbortMultipartUploadRequest(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -9630,7 +9788,7 @@ public:
           make_shared<string>(boost::any_cast<string>(m["ObjectName"]));
     }
     if (m.find("Filter") != m.end() && !m["Filter"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Filter"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Filter"].type()) {
         AbortMultipartUploadRequestFilter model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Filter"]));
         filter = make_shared<AbortMultipartUploadRequestFilter>(model1);
@@ -9638,15 +9796,14 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-  shared_ptr<string> objectName{};
-  shared_ptr<AbortMultipartUploadRequestFilter> filter{};
-
-  ~AbortMultipartUploadRequest() = default;
+  virtual ~AbortMultipartUploadRequest() = default;
 };
 class AbortMultipartUploadResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+
   AbortMultipartUploadResponse() {}
+
   explicit AbortMultipartUploadResponse(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -9676,13 +9833,14 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-
-  ~AbortMultipartUploadResponse() = default;
+  virtual ~AbortMultipartUploadResponse() = default;
 };
 class AppendObjectRequestFilter : public Darabonba::Model {
 public:
+  shared_ptr<string> position{};
+
   AppendObjectRequestFilter() {}
+
   explicit AppendObjectRequestFilter(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -9709,13 +9867,22 @@ public:
     }
   }
 
-  shared_ptr<string> position{};
-
-  ~AppendObjectRequestFilter() = default;
+  virtual ~AppendObjectRequestFilter() = default;
 };
 class AppendObjectRequestHeader : public Darabonba::Model {
 public:
+  shared_ptr<string> cacheControl{};
+  shared_ptr<string> contentDisposition{};
+  shared_ptr<string> contentEncoding{};
+  shared_ptr<string> contentMD5{};
+  shared_ptr<string> expires{};
+  shared_ptr<string> serverSideEncryption{};
+  shared_ptr<string> objectAcl{};
+  shared_ptr<string> storageClass{};
+  shared_ptr<string> contentType{};
+
   AppendObjectRequestHeader() {}
+
   explicit AppendObjectRequestHeader(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -9798,21 +9965,19 @@ public:
     }
   }
 
-  shared_ptr<string> cacheControl{};
-  shared_ptr<string> contentDisposition{};
-  shared_ptr<string> contentEncoding{};
-  shared_ptr<string> contentMD5{};
-  shared_ptr<string> expires{};
-  shared_ptr<string> serverSideEncryption{};
-  shared_ptr<string> objectAcl{};
-  shared_ptr<string> storageClass{};
-  shared_ptr<string> contentType{};
-
-  ~AppendObjectRequestHeader() = default;
+  virtual ~AppendObjectRequestHeader() = default;
 };
 class AppendObjectRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+  shared_ptr<string> objectName{};
+  shared_ptr<map<string, string>> userMeta{};
+  shared_ptr<Darabonba::Stream> body{};
+  shared_ptr<AppendObjectRequestFilter> filter{};
+  shared_ptr<AppendObjectRequestHeader> header{};
+
   AppendObjectRequest() {}
+
   explicit AppendObjectRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -9883,14 +10048,14 @@ public:
           boost::any_cast<Darabonba::Stream>(m["body"]));
     }
     if (m.find("Filter") != m.end() && !m["Filter"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Filter"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Filter"].type()) {
         AppendObjectRequestFilter model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Filter"]));
         filter = make_shared<AppendObjectRequestFilter>(model1);
       }
     }
     if (m.find("Header") != m.end() && !m["Header"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Header"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Header"].type()) {
         AppendObjectRequestHeader model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Header"]));
         header = make_shared<AppendObjectRequestHeader>(model1);
@@ -9898,18 +10063,16 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-  shared_ptr<string> objectName{};
-  shared_ptr<map<string, string>> userMeta{};
-  shared_ptr<Darabonba::Stream> body{};
-  shared_ptr<AppendObjectRequestFilter> filter{};
-  shared_ptr<AppendObjectRequestHeader> header{};
-
-  ~AppendObjectRequest() = default;
+  virtual ~AppendObjectRequest() = default;
 };
 class AppendObjectResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+  shared_ptr<string> nextAppendPosition{};
+  shared_ptr<string> hashCrc64ecma{};
+
   AppendObjectResponse() {}
+
   explicit AppendObjectResponse(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -9962,15 +10125,15 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-  shared_ptr<string> nextAppendPosition{};
-  shared_ptr<string> hashCrc64ecma{};
-
-  ~AppendObjectResponse() = default;
+  virtual ~AppendObjectResponse() = default;
 };
 class UploadPartCopyRequestFilter : public Darabonba::Model {
 public:
+  shared_ptr<string> partNumber{};
+  shared_ptr<string> uploadId{};
+
   UploadPartCopyRequestFilter() {}
+
   explicit UploadPartCopyRequestFilter(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -10009,14 +10172,19 @@ public:
     }
   }
 
-  shared_ptr<string> partNumber{};
-  shared_ptr<string> uploadId{};
-
-  ~UploadPartCopyRequestFilter() = default;
+  virtual ~UploadPartCopyRequestFilter() = default;
 };
 class UploadPartCopyRequestHeader : public Darabonba::Model {
 public:
+  shared_ptr<string> copySource{};
+  shared_ptr<string> copySourceRange{};
+  shared_ptr<string> copySourceIfMatch{};
+  shared_ptr<string> copySourceIfNoneMatch{};
+  shared_ptr<string> copySourceIfUnmodifiedSince{};
+  shared_ptr<string> copySourceIfModifiedSince{};
+
   UploadPartCopyRequestHeader() {}
+
   explicit UploadPartCopyRequestHeader(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -10093,18 +10261,17 @@ public:
     }
   }
 
-  shared_ptr<string> copySource{};
-  shared_ptr<string> copySourceRange{};
-  shared_ptr<string> copySourceIfMatch{};
-  shared_ptr<string> copySourceIfNoneMatch{};
-  shared_ptr<string> copySourceIfUnmodifiedSince{};
-  shared_ptr<string> copySourceIfModifiedSince{};
-
-  ~UploadPartCopyRequestHeader() = default;
+  virtual ~UploadPartCopyRequestHeader() = default;
 };
 class UploadPartCopyRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+  shared_ptr<string> objectName{};
+  shared_ptr<UploadPartCopyRequestFilter> filter{};
+  shared_ptr<UploadPartCopyRequestHeader> header{};
+
   UploadPartCopyRequest() {}
+
   explicit UploadPartCopyRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -10160,14 +10327,14 @@ public:
           make_shared<string>(boost::any_cast<string>(m["ObjectName"]));
     }
     if (m.find("Filter") != m.end() && !m["Filter"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Filter"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Filter"].type()) {
         UploadPartCopyRequestFilter model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Filter"]));
         filter = make_shared<UploadPartCopyRequestFilter>(model1);
       }
     }
     if (m.find("Header") != m.end() && !m["Header"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Header"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Header"].type()) {
         UploadPartCopyRequestHeader model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Header"]));
         header = make_shared<UploadPartCopyRequestHeader>(model1);
@@ -10175,16 +10342,15 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-  shared_ptr<string> objectName{};
-  shared_ptr<UploadPartCopyRequestFilter> filter{};
-  shared_ptr<UploadPartCopyRequestHeader> header{};
-
-  ~UploadPartCopyRequest() = default;
+  virtual ~UploadPartCopyRequest() = default;
 };
 class UploadPartCopyResponseCopyPartResult : public Darabonba::Model {
 public:
+  shared_ptr<string> lastModified{};
+  shared_ptr<string> eTag{};
+
   UploadPartCopyResponseCopyPartResult() {}
+
   explicit UploadPartCopyResponseCopyPartResult(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -10214,14 +10380,15 @@ public:
     }
   }
 
-  shared_ptr<string> lastModified{};
-  shared_ptr<string> eTag{};
-
-  ~UploadPartCopyResponseCopyPartResult() = default;
+  virtual ~UploadPartCopyResponseCopyPartResult() = default;
 };
 class UploadPartCopyResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+  shared_ptr<UploadPartCopyResponseCopyPartResult> copyPartResult{};
+
   UploadPartCopyResponse() {}
+
   explicit UploadPartCopyResponse(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -10258,8 +10425,7 @@ public:
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
     if (m.find("CopyPartResult") != m.end() && !m["CopyPartResult"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["CopyPartResult"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["CopyPartResult"].type()) {
         UploadPartCopyResponseCopyPartResult model1;
         model1.fromMap(
             boost::any_cast<map<string, boost::any>>(m["CopyPartResult"]));
@@ -10269,14 +10435,15 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-  shared_ptr<UploadPartCopyResponseCopyPartResult> copyPartResult{};
-
-  ~UploadPartCopyResponse() = default;
+  virtual ~UploadPartCopyResponse() = default;
 };
 class GetVodPlaylistRequestFilter : public Darabonba::Model {
 public:
+  shared_ptr<string> endTime{};
+  shared_ptr<string> startTime{};
+
   GetVodPlaylistRequestFilter() {}
+
   explicit GetVodPlaylistRequestFilter(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -10314,14 +10481,16 @@ public:
     }
   }
 
-  shared_ptr<string> endTime{};
-  shared_ptr<string> startTime{};
-
-  ~GetVodPlaylistRequestFilter() = default;
+  virtual ~GetVodPlaylistRequestFilter() = default;
 };
 class GetVodPlaylistRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+  shared_ptr<string> channelName{};
+  shared_ptr<GetVodPlaylistRequestFilter> filter{};
+
   GetVodPlaylistRequest() {}
+
   explicit GetVodPlaylistRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -10369,7 +10538,7 @@ public:
           make_shared<string>(boost::any_cast<string>(m["ChannelName"]));
     }
     if (m.find("Filter") != m.end() && !m["Filter"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Filter"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Filter"].type()) {
         GetVodPlaylistRequestFilter model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Filter"]));
         filter = make_shared<GetVodPlaylistRequestFilter>(model1);
@@ -10377,15 +10546,14 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-  shared_ptr<string> channelName{};
-  shared_ptr<GetVodPlaylistRequestFilter> filter{};
-
-  ~GetVodPlaylistRequest() = default;
+  virtual ~GetVodPlaylistRequest() = default;
 };
 class GetVodPlaylistResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+
   GetVodPlaylistResponse() {}
+
   explicit GetVodPlaylistResponse(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -10414,13 +10582,14 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-
-  ~GetVodPlaylistResponse() = default;
+  virtual ~GetVodPlaylistResponse() = default;
 };
 class DeleteBucketCORSRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+
   DeleteBucketCORSRequest() {}
+
   explicit DeleteBucketCORSRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -10450,13 +10619,14 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-
-  ~DeleteBucketCORSRequest() = default;
+  virtual ~DeleteBucketCORSRequest() = default;
 };
 class DeleteBucketCORSResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+
   DeleteBucketCORSResponse() {}
+
   explicit DeleteBucketCORSResponse(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -10485,13 +10655,25 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-
-  ~DeleteBucketCORSResponse() = default;
+  virtual ~DeleteBucketCORSResponse() = default;
 };
 class GetObjectRequestHeader : public Darabonba::Model {
 public:
+  shared_ptr<string> responseContentType{};
+  shared_ptr<string> responseContentLanguage{};
+  shared_ptr<string> responseExpires{};
+  shared_ptr<string> responseCacheControl{};
+  shared_ptr<string> responseContentDisposition{};
+  shared_ptr<string> responseContentEncoding{};
+  shared_ptr<string> range{};
+  shared_ptr<string> ifModifiedSince{};
+  shared_ptr<string> ifUnmodifiedSince{};
+  shared_ptr<string> ifMatch{};
+  shared_ptr<string> ifNoneMatch{};
+  shared_ptr<string> acceptEncoding{};
+
   GetObjectRequestHeader() {}
+
   explicit GetObjectRequestHeader(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -10598,24 +10780,16 @@ public:
     }
   }
 
-  shared_ptr<string> responseContentType{};
-  shared_ptr<string> responseContentLanguage{};
-  shared_ptr<string> responseExpires{};
-  shared_ptr<string> responseCacheControl{};
-  shared_ptr<string> responseContentDisposition{};
-  shared_ptr<string> responseContentEncoding{};
-  shared_ptr<string> range{};
-  shared_ptr<string> ifModifiedSince{};
-  shared_ptr<string> ifUnmodifiedSince{};
-  shared_ptr<string> ifMatch{};
-  shared_ptr<string> ifNoneMatch{};
-  shared_ptr<string> acceptEncoding{};
-
-  ~GetObjectRequestHeader() = default;
+  virtual ~GetObjectRequestHeader() = default;
 };
 class GetObjectRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+  shared_ptr<string> objectName{};
+  shared_ptr<GetObjectRequestHeader> header{};
+
   GetObjectRequest() {}
+
   explicit GetObjectRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -10659,7 +10833,7 @@ public:
           make_shared<string>(boost::any_cast<string>(m["ObjectName"]));
     }
     if (m.find("Header") != m.end() && !m["Header"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Header"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Header"].type()) {
         GetObjectRequestHeader model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Header"]));
         header = make_shared<GetObjectRequestHeader>(model1);
@@ -10667,15 +10841,19 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-  shared_ptr<string> objectName{};
-  shared_ptr<GetObjectRequestHeader> header{};
-
-  ~GetObjectRequest() = default;
+  virtual ~GetObjectRequest() = default;
 };
 class GetObjectResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+  shared_ptr<string> objectType{};
+  shared_ptr<string> serverSideEncryption{};
+  shared_ptr<string> taggingCount{};
+  shared_ptr<string> restore{};
+  shared_ptr<Darabonba::Stream> body{};
+
   GetObjectResponse() {}
+
   explicit GetObjectResponse(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -10762,18 +10940,15 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-  shared_ptr<string> objectType{};
-  shared_ptr<string> serverSideEncryption{};
-  shared_ptr<string> taggingCount{};
-  shared_ptr<string> restore{};
-  shared_ptr<Darabonba::Stream> body{};
-
-  ~GetObjectResponse() = default;
+  virtual ~GetObjectResponse() = default;
 };
 class UploadPartRequestFilter : public Darabonba::Model {
 public:
+  shared_ptr<string> partNumber{};
+  shared_ptr<string> uploadId{};
+
   UploadPartRequestFilter() {}
+
   explicit UploadPartRequestFilter(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -10811,14 +10986,17 @@ public:
     }
   }
 
-  shared_ptr<string> partNumber{};
-  shared_ptr<string> uploadId{};
-
-  ~UploadPartRequestFilter() = default;
+  virtual ~UploadPartRequestFilter() = default;
 };
 class UploadPartRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+  shared_ptr<string> objectName{};
+  shared_ptr<Darabonba::Stream> body{};
+  shared_ptr<UploadPartRequestFilter> filter{};
+
   UploadPartRequest() {}
+
   explicit UploadPartRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -10873,7 +11051,7 @@ public:
           boost::any_cast<Darabonba::Stream>(m["body"]));
     }
     if (m.find("Filter") != m.end() && !m["Filter"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Filter"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Filter"].type()) {
         UploadPartRequestFilter model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Filter"]));
         filter = make_shared<UploadPartRequestFilter>(model1);
@@ -10881,16 +11059,14 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-  shared_ptr<string> objectName{};
-  shared_ptr<Darabonba::Stream> body{};
-  shared_ptr<UploadPartRequestFilter> filter{};
-
-  ~UploadPartRequest() = default;
+  virtual ~UploadPartRequest() = default;
 };
 class UploadPartResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+
   UploadPartResponse() {}
+
   explicit UploadPartResponse(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -10919,13 +11095,14 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-
-  ~UploadPartResponse() = default;
+  virtual ~UploadPartResponse() = default;
 };
 class GetBucketCORSRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+
   GetBucketCORSRequest() {}
+
   explicit GetBucketCORSRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -10955,13 +11132,14 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-
-  ~GetBucketCORSRequest() = default;
+  virtual ~GetBucketCORSRequest() = default;
 };
 class GetBucketCORSResponseCORSConfigurationCORSRule : public Darabonba::Model {
 public:
+  shared_ptr<string> maxAgeSeconds{};
+
   GetBucketCORSResponseCORSConfigurationCORSRule() {}
+
   explicit GetBucketCORSResponseCORSConfigurationCORSRule(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -10985,13 +11163,14 @@ public:
     }
   }
 
-  shared_ptr<string> maxAgeSeconds{};
-
-  ~GetBucketCORSResponseCORSConfigurationCORSRule() = default;
+  virtual ~GetBucketCORSResponseCORSConfigurationCORSRule() = default;
 };
 class GetBucketCORSResponseCORSConfiguration : public Darabonba::Model {
 public:
+  shared_ptr<vector<GetBucketCORSResponseCORSConfigurationCORSRule>> cORSRule{};
+
   GetBucketCORSResponseCORSConfiguration() {}
+
   explicit GetBucketCORSResponseCORSConfiguration(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -11014,10 +11193,10 @@ public:
 
   void fromMap(map<string, boost::any> m) override {
     if (m.find("CORSRule") != m.end() && !m["CORSRule"].empty()) {
-      if (typeid(vector<boost::any>).name() == m["CORSRule"].type().name()) {
+      if (typeid(vector<boost::any>) == m["CORSRule"].type()) {
         vector<GetBucketCORSResponseCORSConfigurationCORSRule> expect1;
         for (auto item1 : boost::any_cast<vector<boost::any>>(m["CORSRule"])) {
-          if (typeid(map<string, boost::any>).name() == item1.type().name()) {
+          if (typeid(map<string, boost::any>) == item1.type()) {
             GetBucketCORSResponseCORSConfigurationCORSRule model2;
             model2.fromMap(boost::any_cast<map<string, boost::any>>(item1));
             expect1.push_back(model2);
@@ -11030,13 +11209,15 @@ public:
     }
   }
 
-  shared_ptr<vector<GetBucketCORSResponseCORSConfigurationCORSRule>> cORSRule{};
-
-  ~GetBucketCORSResponseCORSConfiguration() = default;
+  virtual ~GetBucketCORSResponseCORSConfiguration() = default;
 };
 class GetBucketCORSResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+  shared_ptr<GetBucketCORSResponseCORSConfiguration> cORSConfiguration{};
+
   GetBucketCORSResponse() {}
+
   explicit GetBucketCORSResponse(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -11074,8 +11255,7 @@ public:
     }
     if (m.find("CORSConfiguration") != m.end() &&
         !m["CORSConfiguration"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["CORSConfiguration"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["CORSConfiguration"].type()) {
         GetBucketCORSResponseCORSConfiguration model1;
         model1.fromMap(
             boost::any_cast<map<string, boost::any>>(m["CORSConfiguration"]));
@@ -11085,14 +11265,25 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-  shared_ptr<GetBucketCORSResponseCORSConfiguration> cORSConfiguration{};
-
-  ~GetBucketCORSResponse() = default;
+  virtual ~GetBucketCORSResponse() = default;
 };
 class CopyObjectRequestHeader : public Darabonba::Model {
 public:
+  shared_ptr<string> copySource{};
+  shared_ptr<string> copySourceIfMatch{};
+  shared_ptr<string> copySourceIfNoneMatch{};
+  shared_ptr<string> copySourceIfUnmodifiedSince{};
+  shared_ptr<string> copySourceIfModifiedSince{};
+  shared_ptr<string> metadataDirective{};
+  shared_ptr<string> serverSideEncryption{};
+  shared_ptr<string> serverSideEncryptionKeyId{};
+  shared_ptr<string> objectAcl{};
+  shared_ptr<string> storageClass{};
+  shared_ptr<string> tagging{};
+  shared_ptr<string> taggingDirective{};
+
   CopyObjectRequestHeader() {}
+
   explicit CopyObjectRequestHeader(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -11212,24 +11403,16 @@ public:
     }
   }
 
-  shared_ptr<string> copySource{};
-  shared_ptr<string> copySourceIfMatch{};
-  shared_ptr<string> copySourceIfNoneMatch{};
-  shared_ptr<string> copySourceIfUnmodifiedSince{};
-  shared_ptr<string> copySourceIfModifiedSince{};
-  shared_ptr<string> metadataDirective{};
-  shared_ptr<string> serverSideEncryption{};
-  shared_ptr<string> serverSideEncryptionKeyId{};
-  shared_ptr<string> objectAcl{};
-  shared_ptr<string> storageClass{};
-  shared_ptr<string> tagging{};
-  shared_ptr<string> taggingDirective{};
-
-  ~CopyObjectRequestHeader() = default;
+  virtual ~CopyObjectRequestHeader() = default;
 };
 class CopyObjectRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+  shared_ptr<string> destObjectName{};
+  shared_ptr<CopyObjectRequestHeader> header{};
+
   CopyObjectRequest() {}
+
   explicit CopyObjectRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -11277,7 +11460,7 @@ public:
           make_shared<string>(boost::any_cast<string>(m["DestObjectName"]));
     }
     if (m.find("Header") != m.end() && !m["Header"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Header"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Header"].type()) {
         CopyObjectRequestHeader model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Header"]));
         header = make_shared<CopyObjectRequestHeader>(model1);
@@ -11285,15 +11468,15 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-  shared_ptr<string> destObjectName{};
-  shared_ptr<CopyObjectRequestHeader> header{};
-
-  ~CopyObjectRequest() = default;
+  virtual ~CopyObjectRequest() = default;
 };
 class CopyObjectResponseCopyObjectResult : public Darabonba::Model {
 public:
+  shared_ptr<string> lastModified{};
+  shared_ptr<string> eTag{};
+
   CopyObjectResponseCopyObjectResult() {}
+
   explicit CopyObjectResponseCopyObjectResult(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -11323,14 +11506,15 @@ public:
     }
   }
 
-  shared_ptr<string> lastModified{};
-  shared_ptr<string> eTag{};
-
-  ~CopyObjectResponseCopyObjectResult() = default;
+  virtual ~CopyObjectResponseCopyObjectResult() = default;
 };
 class CopyObjectResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+  shared_ptr<CopyObjectResponseCopyObjectResult> copyObjectResult{};
+
   CopyObjectResponse() {}
+
   explicit CopyObjectResponse(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -11368,8 +11552,7 @@ public:
     }
     if (m.find("CopyObjectResult") != m.end() &&
         !m["CopyObjectResult"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["CopyObjectResult"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["CopyObjectResult"].type()) {
         CopyObjectResponseCopyObjectResult model1;
         model1.fromMap(
             boost::any_cast<map<string, boost::any>>(m["CopyObjectResult"]));
@@ -11379,14 +11562,15 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-  shared_ptr<CopyObjectResponseCopyObjectResult> copyObjectResult{};
-
-  ~CopyObjectResponse() = default;
+  virtual ~CopyObjectResponse() = default;
 };
 class GetObjectTaggingRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+  shared_ptr<string> objectName{};
+
   GetObjectTaggingRequest() {}
+
   explicit GetObjectTaggingRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -11427,14 +11611,15 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-  shared_ptr<string> objectName{};
-
-  ~GetObjectTaggingRequest() = default;
+  virtual ~GetObjectTaggingRequest() = default;
 };
 class GetObjectTaggingResponseTaggingTagSetTag : public Darabonba::Model {
 public:
+  shared_ptr<string> key{};
+  shared_ptr<string> value{};
+
   GetObjectTaggingResponseTaggingTagSetTag() {}
+
   explicit GetObjectTaggingResponseTaggingTagSetTag(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -11463,14 +11648,14 @@ public:
     }
   }
 
-  shared_ptr<string> key{};
-  shared_ptr<string> value{};
-
-  ~GetObjectTaggingResponseTaggingTagSetTag() = default;
+  virtual ~GetObjectTaggingResponseTaggingTagSetTag() = default;
 };
 class GetObjectTaggingResponseTaggingTagSet : public Darabonba::Model {
 public:
+  shared_ptr<vector<GetObjectTaggingResponseTaggingTagSetTag>> tag{};
+
   GetObjectTaggingResponseTaggingTagSet() {}
+
   explicit GetObjectTaggingResponseTaggingTagSet(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -11493,10 +11678,10 @@ public:
 
   void fromMap(map<string, boost::any> m) override {
     if (m.find("Tag") != m.end() && !m["Tag"].empty()) {
-      if (typeid(vector<boost::any>).name() == m["Tag"].type().name()) {
+      if (typeid(vector<boost::any>) == m["Tag"].type()) {
         vector<GetObjectTaggingResponseTaggingTagSetTag> expect1;
         for (auto item1 : boost::any_cast<vector<boost::any>>(m["Tag"])) {
-          if (typeid(map<string, boost::any>).name() == item1.type().name()) {
+          if (typeid(map<string, boost::any>) == item1.type()) {
             GetObjectTaggingResponseTaggingTagSetTag model2;
             model2.fromMap(boost::any_cast<map<string, boost::any>>(item1));
             expect1.push_back(model2);
@@ -11508,13 +11693,14 @@ public:
     }
   }
 
-  shared_ptr<vector<GetObjectTaggingResponseTaggingTagSetTag>> tag{};
-
-  ~GetObjectTaggingResponseTaggingTagSet() = default;
+  virtual ~GetObjectTaggingResponseTaggingTagSet() = default;
 };
 class GetObjectTaggingResponseTagging : public Darabonba::Model {
 public:
+  shared_ptr<GetObjectTaggingResponseTaggingTagSet> tagSet{};
+
   GetObjectTaggingResponseTagging() {}
+
   explicit GetObjectTaggingResponseTagging(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -11539,7 +11725,7 @@ public:
 
   void fromMap(map<string, boost::any> m) override {
     if (m.find("TagSet") != m.end() && !m["TagSet"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["TagSet"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["TagSet"].type()) {
         GetObjectTaggingResponseTaggingTagSet model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["TagSet"]));
         tagSet = make_shared<GetObjectTaggingResponseTaggingTagSet>(model1);
@@ -11547,13 +11733,15 @@ public:
     }
   }
 
-  shared_ptr<GetObjectTaggingResponseTaggingTagSet> tagSet{};
-
-  ~GetObjectTaggingResponseTagging() = default;
+  virtual ~GetObjectTaggingResponseTagging() = default;
 };
 class GetObjectTaggingResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+  shared_ptr<GetObjectTaggingResponseTagging> tagging{};
+
   GetObjectTaggingResponse() {}
+
   explicit GetObjectTaggingResponse(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -11589,8 +11777,7 @@ public:
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
     if (m.find("Tagging") != m.end() && !m["Tagging"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["Tagging"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Tagging"].type()) {
         GetObjectTaggingResponseTagging model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Tagging"]));
         tagging = make_shared<GetObjectTaggingResponseTagging>(model1);
@@ -11598,14 +11785,14 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-  shared_ptr<GetObjectTaggingResponseTagging> tagging{};
-
-  ~GetObjectTaggingResponse() = default;
+  virtual ~GetObjectTaggingResponse() = default;
 };
 class DeleteBucketLifecycleRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+
   DeleteBucketLifecycleRequest() {}
+
   explicit DeleteBucketLifecycleRequest(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -11636,13 +11823,14 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-
-  ~DeleteBucketLifecycleRequest() = default;
+  virtual ~DeleteBucketLifecycleRequest() = default;
 };
 class DeleteBucketLifecycleResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+
   DeleteBucketLifecycleResponse() {}
+
   explicit DeleteBucketLifecycleResponse(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -11672,13 +11860,14 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-
-  ~DeleteBucketLifecycleResponse() = default;
+  virtual ~DeleteBucketLifecycleResponse() = default;
 };
 class DeleteBucketLoggingRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+
   DeleteBucketLoggingRequest() {}
+
   explicit DeleteBucketLoggingRequest(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -11709,13 +11898,14 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-
-  ~DeleteBucketLoggingRequest() = default;
+  virtual ~DeleteBucketLoggingRequest() = default;
 };
 class DeleteBucketLoggingResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+
   DeleteBucketLoggingResponse() {}
+
   explicit DeleteBucketLoggingResponse(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -11745,13 +11935,14 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-
-  ~DeleteBucketLoggingResponse() = default;
+  virtual ~DeleteBucketLoggingResponse() = default;
 };
 class DeleteBucketWebsiteRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+
   DeleteBucketWebsiteRequest() {}
+
   explicit DeleteBucketWebsiteRequest(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -11782,13 +11973,14 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-
-  ~DeleteBucketWebsiteRequest() = default;
+  virtual ~DeleteBucketWebsiteRequest() = default;
 };
 class DeleteBucketWebsiteResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+
   DeleteBucketWebsiteResponse() {}
+
   explicit DeleteBucketWebsiteResponse(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -11818,13 +12010,15 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-
-  ~DeleteBucketWebsiteResponse() = default;
+  virtual ~DeleteBucketWebsiteResponse() = default;
 };
 class GetSymlinkRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+  shared_ptr<string> objectName{};
+
   GetSymlinkRequest() {}
+
   explicit GetSymlinkRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -11865,14 +12059,15 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-  shared_ptr<string> objectName{};
-
-  ~GetSymlinkRequest() = default;
+  virtual ~GetSymlinkRequest() = default;
 };
 class GetSymlinkResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+  shared_ptr<string> symlinkTarget{};
+
   GetSymlinkResponse() {}
+
   explicit GetSymlinkResponse(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -11913,14 +12108,14 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-  shared_ptr<string> symlinkTarget{};
-
-  ~GetSymlinkResponse() = default;
+  virtual ~GetSymlinkResponse() = default;
 };
 class GetBucketLifecycleRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+
   GetBucketLifecycleRequest() {}
+
   explicit GetBucketLifecycleRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -11950,14 +12145,16 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-
-  ~GetBucketLifecycleRequest() = default;
+  virtual ~GetBucketLifecycleRequest() = default;
 };
 class GetBucketLifecycleResponseLifecycleConfigurationRuleExpiration
     : public Darabonba::Model {
 public:
+  shared_ptr<int> days{};
+  shared_ptr<string> createdBeforeDate{};
+
   GetBucketLifecycleResponseLifecycleConfigurationRuleExpiration() {}
+
   explicit GetBucketLifecycleResponseLifecycleConfigurationRuleExpiration(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -11988,15 +12185,17 @@ public:
     }
   }
 
-  shared_ptr<int> days{};
-  shared_ptr<string> createdBeforeDate{};
-
-  ~GetBucketLifecycleResponseLifecycleConfigurationRuleExpiration() = default;
+  virtual ~GetBucketLifecycleResponseLifecycleConfigurationRuleExpiration() =
+      default;
 };
 class GetBucketLifecycleResponseLifecycleConfigurationRuleTransition
     : public Darabonba::Model {
 public:
+  shared_ptr<int> days{};
+  shared_ptr<string> storageClass{};
+
   GetBucketLifecycleResponseLifecycleConfigurationRuleTransition() {}
+
   explicit GetBucketLifecycleResponseLifecycleConfigurationRuleTransition(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -12026,15 +12225,17 @@ public:
     }
   }
 
-  shared_ptr<int> days{};
-  shared_ptr<string> storageClass{};
-
-  ~GetBucketLifecycleResponseLifecycleConfigurationRuleTransition() = default;
+  virtual ~GetBucketLifecycleResponseLifecycleConfigurationRuleTransition() =
+      default;
 };
 class GetBucketLifecycleResponseLifecycleConfigurationRuleAbortMultipartUpload
     : public Darabonba::Model {
 public:
+  shared_ptr<int> days{};
+  shared_ptr<string> createdBeforeDate{};
+
   GetBucketLifecycleResponseLifecycleConfigurationRuleAbortMultipartUpload() {}
+
   explicit GetBucketLifecycleResponseLifecycleConfigurationRuleAbortMultipartUpload(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -12065,16 +12266,17 @@ public:
     }
   }
 
-  shared_ptr<int> days{};
-  shared_ptr<string> createdBeforeDate{};
-
-  ~GetBucketLifecycleResponseLifecycleConfigurationRuleAbortMultipartUpload() =
+  virtual ~GetBucketLifecycleResponseLifecycleConfigurationRuleAbortMultipartUpload() =
       default;
 };
 class GetBucketLifecycleResponseLifecycleConfigurationRuleTag
     : public Darabonba::Model {
 public:
+  shared_ptr<string> key{};
+  shared_ptr<string> value{};
+
   GetBucketLifecycleResponseLifecycleConfigurationRuleTag() {}
+
   explicit GetBucketLifecycleResponseLifecycleConfigurationRuleTag(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -12103,15 +12305,25 @@ public:
     }
   }
 
-  shared_ptr<string> key{};
-  shared_ptr<string> value{};
-
-  ~GetBucketLifecycleResponseLifecycleConfigurationRuleTag() = default;
+  virtual ~GetBucketLifecycleResponseLifecycleConfigurationRuleTag() = default;
 };
 class GetBucketLifecycleResponseLifecycleConfigurationRule
     : public Darabonba::Model {
 public:
+  shared_ptr<string> iD{};
+  shared_ptr<string> prefix{};
+  shared_ptr<string> status{};
+  shared_ptr<GetBucketLifecycleResponseLifecycleConfigurationRuleExpiration>
+      expiration{};
+  shared_ptr<GetBucketLifecycleResponseLifecycleConfigurationRuleTransition>
+      transition{};
+  shared_ptr<
+      GetBucketLifecycleResponseLifecycleConfigurationRuleAbortMultipartUpload>
+      abortMultipartUpload{};
+  shared_ptr<GetBucketLifecycleResponseLifecycleConfigurationRuleTag> tag{};
+
   GetBucketLifecycleResponseLifecycleConfigurationRule() {}
+
   explicit GetBucketLifecycleResponseLifecycleConfigurationRule(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -12179,8 +12391,7 @@ public:
       status = make_shared<string>(boost::any_cast<string>(m["Status"]));
     }
     if (m.find("Expiration") != m.end() && !m["Expiration"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["Expiration"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Expiration"].type()) {
         GetBucketLifecycleResponseLifecycleConfigurationRuleExpiration model1;
         model1.fromMap(
             boost::any_cast<map<string, boost::any>>(m["Expiration"]));
@@ -12190,8 +12401,7 @@ public:
       }
     }
     if (m.find("Transition") != m.end() && !m["Transition"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["Transition"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Transition"].type()) {
         GetBucketLifecycleResponseLifecycleConfigurationRuleTransition model1;
         model1.fromMap(
             boost::any_cast<map<string, boost::any>>(m["Transition"]));
@@ -12202,8 +12412,7 @@ public:
     }
     if (m.find("AbortMultipartUpload") != m.end() &&
         !m["AbortMultipartUpload"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["AbortMultipartUpload"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["AbortMultipartUpload"].type()) {
         GetBucketLifecycleResponseLifecycleConfigurationRuleAbortMultipartUpload
             model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(
@@ -12214,7 +12423,7 @@ public:
       }
     }
     if (m.find("Tag") != m.end() && !m["Tag"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Tag"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Tag"].type()) {
         GetBucketLifecycleResponseLifecycleConfigurationRuleTag model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Tag"]));
         tag = make_shared<
@@ -12223,24 +12432,16 @@ public:
     }
   }
 
-  shared_ptr<string> iD{};
-  shared_ptr<string> prefix{};
-  shared_ptr<string> status{};
-  shared_ptr<GetBucketLifecycleResponseLifecycleConfigurationRuleExpiration>
-      expiration{};
-  shared_ptr<GetBucketLifecycleResponseLifecycleConfigurationRuleTransition>
-      transition{};
-  shared_ptr<
-      GetBucketLifecycleResponseLifecycleConfigurationRuleAbortMultipartUpload>
-      abortMultipartUpload{};
-  shared_ptr<GetBucketLifecycleResponseLifecycleConfigurationRuleTag> tag{};
-
-  ~GetBucketLifecycleResponseLifecycleConfigurationRule() = default;
+  virtual ~GetBucketLifecycleResponseLifecycleConfigurationRule() = default;
 };
 class GetBucketLifecycleResponseLifecycleConfiguration
     : public Darabonba::Model {
 public:
+  shared_ptr<vector<GetBucketLifecycleResponseLifecycleConfigurationRule>>
+      rule{};
+
   GetBucketLifecycleResponseLifecycleConfiguration() {}
+
   explicit GetBucketLifecycleResponseLifecycleConfiguration(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -12263,10 +12464,10 @@ public:
 
   void fromMap(map<string, boost::any> m) override {
     if (m.find("Rule") != m.end() && !m["Rule"].empty()) {
-      if (typeid(vector<boost::any>).name() == m["Rule"].type().name()) {
+      if (typeid(vector<boost::any>) == m["Rule"].type()) {
         vector<GetBucketLifecycleResponseLifecycleConfigurationRule> expect1;
         for (auto item1 : boost::any_cast<vector<boost::any>>(m["Rule"])) {
-          if (typeid(map<string, boost::any>).name() == item1.type().name()) {
+          if (typeid(map<string, boost::any>) == item1.type()) {
             GetBucketLifecycleResponseLifecycleConfigurationRule model2;
             model2.fromMap(boost::any_cast<map<string, boost::any>>(item1));
             expect1.push_back(model2);
@@ -12279,14 +12480,16 @@ public:
     }
   }
 
-  shared_ptr<vector<GetBucketLifecycleResponseLifecycleConfigurationRule>>
-      rule{};
-
-  ~GetBucketLifecycleResponseLifecycleConfiguration() = default;
+  virtual ~GetBucketLifecycleResponseLifecycleConfiguration() = default;
 };
 class GetBucketLifecycleResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+  shared_ptr<GetBucketLifecycleResponseLifecycleConfiguration>
+      lifecycleConfiguration{};
+
   GetBucketLifecycleResponse() {}
+
   explicit GetBucketLifecycleResponse(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -12325,8 +12528,8 @@ public:
     }
     if (m.find("LifecycleConfiguration") != m.end() &&
         !m["LifecycleConfiguration"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["LifecycleConfiguration"].type().name()) {
+      if (typeid(map<string, boost::any>) ==
+          m["LifecycleConfiguration"].type()) {
         GetBucketLifecycleResponseLifecycleConfiguration model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(
             m["LifecycleConfiguration"]));
@@ -12337,15 +12540,15 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-  shared_ptr<GetBucketLifecycleResponseLifecycleConfiguration>
-      lifecycleConfiguration{};
-
-  ~GetBucketLifecycleResponse() = default;
+  virtual ~GetBucketLifecycleResponse() = default;
 };
 class PutSymlinkRequestHeader : public Darabonba::Model {
 public:
+  shared_ptr<string> symlinkTarget{};
+  shared_ptr<string> storageClass{};
+
   PutSymlinkRequestHeader() {}
+
   explicit PutSymlinkRequestHeader(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -12382,14 +12585,16 @@ public:
     }
   }
 
-  shared_ptr<string> symlinkTarget{};
-  shared_ptr<string> storageClass{};
-
-  ~PutSymlinkRequestHeader() = default;
+  virtual ~PutSymlinkRequestHeader() = default;
 };
 class PutSymlinkRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+  shared_ptr<string> objectName{};
+  shared_ptr<PutSymlinkRequestHeader> header{};
+
   PutSymlinkRequest() {}
+
   explicit PutSymlinkRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -12437,7 +12642,7 @@ public:
           make_shared<string>(boost::any_cast<string>(m["ObjectName"]));
     }
     if (m.find("Header") != m.end() && !m["Header"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Header"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Header"].type()) {
         PutSymlinkRequestHeader model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Header"]));
         header = make_shared<PutSymlinkRequestHeader>(model1);
@@ -12445,15 +12650,14 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-  shared_ptr<string> objectName{};
-  shared_ptr<PutSymlinkRequestHeader> header{};
-
-  ~PutSymlinkRequest() = default;
+  virtual ~PutSymlinkRequest() = default;
 };
 class PutSymlinkResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+
   PutSymlinkResponse() {}
+
   explicit PutSymlinkResponse(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -12482,13 +12686,14 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-
-  ~PutSymlinkResponse() = default;
+  virtual ~PutSymlinkResponse() = default;
 };
 class GetBucketRefererRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+
   GetBucketRefererRequest() {}
+
   explicit GetBucketRefererRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -12518,14 +12723,15 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-
-  ~GetBucketRefererRequest() = default;
+  virtual ~GetBucketRefererRequest() = default;
 };
 class GetBucketRefererResponseRefererConfigurationRefererList
     : public Darabonba::Model {
 public:
+  shared_ptr<vector<string>> referer{};
+
   GetBucketRefererResponseRefererConfigurationRefererList() {}
+
   explicit GetBucketRefererResponseRefererConfigurationRefererList(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -12545,7 +12751,7 @@ public:
   void fromMap(map<string, boost::any> m) override {
     if (m.find("Referer") != m.end() && !m["Referer"].empty()) {
       vector<string> toVec1;
-      if (typeid(vector<boost::any>).name() == m["Referer"].type().name()) {
+      if (typeid(vector<boost::any>) == m["Referer"].type()) {
         vector<boost::any> vec1 =
             boost::any_cast<vector<boost::any>>(m["Referer"]);
         for (auto item : vec1) {
@@ -12556,13 +12762,16 @@ public:
     }
   }
 
-  shared_ptr<vector<string>> referer{};
-
-  ~GetBucketRefererResponseRefererConfigurationRefererList() = default;
+  virtual ~GetBucketRefererResponseRefererConfigurationRefererList() = default;
 };
 class GetBucketRefererResponseRefererConfiguration : public Darabonba::Model {
 public:
+  shared_ptr<bool> allowEmptyReferer{};
+  shared_ptr<GetBucketRefererResponseRefererConfigurationRefererList>
+      refererList{};
+
   GetBucketRefererResponseRefererConfiguration() {}
+
   explicit GetBucketRefererResponseRefererConfiguration(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -12596,8 +12805,7 @@ public:
           make_shared<bool>(boost::any_cast<bool>(m["AllowEmptyReferer"]));
     }
     if (m.find("RefererList") != m.end() && !m["RefererList"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["RefererList"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["RefererList"].type()) {
         GetBucketRefererResponseRefererConfigurationRefererList model1;
         model1.fromMap(
             boost::any_cast<map<string, boost::any>>(m["RefererList"]));
@@ -12607,15 +12815,16 @@ public:
     }
   }
 
-  shared_ptr<bool> allowEmptyReferer{};
-  shared_ptr<GetBucketRefererResponseRefererConfigurationRefererList>
-      refererList{};
-
-  ~GetBucketRefererResponseRefererConfiguration() = default;
+  virtual ~GetBucketRefererResponseRefererConfiguration() = default;
 };
 class GetBucketRefererResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+  shared_ptr<GetBucketRefererResponseRefererConfiguration>
+      refererConfiguration{};
+
   GetBucketRefererResponse() {}
+
   explicit GetBucketRefererResponse(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -12653,8 +12862,7 @@ public:
     }
     if (m.find("RefererConfiguration") != m.end() &&
         !m["RefererConfiguration"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["RefererConfiguration"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["RefererConfiguration"].type()) {
         GetBucketRefererResponseRefererConfiguration model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(
             m["RefererConfiguration"]));
@@ -12664,15 +12872,14 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-  shared_ptr<GetBucketRefererResponseRefererConfiguration>
-      refererConfiguration{};
-
-  ~GetBucketRefererResponse() = default;
+  virtual ~GetBucketRefererResponse() = default;
 };
 class CallbackRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+
   CallbackRequest() {}
+
   explicit CallbackRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -12702,13 +12909,14 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-
-  ~CallbackRequest() = default;
+  virtual ~CallbackRequest() = default;
 };
 class CallbackResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+
   CallbackResponse() {}
+
   explicit CallbackResponse(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -12737,13 +12945,14 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-
-  ~CallbackResponse() = default;
+  virtual ~CallbackResponse() = default;
 };
 class GetBucketLoggingRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+
   GetBucketLoggingRequest() {}
+
   explicit GetBucketLoggingRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -12773,14 +12982,16 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-
-  ~GetBucketLoggingRequest() = default;
+  virtual ~GetBucketLoggingRequest() = default;
 };
 class GetBucketLoggingResponseBucketLoggingStatusLoggingEnabled
     : public Darabonba::Model {
 public:
+  shared_ptr<string> targetBucket{};
+  shared_ptr<string> targetPrefix{};
+
   GetBucketLoggingResponseBucketLoggingStatusLoggingEnabled() {}
+
   explicit GetBucketLoggingResponseBucketLoggingStatusLoggingEnabled(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -12811,14 +13022,16 @@ public:
     }
   }
 
-  shared_ptr<string> targetBucket{};
-  shared_ptr<string> targetPrefix{};
-
-  ~GetBucketLoggingResponseBucketLoggingStatusLoggingEnabled() = default;
+  virtual ~GetBucketLoggingResponseBucketLoggingStatusLoggingEnabled() =
+      default;
 };
 class GetBucketLoggingResponseBucketLoggingStatus : public Darabonba::Model {
 public:
+  shared_ptr<GetBucketLoggingResponseBucketLoggingStatusLoggingEnabled>
+      loggingEnabled{};
+
   GetBucketLoggingResponseBucketLoggingStatus() {}
+
   explicit GetBucketLoggingResponseBucketLoggingStatus(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -12844,8 +13057,7 @@ public:
 
   void fromMap(map<string, boost::any> m) override {
     if (m.find("LoggingEnabled") != m.end() && !m["LoggingEnabled"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["LoggingEnabled"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["LoggingEnabled"].type()) {
         GetBucketLoggingResponseBucketLoggingStatusLoggingEnabled model1;
         model1.fromMap(
             boost::any_cast<map<string, boost::any>>(m["LoggingEnabled"]));
@@ -12855,14 +13067,15 @@ public:
     }
   }
 
-  shared_ptr<GetBucketLoggingResponseBucketLoggingStatusLoggingEnabled>
-      loggingEnabled{};
-
-  ~GetBucketLoggingResponseBucketLoggingStatus() = default;
+  virtual ~GetBucketLoggingResponseBucketLoggingStatus() = default;
 };
 class GetBucketLoggingResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+  shared_ptr<GetBucketLoggingResponseBucketLoggingStatus> bucketLoggingStatus{};
+
   GetBucketLoggingResponse() {}
+
   explicit GetBucketLoggingResponse(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -12900,8 +13113,7 @@ public:
     }
     if (m.find("BucketLoggingStatus") != m.end() &&
         !m["BucketLoggingStatus"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["BucketLoggingStatus"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["BucketLoggingStatus"].type()) {
         GetBucketLoggingResponseBucketLoggingStatus model1;
         model1.fromMap(
             boost::any_cast<map<string, boost::any>>(m["BucketLoggingStatus"]));
@@ -12911,14 +13123,14 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-  shared_ptr<GetBucketLoggingResponseBucketLoggingStatus> bucketLoggingStatus{};
-
-  ~GetBucketLoggingResponse() = default;
+  virtual ~GetBucketLoggingResponse() = default;
 };
 class PutObjectAclRequestHeader : public Darabonba::Model {
 public:
+  shared_ptr<string> objectAcl{};
+
   PutObjectAclRequestHeader() {}
+
   explicit PutObjectAclRequestHeader(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -12947,13 +13159,16 @@ public:
     }
   }
 
-  shared_ptr<string> objectAcl{};
-
-  ~PutObjectAclRequestHeader() = default;
+  virtual ~PutObjectAclRequestHeader() = default;
 };
 class PutObjectAclRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+  shared_ptr<string> objectName{};
+  shared_ptr<PutObjectAclRequestHeader> header{};
+
   PutObjectAclRequest() {}
+
   explicit PutObjectAclRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -13001,7 +13216,7 @@ public:
           make_shared<string>(boost::any_cast<string>(m["ObjectName"]));
     }
     if (m.find("Header") != m.end() && !m["Header"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Header"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Header"].type()) {
         PutObjectAclRequestHeader model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Header"]));
         header = make_shared<PutObjectAclRequestHeader>(model1);
@@ -13009,15 +13224,14 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-  shared_ptr<string> objectName{};
-  shared_ptr<PutObjectAclRequestHeader> header{};
-
-  ~PutObjectAclRequest() = default;
+  virtual ~PutObjectAclRequest() = default;
 };
 class PutObjectAclResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+
   PutObjectAclResponse() {}
+
   explicit PutObjectAclResponse(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -13046,13 +13260,14 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-
-  ~PutObjectAclResponse() = default;
+  virtual ~PutObjectAclResponse() = default;
 };
 class GetBucketInfoRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+
   GetBucketInfoRequest() {}
+
   explicit GetBucketInfoRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -13082,13 +13297,15 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-
-  ~GetBucketInfoRequest() = default;
+  virtual ~GetBucketInfoRequest() = default;
 };
 class GetBucketInfoResponseBucketInfoBucketOwner : public Darabonba::Model {
 public:
+  shared_ptr<string> iD{};
+  shared_ptr<string> displayName{};
+
   GetBucketInfoResponseBucketInfoBucketOwner() {}
+
   explicit GetBucketInfoResponseBucketInfoBucketOwner(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -13118,15 +13335,15 @@ public:
     }
   }
 
-  shared_ptr<string> iD{};
-  shared_ptr<string> displayName{};
-
-  ~GetBucketInfoResponseBucketInfoBucketOwner() = default;
+  virtual ~GetBucketInfoResponseBucketInfoBucketOwner() = default;
 };
 class GetBucketInfoResponseBucketInfoBucketAccessControlList
     : public Darabonba::Model {
 public:
+  shared_ptr<string> grant{};
+
   GetBucketInfoResponseBucketInfoBucketAccessControlList() {}
+
   explicit GetBucketInfoResponseBucketInfoBucketAccessControlList(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -13149,13 +13366,24 @@ public:
     }
   }
 
-  shared_ptr<string> grant{};
-
-  ~GetBucketInfoResponseBucketInfoBucketAccessControlList() = default;
+  virtual ~GetBucketInfoResponseBucketInfoBucketAccessControlList() = default;
 };
 class GetBucketInfoResponseBucketInfoBucket : public Darabonba::Model {
 public:
+  shared_ptr<string> creationDate{};
+  shared_ptr<string> extranetEndpoint{};
+  shared_ptr<string> intranetEndpoint{};
+  shared_ptr<string> location{};
+  shared_ptr<string> name{};
+  shared_ptr<string> dataRedundancyType{};
+  shared_ptr<string> storageClass{};
+  shared_ptr<string> comment{};
+  shared_ptr<GetBucketInfoResponseBucketInfoBucketOwner> owner{};
+  shared_ptr<GetBucketInfoResponseBucketInfoBucketAccessControlList>
+      accessControlList{};
+
   GetBucketInfoResponseBucketInfoBucket() {}
+
   explicit GetBucketInfoResponseBucketInfoBucket(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -13245,7 +13473,7 @@ public:
       comment = make_shared<string>(boost::any_cast<string>(m["Comment"]));
     }
     if (m.find("Owner") != m.end() && !m["Owner"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Owner"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Owner"].type()) {
         GetBucketInfoResponseBucketInfoBucketOwner model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Owner"]));
         owner = make_shared<GetBucketInfoResponseBucketInfoBucketOwner>(model1);
@@ -13253,8 +13481,7 @@ public:
     }
     if (m.find("AccessControlList") != m.end() &&
         !m["AccessControlList"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["AccessControlList"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["AccessControlList"].type()) {
         GetBucketInfoResponseBucketInfoBucketAccessControlList model1;
         model1.fromMap(
             boost::any_cast<map<string, boost::any>>(m["AccessControlList"]));
@@ -13265,23 +13492,14 @@ public:
     }
   }
 
-  shared_ptr<string> creationDate{};
-  shared_ptr<string> extranetEndpoint{};
-  shared_ptr<string> intranetEndpoint{};
-  shared_ptr<string> location{};
-  shared_ptr<string> name{};
-  shared_ptr<string> dataRedundancyType{};
-  shared_ptr<string> storageClass{};
-  shared_ptr<string> comment{};
-  shared_ptr<GetBucketInfoResponseBucketInfoBucketOwner> owner{};
-  shared_ptr<GetBucketInfoResponseBucketInfoBucketAccessControlList>
-      accessControlList{};
-
-  ~GetBucketInfoResponseBucketInfoBucket() = default;
+  virtual ~GetBucketInfoResponseBucketInfoBucket() = default;
 };
 class GetBucketInfoResponseBucketInfo : public Darabonba::Model {
 public:
+  shared_ptr<GetBucketInfoResponseBucketInfoBucket> bucket{};
+
   GetBucketInfoResponseBucketInfo() {}
+
   explicit GetBucketInfoResponseBucketInfo(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -13306,7 +13524,7 @@ public:
 
   void fromMap(map<string, boost::any> m) override {
     if (m.find("Bucket") != m.end() && !m["Bucket"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Bucket"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Bucket"].type()) {
         GetBucketInfoResponseBucketInfoBucket model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Bucket"]));
         bucket = make_shared<GetBucketInfoResponseBucketInfoBucket>(model1);
@@ -13314,13 +13532,15 @@ public:
     }
   }
 
-  shared_ptr<GetBucketInfoResponseBucketInfoBucket> bucket{};
-
-  ~GetBucketInfoResponseBucketInfo() = default;
+  virtual ~GetBucketInfoResponseBucketInfo() = default;
 };
 class GetBucketInfoResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+  shared_ptr<GetBucketInfoResponseBucketInfo> bucketInfo{};
+
   GetBucketInfoResponse() {}
+
   explicit GetBucketInfoResponse(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -13356,8 +13576,7 @@ public:
           make_shared<string>(boost::any_cast<string>(m["x-oss-request-id"]));
     }
     if (m.find("BucketInfo") != m.end() && !m["BucketInfo"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["BucketInfo"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["BucketInfo"].type()) {
         GetBucketInfoResponseBucketInfo model1;
         model1.fromMap(
             boost::any_cast<map<string, boost::any>>(m["BucketInfo"]));
@@ -13366,14 +13585,14 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-  shared_ptr<GetBucketInfoResponseBucketInfo> bucketInfo{};
-
-  ~GetBucketInfoResponse() = default;
+  virtual ~GetBucketInfoResponse() = default;
 };
 class PutLiveChannelStatusRequestFilter : public Darabonba::Model {
 public:
+  shared_ptr<string> status{};
+
   PutLiveChannelStatusRequestFilter() {}
+
   explicit PutLiveChannelStatusRequestFilter(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -13401,13 +13620,16 @@ public:
     }
   }
 
-  shared_ptr<string> status{};
-
-  ~PutLiveChannelStatusRequestFilter() = default;
+  virtual ~PutLiveChannelStatusRequestFilter() = default;
 };
 class PutLiveChannelStatusRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+  shared_ptr<string> channelName{};
+  shared_ptr<PutLiveChannelStatusRequestFilter> filter{};
+
   PutLiveChannelStatusRequest() {}
+
   explicit PutLiveChannelStatusRequest(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -13456,7 +13678,7 @@ public:
           make_shared<string>(boost::any_cast<string>(m["ChannelName"]));
     }
     if (m.find("Filter") != m.end() && !m["Filter"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Filter"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Filter"].type()) {
         PutLiveChannelStatusRequestFilter model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Filter"]));
         filter = make_shared<PutLiveChannelStatusRequestFilter>(model1);
@@ -13464,15 +13686,14 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-  shared_ptr<string> channelName{};
-  shared_ptr<PutLiveChannelStatusRequestFilter> filter{};
-
-  ~PutLiveChannelStatusRequest() = default;
+  virtual ~PutLiveChannelStatusRequest() = default;
 };
 class PutLiveChannelStatusResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+
   PutLiveChannelStatusResponse() {}
+
   explicit PutLiveChannelStatusResponse(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -13502,13 +13723,14 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-
-  ~PutLiveChannelStatusResponse() = default;
+  virtual ~PutLiveChannelStatusResponse() = default;
 };
 class InitiateMultipartUploadRequestFilter : public Darabonba::Model {
 public:
+  shared_ptr<string> encodingType{};
+
   InitiateMultipartUploadRequestFilter() {}
+
   explicit InitiateMultipartUploadRequestFilter(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -13532,13 +13754,22 @@ public:
     }
   }
 
-  shared_ptr<string> encodingType{};
-
-  ~InitiateMultipartUploadRequestFilter() = default;
+  virtual ~InitiateMultipartUploadRequestFilter() = default;
 };
 class InitiateMultipartUploadRequestHeader : public Darabonba::Model {
 public:
+  shared_ptr<string> cacheControl{};
+  shared_ptr<string> contentDisposition{};
+  shared_ptr<string> contentEncoding{};
+  shared_ptr<string> expires{};
+  shared_ptr<string> serverSideEncryption{};
+  shared_ptr<string> serverSideEncryptionKeyId{};
+  shared_ptr<string> storageClass{};
+  shared_ptr<string> tagging{};
+  shared_ptr<string> contentType{};
+
   InitiateMultipartUploadRequestHeader() {}
+
   explicit InitiateMultipartUploadRequestHeader(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -13623,21 +13854,17 @@ public:
     }
   }
 
-  shared_ptr<string> cacheControl{};
-  shared_ptr<string> contentDisposition{};
-  shared_ptr<string> contentEncoding{};
-  shared_ptr<string> expires{};
-  shared_ptr<string> serverSideEncryption{};
-  shared_ptr<string> serverSideEncryptionKeyId{};
-  shared_ptr<string> storageClass{};
-  shared_ptr<string> tagging{};
-  shared_ptr<string> contentType{};
-
-  ~InitiateMultipartUploadRequestHeader() = default;
+  virtual ~InitiateMultipartUploadRequestHeader() = default;
 };
 class InitiateMultipartUploadRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+  shared_ptr<string> objectName{};
+  shared_ptr<InitiateMultipartUploadRequestFilter> filter{};
+  shared_ptr<InitiateMultipartUploadRequestHeader> header{};
+
   InitiateMultipartUploadRequest() {}
+
   explicit InitiateMultipartUploadRequest(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -13686,14 +13913,14 @@ public:
           make_shared<string>(boost::any_cast<string>(m["ObjectName"]));
     }
     if (m.find("Filter") != m.end() && !m["Filter"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Filter"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Filter"].type()) {
         InitiateMultipartUploadRequestFilter model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Filter"]));
         filter = make_shared<InitiateMultipartUploadRequestFilter>(model1);
       }
     }
     if (m.find("Header") != m.end() && !m["Header"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Header"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Header"].type()) {
         InitiateMultipartUploadRequestHeader model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Header"]));
         header = make_shared<InitiateMultipartUploadRequestHeader>(model1);
@@ -13701,17 +13928,17 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-  shared_ptr<string> objectName{};
-  shared_ptr<InitiateMultipartUploadRequestFilter> filter{};
-  shared_ptr<InitiateMultipartUploadRequestHeader> header{};
-
-  ~InitiateMultipartUploadRequest() = default;
+  virtual ~InitiateMultipartUploadRequest() = default;
 };
 class InitiateMultipartUploadResponseInitiateMultipartUploadResult
     : public Darabonba::Model {
 public:
+  shared_ptr<string> bucket{};
+  shared_ptr<string> key{};
+  shared_ptr<string> uploadId{};
+
   InitiateMultipartUploadResponseInitiateMultipartUploadResult() {}
+
   explicit InitiateMultipartUploadResponseInitiateMultipartUploadResult(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -13746,15 +13973,17 @@ public:
     }
   }
 
-  shared_ptr<string> bucket{};
-  shared_ptr<string> key{};
-  shared_ptr<string> uploadId{};
-
-  ~InitiateMultipartUploadResponseInitiateMultipartUploadResult() = default;
+  virtual ~InitiateMultipartUploadResponseInitiateMultipartUploadResult() =
+      default;
 };
 class InitiateMultipartUploadResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+  shared_ptr<InitiateMultipartUploadResponseInitiateMultipartUploadResult>
+      initiateMultipartUploadResult{};
+
   InitiateMultipartUploadResponse() {}
+
   explicit InitiateMultipartUploadResponse(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -13794,8 +14023,8 @@ public:
     }
     if (m.find("InitiateMultipartUploadResult") != m.end() &&
         !m["InitiateMultipartUploadResult"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["InitiateMultipartUploadResult"].type().name()) {
+      if (typeid(map<string, boost::any>) ==
+          m["InitiateMultipartUploadResult"].type()) {
         InitiateMultipartUploadResponseInitiateMultipartUploadResult model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(
             m["InitiateMultipartUploadResult"]));
@@ -13806,15 +14035,16 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-  shared_ptr<InitiateMultipartUploadResponseInitiateMultipartUploadResult>
-      initiateMultipartUploadResult{};
-
-  ~InitiateMultipartUploadResponse() = default;
+  virtual ~InitiateMultipartUploadResponse() = default;
 };
 class OptionObjectRequestHeader : public Darabonba::Model {
 public:
+  shared_ptr<string> origin{};
+  shared_ptr<string> accessControlRequestMethod{};
+  shared_ptr<string> accessControlRequestHeaders{};
+
   OptionObjectRequestHeader() {}
+
   explicit OptionObjectRequestHeader(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -13867,15 +14097,16 @@ public:
     }
   }
 
-  shared_ptr<string> origin{};
-  shared_ptr<string> accessControlRequestMethod{};
-  shared_ptr<string> accessControlRequestHeaders{};
-
-  ~OptionObjectRequestHeader() = default;
+  virtual ~OptionObjectRequestHeader() = default;
 };
 class OptionObjectRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+  shared_ptr<string> objectName{};
+  shared_ptr<OptionObjectRequestHeader> header{};
+
   OptionObjectRequest() {}
+
   explicit OptionObjectRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -13923,7 +14154,7 @@ public:
           make_shared<string>(boost::any_cast<string>(m["ObjectName"]));
     }
     if (m.find("Header") != m.end() && !m["Header"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Header"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Header"].type()) {
         OptionObjectRequestHeader model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Header"]));
         header = make_shared<OptionObjectRequestHeader>(model1);
@@ -13931,15 +14162,19 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-  shared_ptr<string> objectName{};
-  shared_ptr<OptionObjectRequestHeader> header{};
-
-  ~OptionObjectRequest() = default;
+  virtual ~OptionObjectRequest() = default;
 };
 class OptionObjectResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+  shared_ptr<string> accessControlAllowOrigin{};
+  shared_ptr<string> accessControlAllowMethods{};
+  shared_ptr<string> accessControlAllowHeaders{};
+  shared_ptr<string> accessControlExposeHeaders{};
+  shared_ptr<string> accessControlMaxAge{};
+
   OptionObjectResponse() {}
+
   explicit OptionObjectResponse(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -14032,18 +14267,15 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-  shared_ptr<string> accessControlAllowOrigin{};
-  shared_ptr<string> accessControlAllowMethods{};
-  shared_ptr<string> accessControlAllowHeaders{};
-  shared_ptr<string> accessControlExposeHeaders{};
-  shared_ptr<string> accessControlMaxAge{};
-
-  ~OptionObjectResponse() = default;
+  virtual ~OptionObjectResponse() = default;
 };
 class PostVodPlaylistRequestFilter : public Darabonba::Model {
 public:
+  shared_ptr<string> endTime{};
+  shared_ptr<string> startTime{};
+
   PostVodPlaylistRequestFilter() {}
+
   explicit PostVodPlaylistRequestFilter(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -14081,14 +14313,17 @@ public:
     }
   }
 
-  shared_ptr<string> endTime{};
-  shared_ptr<string> startTime{};
-
-  ~PostVodPlaylistRequestFilter() = default;
+  virtual ~PostVodPlaylistRequestFilter() = default;
 };
 class PostVodPlaylistRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+  shared_ptr<string> channelName{};
+  shared_ptr<string> playlistName{};
+  shared_ptr<PostVodPlaylistRequestFilter> filter{};
+
   PostVodPlaylistRequest() {}
+
   explicit PostVodPlaylistRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -14147,7 +14382,7 @@ public:
           make_shared<string>(boost::any_cast<string>(m["PlaylistName"]));
     }
     if (m.find("Filter") != m.end() && !m["Filter"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Filter"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Filter"].type()) {
         PostVodPlaylistRequestFilter model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Filter"]));
         filter = make_shared<PostVodPlaylistRequestFilter>(model1);
@@ -14155,16 +14390,14 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-  shared_ptr<string> channelName{};
-  shared_ptr<string> playlistName{};
-  shared_ptr<PostVodPlaylistRequestFilter> filter{};
-
-  ~PostVodPlaylistRequest() = default;
+  virtual ~PostVodPlaylistRequest() = default;
 };
 class PostVodPlaylistResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+
   PostVodPlaylistResponse() {}
+
   explicit PostVodPlaylistResponse(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -14193,13 +14426,20 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-
-  ~PostVodPlaylistResponse() = default;
+  virtual ~PostVodPlaylistResponse() = default;
 };
 class PostObjectRequestHeader : public Darabonba::Model {
 public:
+  shared_ptr<string> accessKeyId{};
+  shared_ptr<string> policy{};
+  shared_ptr<string> signature{};
+  shared_ptr<string> successActionStatus{};
+  shared_ptr<Darabonba_FileForm::FileField> file{};
+  shared_ptr<string> key{};
+  shared_ptr<map<string, string>> userMeta{};
+
   PostObjectRequestHeader() {}
+
   explicit PostObjectRequestHeader(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -14272,7 +14512,7 @@ public:
           boost::any_cast<string>(m["success_action_status"]));
     }
     if (m.find("file") != m.end() && !m["file"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["file"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["file"].type()) {
         Darabonba_FileForm::FileField model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["file"]));
         file = make_shared<Darabonba_FileForm::FileField>(model1);
@@ -14292,19 +14532,15 @@ public:
     }
   }
 
-  shared_ptr<string> accessKeyId{};
-  shared_ptr<string> policy{};
-  shared_ptr<string> signature{};
-  shared_ptr<string> successActionStatus{};
-  shared_ptr<Darabonba_FileForm::FileField> file{};
-  shared_ptr<string> key{};
-  shared_ptr<map<string, string>> userMeta{};
-
-  ~PostObjectRequestHeader() = default;
+  virtual ~PostObjectRequestHeader() = default;
 };
 class PostObjectRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+  shared_ptr<PostObjectRequestHeader> header{};
+
   PostObjectRequest() {}
+
   explicit PostObjectRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -14341,7 +14577,7 @@ public:
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
     if (m.find("header") != m.end() && !m["header"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["header"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["header"].type()) {
         PostObjectRequestHeader model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["header"]));
         header = make_shared<PostObjectRequestHeader>(model1);
@@ -14349,14 +14585,16 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-  shared_ptr<PostObjectRequestHeader> header{};
-
-  ~PostObjectRequest() = default;
+  virtual ~PostObjectRequest() = default;
 };
 class PostObjectResponsePostResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> bucket{};
+  shared_ptr<string> eTag{};
+  shared_ptr<string> location{};
+
   PostObjectResponsePostResponse() {}
+
   explicit PostObjectResponsePostResponse(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -14404,15 +14642,14 @@ public:
     }
   }
 
-  shared_ptr<string> bucket{};
-  shared_ptr<string> eTag{};
-  shared_ptr<string> location{};
-
-  ~PostObjectResponsePostResponse() = default;
+  virtual ~PostObjectResponsePostResponse() = default;
 };
 class PostObjectResponse : public Darabonba::Model {
 public:
+  shared_ptr<PostObjectResponsePostResponse> postResponse{};
+
   PostObjectResponse() {}
+
   explicit PostObjectResponse(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -14437,8 +14674,7 @@ public:
 
   void fromMap(map<string, boost::any> m) override {
     if (m.find("PostResponse") != m.end() && !m["PostResponse"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["PostResponse"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["PostResponse"].type()) {
         PostObjectResponsePostResponse model1;
         model1.fromMap(
             boost::any_cast<map<string, boost::any>>(m["PostResponse"]));
@@ -14447,13 +14683,17 @@ public:
     }
   }
 
-  shared_ptr<PostObjectResponsePostResponse> postResponse{};
-
-  ~PostObjectResponse() = default;
+  virtual ~PostObjectResponse() = default;
 };
 class HeadObjectRequestHeader : public Darabonba::Model {
 public:
+  shared_ptr<string> ifModifiedSince{};
+  shared_ptr<string> ifUnmodifiedSince{};
+  shared_ptr<string> ifMatch{};
+  shared_ptr<string> ifNoneMatch{};
+
   HeadObjectRequestHeader() {}
+
   explicit HeadObjectRequestHeader(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -14498,16 +14738,16 @@ public:
     }
   }
 
-  shared_ptr<string> ifModifiedSince{};
-  shared_ptr<string> ifUnmodifiedSince{};
-  shared_ptr<string> ifMatch{};
-  shared_ptr<string> ifNoneMatch{};
-
-  ~HeadObjectRequestHeader() = default;
+  virtual ~HeadObjectRequestHeader() = default;
 };
 class HeadObjectRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+  shared_ptr<string> objectName{};
+  shared_ptr<HeadObjectRequestHeader> header{};
+
   HeadObjectRequest() {}
+
   explicit HeadObjectRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -14551,7 +14791,7 @@ public:
           make_shared<string>(boost::any_cast<string>(m["ObjectName"]));
     }
     if (m.find("Header") != m.end() && !m["Header"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Header"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Header"].type()) {
         HeadObjectRequestHeader model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Header"]));
         header = make_shared<HeadObjectRequestHeader>(model1);
@@ -14559,15 +14799,33 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-  shared_ptr<string> objectName{};
-  shared_ptr<HeadObjectRequestHeader> header{};
-
-  ~HeadObjectRequest() = default;
+  virtual ~HeadObjectRequest() = default;
 };
 class HeadObjectResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+  shared_ptr<map<string, string>> userMeta{};
+  shared_ptr<string> serverSideEncryption{};
+  shared_ptr<string> serverSideEncryptionKeyId{};
+  shared_ptr<string> storageClass{};
+  shared_ptr<string> objectType{};
+  shared_ptr<string> nextAppendPosition{};
+  shared_ptr<string> hashCrc64ecma{};
+  shared_ptr<string> expiration{};
+  shared_ptr<string> restore{};
+  shared_ptr<string> processStatus{};
+  shared_ptr<string> requestCharged{};
+  shared_ptr<string> contentMd5{};
+  shared_ptr<string> lastModified{};
+  shared_ptr<string> accessControlAllowOrigin{};
+  shared_ptr<string> accessControlAllowMethods{};
+  shared_ptr<string> accessControlMaxAge{};
+  shared_ptr<string> accessControlAllowHeaders{};
+  shared_ptr<string> accessControlExposeHeaders{};
+  shared_ptr<string> taggingCount{};
+
   HeadObjectResponse() {}
+
   explicit HeadObjectResponse(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -14830,32 +15088,15 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-  shared_ptr<map<string, string>> userMeta{};
-  shared_ptr<string> serverSideEncryption{};
-  shared_ptr<string> serverSideEncryptionKeyId{};
-  shared_ptr<string> storageClass{};
-  shared_ptr<string> objectType{};
-  shared_ptr<string> nextAppendPosition{};
-  shared_ptr<string> hashCrc64ecma{};
-  shared_ptr<string> expiration{};
-  shared_ptr<string> restore{};
-  shared_ptr<string> processStatus{};
-  shared_ptr<string> requestCharged{};
-  shared_ptr<string> contentMd5{};
-  shared_ptr<string> lastModified{};
-  shared_ptr<string> accessControlAllowOrigin{};
-  shared_ptr<string> accessControlAllowMethods{};
-  shared_ptr<string> accessControlMaxAge{};
-  shared_ptr<string> accessControlAllowHeaders{};
-  shared_ptr<string> accessControlExposeHeaders{};
-  shared_ptr<string> taggingCount{};
-
-  ~HeadObjectResponse() = default;
+  virtual ~HeadObjectResponse() = default;
 };
 class DeleteObjectTaggingRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+  shared_ptr<string> objectName{};
+
   DeleteObjectTaggingRequest() {}
+
   explicit DeleteObjectTaggingRequest(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -14897,14 +15138,14 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-  shared_ptr<string> objectName{};
-
-  ~DeleteObjectTaggingRequest() = default;
+  virtual ~DeleteObjectTaggingRequest() = default;
 };
 class DeleteObjectTaggingResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+
   DeleteObjectTaggingResponse() {}
+
   explicit DeleteObjectTaggingResponse(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -14934,13 +15175,15 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-
-  ~DeleteObjectTaggingResponse() = default;
+  virtual ~DeleteObjectTaggingResponse() = default;
 };
 class RestoreObjectRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+  shared_ptr<string> objectName{};
+
   RestoreObjectRequest() {}
+
   explicit RestoreObjectRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -14981,14 +15224,14 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-  shared_ptr<string> objectName{};
-
-  ~RestoreObjectRequest() = default;
+  virtual ~RestoreObjectRequest() = default;
 };
 class RestoreObjectResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+
   RestoreObjectResponse() {}
+
   explicit RestoreObjectResponse(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -15017,13 +15260,15 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-
-  ~RestoreObjectResponse() = default;
+  virtual ~RestoreObjectResponse() = default;
 };
 class GetObjectAclRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+  shared_ptr<string> objectName{};
+
   GetObjectAclRequest() {}
+
   explicit GetObjectAclRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -15064,14 +15309,15 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-  shared_ptr<string> objectName{};
-
-  ~GetObjectAclRequest() = default;
+  virtual ~GetObjectAclRequest() = default;
 };
 class GetObjectAclResponseAccessControlPolicyOwner : public Darabonba::Model {
 public:
+  shared_ptr<string> iD{};
+  shared_ptr<string> displayName{};
+
   GetObjectAclResponseAccessControlPolicyOwner() {}
+
   explicit GetObjectAclResponseAccessControlPolicyOwner(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -15101,15 +15347,15 @@ public:
     }
   }
 
-  shared_ptr<string> iD{};
-  shared_ptr<string> displayName{};
-
-  ~GetObjectAclResponseAccessControlPolicyOwner() = default;
+  virtual ~GetObjectAclResponseAccessControlPolicyOwner() = default;
 };
 class GetObjectAclResponseAccessControlPolicyAccessControlList
     : public Darabonba::Model {
 public:
+  shared_ptr<string> grant{};
+
   GetObjectAclResponseAccessControlPolicyAccessControlList() {}
+
   explicit GetObjectAclResponseAccessControlPolicyAccessControlList(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -15132,13 +15378,16 @@ public:
     }
   }
 
-  shared_ptr<string> grant{};
-
-  ~GetObjectAclResponseAccessControlPolicyAccessControlList() = default;
+  virtual ~GetObjectAclResponseAccessControlPolicyAccessControlList() = default;
 };
 class GetObjectAclResponseAccessControlPolicy : public Darabonba::Model {
 public:
+  shared_ptr<GetObjectAclResponseAccessControlPolicyOwner> owner{};
+  shared_ptr<GetObjectAclResponseAccessControlPolicyAccessControlList>
+      accessControlList{};
+
   GetObjectAclResponseAccessControlPolicy() {}
+
   explicit GetObjectAclResponseAccessControlPolicy(
       const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
@@ -15172,7 +15421,7 @@ public:
 
   void fromMap(map<string, boost::any> m) override {
     if (m.find("Owner") != m.end() && !m["Owner"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Owner"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Owner"].type()) {
         GetObjectAclResponseAccessControlPolicyOwner model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Owner"]));
         owner =
@@ -15181,8 +15430,7 @@ public:
     }
     if (m.find("AccessControlList") != m.end() &&
         !m["AccessControlList"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["AccessControlList"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["AccessControlList"].type()) {
         GetObjectAclResponseAccessControlPolicyAccessControlList model1;
         model1.fromMap(
             boost::any_cast<map<string, boost::any>>(m["AccessControlList"]));
@@ -15192,15 +15440,15 @@ public:
     }
   }
 
-  shared_ptr<GetObjectAclResponseAccessControlPolicyOwner> owner{};
-  shared_ptr<GetObjectAclResponseAccessControlPolicyAccessControlList>
-      accessControlList{};
-
-  ~GetObjectAclResponseAccessControlPolicy() = default;
+  virtual ~GetObjectAclResponseAccessControlPolicy() = default;
 };
 class GetObjectAclResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+  shared_ptr<GetObjectAclResponseAccessControlPolicy> accessControlPolicy{};
+
   GetObjectAclResponse() {}
+
   explicit GetObjectAclResponse(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -15238,8 +15486,7 @@ public:
     }
     if (m.find("AccessControlPolicy") != m.end() &&
         !m["AccessControlPolicy"].empty()) {
-      if (typeid(map<string, boost::any>).name() ==
-          m["AccessControlPolicy"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["AccessControlPolicy"].type()) {
         GetObjectAclResponseAccessControlPolicy model1;
         model1.fromMap(
             boost::any_cast<map<string, boost::any>>(m["AccessControlPolicy"]));
@@ -15249,14 +15496,14 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-  shared_ptr<GetObjectAclResponseAccessControlPolicy> accessControlPolicy{};
-
-  ~GetObjectAclResponse() = default;
+  virtual ~GetObjectAclResponse() = default;
 };
 class PutBucketAclRequestHeader : public Darabonba::Model {
 public:
+  shared_ptr<string> acl{};
+
   PutBucketAclRequestHeader() {}
+
   explicit PutBucketAclRequestHeader(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -15283,13 +15530,15 @@ public:
     }
   }
 
-  shared_ptr<string> acl{};
-
-  ~PutBucketAclRequestHeader() = default;
+  virtual ~PutBucketAclRequestHeader() = default;
 };
 class PutBucketAclRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+  shared_ptr<PutBucketAclRequestHeader> header{};
+
   PutBucketAclRequest() {}
+
   explicit PutBucketAclRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -15326,7 +15575,7 @@ public:
           make_shared<string>(boost::any_cast<string>(m["BucketName"]));
     }
     if (m.find("Header") != m.end() && !m["Header"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Header"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Header"].type()) {
         PutBucketAclRequestHeader model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Header"]));
         header = make_shared<PutBucketAclRequestHeader>(model1);
@@ -15334,14 +15583,14 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-  shared_ptr<PutBucketAclRequestHeader> header{};
-
-  ~PutBucketAclRequest() = default;
+  virtual ~PutBucketAclRequest() = default;
 };
 class PutBucketAclResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+
   PutBucketAclResponse() {}
+
   explicit PutBucketAclResponse(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -15370,13 +15619,14 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-
-  ~PutBucketAclResponse() = default;
+  virtual ~PutBucketAclResponse() = default;
 };
 class DeleteBucketRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+
   DeleteBucketRequest() {}
+
   explicit DeleteBucketRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -15406,13 +15656,14 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-
-  ~DeleteBucketRequest() = default;
+  virtual ~DeleteBucketRequest() = default;
 };
 class DeleteBucketResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+
   DeleteBucketResponse() {}
+
   explicit DeleteBucketResponse(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -15441,13 +15692,27 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-
-  ~DeleteBucketResponse() = default;
+  virtual ~DeleteBucketResponse() = default;
 };
 class PutObjectRequestHeader : public Darabonba::Model {
 public:
+  shared_ptr<string> authorization{};
+  shared_ptr<string> cacheControl{};
+  shared_ptr<string> contentDisposition{};
+  shared_ptr<string> contentEncoding{};
+  shared_ptr<string> contentMD5{};
+  shared_ptr<string> contentLength{};
+  shared_ptr<string> eTag{};
+  shared_ptr<string> expires{};
+  shared_ptr<string> serverSideEncryption{};
+  shared_ptr<string> serverSideEncryptionKeyId{};
+  shared_ptr<string> objectAcl{};
+  shared_ptr<string> storageClass{};
+  shared_ptr<string> tagging{};
+  shared_ptr<string> contentType{};
+
   PutObjectRequestHeader() {}
+
   explicit PutObjectRequestHeader(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -15566,26 +15831,18 @@ public:
     }
   }
 
-  shared_ptr<string> authorization{};
-  shared_ptr<string> cacheControl{};
-  shared_ptr<string> contentDisposition{};
-  shared_ptr<string> contentEncoding{};
-  shared_ptr<string> contentMD5{};
-  shared_ptr<string> contentLength{};
-  shared_ptr<string> eTag{};
-  shared_ptr<string> expires{};
-  shared_ptr<string> serverSideEncryption{};
-  shared_ptr<string> serverSideEncryptionKeyId{};
-  shared_ptr<string> objectAcl{};
-  shared_ptr<string> storageClass{};
-  shared_ptr<string> tagging{};
-  shared_ptr<string> contentType{};
-
-  ~PutObjectRequestHeader() = default;
+  virtual ~PutObjectRequestHeader() = default;
 };
 class PutObjectRequest : public Darabonba::Model {
 public:
+  shared_ptr<string> bucketName{};
+  shared_ptr<string> objectName{};
+  shared_ptr<map<string, string>> userMeta{};
+  shared_ptr<Darabonba::Stream> body{};
+  shared_ptr<PutObjectRequestHeader> header{};
+
   PutObjectRequest() {}
+
   explicit PutObjectRequest(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -15648,7 +15905,7 @@ public:
           boost::any_cast<Darabonba::Stream>(m["body"]));
     }
     if (m.find("Header") != m.end() && !m["Header"].empty()) {
-      if (typeid(map<string, boost::any>).name() == m["Header"].type().name()) {
+      if (typeid(map<string, boost::any>) == m["Header"].type()) {
         PutObjectRequestHeader model1;
         model1.fromMap(boost::any_cast<map<string, boost::any>>(m["Header"]));
         header = make_shared<PutObjectRequestHeader>(model1);
@@ -15656,17 +15913,17 @@ public:
     }
   }
 
-  shared_ptr<string> bucketName{};
-  shared_ptr<string> objectName{};
-  shared_ptr<map<string, string>> userMeta{};
-  shared_ptr<Darabonba::Stream> body{};
-  shared_ptr<PutObjectRequestHeader> header{};
-
-  ~PutObjectRequest() = default;
+  virtual ~PutObjectRequest() = default;
 };
 class PutObjectResponse : public Darabonba::Model {
 public:
+  shared_ptr<string> requestId{};
+  shared_ptr<string> hashCrc64ecma{};
+  shared_ptr<string> serverTime{};
+  shared_ptr<string> bucketVersion{};
+
   PutObjectResponse() {}
+
   explicit PutObjectResponse(const std::map<string, boost::any> &config)
       : Darabonba::Model(config) {
     fromMap(config);
@@ -15731,12 +15988,7 @@ public:
     }
   }
 
-  shared_ptr<string> requestId{};
-  shared_ptr<string> hashCrc64ecma{};
-  shared_ptr<string> serverTime{};
-  shared_ptr<string> bucketVersion{};
-
-  ~PutObjectResponse() = default;
+  virtual ~PutObjectResponse() = default;
 };
 class Client {
 public:
@@ -15964,7 +16216,7 @@ public:
   string getAccessKeyId();
   string getAccessKeySecret();
 
-  ~Client() = default;
+  virtual ~Client() = default;
 };
 } // namespace Alibabacloud_OSS
 

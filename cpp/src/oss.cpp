@@ -4,7 +4,6 @@
 #include <alibabacloud/oss.hpp>
 #include <alibabacloud/ossutil.hpp>
 #include <boost/any.hpp>
-#include <boost/lexical_cast.hpp>
 #include <boost/throw_exception.hpp>
 #include <darabonba/core.hpp>
 #include <darabonba/file_form.hpp>
@@ -658,7 +657,7 @@ Alibabacloud_OSS::Client::completeMultipartUpload(
               make_shared<map<string, boost::any>>(request->body->toMap())));
       request_->protocol = *_protocol;
       request_->method = "POST";
-      request_->pathname = string("/" + *request->objectName + "");
+      request_->pathname = string("/") + string(*request->objectName);
       request_->headers = {
           {"host", Alibabacloud_OSSUtil::Client::getHost(
                        request->bucketName, _regionId, _endpoint, _hostModel)},
@@ -1167,7 +1166,8 @@ PutLiveChannelResponse Alibabacloud_OSS::Client::putLiveChannel(
               make_shared<map<string, boost::any>>(request->body->toMap())));
       request_->protocol = *_protocol;
       request_->method = "PUT";
-      request_->pathname = string("/" + *request->channelName + "?live");
+      request_->pathname =
+          string("/") + string(*request->channelName) + string("?live");
       request_->headers = {
           {"host", Alibabacloud_OSSUtil::Client::getHost(
                        request->bucketName, _regionId, _endpoint, _hostModel)},
@@ -1422,7 +1422,8 @@ PutObjectTaggingResponse Alibabacloud_OSS::Client::putObjectTagging(
               make_shared<map<string, boost::any>>(request->body->toMap())));
       request_->protocol = *_protocol;
       request_->method = "PUT";
-      request_->pathname = string("/" + *request->objectName + "?tagging");
+      request_->pathname =
+          string("/") + string(*request->objectName) + string("?tagging");
       request_->headers = {
           {"host", Alibabacloud_OSSUtil::Client::getHost(
                        request->bucketName, _regionId, _endpoint, _hostModel)},
@@ -1547,7 +1548,7 @@ SelectObjectResponse Alibabacloud_OSS::Client::selectObject(
               make_shared<map<string, boost::any>>(request->body->toMap())));
       request_->protocol = *_protocol;
       request_->method = "POST";
-      request_->pathname = string("/" + *request->objectName + "");
+      request_->pathname = string("/") + string(*request->objectName);
       request_->headers = {
           {"host", Alibabacloud_OSSUtil::Client::getHost(
                        request->bucketName, _regionId, _endpoint, _hostModel)},
@@ -2930,7 +2931,8 @@ DeleteLiveChannelResponse Alibabacloud_OSS::Client::deleteLiveChannel(
           make_shared<string>(_credential->getSecurityToken());
       request_->protocol = *_protocol;
       request_->method = "DELETE";
-      request_->pathname = string("/" + *request->channelName + "?live");
+      request_->pathname =
+          string("/") + string(*request->channelName) + string("?live");
       request_->headers = {
           {"host", Alibabacloud_OSSUtil::Client::getHost(
                        request->bucketName, _regionId, _endpoint, _hostModel)},
@@ -3305,7 +3307,8 @@ GetObjectMetaResponse Alibabacloud_OSS::Client::getObjectMeta(
           make_shared<string>(_credential->getSecurityToken());
       request_->protocol = *_protocol;
       request_->method = "HEAD";
-      request_->pathname = string("/" + *request->objectName + "?objectMeta");
+      request_->pathname =
+          string("/") + string(*request->objectName) + string("?objectMeta");
       request_->headers = {
           {"host", Alibabacloud_OSSUtil::Client::getHost(
                        request->bucketName, _regionId, _endpoint, _hostModel)},
@@ -3552,7 +3555,7 @@ ListPartsResponse Alibabacloud_OSS::Client::listParts(
           make_shared<string>(_credential->getSecurityToken());
       request_->protocol = *_protocol;
       request_->method = "GET";
-      request_->pathname = string("/" + *request->objectName + "");
+      request_->pathname = string("/") + string(*request->objectName);
       request_->headers = {
           {"host", Alibabacloud_OSSUtil::Client::getHost(
                        request->bucketName, _regionId, _endpoint, _hostModel)},
@@ -3680,7 +3683,8 @@ GetLiveChannelHistoryResponse Alibabacloud_OSS::Client::getLiveChannelHistory(
           make_shared<string>(_credential->getSecurityToken());
       request_->protocol = *_protocol;
       request_->method = "GET";
-      request_->pathname = string("/" + *request->channelName + "?live");
+      request_->pathname =
+          string("/") + string(*request->channelName) + string("?live");
       request_->headers = {
           {"host", Alibabacloud_OSSUtil::Client::getHost(
                        request->bucketName, _regionId, _endpoint, _hostModel)},
@@ -3936,7 +3940,8 @@ GetLiveChannelInfoResponse Alibabacloud_OSS::Client::getLiveChannelInfo(
           make_shared<string>(_credential->getSecurityToken());
       request_->protocol = *_protocol;
       request_->method = "GET";
-      request_->pathname = string("/" + *request->channelName + "?live");
+      request_->pathname =
+          string("/") + string(*request->channelName) + string("?live");
       request_->headers = {
           {"host", Alibabacloud_OSSUtil::Client::getHost(
                        request->bucketName, _regionId, _endpoint, _hostModel)},
@@ -4062,7 +4067,8 @@ GetLiveChannelStatResponse Alibabacloud_OSS::Client::getLiveChannelStat(
           make_shared<string>(_credential->getSecurityToken());
       request_->protocol = *_protocol;
       request_->method = "GET";
-      request_->pathname = string("/" + *request->channelName + "?live");
+      request_->pathname =
+          string("/") + string(*request->channelName) + string("?live");
       request_->headers = {
           {"host", Alibabacloud_OSSUtil::Client::getHost(
                        request->bucketName, _regionId, _endpoint, _hostModel)},
@@ -4190,7 +4196,7 @@ DeleteObjectResponse Alibabacloud_OSS::Client::deleteObject(
           make_shared<string>(_credential->getSecurityToken());
       request_->protocol = *_protocol;
       request_->method = "DELETE";
-      request_->pathname = string("/" + *request->objectName + "");
+      request_->pathname = string("/") + string(*request->objectName);
       request_->headers = {
           {"host", Alibabacloud_OSSUtil::Client::getHost(
                        request->bucketName, _regionId, _endpoint, _hostModel)},
@@ -4311,7 +4317,7 @@ AbortMultipartUploadResponse Alibabacloud_OSS::Client::abortMultipartUpload(
           make_shared<string>(_credential->getSecurityToken());
       request_->protocol = *_protocol;
       request_->method = "DELETE";
-      request_->pathname = string("/" + *request->objectName + "");
+      request_->pathname = string("/") + string(*request->objectName);
       request_->headers = {
           {"host", Alibabacloud_OSSUtil::Client::getHost(
                        request->bucketName, _regionId, _endpoint, _hostModel)},
@@ -4436,7 +4442,8 @@ AppendObjectResponse Alibabacloud_OSS::Client::appendObject(
           make_shared<string>(_credential->getSecurityToken());
       request_->protocol = *_protocol;
       request_->method = "POST";
-      request_->pathname = string("/" + *request->objectName + "?append");
+      request_->pathname =
+          string("/") + string(*request->objectName) + string("?append");
       request_->headers = Darabonba::Converter::merge(
           map<string, string>(
               {{"host",
@@ -4599,7 +4606,7 @@ UploadPartCopyResponse Alibabacloud_OSS::Client::uploadPartCopy(
           make_shared<string>(_credential->getSecurityToken());
       request_->protocol = *_protocol;
       request_->method = "PUT";
-      request_->pathname = string("/" + *request->objectName + "");
+      request_->pathname = string("/") + string(*request->objectName);
       request_->headers = Darabonba::Converter::merge(
           map<string, string>(
               {{"host",
@@ -4731,7 +4738,8 @@ GetVodPlaylistResponse Alibabacloud_OSS::Client::getVodPlaylist(
           make_shared<string>(_credential->getSecurityToken());
       request_->protocol = *_protocol;
       request_->method = "GET";
-      request_->pathname = string("/" + *request->channelName + "?vod");
+      request_->pathname =
+          string("/") + string(*request->channelName) + string("?vod");
       request_->headers = {
           {"host", Alibabacloud_OSSUtil::Client::getHost(
                        request->bucketName, _regionId, _endpoint, _hostModel)},
@@ -4975,7 +4983,7 @@ GetObjectResponse Alibabacloud_OSS::Client::getObject(
           make_shared<string>(_credential->getSecurityToken());
       request_->protocol = *_protocol;
       request_->method = "GET";
-      request_->pathname = string("/" + *request->objectName + "");
+      request_->pathname = string("/") + string(*request->objectName);
       request_->headers = Darabonba::Converter::merge(
           map<string, string>(
               {{"host",
@@ -5104,7 +5112,7 @@ UploadPartResponse Alibabacloud_OSS::Client::uploadPart(
           make_shared<string>(_credential->getSecurityToken());
       request_->protocol = *_protocol;
       request_->method = "PUT";
-      request_->pathname = string("/" + *request->objectName + "");
+      request_->pathname = string("/") + string(*request->objectName);
       request_->headers = {
           {"host", Alibabacloud_OSSUtil::Client::getHost(
                        request->bucketName, _regionId, _endpoint, _hostModel)},
@@ -5377,7 +5385,7 @@ CopyObjectResponse Alibabacloud_OSS::Client::copyObject(
           make_shared<string>(_credential->getSecurityToken());
       request_->protocol = *_protocol;
       request_->method = "PUT";
-      request_->pathname = string("/" + *request->destObjectName + "");
+      request_->pathname = string("/") + string(*request->destObjectName);
       request_->headers = Darabonba::Converter::merge(
           map<string, string>(
               {{"host",
@@ -5512,7 +5520,8 @@ GetObjectTaggingResponse Alibabacloud_OSS::Client::getObjectTagging(
           make_shared<string>(_credential->getSecurityToken());
       request_->protocol = *_protocol;
       request_->method = "GET";
-      request_->pathname = string("/" + *request->objectName + "?tagging");
+      request_->pathname =
+          string("/") + string(*request->objectName) + string("?tagging");
       request_->headers = {
           {"host", Alibabacloud_OSSUtil::Client::getHost(
                        request->bucketName, _regionId, _endpoint, _hostModel)},
@@ -6000,7 +6009,8 @@ GetSymlinkResponse Alibabacloud_OSS::Client::getSymlink(
           make_shared<string>(_credential->getSecurityToken());
       request_->protocol = *_protocol;
       request_->method = "GET";
-      request_->pathname = string("/" + *request->objectName + "?symlink");
+      request_->pathname =
+          string("/") + string(*request->objectName) + string("?symlink");
       request_->headers = {
           {"host", Alibabacloud_OSSUtil::Client::getHost(
                        request->bucketName, _regionId, _endpoint, _hostModel)},
@@ -6247,7 +6257,8 @@ PutSymlinkResponse Alibabacloud_OSS::Client::putSymlink(
           make_shared<string>(_credential->getSecurityToken());
       request_->protocol = *_protocol;
       request_->method = "PUT";
-      request_->pathname = string("/" + *request->objectName + "?symlink");
+      request_->pathname =
+          string("/") + string(*request->objectName) + string("?symlink");
       request_->headers = Darabonba::Converter::merge(
           map<string, string>(
               {{"host",
@@ -6745,7 +6756,8 @@ PutObjectAclResponse Alibabacloud_OSS::Client::putObjectAcl(
           make_shared<string>(_credential->getSecurityToken());
       request_->protocol = *_protocol;
       request_->method = "PUT";
-      request_->pathname = string("/" + *request->objectName + "?acl");
+      request_->pathname =
+          string("/") + string(*request->objectName) + string("?acl");
       request_->headers = Darabonba::Converter::merge(
           map<string, string>(
               {{"host",
@@ -6995,7 +7007,8 @@ PutLiveChannelStatusResponse Alibabacloud_OSS::Client::putLiveChannelStatus(
           make_shared<string>(_credential->getSecurityToken());
       request_->protocol = *_protocol;
       request_->method = "PUT";
-      request_->pathname = string("/" + *request->channelName + "?live");
+      request_->pathname =
+          string("/") + string(*request->channelName) + string("?live");
       request_->headers = {
           {"host", Alibabacloud_OSSUtil::Client::getHost(
                        request->bucketName, _regionId, _endpoint, _hostModel)},
@@ -7119,7 +7132,8 @@ Alibabacloud_OSS::Client::initiateMultipartUpload(
           make_shared<string>(_credential->getSecurityToken());
       request_->protocol = *_protocol;
       request_->method = "POST";
-      request_->pathname = string("/" + *request->objectName + "?uploads");
+      request_->pathname =
+          string("/") + string(*request->objectName) + string("?uploads");
       request_->headers = Darabonba::Converter::merge(
           map<string, string>(
               {{"host",
@@ -7262,7 +7276,7 @@ OptionObjectResponse Alibabacloud_OSS::Client::optionObject(
           make_shared<string>(_credential->getSecurityToken());
       request_->protocol = *_protocol;
       request_->method = "OPTIONS";
-      request_->pathname = string("/" + *request->objectName + "");
+      request_->pathname = string("/") + string(*request->objectName);
       request_->headers = Darabonba::Converter::merge(
           map<string, string>(
               {{"host",
@@ -7387,8 +7401,9 @@ PostVodPlaylistResponse Alibabacloud_OSS::Client::postVodPlaylist(
           make_shared<string>(_credential->getSecurityToken());
       request_->protocol = *_protocol;
       request_->method = "POST";
-      request_->pathname = string("/" + *request->channelName + "/" +
-                                  *request->playlistName + "?vod");
+      request_->pathname = string("/") + string(*request->channelName) +
+                           string("/") + string(*request->playlistName) +
+                           string("?vod");
       request_->headers = {
           {"host", Alibabacloud_OSSUtil::Client::getHost(
                        request->bucketName, _regionId, _endpoint, _hostModel)},
@@ -7508,7 +7523,7 @@ PostObjectResponse Alibabacloud_OSS::Client::postObject(
           {"user-agent", getUserAgent()}};
       request_->headers.insert(pair<string, string>(
           "content-type",
-          string("multipart/form-data; boundary=" + *boundary + "")));
+          string("multipart/form-data; boundary=") + string(*boundary)));
       shared_ptr<map<string, boost::any>> form =
           make_shared<map<string, boost::any>>(Darabonba::Converter::merge(
               map<string, boost::any>(
@@ -7644,7 +7659,7 @@ HeadObjectResponse Alibabacloud_OSS::Client::headObject(
           make_shared<string>(_credential->getSecurityToken());
       request_->protocol = *_protocol;
       request_->method = "HEAD";
-      request_->pathname = string("/" + *request->objectName + "");
+      request_->pathname = string("/") + string(*request->objectName);
       request_->headers = Darabonba::Converter::merge(
           map<string, string>(
               {{"host",
@@ -7773,7 +7788,8 @@ DeleteObjectTaggingResponse Alibabacloud_OSS::Client::deleteObjectTagging(
           make_shared<string>(_credential->getSecurityToken());
       request_->protocol = *_protocol;
       request_->method = "DELETE";
-      request_->pathname = string("/" + *request->objectName + "?tagging");
+      request_->pathname =
+          string("/") + string(*request->objectName) + string("?tagging");
       request_->headers = {
           {"host", Alibabacloud_OSSUtil::Client::getHost(
                        request->bucketName, _regionId, _endpoint, _hostModel)},
@@ -7894,7 +7910,8 @@ RestoreObjectResponse Alibabacloud_OSS::Client::restoreObject(
           make_shared<string>(_credential->getSecurityToken());
       request_->protocol = *_protocol;
       request_->method = "POST";
-      request_->pathname = string("/" + *request->objectName + "?restore");
+      request_->pathname =
+          string("/") + string(*request->objectName) + string("?restore");
       request_->headers = {
           {"host", Alibabacloud_OSSUtil::Client::getHost(
                        request->bucketName, _regionId, _endpoint, _hostModel)},
@@ -8015,7 +8032,8 @@ GetObjectAclResponse Alibabacloud_OSS::Client::getObjectAcl(
           make_shared<string>(_credential->getSecurityToken());
       request_->protocol = *_protocol;
       request_->method = "GET";
-      request_->pathname = string("/" + *request->objectName + "?acl");
+      request_->pathname =
+          string("/") + string(*request->objectName) + string("?acl");
       request_->headers = {
           {"host", Alibabacloud_OSSUtil::Client::getHost(
                        request->bucketName, _regionId, _endpoint, _hostModel)},
@@ -8389,7 +8407,7 @@ PutObjectResponse Alibabacloud_OSS::Client::putObject(
           make_shared<string>(_credential->getSecurityToken());
       request_->protocol = *_protocol;
       request_->method = "PUT";
-      request_->pathname = string("/" + *request->objectName + "");
+      request_->pathname = string("/") + string(*request->objectName);
       request_->headers = Darabonba::Converter::merge(
           map<string, string>(
               {{"host",
@@ -8486,8 +8504,8 @@ void Alibabacloud_OSS::Client::setUserAgent(shared_ptr<string> userAgent) {
 }
 
 void Alibabacloud_OSS::Client::appendUserAgent(shared_ptr<string> userAgent) {
-  _userAgent =
-      make_shared<string>(string("" + *_userAgent + " " + *userAgent + ""));
+  _userAgent = make_shared<string>(string(*_userAgent) + string(" ") +
+                                   string(*userAgent));
 }
 
 string Alibabacloud_OSS::Client::getUserAgent() {
