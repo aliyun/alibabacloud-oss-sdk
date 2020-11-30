@@ -1,3 +1,6 @@
+### 2020-11-30 Version 0.0.7
+* Fix pattern error.
+
 ### 2020-11-25 Version 0.0.6
 * Fix the bug that `None` call the `to_map()`.
 
