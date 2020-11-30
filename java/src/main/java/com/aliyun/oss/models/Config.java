@@ -25,7 +25,7 @@ public class Config extends TeaModel {
     public String protocol;
 
     @NameInMap("regionId")
-    @Validation(pattern = "[a-zA-Z0-9\\-\\_]+")
+    @Validation(pattern = "[a-zA-Z0-9-_]+")
     public String regionId;
 
     @NameInMap("userAgent")
