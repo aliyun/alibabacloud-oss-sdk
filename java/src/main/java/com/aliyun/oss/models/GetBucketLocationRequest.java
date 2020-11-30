@@ -6,7 +6,7 @@ import com.aliyun.tea.*;
 public class GetBucketLocationRequest extends TeaModel {
     // BucketName
     @NameInMap("BucketName")
-    @Validation(required = true, pattern = "[a-zA-Z0-9\\-\\_]+")
+    @Validation(required = true, pattern = "[a-zA-Z0-9-_]+")
     public String bucketName;
 
     public static GetBucketLocationRequest build(java.util.Map<String, ?> map) throws Exception {
