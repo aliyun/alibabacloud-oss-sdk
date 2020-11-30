@@ -6,6 +6,7 @@ namespace AlibabaCloud\SDK\OSS\OSS;
 
 use AlibabaCloud\SDK\OSS\OSS\PutObjectRequest\header;
 use AlibabaCloud\Tea\Model;
+use GuzzleHttp\Psr7\Stream;
 
 class PutObjectRequest extends Model
 {
@@ -55,7 +56,7 @@ class PutObjectRequest extends Model
     {
         Model::validateRequired('bucketName', $this->bucketName, true);
         Model::validateRequired('objectName', $this->objectName, true);
-        Model::validatePattern('bucketName', $this->bucketName, '[a-zA-Z0-9\\-\\_]+');
+        Model::validatePattern('bucketName', $this->bucketName, '[a-zA-Z0-9-_]+');
     }
 
     public function toMap()
