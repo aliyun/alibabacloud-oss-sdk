@@ -34,7 +34,7 @@ namespace AlibabaCloud.OSS.Models
         public string Protocol { get; set; }
 
         [NameInMap("regionId")]
-        [Validation(Required=false, Pattern="[a-zA-Z0-9\\-\\_]+")]
+        [Validation(Required=false, Pattern="[a-zA-Z0-9-_]+")]
         public string RegionId { get; set; }
 
         [NameInMap("userAgent")]

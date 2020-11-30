@@ -1,3 +1,6 @@
+### 2020-11-30 Version 1.0.4
+* Fixed BucketName `Pattern`
+
 ### 2020-09-04 Version 1.0.3
 * Recodegen 
 

@@ -13,7 +13,7 @@ namespace AlibabaCloud.OSS.Models
         /// BucketName
         /// </summary>
         [NameInMap("BucketName")]
-        [Validation(Required=true, Pattern="[a-zA-Z0-9\\-\\_]+")]
+        [Validation(Required=true, Pattern="[a-zA-Z0-9-_]+")]
         public string BucketName { get; set; }
 
         /// <summary>
