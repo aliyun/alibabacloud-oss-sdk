@@ -18,7 +18,7 @@ type Config struct {
 	AccessKeySecret  *string   `json:"accessKeySecret,omitempty" xml:"accessKeySecret,omitempty" require:"true"`
 	Endpoint         *string   `json:"endpoint,omitempty" xml:"endpoint,omitempty"`
 	Protocol         *string   `json:"protocol,omitempty" xml:"protocol,omitempty"`
-	RegionId         *string   `json:"regionId,omitempty" xml:"regionId,omitempty" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	RegionId         *string   `json:"regionId,omitempty" xml:"regionId,omitempty" pattern:"[a-zA-Z0-9-_]+"`
 	UserAgent        *string   `json:"userAgent,omitempty" xml:"userAgent,omitempty"`
 	HostModel        *string   `json:"hostModel,omitempty" xml:"hostModel,omitempty"`
 	SignatureVersion *string   `json:"signatureVersion,omitempty" xml:"signatureVersion,omitempty"`
@@ -156,7 +156,7 @@ func (s *Config) SetAddtionalHeaders(v []*string) *Config {
 
 type PutBucketLifecycleRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 	// Body
 	Body *PutBucketLifecycleRequestBody `json:"Body,omitempty" xml:"Body,omitempty" type:"Struct"`
 }
@@ -395,7 +395,7 @@ func (s *PutBucketLifecycleResponse) SetRequestId(v string) *PutBucketLifecycleR
 
 type DeleteMultipleObjectsRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 	// Body
 	Body *DeleteMultipleObjectsRequestBody `json:"Body,omitempty" xml:"Body,omitempty" type:"Struct"`
 	// Header
@@ -595,7 +595,7 @@ func (s *DeleteMultipleObjectsResponseDeleteResultDeleted) SetKey(v string) *Del
 
 type PutBucketRefererRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 	// Body
 	Body *PutBucketRefererRequestBody `json:"Body,omitempty" xml:"Body,omitempty" type:"Struct"`
 }
@@ -699,7 +699,7 @@ func (s *PutBucketRefererResponse) SetRequestId(v string) *PutBucketRefererRespo
 
 type PutBucketWebsiteRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 	// Body
 	Body *PutBucketWebsiteRequestBody `json:"Body,omitempty" xml:"Body,omitempty" type:"Struct"`
 }
@@ -1094,7 +1094,7 @@ func (s *PutBucketWebsiteResponse) SetRequestId(v string) *PutBucketWebsiteRespo
 
 type CompleteMultipartUploadRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 	// ObjectName
 	ObjectName *string `json:"ObjectName,omitempty" xml:"ObjectName,omitempty" require:"true"`
 	// Filter
@@ -1290,7 +1290,7 @@ func (s *CompleteMultipartUploadResponseCompleteMultipartUploadResult) SetEncodi
 
 type PutBucketLoggingRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 	// Body
 	Body *PutBucketLoggingRequestBody `json:"Body,omitempty" xml:"Body,omitempty" type:"Struct"`
 }
@@ -1394,7 +1394,7 @@ func (s *PutBucketLoggingResponse) SetRequestId(v string) *PutBucketLoggingRespo
 
 type PutBucketRequestPaymentRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 	// Body
 	Body *PutBucketRequestPaymentRequestBody `json:"Body,omitempty" xml:"Body,omitempty" type:"Struct"`
 }
@@ -1473,7 +1473,7 @@ func (s *PutBucketRequestPaymentResponse) SetRequestId(v string) *PutBucketReque
 
 type PutBucketEncryptionRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 	// Body
 	Body *PutBucketEncryptionRequestBody `json:"Body,omitempty" xml:"Body,omitempty" type:"Struct"`
 }
@@ -1577,7 +1577,7 @@ func (s *PutBucketEncryptionResponse) SetRequestId(v string) *PutBucketEncryptio
 
 type PutLiveChannelRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 	// ChannelName
 	ChannelName *string `json:"ChannelName,omitempty" xml:"ChannelName,omitempty" require:"true"`
 	// Body
@@ -1830,7 +1830,7 @@ func (s *PutLiveChannelResponseCreateLiveChannelResultPlayUrls) SetUrl(v string)
 
 type PutBucketTagsRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 	// Body
 	Body *PutBucketTagsRequestBody `json:"Body,omitempty" xml:"Body,omitempty" type:"Struct"`
 }
@@ -1952,7 +1952,7 @@ func (s *PutBucketTagsResponse) SetRequestId(v string) *PutBucketTagsResponse {
 
 type PutObjectTaggingRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 	// ObjectName
 	ObjectName *string `json:"ObjectName,omitempty" xml:"ObjectName,omitempty" require:"true"`
 	// Body
@@ -2081,7 +2081,7 @@ func (s *PutObjectTaggingResponse) SetRequestId(v string) *PutObjectTaggingRespo
 
 type SelectObjectRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 	// ObjectName
 	ObjectName *string `json:"ObjectName,omitempty" xml:"ObjectName,omitempty" require:"true"`
 	// Filter
@@ -2387,7 +2387,7 @@ func (s *SelectObjectResponse) SetRequestId(v string) *SelectObjectResponse {
 
 type PutBucketCORSRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 	// Body
 	Body *PutBucketCORSRequestBody `json:"Body,omitempty" xml:"Body,omitempty" type:"Struct"`
 }
@@ -2512,7 +2512,7 @@ func (s *PutBucketCORSResponse) SetRequestId(v string) *PutBucketCORSResponse {
 
 type PutBucketRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 	// Body
 	Body *PutBucketRequestBody `json:"Body,omitempty" xml:"Body,omitempty" type:"Struct"`
 	// Header
@@ -2623,7 +2623,7 @@ func (s *PutBucketResponse) SetRequestId(v string) *PutBucketResponse {
 
 type ListMultipartUploadsRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 	// Filter
 	Filter *ListMultipartUploadsRequestFilter `json:"Filter,omitempty" xml:"Filter,omitempty" type:"Struct"`
 }
@@ -2839,7 +2839,7 @@ func (s *ListMultipartUploadsResponseListMultipartUploadsResultUpload) SetInitia
 
 type GetBucketRequestPaymentRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 }
 
 func (s GetBucketRequestPaymentRequest) String() string {
@@ -2900,7 +2900,7 @@ func (s *GetBucketRequestPaymentResponseRequestPaymentConfiguration) SetPayer(v 
 
 type GetBucketEncryptionRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 }
 
 func (s GetBucketEncryptionRequest) String() string {
@@ -2986,7 +2986,7 @@ func (s *GetBucketEncryptionResponseServerSideEncryptionRuleApplyServerSideEncry
 
 type GetBucketTagsRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 }
 
 func (s GetBucketTagsRequest) String() string {
@@ -3321,7 +3321,7 @@ func (s *GetServiceResponseListAllMyBucketsResultBucketsBucket) SetStorageClass(
 
 type DeleteBucketEncryptionRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 }
 
 func (s DeleteBucketEncryptionRequest) String() string {
@@ -3357,7 +3357,7 @@ func (s *DeleteBucketEncryptionResponse) SetRequestId(v string) *DeleteBucketEnc
 
 type DeleteBucketTagsRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 	// Filter
 	Filter *DeleteBucketTagsRequestFilter `json:"Filter,omitempty" xml:"Filter,omitempty" require:"true" type:"Struct"`
 }
@@ -3418,7 +3418,7 @@ func (s *DeleteBucketTagsResponse) SetRequestId(v string) *DeleteBucketTagsRespo
 
 type GetBucketWebsiteRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 }
 
 func (s GetBucketWebsiteRequest) String() string {
@@ -3795,7 +3795,7 @@ func (s *GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedi
 
 type DeleteLiveChannelRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 	// ChannelName
 	ChannelName *string `json:"ChannelName,omitempty" xml:"ChannelName,omitempty" require:"true"`
 }
@@ -3838,7 +3838,7 @@ func (s *DeleteLiveChannelResponse) SetRequestId(v string) *DeleteLiveChannelRes
 
 type GetBucketLocationRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 }
 
 func (s GetBucketLocationRequest) String() string {
@@ -3881,7 +3881,7 @@ func (s *GetBucketLocationResponse) SetLocationConstraint(v string) *GetBucketLo
 
 type ListLiveChannelRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 	// Filter
 	Filter *ListLiveChannelRequestFilter `json:"Filter,omitempty" xml:"Filter,omitempty" type:"Struct"`
 }
@@ -4105,7 +4105,7 @@ func (s *ListLiveChannelResponseListLiveChannelResultLiveChannelPlayUrls) SetUrl
 
 type GetObjectMetaRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 	// ObjectName
 	ObjectName *string `json:"ObjectName,omitempty" xml:"ObjectName,omitempty" require:"true"`
 }
@@ -4169,7 +4169,7 @@ func (s *GetObjectMetaResponse) SetLastModified(v string) *GetObjectMetaResponse
 
 type GetBucketAclRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 }
 
 func (s GetBucketAclRequest) String() string {
@@ -4280,7 +4280,7 @@ func (s *GetBucketAclResponseAccessControlPolicyAccessControlList) SetGrant(v st
 
 type ListPartsRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 	// ObjectName
 	ObjectName *string `json:"ObjectName,omitempty" xml:"ObjectName,omitempty" require:"true"`
 	// Filter
@@ -4489,7 +4489,7 @@ func (s *ListPartsResponseListPartsResultPart) SetSize(v string) *ListPartsRespo
 
 type GetLiveChannelHistoryRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 	// ChannelName
 	ChannelName *string `json:"ChannelName,omitempty" xml:"ChannelName,omitempty" require:"true"`
 	// Filter
@@ -4614,7 +4614,7 @@ func (s *GetLiveChannelHistoryResponseLiveChannelHistoryLiveRecord) SetRemoteAdd
 
 type GetBucketRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 	// Filter
 	Filter *GetBucketRequestFilter `json:"Filter,omitempty" xml:"Filter,omitempty" type:"Struct"`
 }
@@ -4862,7 +4862,7 @@ func (s *GetBucketResponseListBucketResultContentsOwner) SetDisplayName(v string
 
 type GetLiveChannelInfoRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 	// ChannelName
 	ChannelName *string `json:"ChannelName,omitempty" xml:"ChannelName,omitempty" require:"true"`
 }
@@ -4983,7 +4983,7 @@ func (s *GetLiveChannelInfoResponseLiveChannelConfigurationTarget) SetPlaylistNa
 
 type GetLiveChannelStatRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 	// ChannelName
 	ChannelName *string `json:"ChannelName,omitempty" xml:"ChannelName,omitempty" require:"true"`
 	// Filter
@@ -5182,7 +5182,7 @@ func (s *GetLiveChannelStatResponseLiveChannelStatAudio) SetCodec(v string) *Get
 
 type DeleteObjectRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 	// ObjectName
 	ObjectName *string `json:"ObjectName,omitempty" xml:"ObjectName,omitempty" require:"true"`
 }
@@ -5225,7 +5225,7 @@ func (s *DeleteObjectResponse) SetRequestId(v string) *DeleteObjectResponse {
 
 type AbortMultipartUploadRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 	// ObjectName
 	ObjectName *string `json:"ObjectName,omitempty" xml:"ObjectName,omitempty" require:"true"`
 	// Filter
@@ -5293,7 +5293,7 @@ func (s *AbortMultipartUploadResponse) SetRequestId(v string) *AbortMultipartUpl
 
 type AppendObjectRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 	// ObjectName
 	ObjectName *string `json:"ObjectName,omitempty" xml:"ObjectName,omitempty" require:"true"`
 	// UserMeta
@@ -5470,7 +5470,7 @@ func (s *AppendObjectResponse) SetHashCrc64ecma(v string) *AppendObjectResponse 
 
 type UploadPartCopyRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 	// ObjectName
 	ObjectName *string `json:"ObjectName,omitempty" xml:"ObjectName,omitempty" require:"true"`
 	// Filter
@@ -5637,7 +5637,7 @@ func (s *UploadPartCopyResponseCopyPartResult) SetETag(v string) *UploadPartCopy
 
 type GetVodPlaylistRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 	// ChannelName
 	ChannelName *string `json:"ChannelName,omitempty" xml:"ChannelName,omitempty" require:"true"`
 	// Filter
@@ -5712,7 +5712,7 @@ func (s *GetVodPlaylistResponse) SetRequestId(v string) *GetVodPlaylistResponse 
 
 type DeleteBucketCORSRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 }
 
 func (s DeleteBucketCORSRequest) String() string {
@@ -5748,7 +5748,7 @@ func (s *DeleteBucketCORSResponse) SetRequestId(v string) *DeleteBucketCORSRespo
 
 type GetObjectRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 	// ObjectName
 	ObjectName *string `json:"ObjectName,omitempty" xml:"ObjectName,omitempty" require:"true"`
 	// Header
@@ -5928,7 +5928,7 @@ func (s *GetObjectResponse) SetBody(v io.Reader) *GetObjectResponse {
 
 type UploadPartRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 	// ObjectName
 	ObjectName *string `json:"ObjectName,omitempty" xml:"ObjectName,omitempty" require:"true"`
 	// body
@@ -6010,7 +6010,7 @@ func (s *UploadPartResponse) SetRequestId(v string) *UploadPartResponse {
 
 type GetBucketCORSRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 }
 
 func (s GetBucketCORSRequest) String() string {
@@ -6089,7 +6089,7 @@ func (s *GetBucketCORSResponseCORSConfigurationCORSRule) SetMaxAgeSeconds(v stri
 
 type CopyObjectRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 	// DestObjectName
 	DestObjectName *string `json:"DestObjectName,omitempty" xml:"DestObjectName,omitempty" require:"true"`
 	// Header
@@ -6266,7 +6266,7 @@ func (s *CopyObjectResponseCopyObjectResult) SetETag(v string) *CopyObjectRespon
 
 type GetObjectTaggingRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 	// ObjectName
 	ObjectName *string `json:"ObjectName,omitempty" xml:"ObjectName,omitempty" require:"true"`
 }
@@ -6377,7 +6377,7 @@ func (s *GetObjectTaggingResponseTaggingTagSetTag) SetValue(v string) *GetObject
 
 type DeleteBucketLifecycleRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 }
 
 func (s DeleteBucketLifecycleRequest) String() string {
@@ -6413,7 +6413,7 @@ func (s *DeleteBucketLifecycleResponse) SetRequestId(v string) *DeleteBucketLife
 
 type DeleteBucketLoggingRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 }
 
 func (s DeleteBucketLoggingRequest) String() string {
@@ -6449,7 +6449,7 @@ func (s *DeleteBucketLoggingResponse) SetRequestId(v string) *DeleteBucketLoggin
 
 type DeleteBucketWebsiteRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 }
 
 func (s DeleteBucketWebsiteRequest) String() string {
@@ -6485,7 +6485,7 @@ func (s *DeleteBucketWebsiteResponse) SetRequestId(v string) *DeleteBucketWebsit
 
 type GetSymlinkRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 	// ObjectName
 	ObjectName *string `json:"ObjectName,omitempty" xml:"ObjectName,omitempty" require:"true"`
 }
@@ -6535,7 +6535,7 @@ func (s *GetSymlinkResponse) SetSymlinkTarget(v string) *GetSymlinkResponse {
 
 type GetBucketLifecycleRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 }
 
 func (s GetBucketLifecycleRequest) String() string {
@@ -6756,7 +6756,7 @@ func (s *GetBucketLifecycleResponseLifecycleConfigurationRuleTag) SetValue(v str
 
 type PutSymlinkRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 	// ObjectName
 	ObjectName *string `json:"ObjectName,omitempty" xml:"ObjectName,omitempty" require:"true"`
 	// Header
@@ -6831,7 +6831,7 @@ func (s *PutSymlinkResponse) SetRequestId(v string) *PutSymlinkResponse {
 
 type GetBucketRefererRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 }
 
 func (s GetBucketRefererRequest) String() string {
@@ -6917,7 +6917,7 @@ func (s *GetBucketRefererResponseRefererConfigurationRefererList) SetReferer(v [
 
 type CallbackRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 }
 
 func (s CallbackRequest) String() string {
@@ -6953,7 +6953,7 @@ func (s *CallbackResponse) SetRequestId(v string) *CallbackResponse {
 
 type GetBucketLoggingRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 }
 
 func (s GetBucketLoggingRequest) String() string {
@@ -7039,7 +7039,7 @@ func (s *GetBucketLoggingResponseBucketLoggingStatusLoggingEnabled) SetTargetPre
 
 type PutObjectAclRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 	// ObjectName
 	ObjectName *string `json:"ObjectName,omitempty" xml:"ObjectName,omitempty" require:"true"`
 	// Header
@@ -7107,7 +7107,7 @@ func (s *PutObjectAclResponse) SetRequestId(v string) *PutObjectAclResponse {
 
 type GetBucketInfoRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 }
 
 func (s GetBucketInfoRequest) String() string {
@@ -7292,7 +7292,7 @@ func (s *GetBucketInfoResponseBucketInfoBucketAccessControlList) SetGrant(v stri
 
 type PutLiveChannelStatusRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 	// ChannelName
 	ChannelName *string `json:"ChannelName,omitempty" xml:"ChannelName,omitempty" require:"true"`
 	// Filter
@@ -7360,7 +7360,7 @@ func (s *PutLiveChannelStatusResponse) SetRequestId(v string) *PutLiveChannelSta
 
 type InitiateMultipartUploadRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 	// ObjectName
 	ObjectName *string `json:"ObjectName,omitempty" xml:"ObjectName,omitempty" require:"true"`
 	// Filter
@@ -7548,7 +7548,7 @@ func (s *InitiateMultipartUploadResponseInitiateMultipartUploadResult) SetUpload
 
 type OptionObjectRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 	// ObjectName
 	ObjectName *string `json:"ObjectName,omitempty" xml:"ObjectName,omitempty" require:"true"`
 	// Header
@@ -7665,7 +7665,7 @@ func (s *OptionObjectResponse) SetAccessControlMaxAge(v string) *OptionObjectRes
 
 type PostVodPlaylistRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 	// ChannelName
 	ChannelName *string `json:"ChannelName,omitempty" xml:"ChannelName,omitempty" require:"true"`
 	// PlaylistName
@@ -7747,7 +7747,7 @@ func (s *PostVodPlaylistResponse) SetRequestId(v string) *PostVodPlaylistRespons
 
 type PostObjectRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 	// header
 	Header *PostObjectRequestHeader `json:"header,omitempty" xml:"header,omitempty" require:"true" type:"Struct"`
 }
@@ -7881,7 +7881,7 @@ func (s *PostObjectResponsePostResponse) SetLocation(v string) *PostObjectRespon
 
 type HeadObjectRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 	// ObjectName
 	ObjectName *string `json:"ObjectName,omitempty" xml:"ObjectName,omitempty" require:"true"`
 	// Header
@@ -8103,7 +8103,7 @@ func (s *HeadObjectResponse) SetTaggingCount(v string) *HeadObjectResponse {
 
 type DeleteObjectTaggingRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 	// ObjectName
 	ObjectName *string `json:"ObjectName,omitempty" xml:"ObjectName,omitempty" require:"true"`
 }
@@ -8146,7 +8146,7 @@ func (s *DeleteObjectTaggingResponse) SetRequestId(v string) *DeleteObjectTaggin
 
 type RestoreObjectRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 	// ObjectName
 	ObjectName *string `json:"ObjectName,omitempty" xml:"ObjectName,omitempty" require:"true"`
 }
@@ -8189,7 +8189,7 @@ func (s *RestoreObjectResponse) SetRequestId(v string) *RestoreObjectResponse {
 
 type GetObjectAclRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 	// ObjectName
 	ObjectName *string `json:"ObjectName,omitempty" xml:"ObjectName,omitempty" require:"true"`
 }
@@ -8307,7 +8307,7 @@ func (s *GetObjectAclResponseAccessControlPolicyAccessControlList) SetGrant(v st
 
 type PutBucketAclRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 	// Header
 	Header *PutBucketAclRequestHeader `json:"Header,omitempty" xml:"Header,omitempty" require:"true" type:"Struct"`
 }
@@ -8368,7 +8368,7 @@ func (s *PutBucketAclResponse) SetRequestId(v string) *PutBucketAclResponse {
 
 type DeleteBucketRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 }
 
 func (s DeleteBucketRequest) String() string {
@@ -8404,7 +8404,7 @@ func (s *DeleteBucketResponse) SetRequestId(v string) *DeleteBucketResponse {
 
 type PutObjectRequest struct {
 	// BucketName
-	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9\\-\\_]+"`
+	BucketName *string `json:"BucketName,omitempty" xml:"BucketName,omitempty" require:"true" pattern:"[a-zA-Z0-9-_]+"`
 	// ObjectName
 	ObjectName *string `json:"ObjectName,omitempty" xml:"ObjectName,omitempty" require:"true"`
 	// UserMeta
