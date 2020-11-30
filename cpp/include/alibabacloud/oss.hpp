@@ -56,8 +56,7 @@ public:
       BOOST_THROW_EXCEPTION(boost::enable_error_info(
           std::runtime_error("accessKeySecret is required.")));
     }
-    Darabonba::Model::validatePattern("regionId", regionId,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+    Darabonba::Model::validatePattern("regionId", regionId, "[a-zA-Z0-9-_]+");
   }
 
   map<string, boost::any> toMap() override {
@@ -608,7 +607,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
   }
 
   map<string, boost::any> toMap() override {
@@ -875,7 +874,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
     if (!header) {
       BOOST_THROW_EXCEPTION(
           boost::enable_error_info(std::runtime_error("header is required.")));
@@ -1222,7 +1221,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
   }
 
   map<string, boost::any> toMap() override {
@@ -1959,7 +1958,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
   }
 
   map<string, boost::any> toMap() override {
@@ -2228,7 +2227,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
     if (!objectName) {
       BOOST_THROW_EXCEPTION(boost::enable_error_info(
           std::runtime_error("objectName is required.")));
@@ -2551,7 +2550,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
   }
 
   map<string, boost::any> toMap() override {
@@ -2717,7 +2716,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
   }
 
   map<string, boost::any> toMap() override {
@@ -2941,7 +2940,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
   }
 
   map<string, boost::any> toMap() override {
@@ -3250,7 +3249,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
     if (!channelName) {
       BOOST_THROW_EXCEPTION(boost::enable_error_info(
           std::runtime_error("channelName is required.")));
@@ -3648,7 +3647,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
   }
 
   map<string, boost::any> toMap() override {
@@ -3891,7 +3890,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
     if (!objectName) {
       BOOST_THROW_EXCEPTION(boost::enable_error_info(
           std::runtime_error("objectName is required.")));
@@ -4415,7 +4414,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
     if (!objectName) {
       BOOST_THROW_EXCEPTION(boost::enable_error_info(
           std::runtime_error("objectName is required.")));
@@ -4707,7 +4706,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
   }
 
   map<string, boost::any> toMap() override {
@@ -4908,7 +4907,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
   }
 
   map<string, boost::any> toMap() override {
@@ -5074,7 +5073,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
   }
 
   map<string, boost::any> toMap() override {
@@ -5350,7 +5349,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
   }
 
   map<string, boost::any> toMap() override {
@@ -5480,7 +5479,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
   }
 
   map<string, boost::any> toMap() override {
@@ -5672,7 +5671,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
   }
 
   map<string, boost::any> toMap() override {
@@ -6271,7 +6270,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
   }
 
   map<string, boost::any> toMap() override {
@@ -6381,7 +6380,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
     if (!filter) {
       BOOST_THROW_EXCEPTION(
           boost::enable_error_info(std::runtime_error("filter is required.")));
@@ -6469,7 +6468,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
   }
 
   map<string, boost::any> toMap() override {
@@ -7202,7 +7201,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
     if (!channelName) {
       BOOST_THROW_EXCEPTION(boost::enable_error_info(
           std::runtime_error("channelName is required.")));
@@ -7286,7 +7285,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
   }
 
   map<string, boost::any> toMap() override {
@@ -7417,7 +7416,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
   }
 
   map<string, boost::any> toMap() override {
@@ -7765,7 +7764,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
     if (!objectName) {
       BOOST_THROW_EXCEPTION(boost::enable_error_info(
           std::runtime_error("objectName is required.")));
@@ -7884,7 +7883,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
   }
 
   map<string, boost::any> toMap() override {
@@ -8168,7 +8167,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
     if (!objectName) {
       BOOST_THROW_EXCEPTION(boost::enable_error_info(
           std::runtime_error("objectName is required.")));
@@ -8478,7 +8477,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
     if (!channelName) {
       BOOST_THROW_EXCEPTION(boost::enable_error_info(
           std::runtime_error("channelName is required.")));
@@ -8752,7 +8751,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
   }
 
   map<string, boost::any> toMap() override {
@@ -9078,7 +9077,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
     if (!channelName) {
       BOOST_THROW_EXCEPTION(boost::enable_error_info(
           std::runtime_error("channelName is required.")));
@@ -9330,7 +9329,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
     if (!channelName) {
       BOOST_THROW_EXCEPTION(boost::enable_error_info(
           std::runtime_error("channelName is required.")));
@@ -9630,7 +9629,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
     if (!objectName) {
       BOOST_THROW_EXCEPTION(boost::enable_error_info(
           std::runtime_error("objectName is required.")));
@@ -9752,7 +9751,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
     if (!objectName) {
       BOOST_THROW_EXCEPTION(boost::enable_error_info(
           std::runtime_error("objectName is required.")));
@@ -9989,7 +9988,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
     if (!objectName) {
       BOOST_THROW_EXCEPTION(boost::enable_error_info(
           std::runtime_error("objectName is required.")));
@@ -10283,7 +10282,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
     if (!objectName) {
       BOOST_THROW_EXCEPTION(boost::enable_error_info(
           std::runtime_error("objectName is required.")));
@@ -10502,7 +10501,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
     if (!channelName) {
       BOOST_THROW_EXCEPTION(boost::enable_error_info(
           std::runtime_error("channelName is required.")));
@@ -10601,7 +10600,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
   }
 
   map<string, boost::any> toMap() override {
@@ -10801,7 +10800,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
     if (!objectName) {
       BOOST_THROW_EXCEPTION(boost::enable_error_info(
           std::runtime_error("objectName is required.")));
@@ -11008,7 +11007,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
     if (!objectName) {
       BOOST_THROW_EXCEPTION(boost::enable_error_info(
           std::runtime_error("objectName is required.")));
@@ -11114,7 +11113,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
   }
 
   map<string, boost::any> toMap() override {
@@ -11424,7 +11423,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
     if (!destObjectName) {
       BOOST_THROW_EXCEPTION(boost::enable_error_info(
           std::runtime_error("destObjectName is required.")));
@@ -11582,7 +11581,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
     if (!objectName) {
       BOOST_THROW_EXCEPTION(boost::enable_error_info(
           std::runtime_error("objectName is required.")));
@@ -11805,7 +11804,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
   }
 
   map<string, boost::any> toMap() override {
@@ -11880,7 +11879,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
   }
 
   map<string, boost::any> toMap() override {
@@ -11955,7 +11954,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
   }
 
   map<string, boost::any> toMap() override {
@@ -12030,7 +12029,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
     if (!objectName) {
       BOOST_THROW_EXCEPTION(boost::enable_error_info(
           std::runtime_error("objectName is required.")));
@@ -12127,7 +12126,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
   }
 
   map<string, boost::any> toMap() override {
@@ -12606,7 +12605,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
     if (!objectName) {
       BOOST_THROW_EXCEPTION(boost::enable_error_info(
           std::runtime_error("objectName is required.")));
@@ -12705,7 +12704,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
   }
 
   map<string, boost::any> toMap() override {
@@ -12891,7 +12890,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
   }
 
   map<string, boost::any> toMap() override {
@@ -12964,7 +12963,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
   }
 
   map<string, boost::any> toMap() override {
@@ -13180,7 +13179,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
     if (!objectName) {
       BOOST_THROW_EXCEPTION(boost::enable_error_info(
           std::runtime_error("objectName is required.")));
@@ -13279,7 +13278,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
   }
 
   map<string, boost::any> toMap() override {
@@ -13642,7 +13641,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
     if (!channelName) {
       BOOST_THROW_EXCEPTION(boost::enable_error_info(
           std::runtime_error("channelName is required.")));
@@ -13877,7 +13876,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
     if (!objectName) {
       BOOST_THROW_EXCEPTION(boost::enable_error_info(
           std::runtime_error("objectName is required.")));
@@ -14118,7 +14117,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
     if (!objectName) {
       BOOST_THROW_EXCEPTION(boost::enable_error_info(
           std::runtime_error("objectName is required.")));
@@ -14335,7 +14334,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
     if (!channelName) {
       BOOST_THROW_EXCEPTION(boost::enable_error_info(
           std::runtime_error("channelName is required.")));
@@ -14552,7 +14551,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
     if (!header) {
       BOOST_THROW_EXCEPTION(
           boost::enable_error_info(std::runtime_error("header is required.")));
@@ -14759,7 +14758,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
     if (!objectName) {
       BOOST_THROW_EXCEPTION(boost::enable_error_info(
           std::runtime_error("objectName is required.")));
@@ -15109,7 +15108,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
     if (!objectName) {
       BOOST_THROW_EXCEPTION(boost::enable_error_info(
           std::runtime_error("objectName is required.")));
@@ -15195,7 +15194,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
     if (!objectName) {
       BOOST_THROW_EXCEPTION(boost::enable_error_info(
           std::runtime_error("objectName is required.")));
@@ -15280,7 +15279,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
     if (!objectName) {
       BOOST_THROW_EXCEPTION(boost::enable_error_info(
           std::runtime_error("objectName is required.")));
@@ -15550,7 +15549,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
     if (!header) {
       BOOST_THROW_EXCEPTION(
           boost::enable_error_info(std::runtime_error("header is required.")));
@@ -15638,7 +15637,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
   }
 
   map<string, boost::any> toMap() override {
@@ -15854,7 +15853,7 @@ public:
           std::runtime_error("bucketName is required.")));
     }
     Darabonba::Model::validatePattern("bucketName", bucketName,
-                                      "[a-zA-Z0-9\\\\-\\\\_]+");
+                                      "[a-zA-Z0-9-_]+");
     if (!objectName) {
       BOOST_THROW_EXCEPTION(boost::enable_error_info(
           std::runtime_error("objectName is required.")));
