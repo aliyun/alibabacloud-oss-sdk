@@ -32,7 +32,7 @@ model Config {
   accessKeySecret: string,
   endpoint?: string,
   protocol?: string,
-  regionId?: string(pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  regionId?: string(pattern='[a-zA-Z0-9-_]+'),
   userAgent?: string,
   hostModel?: string,
   signatureVersion?: string,
@@ -96,7 +96,7 @@ init(config: Config){
 }
 
 model PutBucketLifecycleRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
   body?: {
     lifecycleConfiguration: {
       rule?: [
@@ -190,7 +190,7 @@ api putBucketLifecycle(request: PutBucketLifecycleRequest, runtime: OSSUtil.Runt
 }
 
 model DeleteMultipleObjectsRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
   body?: {
     delete: {
       object?: [
@@ -290,7 +290,7 @@ api deleteMultipleObjects(request: DeleteMultipleObjectsRequest, runtime: OSSUti
 }
 
 model PutBucketRefererRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
   body?: {
     refererConfiguration: {
       refererList?: {
@@ -365,7 +365,7 @@ api putBucketReferer(request: PutBucketRefererRequest, runtime: OSSUtil.RuntimeO
 }
 
 model PutBucketWebsiteRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
   body?: {
     websiteConfiguration: {
       indexDocument?: {
@@ -479,7 +479,7 @@ api putBucketWebsite(request: PutBucketWebsiteRequest, runtime: OSSUtil.RuntimeO
 }
 
 model CompleteMultipartUploadRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
   objectName: string(description='ObjectName', name='ObjectName'),
   filter: {
     uploadId: string(description='uploadId', name='uploadId', signed='true'),
@@ -572,7 +572,7 @@ api completeMultipartUpload(request: CompleteMultipartUploadRequest, runtime: OS
 }
 
 model PutBucketLoggingRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
   body?: {
     bucketLoggingStatus: {
       loggingEnabled?: {
@@ -647,7 +647,7 @@ api putBucketLogging(request: PutBucketLoggingRequest, runtime: OSSUtil.RuntimeO
 }
 
 model PutBucketRequestPaymentRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
   body?: {
     requestPaymentConfiguration: {
       payer?: string(description='Payer', name='Payer'),
@@ -719,7 +719,7 @@ api putBucketRequestPayment(request: PutBucketRequestPaymentRequest, runtime: OS
 }
 
 model PutBucketEncryptionRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
   body?: {
     serverSideEncryptionRule: {
       applyServerSideEncryptionByDefault?: {
@@ -794,7 +794,7 @@ api putBucketEncryption(request: PutBucketEncryptionRequest, runtime: OSSUtil.Ru
 }
 
 model PutLiveChannelRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
   channelName: string(description='ChannelName', name='ChannelName'),
   body?: {
     liveChannelConfiguration: {
@@ -891,7 +891,7 @@ api putLiveChannel(request: PutLiveChannelRequest, runtime: OSSUtil.RuntimeOptio
 }
 
 model PutBucketTagsRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
   body?: {
     tagging: {
       tagSet?: {
@@ -970,7 +970,7 @@ api putBucketTags(request: PutBucketTagsRequest, runtime: OSSUtil.RuntimeOptions
 }
 
 model PutObjectTaggingRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
   objectName: string(description='ObjectName', name='ObjectName'),
   body?: {
     tagging: {
@@ -1050,7 +1050,7 @@ api putObjectTagging(request: PutObjectTaggingRequest, runtime: OSSUtil.RuntimeO
 }
 
 model SelectObjectRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
   objectName: string(description='ObjectName', name='ObjectName'),
   filter: {
     porcess: string(description='x-oss-process', name='x-oss-process'),
@@ -1152,7 +1152,7 @@ api selectObject(request: SelectObjectRequest, runtime: OSSUtil.RuntimeOptions):
 }
 
 model PutBucketCORSRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
   body?: {
     cORSConfiguration: {
       cORSRule?: [
@@ -1232,7 +1232,7 @@ api putBucketCORS(request: PutBucketCORSRequest, runtime: OSSUtil.RuntimeOptions
 }
 
 model PutBucketRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
   body?: {
     createBucketConfiguration: {
       storageClass?: string(description='StorageClass', name='StorageClass'),
@@ -1309,7 +1309,7 @@ api putBucket(request: PutBucketRequest, runtime: OSSUtil.RuntimeOptions): PutBu
 }
 
 model ListMultipartUploadsRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
   filter?: {
     delimiter?: string(description='delimiter', name='delimiter'),
     maxUploads?: string(description='max-uploads', name='max-uploads'),
@@ -1404,7 +1404,7 @@ api listMultipartUploads(request: ListMultipartUploadsRequest, runtime: OSSUtil.
 }
 
 model GetBucketRequestPaymentRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
 }
 
 model GetBucketRequestPaymentResponse = {
@@ -1475,7 +1475,7 @@ api getBucketRequestPayment(request: GetBucketRequestPaymentRequest, runtime: OS
 }
 
 model GetBucketEncryptionRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
 }
 
 model GetBucketEncryptionResponse = {
@@ -1549,7 +1549,7 @@ api getBucketEncryption(request: GetBucketEncryptionRequest, runtime: OSSUtil.Ru
 }
 
 model GetBucketTagsRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
 }
 
 model GetBucketTagsResponse = {
@@ -1723,7 +1723,7 @@ api getService(request: GetServiceRequest, runtime: OSSUtil.RuntimeOptions): Get
 }
 
 model DeleteBucketEncryptionRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
 }
 
 model DeleteBucketEncryptionResponse = {
@@ -1788,7 +1788,7 @@ api deleteBucketEncryption(request: DeleteBucketEncryptionRequest, runtime: OSSU
 }
 
 model DeleteBucketTagsRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
   filter: {
     tagging: string(description='tagging', name='tagging', signed='true'),
   }(description='Filter', name='Filter'),
@@ -1857,7 +1857,7 @@ api deleteBucketTags(request: DeleteBucketTagsRequest, runtime: OSSUtil.RuntimeO
 }
 
 model GetBucketWebsiteRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
 }
 
 model GetBucketWebsiteResponse = {
@@ -1970,7 +1970,7 @@ api getBucketWebsite(request: GetBucketWebsiteRequest, runtime: OSSUtil.RuntimeO
 }
 
 model DeleteLiveChannelRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
   channelName: string(description='ChannelName', name='ChannelName'),
 }
 
@@ -2036,7 +2036,7 @@ api deleteLiveChannel(request: DeleteLiveChannelRequest, runtime: OSSUtil.Runtim
 }
 
 model GetBucketLocationRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
 }
 
 model GetBucketLocationResponse = {
@@ -2105,7 +2105,7 @@ api getBucketLocation(request: GetBucketLocationRequest, runtime: OSSUtil.Runtim
 }
 
 model ListLiveChannelRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
   filter?: {
     marker?: string(description='marker', name='marker'),
     maxKeys?: string(description='max-keys', name='max-keys'),
@@ -2198,7 +2198,7 @@ api listLiveChannel(request: ListLiveChannelRequest, runtime: OSSUtil.RuntimeOpt
 }
 
 model GetObjectMetaRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
   objectName: string(description='ObjectName', name='ObjectName'),
 }
 
@@ -2267,7 +2267,7 @@ api getObjectMeta(request: GetObjectMetaRequest, runtime: OSSUtil.RuntimeOptions
 }
 
 model GetBucketAclRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
 }
 
 model GetBucketAclResponse = {
@@ -2344,7 +2344,7 @@ api getBucketAcl(request: GetBucketAclRequest, runtime: OSSUtil.RuntimeOptions):
 }
 
 model ListPartsRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
   objectName: string(description='ObjectName', name='ObjectName'),
   filter: {
     uploadId: string(description='uploadId', name='uploadId', signed='true'),
@@ -2438,7 +2438,7 @@ api listParts(request: ListPartsRequest, runtime: OSSUtil.RuntimeOptions): ListP
 }
 
 model GetLiveChannelHistoryRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
   channelName: string(description='ChannelName', name='ChannelName'),
   filter?: {
     comp?: string(description='comp', name='comp', signed='true'),
@@ -2520,7 +2520,7 @@ api getLiveChannelHistory(request: GetLiveChannelHistoryRequest, runtime: OSSUti
 }
 
 model GetBucketRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
   filter?: {
     delimiter?: string(description='delimiter', name='delimiter'),
     marker?: string(description='marker', name='marker'),
@@ -2619,7 +2619,7 @@ api getBucket(request: GetBucketRequest, runtime: OSSUtil.RuntimeOptions): GetBu
 }
 
 model GetLiveChannelInfoRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
   channelName: string(description='ChannelName', name='ChannelName'),
 }
 
@@ -2698,7 +2698,7 @@ api getLiveChannelInfo(request: GetLiveChannelInfoRequest, runtime: OSSUtil.Runt
 }
 
 model GetLiveChannelStatRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
   channelName: string(description='ChannelName', name='ChannelName'),
   filter?: {
     comp?: string(description='comp', name='comp', signed='true'),
@@ -2788,7 +2788,7 @@ api getLiveChannelStat(request: GetLiveChannelStatRequest, runtime: OSSUtil.Runt
 }
 
 model DeleteObjectRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
   objectName: string(description='ObjectName', name='ObjectName'),
 }
 
@@ -2854,7 +2854,7 @@ api deleteObject(request: DeleteObjectRequest, runtime: OSSUtil.RuntimeOptions):
 }
 
 model AbortMultipartUploadRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
   objectName: string(description='ObjectName', name='ObjectName'),
   filter: {
     uploadId: string(description='uploadId', name='uploadId', signed='true'),
@@ -2924,7 +2924,7 @@ api abortMultipartUpload(request: AbortMultipartUploadRequest, runtime: OSSUtil.
 }
 
 model AppendObjectRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
   objectName: string(description='ObjectName', name='ObjectName'),
   userMeta?: map[string]string(description='UserMeta', name='UserMeta'),
   body?: readable(description='body', name='body'),
@@ -3038,7 +3038,7 @@ api appendObject(request: AppendObjectRequest, runtime: OSSUtil.RuntimeOptions):
 }
 
 model UploadPartCopyRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
   objectName: string(description='ObjectName', name='ObjectName'),
   filter: {
     partNumber: string(description='partNumber', name='partNumber', signed='true'),
@@ -3125,7 +3125,7 @@ api uploadPartCopy(request: UploadPartCopyRequest, runtime: OSSUtil.RuntimeOptio
 }
 
 model GetVodPlaylistRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
   channelName: string(description='ChannelName', name='ChannelName'),
   filter: {
     endTime: string(description='endTime', name='endTime', signed='true'),
@@ -3196,7 +3196,7 @@ api getVodPlaylist(request: GetVodPlaylistRequest, runtime: OSSUtil.RuntimeOptio
 }
 
 model DeleteBucketCORSRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
 }
 
 model DeleteBucketCORSResponse = {
@@ -3261,7 +3261,7 @@ api deleteBucketCORS(request: DeleteBucketCORSRequest, runtime: OSSUtil.RuntimeO
 }
 
 model GetObjectRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
   objectName: string(description='ObjectName', name='ObjectName'),
   header?: {
     responseContentType?: string(description='response-content-type', name='response-content-type'),
@@ -3348,7 +3348,7 @@ api getObject(request: GetObjectRequest, runtime: OSSUtil.RuntimeOptions): GetOb
 }
 
 model UploadPartRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
   objectName: string(description='ObjectName', name='ObjectName'),
   body?: readable(description='body', name='body'),
   filter: {
@@ -3442,7 +3442,7 @@ api uploadPart(request: UploadPartRequest, runtime: OSSUtil.RuntimeOptions): Upl
 }
 
 model GetBucketCORSRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
 }
 
 model GetBucketCORSResponse = {
@@ -3517,7 +3517,7 @@ api getBucketCORS(request: GetBucketCORSRequest, runtime: OSSUtil.RuntimeOptions
 }
 
 model CopyObjectRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
   destObjectName: string(description='DestObjectName', name='DestObjectName'),
   header: {
     copySource: string(description='x-oss-copy-source', name='x-oss-copy-source'),
@@ -3607,7 +3607,7 @@ api copyObject(request: CopyObjectRequest, runtime: OSSUtil.RuntimeOptions): Cop
 }
 
 model GetObjectTaggingRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
   objectName: string(description='ObjectName', name='ObjectName'),
 }
 
@@ -3686,7 +3686,7 @@ api getObjectTagging(request: GetObjectTaggingRequest, runtime: OSSUtil.RuntimeO
 }
 
 model DeleteBucketLifecycleRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
 }
 
 model DeleteBucketLifecycleResponse = {
@@ -3751,7 +3751,7 @@ api deleteBucketLifecycle(request: DeleteBucketLifecycleRequest, runtime: OSSUti
 }
 
 model DeleteBucketLoggingRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
 }
 
 model DeleteBucketLoggingResponse = {
@@ -3816,7 +3816,7 @@ api deleteBucketLogging(request: DeleteBucketLoggingRequest, runtime: OSSUtil.Ru
 }
 
 model DeleteBucketWebsiteRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
 }
 
 model DeleteBucketWebsiteResponse = {
@@ -3881,7 +3881,7 @@ api deleteBucketWebsite(request: DeleteBucketWebsiteRequest, runtime: OSSUtil.Ru
 }
 
 model GetSymlinkRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
   objectName: string(description='ObjectName', name='ObjectName'),
 }
 
@@ -3948,7 +3948,7 @@ api getSymlink(request: GetSymlinkRequest, runtime: OSSUtil.RuntimeOptions): Get
 }
 
 model GetBucketLifecycleRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
 }
 
 model GetBucketLifecycleResponse = {
@@ -4041,7 +4041,7 @@ api getBucketLifecycle(request: GetBucketLifecycleRequest, runtime: OSSUtil.Runt
 }
 
 model PutSymlinkRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
   objectName: string(description='ObjectName', name='ObjectName'),
   header: {
     symlinkTarget: string(description='x-oss-symlink-target', name='x-oss-symlink-target'),
@@ -4112,7 +4112,7 @@ api putSymlink(request: PutSymlinkRequest, runtime: OSSUtil.RuntimeOptions): Put
 }
 
 model GetBucketRefererRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
 }
 
 model GetBucketRefererResponse = {
@@ -4186,7 +4186,7 @@ api getBucketReferer(request: GetBucketRefererRequest, runtime: OSSUtil.RuntimeO
 }
 
 model CallbackRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
 }
 
 model CallbackResponse = {
@@ -4251,7 +4251,7 @@ api callback(request: CallbackRequest, runtime: OSSUtil.RuntimeOptions): Callbac
 }
 
 model GetBucketLoggingRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
 }
 
 model GetBucketLoggingResponse = {
@@ -4325,7 +4325,7 @@ api getBucketLogging(request: GetBucketLoggingRequest, runtime: OSSUtil.RuntimeO
 }
 
 model PutObjectAclRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
   objectName: string(description='ObjectName', name='ObjectName'),
   header: {
     objectAcl: string(description='x-oss-object-acl', name='x-oss-object-acl'),
@@ -4395,7 +4395,7 @@ api putObjectAcl(request: PutObjectAclRequest, runtime: OSSUtil.RuntimeOptions):
 }
 
 model GetBucketInfoRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
 }
 
 model GetBucketInfoResponse = {
@@ -4482,7 +4482,7 @@ api getBucketInfo(request: GetBucketInfoRequest, runtime: OSSUtil.RuntimeOptions
 }
 
 model PutLiveChannelStatusRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
   channelName: string(description='ChannelName', name='ChannelName'),
   filter: {
     status: string(description='status', name='status', signed='true'),
@@ -4552,7 +4552,7 @@ api putLiveChannelStatus(request: PutLiveChannelStatusRequest, runtime: OSSUtil.
 }
 
 model InitiateMultipartUploadRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
   objectName: string(description='ObjectName', name='ObjectName'),
   filter?: {
     encodingType?: string(description='encoding-type', name='encoding-type'),
@@ -4647,7 +4647,7 @@ api initiateMultipartUpload(request: InitiateMultipartUploadRequest, runtime: OS
 }
 
 model OptionObjectRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
   objectName: string(description='ObjectName', name='ObjectName'),
   header: {
     origin: string(description='Origin', name='Origin'),
@@ -4724,7 +4724,7 @@ api optionObject(request: OptionObjectRequest, runtime: OSSUtil.RuntimeOptions):
 }
 
 model PostVodPlaylistRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
   channelName: string(description='ChannelName', name='ChannelName'),
   playlistName: string(description='PlaylistName', name='PlaylistName'),
   filter: {
@@ -4796,7 +4796,7 @@ api postVodPlaylist(request: PostVodPlaylistRequest, runtime: OSSUtil.RuntimeOpt
 }
 
 model PostObjectRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
   header: {
     accessKeyId: string(description='OSSAccessKeyId', name='OSSAccessKeyId'),
     policy: string(description='policy', name='policy'),
@@ -4877,7 +4877,7 @@ api postObject(request: PostObjectRequest, runtime: OSSUtil.RuntimeOptions): Pos
 }
 
 model HeadObjectRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
   objectName: string(description='ObjectName', name='ObjectName'),
   header?: {
     ifModifiedSince?: string(description='If-Modified-Since', name='If-Modified-Since'),
@@ -4970,7 +4970,7 @@ api headObject(request: HeadObjectRequest, runtime: OSSUtil.RuntimeOptions): Hea
 }
 
 model DeleteObjectTaggingRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
   objectName: string(description='ObjectName', name='ObjectName'),
 }
 
@@ -5036,7 +5036,7 @@ api deleteObjectTagging(request: DeleteObjectTaggingRequest, runtime: OSSUtil.Ru
 }
 
 model RestoreObjectRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
   objectName: string(description='ObjectName', name='ObjectName'),
 }
 
@@ -5102,7 +5102,7 @@ api restoreObject(request: RestoreObjectRequest, runtime: OSSUtil.RuntimeOptions
 }
 
 model GetObjectAclRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
   objectName: string(description='ObjectName', name='ObjectName'),
 }
 
@@ -5180,7 +5180,7 @@ api getObjectAcl(request: GetObjectAclRequest, runtime: OSSUtil.RuntimeOptions):
 }
 
 model PutBucketAclRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
   header: {
     acl: string(description='x-oss-acl', name='x-oss-acl'),
   }(description='Header', name='Header'),
@@ -5249,7 +5249,7 @@ api putBucketAcl(request: PutBucketAclRequest, runtime: OSSUtil.RuntimeOptions):
 }
 
 model DeleteBucketRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
 }
 
 model DeleteBucketResponse = {
@@ -5314,7 +5314,7 @@ api deleteBucket(request: DeleteBucketRequest, runtime: OSSUtil.RuntimeOptions):
 }
 
 model PutObjectRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
   objectName: string(description='ObjectName', name='ObjectName'),
   userMeta?: map[string]string(description='UserMeta', name='UserMeta'),
   body?: readable(description='body', name='body'),

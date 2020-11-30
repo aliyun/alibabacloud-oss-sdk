@@ -76,7 +76,7 @@ init(config: Config){
 }
 
 model PostObjectRequest = {
-  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9\\\\-\\\\_]+'),
+  bucketName: string(description='BucketName', name='BucketName', pattern='[a-zA-Z0-9-_]+'),
   header: {
     accessKeyId: string(description='OSSAccessKeyId', name='OSSAccessKeyId'),
     policy: string(description='policy', name='policy'),
