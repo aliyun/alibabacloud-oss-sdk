@@ -39,7 +39,7 @@ class GetObjectRequest extends Model
     {
         Model::validateRequired('bucketName', $this->bucketName, true);
         Model::validateRequired('objectName', $this->objectName, true);
-        Model::validatePattern('bucketName', $this->bucketName, '[a-zA-Z0-9\\-\\_]+');
+        Model::validatePattern('bucketName', $this->bucketName, '[a-zA-Z0-9-_]+');
     }
 
     public function toMap()

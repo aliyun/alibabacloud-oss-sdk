@@ -6,6 +6,7 @@ namespace AlibabaCloud\SDK\OSS\OSS;
 
 use AlibabaCloud\SDK\OSS\OSS\UploadPartRequest\filter;
 use AlibabaCloud\Tea\Model;
+use GuzzleHttp\Psr7\Stream;
 
 class UploadPartRequest extends Model
 {
@@ -48,7 +49,7 @@ class UploadPartRequest extends Model
         Model::validateRequired('bucketName', $this->bucketName, true);
         Model::validateRequired('objectName', $this->objectName, true);
         Model::validateRequired('filter', $this->filter, true);
-        Model::validatePattern('bucketName', $this->bucketName, '[a-zA-Z0-9\\-\\_]+');
+        Model::validatePattern('bucketName', $this->bucketName, '[a-zA-Z0-9-_]+');
     }
 
     public function toMap()

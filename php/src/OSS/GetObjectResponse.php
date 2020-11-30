@@ -5,6 +5,7 @@
 namespace AlibabaCloud\SDK\OSS\OSS;
 
 use AlibabaCloud\Tea\Model;
+use GuzzleHttp\Psr7\Stream;
 
 class GetObjectResponse extends Model
 {

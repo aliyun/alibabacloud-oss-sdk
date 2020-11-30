@@ -65,7 +65,7 @@ class Config extends Model
     {
         Model::validateRequired('accessKeyId', $this->accessKeyId, true);
         Model::validateRequired('accessKeySecret', $this->accessKeySecret, true);
-        Model::validatePattern('regionId', $this->regionId, '[a-zA-Z0-9\\-\\_]+');
+        Model::validatePattern('regionId', $this->regionId, '[a-zA-Z0-9-_]+');
     }
 
     public function toMap()

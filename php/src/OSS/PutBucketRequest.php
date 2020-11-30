@@ -39,7 +39,7 @@ class PutBucketRequest extends Model
     public function validate()
     {
         Model::validateRequired('bucketName', $this->bucketName, true);
-        Model::validatePattern('bucketName', $this->bucketName, '[a-zA-Z0-9\\-\\_]+');
+        Model::validatePattern('bucketName', $this->bucketName, '[a-zA-Z0-9-_]+');
     }
 
     public function toMap()
