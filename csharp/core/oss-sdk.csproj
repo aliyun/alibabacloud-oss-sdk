@@ -9,7 +9,7 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <PackageReleaseNotes/>
     <AssemblyName>AlibabaCloud.SDK.OSS.Client</AssemblyName>
-    <Version>1.0.3</Version>
+    <Version>1.0.4</Version>
     <LangVersion>5</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0'">
@@ -41,6 +41,6 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Tea" Version="1.0.2"/>
+    <PackageReference Include="Tea" Version="1.0.4"/>
   </ItemGroup>
 </Project>
