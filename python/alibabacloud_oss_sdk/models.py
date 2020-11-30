@@ -41,7 +41,7 @@ class Config(TeaModel):
         self.validate_required(self.access_key_id, 'access_key_id')
         self.validate_required(self.access_key_secret, 'access_key_secret')
         if self.region_id is not None:
-            self.validate_pattern(self.region_id, 'region_id', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.region_id, 'region_id', '[a-zA-Z0-9-_]+')
 
     def to_map(self):
         result = {}
@@ -149,7 +149,7 @@ class PutBucketLifecycleRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
         if self.body:
             self.body.validate()
 
@@ -425,7 +425,7 @@ class DeleteMultipleObjectsRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
         if self.body:
             self.body.validate()
         self.validate_required(self.header, 'header')
@@ -664,7 +664,7 @@ class PutBucketRefererRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
         if self.body:
             self.body.validate()
 
@@ -786,7 +786,7 @@ class PutBucketWebsiteRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
         if self.body:
             self.body.validate()
 
@@ -1225,7 +1225,7 @@ class CompleteMultipartUploadRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
         self.validate_required(self.object_name, 'object_name')
         self.validate_required(self.filter, 'filter')
         if self.filter:
@@ -1446,7 +1446,7 @@ class PutBucketLoggingRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
         if self.body:
             self.body.validate()
 
@@ -1568,7 +1568,7 @@ class PutBucketRequestPaymentRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
         if self.body:
             self.body.validate()
 
@@ -1662,7 +1662,7 @@ class PutBucketEncryptionRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
         if self.body:
             self.body.validate()
 
@@ -1786,7 +1786,7 @@ class PutLiveChannelRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
         self.validate_required(self.channel_name, 'channel_name')
         if self.body:
             self.body.validate()
@@ -2067,7 +2067,7 @@ class PutBucketTagsRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
         if self.body:
             self.body.validate()
 
@@ -2219,7 +2219,7 @@ class PutObjectTaggingRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
         self.validate_required(self.object_name, 'object_name')
         if self.body:
             self.body.validate()
@@ -2378,7 +2378,7 @@ class SelectObjectRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
         self.validate_required(self.object_name, 'object_name')
         self.validate_required(self.filter, 'filter')
         if self.filter:
@@ -2709,7 +2709,7 @@ class PutBucketCORSRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
         if self.body:
             self.body.validate()
 
@@ -2858,7 +2858,7 @@ class PutBucketRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
         if self.body:
             self.body.validate()
         if self.header:
@@ -2985,7 +2985,7 @@ class ListMultipartUploadsRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
         if self.filter:
             self.filter.validate()
 
@@ -3210,7 +3210,7 @@ class GetBucketRequestPaymentRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
 
     def to_map(self):
         result = {}
@@ -3282,7 +3282,7 @@ class GetBucketEncryptionRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
 
     def to_map(self):
         result = {}
@@ -3383,7 +3383,7 @@ class GetBucketTagsRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
 
     def to_map(self):
         result = {}
@@ -3765,7 +3765,7 @@ class DeleteBucketEncryptionRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
 
     def to_map(self):
         result = {}
@@ -3809,7 +3809,7 @@ class DeleteBucketTagsRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
         self.validate_required(self.filter, 'filter')
         if self.filter:
             self.filter.validate()
@@ -3879,7 +3879,7 @@ class GetBucketWebsiteRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
 
     def to_map(self):
         result = {}
@@ -4302,7 +4302,7 @@ class DeleteLiveChannelRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
         self.validate_required(self.channel_name, 'channel_name')
 
     def to_map(self):
@@ -4349,7 +4349,7 @@ class GetBucketLocationRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
 
     def to_map(self):
         result = {}
@@ -4400,7 +4400,7 @@ class ListLiveChannelRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
         if self.filter:
             self.filter.validate()
 
@@ -4645,7 +4645,7 @@ class GetObjectMetaRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
         self.validate_required(self.object_name, 'object_name')
 
     def to_map(self):
@@ -4713,7 +4713,7 @@ class GetBucketAclRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
 
     def to_map(self):
         result = {}
@@ -4848,7 +4848,7 @@ class ListPartsRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
         self.validate_required(self.object_name, 'object_name')
         self.validate_required(self.filter, 'filter')
         if self.filter:
@@ -5070,7 +5070,7 @@ class GetLiveChannelHistoryRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
         self.validate_required(self.channel_name, 'channel_name')
         if self.filter:
             self.filter.validate()
@@ -5216,7 +5216,7 @@ class GetBucketRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
         if self.filter:
             self.filter.validate()
 
@@ -5477,7 +5477,7 @@ class GetLiveChannelInfoRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
         self.validate_required(self.channel_name, 'channel_name')
 
     def to_map(self):
@@ -5611,7 +5611,7 @@ class GetLiveChannelStatRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
         self.validate_required(self.channel_name, 'channel_name')
         if self.filter:
             self.filter.validate()
@@ -5824,7 +5824,7 @@ class DeleteObjectRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
         self.validate_required(self.object_name, 'object_name')
 
     def to_map(self):
@@ -5875,7 +5875,7 @@ class AbortMultipartUploadRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
         self.validate_required(self.object_name, 'object_name')
         self.validate_required(self.filter, 'filter')
         if self.filter:
@@ -5960,7 +5960,7 @@ class AppendObjectRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
         self.validate_required(self.object_name, 'object_name')
         self.validate_required(self.filter, 'filter')
         if self.filter:
@@ -6139,7 +6139,7 @@ class UploadPartCopyRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
         self.validate_required(self.object_name, 'object_name')
         self.validate_required(self.filter, 'filter')
         if self.filter:
@@ -6321,7 +6321,7 @@ class GetVodPlaylistRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
         self.validate_required(self.channel_name, 'channel_name')
         self.validate_required(self.filter, 'filter')
         if self.filter:
@@ -6403,7 +6403,7 @@ class DeleteBucketCORSRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
 
     def to_map(self):
         result = {}
@@ -6449,7 +6449,7 @@ class GetObjectRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
         self.validate_required(self.object_name, 'object_name')
         if self.header:
             self.header.validate()
@@ -6633,7 +6633,7 @@ class UploadPartRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
         self.validate_required(self.object_name, 'object_name')
         self.validate_required(self.filter, 'filter')
         if self.filter:
@@ -6719,7 +6719,7 @@ class GetBucketCORSRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
 
     def to_map(self):
         result = {}
@@ -6823,7 +6823,7 @@ class CopyObjectRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
         self.validate_required(self.dest_object_name, 'dest_object_name')
         self.validate_required(self.header, 'header')
         if self.header:
@@ -7004,7 +7004,7 @@ class GetObjectTaggingRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
         self.validate_required(self.object_name, 'object_name')
 
     def to_map(self):
@@ -7138,7 +7138,7 @@ class DeleteBucketLifecycleRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
 
     def to_map(self):
         result = {}
@@ -7180,7 +7180,7 @@ class DeleteBucketLoggingRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
 
     def to_map(self):
         result = {}
@@ -7222,7 +7222,7 @@ class DeleteBucketWebsiteRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
 
     def to_map(self):
         result = {}
@@ -7266,7 +7266,7 @@ class GetSymlinkRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
         self.validate_required(self.object_name, 'object_name')
 
     def to_map(self):
@@ -7320,7 +7320,7 @@ class GetBucketLifecycleRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
 
     def to_map(self):
         result = {}
@@ -7580,7 +7580,7 @@ class PutSymlinkRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
         self.validate_required(self.object_name, 'object_name')
         self.validate_required(self.header, 'header')
         if self.header:
@@ -7661,7 +7661,7 @@ class GetBucketRefererRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
 
     def to_map(self):
         result = {}
@@ -7762,7 +7762,7 @@ class CallbackRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
 
     def to_map(self):
         result = {}
@@ -7804,7 +7804,7 @@ class GetBucketLoggingRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
 
     def to_map(self):
         result = {}
@@ -7909,7 +7909,7 @@ class PutObjectAclRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
         self.validate_required(self.object_name, 'object_name')
         self.validate_required(self.header, 'header')
         if self.header:
@@ -7984,7 +7984,7 @@ class GetBucketInfoRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
 
     def to_map(self):
         result = {}
@@ -8191,7 +8191,7 @@ class PutLiveChannelStatusRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
         self.validate_required(self.channel_name, 'channel_name')
         self.validate_required(self.filter, 'filter')
         if self.filter:
@@ -8272,7 +8272,7 @@ class InitiateMultipartUploadRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
         self.validate_required(self.object_name, 'object_name')
         if self.filter:
             self.filter.validate()
@@ -8468,7 +8468,7 @@ class OptionObjectRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
         self.validate_required(self.object_name, 'object_name')
         self.validate_required(self.header, 'header')
         if self.header:
@@ -8599,7 +8599,7 @@ class PostVodPlaylistRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
         self.validate_required(self.channel_name, 'channel_name')
         self.validate_required(self.playlist_name, 'playlist_name')
         self.validate_required(self.filter, 'filter')
@@ -8688,7 +8688,7 @@ class PostObjectRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
         self.validate_required(self.header, 'header')
         if self.header:
             self.header.validate()
@@ -8842,7 +8842,7 @@ class HeadObjectRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
         self.validate_required(self.object_name, 'object_name')
         if self.header:
             self.header.validate()
@@ -9073,7 +9073,7 @@ class DeleteObjectTaggingRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
         self.validate_required(self.object_name, 'object_name')
 
     def to_map(self):
@@ -9122,7 +9122,7 @@ class RestoreObjectRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
         self.validate_required(self.object_name, 'object_name')
 
     def to_map(self):
@@ -9171,7 +9171,7 @@ class GetObjectAclRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
         self.validate_required(self.object_name, 'object_name')
 
     def to_map(self):
@@ -9309,7 +9309,7 @@ class PutBucketAclRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
         self.validate_required(self.header, 'header')
         if self.header:
             self.header.validate()
@@ -9379,7 +9379,7 @@ class DeleteBucketRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
 
     def to_map(self):
         result = {}
@@ -9429,7 +9429,7 @@ class PutObjectRequest(TeaModel):
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
         if self.bucket_name is not None:
-            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9\\-\\_]+')
+            self.validate_pattern(self.bucket_name, 'bucket_name', '[a-zA-Z0-9-_]+')
         self.validate_required(self.object_name, 'object_name')
         if self.header:
             self.header.validate()
