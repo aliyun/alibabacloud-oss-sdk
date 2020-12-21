@@ -1,5 +1,5 @@
 
-cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.11 FATAL_ERROR)
 
 project(alibabacloud_oss VERSION "0.1.0")
 
