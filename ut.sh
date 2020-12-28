@@ -77,6 +77,19 @@ function run_python {
   upload_codecov_report util/python python
 }
 
+function run_python2 {
+  export PYTHONPATH=$PYTHONPATH:`pwd`/util/python2
+  echo $PYTHONPATH
+  # install
+  cd util/python2 || return 126
+  pip install coverage || return 126
+  pip install alibabacloud-tea-py2
+
+  coverage run --source="./alibabacloud_oss_util" -m pytest tests/ || return 126
+  cd ../../
+  upload_codecov_report util/python2 python2
+}
+
 lang=$1
 
 if [ "$lang" == "php" ]
@@ -103,6 +116,10 @@ elif [ "$lang" == "python" ]
 then
   echo "run python"
   run_python
+elif [ "$lang" == "python2" ]
+then
+  echo "run python2"
+  run_python2
 fi
 
 exit $?

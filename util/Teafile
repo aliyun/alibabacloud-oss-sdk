@@ -9,7 +9,8 @@
     "ts": "@alicloud/oss-util:0.0.1",
     "java": "com.aliyun:oss-util:1.0.0",
     "php": "alibabacloud/tea-oss-utils:^0.2.0",
-    "python": "alibabacloud_oss_util:0.0.5"
+    "python": "alibabacloud_oss_util:0.0.5",
+    "python2": "alibabacloud_oss_util_py2:0.0.1"
   },
   "go": {
     "package": [
@@ -28,6 +29,10 @@
     "modelDirName": "OSSUtils"
   },
   "python": {
+    "package": "alibabacloud_oss_util",
+    "clientName": "client"
+  },
+  "python2": {
     "package": "alibabacloud_oss_util",
     "clientName": "client"
   },
