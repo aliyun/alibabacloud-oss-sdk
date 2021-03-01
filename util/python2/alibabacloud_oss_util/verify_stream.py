@@ -5,9 +5,10 @@ import sys
 
 from _io import BytesIO
 from Tea.stream import BaseStream
+from Tea.converter import py2
 
 
-class CRC64:
+class CRC64(object):
     POLY = (0xC96C5795 << 32) | 0xD7870F42
 
     def __init__(self):
@@ -32,8 +33,10 @@ class CRC64:
 
     def update(self, bt):
         for b in bt:
+            if py2:
+                b = ord(b)
             self.value = ~self.value
-            self.value = self._table[(self.value ^ ord(b)) & 0xff] ^ (self.value >> 8) & ~(0xff << 56)
+            self.value = self._table[(self.value ^ b) & 0xff] ^ (self.value >> 8) & ~(0xff << 56)
             self.value = ~self.value
 
 

@@ -19,23 +19,23 @@ from alibabacloud_tea_fileform.client import Client as FileFormClient
 
 
 class Client(object):
-    _endpoint = None  # type: unicode
-    _region_id = None  # type: unicode
-    _host_model = None  # type: unicode
-    _protocol = None  # type: unicode
+    _endpoint = None  # type: str
+    _region_id = None  # type: str
+    _host_model = None  # type: str
+    _protocol = None  # type: str
     _read_timeout = None  # type: int
     _connect_timeout = None  # type: int
-    _signature_version = None  # type: unicode
-    _addtional_headers = None  # type: list[unicode]
-    _local_addr = None  # type: unicode
-    _http_proxy = None  # type: unicode
-    _https_proxy = None  # type: unicode
-    _no_proxy = None  # type: unicode
-    _user_agent = None  # type: unicode
-    _socks_5proxy = None  # type: unicode
+    _signature_version = None  # type: str
+    _addtional_headers = None  # type: list[str]
+    _local_addr = None  # type: str
+    _http_proxy = None  # type: str
+    _https_proxy = None  # type: str
+    _no_proxy = None  # type: str
+    _user_agent = None  # type: str
+    _socks_5proxy = None  # type: str
     _is_enable_crc = None  # type: bool
     _is_enable_md5 = None  # type: bool
-    _socks_5net_work = None  # type: unicode
+    _socks_5net_work = None  # type: str
     _max_idle_conns = None  # type: int
     _credential = None  # type: CredentialClient
 

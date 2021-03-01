@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 # This file is auto-generated, don't edit it. Thanks.
 from Tea.model import TeaModel
-from Tea.converter import TeaConverter
 
 from alibabacloud_tea_fileform import models as file_form_models
 
@@ -11,28 +10,28 @@ class Config(TeaModel):
                  protocol=None, region_id=None, user_agent=None, host_model=None, signature_version=None, is_enable_md5=None,
                  is_enable_crc=None, read_timeout=None, connect_timeout=None, local_addr=None, http_proxy=None, https_proxy=None,
                  no_proxy=None, socks_5proxy=None, socks_5net_work=None, max_idle_conns=None, addtional_headers=None):
-        self.type = TeaConverter.to_unicode(type)  # type: unicode
-        self.security_token = TeaConverter.to_unicode(security_token)  # type: unicode
-        self.access_key_id = TeaConverter.to_unicode(access_key_id)  # type: unicode
-        self.access_key_secret = TeaConverter.to_unicode(access_key_secret)  # type: unicode
-        self.endpoint = TeaConverter.to_unicode(endpoint)  # type: unicode
-        self.protocol = TeaConverter.to_unicode(protocol)  # type: unicode
-        self.region_id = TeaConverter.to_unicode(region_id)  # type: unicode
-        self.user_agent = TeaConverter.to_unicode(user_agent)  # type: unicode
-        self.host_model = TeaConverter.to_unicode(host_model)  # type: unicode
-        self.signature_version = TeaConverter.to_unicode(signature_version)  # type: unicode
+        self.type = type  # type: str
+        self.security_token = security_token  # type: str
+        self.access_key_id = access_key_id  # type: str
+        self.access_key_secret = access_key_secret  # type: str
+        self.endpoint = endpoint  # type: str
+        self.protocol = protocol  # type: str
+        self.region_id = region_id  # type: str
+        self.user_agent = user_agent  # type: str
+        self.host_model = host_model  # type: str
+        self.signature_version = signature_version  # type: str
         self.is_enable_md5 = is_enable_md5  # type: bool
         self.is_enable_crc = is_enable_crc  # type: bool
         self.read_timeout = read_timeout  # type: int
         self.connect_timeout = connect_timeout  # type: int
-        self.local_addr = TeaConverter.to_unicode(local_addr)  # type: unicode
-        self.http_proxy = TeaConverter.to_unicode(http_proxy)  # type: unicode
-        self.https_proxy = TeaConverter.to_unicode(https_proxy)  # type: unicode
-        self.no_proxy = TeaConverter.to_unicode(no_proxy)  # type: unicode
-        self.socks_5proxy = TeaConverter.to_unicode(socks_5proxy)  # type: unicode
-        self.socks_5net_work = TeaConverter.to_unicode(socks_5net_work)  # type: unicode
+        self.local_addr = local_addr  # type: str
+        self.http_proxy = http_proxy  # type: str
+        self.https_proxy = https_proxy  # type: str
+        self.no_proxy = no_proxy  # type: str
+        self.socks_5proxy = socks_5proxy  # type: str
+        self.socks_5net_work = socks_5net_work  # type: str
         self.max_idle_conns = max_idle_conns  # type: int
-        self.addtional_headers = addtional_headers  # type: list[unicode]
+        self.addtional_headers = addtional_headers  # type: list[str]
 
     def validate(self):
         self.validate_required(self.access_key_id, 'access_key_id')
@@ -142,7 +141,7 @@ class PutBucketLifecycleRequestBodyLifecycleConfigurationRuleExpiration(TeaModel
         # Days
         self.days = days  # type: int
         # CreatedBeforeDate
-        self.created_before_date = TeaConverter.to_unicode(created_before_date)  # type: unicode
+        self.created_before_date = created_before_date  # type: str
 
     def validate(self):
         pass
@@ -169,7 +168,7 @@ class PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTransition(TeaModel
         # Days
         self.days = days  # type: int
         # StorageClass
-        self.storage_class = TeaConverter.to_unicode(storage_class)  # type: unicode
+        self.storage_class = storage_class  # type: str
 
     def validate(self):
         pass
@@ -196,7 +195,7 @@ class PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUploa
         # Days
         self.days = days  # type: int
         # CreatedBeforeDate
-        self.created_before_date = TeaConverter.to_unicode(created_before_date)  # type: unicode
+        self.created_before_date = created_before_date  # type: str
 
     def validate(self):
         pass
@@ -221,9 +220,9 @@ class PutBucketLifecycleRequestBodyLifecycleConfigurationRuleAbortMultipartUploa
 class PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag(TeaModel):
     def __init__(self, key=None, value=None):
         # Key
-        self.key = TeaConverter.to_unicode(key)  # type: unicode
+        self.key = key  # type: str
         # Value
-        self.value = TeaConverter.to_unicode(value)  # type: unicode
+        self.value = value  # type: str
 
     def validate(self):
         pass
@@ -257,11 +256,11 @@ class PutBucketLifecycleRequestBodyLifecycleConfigurationRule(TeaModel):
         # Tag
         self.tag = tag  # type: PutBucketLifecycleRequestBodyLifecycleConfigurationRuleTag
         # ID
-        self.i_d = TeaConverter.to_unicode(i_d)  # type: unicode
+        self.i_d = i_d  # type: str
         # Prefix
-        self.prefix = TeaConverter.to_unicode(prefix)  # type: unicode
+        self.prefix = prefix  # type: str
         # Status
-        self.status = TeaConverter.to_unicode(status)  # type: unicode
+        self.status = status  # type: str
 
     def validate(self):
         if self.expiration:
@@ -370,7 +369,7 @@ class PutBucketLifecycleRequestBody(TeaModel):
 class PutBucketLifecycleRequest(TeaModel):
     def __init__(self, bucket_name=None, body=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
         # Body
         self.body = body  # type: PutBucketLifecycleRequestBody
 
@@ -402,7 +401,7 @@ class PutBucketLifecycleRequest(TeaModel):
 class PutBucketLifecycleResponse(TeaModel):
     def __init__(self, request_id=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
 
     def validate(self):
         self.validate_required(self.request_id, 'request_id')
@@ -423,7 +422,7 @@ class PutBucketLifecycleResponse(TeaModel):
 class DeleteMultipleObjectsRequestBodyDeleteObject(TeaModel):
     def __init__(self, key=None):
         # Key
-        self.key = TeaConverter.to_unicode(key)  # type: unicode
+        self.key = key  # type: str
 
     def validate(self):
         pass
@@ -446,7 +445,7 @@ class DeleteMultipleObjectsRequestBodyDelete(TeaModel):
         # Object
         self.object = object  # type: list[DeleteMultipleObjectsRequestBodyDeleteObject]
         # Quiet
-        self.quiet = TeaConverter.to_unicode(quiet)  # type: unicode
+        self.quiet = quiet  # type: str
 
     def validate(self):
         if self.object:
@@ -503,11 +502,11 @@ class DeleteMultipleObjectsRequestBody(TeaModel):
 class DeleteMultipleObjectsRequestHeader(TeaModel):
     def __init__(self, encoding_type=None, content_length=None, content_md5=None):
         # Encoding-type
-        self.encoding_type = TeaConverter.to_unicode(encoding_type)  # type: unicode
+        self.encoding_type = encoding_type  # type: str
         # Content-Length
-        self.content_length = TeaConverter.to_unicode(content_length)  # type: unicode
+        self.content_length = content_length  # type: str
         # Content-MD5
-        self.content_md5 = TeaConverter.to_unicode(content_md5)  # type: unicode
+        self.content_md5 = content_md5  # type: str
 
     def validate(self):
         self.validate_required(self.content_length, 'content_length')
@@ -537,7 +536,7 @@ class DeleteMultipleObjectsRequestHeader(TeaModel):
 class DeleteMultipleObjectsRequest(TeaModel):
     def __init__(self, bucket_name=None, body=None, header=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
         # Body
         self.body = body  # type: DeleteMultipleObjectsRequestBody
         # Header
@@ -579,7 +578,7 @@ class DeleteMultipleObjectsRequest(TeaModel):
 class DeleteMultipleObjectsResponseDeleteResultDeleted(TeaModel):
     def __init__(self, key=None):
         # Key
-        self.key = TeaConverter.to_unicode(key)  # type: unicode
+        self.key = key  # type: str
 
     def validate(self):
         pass
@@ -600,9 +599,9 @@ class DeleteMultipleObjectsResponseDeleteResultDeleted(TeaModel):
 class DeleteMultipleObjectsResponseDeleteResult(TeaModel):
     def __init__(self, quiet=None, encoding_type=None, deleted=None):
         # Quiet
-        self.quiet = TeaConverter.to_unicode(quiet)  # type: unicode
+        self.quiet = quiet  # type: str
         # EncodingType
-        self.encoding_type = TeaConverter.to_unicode(encoding_type)  # type: unicode
+        self.encoding_type = encoding_type  # type: str
         # Deleted
         self.deleted = deleted  # type: list[DeleteMultipleObjectsResponseDeleteResultDeleted]
 
@@ -641,7 +640,7 @@ class DeleteMultipleObjectsResponseDeleteResult(TeaModel):
 class DeleteMultipleObjectsResponse(TeaModel):
     def __init__(self, request_id=None, delete_result=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
         # DeleteResult
         self.delete_result = delete_result  # type: DeleteMultipleObjectsResponseDeleteResult
 
@@ -672,7 +671,7 @@ class DeleteMultipleObjectsResponse(TeaModel):
 class PutBucketRefererRequestBodyRefererConfigurationRefererList(TeaModel):
     def __init__(self, referer=None):
         # Referer
-        self.referer = referer  # type: list[unicode]
+        self.referer = referer  # type: list[str]
 
     def validate(self):
         pass
@@ -746,7 +745,7 @@ class PutBucketRefererRequestBody(TeaModel):
 class PutBucketRefererRequest(TeaModel):
     def __init__(self, bucket_name=None, body=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
         # Body
         self.body = body  # type: PutBucketRefererRequestBody
 
@@ -778,7 +777,7 @@ class PutBucketRefererRequest(TeaModel):
 class PutBucketRefererResponse(TeaModel):
     def __init__(self, request_id=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
 
     def validate(self):
         self.validate_required(self.request_id, 'request_id')
@@ -799,7 +798,7 @@ class PutBucketRefererResponse(TeaModel):
 class PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument(TeaModel):
     def __init__(self, suffix=None):
         # Suffix
-        self.suffix = TeaConverter.to_unicode(suffix)  # type: unicode
+        self.suffix = suffix  # type: str
 
     def validate(self):
         pass
@@ -820,7 +819,7 @@ class PutBucketWebsiteRequestBodyWebsiteConfigurationIndexDocument(TeaModel):
 class PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument(TeaModel):
     def __init__(self, key=None):
         # Key
-        self.key = TeaConverter.to_unicode(key)  # type: unicode
+        self.key = key  # type: str
 
     def validate(self):
         pass
@@ -841,9 +840,9 @@ class PutBucketWebsiteRequestBodyWebsiteConfigurationErrorDocument(TeaModel):
 class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader(TeaModel):
     def __init__(self, key=None, equals=None):
         # Key
-        self.key = TeaConverter.to_unicode(key)  # type: unicode
+        self.key = key  # type: str
         # Equals
-        self.equals = TeaConverter.to_unicode(equals)  # type: unicode
+        self.equals = equals  # type: str
 
     def validate(self):
         pass
@@ -870,9 +869,9 @@ class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCond
         # IncludeHeader
         self.include_header = include_header  # type: PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader
         # KeyPrefixEquals
-        self.key_prefix_equals = TeaConverter.to_unicode(key_prefix_equals)  # type: unicode
+        self.key_prefix_equals = key_prefix_equals  # type: str
         # HttpErrorCodeReturnedEquals
-        self.http_error_code_returned_equals = TeaConverter.to_unicode(http_error_code_returned_equals)  # type: unicode
+        self.http_error_code_returned_equals = http_error_code_returned_equals  # type: str
 
     def validate(self):
         if self.include_header:
@@ -903,9 +902,9 @@ class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleCond
 class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet(TeaModel):
     def __init__(self, key=None, value=None):
         # Key
-        self.key = TeaConverter.to_unicode(key)  # type: unicode
+        self.key = key  # type: str
         # Value
-        self.value = TeaConverter.to_unicode(value)  # type: unicode
+        self.value = value  # type: str
 
     def validate(self):
         pass
@@ -934,9 +933,9 @@ class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedi
         # PassAll
         self.pass_all = pass_all  # type: bool
         # Pass
-        self.pass_ = TeaConverter.to_unicode(pass_)  # type: unicode
+        self.pass_ = pass_  # type: str
         # Remove
-        self.remove = TeaConverter.to_unicode(remove)  # type: unicode
+        self.remove = remove  # type: str
 
     def validate(self):
         if self.set:
@@ -975,11 +974,11 @@ class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedi
         # MirrorHeaders
         self.mirror_headers = mirror_headers  # type: PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders
         # RedirectType
-        self.redirect_type = TeaConverter.to_unicode(redirect_type)  # type: unicode
+        self.redirect_type = redirect_type  # type: str
         # PassQueryString
         self.pass_query_string = pass_query_string  # type: bool
         # MirrorURL
-        self.mirror_url = TeaConverter.to_unicode(mirror_url)  # type: unicode
+        self.mirror_url = mirror_url  # type: str
         # MirrorPassQueryString
         self.mirror_pass_query_string = mirror_pass_query_string  # type: bool
         # MirrorFollowRedirect
@@ -987,15 +986,15 @@ class PutBucketWebsiteRequestBodyWebsiteConfigurationRoutingRulesRoutingRuleRedi
         # MirrorCheckMd5
         self.mirror_check_md_5 = mirror_check_md_5  # type: bool
         # Protocol
-        self.protocol = TeaConverter.to_unicode(protocol)  # type: unicode
+        self.protocol = protocol  # type: str
         # HostName
-        self.host_name = TeaConverter.to_unicode(host_name)  # type: unicode
+        self.host_name = host_name  # type: str
         # HttpRedirectCode
-        self.http_redirect_code = TeaConverter.to_unicode(http_redirect_code)  # type: unicode
+        self.http_redirect_code = http_redirect_code  # type: str
         # ReplaceKeyPrefixWith
-        self.replace_key_prefix_with = TeaConverter.to_unicode(replace_key_prefix_with)  # type: unicode
+        self.replace_key_prefix_with = replace_key_prefix_with  # type: str
         # ReplaceKeyWith
-        self.replace_key_with = TeaConverter.to_unicode(replace_key_with)  # type: unicode
+        self.replace_key_with = replace_key_with  # type: str
 
     def validate(self):
         if self.mirror_headers:
@@ -1194,7 +1193,7 @@ class PutBucketWebsiteRequestBody(TeaModel):
 class PutBucketWebsiteRequest(TeaModel):
     def __init__(self, bucket_name=None, body=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
         # Body
         self.body = body  # type: PutBucketWebsiteRequestBody
 
@@ -1226,7 +1225,7 @@ class PutBucketWebsiteRequest(TeaModel):
 class PutBucketWebsiteResponse(TeaModel):
     def __init__(self, request_id=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
 
     def validate(self):
         self.validate_required(self.request_id, 'request_id')
@@ -1247,9 +1246,9 @@ class PutBucketWebsiteResponse(TeaModel):
 class CompleteMultipartUploadRequestFilter(TeaModel):
     def __init__(self, upload_id=None, encoding_type=None):
         # uploadId
-        self.upload_id = TeaConverter.to_unicode(upload_id)  # type: unicode
+        self.upload_id = upload_id  # type: str
         # Encoding-type
-        self.encoding_type = TeaConverter.to_unicode(encoding_type)  # type: unicode
+        self.encoding_type = encoding_type  # type: str
 
     def validate(self):
         self.validate_required(self.upload_id, 'upload_id')
@@ -1274,9 +1273,9 @@ class CompleteMultipartUploadRequestFilter(TeaModel):
 class CompleteMultipartUploadRequestBodyCompleteMultipartUploadPart(TeaModel):
     def __init__(self, part_number=None, e_tag=None):
         # PartNumber
-        self.part_number = TeaConverter.to_unicode(part_number)  # type: unicode
+        self.part_number = part_number  # type: str
         # ETag
-        self.e_tag = TeaConverter.to_unicode(e_tag)  # type: unicode
+        self.e_tag = e_tag  # type: str
 
     def validate(self):
         pass
@@ -1354,9 +1353,9 @@ class CompleteMultipartUploadRequestBody(TeaModel):
 class CompleteMultipartUploadRequest(TeaModel):
     def __init__(self, bucket_name=None, object_name=None, filter=None, body=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
         # ObjectName
-        self.object_name = TeaConverter.to_unicode(object_name)  # type: unicode
+        self.object_name = object_name  # type: str
         # Filter
         self.filter = filter  # type: CompleteMultipartUploadRequestFilter
         # Body
@@ -1403,15 +1402,15 @@ class CompleteMultipartUploadRequest(TeaModel):
 class CompleteMultipartUploadResponseCompleteMultipartUploadResult(TeaModel):
     def __init__(self, bucket=None, e_tag=None, location=None, key=None, encoding_type=None):
         # Bucket
-        self.bucket = TeaConverter.to_unicode(bucket)  # type: unicode
+        self.bucket = bucket  # type: str
         # ETag
-        self.e_tag = TeaConverter.to_unicode(e_tag)  # type: unicode
+        self.e_tag = e_tag  # type: str
         # Location
-        self.location = TeaConverter.to_unicode(location)  # type: unicode
+        self.location = location  # type: str
         # Key
-        self.key = TeaConverter.to_unicode(key)  # type: unicode
+        self.key = key  # type: str
         # EncodingType
-        self.encoding_type = TeaConverter.to_unicode(encoding_type)  # type: unicode
+        self.encoding_type = encoding_type  # type: str
 
     def validate(self):
         pass
@@ -1448,7 +1447,7 @@ class CompleteMultipartUploadResponseCompleteMultipartUploadResult(TeaModel):
 class CompleteMultipartUploadResponse(TeaModel):
     def __init__(self, request_id=None, complete_multipart_upload_result=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
         # CompleteMultipartUploadResult
         self.complete_multipart_upload_result = complete_multipart_upload_result  # type: CompleteMultipartUploadResponseCompleteMultipartUploadResult
 
@@ -1479,9 +1478,9 @@ class CompleteMultipartUploadResponse(TeaModel):
 class PutBucketLoggingRequestBodyBucketLoggingStatusLoggingEnabled(TeaModel):
     def __init__(self, target_bucket=None, target_prefix=None):
         # TargetBucket
-        self.target_bucket = TeaConverter.to_unicode(target_bucket)  # type: unicode
+        self.target_bucket = target_bucket  # type: str
         # TargetPrefix
-        self.target_prefix = TeaConverter.to_unicode(target_prefix)  # type: unicode
+        self.target_prefix = target_prefix  # type: str
 
     def validate(self):
         pass
@@ -1553,7 +1552,7 @@ class PutBucketLoggingRequestBody(TeaModel):
 class PutBucketLoggingRequest(TeaModel):
     def __init__(self, bucket_name=None, body=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
         # Body
         self.body = body  # type: PutBucketLoggingRequestBody
 
@@ -1585,7 +1584,7 @@ class PutBucketLoggingRequest(TeaModel):
 class PutBucketLoggingResponse(TeaModel):
     def __init__(self, request_id=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
 
     def validate(self):
         self.validate_required(self.request_id, 'request_id')
@@ -1606,7 +1605,7 @@ class PutBucketLoggingResponse(TeaModel):
 class PutBucketRequestPaymentRequestBodyRequestPaymentConfiguration(TeaModel):
     def __init__(self, payer=None):
         # Payer
-        self.payer = TeaConverter.to_unicode(payer)  # type: unicode
+        self.payer = payer  # type: str
 
     def validate(self):
         pass
@@ -1651,7 +1650,7 @@ class PutBucketRequestPaymentRequestBody(TeaModel):
 class PutBucketRequestPaymentRequest(TeaModel):
     def __init__(self, bucket_name=None, body=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
         # Body
         self.body = body  # type: PutBucketRequestPaymentRequestBody
 
@@ -1683,7 +1682,7 @@ class PutBucketRequestPaymentRequest(TeaModel):
 class PutBucketRequestPaymentResponse(TeaModel):
     def __init__(self, request_id=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
 
     def validate(self):
         self.validate_required(self.request_id, 'request_id')
@@ -1704,9 +1703,9 @@ class PutBucketRequestPaymentResponse(TeaModel):
 class PutBucketEncryptionRequestBodyServerSideEncryptionRuleApplyServerSideEncryptionByDefault(TeaModel):
     def __init__(self, s_sealgorithm=None, k_msmaster_key_id=None):
         # SSEAlgorithm
-        self.s_sealgorithm = TeaConverter.to_unicode(s_sealgorithm)  # type: unicode
+        self.s_sealgorithm = s_sealgorithm  # type: str
         # KMSMasterKeyID
-        self.k_msmaster_key_id = TeaConverter.to_unicode(k_msmaster_key_id)  # type: unicode
+        self.k_msmaster_key_id = k_msmaster_key_id  # type: str
 
     def validate(self):
         pass
@@ -1778,7 +1777,7 @@ class PutBucketEncryptionRequestBody(TeaModel):
 class PutBucketEncryptionRequest(TeaModel):
     def __init__(self, bucket_name=None, body=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
         # Body
         self.body = body  # type: PutBucketEncryptionRequestBody
 
@@ -1810,7 +1809,7 @@ class PutBucketEncryptionRequest(TeaModel):
 class PutBucketEncryptionResponse(TeaModel):
     def __init__(self, request_id=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
 
     def validate(self):
         self.validate_required(self.request_id, 'request_id')
@@ -1831,13 +1830,13 @@ class PutBucketEncryptionResponse(TeaModel):
 class PutLiveChannelRequestBodyLiveChannelConfigurationTarget(TeaModel):
     def __init__(self, type=None, frag_duration=None, frag_count=None, playlist_name=None):
         # Type
-        self.type = TeaConverter.to_unicode(type)  # type: unicode
+        self.type = type  # type: str
         # FragDuration
-        self.frag_duration = TeaConverter.to_unicode(frag_duration)  # type: unicode
+        self.frag_duration = frag_duration  # type: str
         # FragCount
-        self.frag_count = TeaConverter.to_unicode(frag_count)  # type: unicode
+        self.frag_count = frag_count  # type: str
         # PlaylistName
-        self.playlist_name = TeaConverter.to_unicode(playlist_name)  # type: unicode
+        self.playlist_name = playlist_name  # type: str
 
     def validate(self):
         pass
@@ -1870,13 +1869,13 @@ class PutLiveChannelRequestBodyLiveChannelConfigurationTarget(TeaModel):
 class PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot(TeaModel):
     def __init__(self, role_name=None, dest_bucket=None, notify_topic=None, interval=None):
         # RoleName
-        self.role_name = TeaConverter.to_unicode(role_name)  # type: unicode
+        self.role_name = role_name  # type: str
         # DestBucket
-        self.dest_bucket = TeaConverter.to_unicode(dest_bucket)  # type: unicode
+        self.dest_bucket = dest_bucket  # type: str
         # NotifyTopic
-        self.notify_topic = TeaConverter.to_unicode(notify_topic)  # type: unicode
+        self.notify_topic = notify_topic  # type: str
         # Interval
-        self.interval = TeaConverter.to_unicode(interval)  # type: unicode
+        self.interval = interval  # type: str
 
     def validate(self):
         pass
@@ -1913,9 +1912,9 @@ class PutLiveChannelRequestBodyLiveChannelConfiguration(TeaModel):
         # Snapshot
         self.snapshot = snapshot  # type: PutLiveChannelRequestBodyLiveChannelConfigurationSnapshot
         # Description
-        self.description = TeaConverter.to_unicode(description)  # type: unicode
+        self.description = description  # type: str
         # Status
-        self.status = TeaConverter.to_unicode(status)  # type: unicode
+        self.status = status  # type: str
 
     def validate(self):
         if self.target:
@@ -1977,9 +1976,9 @@ class PutLiveChannelRequestBody(TeaModel):
 class PutLiveChannelRequest(TeaModel):
     def __init__(self, bucket_name=None, channel_name=None, body=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
         # ChannelName
-        self.channel_name = TeaConverter.to_unicode(channel_name)  # type: unicode
+        self.channel_name = channel_name  # type: str
         # Body
         self.body = body  # type: PutLiveChannelRequestBody
 
@@ -2016,7 +2015,7 @@ class PutLiveChannelRequest(TeaModel):
 class PutLiveChannelResponseCreateLiveChannelResultPublishUrls(TeaModel):
     def __init__(self, url=None):
         # Url
-        self.url = TeaConverter.to_unicode(url)  # type: unicode
+        self.url = url  # type: str
 
     def validate(self):
         pass
@@ -2037,7 +2036,7 @@ class PutLiveChannelResponseCreateLiveChannelResultPublishUrls(TeaModel):
 class PutLiveChannelResponseCreateLiveChannelResultPlayUrls(TeaModel):
     def __init__(self, url=None):
         # Url
-        self.url = TeaConverter.to_unicode(url)  # type: unicode
+        self.url = url  # type: str
 
     def validate(self):
         pass
@@ -2092,7 +2091,7 @@ class PutLiveChannelResponseCreateLiveChannelResult(TeaModel):
 class PutLiveChannelResponse(TeaModel):
     def __init__(self, request_id=None, create_live_channel_result=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
         # CreateLiveChannelResult
         self.create_live_channel_result = create_live_channel_result  # type: PutLiveChannelResponseCreateLiveChannelResult
 
@@ -2123,9 +2122,9 @@ class PutLiveChannelResponse(TeaModel):
 class PutBucketTagsRequestBodyTaggingTagSetTag(TeaModel):
     def __init__(self, key=None, value=None):
         # Key
-        self.key = TeaConverter.to_unicode(key)  # type: unicode
+        self.key = key  # type: str
         # Value
-        self.value = TeaConverter.to_unicode(value)  # type: unicode
+        self.value = value  # type: str
 
     def validate(self):
         pass
@@ -2226,7 +2225,7 @@ class PutBucketTagsRequestBody(TeaModel):
 class PutBucketTagsRequest(TeaModel):
     def __init__(self, bucket_name=None, body=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
         # Body
         self.body = body  # type: PutBucketTagsRequestBody
 
@@ -2258,7 +2257,7 @@ class PutBucketTagsRequest(TeaModel):
 class PutBucketTagsResponse(TeaModel):
     def __init__(self, request_id=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
 
     def validate(self):
         self.validate_required(self.request_id, 'request_id')
@@ -2279,9 +2278,9 @@ class PutBucketTagsResponse(TeaModel):
 class PutObjectTaggingRequestBodyTaggingTagSetTag(TeaModel):
     def __init__(self, key=None, value=None):
         # Key
-        self.key = TeaConverter.to_unicode(key)  # type: unicode
+        self.key = key  # type: str
         # Value
-        self.value = TeaConverter.to_unicode(value)  # type: unicode
+        self.value = value  # type: str
 
     def validate(self):
         pass
@@ -2382,9 +2381,9 @@ class PutObjectTaggingRequestBody(TeaModel):
 class PutObjectTaggingRequest(TeaModel):
     def __init__(self, bucket_name=None, object_name=None, body=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
         # ObjectName
-        self.object_name = TeaConverter.to_unicode(object_name)  # type: unicode
+        self.object_name = object_name  # type: str
         # Body
         self.body = body  # type: PutObjectTaggingRequestBody
 
@@ -2421,7 +2420,7 @@ class PutObjectTaggingRequest(TeaModel):
 class PutObjectTaggingResponse(TeaModel):
     def __init__(self, request_id=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
 
     def validate(self):
         self.validate_required(self.request_id, 'request_id')
@@ -2442,7 +2441,7 @@ class PutObjectTaggingResponse(TeaModel):
 class SelectObjectRequestFilter(TeaModel):
     def __init__(self, porcess=None):
         # x-oss-process
-        self.porcess = TeaConverter.to_unicode(porcess)  # type: unicode
+        self.porcess = porcess  # type: str
 
     def validate(self):
         self.validate_required(self.porcess, 'porcess')
@@ -2464,17 +2463,17 @@ class SelectObjectRequestBodySelectRequestInputSerializationCSV(TeaModel):
     def __init__(self, file_header_info=None, record_delimiter=None, field_delimiter=None, quote_character=None,
                  comment_character=None, range=None):
         # FileHeaderInfo
-        self.file_header_info = TeaConverter.to_unicode(file_header_info)  # type: unicode
+        self.file_header_info = file_header_info  # type: str
         # RecordDelimiter
-        self.record_delimiter = TeaConverter.to_unicode(record_delimiter)  # type: unicode
+        self.record_delimiter = record_delimiter  # type: str
         # FieldDelimiter
-        self.field_delimiter = TeaConverter.to_unicode(field_delimiter)  # type: unicode
+        self.field_delimiter = field_delimiter  # type: str
         # QuoteCharacter
-        self.quote_character = TeaConverter.to_unicode(quote_character)  # type: unicode
+        self.quote_character = quote_character  # type: str
         # CommentCharacter
-        self.comment_character = TeaConverter.to_unicode(comment_character)  # type: unicode
+        self.comment_character = comment_character  # type: str
         # Range
-        self.range = TeaConverter.to_unicode(range)  # type: unicode
+        self.range = range  # type: str
 
     def validate(self):
         pass
@@ -2517,7 +2516,7 @@ class SelectObjectRequestBodySelectRequestInputSerialization(TeaModel):
         # CSV
         self.c_sv = c_sv  # type: SelectObjectRequestBodySelectRequestInputSerializationCSV
         # CompressionType
-        self.compression_type = TeaConverter.to_unicode(compression_type)  # type: unicode
+        self.compression_type = compression_type  # type: str
 
     def validate(self):
         if self.c_sv:
@@ -2544,9 +2543,9 @@ class SelectObjectRequestBodySelectRequestInputSerialization(TeaModel):
 class SelectObjectRequestBodySelectRequestOutputSerializationCSV(TeaModel):
     def __init__(self, record_delimiter=None, field_delimiter=None):
         # RecordDelimiter
-        self.record_delimiter = TeaConverter.to_unicode(record_delimiter)  # type: unicode
+        self.record_delimiter = record_delimiter  # type: str
         # FieldDelimiter
-        self.field_delimiter = TeaConverter.to_unicode(field_delimiter)  # type: unicode
+        self.field_delimiter = field_delimiter  # type: str
 
     def validate(self):
         pass
@@ -2574,13 +2573,13 @@ class SelectObjectRequestBodySelectRequestOutputSerialization(TeaModel):
         # CSV
         self.c_sv = c_sv  # type: SelectObjectRequestBodySelectRequestOutputSerializationCSV
         # KeepAllColumns
-        self.keep_all_columns = TeaConverter.to_unicode(keep_all_columns)  # type: unicode
+        self.keep_all_columns = keep_all_columns  # type: str
         # OutputRawData
-        self.output_raw_data = TeaConverter.to_unicode(output_raw_data)  # type: unicode
+        self.output_raw_data = output_raw_data  # type: str
         # EnablePayloadCrc
-        self.enable_payload_crc = TeaConverter.to_unicode(enable_payload_crc)  # type: unicode
+        self.enable_payload_crc = enable_payload_crc  # type: str
         # OutputHeader
-        self.output_header = TeaConverter.to_unicode(output_header)  # type: unicode
+        self.output_header = output_header  # type: str
 
     def validate(self):
         if self.c_sv:
@@ -2619,9 +2618,9 @@ class SelectObjectRequestBodySelectRequestOutputSerialization(TeaModel):
 class SelectObjectRequestBodySelectRequestOptions(TeaModel):
     def __init__(self, skip_partial_data_record=None, max_skipped_records_allowed=None):
         # SkipPartialDataRecord
-        self.skip_partial_data_record = TeaConverter.to_unicode(skip_partial_data_record)  # type: unicode
+        self.skip_partial_data_record = skip_partial_data_record  # type: str
         # MaxSkippedRecordsAllowed
-        self.max_skipped_records_allowed = TeaConverter.to_unicode(max_skipped_records_allowed)  # type: unicode
+        self.max_skipped_records_allowed = max_skipped_records_allowed  # type: str
 
     def validate(self):
         pass
@@ -2652,7 +2651,7 @@ class SelectObjectRequestBodySelectRequest(TeaModel):
         # Options
         self.options = options  # type: SelectObjectRequestBodySelectRequestOptions
         # Expression
-        self.expression = TeaConverter.to_unicode(expression)  # type: unicode
+        self.expression = expression  # type: str
 
     def validate(self):
         if self.input_serialization:
@@ -2717,9 +2716,9 @@ class SelectObjectRequestBody(TeaModel):
 class SelectObjectRequest(TeaModel):
     def __init__(self, bucket_name=None, object_name=None, filter=None, body=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
         # ObjectName
-        self.object_name = TeaConverter.to_unicode(object_name)  # type: unicode
+        self.object_name = object_name  # type: str
         # Filter
         self.filter = filter  # type: SelectObjectRequestFilter
         # Body
@@ -2766,7 +2765,7 @@ class SelectObjectRequest(TeaModel):
 class SelectObjectResponse(TeaModel):
     def __init__(self, request_id=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
 
     def validate(self):
         self.validate_required(self.request_id, 'request_id')
@@ -2788,15 +2787,15 @@ class PutBucketCORSRequestBodyCORSConfigurationCORSRule(TeaModel):
     def __init__(self, allowed_origin=None, allowed_method=None, allowed_header=None, expose_header=None,
                  max_age_seconds=None):
         # AllowedOrigin
-        self.allowed_origin = allowed_origin  # type: list[unicode]
+        self.allowed_origin = allowed_origin  # type: list[str]
         # AllowedMethod
-        self.allowed_method = allowed_method  # type: list[unicode]
+        self.allowed_method = allowed_method  # type: list[str]
         # AllowedHeader
-        self.allowed_header = allowed_header  # type: list[unicode]
+        self.allowed_header = allowed_header  # type: list[str]
         # ExposeHeader
-        self.expose_header = expose_header  # type: list[unicode]
+        self.expose_header = expose_header  # type: list[str]
         # MaxAgeSeconds
-        self.max_age_seconds = TeaConverter.to_unicode(max_age_seconds)  # type: unicode
+        self.max_age_seconds = max_age_seconds  # type: str
 
     def validate(self):
         pass
@@ -2886,7 +2885,7 @@ class PutBucketCORSRequestBody(TeaModel):
 class PutBucketCORSRequest(TeaModel):
     def __init__(self, bucket_name=None, body=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
         # Body
         self.body = body  # type: PutBucketCORSRequestBody
 
@@ -2918,7 +2917,7 @@ class PutBucketCORSRequest(TeaModel):
 class PutBucketCORSResponse(TeaModel):
     def __init__(self, request_id=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
 
     def validate(self):
         self.validate_required(self.request_id, 'request_id')
@@ -2939,9 +2938,9 @@ class PutBucketCORSResponse(TeaModel):
 class PutBucketRequestBodyCreateBucketConfiguration(TeaModel):
     def __init__(self, storage_class=None, data_redundancy_type=None):
         # StorageClass
-        self.storage_class = TeaConverter.to_unicode(storage_class)  # type: unicode
+        self.storage_class = storage_class  # type: str
         # DataRedundancyType
-        self.data_redundancy_type = TeaConverter.to_unicode(data_redundancy_type)  # type: unicode
+        self.data_redundancy_type = data_redundancy_type  # type: str
 
     def validate(self):
         pass
@@ -2990,7 +2989,7 @@ class PutBucketRequestBody(TeaModel):
 class PutBucketRequestHeader(TeaModel):
     def __init__(self, acl=None):
         # x-oss-acl
-        self.acl = TeaConverter.to_unicode(acl)  # type: unicode
+        self.acl = acl  # type: str
 
     def validate(self):
         pass
@@ -3011,7 +3010,7 @@ class PutBucketRequestHeader(TeaModel):
 class PutBucketRequest(TeaModel):
     def __init__(self, bucket_name=None, body=None, header=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
         # Body
         self.body = body  # type: PutBucketRequestBody
         # Header
@@ -3052,7 +3051,7 @@ class PutBucketRequest(TeaModel):
 class PutBucketResponse(TeaModel):
     def __init__(self, request_id=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
 
     def validate(self):
         self.validate_required(self.request_id, 'request_id')
@@ -3074,17 +3073,17 @@ class ListMultipartUploadsRequestFilter(TeaModel):
     def __init__(self, delimiter=None, max_uploads=None, key_marker=None, prefix=None, upload_id_marker=None,
                  encoding_type=None):
         # delimiter
-        self.delimiter = TeaConverter.to_unicode(delimiter)  # type: unicode
+        self.delimiter = delimiter  # type: str
         # max-uploads
-        self.max_uploads = TeaConverter.to_unicode(max_uploads)  # type: unicode
+        self.max_uploads = max_uploads  # type: str
         # key-marker
-        self.key_marker = TeaConverter.to_unicode(key_marker)  # type: unicode
+        self.key_marker = key_marker  # type: str
         # prefix
-        self.prefix = TeaConverter.to_unicode(prefix)  # type: unicode
+        self.prefix = prefix  # type: str
         # upload-id-marker
-        self.upload_id_marker = TeaConverter.to_unicode(upload_id_marker)  # type: unicode
+        self.upload_id_marker = upload_id_marker  # type: str
         # encoding-type
-        self.encoding_type = TeaConverter.to_unicode(encoding_type)  # type: unicode
+        self.encoding_type = encoding_type  # type: str
 
     def validate(self):
         pass
@@ -3125,7 +3124,7 @@ class ListMultipartUploadsRequestFilter(TeaModel):
 class ListMultipartUploadsRequest(TeaModel):
     def __init__(self, bucket_name=None, filter=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
         # Filter
         self.filter = filter  # type: ListMultipartUploadsRequestFilter
 
@@ -3157,11 +3156,11 @@ class ListMultipartUploadsRequest(TeaModel):
 class ListMultipartUploadsResponseListMultipartUploadsResultUpload(TeaModel):
     def __init__(self, key=None, upload_id=None, initiated=None):
         # Key
-        self.key = TeaConverter.to_unicode(key)  # type: unicode
+        self.key = key  # type: str
         # UploadId
-        self.upload_id = TeaConverter.to_unicode(upload_id)  # type: unicode
+        self.upload_id = upload_id  # type: str
         # Initiated
-        self.initiated = TeaConverter.to_unicode(initiated)  # type: unicode
+        self.initiated = initiated  # type: str
 
     def validate(self):
         pass
@@ -3191,23 +3190,23 @@ class ListMultipartUploadsResponseListMultipartUploadsResult(TeaModel):
     def __init__(self, bucket=None, encoding_type=None, key_marker=None, upload_id_marker=None,
                  next_key_marker=None, next_upload_id_marker=None, delimiter=None, max_uploads=None, is_truncated=None, upload=None):
         # Bucket
-        self.bucket = TeaConverter.to_unicode(bucket)  # type: unicode
+        self.bucket = bucket  # type: str
         # EncodingType
-        self.encoding_type = TeaConverter.to_unicode(encoding_type)  # type: unicode
+        self.encoding_type = encoding_type  # type: str
         # KeyMarker
-        self.key_marker = TeaConverter.to_unicode(key_marker)  # type: unicode
+        self.key_marker = key_marker  # type: str
         # UploadIdMarker
-        self.upload_id_marker = TeaConverter.to_unicode(upload_id_marker)  # type: unicode
+        self.upload_id_marker = upload_id_marker  # type: str
         # NextKeyMarker
-        self.next_key_marker = TeaConverter.to_unicode(next_key_marker)  # type: unicode
+        self.next_key_marker = next_key_marker  # type: str
         # NextUploadIdMarker
-        self.next_upload_id_marker = TeaConverter.to_unicode(next_upload_id_marker)  # type: unicode
+        self.next_upload_id_marker = next_upload_id_marker  # type: str
         # Delimiter
-        self.delimiter = TeaConverter.to_unicode(delimiter)  # type: unicode
+        self.delimiter = delimiter  # type: str
         # MaxUploads
-        self.max_uploads = TeaConverter.to_unicode(max_uploads)  # type: unicode
+        self.max_uploads = max_uploads  # type: str
         # IsTruncated
-        self.is_truncated = TeaConverter.to_unicode(is_truncated)  # type: unicode
+        self.is_truncated = is_truncated  # type: str
         # Upload
         self.upload = upload  # type: list[ListMultipartUploadsResponseListMultipartUploadsResultUpload]
 
@@ -3274,7 +3273,7 @@ class ListMultipartUploadsResponseListMultipartUploadsResult(TeaModel):
 class ListMultipartUploadsResponse(TeaModel):
     def __init__(self, request_id=None, list_multipart_uploads_result=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
         # ListMultipartUploadsResult
         self.list_multipart_uploads_result = list_multipart_uploads_result  # type: ListMultipartUploadsResponseListMultipartUploadsResult
 
@@ -3305,7 +3304,7 @@ class ListMultipartUploadsResponse(TeaModel):
 class GetBucketRequestPaymentRequest(TeaModel):
     def __init__(self, bucket_name=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
 
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
@@ -3328,7 +3327,7 @@ class GetBucketRequestPaymentRequest(TeaModel):
 class GetBucketRequestPaymentResponseRequestPaymentConfiguration(TeaModel):
     def __init__(self, payer=None):
         # Payer
-        self.payer = TeaConverter.to_unicode(payer)  # type: unicode
+        self.payer = payer  # type: str
 
     def validate(self):
         pass
@@ -3349,7 +3348,7 @@ class GetBucketRequestPaymentResponseRequestPaymentConfiguration(TeaModel):
 class GetBucketRequestPaymentResponse(TeaModel):
     def __init__(self, request_id=None, request_payment_configuration=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
         # RequestPaymentConfiguration
         self.request_payment_configuration = request_payment_configuration  # type: GetBucketRequestPaymentResponseRequestPaymentConfiguration
 
@@ -3380,7 +3379,7 @@ class GetBucketRequestPaymentResponse(TeaModel):
 class GetBucketEncryptionRequest(TeaModel):
     def __init__(self, bucket_name=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
 
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
@@ -3403,9 +3402,9 @@ class GetBucketEncryptionRequest(TeaModel):
 class GetBucketEncryptionResponseServerSideEncryptionRuleApplyServerSideEncryptionByDefault(TeaModel):
     def __init__(self, s_sealgorithm=None, k_msmaster_key_id=None):
         # SSEAlgorithm
-        self.s_sealgorithm = TeaConverter.to_unicode(s_sealgorithm)  # type: unicode
+        self.s_sealgorithm = s_sealgorithm  # type: str
         # KMSMasterKeyID
-        self.k_msmaster_key_id = TeaConverter.to_unicode(k_msmaster_key_id)  # type: unicode
+        self.k_msmaster_key_id = k_msmaster_key_id  # type: str
 
     def validate(self):
         pass
@@ -3454,7 +3453,7 @@ class GetBucketEncryptionResponseServerSideEncryptionRule(TeaModel):
 class GetBucketEncryptionResponse(TeaModel):
     def __init__(self, request_id=None, server_side_encryption_rule=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
         # ServerSideEncryptionRule
         self.server_side_encryption_rule = server_side_encryption_rule  # type: GetBucketEncryptionResponseServerSideEncryptionRule
 
@@ -3485,7 +3484,7 @@ class GetBucketEncryptionResponse(TeaModel):
 class GetBucketTagsRequest(TeaModel):
     def __init__(self, bucket_name=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
 
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
@@ -3508,9 +3507,9 @@ class GetBucketTagsRequest(TeaModel):
 class GetBucketTagsResponseTaggingTagSetTag(TeaModel):
     def __init__(self, key=None, value=None):
         # Key
-        self.key = TeaConverter.to_unicode(key)  # type: unicode
+        self.key = key  # type: str
         # Value
-        self.value = TeaConverter.to_unicode(value)  # type: unicode
+        self.value = value  # type: str
 
     def validate(self):
         pass
@@ -3588,7 +3587,7 @@ class GetBucketTagsResponseTagging(TeaModel):
 class GetBucketTagsResponse(TeaModel):
     def __init__(self, request_id=None, tagging=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
         # Tagging
         self.tagging = tagging  # type: GetBucketTagsResponseTagging
 
@@ -3619,11 +3618,11 @@ class GetBucketTagsResponse(TeaModel):
 class GetServiceRequestFilter(TeaModel):
     def __init__(self, prefix=None, marker=None, max_keys=None):
         # prefix
-        self.prefix = TeaConverter.to_unicode(prefix)  # type: unicode
+        self.prefix = prefix  # type: str
         # marker
-        self.marker = TeaConverter.to_unicode(marker)  # type: unicode
+        self.marker = marker  # type: str
         # max-keys
-        self.max_keys = TeaConverter.to_unicode(max_keys)  # type: unicode
+        self.max_keys = max_keys  # type: str
 
     def validate(self):
         pass
@@ -3675,9 +3674,9 @@ class GetServiceRequest(TeaModel):
 class GetServiceResponseListAllMyBucketsResultOwner(TeaModel):
     def __init__(self, i_d=None, display_name=None):
         # ID
-        self.i_d = TeaConverter.to_unicode(i_d)  # type: unicode
+        self.i_d = i_d  # type: str
         # DisplayName
-        self.display_name = TeaConverter.to_unicode(display_name)  # type: unicode
+        self.display_name = display_name  # type: str
 
     def validate(self):
         pass
@@ -3703,17 +3702,17 @@ class GetServiceResponseListAllMyBucketsResultBucketsBucket(TeaModel):
     def __init__(self, name=None, create_date=None, location=None, extranet_endpoint=None, intranet_endpoint=None,
                  storage_class=None):
         # Name
-        self.name = TeaConverter.to_unicode(name)  # type: unicode
+        self.name = name  # type: str
         # CreateDate
-        self.create_date = TeaConverter.to_unicode(create_date)  # type: unicode
+        self.create_date = create_date  # type: str
         # Location
-        self.location = TeaConverter.to_unicode(location)  # type: unicode
+        self.location = location  # type: str
         # ExtranetEndpoint
-        self.extranet_endpoint = TeaConverter.to_unicode(extranet_endpoint)  # type: unicode
+        self.extranet_endpoint = extranet_endpoint  # type: str
         # IntranetEndpoint
-        self.intranet_endpoint = TeaConverter.to_unicode(intranet_endpoint)  # type: unicode
+        self.intranet_endpoint = intranet_endpoint  # type: str
         # StorageClass
-        self.storage_class = TeaConverter.to_unicode(storage_class)  # type: unicode
+        self.storage_class = storage_class  # type: str
 
     def validate(self):
         pass
@@ -3784,15 +3783,15 @@ class GetServiceResponseListAllMyBucketsResult(TeaModel):
     def __init__(self, prefix=None, marker=None, max_keys=None, is_truncated=None, next_marker=None, owner=None,
                  buckets=None):
         # Prefix
-        self.prefix = TeaConverter.to_unicode(prefix)  # type: unicode
+        self.prefix = prefix  # type: str
         # Marker
-        self.marker = TeaConverter.to_unicode(marker)  # type: unicode
+        self.marker = marker  # type: str
         # MaxKeys
-        self.max_keys = TeaConverter.to_unicode(max_keys)  # type: unicode
+        self.max_keys = max_keys  # type: str
         # IsTruncated
-        self.is_truncated = TeaConverter.to_unicode(is_truncated)  # type: unicode
+        self.is_truncated = is_truncated  # type: str
         # NextMarker
-        self.next_marker = TeaConverter.to_unicode(next_marker)  # type: unicode
+        self.next_marker = next_marker  # type: str
         # Owner
         self.owner = owner  # type: GetServiceResponseListAllMyBucketsResultOwner
         # Buckets
@@ -3848,7 +3847,7 @@ class GetServiceResponseListAllMyBucketsResult(TeaModel):
 class GetServiceResponse(TeaModel):
     def __init__(self, request_id=None, list_all_my_buckets_result=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
         # ListAllMyBucketsResult
         self.list_all_my_buckets_result = list_all_my_buckets_result  # type: GetServiceResponseListAllMyBucketsResult
 
@@ -3879,7 +3878,7 @@ class GetServiceResponse(TeaModel):
 class DeleteBucketEncryptionRequest(TeaModel):
     def __init__(self, bucket_name=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
 
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
@@ -3902,7 +3901,7 @@ class DeleteBucketEncryptionRequest(TeaModel):
 class DeleteBucketEncryptionResponse(TeaModel):
     def __init__(self, request_id=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
 
     def validate(self):
         self.validate_required(self.request_id, 'request_id')
@@ -3923,7 +3922,7 @@ class DeleteBucketEncryptionResponse(TeaModel):
 class DeleteBucketTagsRequestFilter(TeaModel):
     def __init__(self, tagging=None):
         # tagging
-        self.tagging = TeaConverter.to_unicode(tagging)  # type: unicode
+        self.tagging = tagging  # type: str
 
     def validate(self):
         self.validate_required(self.tagging, 'tagging')
@@ -3944,7 +3943,7 @@ class DeleteBucketTagsRequestFilter(TeaModel):
 class DeleteBucketTagsRequest(TeaModel):
     def __init__(self, bucket_name=None, filter=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
         # Filter
         self.filter = filter  # type: DeleteBucketTagsRequestFilter
 
@@ -3977,7 +3976,7 @@ class DeleteBucketTagsRequest(TeaModel):
 class DeleteBucketTagsResponse(TeaModel):
     def __init__(self, request_id=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
 
     def validate(self):
         self.validate_required(self.request_id, 'request_id')
@@ -3998,7 +3997,7 @@ class DeleteBucketTagsResponse(TeaModel):
 class GetBucketWebsiteRequest(TeaModel):
     def __init__(self, bucket_name=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
 
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
@@ -4021,7 +4020,7 @@ class GetBucketWebsiteRequest(TeaModel):
 class GetBucketWebsiteResponseWebsiteConfigurationIndexDocument(TeaModel):
     def __init__(self, suffix=None):
         # Suffix
-        self.suffix = TeaConverter.to_unicode(suffix)  # type: unicode
+        self.suffix = suffix  # type: str
 
     def validate(self):
         pass
@@ -4042,7 +4041,7 @@ class GetBucketWebsiteResponseWebsiteConfigurationIndexDocument(TeaModel):
 class GetBucketWebsiteResponseWebsiteConfigurationErrorDocument(TeaModel):
     def __init__(self, key=None):
         # Key
-        self.key = TeaConverter.to_unicode(key)  # type: unicode
+        self.key = key  # type: str
 
     def validate(self):
         pass
@@ -4063,9 +4062,9 @@ class GetBucketWebsiteResponseWebsiteConfigurationErrorDocument(TeaModel):
 class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader(TeaModel):
     def __init__(self, key=None, equals=None):
         # Key
-        self.key = TeaConverter.to_unicode(key)  # type: unicode
+        self.key = key  # type: str
         # Equals
-        self.equals = TeaConverter.to_unicode(equals)  # type: unicode
+        self.equals = equals  # type: str
 
     def validate(self):
         pass
@@ -4090,9 +4089,9 @@ class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditi
 class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleCondition(TeaModel):
     def __init__(self, key_prefix_equals=None, http_error_code_returned_equals=None, include_header=None):
         # KeyPrefixEquals
-        self.key_prefix_equals = TeaConverter.to_unicode(key_prefix_equals)  # type: unicode
+        self.key_prefix_equals = key_prefix_equals  # type: str
         # HttpErrorCodeReturnedEquals
-        self.http_error_code_returned_equals = TeaConverter.to_unicode(http_error_code_returned_equals)  # type: unicode
+        self.http_error_code_returned_equals = http_error_code_returned_equals  # type: str
         # IncludeHeader
         self.include_header = include_header  # type: GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditionIncludeHeader
 
@@ -4126,9 +4125,9 @@ class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleConditi
 class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet(TeaModel):
     def __init__(self, key=None, value=None):
         # Key
-        self.key = TeaConverter.to_unicode(key)  # type: unicode
+        self.key = key  # type: str
         # Value
-        self.value = TeaConverter.to_unicode(value)  # type: unicode
+        self.value = value  # type: str
 
     def validate(self):
         pass
@@ -4155,9 +4154,9 @@ class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirec
         # PassAll
         self.pass_all = pass_all  # type: bool
         # Pass
-        self.pass_ = TeaConverter.to_unicode(pass_)  # type: unicode
+        self.pass_ = pass_  # type: str
         # Remove
-        self.remove = TeaConverter.to_unicode(remove)  # type: unicode
+        self.remove = remove  # type: str
         # Set
         self.set = set  # type: GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeadersSet
 
@@ -4197,11 +4196,11 @@ class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirec
                  mirror_follow_redirect=None, mirror_check_md_5=None, protocol=None, host_name=None, http_redirect_code=None,
                  replace_key_prefix_with=None, replace_key_with=None, mirror_headers=None):
         # RedirectType
-        self.redirect_type = TeaConverter.to_unicode(redirect_type)  # type: unicode
+        self.redirect_type = redirect_type  # type: str
         # PassQueryString
         self.pass_query_string = pass_query_string  # type: bool
         # MirrorURL
-        self.mirror_url = TeaConverter.to_unicode(mirror_url)  # type: unicode
+        self.mirror_url = mirror_url  # type: str
         # MirrorPassQueryString
         self.mirror_pass_query_string = mirror_pass_query_string  # type: bool
         # MirrorFollowRedirect
@@ -4209,15 +4208,15 @@ class GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirec
         # MirrorCheckMd5
         self.mirror_check_md_5 = mirror_check_md_5  # type: bool
         # Protocol
-        self.protocol = TeaConverter.to_unicode(protocol)  # type: unicode
+        self.protocol = protocol  # type: str
         # HostName
-        self.host_name = TeaConverter.to_unicode(host_name)  # type: unicode
+        self.host_name = host_name  # type: str
         # HttpRedirectCode
-        self.http_redirect_code = TeaConverter.to_unicode(http_redirect_code)  # type: unicode
+        self.http_redirect_code = http_redirect_code  # type: str
         # ReplaceKeyPrefixWith
-        self.replace_key_prefix_with = TeaConverter.to_unicode(replace_key_prefix_with)  # type: unicode
+        self.replace_key_prefix_with = replace_key_prefix_with  # type: str
         # ReplaceKeyWith
-        self.replace_key_with = TeaConverter.to_unicode(replace_key_with)  # type: unicode
+        self.replace_key_with = replace_key_with  # type: str
         # MirrorHeaders
         self.mirror_headers = mirror_headers  # type: GetBucketWebsiteResponseWebsiteConfigurationRoutingRulesRoutingRuleRedirectMirrorHeaders
 
@@ -4400,7 +4399,7 @@ class GetBucketWebsiteResponseWebsiteConfiguration(TeaModel):
 class GetBucketWebsiteResponse(TeaModel):
     def __init__(self, request_id=None, website_configuration=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
         # WebsiteConfiguration
         self.website_configuration = website_configuration  # type: GetBucketWebsiteResponseWebsiteConfiguration
 
@@ -4431,9 +4430,9 @@ class GetBucketWebsiteResponse(TeaModel):
 class DeleteLiveChannelRequest(TeaModel):
     def __init__(self, bucket_name=None, channel_name=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
         # ChannelName
-        self.channel_name = TeaConverter.to_unicode(channel_name)  # type: unicode
+        self.channel_name = channel_name  # type: str
 
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
@@ -4461,7 +4460,7 @@ class DeleteLiveChannelRequest(TeaModel):
 class DeleteLiveChannelResponse(TeaModel):
     def __init__(self, request_id=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
 
     def validate(self):
         self.validate_required(self.request_id, 'request_id')
@@ -4482,7 +4481,7 @@ class DeleteLiveChannelResponse(TeaModel):
 class GetBucketLocationRequest(TeaModel):
     def __init__(self, bucket_name=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
 
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
@@ -4505,9 +4504,9 @@ class GetBucketLocationRequest(TeaModel):
 class GetBucketLocationResponse(TeaModel):
     def __init__(self, request_id=None, location_constraint=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
         # LocationConstraint
-        self.location_constraint = TeaConverter.to_unicode(location_constraint)  # type: unicode
+        self.location_constraint = location_constraint  # type: str
 
     def validate(self):
         self.validate_required(self.request_id, 'request_id')
@@ -4533,11 +4532,11 @@ class GetBucketLocationResponse(TeaModel):
 class ListLiveChannelRequestFilter(TeaModel):
     def __init__(self, marker=None, max_keys=None, prefix=None):
         # marker
-        self.marker = TeaConverter.to_unicode(marker)  # type: unicode
+        self.marker = marker  # type: str
         # max-keys
-        self.max_keys = TeaConverter.to_unicode(max_keys)  # type: unicode
+        self.max_keys = max_keys  # type: str
         # prefix
-        self.prefix = TeaConverter.to_unicode(prefix)  # type: unicode
+        self.prefix = prefix  # type: str
 
     def validate(self):
         pass
@@ -4566,7 +4565,7 @@ class ListLiveChannelRequestFilter(TeaModel):
 class ListLiveChannelRequest(TeaModel):
     def __init__(self, bucket_name=None, filter=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
         # Filter
         self.filter = filter  # type: ListLiveChannelRequestFilter
 
@@ -4598,7 +4597,7 @@ class ListLiveChannelRequest(TeaModel):
 class ListLiveChannelResponseListLiveChannelResultLiveChannelPublishUrls(TeaModel):
     def __init__(self, url=None):
         # Url
-        self.url = TeaConverter.to_unicode(url)  # type: unicode
+        self.url = url  # type: str
 
     def validate(self):
         pass
@@ -4619,7 +4618,7 @@ class ListLiveChannelResponseListLiveChannelResultLiveChannelPublishUrls(TeaMode
 class ListLiveChannelResponseListLiveChannelResultLiveChannelPlayUrls(TeaModel):
     def __init__(self, url=None):
         # Url
-        self.url = TeaConverter.to_unicode(url)  # type: unicode
+        self.url = url  # type: str
 
     def validate(self):
         pass
@@ -4641,13 +4640,13 @@ class ListLiveChannelResponseListLiveChannelResultLiveChannel(TeaModel):
     def __init__(self, name=None, description=None, status=None, last_modified=None, publish_urls=None,
                  play_urls=None):
         # Name
-        self.name = TeaConverter.to_unicode(name)  # type: unicode
+        self.name = name  # type: str
         # Description
-        self.description = TeaConverter.to_unicode(description)  # type: unicode
+        self.description = description  # type: str
         # Status
-        self.status = TeaConverter.to_unicode(status)  # type: unicode
+        self.status = status  # type: str
         # LastModified
-        self.last_modified = TeaConverter.to_unicode(last_modified)  # type: unicode
+        self.last_modified = last_modified  # type: str
         # PublishUrls
         self.publish_urls = publish_urls  # type: ListLiveChannelResponseListLiveChannelResultLiveChannelPublishUrls
         # PlayUrls
@@ -4700,15 +4699,15 @@ class ListLiveChannelResponseListLiveChannelResult(TeaModel):
     def __init__(self, prefix=None, marker=None, max_keys=None, is_truncated=None, next_marker=None,
                  live_channel=None):
         # Prefix
-        self.prefix = TeaConverter.to_unicode(prefix)  # type: unicode
+        self.prefix = prefix  # type: str
         # Marker
-        self.marker = TeaConverter.to_unicode(marker)  # type: unicode
+        self.marker = marker  # type: str
         # MaxKeys
-        self.max_keys = TeaConverter.to_unicode(max_keys)  # type: unicode
+        self.max_keys = max_keys  # type: str
         # IsTruncated
-        self.is_truncated = TeaConverter.to_unicode(is_truncated)  # type: unicode
+        self.is_truncated = is_truncated  # type: str
         # NextMarker
-        self.next_marker = TeaConverter.to_unicode(next_marker)  # type: unicode
+        self.next_marker = next_marker  # type: str
         # LiveChannel
         self.live_channel = live_channel  # type: ListLiveChannelResponseListLiveChannelResultLiveChannel
 
@@ -4754,7 +4753,7 @@ class ListLiveChannelResponseListLiveChannelResult(TeaModel):
 class ListLiveChannelResponse(TeaModel):
     def __init__(self, request_id=None, list_live_channel_result=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
         # ListLiveChannelResult
         self.list_live_channel_result = list_live_channel_result  # type: ListLiveChannelResponseListLiveChannelResult
 
@@ -4785,9 +4784,9 @@ class ListLiveChannelResponse(TeaModel):
 class GetObjectMetaRequest(TeaModel):
     def __init__(self, bucket_name=None, object_name=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
         # ObjectName
-        self.object_name = TeaConverter.to_unicode(object_name)  # type: unicode
+        self.object_name = object_name  # type: str
 
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
@@ -4815,13 +4814,13 @@ class GetObjectMetaRequest(TeaModel):
 class GetObjectMetaResponse(TeaModel):
     def __init__(self, request_id=None, e_tag=None, content_length=None, last_modified=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
         # ETag
-        self.e_tag = TeaConverter.to_unicode(e_tag)  # type: unicode
+        self.e_tag = e_tag  # type: str
         # Content-Length
-        self.content_length = TeaConverter.to_unicode(content_length)  # type: unicode
+        self.content_length = content_length  # type: str
         # Last-Modified
-        self.last_modified = TeaConverter.to_unicode(last_modified)  # type: unicode
+        self.last_modified = last_modified  # type: str
 
     def validate(self):
         self.validate_required(self.request_id, 'request_id')
@@ -4857,7 +4856,7 @@ class GetObjectMetaResponse(TeaModel):
 class GetBucketAclRequest(TeaModel):
     def __init__(self, bucket_name=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
 
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
@@ -4880,9 +4879,9 @@ class GetBucketAclRequest(TeaModel):
 class GetBucketAclResponseAccessControlPolicyOwner(TeaModel):
     def __init__(self, i_d=None, display_name=None):
         # ID
-        self.i_d = TeaConverter.to_unicode(i_d)  # type: unicode
+        self.i_d = i_d  # type: str
         # DisplayName
-        self.display_name = TeaConverter.to_unicode(display_name)  # type: unicode
+        self.display_name = display_name  # type: str
 
     def validate(self):
         pass
@@ -4907,7 +4906,7 @@ class GetBucketAclResponseAccessControlPolicyOwner(TeaModel):
 class GetBucketAclResponseAccessControlPolicyAccessControlList(TeaModel):
     def __init__(self, grant=None):
         # Grant
-        self.grant = TeaConverter.to_unicode(grant)  # type: unicode
+        self.grant = grant  # type: str
 
     def validate(self):
         pass
@@ -4962,7 +4961,7 @@ class GetBucketAclResponseAccessControlPolicy(TeaModel):
 class GetBucketAclResponse(TeaModel):
     def __init__(self, request_id=None, access_control_policy=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
         # AccessControlPolicy
         self.access_control_policy = access_control_policy  # type: GetBucketAclResponseAccessControlPolicy
 
@@ -4993,13 +4992,13 @@ class GetBucketAclResponse(TeaModel):
 class ListPartsRequestFilter(TeaModel):
     def __init__(self, upload_id=None, max_parts=None, part_number_marker=None, encoding_type=None):
         # uploadId
-        self.upload_id = TeaConverter.to_unicode(upload_id)  # type: unicode
+        self.upload_id = upload_id  # type: str
         # max-parts
         self.max_parts = max_parts  # type: int
         # part-number-marker
         self.part_number_marker = part_number_marker  # type: int
         # Encoding-type
-        self.encoding_type = TeaConverter.to_unicode(encoding_type)  # type: unicode
+        self.encoding_type = encoding_type  # type: str
 
     def validate(self):
         self.validate_required(self.upload_id, 'upload_id')
@@ -5032,9 +5031,9 @@ class ListPartsRequestFilter(TeaModel):
 class ListPartsRequest(TeaModel):
     def __init__(self, bucket_name=None, object_name=None, filter=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
         # ObjectName
-        self.object_name = TeaConverter.to_unicode(object_name)  # type: unicode
+        self.object_name = object_name  # type: str
         # Filter
         self.filter = filter  # type: ListPartsRequestFilter
 
@@ -5072,13 +5071,13 @@ class ListPartsRequest(TeaModel):
 class ListPartsResponseListPartsResultPart(TeaModel):
     def __init__(self, part_number=None, last_modified=None, e_tag=None, size=None):
         # PartNumber
-        self.part_number = TeaConverter.to_unicode(part_number)  # type: unicode
+        self.part_number = part_number  # type: str
         # LastModified
-        self.last_modified = TeaConverter.to_unicode(last_modified)  # type: unicode
+        self.last_modified = last_modified  # type: str
         # ETag
-        self.e_tag = TeaConverter.to_unicode(e_tag)  # type: unicode
+        self.e_tag = e_tag  # type: str
         # Size
-        self.size = TeaConverter.to_unicode(size)  # type: unicode
+        self.size = size  # type: str
 
     def validate(self):
         pass
@@ -5112,21 +5111,21 @@ class ListPartsResponseListPartsResult(TeaModel):
     def __init__(self, bucket=None, encoding_type=None, key=None, upload_id=None, part_number_marker=None,
                  next_part_number_marker=None, max_parts=None, is_truncated=None, part=None):
         # Bucket
-        self.bucket = TeaConverter.to_unicode(bucket)  # type: unicode
+        self.bucket = bucket  # type: str
         # EncodingType
-        self.encoding_type = TeaConverter.to_unicode(encoding_type)  # type: unicode
+        self.encoding_type = encoding_type  # type: str
         # Key
-        self.key = TeaConverter.to_unicode(key)  # type: unicode
+        self.key = key  # type: str
         # UploadId
-        self.upload_id = TeaConverter.to_unicode(upload_id)  # type: unicode
+        self.upload_id = upload_id  # type: str
         # PartNumberMarker
-        self.part_number_marker = TeaConverter.to_unicode(part_number_marker)  # type: unicode
+        self.part_number_marker = part_number_marker  # type: str
         # NextPartNumberMarker
-        self.next_part_number_marker = TeaConverter.to_unicode(next_part_number_marker)  # type: unicode
+        self.next_part_number_marker = next_part_number_marker  # type: str
         # MaxParts
-        self.max_parts = TeaConverter.to_unicode(max_parts)  # type: unicode
+        self.max_parts = max_parts  # type: str
         # IsTruncated
-        self.is_truncated = TeaConverter.to_unicode(is_truncated)  # type: unicode
+        self.is_truncated = is_truncated  # type: str
         # Part
         self.part = part  # type: list[ListPartsResponseListPartsResultPart]
 
@@ -5189,7 +5188,7 @@ class ListPartsResponseListPartsResult(TeaModel):
 class ListPartsResponse(TeaModel):
     def __init__(self, request_id=None, list_parts_result=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
         # ListPartsResult
         self.list_parts_result = list_parts_result  # type: ListPartsResponseListPartsResult
 
@@ -5220,7 +5219,7 @@ class ListPartsResponse(TeaModel):
 class GetLiveChannelHistoryRequestFilter(TeaModel):
     def __init__(self, comp=None):
         # comp
-        self.comp = TeaConverter.to_unicode(comp)  # type: unicode
+        self.comp = comp  # type: str
 
     def validate(self):
         pass
@@ -5241,9 +5240,9 @@ class GetLiveChannelHistoryRequestFilter(TeaModel):
 class GetLiveChannelHistoryRequest(TeaModel):
     def __init__(self, bucket_name=None, channel_name=None, filter=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
         # ChannelName
-        self.channel_name = TeaConverter.to_unicode(channel_name)  # type: unicode
+        self.channel_name = channel_name  # type: str
         # Filter
         self.filter = filter  # type: GetLiveChannelHistoryRequestFilter
 
@@ -5280,11 +5279,11 @@ class GetLiveChannelHistoryRequest(TeaModel):
 class GetLiveChannelHistoryResponseLiveChannelHistoryLiveRecord(TeaModel):
     def __init__(self, start_time=None, end_time=None, remote_addr=None):
         # StartTime
-        self.start_time = TeaConverter.to_unicode(start_time)  # type: unicode
+        self.start_time = start_time  # type: str
         # EndTime
-        self.end_time = TeaConverter.to_unicode(end_time)  # type: unicode
+        self.end_time = end_time  # type: str
         # RemoteAddr
-        self.remote_addr = TeaConverter.to_unicode(remote_addr)  # type: unicode
+        self.remote_addr = remote_addr  # type: str
 
     def validate(self):
         pass
@@ -5342,7 +5341,7 @@ class GetLiveChannelHistoryResponseLiveChannelHistory(TeaModel):
 class GetLiveChannelHistoryResponse(TeaModel):
     def __init__(self, request_id=None, live_channel_history=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
         # LiveChannelHistory
         self.live_channel_history = live_channel_history  # type: GetLiveChannelHistoryResponseLiveChannelHistory
 
@@ -5373,15 +5372,15 @@ class GetLiveChannelHistoryResponse(TeaModel):
 class GetBucketRequestFilter(TeaModel):
     def __init__(self, delimiter=None, marker=None, max_keys=None, prefix=None, encoding_type=None):
         # delimiter
-        self.delimiter = TeaConverter.to_unicode(delimiter)  # type: unicode
+        self.delimiter = delimiter  # type: str
         # marker
-        self.marker = TeaConverter.to_unicode(marker)  # type: unicode
+        self.marker = marker  # type: str
         # max-keys
-        self.max_keys = TeaConverter.to_unicode(max_keys)  # type: unicode
+        self.max_keys = max_keys  # type: str
         # prefix
-        self.prefix = TeaConverter.to_unicode(prefix)  # type: unicode
+        self.prefix = prefix  # type: str
         # encoding-type
-        self.encoding_type = TeaConverter.to_unicode(encoding_type)  # type: unicode
+        self.encoding_type = encoding_type  # type: str
 
     def validate(self):
         pass
@@ -5418,7 +5417,7 @@ class GetBucketRequestFilter(TeaModel):
 class GetBucketRequest(TeaModel):
     def __init__(self, bucket_name=None, filter=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
         # Filter
         self.filter = filter  # type: GetBucketRequestFilter
 
@@ -5450,9 +5449,9 @@ class GetBucketRequest(TeaModel):
 class GetBucketResponseListBucketResultContentsOwner(TeaModel):
     def __init__(self, i_d=None, display_name=None):
         # ID
-        self.i_d = TeaConverter.to_unicode(i_d)  # type: unicode
+        self.i_d = i_d  # type: str
         # DisplayName
-        self.display_name = TeaConverter.to_unicode(display_name)  # type: unicode
+        self.display_name = display_name  # type: str
 
     def validate(self):
         pass
@@ -5477,15 +5476,15 @@ class GetBucketResponseListBucketResultContentsOwner(TeaModel):
 class GetBucketResponseListBucketResultContents(TeaModel):
     def __init__(self, key=None, e_tag=None, last_modified=None, size=None, storage_class=None, owner=None):
         # Key
-        self.key = TeaConverter.to_unicode(key)  # type: unicode
+        self.key = key  # type: str
         # ETag
-        self.e_tag = TeaConverter.to_unicode(e_tag)  # type: unicode
+        self.e_tag = e_tag  # type: str
         # LastModified
-        self.last_modified = TeaConverter.to_unicode(last_modified)  # type: unicode
+        self.last_modified = last_modified  # type: str
         # Size
-        self.size = TeaConverter.to_unicode(size)  # type: unicode
+        self.size = size  # type: str
         # StorageClass
-        self.storage_class = TeaConverter.to_unicode(storage_class)  # type: unicode
+        self.storage_class = storage_class  # type: str
         # Owner
         self.owner = owner  # type: GetBucketResponseListBucketResultContentsOwner
 
@@ -5532,21 +5531,21 @@ class GetBucketResponseListBucketResult(TeaModel):
     def __init__(self, name=None, prefix=None, marker=None, max_keys=None, delimiter=None, is_truncated=None,
                  encoding_type=None, common_prefixes=None, contents=None):
         # Name
-        self.name = TeaConverter.to_unicode(name)  # type: unicode
+        self.name = name  # type: str
         # Prefix
-        self.prefix = TeaConverter.to_unicode(prefix)  # type: unicode
+        self.prefix = prefix  # type: str
         # Marker
-        self.marker = TeaConverter.to_unicode(marker)  # type: unicode
+        self.marker = marker  # type: str
         # MaxKeys
-        self.max_keys = TeaConverter.to_unicode(max_keys)  # type: unicode
+        self.max_keys = max_keys  # type: str
         # Delimiter
-        self.delimiter = TeaConverter.to_unicode(delimiter)  # type: unicode
+        self.delimiter = delimiter  # type: str
         # IsTruncated
-        self.is_truncated = TeaConverter.to_unicode(is_truncated)  # type: unicode
+        self.is_truncated = is_truncated  # type: str
         # EncodingType
-        self.encoding_type = TeaConverter.to_unicode(encoding_type)  # type: unicode
+        self.encoding_type = encoding_type  # type: str
         # CommonPrefixes
-        self.common_prefixes = TeaConverter.to_unicode(common_prefixes)  # type: unicode
+        self.common_prefixes = common_prefixes  # type: str
         # Contents
         self.contents = contents  # type: list[GetBucketResponseListBucketResultContents]
 
@@ -5609,7 +5608,7 @@ class GetBucketResponseListBucketResult(TeaModel):
 class GetBucketResponse(TeaModel):
     def __init__(self, request_id=None, list_bucket_result=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
         # ListBucketResult
         self.list_bucket_result = list_bucket_result  # type: GetBucketResponseListBucketResult
 
@@ -5640,9 +5639,9 @@ class GetBucketResponse(TeaModel):
 class GetLiveChannelInfoRequest(TeaModel):
     def __init__(self, bucket_name=None, channel_name=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
         # ChannelName
-        self.channel_name = TeaConverter.to_unicode(channel_name)  # type: unicode
+        self.channel_name = channel_name  # type: str
 
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
@@ -5670,13 +5669,13 @@ class GetLiveChannelInfoRequest(TeaModel):
 class GetLiveChannelInfoResponseLiveChannelConfigurationTarget(TeaModel):
     def __init__(self, type=None, frag_duration=None, frag_count=None, playlist_name=None):
         # Type
-        self.type = TeaConverter.to_unicode(type)  # type: unicode
+        self.type = type  # type: str
         # FragDuration
-        self.frag_duration = TeaConverter.to_unicode(frag_duration)  # type: unicode
+        self.frag_duration = frag_duration  # type: str
         # FragCount
-        self.frag_count = TeaConverter.to_unicode(frag_count)  # type: unicode
+        self.frag_count = frag_count  # type: str
         # PlaylistName
-        self.playlist_name = TeaConverter.to_unicode(playlist_name)  # type: unicode
+        self.playlist_name = playlist_name  # type: str
 
     def validate(self):
         pass
@@ -5709,9 +5708,9 @@ class GetLiveChannelInfoResponseLiveChannelConfigurationTarget(TeaModel):
 class GetLiveChannelInfoResponseLiveChannelConfiguration(TeaModel):
     def __init__(self, description=None, status=None, target=None):
         # Description
-        self.description = TeaConverter.to_unicode(description)  # type: unicode
+        self.description = description  # type: str
         # Status
-        self.status = TeaConverter.to_unicode(status)  # type: unicode
+        self.status = status  # type: str
         # Target
         self.target = target  # type: GetLiveChannelInfoResponseLiveChannelConfigurationTarget
 
@@ -5745,7 +5744,7 @@ class GetLiveChannelInfoResponseLiveChannelConfiguration(TeaModel):
 class GetLiveChannelInfoResponse(TeaModel):
     def __init__(self, request_id=None, live_channel_configuration=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
         # LiveChannelConfiguration
         self.live_channel_configuration = live_channel_configuration  # type: GetLiveChannelInfoResponseLiveChannelConfiguration
 
@@ -5776,7 +5775,7 @@ class GetLiveChannelInfoResponse(TeaModel):
 class GetLiveChannelStatRequestFilter(TeaModel):
     def __init__(self, comp=None):
         # comp
-        self.comp = TeaConverter.to_unicode(comp)  # type: unicode
+        self.comp = comp  # type: str
 
     def validate(self):
         pass
@@ -5797,9 +5796,9 @@ class GetLiveChannelStatRequestFilter(TeaModel):
 class GetLiveChannelStatRequest(TeaModel):
     def __init__(self, bucket_name=None, channel_name=None, filter=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
         # ChannelName
-        self.channel_name = TeaConverter.to_unicode(channel_name)  # type: unicode
+        self.channel_name = channel_name  # type: str
         # Filter
         self.filter = filter  # type: GetLiveChannelStatRequestFilter
 
@@ -5836,15 +5835,15 @@ class GetLiveChannelStatRequest(TeaModel):
 class GetLiveChannelStatResponseLiveChannelStatVideo(TeaModel):
     def __init__(self, width=None, height=None, frame_rate=None, bandwidth=None, codec=None):
         # Width
-        self.width = TeaConverter.to_unicode(width)  # type: unicode
+        self.width = width  # type: str
         # Height
-        self.height = TeaConverter.to_unicode(height)  # type: unicode
+        self.height = height  # type: str
         # FrameRate
-        self.frame_rate = TeaConverter.to_unicode(frame_rate)  # type: unicode
+        self.frame_rate = frame_rate  # type: str
         # Bandwidth
-        self.bandwidth = TeaConverter.to_unicode(bandwidth)  # type: unicode
+        self.bandwidth = bandwidth  # type: str
         # Codec
-        self.codec = TeaConverter.to_unicode(codec)  # type: unicode
+        self.codec = codec  # type: str
 
     def validate(self):
         pass
@@ -5881,11 +5880,11 @@ class GetLiveChannelStatResponseLiveChannelStatVideo(TeaModel):
 class GetLiveChannelStatResponseLiveChannelStatAudio(TeaModel):
     def __init__(self, bandwidth=None, sample_rate=None, codec=None):
         # Bandwidth
-        self.bandwidth = TeaConverter.to_unicode(bandwidth)  # type: unicode
+        self.bandwidth = bandwidth  # type: str
         # SampleRate
-        self.sample_rate = TeaConverter.to_unicode(sample_rate)  # type: unicode
+        self.sample_rate = sample_rate  # type: str
         # Codec
-        self.codec = TeaConverter.to_unicode(codec)  # type: unicode
+        self.codec = codec  # type: str
 
     def validate(self):
         pass
@@ -5914,11 +5913,11 @@ class GetLiveChannelStatResponseLiveChannelStatAudio(TeaModel):
 class GetLiveChannelStatResponseLiveChannelStat(TeaModel):
     def __init__(self, status=None, connected_time=None, remote_addr=None, video=None, audio=None):
         # Status
-        self.status = TeaConverter.to_unicode(status)  # type: unicode
+        self.status = status  # type: str
         # ConnectedTime
-        self.connected_time = TeaConverter.to_unicode(connected_time)  # type: unicode
+        self.connected_time = connected_time  # type: str
         # RemoteAddr
-        self.remote_addr = TeaConverter.to_unicode(remote_addr)  # type: unicode
+        self.remote_addr = remote_addr  # type: str
         # Video
         self.video = video  # type: GetLiveChannelStatResponseLiveChannelStatVideo
         # Audio
@@ -5966,7 +5965,7 @@ class GetLiveChannelStatResponseLiveChannelStat(TeaModel):
 class GetLiveChannelStatResponse(TeaModel):
     def __init__(self, request_id=None, live_channel_stat=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
         # LiveChannelStat
         self.live_channel_stat = live_channel_stat  # type: GetLiveChannelStatResponseLiveChannelStat
 
@@ -5997,9 +5996,9 @@ class GetLiveChannelStatResponse(TeaModel):
 class DeleteObjectRequest(TeaModel):
     def __init__(self, bucket_name=None, object_name=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
         # ObjectName
-        self.object_name = TeaConverter.to_unicode(object_name)  # type: unicode
+        self.object_name = object_name  # type: str
 
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
@@ -6027,7 +6026,7 @@ class DeleteObjectRequest(TeaModel):
 class DeleteObjectResponse(TeaModel):
     def __init__(self, request_id=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
 
     def validate(self):
         self.validate_required(self.request_id, 'request_id')
@@ -6048,7 +6047,7 @@ class DeleteObjectResponse(TeaModel):
 class AbortMultipartUploadRequestFilter(TeaModel):
     def __init__(self, upload_id=None):
         # uploadId
-        self.upload_id = TeaConverter.to_unicode(upload_id)  # type: unicode
+        self.upload_id = upload_id  # type: str
 
     def validate(self):
         self.validate_required(self.upload_id, 'upload_id')
@@ -6069,9 +6068,9 @@ class AbortMultipartUploadRequestFilter(TeaModel):
 class AbortMultipartUploadRequest(TeaModel):
     def __init__(self, bucket_name=None, object_name=None, filter=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
         # ObjectName
-        self.object_name = TeaConverter.to_unicode(object_name)  # type: unicode
+        self.object_name = object_name  # type: str
         # Filter
         self.filter = filter  # type: AbortMultipartUploadRequestFilter
 
@@ -6109,7 +6108,7 @@ class AbortMultipartUploadRequest(TeaModel):
 class AbortMultipartUploadResponse(TeaModel):
     def __init__(self, request_id=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
 
     def validate(self):
         self.validate_required(self.request_id, 'request_id')
@@ -6130,7 +6129,7 @@ class AbortMultipartUploadResponse(TeaModel):
 class AppendObjectRequestFilter(TeaModel):
     def __init__(self, position=None):
         # position
-        self.position = TeaConverter.to_unicode(position)  # type: unicode
+        self.position = position  # type: str
 
     def validate(self):
         self.validate_required(self.position, 'position')
@@ -6152,23 +6151,23 @@ class AppendObjectRequestHeader(TeaModel):
     def __init__(self, cache_control=None, content_disposition=None, content_encoding=None, content_md5=None,
                  expires=None, server_side_encryption=None, object_acl=None, storage_class=None, content_type=None):
         # Cache-Control
-        self.cache_control = TeaConverter.to_unicode(cache_control)  # type: unicode
+        self.cache_control = cache_control  # type: str
         # Content-Disposition
-        self.content_disposition = TeaConverter.to_unicode(content_disposition)  # type: unicode
+        self.content_disposition = content_disposition  # type: str
         # Content-Encoding
-        self.content_encoding = TeaConverter.to_unicode(content_encoding)  # type: unicode
+        self.content_encoding = content_encoding  # type: str
         # Content-MD5
-        self.content_md5 = TeaConverter.to_unicode(content_md5)  # type: unicode
+        self.content_md5 = content_md5  # type: str
         # Expires
-        self.expires = TeaConverter.to_unicode(expires)  # type: unicode
+        self.expires = expires  # type: str
         # x-oss-server-side-encryption
-        self.server_side_encryption = TeaConverter.to_unicode(server_side_encryption)  # type: unicode
+        self.server_side_encryption = server_side_encryption  # type: str
         # x-oss-object-acl
-        self.object_acl = TeaConverter.to_unicode(object_acl)  # type: unicode
+        self.object_acl = object_acl  # type: str
         # x-oss-storage-class
-        self.storage_class = TeaConverter.to_unicode(storage_class)  # type: unicode
+        self.storage_class = storage_class  # type: str
         # content-type
-        self.content_type = TeaConverter.to_unicode(content_type)  # type: unicode
+        self.content_type = content_type  # type: str
 
     def validate(self):
         pass
@@ -6221,11 +6220,11 @@ class AppendObjectRequestHeader(TeaModel):
 class AppendObjectRequest(TeaModel):
     def __init__(self, bucket_name=None, object_name=None, user_meta=None, body=None, filter=None, header=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
         # ObjectName
-        self.object_name = TeaConverter.to_unicode(object_name)  # type: unicode
+        self.object_name = object_name  # type: str
         # UserMeta
-        self.user_meta = user_meta  # type: dict[unicode, unicode]
+        self.user_meta = user_meta  # type: dict[str, str]
         # body
         self.body = body  # type: READABLE
         # Filter
@@ -6282,11 +6281,11 @@ class AppendObjectRequest(TeaModel):
 class AppendObjectResponse(TeaModel):
     def __init__(self, request_id=None, next_append_position=None, hash_crc_64ecma=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
         # x-oss-next-append-position
-        self.next_append_position = TeaConverter.to_unicode(next_append_position)  # type: unicode
+        self.next_append_position = next_append_position  # type: str
         # x-oss-hash-crc64ecma
-        self.hash_crc_64ecma = TeaConverter.to_unicode(hash_crc_64ecma)  # type: unicode
+        self.hash_crc_64ecma = hash_crc_64ecma  # type: str
 
     def validate(self):
         self.validate_required(self.request_id, 'request_id')
@@ -6317,9 +6316,9 @@ class AppendObjectResponse(TeaModel):
 class UploadPartCopyRequestFilter(TeaModel):
     def __init__(self, part_number=None, upload_id=None):
         # partNumber
-        self.part_number = TeaConverter.to_unicode(part_number)  # type: unicode
+        self.part_number = part_number  # type: str
         # uploadId
-        self.upload_id = TeaConverter.to_unicode(upload_id)  # type: unicode
+        self.upload_id = upload_id  # type: str
 
     def validate(self):
         self.validate_required(self.part_number, 'part_number')
@@ -6346,17 +6345,17 @@ class UploadPartCopyRequestHeader(TeaModel):
     def __init__(self, copy_source=None, copy_source_range=None, copy_source_if_match=None,
                  copy_source_if_none_match=None, copy_source_if_unmodified_since=None, copy_source_if_modified_since=None):
         # x-oss-copy-source
-        self.copy_source = TeaConverter.to_unicode(copy_source)  # type: unicode
+        self.copy_source = copy_source  # type: str
         # x-oss-copy-source-range
-        self.copy_source_range = TeaConverter.to_unicode(copy_source_range)  # type: unicode
+        self.copy_source_range = copy_source_range  # type: str
         # x-oss-copy-source-if-match
-        self.copy_source_if_match = TeaConverter.to_unicode(copy_source_if_match)  # type: unicode
+        self.copy_source_if_match = copy_source_if_match  # type: str
         # x-oss-copy-source-if-none-match
-        self.copy_source_if_none_match = TeaConverter.to_unicode(copy_source_if_none_match)  # type: unicode
+        self.copy_source_if_none_match = copy_source_if_none_match  # type: str
         # x-oss-copy-source-if-unmodified-since
-        self.copy_source_if_unmodified_since = TeaConverter.to_unicode(copy_source_if_unmodified_since)  # type: unicode
+        self.copy_source_if_unmodified_since = copy_source_if_unmodified_since  # type: str
         # x-oss-copy-source-if-modified-since
-        self.copy_source_if_modified_since = TeaConverter.to_unicode(copy_source_if_modified_since)  # type: unicode
+        self.copy_source_if_modified_since = copy_source_if_modified_since  # type: str
 
     def validate(self):
         self.validate_required(self.copy_source, 'copy_source')
@@ -6398,9 +6397,9 @@ class UploadPartCopyRequestHeader(TeaModel):
 class UploadPartCopyRequest(TeaModel):
     def __init__(self, bucket_name=None, object_name=None, filter=None, header=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
         # ObjectName
-        self.object_name = TeaConverter.to_unicode(object_name)  # type: unicode
+        self.object_name = object_name  # type: str
         # Filter
         self.filter = filter  # type: UploadPartCopyRequestFilter
         # Header
@@ -6448,9 +6447,9 @@ class UploadPartCopyRequest(TeaModel):
 class UploadPartCopyResponseCopyPartResult(TeaModel):
     def __init__(self, last_modified=None, e_tag=None):
         # LastModified
-        self.last_modified = TeaConverter.to_unicode(last_modified)  # type: unicode
+        self.last_modified = last_modified  # type: str
         # ETag
-        self.e_tag = TeaConverter.to_unicode(e_tag)  # type: unicode
+        self.e_tag = e_tag  # type: str
 
     def validate(self):
         pass
@@ -6475,7 +6474,7 @@ class UploadPartCopyResponseCopyPartResult(TeaModel):
 class UploadPartCopyResponse(TeaModel):
     def __init__(self, request_id=None, copy_part_result=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
         # CopyPartResult
         self.copy_part_result = copy_part_result  # type: UploadPartCopyResponseCopyPartResult
 
@@ -6506,9 +6505,9 @@ class UploadPartCopyResponse(TeaModel):
 class GetVodPlaylistRequestFilter(TeaModel):
     def __init__(self, end_time=None, start_time=None):
         # endTime
-        self.end_time = TeaConverter.to_unicode(end_time)  # type: unicode
+        self.end_time = end_time  # type: str
         # startTime
-        self.start_time = TeaConverter.to_unicode(start_time)  # type: unicode
+        self.start_time = start_time  # type: str
 
     def validate(self):
         self.validate_required(self.end_time, 'end_time')
@@ -6534,9 +6533,9 @@ class GetVodPlaylistRequestFilter(TeaModel):
 class GetVodPlaylistRequest(TeaModel):
     def __init__(self, bucket_name=None, channel_name=None, filter=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
         # ChannelName
-        self.channel_name = TeaConverter.to_unicode(channel_name)  # type: unicode
+        self.channel_name = channel_name  # type: str
         # Filter
         self.filter = filter  # type: GetVodPlaylistRequestFilter
 
@@ -6574,7 +6573,7 @@ class GetVodPlaylistRequest(TeaModel):
 class GetVodPlaylistResponse(TeaModel):
     def __init__(self, request_id=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
 
     def validate(self):
         self.validate_required(self.request_id, 'request_id')
@@ -6595,7 +6594,7 @@ class GetVodPlaylistResponse(TeaModel):
 class DeleteBucketCORSRequest(TeaModel):
     def __init__(self, bucket_name=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
 
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
@@ -6618,7 +6617,7 @@ class DeleteBucketCORSRequest(TeaModel):
 class DeleteBucketCORSResponse(TeaModel):
     def __init__(self, request_id=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
 
     def validate(self):
         self.validate_required(self.request_id, 'request_id')
@@ -6641,29 +6640,29 @@ class GetObjectRequestHeader(TeaModel):
                  response_cache_control=None, response_content_disposition=None, response_content_encoding=None, range=None,
                  if_modified_since=None, if_unmodified_since=None, if_match=None, if_none_match=None, accept_encoding=None):
         # response-content-type
-        self.response_content_type = TeaConverter.to_unicode(response_content_type)  # type: unicode
+        self.response_content_type = response_content_type  # type: str
         # response-content-language
-        self.response_content_language = TeaConverter.to_unicode(response_content_language)  # type: unicode
+        self.response_content_language = response_content_language  # type: str
         # response-expires
-        self.response_expires = TeaConverter.to_unicode(response_expires)  # type: unicode
+        self.response_expires = response_expires  # type: str
         # response-cache-control
-        self.response_cache_control = TeaConverter.to_unicode(response_cache_control)  # type: unicode
+        self.response_cache_control = response_cache_control  # type: str
         # response-content-disposition
-        self.response_content_disposition = TeaConverter.to_unicode(response_content_disposition)  # type: unicode
+        self.response_content_disposition = response_content_disposition  # type: str
         # response-content-encoding
-        self.response_content_encoding = TeaConverter.to_unicode(response_content_encoding)  # type: unicode
+        self.response_content_encoding = response_content_encoding  # type: str
         # Range
-        self.range = TeaConverter.to_unicode(range)  # type: unicode
+        self.range = range  # type: str
         # If-Modified-Since
-        self.if_modified_since = TeaConverter.to_unicode(if_modified_since)  # type: unicode
+        self.if_modified_since = if_modified_since  # type: str
         # If-Unmodified-Since
-        self.if_unmodified_since = TeaConverter.to_unicode(if_unmodified_since)  # type: unicode
+        self.if_unmodified_since = if_unmodified_since  # type: str
         # If-Match
-        self.if_match = TeaConverter.to_unicode(if_match)  # type: unicode
+        self.if_match = if_match  # type: str
         # If-None-Match
-        self.if_none_match = TeaConverter.to_unicode(if_none_match)  # type: unicode
+        self.if_none_match = if_none_match  # type: str
         # Accept-Encoding
-        self.accept_encoding = TeaConverter.to_unicode(accept_encoding)  # type: unicode
+        self.accept_encoding = accept_encoding  # type: str
 
     def validate(self):
         pass
@@ -6728,9 +6727,9 @@ class GetObjectRequestHeader(TeaModel):
 class GetObjectRequest(TeaModel):
     def __init__(self, bucket_name=None, object_name=None, header=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
         # ObjectName
-        self.object_name = TeaConverter.to_unicode(object_name)  # type: unicode
+        self.object_name = object_name  # type: str
         # Header
         self.header = header  # type: GetObjectRequestHeader
 
@@ -6768,15 +6767,15 @@ class GetObjectResponse(TeaModel):
     def __init__(self, request_id=None, object_type=None, server_side_encryption=None, tagging_count=None,
                  restore=None, body=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
         # x-oss-object-type
-        self.object_type = TeaConverter.to_unicode(object_type)  # type: unicode
+        self.object_type = object_type  # type: str
         # x-oss-server-side-encryption
-        self.server_side_encryption = TeaConverter.to_unicode(server_side_encryption)  # type: unicode
+        self.server_side_encryption = server_side_encryption  # type: str
         # x-oss-tagging-count
-        self.tagging_count = TeaConverter.to_unicode(tagging_count)  # type: unicode
+        self.tagging_count = tagging_count  # type: str
         # x-oss-restore
-        self.restore = TeaConverter.to_unicode(restore)  # type: unicode
+        self.restore = restore  # type: str
         # body
         self.body = body  # type: READABLE
 
@@ -6824,9 +6823,9 @@ class GetObjectResponse(TeaModel):
 class UploadPartRequestFilter(TeaModel):
     def __init__(self, part_number=None, upload_id=None):
         # partNumber
-        self.part_number = TeaConverter.to_unicode(part_number)  # type: unicode
+        self.part_number = part_number  # type: str
         # uploadId
-        self.upload_id = TeaConverter.to_unicode(upload_id)  # type: unicode
+        self.upload_id = upload_id  # type: str
 
     def validate(self):
         self.validate_required(self.part_number, 'part_number')
@@ -6852,9 +6851,9 @@ class UploadPartRequestFilter(TeaModel):
 class UploadPartRequest(TeaModel):
     def __init__(self, bucket_name=None, object_name=None, body=None, filter=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
         # ObjectName
-        self.object_name = TeaConverter.to_unicode(object_name)  # type: unicode
+        self.object_name = object_name  # type: str
         # body
         self.body = body  # type: READABLE
         # Filter
@@ -6898,7 +6897,7 @@ class UploadPartRequest(TeaModel):
 class UploadPartResponse(TeaModel):
     def __init__(self, request_id=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
 
     def validate(self):
         self.validate_required(self.request_id, 'request_id')
@@ -6919,7 +6918,7 @@ class UploadPartResponse(TeaModel):
 class GetBucketCORSRequest(TeaModel):
     def __init__(self, bucket_name=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
 
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
@@ -6942,7 +6941,7 @@ class GetBucketCORSRequest(TeaModel):
 class GetBucketCORSResponseCORSConfigurationCORSRule(TeaModel):
     def __init__(self, max_age_seconds=None):
         # MaxAgeSeconds
-        self.max_age_seconds = TeaConverter.to_unicode(max_age_seconds)  # type: unicode
+        self.max_age_seconds = max_age_seconds  # type: str
 
     def validate(self):
         pass
@@ -6992,7 +6991,7 @@ class GetBucketCORSResponseCORSConfiguration(TeaModel):
 class GetBucketCORSResponse(TeaModel):
     def __init__(self, request_id=None, c_orsconfiguration=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
         # CORSConfiguration
         self.c_orsconfiguration = c_orsconfiguration  # type: GetBucketCORSResponseCORSConfiguration
 
@@ -7025,29 +7024,29 @@ class CopyObjectRequestHeader(TeaModel):
                  copy_source_if_unmodified_since=None, copy_source_if_modified_since=None, metadata_directive=None, server_side_encryption=None,
                  server_side_encryption_key_id=None, object_acl=None, storage_class=None, tagging=None, tagging_directive=None):
         # x-oss-copy-source
-        self.copy_source = TeaConverter.to_unicode(copy_source)  # type: unicode
+        self.copy_source = copy_source  # type: str
         # x-oss-copy-source-if-match
-        self.copy_source_if_match = TeaConverter.to_unicode(copy_source_if_match)  # type: unicode
+        self.copy_source_if_match = copy_source_if_match  # type: str
         # x-oss-copy-source-if-none-match
-        self.copy_source_if_none_match = TeaConverter.to_unicode(copy_source_if_none_match)  # type: unicode
+        self.copy_source_if_none_match = copy_source_if_none_match  # type: str
         # x-oss-copy-source-if-unmodified-since
-        self.copy_source_if_unmodified_since = TeaConverter.to_unicode(copy_source_if_unmodified_since)  # type: unicode
+        self.copy_source_if_unmodified_since = copy_source_if_unmodified_since  # type: str
         # x-oss-copy-source-if-modified-since
-        self.copy_source_if_modified_since = TeaConverter.to_unicode(copy_source_if_modified_since)  # type: unicode
+        self.copy_source_if_modified_since = copy_source_if_modified_since  # type: str
         # x-oss-metadata-directive
-        self.metadata_directive = TeaConverter.to_unicode(metadata_directive)  # type: unicode
+        self.metadata_directive = metadata_directive  # type: str
         # x-oss-server-side-encryption
-        self.server_side_encryption = TeaConverter.to_unicode(server_side_encryption)  # type: unicode
+        self.server_side_encryption = server_side_encryption  # type: str
         # x-oss-server-side-encryption-key-id
-        self.server_side_encryption_key_id = TeaConverter.to_unicode(server_side_encryption_key_id)  # type: unicode
+        self.server_side_encryption_key_id = server_side_encryption_key_id  # type: str
         # x-oss-object-acl
-        self.object_acl = TeaConverter.to_unicode(object_acl)  # type: unicode
+        self.object_acl = object_acl  # type: str
         # x-oss-storage-class
-        self.storage_class = TeaConverter.to_unicode(storage_class)  # type: unicode
+        self.storage_class = storage_class  # type: str
         # x-oss-tagging
-        self.tagging = TeaConverter.to_unicode(tagging)  # type: unicode
+        self.tagging = tagging  # type: str
         # x-oss-tagging-directive
-        self.tagging_directive = TeaConverter.to_unicode(tagging_directive)  # type: unicode
+        self.tagging_directive = tagging_directive  # type: str
 
     def validate(self):
         self.validate_required(self.copy_source, 'copy_source')
@@ -7112,9 +7111,9 @@ class CopyObjectRequestHeader(TeaModel):
 class CopyObjectRequest(TeaModel):
     def __init__(self, bucket_name=None, dest_object_name=None, header=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
         # DestObjectName
-        self.dest_object_name = TeaConverter.to_unicode(dest_object_name)  # type: unicode
+        self.dest_object_name = dest_object_name  # type: str
         # Header
         self.header = header  # type: CopyObjectRequestHeader
 
@@ -7152,9 +7151,9 @@ class CopyObjectRequest(TeaModel):
 class CopyObjectResponseCopyObjectResult(TeaModel):
     def __init__(self, last_modified=None, e_tag=None):
         # LastModified
-        self.last_modified = TeaConverter.to_unicode(last_modified)  # type: unicode
+        self.last_modified = last_modified  # type: str
         # ETag
-        self.e_tag = TeaConverter.to_unicode(e_tag)  # type: unicode
+        self.e_tag = e_tag  # type: str
 
     def validate(self):
         pass
@@ -7179,7 +7178,7 @@ class CopyObjectResponseCopyObjectResult(TeaModel):
 class CopyObjectResponse(TeaModel):
     def __init__(self, request_id=None, copy_object_result=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
         # CopyObjectResult
         self.copy_object_result = copy_object_result  # type: CopyObjectResponseCopyObjectResult
 
@@ -7210,9 +7209,9 @@ class CopyObjectResponse(TeaModel):
 class GetObjectTaggingRequest(TeaModel):
     def __init__(self, bucket_name=None, object_name=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
         # ObjectName
-        self.object_name = TeaConverter.to_unicode(object_name)  # type: unicode
+        self.object_name = object_name  # type: str
 
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
@@ -7240,9 +7239,9 @@ class GetObjectTaggingRequest(TeaModel):
 class GetObjectTaggingResponseTaggingTagSetTag(TeaModel):
     def __init__(self, key=None, value=None):
         # Key
-        self.key = TeaConverter.to_unicode(key)  # type: unicode
+        self.key = key  # type: str
         # Value
-        self.value = TeaConverter.to_unicode(value)  # type: unicode
+        self.value = value  # type: str
 
     def validate(self):
         pass
@@ -7320,7 +7319,7 @@ class GetObjectTaggingResponseTagging(TeaModel):
 class GetObjectTaggingResponse(TeaModel):
     def __init__(self, request_id=None, tagging=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
         # Tagging
         self.tagging = tagging  # type: GetObjectTaggingResponseTagging
 
@@ -7351,7 +7350,7 @@ class GetObjectTaggingResponse(TeaModel):
 class DeleteBucketLifecycleRequest(TeaModel):
     def __init__(self, bucket_name=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
 
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
@@ -7374,7 +7373,7 @@ class DeleteBucketLifecycleRequest(TeaModel):
 class DeleteBucketLifecycleResponse(TeaModel):
     def __init__(self, request_id=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
 
     def validate(self):
         self.validate_required(self.request_id, 'request_id')
@@ -7395,7 +7394,7 @@ class DeleteBucketLifecycleResponse(TeaModel):
 class DeleteBucketLoggingRequest(TeaModel):
     def __init__(self, bucket_name=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
 
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
@@ -7418,7 +7417,7 @@ class DeleteBucketLoggingRequest(TeaModel):
 class DeleteBucketLoggingResponse(TeaModel):
     def __init__(self, request_id=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
 
     def validate(self):
         self.validate_required(self.request_id, 'request_id')
@@ -7439,7 +7438,7 @@ class DeleteBucketLoggingResponse(TeaModel):
 class DeleteBucketWebsiteRequest(TeaModel):
     def __init__(self, bucket_name=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
 
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
@@ -7462,7 +7461,7 @@ class DeleteBucketWebsiteRequest(TeaModel):
 class DeleteBucketWebsiteResponse(TeaModel):
     def __init__(self, request_id=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
 
     def validate(self):
         self.validate_required(self.request_id, 'request_id')
@@ -7483,9 +7482,9 @@ class DeleteBucketWebsiteResponse(TeaModel):
 class GetSymlinkRequest(TeaModel):
     def __init__(self, bucket_name=None, object_name=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
         # ObjectName
-        self.object_name = TeaConverter.to_unicode(object_name)  # type: unicode
+        self.object_name = object_name  # type: str
 
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
@@ -7513,9 +7512,9 @@ class GetSymlinkRequest(TeaModel):
 class GetSymlinkResponse(TeaModel):
     def __init__(self, request_id=None, symlink_target=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
         # x-oss-symlink-target
-        self.symlink_target = TeaConverter.to_unicode(symlink_target)  # type: unicode
+        self.symlink_target = symlink_target  # type: str
 
     def validate(self):
         self.validate_required(self.request_id, 'request_id')
@@ -7541,7 +7540,7 @@ class GetSymlinkResponse(TeaModel):
 class GetBucketLifecycleRequest(TeaModel):
     def __init__(self, bucket_name=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
 
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
@@ -7566,7 +7565,7 @@ class GetBucketLifecycleResponseLifecycleConfigurationRuleExpiration(TeaModel):
         # Days
         self.days = days  # type: int
         # CreatedBeforeDate
-        self.created_before_date = TeaConverter.to_unicode(created_before_date)  # type: unicode
+        self.created_before_date = created_before_date  # type: str
 
     def validate(self):
         pass
@@ -7593,7 +7592,7 @@ class GetBucketLifecycleResponseLifecycleConfigurationRuleTransition(TeaModel):
         # Days
         self.days = days  # type: int
         # StorageClass
-        self.storage_class = TeaConverter.to_unicode(storage_class)  # type: unicode
+        self.storage_class = storage_class  # type: str
 
     def validate(self):
         pass
@@ -7620,7 +7619,7 @@ class GetBucketLifecycleResponseLifecycleConfigurationRuleAbortMultipartUpload(T
         # Days
         self.days = days  # type: int
         # CreatedBeforeDate
-        self.created_before_date = TeaConverter.to_unicode(created_before_date)  # type: unicode
+        self.created_before_date = created_before_date  # type: str
 
     def validate(self):
         pass
@@ -7645,9 +7644,9 @@ class GetBucketLifecycleResponseLifecycleConfigurationRuleAbortMultipartUpload(T
 class GetBucketLifecycleResponseLifecycleConfigurationRuleTag(TeaModel):
     def __init__(self, key=None, value=None):
         # Key
-        self.key = TeaConverter.to_unicode(key)  # type: unicode
+        self.key = key  # type: str
         # Value
-        self.value = TeaConverter.to_unicode(value)  # type: unicode
+        self.value = value  # type: str
 
     def validate(self):
         pass
@@ -7673,11 +7672,11 @@ class GetBucketLifecycleResponseLifecycleConfigurationRule(TeaModel):
     def __init__(self, i_d=None, prefix=None, status=None, expiration=None, transition=None,
                  abort_multipart_upload=None, tag=None):
         # ID
-        self.i_d = TeaConverter.to_unicode(i_d)  # type: unicode
+        self.i_d = i_d  # type: str
         # Prefix
-        self.prefix = TeaConverter.to_unicode(prefix)  # type: unicode
+        self.prefix = prefix  # type: str
         # Status
-        self.status = TeaConverter.to_unicode(status)  # type: unicode
+        self.status = status  # type: str
         # Expiration
         self.expiration = expiration  # type: GetBucketLifecycleResponseLifecycleConfigurationRuleExpiration
         # Transition
@@ -7774,7 +7773,7 @@ class GetBucketLifecycleResponseLifecycleConfiguration(TeaModel):
 class GetBucketLifecycleResponse(TeaModel):
     def __init__(self, request_id=None, lifecycle_configuration=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
         # LifecycleConfiguration
         self.lifecycle_configuration = lifecycle_configuration  # type: GetBucketLifecycleResponseLifecycleConfiguration
 
@@ -7805,9 +7804,9 @@ class GetBucketLifecycleResponse(TeaModel):
 class PutSymlinkRequestHeader(TeaModel):
     def __init__(self, symlink_target=None, storage_class=None):
         # x-oss-symlink-target
-        self.symlink_target = TeaConverter.to_unicode(symlink_target)  # type: unicode
+        self.symlink_target = symlink_target  # type: str
         # x-oss-storage-class
-        self.storage_class = TeaConverter.to_unicode(storage_class)  # type: unicode
+        self.storage_class = storage_class  # type: str
 
     def validate(self):
         self.validate_required(self.symlink_target, 'symlink_target')
@@ -7832,9 +7831,9 @@ class PutSymlinkRequestHeader(TeaModel):
 class PutSymlinkRequest(TeaModel):
     def __init__(self, bucket_name=None, object_name=None, header=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
         # ObjectName
-        self.object_name = TeaConverter.to_unicode(object_name)  # type: unicode
+        self.object_name = object_name  # type: str
         # Header
         self.header = header  # type: PutSymlinkRequestHeader
 
@@ -7872,7 +7871,7 @@ class PutSymlinkRequest(TeaModel):
 class PutSymlinkResponse(TeaModel):
     def __init__(self, request_id=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
 
     def validate(self):
         self.validate_required(self.request_id, 'request_id')
@@ -7893,7 +7892,7 @@ class PutSymlinkResponse(TeaModel):
 class GetBucketRefererRequest(TeaModel):
     def __init__(self, bucket_name=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
 
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
@@ -7916,7 +7915,7 @@ class GetBucketRefererRequest(TeaModel):
 class GetBucketRefererResponseRefererConfigurationRefererList(TeaModel):
     def __init__(self, referer=None):
         # Referer
-        self.referer = referer  # type: list[unicode]
+        self.referer = referer  # type: list[str]
 
     def validate(self):
         pass
@@ -7967,7 +7966,7 @@ class GetBucketRefererResponseRefererConfiguration(TeaModel):
 class GetBucketRefererResponse(TeaModel):
     def __init__(self, request_id=None, referer_configuration=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
         # RefererConfiguration
         self.referer_configuration = referer_configuration  # type: GetBucketRefererResponseRefererConfiguration
 
@@ -7998,7 +7997,7 @@ class GetBucketRefererResponse(TeaModel):
 class CallbackRequest(TeaModel):
     def __init__(self, bucket_name=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
 
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
@@ -8021,7 +8020,7 @@ class CallbackRequest(TeaModel):
 class CallbackResponse(TeaModel):
     def __init__(self, request_id=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
 
     def validate(self):
         self.validate_required(self.request_id, 'request_id')
@@ -8042,7 +8041,7 @@ class CallbackResponse(TeaModel):
 class GetBucketLoggingRequest(TeaModel):
     def __init__(self, bucket_name=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
 
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
@@ -8065,9 +8064,9 @@ class GetBucketLoggingRequest(TeaModel):
 class GetBucketLoggingResponseBucketLoggingStatusLoggingEnabled(TeaModel):
     def __init__(self, target_bucket=None, target_prefix=None):
         # TargetBucket
-        self.target_bucket = TeaConverter.to_unicode(target_bucket)  # type: unicode
+        self.target_bucket = target_bucket  # type: str
         # TargetPrefix
-        self.target_prefix = TeaConverter.to_unicode(target_prefix)  # type: unicode
+        self.target_prefix = target_prefix  # type: str
 
     def validate(self):
         pass
@@ -8116,7 +8115,7 @@ class GetBucketLoggingResponseBucketLoggingStatus(TeaModel):
 class GetBucketLoggingResponse(TeaModel):
     def __init__(self, request_id=None, bucket_logging_status=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
         # BucketLoggingStatus
         self.bucket_logging_status = bucket_logging_status  # type: GetBucketLoggingResponseBucketLoggingStatus
 
@@ -8147,7 +8146,7 @@ class GetBucketLoggingResponse(TeaModel):
 class PutObjectAclRequestHeader(TeaModel):
     def __init__(self, object_acl=None):
         # x-oss-object-acl
-        self.object_acl = TeaConverter.to_unicode(object_acl)  # type: unicode
+        self.object_acl = object_acl  # type: str
 
     def validate(self):
         self.validate_required(self.object_acl, 'object_acl')
@@ -8168,9 +8167,9 @@ class PutObjectAclRequestHeader(TeaModel):
 class PutObjectAclRequest(TeaModel):
     def __init__(self, bucket_name=None, object_name=None, header=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
         # ObjectName
-        self.object_name = TeaConverter.to_unicode(object_name)  # type: unicode
+        self.object_name = object_name  # type: str
         # Header
         self.header = header  # type: PutObjectAclRequestHeader
 
@@ -8208,7 +8207,7 @@ class PutObjectAclRequest(TeaModel):
 class PutObjectAclResponse(TeaModel):
     def __init__(self, request_id=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
 
     def validate(self):
         self.validate_required(self.request_id, 'request_id')
@@ -8229,7 +8228,7 @@ class PutObjectAclResponse(TeaModel):
 class GetBucketInfoRequest(TeaModel):
     def __init__(self, bucket_name=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
 
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
@@ -8252,9 +8251,9 @@ class GetBucketInfoRequest(TeaModel):
 class GetBucketInfoResponseBucketInfoBucketOwner(TeaModel):
     def __init__(self, i_d=None, display_name=None):
         # ID
-        self.i_d = TeaConverter.to_unicode(i_d)  # type: unicode
+        self.i_d = i_d  # type: str
         # DisplayName
-        self.display_name = TeaConverter.to_unicode(display_name)  # type: unicode
+        self.display_name = display_name  # type: str
 
     def validate(self):
         pass
@@ -8279,7 +8278,7 @@ class GetBucketInfoResponseBucketInfoBucketOwner(TeaModel):
 class GetBucketInfoResponseBucketInfoBucketAccessControlList(TeaModel):
     def __init__(self, grant=None):
         # Grant
-        self.grant = TeaConverter.to_unicode(grant)  # type: unicode
+        self.grant = grant  # type: str
 
     def validate(self):
         pass
@@ -8301,21 +8300,21 @@ class GetBucketInfoResponseBucketInfoBucket(TeaModel):
     def __init__(self, creation_date=None, extranet_endpoint=None, intranet_endpoint=None, location=None, name=None,
                  data_redundancy_type=None, storage_class=None, comment=None, owner=None, access_control_list=None):
         # CreationDate
-        self.creation_date = TeaConverter.to_unicode(creation_date)  # type: unicode
+        self.creation_date = creation_date  # type: str
         # ExtranetEndpoint
-        self.extranet_endpoint = TeaConverter.to_unicode(extranet_endpoint)  # type: unicode
+        self.extranet_endpoint = extranet_endpoint  # type: str
         # IntranetEndpoint
-        self.intranet_endpoint = TeaConverter.to_unicode(intranet_endpoint)  # type: unicode
+        self.intranet_endpoint = intranet_endpoint  # type: str
         # Location
-        self.location = TeaConverter.to_unicode(location)  # type: unicode
+        self.location = location  # type: str
         # Name
-        self.name = TeaConverter.to_unicode(name)  # type: unicode
+        self.name = name  # type: str
         # DataRedundancyType
-        self.data_redundancy_type = TeaConverter.to_unicode(data_redundancy_type)  # type: unicode
+        self.data_redundancy_type = data_redundancy_type  # type: str
         # StorageClass
-        self.storage_class = TeaConverter.to_unicode(storage_class)  # type: unicode
+        self.storage_class = storage_class  # type: str
         # Comment
-        self.comment = TeaConverter.to_unicode(comment)  # type: unicode
+        self.comment = comment  # type: str
         # Owner
         self.owner = owner  # type: GetBucketInfoResponseBucketInfoBucketOwner
         # AccessControlList
@@ -8407,7 +8406,7 @@ class GetBucketInfoResponseBucketInfo(TeaModel):
 class GetBucketInfoResponse(TeaModel):
     def __init__(self, request_id=None, bucket_info=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
         # BucketInfo
         self.bucket_info = bucket_info  # type: GetBucketInfoResponseBucketInfo
 
@@ -8438,7 +8437,7 @@ class GetBucketInfoResponse(TeaModel):
 class PutLiveChannelStatusRequestFilter(TeaModel):
     def __init__(self, status=None):
         # status
-        self.status = TeaConverter.to_unicode(status)  # type: unicode
+        self.status = status  # type: str
 
     def validate(self):
         self.validate_required(self.status, 'status')
@@ -8459,9 +8458,9 @@ class PutLiveChannelStatusRequestFilter(TeaModel):
 class PutLiveChannelStatusRequest(TeaModel):
     def __init__(self, bucket_name=None, channel_name=None, filter=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
         # ChannelName
-        self.channel_name = TeaConverter.to_unicode(channel_name)  # type: unicode
+        self.channel_name = channel_name  # type: str
         # Filter
         self.filter = filter  # type: PutLiveChannelStatusRequestFilter
 
@@ -8499,7 +8498,7 @@ class PutLiveChannelStatusRequest(TeaModel):
 class PutLiveChannelStatusResponse(TeaModel):
     def __init__(self, request_id=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
 
     def validate(self):
         self.validate_required(self.request_id, 'request_id')
@@ -8520,7 +8519,7 @@ class PutLiveChannelStatusResponse(TeaModel):
 class InitiateMultipartUploadRequestFilter(TeaModel):
     def __init__(self, encoding_type=None):
         # encoding-type
-        self.encoding_type = TeaConverter.to_unicode(encoding_type)  # type: unicode
+        self.encoding_type = encoding_type  # type: str
 
     def validate(self):
         pass
@@ -8542,23 +8541,23 @@ class InitiateMultipartUploadRequestHeader(TeaModel):
     def __init__(self, cache_control=None, content_disposition=None, content_encoding=None, expires=None,
                  server_side_encryption=None, server_side_encryption_key_id=None, storage_class=None, tagging=None, content_type=None):
         # Cache-Control
-        self.cache_control = TeaConverter.to_unicode(cache_control)  # type: unicode
+        self.cache_control = cache_control  # type: str
         # Content-Disposition
-        self.content_disposition = TeaConverter.to_unicode(content_disposition)  # type: unicode
+        self.content_disposition = content_disposition  # type: str
         # Content-Encoding
-        self.content_encoding = TeaConverter.to_unicode(content_encoding)  # type: unicode
+        self.content_encoding = content_encoding  # type: str
         # Expires
-        self.expires = TeaConverter.to_unicode(expires)  # type: unicode
+        self.expires = expires  # type: str
         # x-oss-server-side-encryption
-        self.server_side_encryption = TeaConverter.to_unicode(server_side_encryption)  # type: unicode
+        self.server_side_encryption = server_side_encryption  # type: str
         # x-oss-server-side-encryption-key-id
-        self.server_side_encryption_key_id = TeaConverter.to_unicode(server_side_encryption_key_id)  # type: unicode
+        self.server_side_encryption_key_id = server_side_encryption_key_id  # type: str
         # x-oss-storage-class
-        self.storage_class = TeaConverter.to_unicode(storage_class)  # type: unicode
+        self.storage_class = storage_class  # type: str
         # x-oss-tagging
-        self.tagging = TeaConverter.to_unicode(tagging)  # type: unicode
+        self.tagging = tagging  # type: str
         # content-type
-        self.content_type = TeaConverter.to_unicode(content_type)  # type: unicode
+        self.content_type = content_type  # type: str
 
     def validate(self):
         pass
@@ -8611,9 +8610,9 @@ class InitiateMultipartUploadRequestHeader(TeaModel):
 class InitiateMultipartUploadRequest(TeaModel):
     def __init__(self, bucket_name=None, object_name=None, filter=None, header=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
         # ObjectName
-        self.object_name = TeaConverter.to_unicode(object_name)  # type: unicode
+        self.object_name = object_name  # type: str
         # Filter
         self.filter = filter  # type: InitiateMultipartUploadRequestFilter
         # Header
@@ -8659,11 +8658,11 @@ class InitiateMultipartUploadRequest(TeaModel):
 class InitiateMultipartUploadResponseInitiateMultipartUploadResult(TeaModel):
     def __init__(self, bucket=None, key=None, upload_id=None):
         # Bucket
-        self.bucket = TeaConverter.to_unicode(bucket)  # type: unicode
+        self.bucket = bucket  # type: str
         # Key
-        self.key = TeaConverter.to_unicode(key)  # type: unicode
+        self.key = key  # type: str
         # UploadId
-        self.upload_id = TeaConverter.to_unicode(upload_id)  # type: unicode
+        self.upload_id = upload_id  # type: str
 
     def validate(self):
         pass
@@ -8692,7 +8691,7 @@ class InitiateMultipartUploadResponseInitiateMultipartUploadResult(TeaModel):
 class InitiateMultipartUploadResponse(TeaModel):
     def __init__(self, request_id=None, initiate_multipart_upload_result=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
         # InitiateMultipartUploadResult
         self.initiate_multipart_upload_result = initiate_multipart_upload_result  # type: InitiateMultipartUploadResponseInitiateMultipartUploadResult
 
@@ -8723,11 +8722,11 @@ class InitiateMultipartUploadResponse(TeaModel):
 class OptionObjectRequestHeader(TeaModel):
     def __init__(self, origin=None, access_control_request_method=None, access_control_request_headers=None):
         # Origin
-        self.origin = TeaConverter.to_unicode(origin)  # type: unicode
+        self.origin = origin  # type: str
         # Access-Control-Request-Method
-        self.access_control_request_method = TeaConverter.to_unicode(access_control_request_method)  # type: unicode
+        self.access_control_request_method = access_control_request_method  # type: str
         # Access-Control-Request-Headers
-        self.access_control_request_headers = TeaConverter.to_unicode(access_control_request_headers)  # type: unicode
+        self.access_control_request_headers = access_control_request_headers  # type: str
 
     def validate(self):
         self.validate_required(self.origin, 'origin')
@@ -8758,9 +8757,9 @@ class OptionObjectRequestHeader(TeaModel):
 class OptionObjectRequest(TeaModel):
     def __init__(self, bucket_name=None, object_name=None, header=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
         # ObjectName
-        self.object_name = TeaConverter.to_unicode(object_name)  # type: unicode
+        self.object_name = object_name  # type: str
         # Header
         self.header = header  # type: OptionObjectRequestHeader
 
@@ -8799,17 +8798,17 @@ class OptionObjectResponse(TeaModel):
     def __init__(self, request_id=None, access_control_allow_origin=None, access_control_allow_methods=None,
                  access_control_allow_headers=None, access_control_expose_headers=None, access_control_max_age=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
         # Access-Control-Allow-Origin
-        self.access_control_allow_origin = TeaConverter.to_unicode(access_control_allow_origin)  # type: unicode
+        self.access_control_allow_origin = access_control_allow_origin  # type: str
         # Access-Control-Allow-Methods
-        self.access_control_allow_methods = TeaConverter.to_unicode(access_control_allow_methods)  # type: unicode
+        self.access_control_allow_methods = access_control_allow_methods  # type: str
         # Access-Control-Allow-Headers
-        self.access_control_allow_headers = TeaConverter.to_unicode(access_control_allow_headers)  # type: unicode
+        self.access_control_allow_headers = access_control_allow_headers  # type: str
         # Access-Control-Expose-Headers
-        self.access_control_expose_headers = TeaConverter.to_unicode(access_control_expose_headers)  # type: unicode
+        self.access_control_expose_headers = access_control_expose_headers  # type: str
         # Access-Control-Max-Age
-        self.access_control_max_age = TeaConverter.to_unicode(access_control_max_age)  # type: unicode
+        self.access_control_max_age = access_control_max_age  # type: str
 
     def validate(self):
         self.validate_required(self.request_id, 'request_id')
@@ -8855,9 +8854,9 @@ class OptionObjectResponse(TeaModel):
 class PostVodPlaylistRequestFilter(TeaModel):
     def __init__(self, end_time=None, start_time=None):
         # endTime
-        self.end_time = TeaConverter.to_unicode(end_time)  # type: unicode
+        self.end_time = end_time  # type: str
         # startTime
-        self.start_time = TeaConverter.to_unicode(start_time)  # type: unicode
+        self.start_time = start_time  # type: str
 
     def validate(self):
         self.validate_required(self.end_time, 'end_time')
@@ -8883,11 +8882,11 @@ class PostVodPlaylistRequestFilter(TeaModel):
 class PostVodPlaylistRequest(TeaModel):
     def __init__(self, bucket_name=None, channel_name=None, playlist_name=None, filter=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
         # ChannelName
-        self.channel_name = TeaConverter.to_unicode(channel_name)  # type: unicode
+        self.channel_name = channel_name  # type: str
         # PlaylistName
-        self.playlist_name = TeaConverter.to_unicode(playlist_name)  # type: unicode
+        self.playlist_name = playlist_name  # type: str
         # Filter
         self.filter = filter  # type: PostVodPlaylistRequestFilter
 
@@ -8930,7 +8929,7 @@ class PostVodPlaylistRequest(TeaModel):
 class PostVodPlaylistResponse(TeaModel):
     def __init__(self, request_id=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
 
     def validate(self):
         self.validate_required(self.request_id, 'request_id')
@@ -8952,18 +8951,18 @@ class PostObjectRequestHeader(TeaModel):
     def __init__(self, access_key_id=None, policy=None, signature=None, success_action_status=None, file=None,
                  key=None, user_meta=None):
         # OSSAccessKeyId
-        self.access_key_id = TeaConverter.to_unicode(access_key_id)  # type: unicode
+        self.access_key_id = access_key_id  # type: str
         # policy
-        self.policy = TeaConverter.to_unicode(policy)  # type: unicode
+        self.policy = policy  # type: str
         # Signature
-        self.signature = TeaConverter.to_unicode(signature)  # type: unicode
+        self.signature = signature  # type: str
         # success_action_status
-        self.success_action_status = TeaConverter.to_unicode(success_action_status)  # type: unicode
+        self.success_action_status = success_action_status  # type: str
         self.file = file  # type: file_form_models.FileField
         # key
-        self.key = TeaConverter.to_unicode(key)  # type: unicode
+        self.key = key  # type: str
         # UserMeta
-        self.user_meta = user_meta  # type: dict[unicode, unicode]
+        self.user_meta = user_meta  # type: dict[str, str]
 
     def validate(self):
         self.validate_required(self.access_key_id, 'access_key_id')
@@ -9015,7 +9014,7 @@ class PostObjectRequestHeader(TeaModel):
 class PostObjectRequest(TeaModel):
     def __init__(self, bucket_name=None, header=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
         # header
         self.header = header  # type: PostObjectRequestHeader
 
@@ -9048,11 +9047,11 @@ class PostObjectRequest(TeaModel):
 class PostObjectResponsePostResponse(TeaModel):
     def __init__(self, bucket=None, e_tag=None, location=None):
         # Bucket
-        self.bucket = TeaConverter.to_unicode(bucket)  # type: unicode
+        self.bucket = bucket  # type: str
         # ETag
-        self.e_tag = TeaConverter.to_unicode(e_tag)  # type: unicode
+        self.e_tag = e_tag  # type: str
         # Location
-        self.location = TeaConverter.to_unicode(location)  # type: unicode
+        self.location = location  # type: str
 
     def validate(self):
         self.validate_required(self.bucket, 'bucket')
@@ -9107,13 +9106,13 @@ class PostObjectResponse(TeaModel):
 class HeadObjectRequestHeader(TeaModel):
     def __init__(self, if_modified_since=None, if_unmodified_since=None, if_match=None, if_none_match=None):
         # If-Modified-Since
-        self.if_modified_since = TeaConverter.to_unicode(if_modified_since)  # type: unicode
+        self.if_modified_since = if_modified_since  # type: str
         # If-Unmodified-Since
-        self.if_unmodified_since = TeaConverter.to_unicode(if_unmodified_since)  # type: unicode
+        self.if_unmodified_since = if_unmodified_since  # type: str
         # If-Match
-        self.if_match = TeaConverter.to_unicode(if_match)  # type: unicode
+        self.if_match = if_match  # type: str
         # If-None-Match
-        self.if_none_match = TeaConverter.to_unicode(if_none_match)  # type: unicode
+        self.if_none_match = if_none_match  # type: str
 
     def validate(self):
         pass
@@ -9146,9 +9145,9 @@ class HeadObjectRequestHeader(TeaModel):
 class HeadObjectRequest(TeaModel):
     def __init__(self, bucket_name=None, object_name=None, header=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
         # ObjectName
-        self.object_name = TeaConverter.to_unicode(object_name)  # type: unicode
+        self.object_name = object_name  # type: str
         # Header
         self.header = header  # type: HeadObjectRequestHeader
 
@@ -9189,45 +9188,45 @@ class HeadObjectResponse(TeaModel):
                  last_modified=None, access_control_allow_origin=None, access_control_allow_methods=None,
                  access_control_max_age=None, access_control_allow_headers=None, access_control_expose_headers=None, tagging_count=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
         # usermeta
-        self.user_meta = user_meta  # type: dict[unicode, unicode]
+        self.user_meta = user_meta  # type: dict[str, str]
         # x-oss-server-side-encryption
-        self.server_side_encryption = TeaConverter.to_unicode(server_side_encryption)  # type: unicode
+        self.server_side_encryption = server_side_encryption  # type: str
         # x-oss-server-side-encryption-key-id
-        self.server_side_encryption_key_id = TeaConverter.to_unicode(server_side_encryption_key_id)  # type: unicode
+        self.server_side_encryption_key_id = server_side_encryption_key_id  # type: str
         # x-oss-storage-class
-        self.storage_class = TeaConverter.to_unicode(storage_class)  # type: unicode
+        self.storage_class = storage_class  # type: str
         # x-oss-object-type
-        self.object_type = TeaConverter.to_unicode(object_type)  # type: unicode
+        self.object_type = object_type  # type: str
         # x-oss-next-append-position
-        self.next_append_position = TeaConverter.to_unicode(next_append_position)  # type: unicode
+        self.next_append_position = next_append_position  # type: str
         # x-oss-hash-crc64ecma
-        self.hash_crc_64ecma = TeaConverter.to_unicode(hash_crc_64ecma)  # type: unicode
+        self.hash_crc_64ecma = hash_crc_64ecma  # type: str
         # x-oss-expiration
-        self.expiration = TeaConverter.to_unicode(expiration)  # type: unicode
+        self.expiration = expiration  # type: str
         # x-oss-restore
-        self.restore = TeaConverter.to_unicode(restore)  # type: unicode
+        self.restore = restore  # type: str
         # x-oss-process-status
-        self.process_status = TeaConverter.to_unicode(process_status)  # type: unicode
+        self.process_status = process_status  # type: str
         # x-oss-request-charged
-        self.request_charged = TeaConverter.to_unicode(request_charged)  # type: unicode
+        self.request_charged = request_charged  # type: str
         # Content-Md5
-        self.content_md_5 = TeaConverter.to_unicode(content_md_5)  # type: unicode
+        self.content_md_5 = content_md_5  # type: str
         # Last-Modified
-        self.last_modified = TeaConverter.to_unicode(last_modified)  # type: unicode
+        self.last_modified = last_modified  # type: str
         # Access-Control-Allow-Origin
-        self.access_control_allow_origin = TeaConverter.to_unicode(access_control_allow_origin)  # type: unicode
+        self.access_control_allow_origin = access_control_allow_origin  # type: str
         # Access-Control-Allow-Methods
-        self.access_control_allow_methods = TeaConverter.to_unicode(access_control_allow_methods)  # type: unicode
+        self.access_control_allow_methods = access_control_allow_methods  # type: str
         # Access-Control-Max-Age
-        self.access_control_max_age = TeaConverter.to_unicode(access_control_max_age)  # type: unicode
+        self.access_control_max_age = access_control_max_age  # type: str
         # Access-Control-Allow-Headers
-        self.access_control_allow_headers = TeaConverter.to_unicode(access_control_allow_headers)  # type: unicode
+        self.access_control_allow_headers = access_control_allow_headers  # type: str
         # Access-Control-Expose-Headers
-        self.access_control_expose_headers = TeaConverter.to_unicode(access_control_expose_headers)  # type: unicode
+        self.access_control_expose_headers = access_control_expose_headers  # type: str
         # x-oss-tagging-count
-        self.tagging_count = TeaConverter.to_unicode(tagging_count)  # type: unicode
+        self.tagging_count = tagging_count  # type: str
 
     def validate(self):
         self.validate_required(self.request_id, 'request_id')
@@ -9343,9 +9342,9 @@ class HeadObjectResponse(TeaModel):
 class DeleteObjectTaggingRequest(TeaModel):
     def __init__(self, bucket_name=None, object_name=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
         # ObjectName
-        self.object_name = TeaConverter.to_unicode(object_name)  # type: unicode
+        self.object_name = object_name  # type: str
 
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
@@ -9373,7 +9372,7 @@ class DeleteObjectTaggingRequest(TeaModel):
 class DeleteObjectTaggingResponse(TeaModel):
     def __init__(self, request_id=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
 
     def validate(self):
         self.validate_required(self.request_id, 'request_id')
@@ -9394,9 +9393,9 @@ class DeleteObjectTaggingResponse(TeaModel):
 class RestoreObjectRequest(TeaModel):
     def __init__(self, bucket_name=None, object_name=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
         # ObjectName
-        self.object_name = TeaConverter.to_unicode(object_name)  # type: unicode
+        self.object_name = object_name  # type: str
 
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
@@ -9424,7 +9423,7 @@ class RestoreObjectRequest(TeaModel):
 class RestoreObjectResponse(TeaModel):
     def __init__(self, request_id=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
 
     def validate(self):
         self.validate_required(self.request_id, 'request_id')
@@ -9445,9 +9444,9 @@ class RestoreObjectResponse(TeaModel):
 class GetObjectAclRequest(TeaModel):
     def __init__(self, bucket_name=None, object_name=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
         # ObjectName
-        self.object_name = TeaConverter.to_unicode(object_name)  # type: unicode
+        self.object_name = object_name  # type: str
 
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
@@ -9475,9 +9474,9 @@ class GetObjectAclRequest(TeaModel):
 class GetObjectAclResponseAccessControlPolicyOwner(TeaModel):
     def __init__(self, i_d=None, display_name=None):
         # ID
-        self.i_d = TeaConverter.to_unicode(i_d)  # type: unicode
+        self.i_d = i_d  # type: str
         # DisplayName
-        self.display_name = TeaConverter.to_unicode(display_name)  # type: unicode
+        self.display_name = display_name  # type: str
 
     def validate(self):
         pass
@@ -9502,7 +9501,7 @@ class GetObjectAclResponseAccessControlPolicyOwner(TeaModel):
 class GetObjectAclResponseAccessControlPolicyAccessControlList(TeaModel):
     def __init__(self, grant=None):
         # Grant
-        self.grant = TeaConverter.to_unicode(grant)  # type: unicode
+        self.grant = grant  # type: str
 
     def validate(self):
         pass
@@ -9557,7 +9556,7 @@ class GetObjectAclResponseAccessControlPolicy(TeaModel):
 class GetObjectAclResponse(TeaModel):
     def __init__(self, request_id=None, access_control_policy=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
         # AccessControlPolicy
         self.access_control_policy = access_control_policy  # type: GetObjectAclResponseAccessControlPolicy
 
@@ -9588,7 +9587,7 @@ class GetObjectAclResponse(TeaModel):
 class PutBucketAclRequestHeader(TeaModel):
     def __init__(self, acl=None):
         # x-oss-acl
-        self.acl = TeaConverter.to_unicode(acl)  # type: unicode
+        self.acl = acl  # type: str
 
     def validate(self):
         self.validate_required(self.acl, 'acl')
@@ -9609,7 +9608,7 @@ class PutBucketAclRequestHeader(TeaModel):
 class PutBucketAclRequest(TeaModel):
     def __init__(self, bucket_name=None, header=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
         # Header
         self.header = header  # type: PutBucketAclRequestHeader
 
@@ -9642,7 +9641,7 @@ class PutBucketAclRequest(TeaModel):
 class PutBucketAclResponse(TeaModel):
     def __init__(self, request_id=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
 
     def validate(self):
         self.validate_required(self.request_id, 'request_id')
@@ -9663,7 +9662,7 @@ class PutBucketAclResponse(TeaModel):
 class DeleteBucketRequest(TeaModel):
     def __init__(self, bucket_name=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
 
     def validate(self):
         self.validate_required(self.bucket_name, 'bucket_name')
@@ -9686,7 +9685,7 @@ class DeleteBucketRequest(TeaModel):
 class DeleteBucketResponse(TeaModel):
     def __init__(self, request_id=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
 
     def validate(self):
         self.validate_required(self.request_id, 'request_id')
@@ -9709,33 +9708,33 @@ class PutObjectRequestHeader(TeaModel):
                  content_md5=None, content_length=None, e_tag=None, expires=None, server_side_encryption=None,
                  server_side_encryption_key_id=None, object_acl=None, storage_class=None, tagging=None, content_type=None):
         # Authorization
-        self.authorization = TeaConverter.to_unicode(authorization)  # type: unicode
+        self.authorization = authorization  # type: str
         # Cache-Control
-        self.cache_control = TeaConverter.to_unicode(cache_control)  # type: unicode
+        self.cache_control = cache_control  # type: str
         # Content-Disposition
-        self.content_disposition = TeaConverter.to_unicode(content_disposition)  # type: unicode
+        self.content_disposition = content_disposition  # type: str
         # Content-Encoding
-        self.content_encoding = TeaConverter.to_unicode(content_encoding)  # type: unicode
+        self.content_encoding = content_encoding  # type: str
         # Content-MD5
-        self.content_md5 = TeaConverter.to_unicode(content_md5)  # type: unicode
+        self.content_md5 = content_md5  # type: str
         # Content-Length
-        self.content_length = TeaConverter.to_unicode(content_length)  # type: unicode
+        self.content_length = content_length  # type: str
         # CETag
-        self.e_tag = TeaConverter.to_unicode(e_tag)  # type: unicode
+        self.e_tag = e_tag  # type: str
         # Expires
-        self.expires = TeaConverter.to_unicode(expires)  # type: unicode
+        self.expires = expires  # type: str
         # x-oss-server-side-encryption
-        self.server_side_encryption = TeaConverter.to_unicode(server_side_encryption)  # type: unicode
+        self.server_side_encryption = server_side_encryption  # type: str
         # x-oss-server-side-encryption-key-id
-        self.server_side_encryption_key_id = TeaConverter.to_unicode(server_side_encryption_key_id)  # type: unicode
+        self.server_side_encryption_key_id = server_side_encryption_key_id  # type: str
         # x-oss-object-acl
-        self.object_acl = TeaConverter.to_unicode(object_acl)  # type: unicode
+        self.object_acl = object_acl  # type: str
         # x-oss-storage-class
-        self.storage_class = TeaConverter.to_unicode(storage_class)  # type: unicode
+        self.storage_class = storage_class  # type: str
         # x-oss-tagging
-        self.tagging = TeaConverter.to_unicode(tagging)  # type: unicode
+        self.tagging = tagging  # type: str
         # content-type
-        self.content_type = TeaConverter.to_unicode(content_type)  # type: unicode
+        self.content_type = content_type  # type: str
 
     def validate(self):
         pass
@@ -9808,11 +9807,11 @@ class PutObjectRequestHeader(TeaModel):
 class PutObjectRequest(TeaModel):
     def __init__(self, bucket_name=None, object_name=None, user_meta=None, body=None, header=None):
         # BucketName
-        self.bucket_name = TeaConverter.to_unicode(bucket_name)  # type: unicode
+        self.bucket_name = bucket_name  # type: str
         # ObjectName
-        self.object_name = TeaConverter.to_unicode(object_name)  # type: unicode
+        self.object_name = object_name  # type: str
         # UserMeta
-        self.user_meta = user_meta  # type: dict[unicode, unicode]
+        self.user_meta = user_meta  # type: dict[str, str]
         # body
         self.body = body  # type: READABLE
         # Header
@@ -9859,13 +9858,13 @@ class PutObjectRequest(TeaModel):
 class PutObjectResponse(TeaModel):
     def __init__(self, request_id=None, hash_crc_64ecma=None, server_time=None, bucket_version=None):
         # x-oss-request-id
-        self.request_id = TeaConverter.to_unicode(request_id)  # type: unicode
+        self.request_id = request_id  # type: str
         # x-oss-hash-crc64ecma
-        self.hash_crc_64ecma = TeaConverter.to_unicode(hash_crc_64ecma)  # type: unicode
+        self.hash_crc_64ecma = hash_crc_64ecma  # type: str
         # x-oss-server-time
-        self.server_time = TeaConverter.to_unicode(server_time)  # type: unicode
+        self.server_time = server_time  # type: str
         # x-oss-bucket-version
-        self.bucket_version = TeaConverter.to_unicode(bucket_version)  # type: unicode
+        self.bucket_version = bucket_version  # type: str
 
     def validate(self):
         self.validate_required(self.request_id, 'request_id')
