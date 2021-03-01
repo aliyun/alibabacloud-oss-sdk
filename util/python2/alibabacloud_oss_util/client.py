@@ -4,7 +4,10 @@ import hmac
 import base64
 
 from xml.etree import ElementTree
-from urllib import quote, unquote
+try:
+    from urllib import quote, unquote
+except ImportError:
+    from urllib.parse import quote, unquote
 
 from alibabacloud_oss_util import verify_stream
 
