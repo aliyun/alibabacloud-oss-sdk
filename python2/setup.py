@@ -18,6 +18,7 @@
  under the License.
 """
 
+import sys
 import os
 from setuptools import setup, find_packages
 
@@ -37,17 +38,21 @@ AUTHOR_EMAIL = "alibaba-cloud-sdk-dev-team@list.alibaba-inc.com"
 URL = "https://github.com/aliyun/alibabacloud-oss-sdk/tree/master/python2"
 VERSION = __import__(PACKAGE).__version__
 REQUIRES = [
-    "alibabacloud_tea_util_py2>=0.0.1, <1.0.0",
-    "alibabacloud_oss_util_py2>=0.0.1, <1.0.0",
+    "alibabacloud_tea_util_py2>=0.0.4, <1.0.0",
+    "alibabacloud_oss_util_py2>=0.0.2, <1.0.0",
     "alibabacloud_tea_xml_py2>=0.0.1, <1.0.0",
     "alibabacloud_tea_fileform_py2>=0.0.1, <1.0.0",
-    "alibabacloud_credentials_py2>=0.0.1, <1.0.0"
+    "alibabacloud_credentials_py2>=0.0.3, <1.0.0"
 ]
 
 LONG_DESCRIPTION = ''
 if os.path.exists('./README.md'):
-    with open("README.md") as fp:
-        LONG_DESCRIPTION = fp.read()
+    if sys.version_info.major == 2:
+        with open("README.md") as fp:
+            LONG_DESCRIPTION = fp.read()
+    else:
+        with open("README.md", encoding="utf-8") as fp:
+            LONG_DESCRIPTION = fp.read()
 
 setup(
     name=NAME,
