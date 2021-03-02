@@ -15,6 +15,7 @@
  under the License.
 """
 
+import sys
 import os
 from setuptools import setup, find_packages
 
@@ -32,8 +33,13 @@ URL = "https://github.com/aliyun/alibabacloud-oss-sdk/tree/master/util/python2"
 TOPDIR = os.path.dirname(__file__) or "."
 VERSION = __import__(PACKAGE).__version__
 
-with open("README.md") as fp:
-    LONG_DESCRIPTION = fp.read()
+if sys.version_info.major == 2:
+    with open("README.md") as fp:
+        LONG_DESCRIPTION = fp.read()
+else:
+    with open("README.md", encoding='utf-8') as fp:
+        LONG_DESCRIPTION = fp.read()
+
 
 setup_args = {
     'version': VERSION,
