@@ -7,6 +7,16 @@ from _io import BytesIO
 from Tea.stream import BaseStream
 
 
+def _length(o):
+    if hasattr(o, 'len'):
+        return o.len
+    elif isinstance(o, BytesIO):
+        return o.getbuffer().nbytes
+    elif hasattr(o, 'fileno'):
+        return os.path.getsize(o.name)
+    return len(o)
+
+
 class CRC64:
     POLY = (0xC96C5795 << 32) | 0xD7870F42
 
@@ -45,10 +55,7 @@ class VerifyStream(BaseStream):
         self.crc = CRC64()
         self.ref = res
         self.md5 = hashlib.md5()
-        if isinstance(file, BytesIO):
-            self.file_size = file.getbuffer().nbytes
-        else:
-            self.file_size = os.path.getsize(file.name)
+        self.file_size = _length(file)
         self._file_size = self.file_size
 
     def __len__(self):
@@ -97,7 +104,8 @@ class VerifyStream(BaseStream):
     def refresh(self):
         self.crc = CRC64()
         self.md5 = hashlib.md5()
-        self.file.seek(0, 0)
+        if hasattr(self.file, 'seek'):
+            self.file.seek(0, 0)
         self._file_size = self.file_size
 
     def close(self):
