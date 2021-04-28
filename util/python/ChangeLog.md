@@ -1,3 +1,6 @@
+### 2021-04-28 Version 0.0.6
+* Support upload a file-like object.
+
 ### 2020-10-19 Version 0.0.5
 * Fix signature_version attributeError.
 
