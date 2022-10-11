@@ -105,10 +105,16 @@ class OSSUtils
 
     public static function getContentType($fileName)
     {
-        $mimes = new \Mimey\MimeTypes();
-        $ext   = pathinfo($fileName, PATHINFO_EXTENSION);
+        $mapping = require(dirname(__DIR__) . '/mime.types.php');
+        if (!empty($fileName) && !empty(trim($fileName))) {
+            $ext   = pathinfo($fileName, PATHINFO_EXTENSION);
+            $ext   = strtolower(trim($ext));
 
-        return $mimes->getMimeType($ext);
+            if (!empty($mapping['mimes'][$ext])) {
+                return $mapping['mimes'][$ext][0];
+            }
+        }
+        return null;
     }
 
     public static function getContentMD5($body, $isEnableMD5)
@@ -149,10 +155,10 @@ class OSSUtils
 
     public static function getHost($bucketName, $regionId, $endpoint, $hostModel)
     {
-        if (empty(trim($regionId))) {
+        if (empty($regionId) || empty(trim($regionId))) {
             $regionId = 'cn-hangzhou';
         }
-        if (empty(trim($endpoint))) {
+        if (empty($endpoint) || empty(trim($endpoint))) {
             $endpoint = 'oss-' . $regionId . '.aliyuncs.com';
         }
         if (!empty($bucketName)) {
@@ -202,8 +208,8 @@ class OSSUtils
             }
 
             return 'OSS2 AccessKeyId:' . $accessKeyId .
-                    ',AdditionalHeaders:' . implode(';', $addtionalHeaders) .
-                    ',Signature:' . self::getSignatureV2($request, $bucketName, $accessKeySecret, $addtionalHeaders);
+                ',AdditionalHeaders:' . implode(';', $addtionalHeaders) .
+                ',Signature:' . self::getSignatureV2($request, $bucketName, $accessKeySecret, $addtionalHeaders);
         }
 
         return 'OSS ' . $accessKeyId . ':' . self::getSignatureV1($request, $bucketName, $accessKeySecret);
@@ -231,7 +237,9 @@ class OSSUtils
 
     private static function parseXml($xmlStr)
     {
-        libxml_disable_entity_loader(true);
+        if (\PHP_VERSION_ID < 80000) {
+            libxml_disable_entity_loader(true);
+        }
         $xml      = simplexml_load_string($xmlStr, 'SimpleXMLElement', LIBXML_NOCDATA);
         $rootName = $xml->getName();
 
