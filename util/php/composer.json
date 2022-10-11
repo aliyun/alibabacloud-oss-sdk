@@ -12,11 +12,10 @@
     "require": {
         "php": ">5.5",
         "alibabacloud/tea": "^3.0",
-        "ralouphie/mimey": "^2.1",
         "guzzlehttp/psr7": "^1.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^4.8.35|^5.4.3"
+        "phpunit/phpunit": "^4.8.35|^5.4.3|^9.4"
     },
     "autoload": {
         "psr-4": {

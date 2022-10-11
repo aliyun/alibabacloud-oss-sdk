@@ -49,6 +49,8 @@ class OSSUtilsTest extends TestCase
     {
         $this->assertEquals('image/webp', OSSUtils::getContentType('test.webp'));
         $this->assertEquals('audio/mpeg', OSSUtils::getContentType('test.mp3'));
+        $this->assertEquals(null, OSSUtils::getContentType(null));
+        $this->assertEquals(null, OSSUtils::getContentType(true));
     }
 
     public function testGetContentMD5()
