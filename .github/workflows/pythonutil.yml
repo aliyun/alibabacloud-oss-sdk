@@ -1,0 +1,37 @@
+name: Python CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+defaults:
+  run:
+    shell: bash
+    working-directory: util/python
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [ "3.7", "3.8", "3.9", "3.10", "3.11", "3.12" ]
+      fail-fast: false
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: pip install alibabacloud-tea coverage==5.5 pytest==6.2.5
+      if: matrix.python-version == '3.7'
+    - name: Install dependencies
+      run: pip install alibabacloud-tea coverage pytest
+      if: matrix.python-version != '3.7'
+    - name: Test with unittest
+      run: |
+        coverage run --source="./alibabacloud_oss_util" -m pytest tests/test_*
+    - name: CodeCov
+      run: bash <(curl -s https://codecov.io/bash) -cF python
