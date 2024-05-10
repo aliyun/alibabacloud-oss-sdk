@@ -1,0 +1,66 @@
+name: Swift
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+defaults:
+  run:
+    shell: bash
+    working-directory: util/swift
+
+jobs:
+  build-ubuntu-latest:
+    name: Swift ${{ matrix.swift }} on ubuntu-latest
+    strategy:
+      matrix:
+        # ubuntu swift5.6及以下版本下载会报gpg签名错误，已知bug等官方解决
+        swift: ["5.7", "5.8", "5.9", "5.10"]
+      fail-fast: false
+    runs-on: ubuntu-latest
+    steps:
+    - uses: swift-actions/setup-swift@v2
+      with:
+        swift-version: ${{ matrix.swift }}
+    - uses: actions/checkout@v4
+    - name: Build
+      run: swift build -v
+    - name: Run tests
+      run: swift test -v
+
+  build-macos-latest:
+    name: Swift ${{ matrix.swift }} on macos-latest
+    strategy:
+      matrix:
+        swift: ["5.9", "5.10"]
+      fail-fast: false
+    runs-on: macos-latest
+    steps:
+    - uses: swift-actions/setup-swift@v2
+      with:
+        swift-version: ${{ matrix.swift }}
+    - uses: actions/checkout@v4
+    - name: Verify Xcode Version
+      run: xcodebuild -version
+    - name: Build
+      run: swift build -v
+    - name: Run tests
+      run: swift test -v
+
+  build-macos-11:
+    name: Swift ${{ matrix.swift }} on macos-11
+    strategy:
+      matrix:
+        swift: ["5.6", "5.7", "5.8"]
+      fail-fast: false
+    runs-on: macos-11
+    steps:
+    - uses: swift-actions/setup-swift@v2
+      with:
+        swift-version: ${{ matrix.swift }}
+    - uses: actions/checkout@v4
+    - name: Build
+      run: swift build -v
+    - name: Run tests
+      run: swift test -v
