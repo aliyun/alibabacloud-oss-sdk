@@ -27,6 +27,14 @@ public class VerifyStream: InputStream {
         return bytesRead
     }
     
+    public override func open() {
+        inputStream.open()
+    }
+    
+    public override func close() {
+        inputStream.close()
+    }
+    
     func readSingleByte() -> UInt8? {
         var buffer: UInt8 = 0
         let bytesRead = self.read(&buffer, maxLength: 1)

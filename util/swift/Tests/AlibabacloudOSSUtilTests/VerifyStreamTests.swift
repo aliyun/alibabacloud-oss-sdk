@@ -16,7 +16,6 @@ class VerifyStreamTest: XCTestCase {
         input.open()
         defer { input.close() }
 
-        input.open()
         var bytes = [UInt8](repeating: 0, count: 4)
         let bytesRead = verifyStream.read(&bytes, maxLength: bytes.count)
         XCTAssertEqual(4, bytesRead)

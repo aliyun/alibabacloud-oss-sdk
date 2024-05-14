@@ -564,6 +564,7 @@ open class Client {
     public static func inject(_ body: InputStream?, _ res: inout [String: String]?) -> VerifyStream {
         var map = res ?? [:]
         let verifyStream = VerifyStream(inputStream: body ?? InputStream(data: Data()), map: &map)
+        verifyStream.open()
         res = map
         return verifyStream
     }
