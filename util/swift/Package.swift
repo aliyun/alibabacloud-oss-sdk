@@ -15,7 +15,7 @@ let package = Package(
         ],
         dependencies: [
             // Dependencies declare other packages that this package depends on.
-            .package(url: "https://github.com/aliyun/tea-swift.git", from: "1.0.0"),
+            .package(url: "https://github.com/aliyun/tea-swift.git", from: "1.0.2"),
             .package(url: "https://github.com/krzyzanowskim/CryptoSwift.git", from: "1.5.1"),
             .package(url: "https://github.com/drmohundro/SWXMLHash.git", from: "7.0.2"),
             
