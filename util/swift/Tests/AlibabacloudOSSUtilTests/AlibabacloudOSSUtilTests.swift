@@ -70,6 +70,7 @@ final class AlibabaCloudOssUtilTests: XCTestCase {
     func testInject() throws {
         var map: [String: String]? = nil
         let verifyStream = Client.inject(nil, &map)
+        verifyStream.close()
         XCTAssertTrue(verifyStream is VerifyStream)
     }
     
