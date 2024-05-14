@@ -3,15 +3,15 @@
 import PackageDescription
 
 let package = Package(
-        name: "AlibabacloudOSSUtil",
+        name: "AlibabaCloudOSSUtil",
         platforms: [.macOS(.v10_15),
                     .iOS(.v13),
                     .tvOS(.v13),
                     .watchOS(.v6)],
         products: [
             .library(
-                    name: "AlibabacloudOSSUtil",
-                    targets: ["AlibabacloudOSSUtil"])
+                    name: "AlibabaCloudOSSUtil",
+                    targets: ["AlibabaCloudOSSUtil"])
         ],
         dependencies: [
             // Dependencies declare other packages that this package depends on.
@@ -22,16 +22,16 @@ let package = Package(
         ],
         targets: [
             .target(
-                    name: "AlibabacloudOSSUtil",
+                    name: "AlibabaCloudOSSUtil",
                     dependencies: [
                         .product(name: "Tea", package: "tea-swift"),
                         .product(name: "SWXMLHash", package: "SWXMLHash"),
                         .product(name: "CryptoSwift", package: "CryptoSwift"),
                     ]),
             .testTarget(
-                name: "AlibabacloudOSSUtilTests",
+                name: "AlibabaCloudOSSUtilTests",
                 dependencies: [
-                    "AlibabacloudOSSUtil",
+                    "AlibabaCloudOSSUtil",
                     .product(name: "Tea", package: "tea-swift")
                 ]),
         ],
