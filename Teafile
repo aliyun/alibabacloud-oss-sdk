@@ -21,7 +21,8 @@
 		"ts": "@alicloud/oss-client:^1.1.2",
 		"php": "alibabacloud/tea-oss-sdk:^0.3.0",
 		"python": "alibabacloud_oss_sdk:0.1.0",
-		"python2": "alibabacloud_oss_sdk_py2:0.0.1"
+		"python2": "alibabacloud_oss_sdk_py2:0.0.1",
+		"swift": "alibabacloud-sdk-swift/tea-oss-sdk:1.0.0"
 	},
 	"java": {
 		"package": "com.aliyun.oss"
@@ -78,5 +79,15 @@
 		"OSSUtil": "alibabacloud:OSSUtil:*",
 		"FileForm": "darabonba:FileForm:*",
 		"Credential": "alibabacloud:Credential:*"
+	},
+	"swift": {
+		"clientName": "Client",
+		"packageInfo": {
+		  "name": "AlibabaCloudOssSdk",
+		  "desc": "AlibabaCloud OSS SDK for Swift",
+		  "github": "https://github.com/alibabacloud-sdk-swift/tea-oss-sdk",
+		  "author": "Alibaba Cloud SDK",
+		  "email": "sdk-team@alibabacloud.com"
+		}
 	}
 }
