@@ -186,7 +186,7 @@ api putBucketLifecycle(request: PutBucketLifecycleRequest, runtime: OSSUtil.Runt
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model DeleteMultipleObjectsRequest = {
@@ -286,7 +286,7 @@ api deleteMultipleObjects(request: DeleteMultipleObjectsRequest, runtime: OSSUti
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model PutBucketRefererRequest = {
@@ -361,7 +361,7 @@ api putBucketReferer(request: PutBucketRefererRequest, runtime: OSSUtil.RuntimeO
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model PutBucketWebsiteRequest = {
@@ -475,7 +475,7 @@ api putBucketWebsite(request: PutBucketWebsiteRequest, runtime: OSSUtil.RuntimeO
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model CompleteMultipartUploadRequest = {
@@ -568,7 +568,7 @@ api completeMultipartUpload(request: CompleteMultipartUploadRequest, runtime: OS
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model PutBucketLoggingRequest = {
@@ -643,7 +643,7 @@ api putBucketLogging(request: PutBucketLoggingRequest, runtime: OSSUtil.RuntimeO
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model PutBucketRequestPaymentRequest = {
@@ -715,7 +715,7 @@ api putBucketRequestPayment(request: PutBucketRequestPaymentRequest, runtime: OS
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model PutBucketEncryptionRequest = {
@@ -790,7 +790,7 @@ api putBucketEncryption(request: PutBucketEncryptionRequest, runtime: OSSUtil.Ru
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model PutLiveChannelRequest = {
@@ -887,7 +887,7 @@ api putLiveChannel(request: PutLiveChannelRequest, runtime: OSSUtil.RuntimeOptio
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model PutBucketTagsRequest = {
@@ -966,7 +966,7 @@ api putBucketTags(request: PutBucketTagsRequest, runtime: OSSUtil.RuntimeOptions
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model PutObjectTaggingRequest = {
@@ -1046,7 +1046,7 @@ api putObjectTagging(request: PutObjectTaggingRequest, runtime: OSSUtil.RuntimeO
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model SelectObjectRequest = {
@@ -1148,7 +1148,7 @@ api selectObject(request: SelectObjectRequest, runtime: OSSUtil.RuntimeOptions):
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model PutBucketCORSRequest = {
@@ -1228,7 +1228,7 @@ api putBucketCORS(request: PutBucketCORSRequest, runtime: OSSUtil.RuntimeOptions
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model PutBucketRequest = {
@@ -1305,7 +1305,7 @@ api putBucket(request: PutBucketRequest, runtime: OSSUtil.RuntimeOptions): PutBu
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model ListMultipartUploadsRequest = {
@@ -1400,7 +1400,7 @@ api listMultipartUploads(request: ListMultipartUploadsRequest, runtime: OSSUtil.
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model GetBucketRequestPaymentRequest = {
@@ -1471,7 +1471,7 @@ api getBucketRequestPayment(request: GetBucketRequestPaymentRequest, runtime: OS
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model GetBucketEncryptionRequest = {
@@ -1545,7 +1545,7 @@ api getBucketEncryption(request: GetBucketEncryptionRequest, runtime: OSSUtil.Ru
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model GetBucketTagsRequest = {
@@ -1623,7 +1623,7 @@ api getBucketTags(request: GetBucketTagsRequest, runtime: OSSUtil.RuntimeOptions
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model GetServiceRequest = {
@@ -1719,7 +1719,7 @@ api getService(request: GetServiceRequest, runtime: OSSUtil.RuntimeOptions): Get
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model DeleteBucketEncryptionRequest = {
@@ -1784,7 +1784,7 @@ api deleteBucketEncryption(request: DeleteBucketEncryptionRequest, runtime: OSSU
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model DeleteBucketTagsRequest = {
@@ -1853,7 +1853,7 @@ api deleteBucketTags(request: DeleteBucketTagsRequest, runtime: OSSUtil.RuntimeO
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model GetBucketWebsiteRequest = {
@@ -1966,7 +1966,7 @@ api getBucketWebsite(request: GetBucketWebsiteRequest, runtime: OSSUtil.RuntimeO
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model DeleteLiveChannelRequest = {
@@ -2032,7 +2032,7 @@ api deleteLiveChannel(request: DeleteLiveChannelRequest, runtime: OSSUtil.Runtim
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model GetBucketLocationRequest = {
@@ -2101,7 +2101,7 @@ api getBucketLocation(request: GetBucketLocationRequest, runtime: OSSUtil.Runtim
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model ListLiveChannelRequest = {
@@ -2194,7 +2194,7 @@ api listLiveChannel(request: ListLiveChannelRequest, runtime: OSSUtil.RuntimeOpt
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model GetObjectMetaRequest = {
@@ -2263,7 +2263,7 @@ api getObjectMeta(request: GetObjectMetaRequest, runtime: OSSUtil.RuntimeOptions
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model GetBucketAclRequest = {
@@ -2340,7 +2340,7 @@ api getBucketAcl(request: GetBucketAclRequest, runtime: OSSUtil.RuntimeOptions):
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model ListPartsRequest = {
@@ -2434,7 +2434,7 @@ api listParts(request: ListPartsRequest, runtime: OSSUtil.RuntimeOptions): ListP
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model GetLiveChannelHistoryRequest = {
@@ -2516,7 +2516,7 @@ api getLiveChannelHistory(request: GetLiveChannelHistoryRequest, runtime: OSSUti
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model GetBucketRequest = {
@@ -2615,7 +2615,7 @@ api getBucket(request: GetBucketRequest, runtime: OSSUtil.RuntimeOptions): GetBu
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model GetLiveChannelInfoRequest = {
@@ -2694,7 +2694,7 @@ api getLiveChannelInfo(request: GetLiveChannelInfoRequest, runtime: OSSUtil.Runt
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model GetLiveChannelStatRequest = {
@@ -2784,7 +2784,7 @@ api getLiveChannelStat(request: GetLiveChannelStatRequest, runtime: OSSUtil.Runt
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model DeleteObjectRequest = {
@@ -2850,7 +2850,7 @@ api deleteObject(request: DeleteObjectRequest, runtime: OSSUtil.RuntimeOptions):
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model AbortMultipartUploadRequest = {
@@ -2920,7 +2920,7 @@ api abortMultipartUpload(request: AbortMultipartUploadRequest, runtime: OSSUtil.
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model AppendObjectRequest = {
@@ -3034,7 +3034,7 @@ api appendObject(request: AppendObjectRequest, runtime: OSSUtil.RuntimeOptions):
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model UploadPartCopyRequest = {
@@ -3121,7 +3121,7 @@ api uploadPartCopy(request: UploadPartCopyRequest, runtime: OSSUtil.RuntimeOptio
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model GetVodPlaylistRequest = {
@@ -3192,7 +3192,7 @@ api getVodPlaylist(request: GetVodPlaylistRequest, runtime: OSSUtil.RuntimeOptio
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model DeleteBucketCORSRequest = {
@@ -3257,7 +3257,7 @@ api deleteBucketCORS(request: DeleteBucketCORSRequest, runtime: OSSUtil.RuntimeO
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model GetObjectRequest = {
@@ -3344,7 +3344,7 @@ api getObject(request: GetObjectRequest, runtime: OSSUtil.RuntimeOptions): GetOb
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model UploadPartRequest = {
@@ -3438,7 +3438,7 @@ api uploadPart(request: UploadPartRequest, runtime: OSSUtil.RuntimeOptions): Upl
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model GetBucketCORSRequest = {
@@ -3513,7 +3513,7 @@ api getBucketCORS(request: GetBucketCORSRequest, runtime: OSSUtil.RuntimeOptions
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model CopyObjectRequest = {
@@ -3603,7 +3603,7 @@ api copyObject(request: CopyObjectRequest, runtime: OSSUtil.RuntimeOptions): Cop
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model GetObjectTaggingRequest = {
@@ -3682,7 +3682,7 @@ api getObjectTagging(request: GetObjectTaggingRequest, runtime: OSSUtil.RuntimeO
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model DeleteBucketLifecycleRequest = {
@@ -3747,7 +3747,7 @@ api deleteBucketLifecycle(request: DeleteBucketLifecycleRequest, runtime: OSSUti
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model DeleteBucketLoggingRequest = {
@@ -3812,7 +3812,7 @@ api deleteBucketLogging(request: DeleteBucketLoggingRequest, runtime: OSSUtil.Ru
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model DeleteBucketWebsiteRequest = {
@@ -3877,7 +3877,7 @@ api deleteBucketWebsite(request: DeleteBucketWebsiteRequest, runtime: OSSUtil.Ru
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model GetSymlinkRequest = {
@@ -3944,7 +3944,7 @@ api getSymlink(request: GetSymlinkRequest, runtime: OSSUtil.RuntimeOptions): Get
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model GetBucketLifecycleRequest = {
@@ -4037,7 +4037,7 @@ api getBucketLifecycle(request: GetBucketLifecycleRequest, runtime: OSSUtil.Runt
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model PutSymlinkRequest = {
@@ -4108,7 +4108,7 @@ api putSymlink(request: PutSymlinkRequest, runtime: OSSUtil.RuntimeOptions): Put
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model GetBucketRefererRequest = {
@@ -4182,7 +4182,7 @@ api getBucketReferer(request: GetBucketRefererRequest, runtime: OSSUtil.RuntimeO
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model CallbackRequest = {
@@ -4247,7 +4247,7 @@ api callback(request: CallbackRequest, runtime: OSSUtil.RuntimeOptions): Callbac
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model GetBucketLoggingRequest = {
@@ -4321,7 +4321,7 @@ api getBucketLogging(request: GetBucketLoggingRequest, runtime: OSSUtil.RuntimeO
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model PutObjectAclRequest = {
@@ -4391,7 +4391,7 @@ api putObjectAcl(request: PutObjectAclRequest, runtime: OSSUtil.RuntimeOptions):
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model GetBucketInfoRequest = {
@@ -4478,7 +4478,7 @@ api getBucketInfo(request: GetBucketInfoRequest, runtime: OSSUtil.RuntimeOptions
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model PutLiveChannelStatusRequest = {
@@ -4548,7 +4548,7 @@ api putLiveChannelStatus(request: PutLiveChannelStatusRequest, runtime: OSSUtil.
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model InitiateMultipartUploadRequest = {
@@ -4643,7 +4643,7 @@ api initiateMultipartUpload(request: InitiateMultipartUploadRequest, runtime: OS
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model OptionObjectRequest = {
@@ -4720,7 +4720,7 @@ api optionObject(request: OptionObjectRequest, runtime: OSSUtil.RuntimeOptions):
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model PostVodPlaylistRequest = {
@@ -4792,7 +4792,7 @@ api postVodPlaylist(request: PostVodPlaylistRequest, runtime: OSSUtil.RuntimeOpt
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model PostObjectRequest = {
@@ -4873,7 +4873,7 @@ api postObject(request: PostObjectRequest, runtime: OSSUtil.RuntimeOptions): Pos
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false)
 }
 
 model HeadObjectRequest = {
@@ -4966,7 +4966,7 @@ api headObject(request: HeadObjectRequest, runtime: OSSUtil.RuntimeOptions): Hea
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model DeleteObjectTaggingRequest = {
@@ -5032,7 +5032,7 @@ api deleteObjectTagging(request: DeleteObjectTaggingRequest, runtime: OSSUtil.Ru
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model RestoreObjectRequest = {
@@ -5098,7 +5098,7 @@ api restoreObject(request: RestoreObjectRequest, runtime: OSSUtil.RuntimeOptions
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model GetObjectAclRequest = {
@@ -5176,7 +5176,7 @@ api getObjectAcl(request: GetObjectAclRequest, runtime: OSSUtil.RuntimeOptions):
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model PutBucketAclRequest = {
@@ -5245,7 +5245,7 @@ api putBucketAcl(request: PutBucketAclRequest, runtime: OSSUtil.RuntimeOptions):
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model DeleteBucketRequest = {
@@ -5310,7 +5310,7 @@ api deleteBucket(request: DeleteBucketRequest, runtime: OSSUtil.RuntimeOptions):
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 model PutObjectRequest = {
@@ -5426,7 +5426,7 @@ api putObject(request: PutObjectRequest, runtime: OSSUtil.RuntimeOptions): PutOb
     policy = Util.defaultString(runtime.backoffPolicy, 'no'),
     period = Util.defaultNumber(runtime.backoffPeriod, 1)
   },
-  ignoreSSL = runtime.ignoreSSL,
+  ignoreSSL = defaultAny(runtime.ignoreSSL, false),
 }
 
 function setUserAgent(userAgent: string): void {
@@ -5458,3 +5458,15 @@ async function getAccessKeySecret(): string{
   return secret;
 }
 
+/**
+ * If inputValue is not null, return it or return defaultValue
+ * @param inputValue  users input value
+ * @param defaultValue default value
+ * @return the final result
+ */
+static function defaultAny(inputValue: any, defaultValue: any): any {
+  if (Util.isUnset(inputValue)) {
+    return defaultValue;
+  }
+  return inputValue;
+}

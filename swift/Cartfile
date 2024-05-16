@@ -1,0 +1,6 @@
+github aliyun/tea-swift ~> 1.0.2
+github alibabacloud-sdk-swift/tea-utils ~> 1.0.5
+github alibabacloud-sdk-swift/tea-oss-utils ~> 1.0.1
+github alibabacloud-sdk-swift/tea-xml ~> 1.0.1
+github alibabacloud-sdk-swift/tea-fileform ~> 1.0.3
+github aliyun/credentials-swift ~> 1.0.1
