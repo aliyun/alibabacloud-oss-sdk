@@ -77,7 +77,14 @@ class VerifyStream(BaseStream):
         else:
             bres = res
 
-        if size <= self._file_size:
+        if size == sys.maxsize or size >= self.file_size:
+            self.crc.update(bres)
+            self.md5.update(bres)
+            self.ref['md5'] = base64.b64encode(self.md5.digest()).decode('utf-8')
+            self.ref['crc'] = self.crc.get_value()
+            return res
+
+        if self._file_size > 0:
             self.crc.update(bres)
             self.md5.update(bres)
         else:
@@ -90,13 +97,6 @@ class VerifyStream(BaseStream):
                 raise StopIteration
             else:
                 return res
-
-        if size == sys.maxsize or size >= self.file_size:
-            self.crc.update(bres)
-            self.md5.update(bres)
-            self.ref['md5'] = base64.b64encode(self.md5.digest()).decode('utf-8')
-            self.ref['crc'] = self.crc.get_value()
-            return res
 
         self._file_size -= len(bres)
         return res
