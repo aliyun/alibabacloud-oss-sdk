@@ -11,11 +11,11 @@
   ],
   "require": {
     "php": ">5.5",
-    "alibabacloud/tea-utils": "^0.2.0",
+    "alibabacloud/tea-utils": "^0.2.21",
     "alibabacloud/tea-oss-utils": "^0.3.0",
     "alibabacloud/tea-xml": "^0.2",
     "alibabacloud/tea-fileform": "^0.3.0",
-    "alibabacloud/credentials": "^1.1"
+    "alibabacloud/credentials": "^1.2.3"
   },
   "autoload": {
     "psr-4": {

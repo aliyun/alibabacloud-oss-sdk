@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.aliyun</groupId>
     <artifactId>oss-client</artifactId>
-    <version>3.0.3</version>
+    <version>3.0.4</version>
     <packaging>jar</packaging>
     <name>oss-client</name>
     <description>Aliyun OSS SDK for Java
@@ -49,12 +49,12 @@
         <dependency>
             <groupId>com.aliyun</groupId>
             <artifactId>tea</artifactId>
-            <version>1.0.6</version>
+            <version>[1.1.14, 2.0.0)</version>
         </dependency>
         <dependency>
             <groupId>com.aliyun</groupId>
             <artifactId>credentials-java</artifactId>
-            <version>0.2.5</version>
+            <version>1.0.2</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.aliyun</groupId>
@@ -65,12 +65,12 @@
         <dependency>
             <groupId>com.aliyun</groupId>
             <artifactId>tea-util</artifactId>
-            <version>[0.1.9, 1.0.0)</version>
+            <version>0.2.23</version>
         </dependency>
         <dependency>
             <groupId>com.aliyun</groupId>
             <artifactId>tea-xml</artifactId>
-            <version>0.1.1</version>
+            <version>0.1.6</version>
         </dependency>
         <dependency>
             <groupId>com.aliyun</groupId>
