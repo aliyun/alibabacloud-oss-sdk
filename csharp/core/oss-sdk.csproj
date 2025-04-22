@@ -9,7 +9,7 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <PackageReleaseNotes/>
     <AssemblyName>AlibabaCloud.SDK.OSS.Client</AssemblyName>
-    <Version>1.0.4</Version>
+    <Version>1.0.5</Version>
     <LangVersion>5</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0'">
@@ -34,13 +34,13 @@
     <PackageReference Include="AlibabaCloud.OSSUtil" Version="0.0.3"/>
     <PackageReference Include="AlibabaCloud.SDK.Common" Version="0.2.5"/>
     <PackageReference Include="AlibabaCloud.SDK.TeaFileform" Version="0.0.2"/>
-    <PackageReference Include="AlibabaCloud.TeaUtil" Version="0.1.9"/>
-    <PackageReference Include="AlibabaCloud.TeaXML" Version="0.0.1"/>
-    <PackageReference Include="Aliyun.Credentials" Version="1.3.1"/>
+    <PackageReference Include="Tea" Version="1.1.3"/>
+    <PackageReference Include="AlibabaCloud.TeaUtil" Version="0.1.19"/>
+    <PackageReference Include="AlibabaCloud.TeaXML" Version="0.0.5"/>
+    <PackageReference Include="Aliyun.Credentials" Version="1.5.2"/>
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.0-preview.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Tea" Version="1.0.4"/>
   </ItemGroup>
 </Project>
